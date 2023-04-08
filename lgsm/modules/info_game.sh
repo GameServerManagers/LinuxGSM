@@ -31,6 +31,15 @@ fn_info_game_ini() {
 	eval "${1}"="$(sed -n "/^[[:space:]]*${2}/ { s/.*= *//p; q }" "${servercfgfullpath}")" > /dev/null 2>&1 || echo "Unable to parse ${2}"
 }
 
+# Config Type: json
+# Comment: // or /* */
+fn_info_game_json() {
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="jq -r '${2}' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+}
+
 # Config Type: ini
 # Parameters: false
 # Comment: ; or #
@@ -114,6 +123,7 @@ fn_info_game_btl() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "servername" "ServerName"
 	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="$((port + 2))"
@@ -227,7 +237,7 @@ fn_info_game_kf() {
 	steammasterport="28852"
 	steamport="${steamport:-"0"}"
 	steamport="20560"
-	webadminenabled"=${webadminenabled:-"NOT SET"}"
+	webadminenabled="${webadminenabled:-"NOT SET"}"
 	webadminpass="${adminpassword}"
 	webadminpass="${webadminpass:-"NOT SET"}"
 	webadminuser="${webadminuser:-"NOT SET"}"
@@ -310,10 +320,12 @@ fn_info_game_pstbs() {
 	reservedslots="${reservedslots:-"0"}"
 	reservedslots=${reservedslots:-"0"}
 	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
 }
 
 # Config Type: ini
+# Parameters: false
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: cfg
@@ -322,11 +334,11 @@ fn_info_game_pvr() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 	fi
-	servername="${servername:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	port401="$((port + 400))"
 	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -336,25 +348,26 @@ fn_info_game_pvr() {
 # Filetype: ini
 fn_info_game_pz() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "worldname" "Map"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "DefaultPort"
 		fn_info_game_ini "rconpassword" "RCONPassword"
 		fn_info_game_ini "servername" "PublicName"
 		fn_info_game_ini "serverpassword" "Password"
+		fn_info_game_ini "worldname" "Map"
 
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
+	worldname="${worldname:-"NOT SET"}"
 }
 
 # Config Type: ini
+# Parameters: true
 # Comment: ; or #
 # Example: SERVERNAME=SERVERNAME
 # Filetype: ini
@@ -380,6 +393,7 @@ fn_info_game_st() {
 }
 
 # Config Type: ini
+# Parameters: true
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: ini
@@ -390,6 +404,7 @@ fn_info_game_stn() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "ServerPassword"
 	fi
+	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
@@ -407,10 +422,10 @@ fn_info_game_ti() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayerCount"
 	fi
-	servername="${servername:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -420,34 +435,35 @@ fn_info_game_ti() {
 # Filetype: ini
 fn_info_game_ts3() {
 	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "configip" "voice_ip"
 		fn_info_game_ini "dbplugin" "dbplugin"
+		fn_info_game_ini "fileport" "filetransfer_port"
 		fn_info_game_ini "port" "default_voice_port"
-		fn_info_game_ini "queryport" "query_port"
-		fn_info_game_ini "querysshport" "query_ssh_port"
 		fn_info_game_ini "queryhttpport" "query_http_port"
 		fn_info_game_ini "queryhttpsport" "query_https_port"
-		fn_info_game_ini "fileport" "filetransfer_port"
-		fn_info_game_ini "configip" "voice_ip"
+		fn_info_game_ini "queryport" "query_port"
+		fn_info_game_ini "querysshport" "query_ssh_port"
 	fi
+	configip="${configip:-"0.0.0.0"}"
 	dbplugin="${dbplugin:-"NOT SET"}"
+	fileport="${fileport:-"30033"}"
 	port="${port:-"9987"}"
-	queryport="${queryport:-"10011"}"
-	querysshport="${querysshport:-"10022"}"
 	queryhttpport="${queryhttpport:-"10080"}"
 	queryhttpsport="${queryhttpsport:-"10443"}"
-	fileport="${fileport:-"30033"}"
+	queryport="${queryport:-"10011"}"
+	querysshport="${querysshport:-"10022"}"
 	telnetport="${queryport}"
-	configip="${configip:-"0.0.0.0"}"
 }
 
 # Config Type: ini
+# Parameters: true
 # Comment: ; or #
 # Example: ServerTitle=SERVERNAME
 # Filetype: ini
 fn_info_game_tu() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "servername" "ServerTitle"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "servername" "ServerTitle"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -457,24 +473,146 @@ fn_info_game_tu() {
 }
 
 # Config Type: ini
+# Parameters: true
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: ini
 fn_info_game_ut99() {
-	if [ "${servercfgfullpath}" ]; then
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "beaconport" "ServerBeaconPort"
+		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
+		fn_info_game_ini "webadminenabled" "bEnabled"
+		fn_info_game_ini "webadminpass" "AdminPassword"
+		fn_info_game_ini "webadminport" "ListenPort"
+		fn_info_game_ini "webadminuser" "AdminUserName"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	beaconport="${beaconport:-"0"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	queryportgs="${queryportgs:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	webadminenabled="${webadminenabled:-"0"}"
+	webadminpass="${webadminpass:-"NOT SET"}"
+	webadminport="${webadminport:-"0"}"
+	webadminuser="${webadminuser:-"NOT SET"}"
+}
+
+# Config Type: ini
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_ut3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "GamePassword"
+		fn_info_game_ini "webadminenabled" "bEnabled"
+		fn_info_game_ini "webadminpass" "AdminPassword"
+		fn_info_game_ini "webadminport" "ListenPort"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	webadminenabled="${webadminenabled:-"0"}"
+	webadminpass="${webadminpass:-"NOT SET"}"
+	webadminport="${webadminport:-"0"}"
+	webadminuser="Admin"
+}
+
+# Config Type: ini unknown (Source?)
+# Parameters: true
+# Comment: # or //
+# Example: ServerName=SERVERNAME
+# Filetype: txt
+fn_info_game_bo() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "port" "ServerPort"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "Password"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_unreal2() {
+	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "port" "Port"
 		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
-		fn_info_game_ini "beaconport" "ServerBeaconPort"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "webadminenabled" "bEnabled"
 		fn_info_game_ini "webadminport" "ListenPort"
-		fn_info_game_ini "webadminuser" "AdminUserName"
-		fn_info_game_ini "webadminpass" "AdminPassword"
+		fn_info_game_ini "webadminuser" "AdminName"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	queryportgs="${queryportgs:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	webadminenabled="${webadminenabled:-"0"}"
+	webadminpass="${adminpassword:-"NOT SET"}"
+	webadminport="${webadminport:-"0"}"
+	webadminuser="${webadminuser:-"NOT SET"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName="SERVERNAME"
+# Filetype: ini
+fn_info_game_ut() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "servername" "ServerName"
+	fi
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	gametype="${gametype:-"NOT SET"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_unreal2k4() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "lanport" "LANServerPort"
+		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "GamePassword"
+		fn_info_game_ini "webadminenabled" "bEnabled"
+		fn_info_game_ini "webadminuser" "AdminName"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	queryport="$((port + 1))"
+	webadminpass="${adminpassword:-"NOT SET"}"
 }
 
 # Config Type: SQF
@@ -501,26 +639,19 @@ fn_info_game_arma3() {
 }
 
 # Config Type: json
+# Parameters: true
 # Comment: // or /* */
 fn_info_game_armar() {
 	if [ -f "${servercfgfullpath}" ]; then
-		adminpassword="$(jq -r '.adminPassword' "${servercfgfullpath}")"
-		battleeyeport=1376
-		configip="$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")"
-		maxplayers="$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")"
-		port="$(jq -r '.gameHostBindPort' "${servercfgfullpath}")"
-		queryport="$(jq -r '.steamQueryPort' "${servercfgfullpath}")"
-		servername="$(jq -r '.game.name' "${servercfgfullpath}")"
-		serverpassword="$(jq -r '.game.password' "${servercfgfullpath}")"
+		fn_info_game_json "adminpassword" ".adminPassword"
+		fn_info_game_json "configip" ".gameHostBindAddress"
+		fn_info_game_json "maxplayers" ".game.playerCountLimit"
+		fn_info_game_json "port" ".gameHostBindPort"
+		fn_info_game_json "queryport" ".steamQueryPort"
+		fn_info_game_json "servername" ".game.name"
+		fn_info_game_json "serverpassword" ".game.password"
 	fi
-	port="${port:-"0"}"
-	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
-	configip="${configip:-"0.0.0.0"}"
-	maxplayers="${maxplayers:-"0"}"
-	queryport="${queryport:-"0"}"
-	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: con
@@ -583,34 +714,6 @@ fn_info_game_bfv() {
 	fi
 }
 
-# Config Type: ini unknown (Source?)
-# Comment: # or //
-# Example: ServerName=SERVERNAME
-# Filetype: txt
-fn_info_game_bo() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "Password=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "ServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$((port + 1))
-		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		maxplayers=${maxplayers:-"0"}
-	fi
-}
-
 # Config Type: XML
 # Comment: <!-- -->
 # Example: <serversettings name="SERVERNAME" />
@@ -640,38 +743,39 @@ fn_info_game_bt() {
 }
 
 # Config Type: json
+# Parameters: false
 # Comment: // or /* */
 fn_info_game_cd() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		port="${zero}"
-		rconenabled="false"
-		rconport="${zero}"
-		rconpassword="${unavailable}"
-		steamport="${zero}"
-		maxplayers="${zero}"
-	else
-		servername=$(jq -r '.game_title' "${servercfgfullpath}")
-		port=$(jq -r '.game_port' "${servercfgfullpath}")
-		steamport=$(jq -r '.steam_port_messages' "${servercfgfullpath}")
-		rconenabled=$(jq -r '.rcon' "${servercfgfullpath}")
-		rconport=$(jq -r '.rcon_port' "${servercfgfullpath}")
-		rconpassword=$(jq -r '.rcon_password' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.player_count' "${servercfgfullpath}")
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".player_count"
+		fn_info_game_json "port" ".game_port"
+		fn_info_game_json "rconenabled" ".rcon"
+		fn_info_game_json "rconpassword" ".rcon_password"
+		fn_info_game_json "rconport" ".rcon_port"
+		fn_info_game_json "servername" ".game_title"
+		fn_info_game_json "steamport" ".steam_port_messages"
 	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	rconenabled="${rconenabled:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconport="${rconport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	steamport="${steamport:-"0"}"
 }
 
 # Config Type: json
+# Parameters: true
 # Comment: // or /* */
 fn_info_game_ck() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		maxplayers="${zero}"
-	else
-		servername=$(jq -r '.worldName' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.maxNumberPlayers' "${servercfgfullpath}")
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "servername" ".worldName"
+		fn_info_game_json "maxplayers" ".maxNumberPlayers"
 	fi
-	queryport=$((port + 1))
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: QuakeC
@@ -801,8 +905,27 @@ fn_info_game_codwaw() {
 }
 
 # Config Type: json
+# Parameters: false
 # Comment: // or /* */
 fn_info_game_col() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".ServerSettings.ServerIP"
+		fn_info_game_json "maxplayers" ".ServerSettings.MaxPlayerCount"
+		fn_info_game_json "port" ".ServerSettings.ServerGamePort"
+		fn_info_game_json "rconpassword" ".ServerSettings.RCONPassword"
+		fn_info_game_json "servername" ".ServerSettings.ServerName"
+		fn_info_game_json "serverpassword" ".ServerSettings.ServerPassword"
+		fn_info_game_json "steamport" ".ServerSettings.ServerSteamPort"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	rcpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steamport="${steamport:-"0"}"
+
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -867,34 +990,25 @@ fn_info_game_dayz() {
 }
 
 # Config Type: json
+# Parameters: false
 # Comment: // or /* */
 fn_info_game_eco() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		tickrate="${zero}"
-		port="${zero}"
-		webadminport="${zero}"
-	else
-		configip=$(jq -r '.IPAddress' "${servercfgfullpath}")
-		servername=$(jq -r '.Description' "${servercfgfullpath}")
-		serverpassword=$(jq -r '.Password' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.MaxConnections' "${servercfgfullpath}")
-		tickrate=$(jq -r '.Rate' "${servercfgfullpath}")
-		port=$(jq -r '.GameServerPort' "${servercfgfullpath}")
-		webadminport=$(jq -r '.WebServerPort' "${servercfgfullpath}")
-
-		# Not set
-		configip=${configip:-"0.0.0.0"}
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers=:-"0"}
-		tickrate=${tickrate=:-"0"}
-		port=${port=:-"0"}
-		webadminport=${webadminport=:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".IPAddress"
+		fn_info_game_json "maxplayers" ".MaxConnections"
+		fn_info_game_json "port" ".GameServerPort"
+		fn_info_game_json "servername" ".Description"
+		fn_info_game_json "serverpassword" ".Password"
+		fn_info_game_json "tickrate" ".Rate"
+		fn_info_game_json "webadminport" ".WebServerPort"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"3000"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	tickrate="${tickrate:-"0"}"
+	webadminport="${webadminport:-"3001"}"
 }
 
 # Config Type: QuakeC
@@ -931,42 +1045,31 @@ fn_info_game_etl() {
 }
 
 # Config Type: json
+# Parameters: true
 # Comment: // or /* */
 fn_info_game_fctr() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="Factorio Server"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		authtoken="${unavailable}"
-		savegameinterval="${unavailable}"
-		versioncount="${unavailable}"
-	else
-		servername=$(jq -r '.name' "${servercfgfullpath}")
-		serverpassword=$(jq -r '.game_password' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.max_players' "${servercfgfullpath}")
-		authtoken=$(jq -r '.token' "${servercfgfullpath}")
-		savegameinterval=$(jq -r '.autosave_interval' "${servercfgfullpath}")
-		versioncount=$(jq -r '.autosave_slots' "${servercfgfullpath}")
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		authtoken=${authtoken:-"NOT SET"}
-		savegameinterval=${savegameinterval:-"0"}
-		versioncount=${versioncount:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "authtoken" ".token"
+		fn_info_game_json "maxplayers" ".max_players"
+		fn_info_game_json "savegameinterval" ".autosave_interval"
+		fn_info_game_json "servername" ".name"
+		fn_info_game_json "serverpassword" ".game_password"
+		fn_info_game_json "versioncount" ".autosave_slots"
 	fi
-
-	# Parameters
-	port=${port:-"0"}
-	rconport=${rconport:-"0"}
-	rconpassword=${rconpassword:-"NOT SET"}
+	authtoken="${authtoken:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconport="${rconport:-"0"}"
+	savegameinterval="${savegameinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	versioncount="${versioncount:-"0"}"
 
 	# get server version if installed
 	local factoriobin="${executabledir}${executable:1}"
 	if [ -f "${factoriobin}" ]; then
-		serverversion=$(${factoriobin} --version | grep "Version:" | awk '{print $2}')
+		serverversion="$(${factoriobin} --version | grep "Version:" | awk '{print $2}')"
 	fi
 }
 
@@ -1029,43 +1132,31 @@ fn_info_game_jc2() {
 }
 
 # Config Type: json
+# Parameters: false
 # Comment: // or /* */
 fn_info_game_jc3() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverdescription="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryPort="${zero}"
-		steamport="${zero}"
-		httpport="${zero}"
-		tickrate="${zero}"
-	else
-		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverdescription=$(grep "description" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/description//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "\"maxPlayers\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		port=$(grep "\"port\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$(grep "\"queryPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		steamport=$(grep "\"steamPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		httpport=$(grep "\"httpPort\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		tickrate=$(grep "\"maxTickRate\"" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		configip=$(grep "host" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/host//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverdescription=${serverdescription:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers=:-"0"}
-		port=${port=:-"0"}
-		queryport=${queryport=:-"0"}
-		steamport=${steamport=:-"0"}
-		httpport=${httpport=:-"0"}
-		tickrate=${tickrate=:-"0"}
-		configip=${configip:-"0.0.0.0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".host"
+		fn_info_game_json "httpport" ".httpPort"
+		fn_info_game_json "maxplayers" ".maxPlayers"
+		fn_info_game_json "port" ".port"
+		fn_info_game_json "queryport" ".queryPort"
+		fn_info_game_json "serverdescription" ".description"
+		fn_info_game_json "servername" ".name"
+		fn_info_game_json "serverpassword" ".password"
+		fn_info_game_json "steamport" ".steamPort"
+		fn_info_game_json "tickrate" ".maxTickRate"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	httpport="${httpport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	serverdescription="${serverdescription:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steamport="${steamport:-"0"}"
+	tickrate="${tickrate:-"0"}"
 }
 
 # Config Type: QuakeC
@@ -1220,30 +1311,21 @@ fn_info_game_mohaa() {
 }
 
 # Config Type: json
+# Parameters: true
 # Comment: // or /* */
 fn_info_game_mom() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		defaultmap="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/ServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/MaxPlayers//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		defaultmap=$(grep "MapName" "${servercfgfullpath}" | sed -e 's/^ *//g' -e '/^--/d' -e 's/MapName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		defaultmap=${defaultmap:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "defaultmap" ".MapName"
+		fn_info_game_json "maxplayers" ".maxPlayers"
+		fn_info_game_json "servername" ".serverName"
+		fn_info_game_json "serverpassword" ".serverPassword"
 	fi
-
-	# Parameters
-	port=${port:-"7777"}
-	beaconport=${queryport:-"15000"}
+	beaconport="${beaconport:-"0"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: xml
@@ -2072,52 +2154,6 @@ fn_info_game_tw() {
 	fi
 }
 
-# Config Type: ini
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
-fn_info_game_unreal2() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		queryportgs="${zero}"
-		webadminenabled="${unavailable}"
-		webadminport="${zero}"
-		webadminuser="${unavailable}"
-		webadminpass="${unavailable}"
-	else
-		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$((port + 1))
-		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminpass="${adminpassword}"
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		queryportgs=${queryportgs:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminport=${webadminport:-"0"}
-		webadminuser=${webadminuser:-"NOT SET"}
-		webadminpass=${webadminpass:-"NOT SET"}
-	fi
-
-	# Parameters
-	defaultmap=${defaultmap:-"NOT SET"}
-}
-
 # Config Type: Parameters
 fn_info_game_unt() {
 	# Parameters
@@ -2127,121 +2163,12 @@ fn_info_game_unt() {
 	steamport=$((port + 1))
 }
 
-# Config Type: ini
-# Comment: ; or #
-# Example: ServerName="SERVERNAME"
-# Filetype: ini
-fn_info_game_ut() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-	fi
-
-	# Parameters
-	port=${port:-"0"}
-	queryport=$((port + 1))
-}
-
-# Config Type: ini
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
-fn_info_game_unreal2k4() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		queryportgs="${zero}"
-		lanport="${zero}"
-		webadminenabled="${unavailable}"
-		httpport="${zero}"
-		webadminuser="${unavailable}"
-		webadminpass="${unavailable}"
-	else
-		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$((port + 1))
-		queryportgs=$(sed -nr 's/^OldQueryPortNumber=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminpass="${adminpassword}"
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		queryportgs=${queryportgs:-"0"}
-		lanport=${lanport:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
-		httpport=${httpport:-"0"}
-		webadminuser=${webadminuser:-"NOT SET"}
-		webadminpass=${webadminpass:-"NOT SET"}
-	fi
-}
-
-# Config Type: ini
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
-fn_info_game_ut3() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
-		maxplayers="${unavailable}"
-		webadminenabled="${unavailable}"
-		webadminport="${zero}"
-		webadminuser="${unavailable}"
-		webadminpass="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "GamePassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/GamePassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		adminpassword=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		webadminenabled=$(grep "bEnabled" "${servercfgdir}/UTWeb.ini" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/bEnabled//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		webadminport=$(grep "ListenPort" "${servercfgdir}/UTWeb.ini" | grep -v "#" | tr -cd '[:digit:]')
-		webadminuser="Admin"
-		webadminpass=$(grep "AdminPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/AdminPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminport=${webadminport:-"0"}
-		webadminuser=${webadminuser:-"NOT SET"}
-		webadminpass=${webadminpass:-"NOT SET"}
-	fi
-
-	# Parameters
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
-}
-
 # Config Type: Parameters
 fn_info_game_vh() {
-
 	port=${port:-"0"}
 	# Query port only enabled if public server
 	if [ "${public}" != "0" ]; then
-		queryport=$((port + 1))
+		queryport="$((port + 1))"
 	else
 		querymode="1"
 	fi
@@ -2251,23 +2178,22 @@ fn_info_game_vh() {
 }
 
 # Config Type: json
+# Parameters: false
 # Comment: // or /* */
 fn_info_game_vints() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		maxplayers="${unavailable}"
-		serverpassword="${unavailable}"
-		port="${port:-"0"}"
-	else
-		servername=$(jq -r '.ServerName' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.MaxClients' "${servercfgfullpath}")
-		serverpassword=$(jq -r 'select(.Password != null) | .Password' "${servercfgfullpath}")
-		port=$(jq -r '.Port' "${servercfgfullpath}")
-		configip=$(jq -r 'select(.Ip != null) | .Ip' "${servercfgfullpath}")
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" "select(.Ip != null) | .Ip"
+		fn_info_game_json "maxplayers" ".MaxClients"
+		fn_info_game_json "port" ".Port"
+		fn_info_game_json "servername" ".ServerName"
+		fn_info_game_json "serverpassword" "select(.Password != null) | .Password"
 	fi
-	queryport=${port:-"0"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	configip=${configip:-"0.0.0.0"}
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 fn_info_game_vpmc() {
