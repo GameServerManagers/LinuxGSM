@@ -722,9 +722,9 @@ fn_info_game_bt() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "servername" "name"
 		fn_info_game_xml "serverpassword" "password"
-		fn_ingo_game_xml "port" "port"
-		fn_ingo_game_xml "queryport" "queryport"
-		fn_ingo_game_xml "maxplayers" "maxplayers"
+		fn_info_game_xml "port" "port"
+		fn_info_game_xml "queryport" "queryport"
+		fn_info_game_xml "maxplayers" "maxplayers"
 	fi
 	servername=${servername:-"NOT SET"}
 	serverpassword=${serverpassword:-"NOT SET"}
