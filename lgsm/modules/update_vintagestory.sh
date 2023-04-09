@@ -18,7 +18,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
-	if [ -d "${exutabledir}" ]; then
+	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
 		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
 	fi
