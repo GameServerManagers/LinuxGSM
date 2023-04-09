@@ -31,22 +31,34 @@ fn_info_game_ini() {
 	eval "${1}"="$(sed -n "/^[[:space:]]*${2}/ { s/.*= *//p; q }" "${servercfgfullpath}")" > /dev/null 2>&1 || echo "Unable to parse ${2}"
 }
 
+# Config Type: QuakeC
+# Comment: // or /* */
+fn_info_game_quakec() {
+	# sed is used to process the file.
+	# -n option tells sed to suppress output by default.
+	# s/: indicates that the command is a substitution command.
+	# ^.*: matches any number of characters from the beginning of the line.
+	# ${2}: matches the literal string "${2}".
+	# \s: matches any whitespace character.
+	# \+: matches one or more occurrences of the preceding whitespace character (in this case, the previous \s).
+	# "\(.*\)": matches any characters enclosed in double quotes and captures them in a group, denoted by the escaped parentheses.
+	# /\1/: indicates that the substitution should replace the matched string with the contents of the first (and only) captured group, denoted by \1.
+	# p at the end of the s command tells sed to print the resulting line if there was a match.
+	# q at the end of the s command tells sed to quit after the first match.
+
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="$(sed -n 's/^.*${2}\s\+"\(.*\)"/\1/p;q' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
+}
+
 # Config Type: json
 # Comment: // or /* */
 fn_info_game_json() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="jq -r '${2}' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
-}
-
-# Config Type: QuakeC
-# Comment: // or /* */
-fn_info_game_quakec() {
-	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
-	fi
-	eval "${1}"="awk -F '[=\";:]' '/^set sv_hostname /{print $2}' '${servercfgfullpath}'" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+	eval "${1}"="$(jq -r '${2}' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
 }
 
 # Config Type: SQF
@@ -55,7 +67,7 @@ fn_info_game_sqf() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="sed 's/${2} *= *'\([^']*\)'/\1/' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+	eval "${1}"="$(sed -n 's/\(${2}\)\s*=.*/\1/p' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
 }
 
 # Config Type: XML
@@ -64,7 +76,7 @@ fn_info_game_xml() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}" 2>&1)" || echo "Unable to parse ${2}"
+	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
 }
 
 # Config Type: ini
