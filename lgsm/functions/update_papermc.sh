@@ -8,16 +8,17 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${serverfiles}" "${executable#./}" "chmodx" "norun" "force" "${remotebuildhash}"
+	# Download and extract files to serverfiles.
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "force" "${remotebuildhash}"
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
 	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses version file to get local build.
-	localbuild=$(head -n 1 "${serverfiles}/build.txt")
+	# Uses build file to get local build.
+	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -31,7 +32,7 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://papermc.io/api/v2/projects/"
+	apiurl="https://papermc.io/api/v2/projects"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Get list of Minecraft versions for project.

@@ -8,7 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
+	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
@@ -19,7 +19,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses build file to get local build.
-	localbuild=$(head -n 1 "${serverfiles}/build.txt")
+	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
