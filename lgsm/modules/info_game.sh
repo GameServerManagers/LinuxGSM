@@ -40,6 +40,15 @@ fn_info_game_json() {
 	eval "${1}"="jq -r '${2}' ${servercfgfullpath}" > /dev/null 2>&1 || echo "Unable to parse ${2}"
 }
 
+# Config Type: QuakeC
+# Comment: // or /* */
+fn_info_game_quakec() {
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="awk -F '[=\";:]' '/^set sv_hostname /{print $2}' '${servercfgfullpath}'" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+}
+
 # Config Type: SQF
 # Comment: // or /* */
 fn_info_game_sqf() {
@@ -776,23 +785,16 @@ fn_info_game_ck() {
 # Example: set sv_hostname "SERVERNAME"
 # Filetype: cfg
 fn_info_game_cod() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		rconpassword="${unavailable}"
-	else
-		servername=$(grep "sv_hostname " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set sv_hostname //g' | tr -d '=\";,:' | xargs)
-		rconpassword=$(grep "rconpassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/set rconpassword //g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		rconpassword=${rconpassword=:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "rconpassword" "rconpassword"
+		fn_info_game_quakec "servername" "sv_hostname"
 	fi
-
-	# Parameters
-	defaultmap=${defaultmap:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
-	port=${port:-"0"}
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: QuakeC
@@ -2082,7 +2084,7 @@ fn_info_game_terraria() {
 	fi
 }
 
-# Config Type: QuakeC
+# Config Type: QuakeC (custom)
 # Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
 # Filetype: cfg
