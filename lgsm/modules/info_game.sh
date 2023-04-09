@@ -1327,11 +1327,11 @@ fn_info_game_mom() {
 # Filetype: conf
 fn_info_game_mta() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_xml "port" "port"
-		fn_info_game_xml "httpport" "httpport"
-		fn_info_game_xml "servername" "servername"
-		fn_info_game_xml "maxplayers" "maxplayers"
-		fn_info_game_xml "ase" "ase"
+		fn_info_game_xml "port" "/config/@port"
+		fn_info_game_xml "httpport" "/config/@httpport"
+		fn_info_game_xml "servername" "/config/@servername"
+		fn_info_game_xml "maxplayers" "/config/@maxplayers"
+		fn_info_game_xml "ase" "/config/@ase"
 	fi
 	if [ "${ase}" == "1" ]; then
 		ase="Enabled"
@@ -1869,58 +1869,38 @@ fn_info_game_scpsl() {
 # Example: <property name="ServerName" 				value="My Game Host"/>
 # Filetype: xml
 fn_info_game_sdtd() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		port="${zero}"
-		port3="${zero}"
-		queryport="${zero}"
-		webadminenabled="${unavailable}"
-		webadminport="${zero}"
-		webadminpass="${unavailable}"
-		telnetenabled="${unavailable}"
-		telnetport="${zero}"
-		telnetpass="${unavailable}"
-		telnetip="${unavailable}"
-		maxplayers="${unavailable}"
-		gamemode="${unavailable}"
-		worldname="${unavailable}"
-	else
-		servername=$(grep "ServerName" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		serverpassword=$(grep "ServerPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		port=$(grep "ServerPort" "${servercfgfullpath}" | grep -Eo 'value="[0-9]+"' | tr -cd '[:digit:]')
-		port3=$((port + 2))
-		queryport=${port:-"0"}
-		webadminenabled=$(grep "ControlPanelEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		webadminport=$(grep "ControlPanelPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminpass=$(grep "ControlPanelPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		telnetenabled=$(grep "TelnetEnabled" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		telnetport=$(grep "TelnetPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		telnetpass=$(grep "TelnetPassword" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		# Telnet IP will be localhost if no password is set
-		# check_ip will set the IP first. This will overwrite it.
-		if [ -z "${telnetpass}" ]; then
-			telnetip="127.0.0.1"
-		fi
-		maxplayers=$(grep "ServerMaxPlayerCount" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		gamemode=$(grep "GameMode" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
-		worldname=$(grep "GameWorld" "${servercfgfullpath}" | sed 's/^.*value="//' | cut -f1 -d"\"")
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "gamemode" "ServerSettings/@GameMode"
+		fn_info_game_xml "maxplayers" "ServerSettings/@MaxPlayers"
+		fn_info_game_xml "servername" "ServerSettings/@ServerName"
+		fn_info_game_xml "serverpassword" "ServerSettings/@ServerPassword"
+		fn_info_game_xml "serverport" "ServerSettings/@ServerPort"
+		fn_info_game_xml "telnetenabled" "ServerSettings/@TelnetEnabled"
+		fn_info_game_xml "telnetpass" "ServerSettings/@TelnetPassword"
+		fn_info_game_xml "telnetport" "ServerSettings/@TelnetPort"
+		fn_info_game_xml "webadminenabled" "ServerSettings/@ControlPanelEnabled"
+		fn_info_game_xml "webadminpass" "ServerSettings/@ControlPanelPassword"
+		fn_info_game_xml "webadminport" "ServerSettings/@ControlPanelPort"
+		fn_info_game_xml "worldname" "ServerSettings/@GameWorld"
 
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminport=${webadminport:-"0"}
-		webadminpass=${webadminpass:-"NOT SET"}
-		telnetenabled=${telnetenabled:-"NOT SET"}
-		telnetport=${telnetport:-"0"}
-		telnetpass=${telnetpass:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		gamemode=${gamemode:-"NOT SET"}
-		worldname=${worldname:-"NOT SET"}
+	fi
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	webadminenabled="${webadminenabled:-"NOT SET"}"
+	webadminport="${webadminport:-"0"}"
+	webadminpass="${webadminpass:-"NOT SET"}"
+	telnetenabled="${telnetenabled:-"NOT SET"}"
+	telnetport="${telnetport:-"0"}"
+	telnetpass="${telnetpass:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	worldname="${worldname:-"NOT SET"}"
+	# Telnet IP will be localhost if no password is set
+	# check_ip will set the IP first. This will overwrite it.
+	if [ -z "${telnetpass}" ]; then
+		telnetip="127.0.0.1"
 	fi
 }
 # Config Type: Parameters (with an ini)
