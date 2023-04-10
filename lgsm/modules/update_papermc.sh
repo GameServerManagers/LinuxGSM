@@ -181,6 +181,20 @@ elif [ "${shortname}" == "wmc" ]; then
 	paperproject="waterfall"
 fi
 
+# migration from old build file to new in the install dir
+oldbuildfile="${datadir}/${paperproject}-version"
+if [ -f "${oldbuildfile}" ]; then
+	if [ -f "${serverfiles}/build.txt" ]; then
+		fn_print_info_nl "Remove old build version file"
+		fn_script_log_info "Remove old build version file"
+		rm -f "${oldbuildfile}"
+	else
+		fn_print_info_nl "Move old build file to new place"
+		fn_script_log_info "Move old build file to new place"
+		mv -f -v "${oldbuildfile}" "${serverfiles}/build.txt"
+	fi
+fi
+
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
 	fn_update_dl
