@@ -6,7 +6,7 @@
 # Description: Gathers various game server information.
 
 # shellcheck disable=SC2317
-functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+modulesselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
@@ -28,7 +28,7 @@ fn_info_game_ini() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "/^[[:space:]]*${2}/ { s/.*= *//p; q }" "${servercfgfullpath}")" > /dev/null 2>&1 || echo "Unable to parse ${2}"
+	eval "${1}"="$(sed -n "/^[[:space:]]*${2}/ { s/.*= *//p; q }" "${servercfgfullpath}")"
 }
 
 # Config Type: QuakeC
@@ -49,7 +49,8 @@ fn_info_game_quakec() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n 's/^.*${2}\s\+"\(.*\)"/\1/p;q' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
+	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\(.*\)\"/\1/p;q" "${servercfgfullpath}")"
+
 }
 
 # Config Type: json
@@ -58,7 +59,7 @@ fn_info_game_json() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(jq -r '${2}' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
+	eval "${1}"="$(jq -r '${2}' "${servercfgfullpath}")"
 }
 
 # Config Type: SQF
@@ -67,7 +68,7 @@ fn_info_game_sqf() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n 's/\(${2}\)\s*=.*/\1/p' "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
+	eval "${1}"="$(sed -n "s/\(${2}\)\s*=.*/\1/p;q" "${servercfgfullpath}")"
 }
 
 # Config Type: XML
@@ -76,7 +77,7 @@ fn_info_game_xml() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}" 2> /dev/null || echo "Unable to parse ${2}")"
+	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}")"
 }
 
 # Config Type: ini
