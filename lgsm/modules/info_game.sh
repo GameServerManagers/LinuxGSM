@@ -68,7 +68,7 @@ fn_info_game_sqf() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "s/\(${2}\)\s*=.*/\1/p;q" "${servercfgfullpath}")"
+	eval "${1}"="$(sed -n "/^[^/]*${2} = \"\(.*\)\";/{s//\1/;p;q;}" "${servercfgfullpath}")"
 }
 
 # Config Type: XML
