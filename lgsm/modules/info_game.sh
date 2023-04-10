@@ -17,6 +17,7 @@ modulesselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Config Type: ini
 # Comment: ; or #
+# Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
 fn_info_game_ini() {
 	# sed is used to process the file.
 	# -n option tells sed to suppress output by default.
@@ -28,7 +29,7 @@ fn_info_game_ini() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "/^[[:space:]]*${2}/ { s/.*= *//p; q }" "${servercfgfullpath}")"
+	eval "${1}"="$(sed -n "/^[[:space:]]*\<${2}\>/ { s/.*= *//p;q }" "${servercfgfullpath}")"
 }
 
 # Config Type: QuakeC
