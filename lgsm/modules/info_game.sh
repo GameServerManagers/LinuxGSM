@@ -30,6 +30,8 @@ fn_info_game_ini() {
 		servercfgfullpath="${3}"
 	fi
 	eval "${1}"="$(sed -n "/^[[:space:]]*\<${2}\>/ { s/.*= *//p;q }" "${servercfgfullpath}")"
+	eval "${1}origin"="config"
+	configtype="ini"
 }
 
 # Config Type: QuakeC
@@ -359,7 +361,6 @@ fn_info_game_pstbs() {
 	fi
 	rconport="${rconport:-"0"}"
 	reservedslots="${reservedslots:-"0"}"
-	reservedslots=${reservedslots:-"0"}
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
