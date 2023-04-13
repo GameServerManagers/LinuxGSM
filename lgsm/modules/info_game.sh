@@ -257,6 +257,7 @@ fn_info_game_kf() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "lanport" "LANServerPort"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
 		fn_info_game_ini "queryportgs" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
@@ -264,12 +265,12 @@ fn_info_game_kf() {
 		fn_info_game_ini "webadminenabled" "bEnabled"
 		fn_info_game_ini "webadminpass" "WebAdminPassword"
 		fn_info_game_ini "webadminuser" "AdminName"
-
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap=${defaultmap:-"NOT SET"}
 	httpport="${httpport:-"0"}"
 	lanport="${lanport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	queryportgs="${queryportgs:-"0"}"
