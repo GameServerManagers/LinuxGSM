@@ -6,7 +6,7 @@
 # Description: Gathers various game server information.
 
 # shellcheck disable=SC2317
-modulesselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ## Examples of filtering to get info from config files.
 # sed 's/foo//g' - remove foo
@@ -29,8 +29,7 @@ fn_info_game_ini() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "/^[[:space:]]*\<${2}\>/ { s/.*= *//p;q }" "${servercfgfullpath}")"
-	eval "${1}origin"="config"
+	eval "${1}"="\"$(sed -n "/^[[:space:]]*\<${2}\>/ { s/.*= *//p;q }" "${servercfgfullpath}" | tr -d "\r")\""
 	configtype="ini"
 }
 
@@ -180,13 +179,11 @@ fn_info_game_btl() {
 # Filetype: ini
 fn_info_game_cmw() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
-		fn_info_game_ini "rconport" "RConPort" "${servercfgdir}/DefaultGame.ini"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
+		fn_info_game_ini "rconport" "RConPort" "${servercfgdir}/DefaultGame.ini"
 	fi
-	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"

@@ -3,39 +3,69 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Dev only: Displays all parsed details.
+# Description: Dev only: Enables debugging log to be saved to dev-debug.log.
+
+info_game.sh
+
+carriagereturn=$(file -b "${servercfgfullpath}" | grep -q CRLF && echo "${red}CRLF${default}" || echo "${lightgreen}LF${default}")
 
 echo -e ""
-echo -e "${lightgreen}Details List${default}"
+echo -e "${lightgreen}Server Details${default}"
 echo -e "=================================================================="
 echo -e ""
+
 echo -e "Game: ${gamename}"
-echo -e "Short Name: ${shortname}"
-echo -e "Config: ${servercfgfullpath}"
-echo -e "Config Type: ${configtype}"
+echo -e "Config type: ${configtype}"
+echo -e "Config file: ${servercfgfullpath}"
+echo -e "Carriage Return: ${carriagereturn}"
+
+# Create an associative array of the server details.
+declare -A server_details=(
+	['Admin Password']="${adminpassword}"
+	['Config IP']="${configip}"
+	['Default Map']="${defaultmap}"
+	['Game Mode']="${gamemode}"
+	['Game Type']="${gametype}"
+	['ip']="${ip}"
+	['Maxplayers']="${maxplayers}"
+	['Port']="${port}"
+	['Query Port']="${queryport}"
+	['RCON Enabled']="${rconenabled}"
+	['RCON Password']="${rconpassword}"
+	['RCON Port']="${rconport}"
+	['Reserved Slots']="${reservedslots}"
+	['Server Password']="${serverpassword}"
+	['Servername']="${servername}"
+	['Tickrate']="${tickrate}"
+	['Web Admin Enabled']="${webadminenabled}"
+	['Web Admin Password']="${webadminpassword}"
+	['Web Admin User']="${webadminuser}"
+	['World Name']="${worldname}"
+	['World Type']="${worldtype}"
+)
+
+# Initialize a variable to keep track of missing server details.
+missing_details=""
+
+# Loop through the server details and output them.
 echo -e ""
-echo -e "${lightgreen}Ports${default}"
+echo -e "${lightgreen}Available Server Details${default}"
 echo -e "================================="
-echo -e "Port: ${port}"
-echo -e "Query Port: ${queryport}"
-echo -e ""
-echo -e "${lightgreen}Server Details${default}"
-echo -e "================================="
-echo -e "Servername: ${servername} ${servernameorigin}"
-echo -e "Server Password: ${serverpassword}"
-echo -e "RCON Password: ${rconpassword}"
-echo -e "Admin Password: ${adminpassword}"
-echo -e "Maxplayers: ${maxplayers}"
-echo -e "Tickrate: ${tickrate}"
-echo -e "Default Map: ${defaultmap}"
-echo -e "Game Mode: ${gamemode}"
-echo -e "Game Type: ${gametype}"
-echo -e "RCON Enabled: ${rconenabled}"
-echo -e "RCON Password: ${rconpassword}"
-echo -e "Config IP: ${configip}"
-echo -e "Web Admin Enabled: ${webadminenabled}"
-echo -e "Web Admin User: ${webadminuser}"
-echo -e "Web Admin Password: ${webadminpassword}"
-echo -e "Reserved Slots: ${reservedslots}"
-echo -e "World Name: ${worldname}"
-echo -e "World Type: ${worldtype}"
+for key in "${!server_details[@]}"; do
+	value=${server_details[$key]}
+	if [ -z "$value" ]; then
+		missing_details+="\n${key}"
+	else
+		echo -e "$key: $value "
+	fi
+done
+
+# Output the missing server details if there are any.
+if [ -n "$missing_details" ]; then
+	echo -e ""
+	echo -e "${lightgreen}Missing Server Details${default}"
+	echo -e "================================="
+	echo -e "${missing_details}"
+fi
+
+core_exit.sh
