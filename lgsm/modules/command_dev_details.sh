@@ -17,16 +17,23 @@ echo -e ""
 echo -e "Game: ${gamename}"
 echo -e "Config type: ${configtype}"
 echo -e "Config file: ${servercfgfullpath}"
+if [ -f "${clustercfgfullpath}" ]; then
+	echo -e "Cluster config file: ${clustercfgfullpath}"
+fi
 echo -e "Carriage Return: ${carriagereturn}"
 
 # Create an associative array of the server details.
 declare -A server_details=(
 	['Admin Password']="${adminpassword}"
+	['Cave']="${cave}"
+	['Cluster']="${cluster}"
 	['Config IP']="${configip}"
 	['Default Map']="${defaultmap}"
 	['Game Mode']="${gamemode}"
 	['Game Type']="${gametype}"
 	['ip']="${ip}"
+	['Master Port']="${masterport}"
+	['Master']="${master}"
 	['Maxplayers']="${maxplayers}"
 	['Port']="${port}"
 	['Query Port']="${queryport}"
@@ -36,12 +43,17 @@ declare -A server_details=(
 	['Reserved Slots']="${reservedslots}"
 	['Server Password']="${serverpassword}"
 	['Servername']="${servername}"
+	['Shard']="${shard}"
+	['Sharding']="${sharding}"
+	['Steam Auth Port']="${steamauthport}"
+	['Steam Master Port']="${steammasterport}"
 	['Tickrate']="${tickrate}"
 	['Web Admin Enabled']="${webadminenabled}"
 	['Web Admin Password']="${webadminpassword}"
 	['Web Admin User']="${webadminuser}"
 	['World Name']="${worldname}"
 	['World Type']="${worldtype}"
+
 )
 
 # Initialize a variable to keep track of missing server details.
