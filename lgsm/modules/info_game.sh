@@ -28,7 +28,10 @@ fn_info_game_ini() {
 	# q at the end of the s command tells sed to quit after the first match.
 	# tr -d '\r' removes CRLF carriage returns from the end of the line.
 
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${3}" | tr -d '\r')\""
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
 	configtype="ini"
 }
 
@@ -47,25 +50,38 @@ fn_info_game_quakec() {
 	# p at the end of the s command tells sed to print the resulting line if there was a match.
 	# q at the end of the s command tells sed to quit after the first match.
 
-	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\(.*\)\"/\1/p;q" "${3}")"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\(.*\)\"/\1/p;q" "${servercfgfullpath}")"
+
 }
 
 # Config Type: json
 # Comment: // or /* */
 fn_info_game_json() {
-	eval "${1}"="$(jq -r '${2}' "${3}")"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="$(jq -r '${2}' "${servercfgfullpath}")"
 }
 
 # Config Type: SQF
 # Comment: // or /* */
 fn_info_game_sqf() {
-	eval "${1}"="$(sed -n "/^[^/]*${2} = \"\(.*\)\";/{s//\1/;p;q;}" "${3}")"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="$(sed -n "/^[^/]*${2} = \"\(.*\)\";/{s//\1/;p;q;}" "${servercfgfullpath}")"
 }
 
 # Config Type: XML
 # Comment: <!-- -->
 fn_info_game_xml() {
-	eval "${1}"="$(xmllint --xpath "string(${2})" "${3}")"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}")"
 }
 
 # Config Type: ini
@@ -186,7 +202,7 @@ fn_info_game_cmw() {
 # Filetype: ini
 fn_info_game_dodr() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "maxplayers" "iServerMaxPlayers"
+		fn_info_game_ini "maxplayers" "iMaxPlayers"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -200,11 +216,6 @@ fn_info_game_dodr() {
 # Example: cluster_name = SERVERNAME
 # Filetype: ini
 fn_info_game_dst() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "port" "server_port" "${servercfgfullpath}"
-		fn_info_game_ini "steamauthport" "authentication_port" "${servercfgfullpath}"
-		fn_info_game_ini "steammasterport" "master_server_port" "${servercfgfullpath}"
-	fi
 	if [ -f "${clustercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "max_players" "${clustercfgfullpath}"
 		fn_info_game_ini "servername" "cluster_name" "${clustercfgfullpath}"
@@ -213,6 +224,11 @@ fn_info_game_dst() {
 		fn_info_game_ini "masterport" "master_port" "${clustercfgfullpath}"
 		fn_info_game_ini "gamemode" "game_mode" "${clustercfgfullpath}"
 		fn_info_game_ini "configip" "bind_ip" "${clustercfgfullpath}"
+	fi
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "port" "server_port" "${clustercfgfullpath}"
+		fn_info_game_ini "steamauthport" "authentication_port" "${clustercfgfullpath}"
+		fn_info_game_ini "steammasterport" "master_server_port" "${servercfgfullpath}"
 	fi
 	cave="${cave:-"NOT SET"}"
 	cluster="${cluster:-"NOT SET"}"
