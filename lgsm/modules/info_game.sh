@@ -23,13 +23,15 @@ fn_info_game_ini() {
 	# -n option tells sed to suppress output by default.
 	# /^[[:space:]]*${2}/ is a pattern match that looks for lines that start with optional whitespace followed by the value of $2.
 	# s/.*= *// is a substitution command that removes everything up to and including the equals sign (including optional spaces) in the matching line.
+	# "\?\([^"]*\)"\? matches an optional double quote, followed by any number of non-quote characters (captured in a group), followed by another optional double quote. This allows for values that are either quoted or not to be displayed.
 	# p at the end of the s command tells sed to print the resulting line if there was a match.
 	# q at the end of the s command tells sed to quit after the first match.
+	# tr -d '\r' removes CRLF carriage returns from the end of the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="\"$(sed -n "/^[[:space:]]*\<${2}\>/ { s/.*= *//p;q }" "${servercfgfullpath}" | tr -d "\r")\""
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
 	configtype="ini"
 }
 
