@@ -541,7 +541,7 @@ fn_info_game_ut99() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	webadminenabled="${webadminenabled:-"0"}"
 	webadminpass="${webadminpass:-"NOT SET"}"
-	webadminport="${webadminport:-"0"}"
+	httpport="${webadminport:-"0"}"
 	webadminuser="${webadminuser:-"NOT SET"}"
 }
 
@@ -568,7 +568,7 @@ fn_info_game_ut3() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	webadminenabled="${webadminenabled:-"0"}"
 	webadminpass="${webadminpass:-"NOT SET"}"
-	webadminport="${webadminport:-"0"}"
+	httpport="${webadminport:-"0"}"
 	webadminuser="Admin"
 }
 
@@ -616,7 +616,7 @@ fn_info_game_unreal2() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	webadminenabled="${webadminenabled:-"0"}"
 	webadminpass="${adminpassword:-"NOT SET"}"
-	webadminport="${webadminport:-"0"}"
+	httpport="${webadminport:-"0"}"
 	webadminuser="${webadminuser:-"NOT SET"}"
 }
 
@@ -1017,7 +1017,7 @@ fn_info_game_eco() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
-	webadminport="${webadminport:-"3001"}"
+	httpport="${webadminport:-"3001"}"
 }
 
 # Config Type: QuakeC
@@ -1905,7 +1905,7 @@ fn_info_game_sdtd() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	webadminenabled="${webadminenabled:-"NOT SET"}"
-	webadminport="${webadminport:-"0"}"
+	httpport="${webadminport:-"0"}"
 	webadminpass="${webadminpass:-"NOT SET"}"
 	telnetenabled="${telnetenabled:-"NOT SET"}"
 	telnetport="${telnetport:-"0"}"
@@ -2030,7 +2030,7 @@ fn_info_game_spark() {
 	serverpassword=${serverpassword:-"NOT SET"}
 	webadminuser=${webadminuser:-"NOT SET"}
 	webadminpass=${webadminpass:-"NOT SET"}
-	webadminport=${webadminport:-"0"}
+	httpport=${webadminport:-"0"}
 	# Commented out as displaying not set in details parameters
 	#mods=${mods:-"NOT SET"}
 }
@@ -2244,7 +2244,7 @@ fn_info_game_wf() {
 	# Parameters
 	port=${port:-"0"}
 	queryport="${port:-"0"}"
-	webadminport=${webadminport:-"0"}
+	httpport=${webadminport:-"0"}
 }
 
 fn_info_game_wmc() {

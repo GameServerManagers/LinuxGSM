@@ -32,9 +32,11 @@ declare -A server_details=(
 	['Game Mode']="${gamemode}"
 	['Game Type']="${gametype}"
 	['ip']="${ip}"
+	['LAN Port']="${lanport}"
 	['Master Port']="${masterport}"
 	['Master']="${master}"
 	['Maxplayers']="${maxplayers}"
+	['OldQueryPortNumber']="${oldqueryportnumber}"
 	['Port']="${port}"
 	['Query Port']="${queryport}"
 	['RCON Enabled']="${rconenabled}"
@@ -48,12 +50,13 @@ declare -A server_details=(
 	['Steam Auth Port']="${steamauthport}"
 	['Steam Master Port']="${steammasterport}"
 	['Tickrate']="${tickrate}"
+	['Web Admin IP']="${webadminip}"
 	['Web Admin Enabled']="${webadminenabled}"
-	['Web Admin Password']="${webadminpassword}"
+	['Web Admin Password']="${webadminpass}"
 	['Web Admin User']="${webadminuser}"
+	['Web Admin Port']="${webadminport}"
 	['World Name']="${worldname}"
 	['World Type']="${worldtype}"
-
 )
 
 # Initialize a variable to keep track of missing server details.
