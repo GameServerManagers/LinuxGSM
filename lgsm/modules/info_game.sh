@@ -1928,15 +1928,26 @@ fn_info_game_ti() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
 		maxplayers="${zero}"
+		rconenabled="true"
+		rconport="8888"
+		queueenabled="true"
+		queueport="10000"
 	else
-		servername=$(sed -nr 's/^ServerName="(.*)"/\1/p' "${servercfgfullpath}")
+		servername=$(sed -nr 's/^ServerName=(.*)/\1/p' "${servercfgfullpath}")
 		maxplayers=$(sed -nr 's/^MaxPlayerCount=([0-9]+)/\1/' "${servercfgfullpath}")
+		rconenabled=$(sed -nr 's/^RconEnabled=(.*)/\1/p' "${servercfgfullpath}")
+		rconport=$(sed -nr 's/^RconPort=([0-9]+)/\1/' "${servercfgfullpath}")
+		queueenabled=$(sed -nr 's/^QueueEnabled=(.*)/\1/p' "${servercfgfullpath}")
+		queueport=$(sed -nr 's/^QueuePort=([0-9]+)/\1/' "${servercfgfullpath}")
 
 		# Not set
 		servername=${servername:-"NOT SET"}
 		maxplayers=${maxplayers:-"0"}
+		rconenabled=${rconenabled:-"true"}
+		rconport=${rconport:-"8888"}
+		queueenabled=${queueenabled:-"true"}
+		queueport=${queueport:-"10000"}
 	fi
-
 }
 
 fn_info_game_ts3() {
