@@ -710,7 +710,6 @@ fn_info_game_hw() {
 	port=${port:-"0"}
 	queryport=${queryport:-"0"}
 	maxplayers=${maxplayers:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
 	creativemode=${creativemode:-"NOT SET"}
 }
 
