@@ -110,6 +110,7 @@ tf2,tf2server,Team Fortress 2,ubuntu-22.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-22.04
 ti,tiserver,The Isle,ubuntu-22.04
 ts,tsserver,The Specialists,ubuntu-22.04
+tm2020,tm2020server,Trackmania 2020,ubuntu-22.04
 ts3,ts3server,Teamspeak 3,ubuntu-22.04
 tu,tuserver,Tower Unite,ubuntu-22.04
 tw,twserver,Teeworlds,ubuntu-22.04
@@ -128,4 +129,3 @@ wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
-
