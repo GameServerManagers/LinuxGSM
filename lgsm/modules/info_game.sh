@@ -46,7 +46,7 @@ fn_info_game_quakec() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\(.*\)\"/\1/p;q" "${servercfgfullpath}")"
+	eval "${1}"="$(sed -n '/^[[:space:]]*set hostname[[:space:]]*\"\?\(.*\)\?\"/ { s//\1/p;q }' "${servercfgfullpath}")"
 }
 
 # Config Type: json
@@ -67,7 +67,7 @@ fn_info_game_sqf() {
 	# [^/]* This matches any character except a forward slash (/) zero or more times.
 	# ${2} matches the literal string "${2}".
 	# = " This matches the literal string " = ".
-	# \(.*\)": This is a capturing group that matches any sequence of characters until a closing double quote. It captures the desired value for later use.
+	# \(.*\)" This is a capturing group that matches any sequence of characters until a closing double quote. It captures the desired value for later use.
 	# s//\1/ This performs a substitution with an empty search pattern (//) and replaces it with the captured value inside the capturing group (\1).
 	# p at the end of the s command tells sed to print the resulting line if there was a match.
 	# q at the end of the s command tells sed to quit after the first match.
@@ -105,6 +105,17 @@ fn_info_game_valve_keyvalues() {
 	if [ -f "${servercfgfullpath}" ]; then
 		eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\?\([^\"]*\)\"\?\s*$/\1/p;q" "${servercfgfullpath}")"
 	fi
+}
+
+fn_info_game_java_properties() {
+	# sed is used to process the file.
+	# -n option tells sed to suppress output by default.
+	# s/ indicates that the command is a substitution command.
+
+	if [ -f "${servercfgfullpath}" ]; then
+		eval "${1}"="$(sed -n 's/.*= *//^${2}\(.*\)/\1/p' "${servercfgfullpath}")"
+	fi
+
 }
 
 # Config Type: ini
@@ -1188,6 +1199,9 @@ fn_info_game_lo() {
 # Example: motd=SERVERNAME
 # Filetype: properties
 fn_info_game_mc() {
+	if [ -f "${servercfgfullpath}" ]; then
+
+	fi
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
