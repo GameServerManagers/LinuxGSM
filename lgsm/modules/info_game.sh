@@ -171,19 +171,7 @@ fn_info_game_lua() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/\/$//;s/,//;p;q }' "${servercfgfullpath}" | tr -d '\r')"
-	configtype="lua"
-}
-
-# Config Type: custom
-# Comment: //
-# Example: port = 14159,
-# Filetype: cfg
-fn_info_game_nec() {
-	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
-	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/,$//;p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgfullpath}" | tr -d '\r')"
 	configtype="lua"
 }
 
@@ -1387,28 +1375,21 @@ fn_info_game_nec() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: // or /* */
 fn_info_game_onset() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		httpport="${zero}"
-		queryport="${zero}"
-	else
-		servername=$(grep -v "servername_short" "${servercfgfullpath}" | grep "servername" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/servername//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		httpport=$((port - 2))
-		queryport=$((port - 1))
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"NOT SET"}
-		httpport=${httpport:-"NOT SET"}
-		queryport=${queryport:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".maxplayers"
+		fn_info_game_json "port" ".port"
+		fn_info_game_json "servername" ".servername_short"
+		fn_info_game_json "serverpassword" ".password"
 	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	httpport="$((port - 2))"
+	queryport="$((port - 1))"
+	servername="${servername:-"NOT SET"}"
 }
 
 fn_info_game_pc() {
