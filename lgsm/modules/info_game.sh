@@ -175,6 +175,13 @@ fn_info_game_lua() {
 	configtype="lua"
 }
 
+fn_info_game_pcconfig() {
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"name"'\>/ { s/.* : *"\?\([^"]*\)"\?/\1/;s/;$//;p;q }' "${servercfgfullpath}" | tr -d '\r')"
+}
+
 # Config Type: ini
 # Parameters: false
 # Comment: ; or #
@@ -1392,58 +1399,42 @@ fn_info_game_onset() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: custom
+# Parameters: false
+# Comment: //
+# Filetype: cfg
 fn_info_game_pc() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-		steamport="${zero}"
-	else
-		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		port=$(grep "hostPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		queryport=$(grep "queryPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		steamport=$(grep "steamPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"NOT SET"}
-		queryport=${queryport:-"NOT SET"}
-		steamport=${steamport:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_pcconfig "servername" "name"
+		fn_info_game_pcconfig "serverpassword" "password"
+		fn_info_game_pcconfig "maxplayers" "MaxPlayers"
+		fn_info_game_pcconfig "port" "hostPort"
+		fn_info_game_pcconfig "queryport" "queryPort"
+		fn_info_game_pcconfig "steamport" "steamPort"
 	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steamport="${steamport:-"0"}"
 }
 
 fn_info_game_pc2() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		queryport="${zero}"
-		steamport="${zero}"
-	else
-		servername=$(grep "name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password " "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		port=$(grep "hostPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		queryport=$(grep "queryPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-		steamport=$(grep "steamPort" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"NOT SET"}
-		queryport=${queryport:-"NOT SET"}
-		steamport=${steamport:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_pcconfig "servername" "name"
+		fn_info_game_pcconfig "serverpassword" "password"
+		fn_info_game_pcconfig "maxplayers" "MaxPlayers"
+		fn_info_game_pcconfig "port" "hostPort"
+		fn_info_game_pcconfig "queryport" "queryPort"
+		fn_info_game_pcconfig "steamport" "steamPort"
 	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steamport="${steamport:-"0"}"
 }
 
 # Config Type: SiiNunit
