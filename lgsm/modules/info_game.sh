@@ -38,6 +38,36 @@ fn_info_game_ini() {
 	configtype="ini"
 }
 
+# Config Type: custom
+# Comment: ; or #
+# Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
+fn_info_game_keyvalue_pairs() {
+	# sed is used to process the file.
+	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
+	# '/^[[:space:]]*\<'"${2}"'\>/ is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
+	#	^ indicates the beginning of a line.
+	#	[[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
+	# 	\< and \> are word boundaries, ensuring that the pattern matches whole words.
+	#	"${2}" is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
+	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
+	#	s/.*= *"\?\([^"]*\)"\?/\1/ is a substitution command that replaces the entire line with the content within the quotes.
+	#		.*= matches any characters (except newline) followed by an equal sign.
+	#		* matches zero or more spaces after the equal sign.
+	#		"\?\([^"]*\)"\? captures the content within the quotes and stores it in a group.
+	#			\"? matches a double quote character zero or one time.
+	# 			\([^"]*\) captures any characters (except double quotes) zero or more times and stores them in a group.
+	# 			\"? matches a double quote character zero or one time.
+	# 		\1 refers to the first captured group from the pattern, which is the content within the quotes.
+	# p is a command that prints the modified pattern space (the result of the substitution).
+	# q is a command that quits the sed script, preventing further processing of input lines.
+
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
+	fi
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	configtype="keyvalue_pairs"
+}
+
 # Config Type: QuakeC
 # Comment: // or /* */
 fn_info_game_quakec() {
@@ -60,6 +90,7 @@ fn_info_game_quakec() {
 		servercfgfullpath="${3}"
 	fi
 	eval "${1}"="$(sed -n '/^[[:space:]]*${2}[[:space:]]*\"\?\(.*\)\?\"/ { s//\1/p;q }' "${servercfgfullpath}") | tr -d '\r')"
+	configtype="quakec"
 }
 
 # Config Type: json
@@ -69,26 +100,32 @@ fn_info_game_json() {
 		servercfgfullpath="${3}"
 	fi
 	eval "${1}"="$(jq -r '${2}' "${servercfgfullpath}")"
+	configtype="json"
 }
 
 # Config Type: SQF
 # Comment: // or /* */
 fn_info_game_sqf() {
-	# sed is used to process the file.
-	# -n option tells sed to suppress output by default.
-	# ^ This anchors the pattern to the beginning of the line.
-	# [^/]* This matches any character except a forward slash (/) zero or more times.
-	# ${2} matches the literal string "${2}".
-	# = " This matches the literal string " = ".
-	# \(.*\)" This is a capturing group that matches any sequence of characters until a closing double quote. It captures the desired value for later use.
-	# s//\1/ This performs a substitution with an empty search pattern (//) and replaces it with the captured value inside the capturing group (\1).
-	# p at the end of the s command tells sed to print the resulting line if there was a match.
-	# q at the end of the s command tells sed to quit after the first match.
+	# sed is the command itself, indicating that we want to use the sed utility.
+	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
+	# '/^[[:space:]]*${2}[[:space:]]*\"\?\(.*\)\?\"/' is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
+	# 	^ indicates the beginning of a line.
+	#	 [[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
+	#	 ${2} is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
+	#	\"?\(.*\)\?\" is another regular expression pattern within double quotes.
+	#		\"? matches a double quote character zero or one time.
+	#		\(.*\) captures any characters (except newline) zero or more times and stores them in a group.
+	#		\?\" matches a double quote character zero or one time.
+	# { s//\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
+	#	s//\1/ is a substitution command without specifying the search pattern. The empty search pattern indicates that it should use the previously matched pattern from the pattern space. The \1 is a reference to the first captured group from the pattern.
+	#	p is a command that prints the modified pattern space (the result of the substitution).
+	#	q is a command that quits the sed script, preventing further processing of input lines.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
 	eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.* = *"\?\([^"]*\)"\?/\1/;s/;$//;p;q }' "${servercfgfullpath}") | tr -d '\r')"
+	configtype="sqf"
 }
 
 # Config Type: XML
@@ -98,6 +135,7 @@ fn_info_game_xml() {
 		servercfgfullpath="${3}"
 	fi
 	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}")"
+	configtype="xml"
 }
 
 # Config Type: Valve KeyValues
@@ -115,9 +153,11 @@ fn_info_game_valve_keyvalues() {
 	# /\1/ indicates that the substitution should replace the matched string with the contents of the first (and only) captured group, denoted by \1.
 	# p at the end of the s command tells sed to print the resulting line if there was a match.
 	# q at the end of the s command tells sed to quit after the first match.
-	if [ -f "${servercfgfullpath}" ]; then
-		eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\?\([^\"]*\)\"\?\s*$/\1/p;q" "${servercfgfullpath}" | tr -d '\r')"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
 	fi
+	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\?\([^\"]*\)\"\?\s*$/\1/p;q" "${servercfgfullpath}" | tr -d '\r')"
+	configtype="valve"
 }
 
 fn_info_game_java_properties() {
@@ -140,9 +180,11 @@ fn_info_game_java_properties() {
 	# p is a command that prints the modified pattern space (the result of the substitution).
 	# q is a command that quits the sed script, preventing further processing of input lines.
 
-	if [ -f "${servercfgfullpath}" ]; then
-		eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	if [ -n "${3}" ]; then
+		servercfgfullpath="${3}"
 	fi
+	eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	configtype="java"
 }
 
 # Config Type: ini
@@ -1866,32 +1908,26 @@ fn_info_game_sof2() {
 	defaultmap="${defaultmap:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Server_Name=SERVERNAME
+# Filetype: ini
 fn_info_game_sol() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		adminpassword="${unavailable}"
-		maxplayers="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-	else
-		adminpassword=$(grep "Admin_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		maxplayers=$(grep "Max_Players=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		port=$(grep "Port=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport="${port}"
-		filesport=$((port + 10))
-		servername=$(grep "Server_Name=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-		serverpassword=$(grep "Game_Password=" "${servercfgfullpath}" | awk -F '=' '{print $2}')
-
-		# Not set
-		adminpassword=${adminpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"23073"}
-		queryport=${queryport:-"23083"}
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_config_ini "adminpassword" "Admin_Password"
+		fn_info_config_ini "maxplayers" "Max_Players"
+		fn_info_config_ini "port" "Port"
+		fn_info_config_ini "servername" "Server_Name"
+		fn_info_config_ini "serverpassword" "Game_Password"
 	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	filesport="$((port + 10))"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: Valve KeyValues
@@ -1934,39 +1970,27 @@ fn_info_game_spark() {
 }
 
 # Config Type: Custom (key-value pairs)
+# Parameters: true
 # Comment: # or //
 # Example: ServerName="SERVERNAME"
 # Filetype: cfg
 fn_info_game_squad() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs "servername" "ServerName"
+		fn_info_game_keyvalue_pairs "maxplayers" "MaxPlayers"
 	fi
-
-	if [ ! -f "${servercfgdir}/Rcon.cfg" ]; then
-		rconport=${unavailable}
-		rconpassword=${unavailable}
-	else
-		rconport=$(grep "Port=" "${servercfgdir}/Rcon.cfg" | tr -cd '[:digit:]')
-		rconpassword=$(grep "Password=" "${servercfgdir}/Rcon.cfg" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/Password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		rconport=${rconport:-"0"}
-		if [ -z "${rconpassword}" ] || [ ${#rconpassword} == 1 ]; then
-			rconpassword="NOT SET"
-		fi
-
+	if [ -f "${servercfgdir}/Rcon.cfg" ]; then
+		fn_info_game_keyvalue_pairs "rconport" "Port"
+		fn_info_game_keyvalue_pairs "rconpassword" "Password"
 	fi
-
-	# Parameters
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rconport="${rconport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	if [ -z "${rconpassword}" ] || [ ${#rconpassword} == 1 ]; then
+		rconpassword="NOT SET"
+	fi
 }
 
 # Config Type: Custom (key-value pairs)
@@ -1974,27 +1998,18 @@ fn_info_game_squad() {
 # Example: ServerName="SERVERNAME"
 # Filetype: cfg
 fn_info_game_terraria() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		port="${zero}"
-		worldname="${unavailable}"
-		maxplayers="${zero}"
-		queryport="${zero}"
-	else
-		servername=$(grep "worldname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/worldname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "port" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=${port:-"0"}
-		worldname=$(grep "world=" "${servercfgfullpath}" | grep -v "//" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/world=//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "//" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		worldname=${worldname:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs "maxplayers" "maxplayers"
+		fn_info_game_keyvalue_pairs "port" "port"
+		fn_info_game_keyvalue_pairs "servername" "worldname"
+		fn_info_game_keyvalue_pairs "worldname" "world"
 	fi
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	worldname="${worldname:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: QuakeC (custom)
@@ -2002,53 +2017,41 @@ fn_info_game_terraria() {
 # Example: set sv_hostname "SERVERNAME"
 # Filetype: cfg
 fn_info_game_tw() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="unnamed server"
-		serverpassword="${unavailable}"
-		rconpassword="${unavailable}"
-		port="8303"
-		queryport="8303"
-		maxplayers="12"
-	else
-		servername=$(grep "sv_name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^sv_name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' | grep "^password" | sed -e '/^#/d' -e 's/^password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "sv_rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^sv_rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "sv_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport="${port}"
-		maxplayers=$(grep "sv_max_clients" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		port=${port:-"8303"}
-		queryport=${port:-"8303"}
-		maxplayers=${maxplayers:-"12"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "servername" "sv_name"
+		fn_info_game_quakec "serverpassword" "password"
+		fn_info_game_quakec "rconpassword" "sv_rcon_password"
+		fn_info_game_quakec "port" "sv_port"
+		fn_info_game_quakec "maxplayers" "sv_max_clients"
 	fi
+	queryport="${port}"
+	servername=${servername:-"NOT SET"}
+	serverpassword=${serverpassword:-"NOT SET"}
+	rconpassword=${rconpassword:-"NOT SET"}
+	port=${port:-"0"}
+	maxplayers=${maxplayers:-"0"}
 }
 
 # Config Type: Parameters
 fn_info_game_unt() {
-	# Parameters
-	servername=${selfname:-"NOT SET"}
-	port=${port:-"0"}
-	queryport=${port}
-	steamport=$((port + 1))
+	servername="${selfname:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	steamport="$((port + 1))"
 }
 
 # Config Type: Parameters
 fn_info_game_vh() {
-	port=${port:-"0"}
+	port="${port:-"0"}"
 	# Query port only enabled if public server
 	if [ "${public}" != "0" ]; then
 		queryport="$((port + 1))"
 	else
 		querymode="1"
 	fi
-	worldname=${worldname:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	servername=${servername:-"NOT SET"}
+	worldname="${worldname:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: json
@@ -2070,20 +2073,19 @@ fn_info_game_vints() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: Java properties
+# Comment: # or !
+# Example: motd=SERVERNAME
+# Filetype: properties
 fn_info_game_vpmc() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		configip="0.0.0.0"
-		port="25577"
-	else
-		servername=$(sed -nr 's/^motd\s*=\s*"(.*)"/\1/p' "${servercfgfullpath}")
-		bindaddress=$(sed -nr 's/^bind\s*=\s*"([0-9.:]+)"/\1/p' "${servercfgfullpath}")
-		configip=$(echo "${bindaddress}" | cut -d ':' -f 1)
-		port=$(echo "${bindaddress}" | cut -d ':' -f 2)
-
-		servername=${servername:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_java_properties "servername" "motd"
+		fn_info_game_java_properties "bindaddress" "bind"
 	fi
-	queryport=${port:-"25577"}
+	configip="$(echo "${bindaddress}" | cut -d ':' -f 1)"
+	port="$(echo "${bindaddress}" | cut -d ':' -f 2)"
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: QuakeC
