@@ -160,6 +160,8 @@ fn_info_game_valve_keyvalues() {
 	configtype="valve"
 }
 
+# Config Type: Java properties
+# Comment: # or !
 fn_info_game_java_properties() {
 	# sed is used to process the file.
 	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
@@ -217,7 +219,9 @@ fn_info_game_lua() {
 	configtype="lua"
 }
 
-fn_info_game_pcconfig() {
+# Config Type: custom (Project Cars)
+# Comment: //
+fn_info_game_pc_config() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
@@ -266,6 +270,30 @@ fn_info_game_ark() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: SQF
+# Parameters: true
+# Comment: // or /* */
+# Example: serverName = "SERVERNAME";
+# Filetype: cfg
+fn_info_game_arma3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_sqf "adminpassword" "passwordAdmin"
+		fn_info_game_sqf "maxplayers" "maxPlayers"
+		fn_info_game_sqf "servername" "hostname"
+		fn_info_game_sqf "serverpassword" "password"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	battleeyeport="$((port + 4))"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steammasterport="$((port + 2))"
+	voiceport="${port:-"0"}"
+	voiceunusedport="$((port + 3))"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -295,6 +323,25 @@ fn_info_game_av() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steammasterport="$((port + 21))"
 	steamqueryport="$((port + 20))"
+}
+
+# Config Type: ini unknown (Source?)
+# Parameters: true
+# Comment: # or //
+# Example: ServerName=SERVERNAME
+# Filetype: txt
+fn_info_game_bo() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "port" "ServerPort"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "Password"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -714,25 +761,6 @@ fn_info_game_ut3() {
 	webadminuser="Admin"
 }
 
-# Config Type: ini unknown (Source?)
-# Parameters: true
-# Comment: # or //
-# Example: ServerName=SERVERNAME
-# Filetype: txt
-fn_info_game_bo() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "maxplayers" "MaxPlayers"
-		fn_info_game_ini "port" "ServerPort"
-		fn_info_game_ini "servername" "ServerName"
-		fn_info_game_ini "serverpassword" "Password"
-	fi
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	queryport="$((port + 1))"
-	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
-}
-
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -806,30 +834,6 @@ fn_info_game_ut2k4() {
 	webadminenabled="${webadminenabled:-"0"}"
 	webadminpass="${adminpassword}"
 	webadminuser="${webadminuser:-"NOT SET"}"
-}
-
-# Config Type: SQF
-# Parameters: true
-# Comment: // or /* */
-# Example: serverName = "SERVERNAME";
-# Filetype: cfg
-fn_info_game_arma3() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_sqf "adminpassword" "passwordAdmin"
-		fn_info_game_sqf "maxplayers" "maxPlayers"
-		fn_info_game_sqf "servername" "hostname"
-		fn_info_game_sqf "serverpassword" "password"
-	fi
-	adminpassword="${adminpassword:-"NOT SET"}"
-	battleeyeport="$((port + 4))"
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	queryport="$((port + 1))"
-	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="$((port + 2))"
-	voiceport="${port:-"0"}"
-	voiceunusedport="$((port + 3))"
 }
 
 # Config Type: json
@@ -1447,12 +1451,12 @@ fn_info_game_onset() {
 # Filetype: cfg
 fn_info_game_pc() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_pcconfig "servername" "name"
-		fn_info_game_pcconfig "serverpassword" "password"
-		fn_info_game_pcconfig "maxplayers" "MaxPlayers"
-		fn_info_game_pcconfig "port" "hostPort"
-		fn_info_game_pcconfig "queryport" "queryPort"
-		fn_info_game_pcconfig "steamport" "steamPort"
+		fn_info_game_pc_config "servername" "name"
+		fn_info_game_pc_config "serverpassword" "password"
+		fn_info_game_pc_config "maxplayers" "MaxPlayers"
+		fn_info_game_pc_config "port" "hostPort"
+		fn_info_game_pc_config "queryport" "queryPort"
+		fn_info_game_pc_config "steamport" "steamPort"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -1464,12 +1468,12 @@ fn_info_game_pc() {
 
 fn_info_game_pc2() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_pcconfig "servername" "name"
-		fn_info_game_pcconfig "serverpassword" "password"
-		fn_info_game_pcconfig "maxplayers" "MaxPlayers"
-		fn_info_game_pcconfig "port" "hostPort"
-		fn_info_game_pcconfig "queryport" "queryPort"
-		fn_info_game_pcconfig "steamport" "steamPort"
+		fn_info_game_pc_config "servername" "name"
+		fn_info_game_pc_config "serverpassword" "password"
+		fn_info_game_pc_config "maxplayers" "MaxPlayers"
+		fn_info_game_pc_config "port" "hostPort"
+		fn_info_game_pc_config "queryport" "queryPort"
+		fn_info_game_pc_config "steamport" "steamPort"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
