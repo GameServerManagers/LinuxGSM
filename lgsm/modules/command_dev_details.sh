@@ -5,6 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
+if [ -f "${2}" ]; then
+	servercfgfullpath="${2}"
+fi
+
 info_game.sh
 
 carriagereturn=$(file -b "${servercfgfullpath}" | grep -q CRLF && echo "${red}CRLF${default}" || echo "${lightgreen}LF${default}")
@@ -49,15 +53,15 @@ declare -A server_details=(
 	['Sharding']="${sharding}"
 	['Steam Auth Port']="${steamauthport}"
 	['Steam Master Port']="${steammasterport}"
+	['Telnet IP']="${telnetip}"
 	['Tickrate']="${tickrate}"
-	['Web Admin IP']="${webadminip}"
 	['Web Admin Enabled']="${webadminenabled}"
+	['Web Admin IP']="${webadminip}"
 	['Web Admin Password']="${webadminpass}"
-	['Web Admin User']="${webadminuser}"
 	['Web Admin Port']="${webadminport}"
+	['Web Admin User']="${webadminuser}"
 	['World Name']="${worldname}"
 	['World Type']="${worldtype}"
-	['Telnet IP']="${telnetip}"
 )
 
 # Initialize a variable to keep track of missing server details.

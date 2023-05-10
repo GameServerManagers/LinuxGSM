@@ -1,0 +1,29 @@
+name: Details Check
+# This action will check that LinuxGSM is picking up game server config and parameter variables.
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  # This workflow contains a single job called "build"
+  details-check:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Download linuxgsm.sh
+        run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/info_game-refactor/linuxgsm.sh; chmod +x linuxgsm.sh
+
+      - name: Grab server
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./linuxgsm.sh csgoserver
+
+      - name: Enable developer mode
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver developer
+
+      - name: Download config
+        run: wget https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/CounterStrikeGlobalOffensive/server.cfg
+
+      - name: Check details
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver detect-details server.cfg
