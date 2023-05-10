@@ -13,28 +13,22 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
 fn_info_game_ini() {
 	# sed is used to process the file.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*\<'"${2}"'\>/ is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	#	^ indicates the beginning of a line.
-	#	[[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	# 	\< and \> are word boundaries, ensuring that the pattern matches whole words.
-	#	"${2}" is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s/.*= *"\?\([^"]*\)"\?/\1/ is a substitution command that replaces the entire line with the content within the quotes.
-	#		.*= matches any characters (except newline) followed by an equal sign.
-	#		* matches zero or more spaces after the equal sign.
-	#		"\?\([^"]*\)"\? captures the content within the quotes and stores it in a group.
-	#			\"? matches a double quote character zero or one time.
-	# 			\([^"]*\) captures any characters (except double quotes) zero or more times and stores them in a group.
-	# 			\"? matches a double quote character zero or one time.
-	# 		\1 refers to the first captured group from the pattern, which is the content within the quotes.
-	# p is a command that prints the modified pattern space (the result of the substitution).
-	# q is a command that quits the sed script, preventing further processing of input lines.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*= *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an equals sign (=), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the equals sign.
+	#     - = *"\?: Matches the equals sign and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
 	configtype="ini"
 }
 
@@ -43,53 +37,45 @@ fn_info_game_ini() {
 # Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
 fn_info_game_keyvalue_pairs() {
 	# sed is used to process the file.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*\<'"${2}"'\>/ is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	#	^ indicates the beginning of a line.
-	#	[[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	# 	\< and \> are word boundaries, ensuring that the pattern matches whole words.
-	#	"${2}" is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s/.*= *"\?\([^"]*\)"\?/\1/ is a substitution command that replaces the entire line with the content within the quotes.
-	#		.*= matches any characters (except newline) followed by an equal sign.
-	#		* matches zero or more spaces after the equal sign.
-	#		"\?\([^"]*\)"\? captures the content within the quotes and stores it in a group.
-	#			\"? matches a double quote character zero or one time.
-	# 			\([^"]*\) captures any characters (except double quotes) zero or more times and stores them in a group.
-	# 			\"? matches a double quote character zero or one time.
-	# 		\1 refers to the first captured group from the pattern, which is the content within the quotes.
-	# p is a command that prints the modified pattern space (the result of the substitution).
-	# q is a command that quits the sed script, preventing further processing of input lines.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*= *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an equals sign (=), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the equals sign.
+	#     - = *"\?: Matches the equals sign and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
 # Config Type: QuakeC
 # Comment: // or /* */
 fn_info_game_quakec() {
-	# sed is the command itself, indicating that we want to use the sed utility.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*${2}[[:space:]]*\"\?\(.*\)\?\"/' is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	# 	^ indicates the beginning of a line.
-	#	 [[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	#	 ${2} is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	#	\"?\(.*\)\?\" is another regular expression pattern within double quotes.
-	#		\"? matches a double quote character zero or one time.
-	#		\(.*\) captures any characters (except newline) zero or more times and stores them in a group.
-	#		\?\" matches a double quote character zero or one time.
-	# { s//\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s//\1/ is a substitution command without specifying the search pattern. The empty search pattern indicates that it should use the previously matched pattern from the pattern space. The \1 is a reference to the first captured group from the pattern.
-	#	p is a command that prints the modified pattern space (the result of the substitution).
-	#	q is a command that quits the sed script, preventing further processing of input lines.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^[[:space:]]*\<'"${2}"'\>/: Matches lines starting with optional leading whitespace and the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*  *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*  *"\?\([^"]*\)"\?/\1/: Matches and captures the value after any number of spaces, possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the spaces.
+	#     -   *: Matches any number of spaces.
+	#     - "\?: Matches an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n '/^[[:space:]]*${2}[[:space:]]*\"\?\(.*\)\?\"/ { s//\1/p;q }' "${servercfgfullpath}") | tr -d '\r')"
+	eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}") | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -107,24 +93,23 @@ fn_info_game_json() {
 # Comment: // or /* */
 fn_info_game_sqf() {
 	# sed is the command itself, indicating that we want to use the sed utility.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*${2}[[:space:]]*\"\?\(.*\)\?\"/' is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	# 	^ indicates the beginning of a line.
-	#	 [[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	#	 ${2} is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	#	\"?\(.*\)\?\" is another regular expression pattern within double quotes.
-	#		\"? matches a double quote character zero or one time.
-	#		\(.*\) captures any characters (except newline) zero or more times and stores them in a group.
-	#		\?\" matches a double quote character zero or one time.
-	# { s//\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s//\1/ is a substitution command without specifying the search pattern. The empty search pattern indicates that it should use the previously matched pattern from the pattern space. The \1 is a reference to the first captured group from the pattern.
-	#	p is a command that prints the modified pattern space (the result of the substitution).
-	#	q is a command that quits the sed script, preventing further processing of input lines.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*= *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an equals sign (=), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the equals sign.
+	#     - = *"\?: Matches the equals sign and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - s/;$//: Removes a semicolon (;) at the end of the line, if present.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.* = *"\?\([^"]*\)"\?/\1/;s/;$//;p;q }' "${servercfgfullpath}") | tr -d '\r')"
+	eval "${1}"="$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}") | tr -d '\r')"
 	configtype="sqf"
 }
 
@@ -142,50 +127,46 @@ fn_info_game_xml() {
 # Comment: //
 fn_info_game_valve_keyvalues() {
 	# sed is used to process the file.
-	# -n option tells sed to suppress output by default.
-	# s/ indicates that the command is a substitution command.
-	# ^.* matches any number of characters from the beginning of the line.
-	# ${2} matches the literal string "${2}".
-	# \s matches any whitespace character.
-	# \+ matches one or more occurrences of the preceding whitespace character (in this case, the previous \s).
-	# \"\? This matches an optional double quote ("), where the \? makes the preceding " character optional.
-	# \([^\"]*\): This is a capturing group that matches any sequence of characters except double quotes. It captures the hostname for later use.
-	# /\1/ indicates that the substitution should replace the matched string with the contents of the first (and only) captured group, denoted by \1.
-	# p at the end of the s command tells sed to print the resulting line if there was a match.
-	# q at the end of the s command tells sed to quit after the first match.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^[[:space:]]*\<'"${2}"'\>/: Matches lines starting with optional leading whitespace and the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*  *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*  *"\?\([^"]*\)"\?/\1/: Matches and captures the value after any number of spaces, possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the spaces.
+	#     -   *: Matches any number of spaces.
+	#     - "\?: Matches an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
+
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n "s/^.*${2}\s\+\"\?\([^\"]*\)\"\?\s*$/\1/p;q" "${servercfgfullpath}" | tr -d '\r')"
-	configtype="valve"
+	eval "${1}"="$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	configtype="valve_keyvalues"
 }
 
 # Config Type: Java properties
 # Comment: # or !
 fn_info_game_java_properties() {
 	# sed is used to process the file.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*\<'"${2}"'\>/ is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	#	^ indicates the beginning of a line.
-	#	[[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	# 	\< and \> are word boundaries, ensuring that the pattern matches whole words.
-	#	"${2}" is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s/.*= *"\?\([^"]*\)"\?/\1/ is a substitution command that replaces the entire line with the content within the quotes.
-	#		.*= matches any characters (except newline) followed by an equal sign.
-	#		* matches zero or more spaces after the equal sign.
-	#		"\?\([^"]*\)"\? captures the content within the quotes and stores it in a group.
-	#			\"? matches a double quote character zero or one time.
-	# 			\([^"]*\) captures any characters (except double quotes) zero or more times and stores them in a group.
-	# 			\"? matches a double quote character zero or one time.
-	# 		\1 refers to the first captured group from the pattern, which is the content within the quotes.
-	# p is a command that prints the modified pattern space (the result of the substitution).
-	# q is a command that quits the sed script, preventing further processing of input lines.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*= *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an equals sign (=), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the equals sign.
+	#     - = *"\?: Matches the equals sign and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}"="$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	eval "${1}"="$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}") | tr -d '\r')"
 	configtype="java"
 }
 
@@ -193,24 +174,15 @@ fn_info_game_java_properties() {
 # Comment: ; or #
 # Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
 fn_info_game_lua() {
-	# sed is used to process the file.
-	# -n is an option that tells sed to suppress the default output behavior, meaning it will not automatically print every line of input.
-	# '/^[[:space:]]*\<'"${2}"'\>/ is a regular expression pattern enclosed within single quotes. It will be used to match lines of input.
-	#	^ indicates the beginning of a line.
-	#	[[:space:]]* matches any whitespace characters (spaces or tabs) zero or more times.
-	# 	\< and \> are word boundaries, ensuring that the pattern matches whole words.
-	#	"${2}" is an example of variable substitution, where the value of the second argument passed to the script will be inserted. In this case, it will be a regular expression pattern specified when executing the sed command.
-	# { s/.*= *"\?\([^"]*\)"\?/\1/p;q } is a block of commands enclosed within curly braces that will be executed when a line matches the pattern.
-	#	s/.*= *"\?\([^"]*\)"\?/\1/ is a substitution command that replaces the entire line with the content within the quotes.
-	#		.*= matches any characters (except newline) followed by an equal sign.
-	#		* matches zero or more spaces after the equal sign.
-	#		"\?\([^"]*\)"\? captures the content within the quotes and stores it in a group.
-	#			\"? matches a double quote character zero or one time.
-	# 			\([^"]*\) captures any characters (except double quotes) zero or more times and stores them in a group.
-	# 			\"? matches a double quote character zero or one time.
-	# 		\1 refers to the first captured group from the pattern, which is the content within the quotes.
-	# p is a command that prints the modified pattern space (the result of the substitution).
-	# q is a command that quits the sed script, preventing further processing of input lines.
+	# - The '-n' option suppresses automatic printing of pattern space.
+	# - The pattern '/^[[:space:]]*\<'"${2}"'\>/' matches lines that begin with optional whitespace characters,
+	#   followed by the exact word specified by the second argument.
+	# - If the pattern matches, the following actions are performed within the curly braces:
+	#   - 's/.*= *"\?\([^"]*\)"\?/\1/' extracts the value within double quotes after an equal sign (if present),
+	#     removing any leading or trailing spaces.
+	#   - 's#,.*##' removes everything after the first comma encountered.
+	#   - 'p' prints the modified pattern space.
+	#   - 'q' quits processing after printing the modified pattern space.
 
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
@@ -222,10 +194,23 @@ fn_info_game_lua() {
 # Config Type: custom (Project Cars)
 # Comment: //
 fn_info_game_pc_config() {
+	# sed is used to process the file.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*: *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*: *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an equals sign (=), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the equals sign.
+	#     - : *"\?: Matches the : sign and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"name"'\>/ { s/.* : *"\?\([^"]*\)"\?/\1/;s/;$//;p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}" | tr -d '\r')"
+	configtype="pc_config"
 }
 
 # Config Type: ini
