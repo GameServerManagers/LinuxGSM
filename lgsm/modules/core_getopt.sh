@@ -184,7 +184,7 @@ fn_opt_usage() {
 	core_exit.sh
 }
 
-# Check if command existw and run corresponding scripts, or display script usage.
+# Check if command exists and run corresponding scripts, or display script usage.
 if [ -z "${getopt}" ]; then
 	fn_opt_usage
 fi

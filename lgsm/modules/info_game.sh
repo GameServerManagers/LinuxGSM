@@ -1929,7 +1929,7 @@ fn_info_game_source() {
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
-	# Steamport can be between 26901-26910 and is normaly automatically set.
+	# Steamport can be between 26901-26910 and is normally automatically set.
 	# Some servers might support -steamport parameter to set
 	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
 		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
@@ -1943,7 +1943,7 @@ fn_info_game_source() {
 	rconport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="${steamport:-"0"}"
+	# steamport="${steamport:-"0"}" Steamport is optional so we dont want it to show as not set.
 }
 
 fn_info_game_spark() {
