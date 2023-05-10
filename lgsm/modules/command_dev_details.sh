@@ -57,6 +57,7 @@ declare -A server_details=(
 	['Web Admin Port']="${webadminport}"
 	['World Name']="${worldname}"
 	['World Type']="${worldtype}"
+	['Telnet IP']="${telnetip}"
 )
 
 # Initialize a variable to keep track of missing server details.
