@@ -5,8 +5,8 @@
 # Website: https://linuxgsm.com
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
-if [ -f "${2}" ]; then
-	servercfgfullpath="${2}"
+if [ -f "config" ]; then
+	servercfgfullpath="config"
 fi
 
 info_game.sh

@@ -23,7 +23,7 @@ jobs:
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver developer
 
       - name: Download config
-        run: wget https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/CounterStrikeGlobalOffensive/server.cfg
+        run: curl -o config https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/CounterStrikeGlobalOffensive/server.cfg
 
       - name: Check details
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver detect-details server.cfg
