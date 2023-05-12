@@ -41,7 +41,7 @@ jobs:
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server developer
 
       - name: Download config
-        run: curl -o config https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/CounterStrikeGlobalOffensive/server.cfg
+        run: curl -o config https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${servercfgdefault}
 
       - name: Check details
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server detect-details
