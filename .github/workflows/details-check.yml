@@ -5,25 +5,43 @@ on:
   push:
 
 jobs:
-  # This workflow contains a single job called "build"
+  create-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate matrix with generate-matrix.sh
+        run: chmod +x .github/workflows/generate-matrix.sh; .github/workflows/generate-matrix.sh
+
+      - id: set-matrix
+        run: |
+          shortnamearray=$(cat shortnamearray.json)
+          echo "${shortnamearray}"
+          echo -n "matrix=${shortnamearray}" >> $GITHUB_OUTPUT
+
   details-check:
-    # The type of runner that the job will run on
+    needs: create-matrix
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    strategy:
+      matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
+
     steps:
       # Runs a single command using the runners shell
       - name: Download linuxgsm.sh
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/info_game-refactor/linuxgsm.sh; chmod +x linuxgsm.sh
 
       - name: Grab server
-        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./linuxgsm.sh csgoserver
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./linuxgsm.sh ${{ matrix.shortname }}server
 
       - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver developer
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server developer
 
       - name: Download config
         run: curl -o config https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/master/CounterStrikeGlobalOffensive/server.cfg
 
       - name: Check details
-        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./csgoserver detect-details server.cfg
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server detect-details
