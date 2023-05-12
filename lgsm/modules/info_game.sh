@@ -448,13 +448,10 @@ fn_info_game_kf() {
 	queryportgs="${queryportgs:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="${steammasterport:-"0"}"
 	steammasterport="28852"
-	steamport="${steamport:-"0"}"
-	steamport="20560"
+	steamworksport="20560"
 	webadminenabled="${webadminenabled:-"NOT SET"}"
 	webadminpass="${adminpassword}"
-	webadminpass="${webadminpass:-"NOT SET"}"
 	webadminuser="${webadminuser:-"NOT SET"}"
 }
 
@@ -1576,51 +1573,34 @@ fn_info_game_qw() {
 }
 
 fn_info_game_ro() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
-		port="${zero}"
-		queryport="${zero}"
-		steamport="${zero}"
-		steammasterport="${zero}"
-		lanport="${zero}"
-		httpport="${zero}"
-		webadminenabled="${unavailable}"
-		webadminuser="${unavailable}"
-		webadminpass="${unavailable}"
-	else
-		servername=$(sed -nr 's/^ServerName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		serverpassword=$(sed -nr 's/^GamePassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		adminpassword=$(sed -nr 's/^AdminPassword=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		port=$(sed -nr 's/^Port=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$((port + 1))
-		steamport="20610"
-		steammasterport="28902"
-		lanport=$(grep "LANServerPort=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		httpport=$(sed -nr 's/^ListenPort=(.*)$/\1/p' "${servercfgfullpath}" | tr -cd '[:digit:]')
-		webadminenabled=$(sed -nr 's/^bEnabled=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminuser=$(sed -nr 's/^AdminName=(.*)$/\1/p' "${servercfgfullpath}" | tr -d '=\";,:' | sed 's/\r$//')
-		webadminpass="${adminpassword}"
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		port=${port:-"0"}
-		queryport=${queryport:-"0"}
-		steamport=${steamport:-"0"}
-		steammasterport=${steammasterport:-"0"}
-		lanport=${lanport:-"0"}
-		httpport=${httpport:-"0"}
-		webadminenabled=${webadminenabled:-"NOT SET"}
-		webadminuser=${webadminuser:-"NOT SET"}
-		webadminpass=${webadminpass:-"NOT SET"}
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "lanport" "LANServerPort"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "queryportgs" "QueryPort"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "GamePassword"
+		fn_info_game_ini "webadminenabled" "bEnabled"
+		fn_info_game_ini "webadminpass" "WebAdminPassword"
+		fn_info_game_ini "webadminuser" "AdminName"
 	fi
-
-	# Parameters
-	defaultmap=${defaultmap:-"NOT SET"}
+	adminpassword="${adminpassword:-"NOT SET"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	httpport="${httpport:-"0"}"
+	lanport="${lanport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port + 1))"
+	queryportgs="${queryportgs:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	steamport="20610"
+	steammasterport="28902"
+	webadminenabled="${webadminenabled:-"NOT SET"}"
+	webadminpass="${adminpassword}"
+	webadminuser="${webadminuser:-"NOT SET"}"
 }
 
 # Config Type: QuakeC
