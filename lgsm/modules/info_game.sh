@@ -1437,6 +1437,8 @@ fn_info_game_pc() {
 		fn_info_game_pc_config "port" "hostPort"
 		fn_info_game_pc_config "queryport" "queryPort"
 		fn_info_game_pc_config "steamport" "steamPort"
+		fn_info_game_pc_config "webadminenabled" "enableHttpApi"
+		fn_info_game_pc_config "httpport" "httpApiPort"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
