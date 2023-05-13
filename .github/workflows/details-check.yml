@@ -48,7 +48,7 @@ jobs:
 
       - name: Download config
         run: |
-          curl -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-a-secret.outputs.servercfgname }}"
+          curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-a-secret.outputs.servercfgname }}"
 
       - name: Display config
         run: cat config
