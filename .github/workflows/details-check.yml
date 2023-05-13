@@ -41,15 +41,14 @@ jobs:
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server developer
 
       - id: sets-a-secret
-        name: Generate, mask, and output a secret
+        name: Generate servercfgname
         run: |
-          the_secret=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" lgsm/config-lgsm/${{ matrix.shortname }}server/_default.cfg)
-          echo "secret-number=$the_secret" >> "$GITHUB_OUTPUT"
+          servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" lgsm/config-lgsm/${{ matrix.shortname }}server/_default.cfg)
+          echo "servercfgname=$servercfg" >> "$GITHUB_OUTPUT"
 
       - name: Download config
         run: |
-          echo "the secret number is ${{ steps.sets-a-secret.outputs.secret-number }}"
-          curl -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-a-secret.outputs.secret-number }}"
+          curl -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-a-secret.outputs.servercfgname }}"
 
       - name: Display config
         run: cat config
