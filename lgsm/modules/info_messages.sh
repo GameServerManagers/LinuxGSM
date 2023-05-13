@@ -1197,7 +1197,7 @@ fn_info_message_pc() {
 		fn_port "API" apiport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"

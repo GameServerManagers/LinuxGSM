@@ -1431,16 +1431,19 @@ fn_info_game_onset() {
 # Filetype: cfg
 fn_info_game_pc() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_pc_config "servername" "name"
-		fn_info_game_pc_config "serverpassword" "password"
+		fn_info_game_pc_config "apiport" "httpApiPort"
+		fn_info_game_pc_config "httpenabled" "enableHttpApi"
+		fn_info_game_pc_config "httpport" "httpApiPort"
 		fn_info_game_pc_config "maxplayers" "maxPlayerCount"
 		fn_info_game_pc_config "port" "hostPort"
 		fn_info_game_pc_config "queryport" "queryPort"
+		fn_info_game_pc_config "servername" "name"
+		fn_info_game_pc_config "serverpassword" "password"
 		fn_info_game_pc_config "steamport" "steamPort"
-		fn_info_game_pc_config "httpenabled" "enableHttpApi"
-		fn_info_game_pc_config "httpport" "httpApiPort"
-		fn_info_game_pc_config "apiport" "httpApiPort"
 	fi
+	apiport="${apiport:-"0"}"
+	httpenabled="${httpenabled:-"0"}"
+	httpport="${httpport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
@@ -1451,13 +1454,19 @@ fn_info_game_pc() {
 
 fn_info_game_pc2() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_pc_config "servername" "name"
-		fn_info_game_pc_config "serverpassword" "password"
-		fn_info_game_pc_config "maxplayers" "MaxPlayers"
+		fn_info_game_pc_config "apiport" "httpApiPort"
+		fn_info_game_pc_config "httpenabled" "enableHttpApi"
+		fn_info_game_pc_config "httpport" "httpApiPort"
+		fn_info_game_pc_config "maxplayers" "maxPlayerCount"
 		fn_info_game_pc_config "port" "hostPort"
 		fn_info_game_pc_config "queryport" "queryPort"
+		fn_info_game_pc_config "servername" "name"
+		fn_info_game_pc_config "serverpassword" "password"
 		fn_info_game_pc_config "steamport" "steamPort"
 	fi
+	apiport="${apiport:-"0"}"
+	httpenabled="${httpenabled:-"0"}"
+	httpport="${httpport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
