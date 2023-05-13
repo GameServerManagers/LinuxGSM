@@ -1305,7 +1305,6 @@ fn_info_game_mc() {
 	rconport="${rconport:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
-
 }
 
 # Config Type: Java properties
@@ -1355,9 +1354,9 @@ fn_info_game_mohaa() {
 fn_info_game_mom() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_json "defaultmap" ".MapName"
-		fn_info_game_json "maxplayers" ".maxPlayers"
-		fn_info_game_json "servername" ".serverName"
-		fn_info_game_json "serverpassword" ".serverPassword"
+		fn_info_game_json "maxplayers" ".MaxPlayers"
+		fn_info_game_json "servername" ".ServerName"
+		fn_info_game_json "serverpassword" ".ServerPassword"
 	fi
 	beaconport="${beaconport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
