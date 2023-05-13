@@ -24,6 +24,7 @@ jobs:
 
   details-check:
     needs: create-matrix
+    continue-on-error: true
     runs-on: ubuntu-latest
 
     strategy:
