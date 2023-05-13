@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/serverlist.csv"
+curl "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/data/serverlist.csv" | grep -v '^[[:blank:]]*$' > serverlist.csv
 
 echo -n "{" > "shortnamearray.json"
 echo -n "\"include\":[" >> "shortnamearray.json"
