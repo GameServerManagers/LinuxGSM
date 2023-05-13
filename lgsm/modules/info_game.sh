@@ -209,7 +209,7 @@ fn_info_game_pc_config() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
 	configtype="pc_config"
 }
 
@@ -1433,7 +1433,7 @@ fn_info_game_pc() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_pc_config "servername" "name"
 		fn_info_game_pc_config "serverpassword" "password"
-		fn_info_game_pc_config "maxplayers" "MaxPlayers"
+		fn_info_game_pc_config "maxplayers" "maxPlayerCount"
 		fn_info_game_pc_config "port" "hostPort"
 		fn_info_game_pc_config "queryport" "queryPort"
 		fn_info_game_pc_config "steamport" "steamPort"
