@@ -166,7 +166,7 @@ fn_info_game_java_properties() {
 	if [ -n "${3}" ]; then
 		servercfgfullpath="${3}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
 	configtype="java"
 }
 
