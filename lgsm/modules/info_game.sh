@@ -1293,16 +1293,16 @@ fn_info_game_mc() {
 		fn_info_game_java_properties "servername" "motd"
 		fn_info_game_java_properties "worldname" "level-name"
 	fi
-	servername="${servername:-"NOT SET"}"
-	rconpassword="${rconpassword:-"NOT SET"}"
-	rconport="${rconport:-"NOT SET"}"
+	configip="${configip:-"0.0.0.0"}"
+	gamemode="${gamemode:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"NOT SET"}"
-	queryport="${queryport:-"NOT SET"}"
 	queryenabled="${queryenabled:-"NOT SET"}"
-	gamemode="${gamemode:-"NOT SET"}"
+	queryport="${queryport:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconport="${rconport:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
-	configip="${configip:-"0.0.0.0"}"
 	if [ -z "${queryport}" ]; then
 		queryport="${port}"
 	fi
@@ -1314,19 +1314,18 @@ fn_info_game_mc() {
 # Filetype: properties
 fn_info_game_mcb() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_java_properties "servername" "server-name"
+		fn_info_game_java_properties "gamemode" "gamemode"
 		fn_info_game_java_properties "maxplayers" "max-players"
 		fn_info_game_java_properties "port" "server-port"
 		fn_info_game_java_properties "portv6" "server-portv6"
-		fn_info_game_java_properties "gamemode" "gamemode"
+		fn_info_game_java_properties "servername" "server-name"
 		fn_info_game_java_properties "worldname" "level-name"
 	fi
-	servername="${servername:-"NOT SET"}"
-	maxplayers="${maxplayers:-"0"}"
-	queryport="${port}"
-	portipv6="${portipv6:-"NOT SET"}"
-	queryport="${queryport:-"NOT SET"}"
 	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	portipv6="${portipv6:-"NOT SET"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
 }
 
