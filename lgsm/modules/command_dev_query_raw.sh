@@ -82,8 +82,8 @@ echo -e "=================================================================="
 		echo -e "HTTP Query:"
 	fi
 
-	if [ -v webinterfaceport ]; then
-		echo -e "Web Interface: \t${webinterfaceport} \t$(ss -tupl | grep -c ${webinterfaceport}) \t$(ss -tupl | grep ${webinterfaceport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${webinterfaceport} | grep udp | awk '{ print $2 }')"
+	if [ -v httpport ]; then
+		echo -e "Web Interface: \t${httpport} \t$(ss -tupl | grep -c ${httpport}) \t$(ss -tupl | grep ${httpport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${httpport} | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "Web Interface:"
 	fi

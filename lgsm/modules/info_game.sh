@@ -435,8 +435,8 @@ fn_info_game_kf() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfacepass" "webinterfacePassword"
-		fn_info_game_ini "webinterfaceuser" "AdminName"
+		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -451,8 +451,8 @@ fn_info_game_kf() {
 	steammasterport="28852"
 	steamworksport="20560"
 	httpenabled="${httpenabled:-"NOT SET"}"
-	webinterfacepass="${adminpassword}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
+	httppassword="${adminpassword}"
+	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -468,7 +468,7 @@ fn_info_game_kf2() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfacepass" "webinterfacePassword"
+		fn_info_game_ini "httppassword" "httppasswordword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -478,8 +478,8 @@ fn_info_game_kf2() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"NOT SET"}"
-	webinterfacepass="${webinterfacepass:-"NOT SET"}"
-	webinterfaceuser="Admin"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpuser="Admin"
 }
 
 # Config Type: ini
@@ -697,9 +697,9 @@ fn_info_game_ut99() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfacepass" "AdminPassword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
-		fn_info_game_ini "webinterfaceuser" "AdminUserName"
+		fn_info_game_ini "httpuser" "AdminUserName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	beaconport="${beaconport:-"0"}"
@@ -711,8 +711,8 @@ fn_info_game_ut99() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
-	webinterfacepass="${webinterfacepass:-"NOT SET"}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -727,7 +727,7 @@ fn_info_game_ut3() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfacepass" "AdminPassword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
@@ -739,8 +739,8 @@ fn_info_game_ut3() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
-	webinterfacepass="${webinterfacepass:-"NOT SET"}"
-	webinterfaceuser="Admin"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpuser="Admin"
 }
 
 # Config Type: ini
@@ -757,7 +757,7 @@ fn_info_game_unreal2() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfaceuser" "AdminName"
+		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -768,8 +768,8 @@ fn_info_game_unreal2() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
-	webinterfacepass="${adminpassword:-"NOT SET"}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
+	httppassword="${adminpassword:-"NOT SET"}"
+	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -802,7 +802,7 @@ fn_info_game_ut2k4() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfaceuser" "AdminName"
+		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -814,8 +814,8 @@ fn_info_game_ut2k4() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
-	webinterfacepass="${adminpassword}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
+	httppassword="${adminpassword}"
+	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: json
@@ -1584,8 +1584,8 @@ fn_info_game_ro() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "webinterfacepass" "webinterfacePassword"
-		fn_info_game_ini "webinterfaceuser" "AdminName"
+		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1600,8 +1600,8 @@ fn_info_game_ro() {
 	steamport="20610"
 	steammasterport="28902"
 	httpenabled="${httpenabled:-"NOT SET"}"
-	webinterfacepass="${adminpassword}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
+	httppassword="${adminpassword}"
+	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: QuakeC
@@ -1824,7 +1824,7 @@ fn_info_game_sdtd() {
 		fn_info_game_xml "telnetpass" "ServerSettings/@TelnetPassword"
 		fn_info_game_xml "telnetport" "ServerSettings/@TelnetPort"
 		fn_info_game_xml "httpenabled" "ServerSettings/@ControlPanelEnabled"
-		fn_info_game_xml "webinterfacepass" "ServerSettings/@ControlPanelPassword"
+		fn_info_game_xml "httppassword" "ServerSettings/@ControlPanelPassword"
 		fn_info_game_xml "httpport" "ServerSettings/@ControlPanelPort"
 		fn_info_game_xml "worldname" "ServerSettings/@GameWorld"
 
@@ -1835,7 +1835,7 @@ fn_info_game_sdtd() {
 	queryport="${queryport:-"0"}"
 	httpenabled="${httpenabled:-"NOT SET"}"
 	httpport="${httpport:-"0"}"
-	webinterfacepass="${webinterfacepass:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
 	telnetenabled="${telnetenabled:-"NOT SET"}"
 	telnetport="${telnetport:-"0"}"
 	telnetpass="${telnetpass:-"NOT SET"}"
@@ -1934,8 +1934,8 @@ fn_info_game_spark() {
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	webinterfaceuser="${webinterfaceuser:-"NOT SET"}"
-	webinterfacepass="${webinterfacepass:-"NOT SET"}"
+	httpuser="${httpuser:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
 	httpport="${httpport:-"0"}"
 }
 
