@@ -1298,14 +1298,14 @@ fn_info_game_mc() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"NOT SET"}"
 	queryenabled="${queryenabled:-"NOT SET"}"
-	queryport="${queryport:-"NOT SET"}"
+	if [ -z "${queryport}" ]; then
+		queryport="${port}"
+	fi
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
-	if [ -z "${queryport}" ]; then
-		queryport="${port}"
-	fi
+
 }
 
 # Config Type: Java properties
