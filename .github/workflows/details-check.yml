@@ -31,8 +31,8 @@ jobs:
       matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
 
     steps:
-      - name: Install xmllint
-        run: sudo apt-get install libxml2-utils
+      - name: Install dependencies
+        run: sudo apt-get install libxml2-utils jq
 
       - name: Download linuxgsm.sh
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/info_game-refactor/linuxgsm.sh; chmod +x linuxgsm.sh

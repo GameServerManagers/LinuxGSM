@@ -398,9 +398,9 @@ fn_info_game_dst() {
 		fn_info_game_ini "configip" "bind_ip" "${clustercfgfullpath}"
 	fi
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "port" "server_port" "${clustercfgfullpath}"
-		fn_info_game_ini "steamauthport" "authentication_port" "${clustercfgfullpath}"
-		fn_info_game_ini "steammasterport" "master_server_port" "${servercfgfullpath}"
+		fn_info_game_ini "port" "server_port"
+		fn_info_game_ini "steamauthport" "authentication_port"
+		fn_info_game_ini "steammasterport" "master_server_port"
 	fi
 	cave="${cave:-"NOT SET"}"
 	cluster="${cluster:-"NOT SET"}"

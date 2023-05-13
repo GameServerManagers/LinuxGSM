@@ -8,6 +8,9 @@
 if [ -f "config" ]; then
 	servercfgfullpath="config"
 fi
+if [ -f "clusterconfig" ]; then
+	clustercfgfullpath="clusterconfig"
+fi
 
 info_game.sh
 
