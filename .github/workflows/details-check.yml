@@ -31,7 +31,9 @@ jobs:
       matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
 
     steps:
-      # Runs a single command using the runners shell
+      - name: Install xmllint
+        run: sudo apt-get install libxml2-utils
+
       - name: Download linuxgsm.sh
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/feature/info_game-refactor/linuxgsm.sh; chmod +x linuxgsm.sh
 
@@ -41,7 +43,7 @@ jobs:
       - name: Enable developer mode
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server developer
 
-      - id: sets-a-secret
+      - id: sets-servercfgname
         name: Generate servercfgname
         run: |
           servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" lgsm/config-lgsm/${{ matrix.shortname }}server/_default.cfg)
@@ -49,10 +51,13 @@ jobs:
 
       - name: Download config
         run: |
-          curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-a-secret.outputs.servercfgname }}"
+          curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
 
       - name: Display config
         run: cat config
+
+      - name: Display parameters
+        run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
 
       - name: Check details
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server detect-details
