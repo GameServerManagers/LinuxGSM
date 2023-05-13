@@ -1439,7 +1439,7 @@ fn_info_game_pc() {
 		fn_info_game_pc_config "steamport" "steamPort"
 		fn_info_game_pc_config "httpenabled" "enableHttpApi"
 		fn_info_game_pc_config "httpport" "httpApiPort"
-		fn_info_game_pc_config "apiport" "apiPort"
+		fn_info_game_pc_config "apiport" "httpApiPort"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
