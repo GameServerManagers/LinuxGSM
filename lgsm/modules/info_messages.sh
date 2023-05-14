@@ -809,7 +809,7 @@ fn_info_message_arma3() {
 		fn_port "Game" port udp
 		fn_port "Voice" voiceport udp
 		fn_port "Query" queryport udp
-		fn_port "Steam Master Server" steammasterport udp
+		fn_port "Steam" steamport udp
 		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
@@ -829,7 +829,7 @@ fn_info_message_av() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam Master Server" steammasterport udp
+		fn_port "Steam" steamport udp
 		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
@@ -968,7 +968,7 @@ fn_info_message_dayz() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query Steam" queryport udp
-		fn_port "Steam Master Server" steammasterport udp
+		fn_port "Steam" steamport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
@@ -986,8 +986,9 @@ fn_info_message_dst() {
 		fn_port "header"
 		fn_port "Game: Server" port udp
 		fn_port "Game: Master" masterport udp
+		fn_port "Steam" steamport udp
 		fn_port "Steam: Auth" steamauthport udp
-		fn_port "Steam: Master Server" steammasterport udp
+
 	} | column -s $'\t' -t
 }
 
@@ -1085,7 +1086,7 @@ fn_info_message_kf() {
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 		fn_port "Steamworks P2P" steamworksport udp
-		fn_port "Steam Master Server" steammasterport udp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Interface${default}"
@@ -1286,7 +1287,7 @@ fn_info_message_ro() {
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 		fn_port "Steamworks P2P" steamworksport udp
-		fn_port "Steam Master Server" steammasterport udp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${servername} Web Interface${default}"

@@ -295,7 +295,7 @@ fn_info_game_arma3() {
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="$((port + 2))"
+	steamport="$((port + 2))"
 	voiceport="${port:-"0"}"
 	voiceunusedport="$((port + 3))"
 }
@@ -328,7 +328,7 @@ fn_info_game_av() {
 	queryport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="$((port + 21))"
+	steamport="$((port + 21))"
 	steamworksport="$((port + 20))"
 }
 
@@ -413,7 +413,7 @@ fn_info_game_dst() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "port" "server_port"
 		fn_info_game_ini "steamauthport" "authentication_port"
-		fn_info_game_ini "steammasterport" "master_server_port"
+		fn_info_game_ini "steamport" "master_server_port"
 	fi
 	if [ -f "${clustercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "max_players" "${clustercfgfullpath}"
@@ -438,7 +438,7 @@ fn_info_game_dst() {
 	shard="${shard:-"NOT SET"}"
 	sharding="${sharding:-"NOT SET"}"
 	steamauthport="${steamauthport:-"0"}"
-	steammasterport="${steammasterport:-"0"}"
+	steamport="${steamport:-"0"}"
 	tickrate="${tickrate:-"0"}"
 }
 
@@ -450,20 +450,23 @@ fn_info_game_dst() {
 fn_info_game_kf() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httppassword" "httppasswordword"
 		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
 		fn_info_game_ini "queryportgs" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
-		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
+	httpenabled="${httpenabled:-"NOT SET"}"
+	httppassword="${adminpassword}"
 	httpport="${httpport:-"0"}"
+	httpuser="${httpuser:-"NOT SET"}"
 	lanport="${lanport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -471,11 +474,8 @@ fn_info_game_kf() {
 	queryportgs="${queryportgs:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="28852"
+	steamport="28852"
 	steamworksport="20560"
-	httpenabled="${httpenabled:-"NOT SET"}"
-	httppassword="${adminpassword}"
-	httpuser="${httpuser:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -1105,7 +1105,7 @@ fn_info_game_dayz() {
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steammasterport="$((port + 2))"
+	steamport="$((port + 2))"
 }
 
 # Config Type: json
@@ -1608,20 +1608,23 @@ fn_info_game_qw() {
 fn_info_game_ro() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httppassword" "httppasswordword"
 		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
 		fn_info_game_ini "queryportgs" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
-		fn_info_game_ini "httpuser" "AdminName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
+	httpenabled="${httpenabled:-"NOT SET"}"
+	httppassword="${adminpassword}"
 	httpport="${httpport:-"0"}"
+	httpuser="${httpuser:-"NOT SET"}"
 	lanport="${lanport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -1629,11 +1632,8 @@ fn_info_game_ro() {
 	queryportgs="${queryportgs:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="20610"
-	steammasterport="28902"
-	httpenabled="${httpenabled:-"NOT SET"}"
-	httppassword="${adminpassword}"
-	httpuser="${httpuser:-"NOT SET"}"
+	steamport="28902"
+	steamworksport="20610"
 }
 
 # Config Type: QuakeC

@@ -118,23 +118,18 @@ echo -e "=================================================================="
 		echo -e "Steam:"
 	fi
 
+	if [ -v steamworksport ]; then
+		echo -e "Steamworks P2P: \t${steamworksport} \t$(ss -tupl | grep -c ${steamworksport}) \t$(ss -tupl | grep ${steamworksport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${steamworksport} | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "Steamworks P2P:"
+	fi
+
 	if [ -v steamauthport ]; then
 		echo -e "Steam: Auth: \t${steamauthport} \t$(ss -tupl | grep -c ${steamauthport}) \t$(ss -tupl | grep ${steamauthport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${steamauthport} | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "Steam: Auth:"
 	fi
 
-	if [ -v steammasterport ]; then
-		echo -e "Steam: Master: \t${steammasterport} \t$(ss -tupl | grep -c ${steammasterport}) \t$(ss -tupl | grep ${steammasterport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${steammasterport} | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Steam: Master:"
-	fi
-
-	if [ -v steamqueryport ]; then
-		echo -e "Steam: Query: \t${steamqueryport} \t$(ss -tupl | grep -c ${steamqueryport}) \t$(ss -tupl | grep ${steamqueryport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${steamqueryport} | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Steam: Query:"
-	fi
 	if [ -v beaconport ]; then
 		echo -e "Beacon: \t${beaconport} \t$(ss -tupl | grep -c ${beaconport}) \t$(ss -tupl | grep ${beaconport} | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${beaconport} | grep udp | awk '{ print $2 }')"
 	else
