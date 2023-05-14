@@ -593,6 +593,12 @@ fn_info_message_script() {
 		if [ -n "${networkcfgfullpath}" ]; then
 			echo -e "${lightblue}Network config file:\t${default}${networkcfgfullpath}"
 		fi
+
+		# Cluster config file location (DST)
+		if [ -n "${clustercfgfullpath}" ]; then
+			echo -e "${lightblue}Cluster config file:\t${default}${clustercfgfullpath}"
+		fi
+
 	} | column -s $'\t' -t
 }
 

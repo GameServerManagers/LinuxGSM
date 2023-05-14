@@ -388,6 +388,11 @@ fn_info_game_dodr() {
 # Example: cluster_name = SERVERNAME
 # Filetype: ini
 fn_info_game_dst() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "port" "server_port"
+		fn_info_game_ini "steamauthport" "authentication_port"
+		fn_info_game_ini "steammasterport" "master_server_port"
+	fi
 	if [ -f "${clustercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "max_players" "${clustercfgfullpath}"
 		fn_info_game_ini "servername" "cluster_name" "${clustercfgfullpath}"
@@ -397,11 +402,7 @@ fn_info_game_dst() {
 		fn_info_game_ini "gamemode" "game_mode" "${clustercfgfullpath}"
 		fn_info_game_ini "configip" "bind_ip" "${clustercfgfullpath}"
 	fi
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "port" "server_port"
-		fn_info_game_ini "steamauthport" "authentication_port"
-		fn_info_game_ini "steammasterport" "master_server_port"
-	fi
+
 	cave="${cave:-"NOT SET"}"
 	cluster="${cluster:-"NOT SET"}"
 	configip="${configip:-"0.0.0.0"}"
