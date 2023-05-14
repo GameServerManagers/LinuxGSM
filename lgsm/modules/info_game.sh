@@ -319,16 +319,17 @@ fn_info_game_av() {
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	# queryport is port + 3
-	# this doesnt respond to any queries, using tcp query on port instead.
-	queryport="${port:-"0"}"
+
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
+	# queryport is port + 3
+	# this doesnt respond to any queries, using tcp query on rconport instead.
+	queryport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steammasterport="$((port + 21))"
-	steamqueryport="$((port + 20))"
+	steamworksport="$((port + 20))"
 }
 
 # Config Type: ini unknown (Source?)
