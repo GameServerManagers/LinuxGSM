@@ -59,5 +59,8 @@ jobs:
       - name: Display parameters
         run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
 
-      - name: Check details
+      - name: Detect details
         run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server detect-details
+
+      - name: Query Raw
+        run: LGSM_GITHUBBRANCH="feature/info_game-refactor" ./${{ matrix.shortname }}server query-raw
