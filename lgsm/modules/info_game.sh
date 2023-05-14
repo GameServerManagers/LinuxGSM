@@ -26,9 +26,11 @@ fn_info_game_ini() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="ini"
 }
 
@@ -50,9 +52,11 @@ fn_info_game_keyvalue_pairs() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="keyvalue_pairs"
 }
 
@@ -73,9 +77,11 @@ fn_info_game_quakec() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="quakec"
 }
 
@@ -83,7 +89,9 @@ fn_info_game_quakec() {
 # Comment: // or /* */
 fn_info_game_json() {
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
 	eval "${1}=\"$(jq -r "${2}" "${servercfgfullpath}")\""
 	configtype="json"
@@ -107,9 +115,11 @@ fn_info_game_sqf() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="sqf"
 }
 
@@ -117,9 +127,11 @@ fn_info_game_sqf() {
 # Comment: <!-- -->
 fn_info_game_xml() {
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgfullpath}")"
+	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgparse}")"
 	configtype="xml"
 }
 
@@ -141,9 +153,11 @@ fn_info_game_valve_keyvalues() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="valve_keyvalues"
 }
 
@@ -164,9 +178,11 @@ fn_info_game_java_properties() {
 	#   - q: Quits processing after modifying and printing the line.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="java"
 }
 
@@ -185,9 +201,11 @@ fn_info_game_lua() {
 	#   - 'q' quits processing after printing the modified pattern space.
 
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="lua"
 }
 
@@ -206,10 +224,13 @@ fn_info_game_pc_config() {
 	#     - /1: Replaces the entire matched pattern with the captured value.
 	#   - p: Prints the modified line.
 	#   - q: Quits processing after modifying and printing the line.
+
 	if [ -n "${3}" ]; then
-		servercfgfullpath="${3}"
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgfullpath}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="pc_config"
 }
 
