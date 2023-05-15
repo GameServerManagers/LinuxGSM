@@ -66,7 +66,7 @@ mcb
 mh
 mohaa,libstdc++5:i386
 mom
-mta,libncursesw5
+mta,libncursesw5,libxml2-utils
 nd
 nec
 nmrih,libtinfo5:i386
