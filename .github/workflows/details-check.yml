@@ -57,7 +57,12 @@ jobs:
             curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
           fi
       - name: Display config
-        run: cat config
+        run: |
+          if [ -z "${{ steps.sets-servercfgname.outputs.servercfgname }}" ]; then
+            echo "This game server has no config file."
+          else
+            cat config
+          fi
 
       - name: Display parameters
         run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
