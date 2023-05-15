@@ -1799,7 +1799,7 @@ fn_info_game_sbots() {
 # Example: server_name: SERVERNAME
 # Filetype: txt
 fn_info_game_scpsl() {
-	if [ -f ${servercfgfullpath} ]; then
+	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_pc_config "adminpassword" "administrator_query_password"
 		fn_info_game_pc_config "configip" "ipv4_bind_ip"
 		fn_info_game_pc_config "maxplayers" "max_players"
