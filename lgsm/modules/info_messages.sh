@@ -988,7 +988,6 @@ fn_info_message_dst() {
 		fn_port "Game: Master" masterport udp
 		fn_port "Steam" steamport udp
 		fn_port "Steam: Auth" steamauthport udp
-
 	} | column -s $'\t' -t
 }
 

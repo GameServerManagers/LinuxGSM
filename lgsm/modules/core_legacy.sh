@@ -31,6 +31,14 @@ if [ -n "${webadminip}" ]; then
 	httpip="${webadminip}"
 fi
 
+if [ -n "${gameworld}" ]; then
+	worldname="${gameworld}"
+fi
+
+if [ -n "${autosaveinterval}" ]; then
+	saveinterval="${autosaveinterval}"
+fi
+
 if [ -z "${serverfiles}" ]; then
 	serverfiles="${filesdir}"
 fi
