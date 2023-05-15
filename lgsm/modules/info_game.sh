@@ -1765,14 +1765,14 @@ fn_info_game_samp() {
 # Comment: // or /* */
 fn_info_game_sb() {
 	if [ ! -f "${servercfgfullpath}" ]; then
-		fn_info_config_json "maxplayers" "maxPlayers"
-		fn_info_config_json "port" "gameServerPort"
-		fn_info_config_json "queryenabled" "runQueryServer"
-		fn_info_config_json "queryport" "queryServerPort"
-		fn_info_config_json "rconenabled" "runRconServer"
-		fn_info_config_json "rconpassword" "rconServerPassword"
-		fn_info_config_json "rconport" "rconServerPort"
-		fn_info_config_json "servername" "serverName"
+		fn_info_game_json "maxplayers" "maxPlayers"
+		fn_info_game_json "port" "gameServerPort"
+		fn_info_game_json "queryenabled" "runQueryServer"
+		fn_info_game_json "queryport" "queryServerPort"
+		fn_info_game_json "rconenabled" "runRconServer"
+		fn_info_game_json "rconpassword" "rconServerPassword"
+		fn_info_game_json "rconport" "rconServerPort"
+		fn_info_game_json "servername" "serverName"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
