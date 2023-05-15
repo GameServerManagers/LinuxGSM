@@ -5,7 +5,7 @@ curl "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/lgsm/
 echo -n "{" > "shortnamearray.json"
 echo -n "\"include\":[" >> "shortnamearray.json"
 
-while read line; do
+while read -r line; do
 	shortname=$(echo "$line" | awk -F, '{ print $1 }')
 	export shortname
 	servername=$(echo "$line" | awk -F, '{ print $2 }')
