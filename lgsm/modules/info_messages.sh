@@ -1531,26 +1531,6 @@ fn_info_message_tu() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_unreal() {
-	fn_info_message_password_strip
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "LAN Beacon" beaconport udp
-		fn_port "Web Interface" httpport tcp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
-		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
-		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
-		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_ut2k4() {
 	{
 		fn_port "header"
@@ -1572,7 +1552,6 @@ fn_info_message_ut2k4() {
 }
 
 fn_info_message_unreal() {
-	fn_info_message_password_strip
 	{
 		fn_port "header"
 		fn_port "Game" port udp

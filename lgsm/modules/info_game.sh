@@ -1760,60 +1760,38 @@ fn_info_game_samp() {
 	fi
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: // or /* */
 fn_info_game_sb() {
-	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		queryenabled="${unavailable}"
-		rconenabled="${unavailable}"
-		rconpassword="${unavailable}"
-		port="21025"
-		queryport="21025"
-		rconport="21026"
-		maxplayers="8"
-	else
-		servername=$(grep "serverName" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/serverName//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		queryenabled=$(grep "runQueryServer" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/runQueryServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconenabled=$(grep "runRconServer" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/runRconServer//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "rconServerPassword" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e 's/rconServerPassword//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		port=$(grep "gameServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		queryport=$(grep "queryServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		rconport=$(grep "rconServerPort" "${servercfgfullpath}" | tr -cd '[:digit:]')
-		maxplayers=$(grep "maxPlayers" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		queryenabled=${queryenabled:-"NOT SET"}
-		rconenabled=${rconenabled:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		port=${port:-"21025"}
-		queryport=${queryport:-"21025"}
-		rconport=${rconport:-"21026"}
-		maxplayers=${maxplayers:-"8"}
+		fn_info_config_json "maxplayers" "maxPlayers"
+		fn_info_config_json "port" "gameServerPort"
+		fn_info_config_json "queryenabled" "runQueryServer"
+		fn_info_config_json "queryport" "queryServerPort"
+		fn_info_config_json "rconenabled" "runRconServer"
+		fn_info_config_json "rconpassword" "rconServerPassword"
+		fn_info_config_json "rconport" "rconServerPort"
+		fn_info_config_json "servername" "serverName"
 	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryenabled="${queryenabled:-"NOT SET"}"
+	queryport="${queryport:-"0"}"
+	rconenabled="${rconenabled:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconport="${rconport:-"0"}"
+	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: Parameters
 fn_info_game_sbots() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		maxplayers="${unavailable}"
-	else
-		servername=$(grep "ServerName=" "${servercfgfullpath}" | sed -e 's/^[ \t]//g' -e '/^#/d' -e 's/ServerName//g' | tr -d '=";,:' | sed -e 's/^[ \t]//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MaxPlayers=" "${servercfgfullpath}" | tr -cd '[:digit:]')
-
-		# Not set
-		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-	fi
-
-	# Parameters
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-	servername=${servername:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	defaultmap=${defaultmap:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: custom (possibly YAML)
@@ -1821,24 +1799,20 @@ fn_info_game_sbots() {
 # Example: server_name: SERVERNAME
 # Filetype: txt
 fn_info_game_scpsl() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername=${servername:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		configip=${configip:-"0.0.0.0"}
-		tickrate=${tickrate:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-	else
-		servername=$(sed -nr 's/^server_name: (.*)$/\1/p' "${servercfgfullpath}")
-		maxplayers=$(sed -nr 's/^max_players: (.*)$/\1/p' "${servercfgfullpath}")
-		configip=$(sed -nr 's/^ipv4_bind_ip: (.*)$/\1/p' "${servercfgfullpath}")
-		tickrate=$(sed -nr 's/^server_tickrate: (.*)$/\1/p' "${servercfgfullpath}")
-		adminpassword=$(sed -nr 's/^administrator_query_password: (.*)$/\1/p' "${servercfgfullpath}")
+	if [ -f ${servercfgfullpath} ]; then
+		fn_info_game_pc_config "adminpassword" "administrator_query_password"
+		fn_info_game_pc_config "configip" "ipv4_bind_ip"
+		fn_info_game_pc_config "maxplayers" "max_players"
+		fn_info_game_pc_config "servername" "server_name"
+		fn_info_game_pc_config "tickrate" "server_tickrate"
 	fi
-
-	# Parameters
-	port=${port:-"0"}
-	queryport=${port}
+	adminpassword="${adminpassword:-"NOT SET"}"
+	configip="${configip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+	tickrate="${tickrate:-"NOT SET"}"
 }
 
 # Config Type: xml
