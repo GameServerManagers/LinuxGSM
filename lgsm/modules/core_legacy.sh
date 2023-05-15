@@ -15,6 +15,22 @@ for legacy_version in "${legacy_versions_array[@]}"; do
 	fi
 done
 
+if [ -n "${webadminuser}" ]; then
+	httpuser="${webadminuser}"
+fi
+
+if [ -n "${webadminpass}" ]; then
+	httppassword="${webadminpass}"
+fi
+
+if [ -n "${webadminport}" ]; then
+	httpport="${webadminport}"
+fi
+
+if [ -n "${webadminip}" ]; then
+	httpip="${webadminip}"
+fi
+
 if [ -z "${serverfiles}" ]; then
 	serverfiles="${filesdir}"
 fi
