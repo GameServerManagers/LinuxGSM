@@ -653,12 +653,18 @@ fn_info_game_stn() {
 # Filetype: ini
 fn_info_game_ti() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayerCount"
+		fn_info_game_ini "queueenabled" "QueueEnabled"
+		fn_info_game_ini "queueport" "QueuePort"
+		fn_info_game_ini "rconenabled" "RconEnabled"
+		fn_info_game_ini "rconport" "RconPort"
+		fn_info_game_ini "servername" "ServerName"
 	fi
 	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
+	queueenabled="${queueenabled:-"NOT SET"}"
+	queueport="${queueport:-"0"}"
+	rconenabled="${rconenabled:-"NOT SET"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 }
 
