@@ -51,23 +51,62 @@ echo -e "=================================================================="
 			echo -e "Game+3:"
 		fi
 	fi
-
-	if [ -v port401 ]; then
-		echo -e "Game+400: \t${port401} \t$(ss -tupl | grep -c "${port401}") \t$(ss -tupl | grep "${port401}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port401}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Game+400:"
+	if [ "${shortname}" == "pvr" ]; then
+		if [ -v port401 ]; then
+			echo -e "Game+400: \t${port401} \t$(ss -tupl | grep -c "${port401}") \t$(ss -tupl | grep "${port401}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port401}" | grep udp | awk '{ print $2 }')"
+		else
+			echo -e "Game+400:"
+		fi
 	fi
 
-	if [ -v portipv6 ]; then
-		echo -e "Game ipv6: \t${portipv6} \t$(ss -tupl | grep -c "${portipv6}") \t$(ss -tupl | grep "${portipv6}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${portipv6}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Game ipv6:"
+	if [ "${shortname}" == "mcb" ]; then
+		if [ -v portipv6 ]; then
+			echo -e "Game ipv6: \t${portipv6} \t$(ss -tupl | grep -c "${portipv6}") \t$(ss -tupl | grep "${portipv6}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${portipv6}" | grep udp | awk '{ print $2 }')"
+		else
+			echo -e "Game ipv6:"
+		fi
 	fi
 
 	if [ -v queryport ]; then
 		echo -e "Query: \t${queryport} \t$(ss -tupl | grep -c "${queryport}") \t$(ss -tupl | grep "${queryport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${queryport}" | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "Query:"
+	fi
+
+	if [ -v apiport ]; then
+		echo -e "Game: \t${apiport} \t$(ss -tupl | grep -c "${apiport}") \t$(ss -tupl | grep "${apiport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${apiport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "API:"
+	fi
+
+	if [ -v appport ]; then
+		echo -e "App: \t${appport} \t$(ss -tupl | grep -c "${appport}") \t$(ss -tupl | grep "${appport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${appport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "App:"
+	fi
+
+	if [ -v battleeyeport ]; then
+		echo -e "BattleEye: \t${battleeyeport} \t$(ss -tupl | grep -c "${battleeyeport}") \t$(ss -tupl | grep "${battleeyeport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${battleeyeport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "BattleEye:"
+	fi
+
+	if [ -v beaconport ]; then
+		echo -e "Beacon: \t${beaconport} \t$(ss -tupl | grep -c "${beaconport}") \t$(ss -tupl | grep "${beaconport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${beaconport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "Beacon:"
+	fi
+
+	if [ -v clientport ]; then
+		echo -e "Client: \t${clientport} \t$(ss -tupl | grep -c "${clientport}") \t$(ss -tupl | grep "${clientport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${clientport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "Client:"
+	fi
+
+	if [ -v fileport ]; then
+		echo -e "File: \t${fileport} \t$(ss -tupl | grep -c "${fileport}") \t$(ss -tupl | grep "${fileport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${fileport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "File:"
 	fi
 
 	if [ -v httpport ]; then
@@ -88,16 +127,10 @@ echo -e "=================================================================="
 		echo -e "Web Interface:"
 	fi
 
-	if [ -v clientport ]; then
-		echo -e "Client: \t${clientport} \t$(ss -tupl | grep -c "${clientport}") \t$(ss -tupl | grep "${clientport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${clientport}" | grep udp | awk '{ print $2 }')"
+	if [ -v masterport ]; then
+		echo -e "Game: Master: \t${masterport} \t$(ss -tupl | grep -c "${masterport}") \t$(ss -tupl | grep "${masterport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${masterport}" | grep udp | awk '{ print $2 }')"
 	else
-		echo -e "Client:"
-	fi
-
-	if [ -v rconport ]; then
-		echo -e "RCON: \t${rconport} \t$(ss -tupl | grep -c "${rconport}") \t$(ss -tupl | grep "${rconport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${rconport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "RCON:"
+		echo -e "Game: Master:"
 	fi
 
 	if [ -v rawport ]; then
@@ -106,10 +139,10 @@ echo -e "=================================================================="
 		echo -e "RAW UDP Socket:"
 	fi
 
-	if [ -v masterport ]; then
-		echo -e "Game: Master: \t${masterport} \t$(ss -tupl | grep -c "${masterport}") \t$(ss -tupl | grep "${masterport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${masterport}" | grep udp | awk '{ print $2 }')"
+	if [ -v rconport ]; then
+		echo -e "RCON: \t${rconport} \t$(ss -tupl | grep -c "${rconport}") \t$(ss -tupl | grep "${rconport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${rconport}" | grep udp | awk '{ print $2 }')"
 	else
-		echo -e "Game: Master:"
+		echo -e "RCON:"
 	fi
 
 	if [ -v steamport ]; then
@@ -130,34 +163,22 @@ echo -e "=================================================================="
 		echo -e "Steam: Auth:"
 	fi
 
-	if [ -v beaconport ]; then
-		echo -e "Beacon: \t${beaconport} \t$(ss -tupl | grep -c "${beaconport}") \t$(ss -tupl | grep "${beaconport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${beaconport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Beacon:"
-	fi
-
-	if [ -v appport ]; then
-		echo -e "App: \t${appport} \t$(ss -tupl | grep -c "${appport}") \t$(ss -tupl | grep "${appport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${appport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "App:"
-	fi
-
 	if [ -v telnetport ]; then
 		echo -e "Telnet: \t${telnetport} \t$(ss -tupl | grep -c "${telnetport}") \t$(ss -tupl | grep "${telnetport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${telnetport}" | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "Telnet:"
 	fi
 
+	if [ -v statsport ]; then
+		echo -e "Stats: \t${battleeyeport} \t$(ss -tupl | grep -c "${statsport}") \t$(ss -tupl | grep "${statsport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${statsport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "Stats:"
+	fi
+
 	if [ -v sourcetvport ]; then
 		echo -e "SourceTV: \t${sourcetvport} \t$(ss -tupl | grep -c "${sourcetvport}") \t$(ss -tupl | grep "${sourcetvport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${sourcetvport}" | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "SourceTV:"
-	fi
-
-	if [ -v fileport ]; then
-		echo -e "File: \t${fileport} \t$(ss -tupl | grep -c "${fileport}") \t$(ss -tupl | grep "${fileport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${fileport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "File:"
 	fi
 
 	if [ -v udplinkport ]; then
@@ -178,19 +199,8 @@ echo -e "=================================================================="
 		echo -e "Voice (Unused):"
 	fi
 
-	if [ -v battleeyeport ]; then
-		echo -e "BattleEye: \t${battleeyeport} \t$(ss -tupl | grep -c "${battleeyeport}") \t$(ss -tupl | grep "${battleeyeport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${battleeyeport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "BattleEye:"
-	fi
-
-	if [ -v statsport ]; then
-		echo -e "Stats: \t${battleeyeport} \t$(ss -tupl | grep -c "${statsport}") \t$(ss -tupl | grep "${statsport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${statsport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Stats:"
-	fi
-
-} | column -s $'\t' -t
+} \
+	| column -s $'\t' -t
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
 echo -e "================================="
