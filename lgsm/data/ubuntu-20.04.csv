@@ -68,7 +68,7 @@ mcb
 mh
 mohaa,libstdc++5:i386
 mom
-mta,libncursesw5
+mta,libncursesw5,libxml2-utils
 nd
 nec
 nmrih,libtinfo5:i386
@@ -97,7 +97,7 @@ sb
 sbots
 scpsl,mono-complete
 scpslsm,mono-complete
-sdtd,telnet,expect
+sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
 sof2

@@ -39,25 +39,25 @@ function fn_is_valid_ip() {
 # If the IP variable has been set by user.
 if fn_is_valid_ip "${ip}"; then
 	queryips=("${ip}")
-	webadminip=("${ip}")
+	httpip=("${ip}")
 	telnetip=("${ip}")
 # If game config does have an IP set.
 elif fn_is_valid_ip "${configip}"; then
 	queryips=("${configip}")
 	ip="${configip}"
-	webadminip=("${configip}")
+	httpip=("${configip}")
 	telnetip=("${configip}")
 # If there is only 1 server IP address.
 # Some IP details can automaticly use the one IP
 elif [ "${#current_ips[@]}" == "1" ]; then
 	queryips=("127.0.0.1" "${current_ips[@]}")
 	ip="0.0.0.0"
-	webadminip=("${current_ips[@]}")
+	httpip=("${current_ips[@]}")
 	telnetip=("${current_ips[@]}")
 # If no ip is set by the user and server has more than one IP.
 else
 	queryips=("127.0.0.1" "${current_ips[@]}")
 	ip="0.0.0.0"
-	webadminip=("${ip}")
+	httpip=("${ip}")
 	telnetip=("${ip}")
 fi
