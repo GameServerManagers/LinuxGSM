@@ -77,7 +77,7 @@ echo -e "=================================================================="
 	fi
 
 	if [ -v httpqueryport ]; then
-		echo -e "HTTP Query: \t${httpqueryport} \t$(ss -tupl | grep -c "${httpqueryport}") \t$(ss -tupl | grep" ${httpqueryport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep ${httpqueryport} | grep udp | awk '{ print $2 }')"
+		echo -e "HTTP Query: \t${httpqueryport} \t$(ss -tupl | grep -c "${httpqueryport}") \t$(ss -tupl | grep" ${httpqueryport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${httpqueryport}" | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "HTTP Query:"
 	fi
