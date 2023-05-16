@@ -34,6 +34,7 @@ body:
         - Ubuntu 20.04
         - Ubuntu 18.04
         - Ubuntu 16.04
+        - Debian 12
         - Debian 11
         - Debian 10
         - Debian 9
