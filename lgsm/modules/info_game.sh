@@ -2383,14 +2383,15 @@ if [ -z "${displaymasterserver}" ]; then
 	if [ "$(command -v jq 2> /dev/null)" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
-				# Will query server IP addresses first.
-				for queryip in "${queryips[@]}"; do
-					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
-				done
-				# Should that not work it will try the external IP.
+				# Query external IP first as most liky to succeed.
 				if [ "${masterserver}" == "0" ]; then
 					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 				fi
+				# Loop though server IP addresses if external IP fails.
+				for queryip in "${queryips[@]}"; do
+					masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+				done
+
 				if [ "${masterserver}" == "0" ]; then
 					displaymasterserver="false"
 				else
