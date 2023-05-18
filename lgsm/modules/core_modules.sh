@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.2.0"
+modulesversion="v23.2.3"
 
 # Core
 
@@ -295,6 +295,11 @@ command_dev_clear_modules.sh() {
 }
 
 command_dev_debug.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

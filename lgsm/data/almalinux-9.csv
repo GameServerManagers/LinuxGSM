@@ -68,7 +68,7 @@ mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
 mom
-mta,ncurses-compat-libs
+mta,ncurses-compat-libs,libxml2
 nd
 nec
 nmrih,ncurses-libs.i686
@@ -97,7 +97,7 @@ sb
 sbots
 scpsl
 scpslsm
-sdtd,telnet,expect
+sdtd,telnet,expect,libxml2
 sf
 sfc,ncurses-libs.i686
 sof2

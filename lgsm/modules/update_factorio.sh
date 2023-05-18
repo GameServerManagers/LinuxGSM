@@ -8,7 +8,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
+	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
 	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz" "${serverfiles}" "factorio"
 	fn_clear_tmp
@@ -18,7 +18,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
-	if [ -d "${exutabledir}" ]; then
+	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
 		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
 	fi
