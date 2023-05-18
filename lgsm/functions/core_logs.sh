@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Acts as a log rotator, removing old logs.
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if logfile variable and file exist, create logfile if it doesn't exist.
 if [ "${consolelog}" ]; then
