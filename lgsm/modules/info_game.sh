@@ -1201,7 +1201,8 @@ fn_info_game_hw() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
-	defaultmap="${defaultmap:-"NOT SET"}"
+  	# #4189 option setting can be blank
+	# defaultmap="${defaultmap:-"NOT SET"}"
 	creativemode="${creativemode:-"NOT SET"}"
 }
 
@@ -2385,7 +2386,6 @@ if [ -z "${displaymasterserver}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Query external IP first as most liky to succeed.
 				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
-
 				if [ "${masterserver}" == "0" ]; then
 					# Loop though server IP addresses if external IP fails.
 					for queryip in "${queryips[@]}"; do
