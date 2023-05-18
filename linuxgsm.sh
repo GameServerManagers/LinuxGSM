@@ -81,7 +81,7 @@ fn_repo_selector() {
 	fi
 
 	if [ "${branchexistscheck}" != "200" ]; then
-		echo -e "${githubbranch} branch does not exist. Defaulting to master branch."
+		echo -e "Warning! ${githubbranch} branch does not exist. Defaulting to master branch."
 		githubbranch="master"
 	fi
 }
