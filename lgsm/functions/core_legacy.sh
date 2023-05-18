@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Code for backwards compatability with older versions of LinuxGSM.
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # This is to help the transition to v20.3.0 and above
 legacy_versions_array=(v20.2.1 v20.2.0 v20.1.5 v20.1.4 v20.1.3 v20.1.2 v20.1.1 v20.1.0 v19.12.5 v19.12.4 v19.12.3 v19.12.2 v19.12.1 v19.12.0)
@@ -75,15 +75,6 @@ fi
 if [ -z "${wsstartmap}" ]; then
 	if [ "${ws_start_map}" ]; then
 		wscollectionid="${ws_start_map}"
-	fi
-fi
-
-# Added as part of migrating functions dir to modules dir.
-# Will remove functions dir if files in modules dir older than 14 days
-functionsdir="${lgsmdir}/modules"
-if [ -d "${lgsmdir}/functions" ]; then
-	if [ "$(find "${lgsmdir}/modules"/ -type f -mtime +"14" | wc -l)" -ne "0" ]; then
-		rm -rf "${lgsmdir:?}/functions"
 	fi
 fi
 
