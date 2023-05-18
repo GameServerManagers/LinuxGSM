@@ -299,6 +299,11 @@ command_dev_debug.sh() {
 	fn_fetch_module
 }
 
+command_dev_details.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_dev_detect_deps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
