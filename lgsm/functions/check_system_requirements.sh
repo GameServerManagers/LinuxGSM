@@ -26,19 +26,19 @@ elif [ "${shortname}" == "arma3" ]; then
 elif [ "${shortname}" == "rust" ]; then
 	ramrequirementmb="4000"
 	ramrequirementgb="4"
-elif [ "${shortname}" == "mc" ]||[ "${shortname}" == "pmc" ]||[ "${shortname}" == "wmc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pstbs" ]; then
 	ramrequirementmb="2000"
 	ramrequirementgb="2"
-elif [ "${shortname}" == "ns2" ]||[ "${shortname}" == "ns2c" ]; then
+elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
 elif [ "${shortname}" == "st" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${shortname}" == "pvr" ];then
+elif [ "${shortname}" == "pvr" ]; then
 	ramrequirementmb="2000"
 	ramrequirementgb="2"
 fi

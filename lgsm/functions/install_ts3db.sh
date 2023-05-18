@@ -7,18 +7,18 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_install_ts3db_mariadb(){
+fn_install_ts3db_mariadb() {
 	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then
 		echo -e "copying libmariadb.so.2...\c"
 		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
 		local exitcode=$?
-		if [ "${exitcode}" == "0" ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "copying libmariadb.so.2"
-		else
+		if [ "${exitcode}" != "0" ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fatal "copying libmariadb.so.2"
 			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "copying libmariadb.so.2"
 		fi
 	fi
 
@@ -34,13 +34,13 @@ fn_install_ts3db_mariadb(){
 	read -rp "Enter MariaDB socket path: " mariadbsocket
 
 	{
-	echo -e "[config]"
-	echo -e "host='${mariahostname}'"
-	echo -e "port='${mariaport}'"
-	echo -e "username='${mariausername}'"
-	echo -e "password='${mariapassword}'"
-	echo -e "database='${mariadbname}'"
-	echo -e "socket='${mariadbsocket}'"
+		echo -e "[config]"
+		echo -e "host='${mariahostname}'"
+		echo -e "port='${mariaport}'"
+		echo -e "username='${mariausername}'"
+		echo -e "password='${mariapassword}'"
+		echo -e "database='${mariadbname}'"
+		echo -e "socket='${mariadbsocket}'"
 	} >> "${servercfgdir}/ts3db_mariadb.ini"
 	sed -i "s/dbplugin=ts3db_sqlite3/dbplugin=ts3db_mariadb/g" "${servercfgfullpath}"
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
@@ -58,13 +58,13 @@ if [ -z "${autoinstall}" ]; then
 		fn_install_ts3db_mariadb
 	fi
 else
-fn_print_information_nl "./${selfname} auto-install is uses sqlite. For MariaDB use ./${selfname} install"
+	fn_print_information_nl "./${selfname} auto-install is uses sqlite. For MariaDB use ./${selfname} install"
 fi
 
 install_eula.sh
 
 echo -e ""
-echo -e "${lightyellow}Getting privilege key${default}"
+echo -e "${lightyellow}Getting Privilege Key${default}"
 echo -e "================================="
 fn_sleep_time
 fn_print_information_nl "Save these details for later."

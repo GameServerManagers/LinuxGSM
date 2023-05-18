@@ -7,12 +7,8 @@
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if ! command -v jq > /dev/null; then
-	fn_print_fail_nl "Sending Rocketchat alert: jq is missing."
-	fn_script_log_fatal "Sending Rocketchat alert: jq is missing."
-fi
-
-json=$(cat <<EOF
+json=$(
+	cat << EOF
 {
 	"alias": "LinuxGSM",
 	"text": "*${alertemoji} ${alertsubject} ${alertemoji}* \n *${servername}* \n ${alertbody} \n More info: ${alerturl}",
@@ -43,7 +39,7 @@ EOF
 
 fn_print_dots "Sending Rocketchat alert"
 
-rocketchatsend=$(curl --connect-timeout 10 -sSL -H "Content-Type:application/json" -X POST -d "$(echo -n "$json" | jq -c .)" "${rocketchatwebhook}")
+rocketchatsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${rocketchatwebhook}")
 
 if [ -n "${rocketchatsend}" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"

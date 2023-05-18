@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
-fn_lockfile_trap(){
+fn_lockfile_trap() {
 	# Remove lockfile.
 	rm -f "${lockdir:?}/${selfname}.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
@@ -27,12 +27,11 @@ fn_lockfile_trap(){
 check.sh
 fix.sh
 info_distro.sh
-info_config.sh
-# NOTE: Check if works with server without parms. Could be intergrated in to info_parms.sh.
+info_game.sh
 fn_print_header
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
-	echo -e "${lightblue}Arch:\t\t${default}${arch}"
+	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
 	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
 	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
 	echo -e "${lightblue}tmux:\t\t${default}${tmuxv}"
@@ -40,8 +39,9 @@ fn_print_header
 	echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
 	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
 } | column -s $'\t' -t
+
 # glibc required.
-if [ "${glibc}" ]; then
+if [ -n "${glibc}" ]; then
 	if [ "${glibc}" == "null" ]; then
 		# Glibc is not required.
 		:
@@ -54,7 +54,7 @@ if [ "${glibc}" ]; then
 	fi
 fi
 
-# Server IP
+# Server IP.
 echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
 
 # External server IP.
@@ -63,6 +63,7 @@ if [ "${extip}" ]; then
 		echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
 	fi
 fi
+
 # Server password.
 if [ "${serverpassword}" ]; then
 	echo -e "${lightblue}Server password:\t${default}${serverpassword}"
@@ -70,7 +71,7 @@ fi
 
 fn_reload_startparameters
 echo -e "${lightblue}Start parameters:${default}"
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	echo -e "${executable} ${startparameters} -condebug"
@@ -78,7 +79,7 @@ else
 	echo -e "${preexecutable} ${executable} ${startparameters}"
 fi
 echo -e ""
-echo -e "Use for identifying server issues only!"
+echo -e "Use debug for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${selfname} is already running it will be stopped."
 echo -e ""
@@ -104,20 +105,32 @@ echo "${port}" >> "${lockdir}/${selfname}.lock"
 fn_script_log_info "Lockfile generated"
 fn_script_log_info "${lockdir}/${selfname}.lock"
 
-cd "${executabledir}" || exit
+if [ "${shortname}" == "av" ]; then
+	cd "${systemdir}" || exit
+else
+	cd "${executabledir}" || exit
+fi
+
 # Note: do not add double quotes to ${executable} ${startparameters}.
-if [ "${engine}" == "source" ]||[ "${engine}" == "goldsrc" ]; then
-	${executable} ${startparameters} -debug
-elif [ "${shortname}" == "arma3" ]; then
-	# Arma3 requires semicolons in the module list, which need to
-	# be escaped for regular (tmux) loading, but need to be
-	# stripped when loading straight from the console.
-	${executable} ${parms//\\;/;}
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
+	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
-	${executable} ${startparameters} -condebug
+	eval "${executable} ${startparameters} -condebug"
 else
 	# shellcheck disable=SC2086
-	${preexecutable} ${executable} ${startparameters}
+	eval "${preexecutable} ${executable} ${startparameters}"
+fi
+
+if [ $? -ne 0 ]; then
+	fn_print_error_nl "Server has stopped: exit code: $?"
+	fn_script_log_error "Server has stopped: exit code: $?"
+	fn_print_error_nl "Press ENTER to exit debug mode"
+	read -r
+else
+	fn_print_ok_nl "Server has stopped"
+	fn_script_log_pass "Server has stopped"
+	fn_print_ok_nl "Press ENTER to exit debug mode"
+	read -r
 fi
 
 fn_lockfile_trap
