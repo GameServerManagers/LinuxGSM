@@ -7,6 +7,7 @@
 # https://github.com/sonicsnes/node-gamedig
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+# Default query status to failure. Will be changed to 0 if query is successful.
 querystatus="2"
 # Check if gamedig and jq are installed.
 if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
@@ -19,15 +20,9 @@ if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)"
 			queryport="${port}"
 		fi
 		# checks if query is working null = pass.
-		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --query_port \"${queryport}\"|jq")
-		gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --query_port "${queryport}")
+		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" \"${queryip}:${queryport}\"|jq")
+		gamedigraw=$(gamedig --type "${querytype}" "${queryip}:${queryport}")
 		querystatus=$(echo "${gamedigraw}" | jq '.error|length')
-
-		if [ "${querystatus}" != "null" ]; then
-			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${queryip}\" --port \"${queryport}\"|jq")
-			gamedigraw=$(gamedig --type "${querytype}" --host "${queryip}" --port "${queryport}")
-			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
-		fi
 
 		if [ "${querytype}" == "teamspeak3" ]; then
 			fn_info_game_ts3
