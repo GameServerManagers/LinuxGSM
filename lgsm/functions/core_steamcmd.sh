@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Core modules for SteamCMD
+# Description: Core functions for SteamCMD
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd() {
 	if [ "${shortname}" == "ark" ] && [ "${installsteamcmd}" == "1" ]; then

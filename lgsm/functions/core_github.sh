@@ -1,11 +1,11 @@
 #!/bin/bash
-# LinuxGSM core_github.sh module
+# LinuxGSM core_github.sh function
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: core module file for updates via github
+# Description: core function file for updates via github
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 github_api="https://api.github.com"
 
