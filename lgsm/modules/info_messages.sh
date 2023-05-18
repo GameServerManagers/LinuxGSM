@@ -688,23 +688,24 @@ fn_info_message_ports_edit() {
 fn_info_message_ports() {
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
 	if [ "${shortname}" == "armar" ]; then
-		echo -e "ss -tuplwn | grep enfMain"
+		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "av" ]; then
-		echo -e "ss -tuplwn | grep AvorionServer"
+		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
-		echo -e "ss -tuplwn | grep bf1942_lnxded"
+		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
-		echo -e "ss -tuplwn | grep java"
+		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
-		echo -e "ss -tuplwn | grep Main"
+		portcommand="ss -tuplwn | grep Main"
 	elif [ "${engine}" == "source" ]; then
-		echo -e "ss -tuplwn | grep srcds_linux"
+		portcommand="ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
-		echo -e "ss -tuplwn | grep hlds_linux"
+		portcommand="ss -tuplwn | grep hlds_linux"
 	else
 		executableshort="$(basename "${executable}" | cut -c -15)"
-		echo -e "ss -tuplwn | grep ${executableshort}"
+		portcommand="ss -tuplwn | grep ${executableshort}"
 	fi
+	echo -e "${portcommand}"
 	echo -e ""
 }
 

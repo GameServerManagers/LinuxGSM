@@ -205,6 +205,7 @@ echo -e ""
 echo -e "${lightgreen}SS Output${default}"
 echo -e "================================="
 fn_info_message_ports
+eval "${portcommand}"
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
 echo -e "=================================================================="
