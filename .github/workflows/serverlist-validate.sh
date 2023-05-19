@@ -13,7 +13,10 @@ for csv in $csvlist; do
 	csvcount=$((csvcount-2))
 	if [ "$csvcount" -ne "$serverlistcount" ]; then
 		echo "ERROR: $csv ($csvcount) does not match serverlist.csv ($serverlistcount)"
+		exitcode=1
 	else
 		echo "OK: $csv ($csvcount) and serverlist.csv ($serverlistcount) match"
 	fi
 done
+
+exit ${exitcode}
