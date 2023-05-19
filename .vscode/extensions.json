@@ -1,11 +1,10 @@
 {
-    "recommendations": [
-        "ms-python.python",
-        "editorconfig.editorconfig",
-        "yzhang.markdown-all-in-one",
-        "esbenp.prettier-vscode",
-        "timonwong.shellcheck",
-        "foxundermoon.shell-format",
-        "redhat.vscode-yaml"
-    ]
+  "recommendations": [
+    "ms-python.python",
+    "editorconfig.editorconfig",
+    "yzhang.markdown-all-in-one",
+    "esbenp.prettier-vscode",
+    "timonwong.shellcheck",
+    "redhat.vscode-yaml"
+  ]
 }

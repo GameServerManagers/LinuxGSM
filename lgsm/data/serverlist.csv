@@ -4,7 +4,7 @@ ahl2,ahl2server,Action: Source,ubuntu-22.04
 ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
 arma3,arma3server,ARMA 3,ubuntu-22.04
 armar,armarserver,Arma Reforger,ubuntu-20.04
-ats,atsserver,American Truck Simulator
+ats,atsserver,American Truck Simulator,ubuntu-22.04
 av,avserver,Avorion,ubuntu-22.04
 bb,bbserver,BrainBread,ubuntu-22.04
 bb2,bb2server,BrainBread 2,ubuntu-22.04
@@ -128,4 +128,3 @@ wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
-

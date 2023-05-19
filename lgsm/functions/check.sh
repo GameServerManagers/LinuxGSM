@@ -77,7 +77,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START UPDATE VALIDATE)
+allowed_commands_array=(DEBUG START UPDATE VALIDATE CHECK-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ "${appid}" ]; then

@@ -8,15 +8,16 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${serverfiles}" "minecraft_server.jar" "chmodx" "norun" "noforce" "nohash"
+	# Download and extract files to serverfiles.
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
-	if [ -d "${exutabledir}" ]; then
+	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
 		localbuild=$(unzip -p "minecraft_server.jar" version.json | jq -r '.id')
 	fi
@@ -45,6 +46,7 @@ fn_update_remotebuild() {
 	else
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg mcversion "${mcversion}" '.versions | .[] | select(.type==$branch and .id==$mcversion) | .id')
 	fi
+	remotebuildfilename="minecraft_server.${remotebuildversion}.jar"
 	# Generate link to version manifest json.
 	remotebuildmanifest=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg mcversion "${remotebuildversion}" '.versions | .[] | select(.type==$branch and .id==$mcversion) | .url')
 	# Generate link to server.jar

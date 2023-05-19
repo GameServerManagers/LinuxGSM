@@ -74,14 +74,20 @@ fn_monitor_is_server_running() {
 	fi
 }
 
-fn_monitor_is_queryport_valid() {
-	fn_print_dots "Checking port value: \"${queryport}\""
-
-	if ! grep -qe '^[1-9][0-9]*$' <<< "${queryport}"; then
-		fn_print_error_nl "Checking port value: \"${queryport}\" - Unable to query, queryport is illegal \"${queryport}\" and rcon=\"${rconenabled}\". This can be fine if server didn't already create the config file so we couldn't extract information from it, try to rerun."
-		return 1
-	else
-		fn_print_ok_nl "Checking port value: \"${queryport}\""
+fn_monitor_check_queryport() {
+	# Monitor will check queryport is set before continuing.
+	if [ -z "${queryport}" ] || [ "${queryport}" == "0" ]; then
+		fn_print_dots "Checking port: "
+		fn_print_checking_eol
+		fn_script_log_info "Checking port: CHECKING"
+		if [ -n "${rconenabled}" ] && [ "${rconenabled}" != "true" ] && [ "${shortname}" == "av" ]; then
+			fn_print_warn "Checking port: Unable to query, rcon is not enabled"
+			fn_script_log_warn "Checking port: Unable to query, rcon is not enabled"
+		else
+			fn_print_error "Checking port: Unable to query, queryport is not set"
+			fn_script_log_error "Checking port: Unable to query, queryport is not set"
+		fi
+		core_exit.sh
 	fi
 	return 0
 }

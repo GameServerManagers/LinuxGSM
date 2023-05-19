@@ -8,7 +8,7 @@
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles
+	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	fn_clear_tmp
@@ -18,7 +18,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses executable to get local build.
-	if [ -d "${exutabledir}" ]; then
+	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
 		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
 	fi
