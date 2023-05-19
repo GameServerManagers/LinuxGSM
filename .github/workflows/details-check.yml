@@ -38,10 +38,10 @@ jobs:
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
 
       - name: Grab server
-        run: LGSM_GITHUBBRANCH="feature/${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
 
       - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="feature/${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
 
       - id: sets-servercfgname
         name: Generate servercfgname
@@ -68,7 +68,7 @@ jobs:
         run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
 
       - name: Detect details
-        run: LGSM_GITHUBBRANCH="feature/${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server detect-details
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server detect-details
 
       - name: Query Raw
-        run: LGSM_GITHUBBRANCH="feature/${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw
