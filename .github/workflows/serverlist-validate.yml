@@ -1,0 +1,19 @@
+name: Server list Validation
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  # This workflow contains a single job called "build"
+  Version-Check:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: compare versions
+        run: chmod +x .github/workflows/serverlist-validate.sh; .github/workflows/serverlist-validate.sh
