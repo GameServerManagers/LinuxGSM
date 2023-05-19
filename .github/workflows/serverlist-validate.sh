@@ -19,4 +19,4 @@ for csv in $csvlist; do
 	fi
 done
 
-exit "${exitcode}"
+exit ${exitcode}
