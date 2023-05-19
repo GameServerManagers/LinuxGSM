@@ -16,11 +16,12 @@ bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev
+bt,libicu-dev,dos2unix
 btl
 cc
 cd
 ck,xvfb
+cd
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
@@ -34,6 +35,7 @@ csgo
 css,libtinfo5:i386
 ct
 dab
+dayz
 dmc
 dod
 dodr
@@ -78,6 +80,7 @@ ns2c,speex:i386,libtbb2
 onset,libmariadb-dev
 opfor
 pc
+pc2
 pmc,openjdk-17-jre
 pstbs,libgconf-2-4
 pvkii
