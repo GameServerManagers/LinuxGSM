@@ -19,6 +19,7 @@ bs
 bt,libicu-dev
 btl
 cc
+cd
 ck,xvfb
 cmw
 cod,libstdc++5:i386
