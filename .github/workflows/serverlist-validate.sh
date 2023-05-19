@@ -2,7 +2,7 @@
 echo "Checking that all the game servers are listed in all csv files"
 echo "this check will ensure serverlist.csv has the same number of lines (-2 lines) as the other csv files"
 # count the number of lines in the serverlist.csv
-cd ../../lgsm/data/
+cd lgsm/modules
 serverlistcount="$(wc -l < serverlist.csv)"
 echo "serverlistcount: $serverlistcount"
 # get list of all csv files starting with ubunutu debian centos
