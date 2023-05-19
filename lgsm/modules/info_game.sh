@@ -893,22 +893,15 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 fn_info_game_ct(){
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		gamemode="${unavailable}"
-		maxplayers="${zero}"
-		port="${zero}"
-		serverpasswordenabled="${unavailable}"
-		serverpassword="${unavailable}"
-		saveinterval="${zero}"
-	else
-		servername=$(sed -nr 's/^name=(.*)$/\1/p' "${servercfgfullpath}")
-		gamemode=$(sed -nr 's/^gameMode=([0-9]+)/\1/p' "${servercfgfullpath}")
-		port=$(sed -nr 's/^port=([0-9]+)/\1/p' "${servercfgfullpath}")
-		maxplayers=$(sed -nr 's/^maxPlayerNumber=([0-9]+)/\1/p' "${servercfgfullpath}")
-		serverpasswordenabled=$(sed -nr 's/^usePassword=([0-9]+)/\1/p' "${servercfgfullpath}")
-		serverpassword=$(sed -nr 's/^serverPassword=(.*)$/\1/p' "${servercfgfullpath}")
-		saveinterval=$(sed -nr 's/^autoSaveSec=([0-9]+)/\1/p' "${servercfgfullpath}")
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "configip" "bindAddress"
+		fn_info_game_ini "gamemode" "gameMode"
+		fn_info_game_ini "maxplayers" "maxPlayerNumber"
+		fn_info_game_ini "port" "port"
+		fn_info_game_ini "saveinterval" "autoSaveSec"
+		fn_info_game_ini "servername" "name"
+		fn_info_game_ini "serverpassword" "serverPassword"
+		fn_info_game_ini "serverpasswordenabled" "usePassword"
 	fi
 }
 
