@@ -905,13 +905,6 @@ fn_info_game_ct(){
 	fi
 }
 
-fn_info_game_dodr(){
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		maxplayers="${zero}"
-	else
-		maxplayers=$(sed -nr 's/^iServerMaxPlayers=(.*)$/\1/p' "${servercfgfullpath}")
-
 # Config Type: con
 # Parameters: true
 # Comment: # or //
