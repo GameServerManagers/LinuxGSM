@@ -1719,6 +1719,8 @@ fn_info_message_select_engine() {
 		fn_info_message_etl
 	elif [ "${shortname}" == "fctr" ]; then
 		fn_info_message_fctr
+	elif [ "${shortname}" == "hcu" ]; then
+		fn_info_message_hcu
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_message_hw
 	elif [ "${shortname}" == "ins" ]; then
