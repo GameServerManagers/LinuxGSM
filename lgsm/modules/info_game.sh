@@ -442,6 +442,19 @@ fn_info_game_dst() {
 	tickrate="${tickrate:-"0"}"
 }
 
+# Config Type: parameters
+# Parameters: true
+# Comment: ; or #
+# Example: SessionName=SERVERNAME
+# Filetype: ini
+fn_info_game_hcu() {
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #

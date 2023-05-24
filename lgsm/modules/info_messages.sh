@@ -1024,6 +1024,14 @@ fn_info_message_goldsrc() {
 	} | column -s $'\t' -t
 }
 
+fn_ingo_message_hcu(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_hw() {
 	{
 		fn_port "header"
