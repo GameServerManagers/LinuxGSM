@@ -1193,6 +1193,15 @@ fn_info_message_nec() {
 	} | column -s $'\t' -t
 }
 
+fn_info_message_ohd() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_onset() {
 	{
 		fn_port "header"
@@ -1754,6 +1763,8 @@ fn_info_message_select_engine() {
 		fn_info_message_mta
 	elif [ "${shortname}" == "nec" ]; then
 		fn_info_message_nec
+	elif [ "${shortname}" == "ohd" ]; then
+		fn_info_message_ohd
 	elif [ "${shortname}" == "onset" ]; then
 		fn_info_message_onset
 	elif [ "${shortname}" == "pc" ]; then
