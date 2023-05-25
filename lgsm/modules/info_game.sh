@@ -1451,21 +1451,20 @@ fn_info_game_nec() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
 fn_info_game_ohd(){
 	if [ -f "${servercfgfullpath}" ]; then
-		# get first match after find RCON
-		rconenabled=$(sed -nr '1,/RCON/s/^bEnabled=(.*)/\1/p' "${servercfgfullpath}")
-		rconport=$(sed -nr '1,/RCON/s/^ListenPort=(.*)/\1/p' "${servercfgfullpath}")
-		rconpassword=$(sed -nr '1,/RCON/s/^Password=(.*)/\1/p' "${servercfgfullpath}")
-
-		rconenabled=${rconenabled:-"false"}
-		rconport=${rconport:-"7779"}
-		rconpassword=${rconpassword:-"NOT SET"}
-	else
-		rconenabled="${unavailable}"
-		rconport="7779"
-		rconpassword="${unavailable}"
+		fn_info_game_ini rconenabled "bEnabled"
+		fn_info_game_ini rconport "ListenPort"
+		fn_info_game_ini rconpassword "Password"
 	fi
+	rconenabled="${rconenabled:-"false"}"
+	rconport="${rconport:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
 }
 
 # Config Type: json
