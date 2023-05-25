@@ -1339,13 +1339,13 @@ fn_info_game_mc() {
 	configip="${configip:-"0.0.0.0"}"
 	gamemode="${gamemode:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"NOT SET"}"
+	port="${port:-"0"}"
 	queryenabled="${queryenabled:-"NOT SET"}"
 	if [ -z "${queryport}" ]; then
 		queryport="${port}"
 	fi
 	rconpassword="${rconpassword:-"NOT SET"}"
-	rconport="${rconport:-"NOT SET"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
 }
@@ -1749,20 +1749,20 @@ fn_info_game_rw() {
 		configip=$(grep "server_ip" "${servercfgfullpath}" | grep -v "database_mysql_server_ip" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/server_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not set
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		rconport=${rconport:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"0"}
-		port2=${port2:-"0"}
-		port3=${port3:-"0"}
-		port4=${port4:-"0"}
-		queryport=${queryport:-"0"}
-		httpqueryport=${httpport:-"0"}
-		gamemode=${gamemode:-"NOT SET"}
-		worldname=${worldname:-"NOT SET"}
-		configip=${configip:-"0.0.0.0"}
+		servername="${servername:-"NOT SET"}"
+		serverpassword="${serverpassword:-"NOT SET"}"
+		rconpassword="${rconpassword:-"NOT SET"}"
+		rconport="${rconport:-"0"}"
+		maxplayers="${maxplayers:-"0"}"
+		port="${port:-"0"}"
+		port2="${port2:-"0"}"
+		port3="${port3:-"0"}"
+		port4="${port4:-"0"}"
+		queryport="${queryport:-"0"}"
+		httpqueryport="${httpport:-"0"}"
+		gamemode="${gamemode:-"NOT SET"}"
+		worldname="${worldname:-"NOT SET"}"
+		configip="${configip:-"0.0.0.0"}"
 	fi
 }
 
@@ -1782,17 +1782,17 @@ fn_info_game_samp() {
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport=${port}
-		rconport=${port}
+		queryport="${port}"
+		rconport="${port}"
 		maxplayers=$(grep "maxplayers" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
 
 		# Not set
-		servername=${servername:-"NOT SET"}
-		rconpassword=${rconpassword:-"NOT SET"}
-		port=${port:-"7777"}
-		queryport=${port:-"7777"}
-		rconport=${rconport:-"7777"}
-		maxplayers=${maxplayers:-"12"}
+		servername="${servername:-"NOT SET"}"
+		rconpassword="${rconpassword:-"NOT SET"}"
+		port="${port:-"7777"}"
+		queryport="${port:-"7777"}"
+		rconport="${rconport:-"7777"}"
+		maxplayers="${maxplayers:-"12"}"
 	fi
 }
 
