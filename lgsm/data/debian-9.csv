@@ -68,7 +68,7 @@ mcb
 mh
 mohaa,libstdc++5:i386
 mom
-mta,libncursesw5
+mta,libncursesw5,libxml2-utils
 nd
 nec
 nmrih,libtinfo5:i386
@@ -79,6 +79,7 @@ ohd
 onset,libmariadb-dev
 opfor
 pc
+pc2
 pmc,openjdk-8-jre
 pstbs,libgconf-2-4
 pvkii
@@ -98,7 +99,7 @@ sb
 sbots
 scpsl,mono-complete
 scpslsm,mono-complete
-sdtd,telnet,expect
+sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
 sof2

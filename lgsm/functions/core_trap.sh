@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles CTRL-C trap to give an exit code.
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_exit_trap() {
 	if [ -z "${exitcode}" ]; then

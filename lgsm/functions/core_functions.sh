@@ -6,7 +6,7 @@
 # Description: Defines all functions to allow download and execution of functions using fn_fetch_function.
 # This function is called first before any other function. Without this file other functions will not load.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 modulesversion="v23.2.3"
 
@@ -86,7 +86,7 @@ command_details.sh() {
 	fn_fetch_function
 }
 
-command_sponsor.sh() {
+command_donate.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }

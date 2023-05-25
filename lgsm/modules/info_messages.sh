@@ -35,8 +35,8 @@ fn_info_message_password_strip() {
 			statspassword="********"
 		fi
 
-		if [ "${webadminpass}" ]; then
-			webadminpass="********"
+		if [ "${httppassword}" ]; then
+			httppassword="********"
 		fi
 
 		if [ "${telnetpass}" ]; then
@@ -593,6 +593,12 @@ fn_info_message_script() {
 		if [ -n "${networkcfgfullpath}" ]; then
 			echo -e "${lightblue}Network config file:\t${default}${networkcfgfullpath}"
 		fi
+
+		# Cluster config file location (DST)
+		if [ -n "${clustercfgfullpath}" ]; then
+			echo -e "${lightblue}Cluster config file:\t${default}${clustercfgfullpath}"
+		fi
+
 	} | column -s $'\t' -t
 }
 
@@ -682,23 +688,24 @@ fn_info_message_ports_edit() {
 fn_info_message_ports() {
 	echo -e "${lightblue}Useful port diagnostic command:${default}"
 	if [ "${shortname}" == "armar" ]; then
-		echo -e "ss -tuplwn | grep enfMain"
+		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "av" ]; then
-		echo -e "ss -tuplwn | grep AvorionServer"
+		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
-		echo -e "ss -tuplwn | grep bf1942_lnxded"
+		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
-		echo -e "ss -tuplwn | grep java"
+		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
-		echo -e "ss -tuplwn | grep Main"
+		portcommand="ss -tuplwn | grep Main"
 	elif [ "${engine}" == "source" ]; then
-		echo -e "ss -tuplwn | grep srcds_linux"
+		portcommand="ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
-		echo -e "ss -tuplwn | grep hlds_linux"
+		portcommand="ss -tuplwn | grep hlds_linux"
 	else
 		executableshort="$(basename "${executable}" | cut -c -15)"
-		echo -e "ss -tuplwn | grep ${executableshort}"
+		portcommand="ss -tuplwn | grep ${executableshort}"
 	fi
+	echo -e "${portcommand}"
 	echo -e ""
 }
 
@@ -803,7 +810,7 @@ fn_info_message_arma3() {
 		fn_port "Game" port udp
 		fn_port "Voice" voiceport udp
 		fn_port "Query" queryport udp
-		fn_port "Steam Master" steammasterport udp
+		fn_port "Steam" steamport udp
 		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
@@ -823,8 +830,8 @@ fn_info_message_av() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam Master" steammasterport udp
-		fn_port "Steam Query" steamqueryport udp
+		fn_port "Steam" steamport udp
+		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -962,7 +969,7 @@ fn_info_message_dayz() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query Steam" queryport udp
-		fn_port "Steam Master" steammasterport udp
+		fn_port "Steam" steamport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
@@ -980,8 +987,8 @@ fn_info_message_dst() {
 		fn_port "header"
 		fn_port "Game: Server" port udp
 		fn_port "Game: Master" masterport udp
+		fn_port "Steam" steamport udp
 		fn_port "Steam: Auth" steamauthport udp
-		fn_port "Steam: Master" steammasterport udp
 	} | column -s $'\t' -t
 }
 
@@ -989,7 +996,7 @@ fn_info_message_eco() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1014,6 +1021,14 @@ fn_info_message_goldsrc() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Client" clientport udp
+	} | column -s $'\t' -t
+}
+
+fn_ingo_message_hcu(){
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1076,19 +1091,19 @@ fn_info_message_kf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Query (GameSpy)" queryportgs udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
+		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steam Master" steammasterport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1098,16 +1113,16 @@ fn_info_message_kf2() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1202,6 +1217,15 @@ fn_info_message_pc() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Steam" steamport udp
+		fn_port "HTTP" httpport tcp
+		fn_port "API" apiport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${lightgreen}${gamename} Web Interface${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
 	} | column -s $'\t' -t
 }
 
@@ -1277,19 +1301,19 @@ fn_info_message_ro() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
+		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steam Master" steammasterport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1365,17 +1389,17 @@ fn_info_message_sdtd() {
 		fn_port "Game" port udp
 		fn_port "Game+2" port3 udp
 		fn_port "Query" queryport tcp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Admin${default}"
+	echo -e "${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${lightgreen}${gamename} Telnet${default}"
@@ -1442,15 +1466,15 @@ fn_info_message_spark() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Admin${default}"
+	echo -e "${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}/index.html"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1468,13 +1492,13 @@ fn_info_message_st() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Admin${default}"
+	echo -e "${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
 	} | column -s $'\t' -t
 }
 
@@ -1524,63 +1548,42 @@ fn_info_message_tu() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_unreal() {
-	fn_info_message_password_strip
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "LAN Beacon" beaconport udp
-		fn_port "Web Admin" webadminport tcp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
-	} | column -s $'\t' -t
-}
-
 fn_info_message_ut2k4() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Query (GameSpy)" queryportgs udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
 fn_info_message_unreal() {
-	fn_info_message_password_strip
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "LAN Beacon" beaconport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1607,16 +1610,16 @@ fn_info_message_ut3() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Admin" webadminport tcp
+		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Admin${default}"
+	echo -e "${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightblue}Web Admin enabled:\t${default}${webadminenabled}"
-		echo -e "${lightblue}Web Admin url:\t${default}http://${webadminip}:${webadminport}"
-		echo -e "${lightblue}Web Admin username:\t${default}${webadminuser}"
-		echo -e "${lightblue}Web Admin password:\t${default}${webadminpass}"
+		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 }
 
