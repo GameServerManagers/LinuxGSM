@@ -49,6 +49,7 @@ ets2
 fctr
 fof
 gmod,libtinfo5:i386
+hcu
 hl2dm
 hldm
 hldms
@@ -76,6 +77,7 @@ nmrih,libtinfo5:i386
 ns
 ns2,speex,libtbb2
 ns2c,speex:i386,libtbb2
+ohd
 onset,libmariadb-dev
 opfor
 pc

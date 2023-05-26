@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -49,6 +49,7 @@ ets2
 fctr
 fof
 gmod,ncurses-libs.i686
+hcu
 hl2dm
 hldm
 hldms
@@ -76,6 +77,7 @@ nmrih,ncurses-libs.i686
 ns
 ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
+ohd
 onset,mariadb-connector-c
 opfor
 pc

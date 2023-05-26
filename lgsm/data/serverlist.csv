@@ -47,6 +47,7 @@ ets2,ets2server,Euro Truck Simulator 2,ubuntu-22.04
 fctr,fctrserver,Factorio,ubuntu-22.04
 fof,fofserver,Fistful of Frags,ubuntu-22.04
 gmod,gmodserver,Garrys Mod,ubuntu-22.04
+hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-22.04
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
@@ -74,6 +75,7 @@ nmrih,nmrihserver,No More Room in Hell,ubuntu-22.04
 ns,nsserver,Natural Selection,ubuntu-22.04
 ns2,ns2server,Natural Selection 2,ubuntu-22.04
 ns2c,ns2cserver,NS2: Combat,ubuntu-22.04
+ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-22.04
 onset,onsetserver,Onset,ubuntu-20.04
 opfor,opforserver,Opposing Force,ubuntu-22.04
 pc,pcserver,Project Cars,ubuntu-22.04
