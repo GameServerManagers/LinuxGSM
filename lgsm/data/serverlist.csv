@@ -30,6 +30,7 @@ cs,csserver,Counter-Strike 1.6,ubuntu-22.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-22.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-22.04
 css,cssserver,Counter-Strike: Source,ubuntu-22.04
+ct,ctserver,Craftopia,ubuntu-22.04
 dab,dabserver,Double Action: Boogaloo,ubuntu-22.04
 dayz,dayzserver,DayZ,ubuntu-22.04
 dmc,dmcserver,Deathmatch Classic,ubuntu-22.04

@@ -381,6 +381,13 @@ elif [ "${shortname}" == "css" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ct" ]; then
+	gamedirname="Craftopia"
+	array_configs+=( ServerSetting.ini )
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "dayz" ]; then
 	gamedirname="DayZ"
 	fn_check_cfgdir

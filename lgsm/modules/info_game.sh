@@ -906,6 +906,32 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_ct(){
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "configip" "bindAddress"
+		fn_info_game_ini "gamemode" "gameMode"
+		fn_info_game_ini "maxplayers" "maxPlayerNumber"
+		fn_info_game_ini "port" "port"
+		fn_info_game_ini "saveinterval" "autoSaveSec"
+		fn_info_game_ini "servername" "name"
+		fn_info_game_ini "serverpassword" "serverPassword"
+		fn_info_game_ini "serverpasswordenabled" "usePassword"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	serverpasswordenabled="${serverpasswordenabled:-"NOT SET"}"
+}
+
 # Config Type: con
 # Parameters: true
 # Comment: # or //
@@ -1554,11 +1580,11 @@ fn_info_game_prism3d() {
 		serverpassword=$(sed -nr 's/^\s*password\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
 
 		# Not set
-		maxplayers=${maxplayers:-"0"}
-		port=${port:-"27015"}
-		queryport=${queryport:-"27016"}
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
+		maxplayers="${maxplayers:-"0"}"
+		port="${port:-"27015"}"
+		queryport="${queryport:-"27016"}"
+		servername="${servername:-"NOT SET"}"
+		serverpassword="${serverpassword:-"NOT SET"}"
 	fi
 }
 
@@ -1683,38 +1709,38 @@ fn_info_game_rtcw() {
 		fn_info_game_quakec "serverpassword" "g_password"
 		fn_info_game_quakec "maxplayers" "sv_maxclients"
 	fi
-	rconpassword=${rconpassword:-"NOT SET"}
-	servername=${servername:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
-	port=${port:-"0"}
-	queryport=${port:-"0"}
-	defaultmap=${defaultmap:-"NOT SET"}
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
 }
 
 # Config Type: Parameters (mostly)
 fn_info_game_rust() {
 	# Parameters
-	servername=${servername:-"NOT SET"}
-	port=${port:-"0"}
-	queryport=${queryport:-"0"}
-	appport=${appport:-"0"}
-	rconport=${rconport:-"0"}
-	gamemode=${gamemode:-"NOT SET"}
-	maxplayers=${maxplayers:-"0"}
-	rconpassword=${rconpassword:-"NOT SET"}
-	rconweb=${rconweb:-"NOT SET"}
-	tickrate=${tickrate:-"0"}
-	saveinterval=${saveinterval:-"0"}
-	serverlevel=${serverlevel:-"NOT SET"}
-	customlevelurl=${customlevelurl:-"NOT SET"}
-	worldsize=${worldsize:-"0"}
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	appport="${appport:-"0"}"
+	rconport="${rconport:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconweb="${rconweb:-"NOT SET"}"
+	tickrate="${tickrate:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	serverlevel="${serverlevel:-"NOT SET"}"
+	customlevelurl="${customlevelurl:-"NOT SET"}"
+	worldsize="${worldsize:-"0"}"
 	if [ -n "${seed}" ]; then
-		seed=${seed:-"0"}
+		seed="${seed:-"0"}"
 	elif [ -f "${datadir}/${selfname}-seed.txt" ]; then
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
 	fi
-	salt=${salt:-"0"}
+	salt="${salt:-"0"}"
 }
 
 fn_info_game_rw() {
@@ -2037,11 +2063,11 @@ fn_info_game_tw() {
 		fn_info_game_quakec "maxplayers" "sv_max_clients"
 	fi
 	queryport="${port}"
-	servername=${servername:-"NOT SET"}
-	serverpassword=${serverpassword:-"NOT SET"}
-	rconpassword=${rconpassword:-"NOT SET"}
-	port=${port:-"0"}
-	maxplayers=${maxplayers:-"0"}
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: Parameters
@@ -2161,10 +2187,10 @@ fn_info_game_wmc() {
 		fi
 
 		# Not set
-		servername=${servername:-"NOT SET"}
-		queryport=${queryport:-"25577"}
-		maxplayers=${maxplayers:-"0"}
-		configip=${configip:-"0.0.0.0"}
+		servername="${servername:-"NOT SET"}"
+		queryport="${queryport:-"25577"}"
+		maxplayers="${maxplayers:-"0"}"
+		configip="${configip:-"0.0.0.0"}"
 	fi
 }
 
@@ -2191,12 +2217,12 @@ fn_info_game_wurm() {
 		configip=$(grep "IP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/IP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 
 		# Not set
-		port=${port:-"3724"}
-		queryport=${queryport:-"27017"}
-		servername=${servername:-"NOT SET"}
-		serverpassword=${serverpassword:-"NOT SET"}
-		adminpassword=${adminpassword:-"NOT SET"}
-		maxplayers=${maxplayers:-"0"}
+		port="${port:-"3724"}"
+		queryport="${queryport:-"27017"}"
+		servername="${servername:-"NOT SET"}"
+		serverpassword="${serverpassword:-"NOT SET"}"
+		adminpassword="${adminpassword:-"NOT SET"}"
+		maxplayers="${maxplayers:-"0"}"
 	fi
 }
 
@@ -2241,6 +2267,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "ct" ]; then
+	fn_info_game_ct
 elif [ "${shortname}" == "dayz" ]; then
 	fn_info_game_dayz
 elif [ "${shortname}" == "dodr" ]; then

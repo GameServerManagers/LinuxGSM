@@ -19,6 +19,7 @@ bs
 bt,libicu-dev,dos2unix
 btl
 cc
+cd
 ck,xvfb
 cd
 cmw
@@ -32,6 +33,7 @@ cs
 cscz
 csgo
 css,libtinfo5:i386
+ct
 dab
 dayz
 dmc
