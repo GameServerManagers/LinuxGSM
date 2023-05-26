@@ -892,6 +892,12 @@ fn_info_game_bf1942() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
 fn_info_game_ct(){
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "configip" "bindAddress"
@@ -903,6 +909,14 @@ fn_info_game_ct(){
 		fn_info_game_ini "serverpassword" "serverPassword"
 		fn_info_game_ini "serverpasswordenabled" "usePassword"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	serverpasswordenabled="${serverpasswordenabled:-"NOT SET"}"
 }
 
 # Config Type: con
