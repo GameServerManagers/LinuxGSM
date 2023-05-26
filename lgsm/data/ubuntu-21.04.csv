@@ -20,7 +20,7 @@ bt,libicu-dev,dos2unix
 btl
 cc
 cd
-ck,xvfb
+ck,xvfb,libxi6
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
