@@ -21,7 +21,6 @@ btl
 cc
 cd
 ck,xvfb,libxi6
-cd
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
