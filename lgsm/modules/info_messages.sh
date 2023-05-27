@@ -680,7 +680,7 @@ fn_info_message_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "fctr" "goldsrc" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -1037,7 +1037,7 @@ fn_info_message_goldsrc() {
 	} | column -s $'\t' -t
 }
 
-fn_ingo_message_hcu(){
+fn_info_message_hcu(){
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1746,6 +1746,8 @@ fn_info_message_select_engine() {
 		fn_info_message_etl
 	elif [ "${shortname}" == "fctr" ]; then
 		fn_info_message_fctr
+	elif [ "${shortname}" == "hcu" ]; then
+		fn_info_message_hcu
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_message_hw
 	elif [ "${shortname}" == "ins" ]; then
