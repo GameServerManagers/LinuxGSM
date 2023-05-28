@@ -2019,8 +2019,8 @@ fn_info_game_squad() {
 		fn_info_game_keyvalue_pairs "maxplayers" "MaxPlayers"
 	fi
 	if [ -f "${servercfgdir}/Rcon.cfg" ]; then
-		fn_info_game_keyvalue_pairs "rconport" "Port"
-		fn_info_game_keyvalue_pairs "rconpassword" "Password"
+		fn_info_game_keyvalue_pairs "rconport" "Port" "${servercfgdir}/Rcon.cfg"
+		fn_info_game_keyvalue_pairs "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
