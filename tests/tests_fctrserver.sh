@@ -369,7 +369,7 @@ if [ "${shortname}" == "core" ]; then
 		if [ "${userinput}" == "${gameservername}" ] || [ "${userinput}" == "${gamename}" ] || [ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
-			echo -e "[ FAIL ] unknown game server"
+			echo -e "[ FAIL ] Unknown game server"
 		fi
 	else
 		fn_install_getopt
