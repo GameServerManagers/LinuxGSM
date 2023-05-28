@@ -20,7 +20,7 @@ bt,libicu-dev,dos2unix
 btl
 cc
 cd
-ck,xvfb
+ck,xvfb,libxi6
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
@@ -32,6 +32,7 @@ cs
 cscz
 csgo
 css,libtinfo5:i386
+ct
 dab
 dayz
 dmc
@@ -48,6 +49,7 @@ ets2
 fctr
 fof
 gmod,libtinfo5:i386
+hcu
 hl2dm
 hldm
 hldms
@@ -68,16 +70,18 @@ mcb
 mh
 mohaa,libstdc++5:i386
 mom
-mta,libncursesw5
+mta,libncursesw5,libxml2-utils
 nd
 nec
 nmrih,libtinfo5:i386
 ns
 ns2,speex,libtbb2
 ns2c,speex:i386,libtbb2
+ohd
 onset,libmariadb-dev
 opfor
 pc
+pc2
 pmc,openjdk-17-jre
 pstbs,libgconf-2-4
 pvkii
@@ -97,7 +101,7 @@ sb
 sbots
 scpsl,mono-complete
 scpslsm,mono-complete
-sdtd,telnet,expect
+sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
 sof2
