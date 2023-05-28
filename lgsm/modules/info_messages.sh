@@ -1411,7 +1411,6 @@ fn_info_message_sdtd() {
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
 		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
-		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
 		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 	echo -e ""

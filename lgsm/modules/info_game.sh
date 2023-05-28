@@ -1883,38 +1883,39 @@ fn_info_game_scpsl() {
 # Filetype: xml
 fn_info_game_sdtd() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_xml "gamemode" "ServerSettings/@GameMode"
-		fn_info_game_xml "maxplayers" "ServerSettings/@MaxPlayers"
-		fn_info_game_xml "servername" "ServerSettings/@ServerName"
-		fn_info_game_xml "serverpassword" "ServerSettings/@ServerPassword"
-		fn_info_game_xml "serverport" "ServerSettings/@ServerPort"
-		fn_info_game_xml "telnetenabled" "ServerSettings/@TelnetEnabled"
-		fn_info_game_xml "telnetpass" "ServerSettings/@TelnetPassword"
-		fn_info_game_xml "telnetport" "ServerSettings/@TelnetPort"
-		fn_info_game_xml "httpenabled" "ServerSettings/@ControlPanelEnabled"
-		fn_info_game_xml "httppassword" "ServerSettings/@ControlPanelPassword"
-		fn_info_game_xml "httpport" "ServerSettings/@ControlPanelPort"
-		fn_info_game_xml "worldname" "ServerSettings/@GameWorld"
-
+		fn_info_game_xml "gamemode" "/ServerSettings/property[@name='GameMode']/@value"
+		fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='ControlPanelEnabled']/@value"
+		fn_info_game_xml "httppassword" "/ServerSettings/property[@name='ControlPanelPassword']/@value"
+		fn_info_game_xml "httpport" "/ServerSettings/property[@name='ControlPanelPort']/@value"
+		fn_info_game_xml "maxplayers" "/ServerSettings/property[@name='ServerMaxPlayerCount']/@value"
+		fn_info_game_xml "servername" "/ServerSettings/property[@name='ServerName']/@value"
+		fn_info_game_xml "serverpassword" "/ServerSettings/property[@name='ServerPassword']/@value"
+		fn_info_game_xml "port" "/ServerSettings/property[@name='ServerPort']/@value"
+		fn_info_game_xml "telnetenabled" "/ServerSettings/property[@name='TelnetEnabled']/@value"
+		fn_info_game_xml "telnetpass" "/ServerSettings/property[@name='TelnetPassword']/@value"
+		fn_info_game_xml "telnetport" "/ServerSettings/property[@name='TelnetPort']/@value"
+		fn_info_game_xml "worldname" "/ServerSettings/property[@name='GameWorld']/@value"
 	fi
+	gamemode="${gamemode:-"NOT SET"}"
+	httpenabled="${httpenabled:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpport="${httpport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	port3="$((port + 2))"
+	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	httpenabled="${httpenabled:-"NOT SET"}"
-	httpport="${httpport:-"0"}"
-	httppassword="${httppassword:-"NOT SET"}"
 	telnetenabled="${telnetenabled:-"NOT SET"}"
-	telnetport="${telnetport:-"0"}"
-	telnetpass="${telnetpass:-"NOT SET"}"
-	maxplayers="${maxplayers:-"0"}"
-	gamemode="${gamemode:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
 	# Telnet IP will be localhost if no password is set
 	# check_ip will set the IP first. This will overwrite it.
 	if [ -z "${telnetpass}" ]; then
 		telnetip="127.0.0.1"
 	fi
+	telnetpass="${telnetpass:-"NOT SET"}"
+	telnetport="${telnetport:-"0"}"
+	worldname="${worldname:-"NOT SET"}"
+
 }
 
 # Config Type: Parameters (with an ini)
@@ -2443,12 +2444,12 @@ if [ -z "${displaymasterserver}" ]; then
 	if [ "$(command -v jq 2> /dev/null)" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
-				# Query external IP first as most likely to succeed.
-				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+				# Query external IP first as most liky to succeed.
+				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 				if [ "${masterserver}" == "0" ]; then
 					# Loop though server IP addresses if external IP fails.
 					for queryip in "${queryips[@]}"; do
-						masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+						masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 					done
 				fi
 				if [ "${masterserver}" == "0" ]; then
