@@ -2441,6 +2441,14 @@ fi
 # Steam Master Server - checks if detected by master server.
 # Checked after config init, as the queryport is needed
 if [ -z "${displaymasterserver}" ]; then
+	# if queryport and port3 are not set then set them to 123456789
+	# this is to prevent the query from failing.
+	if [ -z "${queryport}" ]; then
+		queryport="123456789"
+	fi
+	if [ -z "${port3}" ]; then
+		port3="123456789"
+	fi
 	if [ "$(command -v jq 2> /dev/null)" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
@@ -2459,5 +2467,12 @@ if [ -z "${displaymasterserver}" ]; then
 				fi
 			fi
 		fi
+	fi
+	# unset the ports if they are set to 123456789
+	if [ "${port3}" == "123456789" ]; then
+		unset port3
+	fi
+	if [ "${queryport}" == "123456789" ]; then
+		unset queryport
 	fi
 fi
