@@ -93,7 +93,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgfullpath}")\""
+	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
 	configtype="json"
 }
 
@@ -1826,15 +1826,15 @@ fn_info_game_samp() {
 # Parameters: false
 # Comment: // or /* */
 fn_info_game_sb() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		fn_info_game_json "maxplayers" "maxPlayers"
-		fn_info_game_json "port" "gameServerPort"
-		fn_info_game_json "queryenabled" "runQueryServer"
-		fn_info_game_json "queryport" "queryServerPort"
-		fn_info_game_json "rconenabled" "runRconServer"
-		fn_info_game_json "rconpassword" "rconServerPassword"
-		fn_info_game_json "rconport" "rconServerPort"
-		fn_info_game_json "servername" "serverName"
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".maxPlayers"
+		fn_info_game_json "port" ".gameServerPort"
+		fn_info_game_json "queryenabled" ".runQueryServer"
+		fn_info_game_json "queryport" ".queryServerPort"
+		fn_info_game_json "rconenabled" ".runRconServer"
+		fn_info_game_json "rconpassword" ".rconServerPassword"
+		fn_info_game_json "rconport" ".rconServerPort"
+		fn_info_game_json "servername" ".serverName"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -1954,11 +1954,11 @@ fn_info_game_sof2() {
 # Filetype: ini
 fn_info_game_sol() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_config_ini "adminpassword" "Admin_Password"
-		fn_info_config_ini "maxplayers" "Max_Players"
-		fn_info_config_ini "port" "Port"
-		fn_info_config_ini "servername" "Server_Name"
-		fn_info_config_ini "serverpassword" "Game_Password"
+		fn_info_game_ini "adminpassword" "Admin_Password"
+		fn_info_game_ini "maxplayers" "Max_Players"
+		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "servername" "Server_Name"
+		fn_info_game_ini "serverpassword" "Game_Password"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
@@ -2019,8 +2019,8 @@ fn_info_game_squad() {
 		fn_info_game_keyvalue_pairs "maxplayers" "MaxPlayers"
 	fi
 	if [ -f "${servercfgdir}/Rcon.cfg" ]; then
-		fn_info_game_keyvalue_pairs "rconport" "Port"
-		fn_info_game_keyvalue_pairs "rconpassword" "Password"
+		fn_info_game_keyvalue_pairs "rconport" "Port" "${servercfgdir}/Rcon.cfg"
+		fn_info_game_keyvalue_pairs "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -2441,6 +2441,14 @@ fi
 # Steam Master Server - checks if detected by master server.
 # Checked after config init, as the queryport is needed
 if [ -z "${displaymasterserver}" ]; then
+	# if queryport and port3 are not set then set them to 123456789
+	# this is to prevent the query from failing.
+	if [ -z "${queryport}" ]; then
+		queryport="123456789"
+	fi
+	if [ -z "${port3}" ]; then
+		port3="123456789"
+	fi
 	if [ "$(command -v jq 2> /dev/null)" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
@@ -2459,5 +2467,12 @@ if [ -z "${displaymasterserver}" ]; then
 				fi
 			fi
 		fi
+	fi
+	# unset the ports if they are set to 123456789
+	if [ "${port3}" == "123456789" ]; then
+		unset port3
+	fi
+	if [ "${queryport}" == "123456789" ]; then
+		unset queryport
 	fi
 fi
