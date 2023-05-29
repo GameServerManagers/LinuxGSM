@@ -1954,11 +1954,11 @@ fn_info_game_sof2() {
 # Filetype: ini
 fn_info_game_sol() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_config_ini "adminpassword" "Admin_Password"
-		fn_info_config_ini "maxplayers" "Max_Players"
-		fn_info_config_ini "port" "Port"
-		fn_info_config_ini "servername" "Server_Name"
-		fn_info_config_ini "serverpassword" "Game_Password"
+		fn_info_game_ini "adminpassword" "Admin_Password"
+		fn_info_game_ini "maxplayers" "Max_Players"
+		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "servername" "Server_Name"
+		fn_info_game_ini "serverpassword" "Game_Password"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
