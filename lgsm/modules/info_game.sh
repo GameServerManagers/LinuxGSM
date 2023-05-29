@@ -93,7 +93,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgfullpath}")\""
+	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
 	configtype="json"
 }
 
@@ -1826,15 +1826,15 @@ fn_info_game_samp() {
 # Parameters: false
 # Comment: // or /* */
 fn_info_game_sb() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		fn_info_game_json "maxplayers" "maxPlayers"
-		fn_info_game_json "port" "gameServerPort"
-		fn_info_game_json "queryenabled" "runQueryServer"
-		fn_info_game_json "queryport" "queryServerPort"
-		fn_info_game_json "rconenabled" "runRconServer"
-		fn_info_game_json "rconpassword" "rconServerPassword"
-		fn_info_game_json "rconport" "rconServerPort"
-		fn_info_game_json "servername" "serverName"
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".maxPlayers"
+		fn_info_game_json "port" ".gameServerPort"
+		fn_info_game_json "queryenabled" ".runQueryServer"
+		fn_info_game_json "queryport" ".queryServerPort"
+		fn_info_game_json "rconenabled" ".runRconServer"
+		fn_info_game_json "rconpassword" ".rconServerPassword"
+		fn_info_game_json "rconport" ".rconServerPort"
+		fn_info_game_json "servername" ".serverName"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
