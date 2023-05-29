@@ -225,7 +225,12 @@ fn_sys_perm_error_process() {
 
 ## Run permisions checks when not root or docker.
 if [ "$(whoami)" != "root" ] && [ ! -f /.dockerenv ]; then
-	fn_check_ownership
+	if [ "${skipownershipcheck}" != "on" ]; then
+		fn_check_ownership
+	else
+		fn_print_warn_nl "Skipped permission check"
+		fn_script_log_warn "Skipped permission check"
+	fi
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then
 		fn_sys_perm_error_process
