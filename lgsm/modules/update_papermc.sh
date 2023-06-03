@@ -51,7 +51,7 @@ fn_update_remotebuild() {
 		fi
 	fi
 	# Get list of paper builds for specific Minecraft: Java Edition version.
-	remotebuildresponsemcversion=$(curl -s "${apiurl}/paper/versions/${remotebuildmcversion}")
+	remotebuildresponsemcversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}")
 	# Get latest paper build for specific Minecraft: Java Edition version.
 	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[-1]')
 	# Get various info about the paper build.
