@@ -1,3 +1,2 @@
-*.db
-.idea
+.vscode/settings.json
 /node_modules
