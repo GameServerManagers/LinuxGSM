@@ -23,7 +23,7 @@ jobs:
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
 
       - name: Install dependencies
-        run: sudo apt-get install libxml2-utils jq
+        run: sudo dpkg --add-architecture i386
 
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
