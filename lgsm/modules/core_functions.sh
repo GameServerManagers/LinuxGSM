@@ -640,17 +640,17 @@ update_ts3.sh() {
 	fn_fetch_function
 }
 
-update_minecraft.sh() {
+update_mc.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
 
-update_minecraft_bedrock.sh() {
+update_mcb.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
 
-update_papermc.sh() {
+update_pmc.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
@@ -660,12 +660,12 @@ update_mta.sh() {
 	fn_fetch_function
 }
 
-update_factorio.sh() {
+update_fctr.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
 
-update_jediknight2.sh() {
+update_jk2.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }
@@ -675,7 +675,7 @@ update_steamcmd.sh() {
 	fn_fetch_function
 }
 
-update_vintagestory.sh() {
+update_vints.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function
 }

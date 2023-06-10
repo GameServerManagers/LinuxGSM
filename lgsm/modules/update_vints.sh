@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM update_vintagestory.sh module
+# LinuxGSM update_vints.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com

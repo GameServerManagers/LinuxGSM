@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM update_papermc.sh module
+# LinuxGSM update_pmc.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
