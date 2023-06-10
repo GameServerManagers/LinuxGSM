@@ -23,7 +23,7 @@ jobs:
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
 
       - name: Install dependencies
-        run: sudo dpkg --add-architecture i386; sudo apt-get update
+        run: sudo dpkg --add-architecture i386; sudo apt update; sudo apt install bsdmainutils libsdl2-2.0-0:i386 libtinfo5:i386 steamcmd
 
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
