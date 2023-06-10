@@ -34,5 +34,12 @@ jobs:
       - name: Install server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server auto-install
 
+      - name: Check Update server
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server check-update
+
       - name: Update server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server update
+
+      - name: Force Update server
+        if: matrix.shortname == 'css'
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server force-update
