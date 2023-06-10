@@ -23,7 +23,7 @@ jobs:
         run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
 
       - name: Install dependencies
-        run: sudo dpkg --add-architecture i386
+        run: sudo dpkg --add-architecture i386; sudo apt install libstdc++6:i386
 
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
