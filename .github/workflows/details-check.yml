@@ -54,7 +54,7 @@ jobs:
           if [ -z "${{ steps.sets-servercfgname.outputs.servercfgname }}" ]; then
             echo "This game server has no config file."
           else
-            curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/rename/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
+            curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
           fi
       - name: Display config
         run: |
