@@ -1,4 +1,4 @@
-name: Server list Validation
+name: Server List Validation
 on:
   workflow_dispatch:
   push:
@@ -7,7 +7,8 @@ jobs:
   serverlist-validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: compare versions
+      - name: Compare Versions
         run: chmod +x .github/workflows/serverlist-validate.sh; .github/workflows/serverlist-validate.sh

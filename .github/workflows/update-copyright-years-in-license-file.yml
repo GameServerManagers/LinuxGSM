@@ -1,6 +1,4 @@
----
 name: Update copyright year(s) in license file
-
 on:
   workflow_dispatch:
   schedule:
@@ -10,10 +8,12 @@ jobs:
   update-license-year:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: FantasticFiasco/action-update-license-year@v3
+      - name: Action Update License Year
+        uses: FantasticFiasco/action-update-license-year@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: LICENSE.md
