@@ -7,6 +7,13 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# #4241 temporary fix for Satisfactory for upgrade betweern Update 7 & Update 8 - remove this once update 8 is released
+if [ "${shortname}" == "sf" ]; then
+	if [ ! -f "${serverfiles}/Engine/Binaries/Linux/UE4Server-Linux-Shipping" ]; then
+		ln -s "${serverfiles}/Engine/Binaries/Linux/UnrealServer-Linux-Shipping" "${serverfiles}/Engine/Binaries/Linux/UE4Server-Linux-Shipping"
+	fi
+fi
+
 # Check if executable exists
 execname=$(basename "${executable}")
 if [ ! -f "${executabledir}/${execname}" ]; then
