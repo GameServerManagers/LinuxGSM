@@ -131,7 +131,7 @@ fn_info_game_xml() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}"="$(xmllint --xpath "string(${2})" "${servercfgparse}")"
+	eval "${1}=\"$(xmllint --xpath "string(${2})" "${servercfgparse}")\""
 	configtype="xml"
 }
 
