@@ -969,7 +969,7 @@ fn_info_message_csgo() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_ct(){
+fn_info_message_ct() {
 	fn_info_message_password_strip
 	{
 		fn_port "header"
@@ -977,7 +977,7 @@ fn_info_message_ct(){
 	} | column -s $'\t' -t
 }
 
-fn_info_message_dayz(){
+fn_info_message_dayz() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1037,7 +1037,7 @@ fn_info_message_goldsrc() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_hcu(){
+fn_info_message_hcu() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1504,13 +1504,6 @@ fn_info_message_st() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Web Interface" httpport tcp
-	} | column -s $'\t' -t
-	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Interface${default}"
-	fn_messages_separator
-	{
-		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}"
 	} | column -s $'\t' -t
 }
 
