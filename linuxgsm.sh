@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.3.4"
+version="v23.3.5"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -28,17 +28,17 @@ rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 sessionname=$(echo "${selfname}" | cut -f1 -d".")
 lgsmdir="${rootdir}/lgsm"
-logdir="${rootdir}/log"
+[ -n "${LGSM_LOGDIR}" ] && logdir="${LGSM_LOGDIR}" || logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${HOME}/.steam/steamcmd"
-serverfiles="${rootdir}/serverfiles"
+[ -n "${LGSM_SERVERFILES}" ] && serverfiles="${LGSM_SERVERFILES}" || serverfiles="${rootdir}/serverfiles"
 modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
-configdir="${lgsmdir}/config-lgsm"
+[ -n "${LGSM_CONFIG}" ] && configdir="${LGSM_CONFIG}" || configdir="${lgsmdir}/config-lgsm"
 configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 userinput="${1}"
@@ -321,7 +321,7 @@ fn_install_file() {
 }
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
-if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
+if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
