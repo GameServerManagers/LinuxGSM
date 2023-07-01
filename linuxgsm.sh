@@ -321,7 +321,7 @@ fn_install_file() {
 }
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
-if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
+if [ "$(whoami)" == "root" ]; then
 	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
 		if [ "${shortname}" == "core" ]; then
 			echo -e "[ FAIL ] Do NOT run this script as root!"
