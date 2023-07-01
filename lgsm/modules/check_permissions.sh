@@ -223,8 +223,8 @@ fn_sys_perm_error_process() {
 	fi
 }
 
-## Run permisions checks when not root or docker.
-if [ "$(whoami)" != "root" ] && [ ! -f /.dockerenv ]; then
+## Run permisions checks when not root.
+if [ "$(whoami)" != "root" ]; then
 	fn_check_ownership
 	fn_check_permissions
 	if [ "${commandname}" == "START" ]; then

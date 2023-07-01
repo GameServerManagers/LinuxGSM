@@ -613,30 +613,29 @@ fn_info_game_pz() {
 	worldname="${worldname:-"NOT SET"}"
 }
 
-# Config Type: ini
-# Parameters: true
-# Comment: ; or #
-# Example: SERVERNAME=SERVERNAME
-# Filetype: ini
+# Config Type: xml
+# Comment: <!-- -->
+# Example: <ServerName>SERVERNAME</ServerName>
+# Filetype: xml
 fn_info_game_st() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "maxplayers" "MAXPLAYER"
-		fn_info_game_ini "rconpassword" "RCONPASSWORD"
-		fn_info_game_ini "servername" "SERVERNAME"
-		fn_info_game_ini "serverpassword" "PASSWORD"
+		fn_info_game_xml "adminpassword" "/SettingData/AdminPassword"
+		fn_info_game_xml "maxplayers" "/SettingData/ServerMaxPlayers"
+		fn_info_game_xml "port" "/SettingData/GamePort"
+		fn_info_game_xml "queryport" "/SettingData/UpdatePort"
+		fn_info_game_xml "saveinterval" "/SettingData/SaveInterval"
+		fn_info_game_xml "servername" "/SettingData/ServerName"
+		fn_info_game_xml "serverpassword" "/SettingData/ServerPassword"
 	fi
-	clearinterval="${clearinterval:-"0"}"
-	httpport="${port:-"0"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
-	rconpassword="${rconpassword:-"NOT SET"}"
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
 	worldtype="${worldtype:-"NOT SET"}"
-
 }
 
 # Config Type: ini
@@ -911,7 +910,7 @@ fn_info_game_bf1942() {
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: ini
-fn_info_game_ct(){
+fn_info_game_ct() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "configip" "bindAddress"
 		fn_info_game_ini "gamemode" "gameMode"
@@ -1194,6 +1193,7 @@ fn_info_game_etl() {
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -1240,7 +1240,7 @@ fn_info_game_hw() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
-  	# #4189 option setting can be blank
+	# #4189 option setting can be blank
 	# defaultmap="${defaultmap:-"NOT SET"}"
 	creativemode="${creativemode:-"NOT SET"}"
 }
@@ -1482,7 +1482,7 @@ fn_info_game_nec() {
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: ini
-fn_info_game_ohd(){
+fn_info_game_ohd() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini rconenabled "bEnabled"
 		fn_info_game_ini rconport "ListenPort"

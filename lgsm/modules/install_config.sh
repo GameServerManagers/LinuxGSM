@@ -383,7 +383,7 @@ elif [ "${shortname}" == "css" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ct" ]; then
 	gamedirname="Craftopia"
-	array_configs+=( ServerSetting.ini )
+	array_configs+=(ServerSetting.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -787,13 +787,6 @@ elif [ "${shortname}" == "squad" ]; then
 elif [ "${shortname}" == "sb" ]; then
 	gamedirname="Starbound"
 	array_configs+=(starbound_server.config)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "st" ]; then
-	gamedirname="Stationeers"
-	array_configs+=(default.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars

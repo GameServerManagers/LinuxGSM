@@ -16,7 +16,7 @@ bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev,dos2unix
+bt,libicu-dev,dos2unix,libxml2-utils
 btl
 cc
 cd
@@ -107,7 +107,7 @@ sfc,libtinfo5:i386
 sof2
 sol
 squad
-st
+st,libxml2-utils
 stn
 sven,libssl3:i386,zlib1g:i386
 terraria

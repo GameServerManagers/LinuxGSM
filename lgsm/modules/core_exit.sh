@@ -18,7 +18,7 @@ fn_exit_dev_debug() {
 }
 
 # If running dependency check as root will remove any files that belong to root user.
-if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
+if [ "$(whoami)" == "root" ]; then
 	find "${lgsmdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 fi
