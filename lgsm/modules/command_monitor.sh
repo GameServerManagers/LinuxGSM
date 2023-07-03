@@ -72,13 +72,10 @@ fn_monitor_check_update() {
 	# Monitor will check if an update is running.
 	if [ "$(pgrep -fc "${selfname} update")" != "0" ] || [ "$(pgrep -fc "${selfname} u")" != "0" ] || [ "$(pgrep -fc "${selfname} validate")" != "0" ] || [ "$(pgrep -fc "${selfname} v")" != "0" ]; then
 		# Specific check for docker. Will ignore the command watch -n 1800 ./csgoserver update
-		if [ "$(pgrep -fc "n*${selfname} update")" != "0" ]; then
-			fn_print_dots "Checking active updates: "
-			fn_print_checking_eol
-			fn_script_log_info "Checking active updates: CHECKING"
-			fn_print_info_nl "Checking active updates: SteamCMD is currently checking for updates: "
+		if [ "$(pgrep -fc "n*${selfname} update")" == "0" ]; then
+			fn_print_info_nl "Checking lockfile: LinuxGSM is currently checking for updates: "
 			fn_print_info_eol
-			fn_script_log_pass "Checking active updates: SteamCMD is currently checking for updates"
+			fn_script_log_pass "Checking lockfile: LinuxGSM is currently checking for updates"
 			core_exit.sh
 		fi
 	fi
