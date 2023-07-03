@@ -32,10 +32,14 @@ fn_check_steamcmd_user() {
 	# Anonymous user is set if steamuser is missing.
 	if [ -z "${steamuser}" ]; then
 		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_info "Using anonymous Steam login"
+			fn_script_log_info "Login to SteamCMD as: anonymous"
 		fi
 		steamuser="anonymous"
 		steampass=''
+	else
+		if [ -d "${lgsmlogdir}" ]; then
+			fn_script_log_info "Login to SteamCMD as: ${steamuser}"
+		fi
 	fi
 }
 

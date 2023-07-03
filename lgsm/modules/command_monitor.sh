@@ -12,11 +12,14 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_monitor_check_lockfile() {
-	# Monitor does not run it lockfile is not found.
+	# Monitor does not run if lockfile is not found.
 	if [ ! -f "${lockdir}/${selfname}.lock" ]; then
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
+		fn_monitor_check_update
+		fn_monitor_check_backup
+		fn_monitor_check_debug
 		fn_print_error "Checking lockfile: No lockfile found: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
@@ -32,16 +35,52 @@ fn_monitor_check_lockfile() {
 	fi
 }
 
-fn_monitor_check_update() {
-	# Monitor will check if update is already running.
-	if [ "$(pgrep "${selfname} update" | wc -l)" != "0" ]; then
-		fn_print_dots "Checking active updates: "
-		fn_print_checking_eol
-		fn_script_log_info "Checking active updates: CHECKING"
-		fn_print_error_nl "Checking active updates: SteamCMD is currently checking for updates: "
-		fn_print_error_eol
-		fn_script_log_error "Checking active updates: SteamCMD is currently checking for updates: ERROR"
+fn_monitor_check_backup() {
+	# Monitor will check if backup is running.
+	if [ "$(pgrep "${selfname} backup" | wc -l)" != "0" ] || [ "$(pgrep "${selfname} b" | wc -l)" != "0" ]; then
+		fn_print_info_nl "Checking lockfile: LinuxGSM is currently running a backup: "
+		fn_print_info_eol
+		fn_script_log_info "Checking lockfile: LinuxGSM is currently running a backup"
 		core_exit.sh
+	fi
+}
+
+fn_monitor_check_debug() {
+	# Monitor will check if backup is running.
+	if [ "$(pgrep -fc "${selfname} backup")" != "0" ] || [ "$(pgrep -fc "${selfname} b")" != "0" ]; then
+		fn_print_info_nl "Checking lockfile: LinuxGSM is currently in debug mode: "
+		fn_print_info_eol
+		fn_script_log_pass "Checking lockfile: LinuxGSM is currently in debug mode"
+		core_exit.sh
+	fi
+}
+
+fn_monitor_check_install() {
+	# Monitor will check if update is running.
+	if [ "$(pgrep -fc "${selfname} install")" != "0" ] || [ "$(pgrep -fc "${selfname} i")" != "0" ] || [ "$(pgrep -fc "${selfname} auto-install")" != "0" ] || [ "$(pgrep -fc "${selfname} ai")" != "0" ]; then
+		fn_print_dots "Checking for installer: "
+		fn_print_checking_eol
+		fn_script_log_info "Checking for installer: CHECKING"
+		fn_print_info_nl "Checking for installer: LinuxGSM is currently installing: "
+		fn_print_info_eol
+		fn_script_log_pass "Checking for installer: LinuxGSM is currently installing"
+		core_exit.sh
+	fi
+}
+
+fn_monitor_check_update() {
+	# Monitor will check if an update is running.
+	if [ "$(pgrep -fc "${selfname} update")" != "0" ] || [ "$(pgrep -fc "${selfname} u")" != "0" ] || [ "$(pgrep -fc "${selfname} validate")" != "0" ] || [ "$(pgrep -fc "${selfname} v")" != "0" ]; then
+		# Specific check for docker. Will ignore the command watch -n 1800 ./csgoserver update
+		if [ "$(pgrep -fc "n*${selfname} update")" != "0" ]; then
+			fn_print_dots "Checking active updates: "
+			fn_print_checking_eol
+			fn_script_log_info "Checking active updates: CHECKING"
+			fn_print_info_nl "Checking active updates: SteamCMD is currently checking for updates: "
+			fn_print_info_eol
+			fn_script_log_pass "Checking active updates: SteamCMD is currently checking for updates"
+			core_exit.sh
+		fi
 	fi
 }
 
@@ -223,13 +262,14 @@ fn_monitor_loop() {
 }
 
 monitorflag=1
+# Dont do any monitoring or checks if installer is running.
+fn_monitor_check_install
 check.sh
 core_logs.sh
 info_game.sh
 
 # query pre-checks
 fn_monitor_check_lockfile
-fn_monitor_check_update
 fn_monitor_check_session
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
