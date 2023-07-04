@@ -69,13 +69,18 @@ fn_monitor_check_install() {
 }
 
 fn_monitor_check_update() {
+	# Specific check for docker. Will ignore the command watch -n 1800 ./csgoserver update
+	monitorps=0
+	if [ "$(pgrep -fc "n*${selfname} update")" != "0" ]; then
+		monitorps="$((monitorps - 1))"
+	fi
 	# Monitor will check if an update is running.
 	if [ "$(pgrep -fc "${selfname} update")" != "0" ] || [ "$(pgrep -fc "${selfname} u")" != "0" ] || [ "$(pgrep -fc "${selfname} validate")" != "0" ] || [ "$(pgrep -fc "${selfname} v")" != "0" ]; then
-		# Specific check for docker. Will ignore the command watch -n 1800 ./csgoserver update
-		if [ "$(pgrep -fc "n*${selfname} update")" == "0" ]; then
-			fn_print_info_nl "Checking lockfile: LinuxGSM is currently checking for updates: "
+		monitorps="$((monitorps + 2))"
+		if [ "${monitorps}" != "0" ]; then
+			fn_print_info_nl "Checking lockfile: LinuxGSM is currently updating: "
 			fn_print_info_eol
-			fn_script_log_pass "Checking lockfile: LinuxGSM is currently checking for updates"
+			fn_script_log_pass "Checking lockfile: LinuxGSM is currently updating"
 			core_exit.sh
 		fi
 	fi
