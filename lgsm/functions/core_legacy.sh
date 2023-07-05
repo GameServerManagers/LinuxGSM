@@ -20,7 +20,7 @@ if [ -z "${serverfiles}" ]; then
 fi
 
 if [ -z "${logdir}" ]; then
-	logdir="${rootdir}/log"
+	[ -n "${LGSM_LOGDIR}" ] && logdir="${LGSM_LOGDIR}" || logdir="${rootdir}/log"
 fi
 
 if [ -z "${lgsmlogdir}" ]; then

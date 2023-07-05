@@ -891,11 +891,11 @@ fn_info_game_armar() {
 # Filetype: con
 fn_info_game_bf1942() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_con "configip" "game.serverIp"
-		fn_info_game_con "maxplayers" "game.serverMaxPlayers"
-		fn_info_game_con "port" "game.serverPort"
-		fn_info_game_con "servername" "game.serverName"
-		fn_info_game_con "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs "configip" "game.serverIp"
+		fn_info_game_keyvalue_pairs "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_keyvalue_pairs "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs "servername" "game.serverName"
+		fn_info_game_keyvalue_pairs "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
@@ -905,32 +905,6 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
-# Config Type: ini
-# Parameters: true
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
-fn_info_game_ct() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "configip" "bindAddress"
-		fn_info_game_ini "gamemode" "gameMode"
-		fn_info_game_ini "maxplayers" "maxPlayerNumber"
-		fn_info_game_ini "port" "port"
-		fn_info_game_ini "saveinterval" "autoSaveSec"
-		fn_info_game_ini "servername" "name"
-		fn_info_game_ini "serverpassword" "serverPassword"
-		fn_info_game_ini "serverpasswordenabled" "usePassword"
-	fi
-	configip="${configip:-"0.0.0.0"}"
-	gamemode="${gamemode:-"NOT SET"}"
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	saveinterval="${saveinterval:-"0"}"
-	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
-	serverpasswordenabled="${serverpasswordenabled:-"NOT SET"}"
-}
-
 # Config Type: con
 # Parameters: true
 # Comment: # or //
@@ -938,11 +912,11 @@ fn_info_game_ct() {
 # Filetype: con
 fn_info_game_bfv() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_con "configip" "game.serverIp"
-		fn_info_game_con "maxplayers" "game.serverMaxPlayers"
-		fn_info_game_con "port" "game.serverPort"
-		fn_info_game_con "servername" "game.serverName"
-		fn_info_game_con "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs "configip" "game.serverIp"
+		fn_info_game_keyvalue_pairs "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_keyvalue_pairs "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs "servername" "game.serverName"
+		fn_info_game_keyvalue_pairs "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
@@ -1127,6 +1101,32 @@ fn_info_game_col() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steamport="${steamport:-"0"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_ct() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "configip" "bindAddress"
+		fn_info_game_ini "gamemode" "gameMode"
+		fn_info_game_ini "maxplayers" "maxPlayerNumber"
+		fn_info_game_ini "port" "port"
+		fn_info_game_ini "saveinterval" "autoSaveSec"
+		fn_info_game_ini "servername" "name"
+		fn_info_game_ini "serverpassword" "serverPassword"
+		fn_info_game_ini "serverpasswordenabled" "usePassword"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	serverpasswordenabled="${serverpasswordenabled:-"NOT SET"}"
 }
 
 # Config Type: SQF
@@ -1964,7 +1964,7 @@ fn_info_game_sol() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	filesport="$((port + 10))"
-	queryport="${port}"
+	queryport="${filesport}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
