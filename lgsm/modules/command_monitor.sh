@@ -38,7 +38,7 @@ fn_monitor_check_lockfile() {
 fn_monitor_check_backup() {
 	# Monitor will check if backup is running.
 	if [ "$(pgrep "${selfname} backup" | wc -l)" != "0" ] || [ "$(pgrep "${selfname} b" | wc -l)" != "0" ]; then
-		fn_print_info_nl "Checking lockfile: LinuxGSM is currently running a backup: "
+		fn_print_info "Checking lockfile: LinuxGSM is currently running a backup: "
 		fn_print_info_eol
 		fn_script_log_info "Checking lockfile: LinuxGSM is currently running a backup"
 		core_exit.sh
@@ -48,7 +48,7 @@ fn_monitor_check_backup() {
 fn_monitor_check_debug() {
 	# Monitor will check if backup is running.
 	if [ "$(pgrep -fc "${selfname} backup")" != "0" ] || [ "$(pgrep -fc "${selfname} b")" != "0" ]; then
-		fn_print_info_nl "Checking lockfile: LinuxGSM is currently in debug mode: "
+		fn_print_info "Checking lockfile: LinuxGSM is currently in debug mode: "
 		fn_print_info_eol
 		fn_script_log_pass "Checking lockfile: LinuxGSM is currently in debug mode"
 		core_exit.sh
@@ -61,7 +61,7 @@ fn_monitor_check_install() {
 		fn_print_dots "Checking for installer: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking for installer: CHECKING"
-		fn_print_info_nl "Checking for installer: LinuxGSM is currently installing: "
+		fn_print_info "Checking for installer: LinuxGSM is currently installing: "
 		fn_print_info_eol
 		fn_script_log_pass "Checking for installer: LinuxGSM is currently installing"
 		core_exit.sh
