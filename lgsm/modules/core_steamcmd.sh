@@ -397,6 +397,7 @@ fn_appmanifest_check() {
 				fn_fetch_file_github "data" "appmanifest_20.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
 				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
 			fi
+			fn_dl_steamcmd
 		fi
 	fi
 }
