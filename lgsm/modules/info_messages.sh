@@ -1033,6 +1033,7 @@ fn_info_message_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }
