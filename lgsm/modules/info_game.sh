@@ -1441,11 +1441,11 @@ fn_info_game_mom() {
 # Filetype: conf
 fn_info_game_mta() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_xml "port" "/config/@port"
-		fn_info_game_xml "httpport" "/config/@httpport"
-		fn_info_game_xml "servername" "/config/@servername"
-		fn_info_game_xml "maxplayers" "/config/@maxplayers"
-		fn_info_game_xml "ase" "/config/@ase"
+		fn_info_game_xml "port" "/config/serverport"
+		fn_info_game_xml "httpport" "/config/httpport"
+		fn_info_game_xml "servername" "/config/servername"
+		fn_info_game_xml "maxplayers" "/config/maxplayers"
+		fn_info_game_xml "ase" "/config/ase"
 	fi
 	if [ "${ase}" == "1" ]; then
 		ase="Enabled"
