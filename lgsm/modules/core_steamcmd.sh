@@ -327,4 +327,76 @@ fn_appmanifest_check() {
 			core_exit.sh
 		fi
 	fi
+
+	bytesdownloaded=$(grep BytesDownloaded "${appmanifestfile}" | tr -cd '[:digit:]')
+	bytestodownload=$(grep BytesToDownload "${appmanifestfile}" | tr -cd '[:digit:]')
+	# if bytesdownloaded and bytestodownload do no match force update
+	if [ "${bytesdownloaded}" != "${bytestodownload}" ]; then
+		fn_print_error_nl "BytesDownloaded and BytesToDownload do not match"
+		fn_script_log_error "BytesDownloaded and BytesToDownload do not match"
+		fn_print_info_nl "Forcing update to correct issue"
+		fn_script_log_info "Forcing update to correct issue"
+		fn_dl_steamcmd
+	fi
+
+	bytesstaged=$(grep BytesStaged "${appmanifestfile}" | tr -cd '[:digit:]')
+	bytestostage=$(grep BytesToStage "${appmanifestfile}" | tr -cd '[:digit:]')
+	# if bytesstaged and bytestostage do no match force update
+	if [ "${bytesstaged}" != "${bytestostage}" ]; then
+		fn_print_error_nl "BytesStaged and BytesToStage do not match"
+		fn_script_log_error "BytesStaged and BytesToStage do not match"
+		fn_print_info_nl "Forcing update to correct issue"
+		fn_script_log_info "Forcing update to correct issue"
+		fn_dl_steamcmd
+	fi
+
+	# if engine is GoldSrc check SharedDepots exists in appmanifest_90.acf
+	if [ "${engine}" == "goldsrc" ]; then
+		shareddepotsexists=$(grep -c SharedDepots "${serverfiles}/steamapps/appmanifest_90.acf")
+		if [ ! -f "${serverfiles}/steamapps/appmanifest_90.acf" ] || [ "${shareddepotsexists}" == "0" ]; then
+			fn_print_error_nl "SharedDepots missing from appmanifest_${appid}.acf"
+			fn_script_log_error "SharedDepots missing from appmanifest_${appid}.acf"
+			fn_print_info_nl "Forcing update to correct issue"
+			fn_script_log_info "Forcing update to correct issue"
+			if [ "${shortname}" == "css" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "cscz" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_80.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "dmc" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_40.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "dod" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_30.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "hldm" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "opfor" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_50.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "ricochet" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_60.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			elif [ "${shortname}" == "tfc" ]; then
+				fn_fetch_file_github "data" "appmanifest_90.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_10.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_20.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+				fn_fetch_file_github "data" "appmanifest_70.acf" "${serverfiles}/steamapps" "nochmodx" "norun" "noforce" "nohash"
+			fi
+		fi
+	fi
 }
