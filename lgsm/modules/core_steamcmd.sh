@@ -281,14 +281,13 @@ fn_update_steamcmd_compare() {
 }
 
 fn_appmanifest_info() {
-	appmanifestfile=$(find -L "${serverfiles}" -type f -name "appmanifest_${appid}.acf")
-	appmanifestfilewc=$(find -L "${serverfiles}" -type f -name "appmanifest_${appid}.acf" | wc -l)
+	appmanifestfile=$(find -L "${serverfiles}/steamapps" -type f -name "appmanifest_${appid}.acf")
+	appmanifestfilewc=$(find -L "${serverfiles}/steamapps" -type f -name "appmanifest_${appid}.acf" | wc -l)
 }
 
 fn_appmanifest_check() {
 	fn_appmanifest_info
 	# Multiple or no matching appmanifest files may sometimes be present.
-	# This error is corrected if required.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then
 		fn_print_error "Multiple appmanifest_${appid}.acf files found"
 		fn_script_log_error "Multiple appmanifest_${appid}.acf files found"
@@ -328,9 +327,9 @@ fn_appmanifest_check() {
 		fi
 	fi
 
+	# Checking for half completed updates.
 	bytesdownloaded=$(grep BytesDownloaded "${appmanifestfile}" | tr -cd '[:digit:]')
 	bytestodownload=$(grep BytesToDownload "${appmanifestfile}" | tr -cd '[:digit:]')
-	# if bytesdownloaded and bytestodownload do no match force update
 	if [ "${bytesdownloaded}" != "${bytestodownload}" ]; then
 		fn_print_error_nl "BytesDownloaded and BytesToDownload do not match"
 		fn_script_log_error "BytesDownloaded and BytesToDownload do not match"
@@ -341,7 +340,6 @@ fn_appmanifest_check() {
 
 	bytesstaged=$(grep BytesStaged "${appmanifestfile}" | tr -cd '[:digit:]')
 	bytestostage=$(grep BytesToStage "${appmanifestfile}" | tr -cd '[:digit:]')
-	# if bytesstaged and bytestostage do no match force update
 	if [ "${bytesstaged}" != "${bytestostage}" ]; then
 		fn_print_error_nl "BytesStaged and BytesToStage do not match"
 		fn_script_log_error "BytesStaged and BytesToStage do not match"
