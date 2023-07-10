@@ -147,6 +147,7 @@ fn_check_steamcmd_exec() {
 fn_update_steamcmd_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
+	fn_check_steamcmd_appmanifest
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 

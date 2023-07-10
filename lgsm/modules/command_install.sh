@@ -28,6 +28,9 @@ else
 	elif [ "${appid}" ]; then
 		install_steamcmd.sh
 		install_server_files.sh
+		if [ "${engine}" == "goldsrc" ]; then
+			command_update.sh
+		fi
 	fi
 
 	# Configuration.
