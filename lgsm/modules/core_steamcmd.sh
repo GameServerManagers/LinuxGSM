@@ -147,7 +147,6 @@ fn_check_steamcmd_exec() {
 fn_update_steamcmd_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	fn_appmanifest_check
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
@@ -285,7 +284,7 @@ fn_appmanifest_info() {
 	appmanifestfilewc=$(find -L "${serverfiles}/steamapps" -type f -name "appmanifest_${appid}.acf" | wc -l)
 }
 
-fn_appmanifest_check() {
+fn_check_steamcmd_appmanifest() {
 	fn_appmanifest_info
 	# Multiple or no matching appmanifest files may sometimes be present.
 	if [ "${appmanifestfilewc}" -ge "2" ]; then

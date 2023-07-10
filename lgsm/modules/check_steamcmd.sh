@@ -20,3 +20,4 @@ fn_check_steamcmd_dir_legacy
 fn_check_steamcmd_steamapp
 fn_check_steamcmd_user
 fn_check_steamcmd_exec
+fn_check_steamcmd_appmanifest
