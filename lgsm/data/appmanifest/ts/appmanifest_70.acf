@@ -1,15 +1,15 @@
 "AppState"
 {
-	"appid"		"90"
+	"appid"		"70"
 	"Universe"		"1"
-	"name"		"Half-Life Dedicated Server"
-	"StateFlags"		"4"
+	"name"		"Half-Life"
+	"StateFlags"		"68"
 	"installdir"		"Half-Life"
-	"LastUpdated"		"1666731360"
+	"LastUpdated"		"1688983937"
 	"SizeOnDisk"		"0"
 	"StagingSize"		"0"
 	"buildid"		"0"
-	"LastOwner"		"76561201630089482"
+	"LastOwner"		"0"
 	"UpdateResult"		"0"
 	"BytesToDownload"		"0"
 	"BytesDownloaded"		"0"
@@ -21,30 +21,21 @@
 	"ScheduledAutoUpdate"		"0"
 	"InstalledDepots"
 	{
-		"4"
+		"1"
 		{
-			"manifest"		"8690279432129063737"
-			"size"		"25737094"
+			"manifest"		"5928322771446233610"
+			"size"		"429833890"
 		}
-		"1006"
+		"71"
 		{
-			"manifest"		"6912453647411644579"
-			"size"		"72573740"
+			"manifest"		"9183617604528345869"
+			"size"		"15302314"
 		}
-	}
-	"SharedDepots"
-	{
-		"1"		"70"
-		"11"		"10"
-		"71"		"70"
-		"81"		"80"
 	}
 	"UserConfig"
 	{
-		"mod"		"czero"
 	}
 	"MountedConfig"
 	{
-		"mod"		"czero"
 	}
 }

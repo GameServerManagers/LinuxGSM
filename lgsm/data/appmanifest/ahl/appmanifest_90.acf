@@ -5,11 +5,11 @@
 	"name"		"Half-Life Dedicated Server"
 	"StateFlags"		"4"
 	"installdir"		"Half-Life"
-	"LastUpdated"		"1666731360"
+	"LastUpdated"		"1688984267"
 	"SizeOnDisk"		"0"
 	"StagingSize"		"0"
 	"buildid"		"0"
-	"LastOwner"		"76561201630089482"
+	"LastOwner"		"76561200949853436"
 	"UpdateResult"		"0"
 	"BytesToDownload"		"0"
 	"BytesDownloaded"		"0"
@@ -37,14 +37,13 @@
 		"1"		"70"
 		"11"		"10"
 		"71"		"70"
-		"81"		"80"
 	}
 	"UserConfig"
 	{
-		"mod"		"czero"
+		"mod"		"cstrike"
 	}
 	"MountedConfig"
 	{
-		"mod"		"czero"
+		"mod"		"cstrike"
 	}
 }
