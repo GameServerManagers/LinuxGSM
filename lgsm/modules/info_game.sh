@@ -1758,7 +1758,7 @@ fn_info_game_rw() {
 	gamemode="${gamemode:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="${port}"
+	queryport="$((port - 1))"
 	rconport="${rconport:-"0"}"
 	seed="${seed:-"0"}"
 	servername="${servername:-"NOT SET"}"
