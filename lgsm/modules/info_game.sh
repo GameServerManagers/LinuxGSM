@@ -1744,52 +1744,26 @@ fn_info_game_rust() {
 }
 
 fn_info_game_rw() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		rconpassword="${unavailable}"
-		rconport="${zero}"
-		maxplayers="${zero}"
-		port="${zero}"
-		port2="${zero}"
-		port3="${zero}"
-		port4="${zero}"
-		queryport="${zero}"
-		gamemode="${unavailable}"
-		worldname="${unavailable}"
-	else
-		servername=$(grep "server_name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/server_name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "server_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/server_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		rconport=$(grep "rcon_port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		maxplayers=$(grep "settings_max_players" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		port=$(grep "server_port" "${servercfgfullpath}" | grep -v "database_mysql_server_port" | grep -v "#" | tr -cd '[:digit:]')
-		port2=$((port + 1))
-		port3=$((port + 2))
-		port4=$((port + 3))
-		queryport="${port}"
-		httpqueryport=$((port - 1))
-		gamemode=$(grep "settings_default_gamemode=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/settings_default_gamemode//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		worldname=$(grep "server_world_name" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/server_world_name//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		configip=$(grep "server_ip" "${servercfgfullpath}" | grep -v "database_mysql_server_ip" | sed -e 's/^[ \t]*//g' -e '/^--/d' -e 's/server_ip//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		servername="${servername:-"NOT SET"}"
-		serverpassword="${serverpassword:-"NOT SET"}"
-		rconpassword="${rconpassword:-"NOT SET"}"
-		rconport="${rconport:-"0"}"
-		maxplayers="${maxplayers:-"0"}"
-		port="${port:-"0"}"
-		port2="${port2:-"0"}"
-		port3="${port3:-"0"}"
-		port4="${port4:-"0"}"
-		queryport="${queryport:-"0"}"
-		httpqueryport="${httpport:-"0"}"
-		gamemode="${gamemode:-"NOT SET"}"
-		worldname="${worldname:-"NOT SET"}"
-		configip="${configip:-"0.0.0.0"}"
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs "configip" "Server_IP"
+		fn_info_game_keyvalue_pairs "gamemode" "World_GameMode"
+		fn_info_game_keyvalue_pairs "maxplayers" "Server_MaxPlayers"
+		fn_info_game_keyvalue_pairs "port" "Server_Port"
+		fn_info_game_keyvalue_pairs "rconport" "RCON_Port"
+		fn_info_game_keyvalue_pairs "seed" "World_Seed"
+		fn_info_game_keyvalue_pairs "servername" "Server_Name"
+		fn_info_game_keyvalue_pairs "worldname" "World_Name"
 	fi
+	configip="${configip:-"0.0.0.0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="$((port - 1))"
+	rconport="${rconport:-"0"}"
+	seed="${seed:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	worldname="${worldname:-"NOT SET"}"
+
 }
 
 # Config Type: custom
