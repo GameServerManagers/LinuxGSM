@@ -698,7 +698,7 @@ fn_info_message_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
