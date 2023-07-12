@@ -62,7 +62,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating console log [ ${consolelog} ] ..."
+echo -en "creating console log [ ${consolelog} ]..."
 if [ ! -f "${consolelog}" ]; then
 	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
