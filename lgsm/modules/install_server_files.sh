@@ -214,6 +214,7 @@ if [ "${appid}" ]; then
 	remotelocation="SteamCMD"
 	forceupdate=1
 	update_steamcmd.sh
+	fn_check_steamcmd_appmanifest
 fi
 
 if [ "${shortname}" == "ts3" ]; then
