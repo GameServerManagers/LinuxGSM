@@ -2123,7 +2123,7 @@ fn_info_game_wet() {
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
+	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
