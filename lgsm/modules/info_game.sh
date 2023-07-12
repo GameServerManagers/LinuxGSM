@@ -2183,7 +2183,7 @@ fn_info_game_wmc() {
 fn_info_game_wurm() {
 	gamemode="${gamemode:-"NOT SET"}"
 	homekingdom="${homekingdom:-"0"}"
-	adminpassword="${adminpassword:-"0"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
 	epicsettings="${epicsettings:-"NOT SET"}"
 	homeserver="${homeserver:-"NOT SET"}"
 	loginserver="${loginserver:-"NOT SET"}"
