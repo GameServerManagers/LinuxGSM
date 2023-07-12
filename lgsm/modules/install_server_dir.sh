@@ -11,10 +11,17 @@ echo -e ""
 echo -e "${lightyellow}Server Directory${default}"
 echo -e "================================="
 fn_sleep_time
+echo -en "checking ${serverfiles} exists..."
+
 if [ -d "${serverfiles}" ]; then
-	fn_print_warning_nl "A server is already installed here."
+	fn_print_warn_eol_nl
+
+	echo -e "\n* A game server is already exists at this location.\n"
+
+else
+	fn_print_ok_eol_nl
 fi
-pwd
+
 if [ -z "${autoinstall}" ]; then
 	if ! fn_prompt_yn "Continue?" Y; then
 		exitcode=0
