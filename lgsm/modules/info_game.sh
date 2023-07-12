@@ -2175,36 +2175,25 @@ fn_info_game_wmc() {
 	fi
 }
 
-# Config Type: custom (key-value)
-# Comment: #
-# Example: SERVERNAME=SERVERNAME
+# Config Type: parameters
+# Parameters: true
+# Comment:
+# Example: hostname='SERVERNAME'
+# Filetype: parameters
 fn_info_game_wurm() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		port="${zero}"
-		queryport="${zero}"
-		rconpassword="${unavailable}"
-		servername="${unavailable}"
-		serverpassword="${unavailable}"
-		adminpassword="${unavailable}"
-		maxplayers="${zero}"
-	else
-		port=$(grep "EXTERNALPORT=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		queryport=$(grep "QUERYPORT=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		servername=$(grep "SERVERNAME=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERNAME//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		serverpassword=$(grep "SERVERPASSWORD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/SERVERPASSWORD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		adminpassword=$(grep "ADMINPWD=" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/ADMINPWD//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-		maxplayers=$(grep "MAXPLAYERS=" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
-		configip=$(grep "IP" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/IP//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
-
-		# Not set
-		port="${port:-"3724"}"
-		queryport="${queryport:-"27017"}"
-		servername="${servername:-"NOT SET"}"
-		serverpassword="${serverpassword:-"NOT SET"}"
-		adminpassword="${adminpassword:-"NOT SET"}"
-		maxplayers="${maxplayers:-"0"}"
-	fi
+	gamemode="${gamemode:-"NOT SET"}"
+	homekingdom="${homekingdom:-"0"}"
+	adminpassword="${adminpassword:-"0"}"
+	epicsettings="${epicsettings:-"NOT SET"}"
+	homeserver="${homeserver:-"NOT SET"}"
+	loginserver="${loginserver:-"NOT SET"}"
+	rmiport="${rmiport:-"0"}"
+	rmiregport="${rmiregport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	# serverpassword="${serverpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
 }
 
 unavailable="${red}UNAVAILABLE${default}"
