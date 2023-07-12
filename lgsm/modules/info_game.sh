@@ -666,18 +666,24 @@ fn_info_game_stn() {
 fn_info_game_ti() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "MaxPlayerCount"
-		fn_info_game_ini "queueenabled" "QueueEnabled"
+		fn_info_game_ini "queueenabled" "bQueueEnabled"
 		fn_info_game_ini "queueport" "QueuePort"
-		fn_info_game_ini "rconenabled" "RconEnabled"
+		fn_info_game_ini "rconenabled" "bRconEnabled"
+		fn_info_game_ini "rconpassword" "RconPassword"
 		fn_info_game_ini "rconport" "RconPort"
 		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "ServerPassword"
+		fn_info_game_ini "serverpasswordenabled" "bServerPassword"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	queueenabled="${queueenabled:-"NOT SET"}"
 	queueport="${queueport:-"0"}"
 	rconenabled="${rconenabled:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	serverpasswordenabled="${serverpasswordenabled:-"NOT SET"}"
 }
 
 # Config Type: ini
