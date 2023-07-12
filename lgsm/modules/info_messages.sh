@@ -1505,7 +1505,8 @@ fn_info_message_ti() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Queue" queueport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
