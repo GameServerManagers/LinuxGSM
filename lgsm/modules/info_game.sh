@@ -876,7 +876,7 @@ fn_info_game_armar() {
 		fn_info_game_json "configip" ".bindAddress"
 		fn_info_game_json "maxplayers" ".game.maxPlayers"
 		fn_info_game_json "port" ".bindPort"
-		fn_info_game_json "queryport" ".steamQueryPort"
+		fn_info_game_json "queryport" ".a2s.port"
 		fn_info_game_json "servername" ".game.name"
 		fn_info_game_json "serverpassword" ".game.password"
 	fi
