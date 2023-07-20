@@ -1666,6 +1666,8 @@ fn_info_message_wurm() {
 		fn_port "header"
 		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
+		fn_port "RMI" rmiport tcp
+		fn_port "RMI Registry" rmiregport tcp
 	} | column -s $'\t' -t
 }
 
