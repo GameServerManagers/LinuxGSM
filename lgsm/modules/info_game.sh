@@ -323,9 +323,8 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport is port + 3
-	# this doesnt respond to any queries, using tcp query on rconport instead.
-	queryport="${rconport:-"0"}"
+	# queryport doesnt respond to any queries, using session only.
+	queryport=""$((port + 3))""
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steamport="$((port + 21))"
