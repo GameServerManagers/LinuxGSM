@@ -11,3 +11,18 @@ indent_size = 4
 trim_trailing_whitespace = true
 end_of_line = lf
 insert_final_newline = true
+
+# YAML Files
+[*.{yml,yaml}]
+indent_size = 2
+indent_style = space
+
+# JSON Files
+[*.{json,json5,webmanifest}]
+indent_size = 2
+indent_style = space
+
+# BASH Files
+[*.{.sh}]
+indent_style = tab
+indent_size = 4

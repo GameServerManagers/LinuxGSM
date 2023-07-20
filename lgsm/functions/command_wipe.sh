@@ -11,7 +11,7 @@ functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 # Provides an exit code upon error.
-fn_wipe_exit_code(){
+fn_wipe_exit_code() {
 	exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
@@ -22,17 +22,17 @@ fn_wipe_exit_code(){
 }
 
 # Removes files to wipe server.
-fn_wipe_files(){
+fn_wipe_files() {
 	fn_print_start_nl "${wipetype}"
 	fn_script_log_info "${wipetype}"
 
 	# Remove Map files
-	if [ -n "${serverwipe}" ]||[ -n "${mapwipe}" ]; then
+	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
 			echo -en "removing .map file(s)..."
 			fn_script_log_info "removing *.map file(s)"
 			fn_sleep_time
-			find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >>  "${lgsmlog}"
+			find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
 			fn_wipe_exit_code
 		else
@@ -42,12 +42,12 @@ fn_wipe_files(){
 		fi
 	fi
 	# Remove Save files.
-	if [ -n "${serverwipe}" ]||[ -n "${mapwipe}" ]; then
+	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
 			echo -en "removing .sav file(s)..."
 			fn_script_log_info "removing .sav file(s)"
 			fn_sleep_time
-			find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >>  "${lgsmlog}"
+			find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.sav*" -delete
 			fn_wipe_exit_code
 		else
@@ -74,7 +74,7 @@ fn_wipe_files(){
 	fi
 }
 
-fn_map_wipe_warning(){
+fn_map_wipe_warning() {
 	fn_print_warn "Map wipe will reset the map data and keep blueprint data"
 	fn_script_log_warn "Map wipe will reset the map data and keep blueprint data"
 	totalseconds=3
@@ -89,7 +89,7 @@ fn_map_wipe_warning(){
 	fn_print_warn_nl "Map wipe will reset the map data and keep blueprint data"
 }
 
-fn_full_wipe_warning(){
+fn_full_wipe_warning() {
 	fn_print_warn "Server wipe will reset the map data and remove blueprint data"
 	fn_script_log_warn "Server wipe will reset the map data and remove blueprint data"
 	totalseconds=3
@@ -105,23 +105,23 @@ fn_full_wipe_warning(){
 }
 
 # Will change the seed if the seed is not defined by the user.
-fn_wipe_random_seed(){
-	if [ -f "${datadir}/${selfname}-seed.txt" ]&&[ -n "${randomseed}" ]; then
+fn_wipe_random_seed() {
+	if [ -f "${datadir}/${selfname}-seed.txt" ] && [ -n "${randomseed}" ]; then
 		shuf -i 1-2147483647 -n 1 > "${datadir}/${selfname}-seed.txt"
 		seed=$(cat "${datadir}/${selfname}-seed.txt")
 		randomseed=1
 		echo -en "generating new random seed (${cyan}${seed}${default})..."
-		fn_script_log_pass "generating new random seed (${cyan}${seed}${default})"
+		fn_script_log_pass "Generating new random seed (${cyan}${seed}${default})"
 		fn_sleep_time
 		fn_print_ok_eol_nl
 	fi
 }
 
 # A summary of what wipe is going to do.
-fn_wipe_details(){
+fn_wipe_details() {
 	fn_print_information_nl "Wipe does not remove Rust+ data."
 	echo -en "* Wipe map data: "
-	if [ -n "${serverwipe}" ]||[ -n "${mapwipe}" ]; then
+	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		fn_print_yes_eol_nl
 	else
 		fn_print_no_eol_nl
@@ -147,7 +147,7 @@ check.sh
 fix_rust.sh
 
 # Check if there is something to wipe.
-if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]||[ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]&&[ -n "$(find "${serveridentitydir}" -type f ! -name 'player.tokens.db' -name "*.db")" ]; then
+if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ] || [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ] && [ -n "$(find "${serveridentitydir}" -type f ! -name 'player.tokens.db' -name "*.db")" ]; then
 	if [ -n "${serverwipe}" ]; then
 		wipetype="Full wipe"
 		fn_full_wipe_warning

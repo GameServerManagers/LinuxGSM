@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    about: Ask questions and discuss with other users of LinuxGSM.
+    url: https://github.com/GameServerManagers/LinuxGSM/discussions
+  - name: Discord Server
+    about: Join the LinuxGSM Discord community server. Discuss your LinuxGSM setup, get help and advice
+    url: https://linuxgsm.com/discord

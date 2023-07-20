@@ -1,0 +1,31 @@
+name: Trigger Docker Build
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  trigger_build_docker-linuxgsm:
+    name: Trigger Build Docker LinuxGSM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow and Wait (linuxgsm)
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: GameServerManagers
+          repo: docker-linuxgsm
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          workflow_file_name: docker-publish.yml
+
+  trigger_build_docker-gameserver:
+    name: Trigger Build Docker GameServer
+    needs: trigger_build_docker-linuxgsm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow and Wait (gameserver)
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: GameServerManagers
+          repo: docker-gameserver
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          workflow_file_name: docker-publish.yml

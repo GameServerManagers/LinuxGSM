@@ -1,0 +1,57 @@
+---
+name: Server Request
+description: Suggest a new game server to be added
+title: "[Server Request]: "
+labels: ["type: game server request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this game server!
+  - type: input
+    id: game-server
+    attributes:
+      label: Game server
+      description: What game server would you like to add?
+    validations:
+      required: true
+  - type: checkboxes
+    id: on-linux
+    attributes:
+      label: Linux support
+      description: Does this game server have Linux support? (not wine)
+      options:
+        - label: "Yes"
+    validations:
+      required: true
+  - type: dropdown
+    id: on-steam
+    attributes:
+      label: Steam
+      description: Is this game server available on Steam?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: input
+    id: steam-id
+    attributes:
+      label: Steam appid
+      description: What is the Steam appid of the game server? Use SteamDB to get the appid. (https://steamdb.info).
+      placeholder: "892970"
+    validations:
+      required: false
+  - type: textarea
+    id: guides
+    attributes:
+      label: Guides
+      description: Links to guides on how to install the game server
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

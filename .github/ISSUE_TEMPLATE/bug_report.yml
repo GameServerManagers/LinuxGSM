@@ -1,0 +1,96 @@
+---
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: user-story
+    attributes:
+      label: User story
+      description: As a [user description], I want [desired action] so that [desired outcome].
+      placeholder: As a [user description], I want [desired action] so that [desired outcome].
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Game
+      description: What game server are you hosting?
+      placeholder: Valheim
+    validations:
+      required: true
+  - type: dropdown
+    id: distro
+    attributes:
+      label: Linux distro
+      multiple: true
+      options:
+        - Ubuntu 22.04
+        - Ubuntu 20.04
+        - Ubuntu 18.04
+        - Ubuntu 16.04
+        - Debian 12
+        - Debian 11
+        - Debian 10
+        - Debian 9
+        - RedHat 9
+        - RedHat 8
+        - RedHat 7
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: command
+    attributes:
+      label: Command
+      multiple: true
+      options:
+        - "command: start"
+        - "command: stop"
+        - "command: restart"
+        - "command: monitor"
+        - "command: details"
+        - "command: update"
+        - "command: validate"
+        - "command: backup"
+        - "command: mods-install"
+        - "command: mods-update"
+        - "command: mods-remove"
+        - "command: debug"
+        - "command: console"
+        - "command: install"
+        - "command: auto-update"
+        - "command: update-lgsm"
+        - "command: wipe"
+        - "command: send"
+    validations:
+      required: true
+  - type: textarea
+    id: further-info
+    attributes:
+      label: Further information
+      description: A clear description of what the bug is, any ideas on how to resolve it and any further context that might be relevant to the issue.
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behaviour.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error

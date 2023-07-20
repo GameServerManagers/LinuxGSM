@@ -24,7 +24,7 @@ luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
 # Check if bzip2 is installed.
-if [ ! "$(command -v bzip2 2>/dev/null)" ]; then
+if [ ! "$(command -v bzip2 2> /dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
 	fn_script_log_fatal "bzip2 is not installed"
 	core_exit.sh
@@ -64,11 +64,11 @@ if [ "${shortname}" == "gmod" ]; then
 fi
 
 # Clears any fastdl directory content.
-fn_clear_old_fastdl(){
+fn_clear_old_fastdl() {
 	# Clearing old FastDL.
 	if [ -d "${fastdldir}" ]; then
 		echo -en "clearing existing FastDL directory ${fastdldir}..."
-		rm -fR "${fastdldir:?}"
+		rm -rf "${fastdldir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
@@ -81,7 +81,7 @@ fn_clear_old_fastdl(){
 	fi
 }
 
-fn_fastdl_dirs(){
+fn_fastdl_dirs() {
 	# Check and create directories.
 	if [ ! -d "${webdir}" ]; then
 		echo -en "creating web directory ${webdir}..."
@@ -112,7 +112,7 @@ fn_fastdl_dirs(){
 }
 
 # Using this gist https://gist.github.com/agunnerson-ibm/efca449565a3e7356906
-fn_human_readable_file_size(){
+fn_human_readable_file_size() {
 	local abbrevs=(
 		$((1 << 60)):ZB
 		$((1 << 50)):EB
@@ -142,7 +142,7 @@ fn_human_readable_file_size(){
 }
 
 # Provides info about the fastdl directory content and prompts for confirmation.
-fn_fastdl_preview(){
+fn_fastdl_preview() {
 	# Remove any file list.
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
@@ -152,13 +152,14 @@ fn_fastdl_preview(){
 	# Garry's Mod
 	if [ "${shortname}" == "gmod" ]; then
 		cd "${systemdir}" || exit
-		allowed_extentions_array=( "*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav" )
+		allowed_extentions_array=("*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav")
 		for allowed_extention in "${allowed_extentions_array[@]}"; do
 			fileswc=0
 			tput sc
 			while read -r ext; do
 				((fileswc++))
-				tput rc; tput el
+				tput rc
+				tput el
 				echo -e "gathering ${allowed_extention} : ${fileswc}..."
 				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 			done < <(find . -type f -iname "${allowed_extention}")
@@ -170,30 +171,32 @@ fn_fastdl_preview(){
 		done
 	# Source engine
 	else
-		fastdl_directories_array=( "maps" "materials" "models" "particles" "sound" "resources" )
+		fastdl_directories_array=("maps" "materials" "models" "particles" "sound" "resources")
 		for directory in "${fastdl_directories_array[@]}"; do
 			if [ -d "${systemdir}/${directory}" ]; then
 				if [ "${directory}" == "maps" ]; then
-					local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+					local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
 				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
+					local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
 				elif [ "${directory}" == "models" ]; then
-					local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf" )
+					local allowed_extentions_array=("*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf")
 				elif [ "${directory}" == "particles" ]; then
-					local allowed_extentions_array=( "*.pcf" )
+					local allowed_extentions_array=("*.pcf")
 				elif [ "${directory}" == "sound" ]; then
-					local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
+					local allowed_extentions_array=("*.wav" "*.mp3" "*.ogg")
 				fi
 				for allowed_extention in "${allowed_extentions_array[@]}"; do
 					fileswc=0
 					tput sc
 					while read -r ext; do
 						((fileswc++))
-						tput rc; tput el
+						tput rc
+						tput el
 						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
-					tput rc; tput el
+					tput rc
+					tput el
 					echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
@@ -211,14 +214,14 @@ fn_fastdl_preview(){
 		# Calculates total file size.
 		while read -r dufile; do
 			filesize=$(stat -c %s "${dufile}")
-			filesizetotal=$(( filesizetotal+filesize ))
+			filesizetotal=$((filesizetotal + filesize))
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fatal "Calculating total file size."
 				core_exit.sh
 			fi
-		done <"${tmpdir}/fastdl_files_to_compress.txt"
+		done < "${tmpdir}/fastdl_files_to_compress.txt"
 	else
 		fn_print_fail_eol_nl "generating file list"
 		fn_script_log_fatal "Generating file list."
@@ -234,14 +237,15 @@ fn_fastdl_preview(){
 }
 
 # Builds Garry's Mod fastdl directory content.
-fn_fastdl_gmod(){
+fn_fastdl_gmod() {
 	cd "${systemdir}" || exit
 	for allowed_extention in "${allowed_extentions_array[@]}"; do
 		fileswc=0
 		tput sc
 		while read -r fastdlfile; do
 			((fileswc++))
-			tput rc; tput el
+			tput rc
+			tput el
 			echo -e "copying ${allowed_extention} : ${fileswc}..."
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
@@ -273,7 +277,7 @@ fn_fastdl_gmod(){
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
 		fn_sleep_time
-		rm -fR "${fastdldir:?}/addons"
+		rm -rf "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
@@ -305,30 +309,31 @@ fn_fastdl_gmod(){
 		while read -r dufile; do
 			filesize=$(du -b "${dufile}" | awk '{ print $1 }')
 			filesizetotal=$((filesizetotal + filesize))
-		done <"${tmpdir}/fastdl_files_to_compress.txt"
+		done < "${tmpdir}/fastdl_files_to_compress.txt"
 	fi
 }
 
-fn_fastdl_source(){
+fn_fastdl_source() {
 	for directory in "${fastdl_directories_array[@]}"; do
 		if [ -d "${systemdir}/${directory}" ]; then
 			if [ "${directory}" == "maps" ]; then
-				local allowed_extentions_array=( "*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt" )
+				local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
 			elif [ "${directory}" == "materials" ]; then
-				local allowed_extentions_array=( "*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg" )
+				local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
 			elif [ "${directory}" == "models" ]; then
-				local allowed_extentions_array=( "*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" )
+				local allowed_extentions_array=("*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png")
 			elif [ "${directory}" == "particles" ]; then
-				local allowed_extentions_array=( "*.pcf" )
+				local allowed_extentions_array=("*.pcf")
 			elif [ "${directory}" == "sound" ]; then
-				local allowed_extentions_array=( "*.wav" "*.mp3" "*.ogg" )
+				local allowed_extentions_array=("*.wav" "*.mp3" "*.ogg")
 			fi
 			for allowed_extention in "${allowed_extentions_array[@]}"; do
 				fileswc=0
 				tput sc
 				while read -r fastdlfile; do
 					((fileswc++))
-					tput rc; tput el
+					tput rc
+					tput el
 					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}..."
 					fn_sleep_time
 					# get relative path of file in the dir
@@ -357,7 +362,7 @@ fn_fastdl_source(){
 }
 
 # Builds the fastdl directory content.
-fn_fastdl_build(){
+fn_fastdl_build() {
 	# Copy all needed files for FastDL.
 	echo -e "copying files to ${fastdldir}"
 	fn_script_log_info "Copying files to ${fastdldir}"
@@ -370,7 +375,7 @@ fn_fastdl_build(){
 }
 
 # Generate lua file that will force download any file into the FastDL directory.
-fn_fastdl_gmod_dl_enforcer(){
+fn_fastdl_gmod_dl_enforcer() {
 	# Clear old lua file.
 	if [ -f "${luafastdlfullpath}" ]; then
 		echo -en "removing existing download enforcer: ${luafastdlfile}..."
@@ -406,7 +411,7 @@ fn_fastdl_gmod_dl_enforcer(){
 }
 
 # Compresses FastDL files using bzip2.
-fn_fastdl_bzip2(){
+fn_fastdl_bzip2() {
 	while read -r filetocompress; do
 		echo -en "\r\033[Kcompressing ${filetocompress}..."
 		bzip2 -f "${filetocompress}"
@@ -418,7 +423,7 @@ fn_fastdl_bzip2(){
 		else
 			fn_script_log_pass "Compressing ${filetocompress}"
 		fi
-	done < <(find  "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
+	done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
 	fn_print_ok_eol_nl
 }
 

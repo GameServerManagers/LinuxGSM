@@ -1,15 +1,30 @@
-name: "Issue Labeler"
+name: Issue Labeler
 on:
   issues:
-    types: [opened, edited]
+    types:
+      - opened
+      - edited
+
+permissions:
+  issues: write
+  contents: read
 
 jobs:
-  triage:
+  issue-labeler:
     runs-on: ubuntu-latest
     steps:
-    - uses: github/issue-labeler@v2.4
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        configuration-path: .github/labeler.yml
-        not-before:
-        enable-versioned-regex: 0
+      - name: Issue Labeler
+        uses: github/issue-labeler@v3.1
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+
+  is-sponsor-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is Sponsor Label
+        uses: JasonEtco/is-sponsor-label-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
