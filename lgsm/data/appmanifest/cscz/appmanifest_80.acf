@@ -1,0 +1,36 @@
+"AppState"
+{
+	"appid"		"80"
+	"Universe"		"1"
+	"name"		"Counter-Strike: Condition Zero"
+	"StateFlags"		"68"
+	"installdir"		"Half-Life"
+	"LastUpdated"		"1666731530"
+	"SizeOnDisk"		"0"
+	"StagingSize"		"0"
+	"buildid"		"0"
+	"LastOwner"		"0"
+	"UpdateResult"		"0"
+	"BytesToDownload"		"0"
+	"BytesDownloaded"		"0"
+	"BytesToStage"		"0"
+	"BytesStaged"		"0"
+	"TargetBuildID"		"0"
+	"AutoUpdateBehavior"		"0"
+	"AllowOtherDownloadsWhileRunning"		"0"
+	"ScheduledAutoUpdate"		"0"
+	"InstalledDepots"
+	{
+		"81"
+		{
+			"manifest"		"3601230779843470737"
+			"size"		"415387682"
+		}
+	}
+	"UserConfig"
+	{
+	}
+	"MountedConfig"
+	{
+	}
+}

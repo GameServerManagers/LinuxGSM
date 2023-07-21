@@ -698,7 +698,7 @@ fn_info_message_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "rw" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
@@ -1033,6 +1033,7 @@ fn_info_message_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }
@@ -1351,14 +1352,7 @@ fn_info_message_rw() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game+1" port2 udp
-		fn_port "Game+2" port3 udp
-		fn_port "Game+3" port4 udp
-		fn_port "Game+1" port2 tcp
-		fn_port "Game+2" port3 tcp
-		fn_port "Game+3" port4 tcp
 		fn_port "Query" queryport tcp
-		fn_port "Query HTTP" httpqueryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -1511,7 +1505,8 @@ fn_info_message_ti() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Queue" queueport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1671,6 +1666,8 @@ fn_info_message_wurm() {
 		fn_port "header"
 		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
+		fn_port "RMI" rmiport tcp
+		fn_port "RMI Registry" rmiregport tcp
 	} | column -s $'\t' -t
 }
 
