@@ -42,6 +42,9 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install libxml2-utils jq
 
+      - name: Create serverfiles directory
+        run: mkdir -p serverfiles
+
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
 
