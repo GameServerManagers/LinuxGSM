@@ -37,7 +37,7 @@ fn_start_teamspeak3() {
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2() {
 	fn_start_tmux
-	tmux -L "${sessionname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
+	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux() {
@@ -74,13 +74,21 @@ fn_start_tmux() {
 	echo "${port}" >> "${lockdir}/${selfname}.lock"
 	fn_reload_startparameters
 
+	# create uid to ensure unique tmux socket
+	if [ ! -f "${datadir}/${selfname}.uid" ]; then
+		uid=$(date '+%s' | sha1sum | head -c 8)
+		echo "${uid}" > "${datadir}/${selfname}.uid"
+		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
+	fi
+
+
 	if [ "${shortname}" == "av" ]; then
 		cd "${systemdir}" || exit
 	else
 		cd "${executabledir}" || exit
 	fi
 
-	tmux -L "${sessionname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -94,9 +102,9 @@ fn_start_tmux() {
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
-				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
-				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
 		fi
 
@@ -115,9 +123,9 @@ fn_start_tmux() {
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
-				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
-				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
 		fi
 	else
