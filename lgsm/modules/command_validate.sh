@@ -46,4 +46,7 @@ else
 	fn_validate
 fi
 
+# remove update lockfile
+rm -f "${lockdir}/${selfname}-update.lock"
+
 core_exit.sh

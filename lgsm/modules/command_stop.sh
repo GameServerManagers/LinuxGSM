@@ -274,8 +274,8 @@ fn_print_dots "${servername}"
 info_game.sh
 fn_stop_pre_check
 # Remove lockfile.
-if [ -f "${lockdir}/${selfname}.lock" ]; then
-	rm -f "${lockdir:?}/${selfname}.lock"
+if [ -f "${lockdir}/${selfname}-start.lock" ]; then
+	rm -f "${lockdir:?}/${selfname}-start.lock"
 fi
 
 if [ -z "${exitbypass}" ]; then

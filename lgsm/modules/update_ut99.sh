@@ -62,7 +62,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir}/${selfname}-update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
