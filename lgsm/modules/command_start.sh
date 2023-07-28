@@ -76,11 +76,11 @@ fn_start_tmux() {
 
 	# create uid to ensure unique tmux socket
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
+		command_stop.sh
 		uid=$(date '+%s' | sha1sum | head -c 8)
 		echo "${uid}" > "${datadir}/${selfname}.uid"
 		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
 	fi
-
 
 	if [ "${shortname}" == "av" ]; then
 		cd "${systemdir}" || exit
