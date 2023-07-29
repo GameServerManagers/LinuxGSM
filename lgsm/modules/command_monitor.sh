@@ -59,6 +59,7 @@ fn_monitor_check_backup() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/backup.lock" ]; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
+			fn_print_dots "Checking backup: "
 			fn_print_warn "Checking backup: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking backup: Removing stale lockfile"
@@ -68,6 +69,7 @@ fn_monitor_check_backup() {
 
 	# Monitor will check if backup is running.
 	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} backup")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} b")" != "0" ]]; then
+		fn_print_dots "Checking backup: "
 		fn_print_info "Checking backup: LinuxGSM is currently running a backup: "
 		fn_print_info_eol
 		fn_script_log_info "Checking backup: LinuxGSM is currently running a backup"
