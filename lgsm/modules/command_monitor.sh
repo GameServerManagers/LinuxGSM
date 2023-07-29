@@ -67,7 +67,7 @@ fn_monitor_check_backup() {
 	fi
 
 	# Monitor will check if backup is running.
-	if [ -f "${lockdir}/backup.lock" ]; then
+	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} backup")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} b")" != "0" ]]; then
 		fn_print_info "Checking backup: LinuxGSM is currently running a backup: "
 		fn_print_info_eol
 		fn_script_log_info "Checking backup: LinuxGSM is currently running a backup"
@@ -87,7 +87,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-update.lock" ]; then
+	if [ -f "${lockdir}/${selfname}-update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
 		fn_print_info_nl "Checking update: LinuxGSM is currently updating: "
 		fn_print_info_eol
 		fn_script_log_pass "Checking update: LinuxGSM is currently updating"
