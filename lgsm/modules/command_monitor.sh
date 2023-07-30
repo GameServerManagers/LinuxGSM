@@ -11,9 +11,9 @@ commandaction="Monitoring"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_monitor_check_lockfile() {
+fn_monitor_check_monitoring() {
 	# Monitor does not run if lockfile is not found.
-	if [ ! -f "${lockdir}/${selfname}-started.lock" ]; then
+	if [ ! -f "${lockdir}/${selfname}-monitoring.lock" ]; then
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
@@ -22,13 +22,6 @@ fn_monitor_check_lockfile() {
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		echo -e "* Start ${selfname} to run monitor."
 		core_exit.sh
-	fi
-
-	# Fix if lockfile is not unix time or contains letters
-	if [ -f "${lockdir}/${selfname}-started.lock" ] && [[ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" =~ [A-Za-z] ]]; then
-		date '+%s' > "${lockdir:?}/${selfname}-started.lock"
-		echo "${version}" >> "${lockdir}/${selfname}-started.lock"
-		echo "${port}" >> "${lockdir}/${selfname}-started.lock"
 	fi
 }
 
@@ -353,7 +346,7 @@ fn_monitor_check_update_source
 fn_monitor_check_update
 fn_monitor_check_backup
 fn_monitor_check_debug
-fn_monitor_check_lockfile
+fn_monitor_check_monitoring
 fn_monitor_check_starting
 fn_monitor_check_stopping
 fn_monitor_check_session
