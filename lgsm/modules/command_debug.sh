@@ -99,7 +99,7 @@ fn_script_log_info "Starting debug"
 fn_print_ok_nl "Starting debug"
 
 # Create lockfile.
-date '+%s' > "${lockdir}/${selfname}-started.lock"
+date '+%s' > "${lockdir:?}/${selfname}-started.lock"
 echo "${version}" >> "${lockdir}/${selfname}-started.lock"
 echo "${port}" >> "${lockdir}/${selfname}-started.lock"
 fn_script_log_info "Lockfile generated"

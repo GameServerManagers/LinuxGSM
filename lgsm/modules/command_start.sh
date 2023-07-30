@@ -44,12 +44,7 @@ fn_start_tmux() {
 	fi
 
 	# Create a starting lockfile that only exists while the start command is running.
-	date '+%s' > "${lockdir}/${selfname}-starting.lock"
-
-	# Create start lockfile that exists only when the server is running.
-	date '+%s' > "${lockdir}/${selfname}-started.lock"
-	echo "${version}" >> "${lockdir}/${selfname}-started.lock"
-	echo "${port}" >> "${lockdir}/${selfname}-started.lock"
+	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
 
@@ -73,10 +68,6 @@ fn_start_tmux() {
 
 	# Create logfile.
 	touch "${consolelog}"
-
-	# Create last started Lockfile.
-	# TODO: should this be since last successful update?
-	date +%s > "${lockdir}/${selfname}-last-started.lock"
 
 	# tmux compiled from source will return "master", therefore ignore it.
 	if [ "${tmuxv}" == "master" ]; then
@@ -170,6 +161,16 @@ fn_start_tmux() {
 		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	else
+		# Create start lockfile that exists only when the server is running.
+		date '+%s' > "${lockdir:?}/${selfname}-started.lock"
+		echo "${version}" >> "${lockdir}/${selfname}-started.lock"
+		echo "${port}" >> "${lockdir}/${selfname}-started.lock"
+		fn_print_ok "${servername}"
+		fn_script_log_pass "Started ${servername}"
+
+		# Create last started Lockfile.
+		date +%s > "${lockdir}/${selfname}-last-started.lock"
+
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
@@ -178,6 +179,11 @@ fn_start_tmux() {
 }
 
 check.sh
+
+# If user ran the start command monitor will become enabled.
+if [ -z "${exitbypass}" ]; then
+	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
+fi
 
 # If the server already started dont start again.
 if [ "${status}" != "0" ]; then

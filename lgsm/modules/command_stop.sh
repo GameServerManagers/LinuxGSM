@@ -271,7 +271,7 @@ fn_stop_pre_check() {
 check.sh
 
 # Create a stopping lockfile that only exists while the stop command is running.
-date '+%s' > "${lockdir}/${selfname}-stopping.lock"
+date '+%s' > "${lockdir:?}/${selfname}-stopping.lock"
 
 fn_print_dots "${servername}"
 
@@ -280,6 +280,12 @@ fn_stop_pre_check
 
 # Remove started lockfile.
 rm -f "${lockdir:?}/${selfname}-started.lock"
+
+# If user ran the stop command monitor will become disabled.
+if [ -z "${exitbypass}" ]; then
+	rm -f > "${lockdir:?}/${selfname}-monitoring.lock"
+fi
+
 
 # Remove stopping lockfile.
 rm -f "${lockdir:?}/${selfname}-stopping.lock"

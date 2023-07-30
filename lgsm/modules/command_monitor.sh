@@ -26,33 +26,31 @@ fn_monitor_check_lockfile() {
 
 	# Fix if lockfile is not unix time or contains letters
 	if [ -f "${lockdir}/${selfname}-started.lock" ] && [[ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" =~ [A-Za-z] ]]; then
-		date '+%s' > "${lockdir}/${selfname}-started.lock"
+		date '+%s' > "${lockdir:?}/${selfname}-started.lock"
 		echo "${version}" >> "${lockdir}/${selfname}-started.lock"
 		echo "${port}" >> "${lockdir}/${selfname}-started.lock"
 	fi
 }
 
 fn_monitor_check_install() {
-	# Monitor will check if update is running.
 	if [ "$(pgrep -fc -u "${USER}" "${selfname} install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} i")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} auto-install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} ai")" != "0" ]; then
 		fn_print_dots "Checking installer: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking installer: CHECKING"
-		fn_print_info "Checking installer: LinuxGSM is currently installing: "
+		fn_print_info "Checking installer: Installer is : "
 		fn_print_info_eol
-		fn_script_log_pass "Checking installer: LinuxGSM is currently installing"
+		fn_script_log_pass "Checking installer: LinuxGSM is installing"
 		core_exit.sh
 	fi
 }
 
 fn_monitor_check_debug() {
-	# Monitor will check if debug is running.
 	if [ "$(pgrep -fc -u "${USER}" "${selfname} debug")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} d")" != "0" ]; then
 		fn_print_dots "Checking debug: "
 		fn_print_checking_eol
-		fn_print_info "Checking debug: LinuxGSM is currently in debug mode: "
+		fn_print_info "Checking debug: Debug is running: "
 		fn_print_info_eol
-		fn_script_log_pass "Checking debug: LinuxGSM is currently in debug mode"
+		fn_script_log_pass "Checking debug: Debug is running"
 		core_exit.sh
 	fi
 }
@@ -73,9 +71,9 @@ fn_monitor_check_starting(){
 	if [ -f "${lockdir}/starting.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} start")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking start: "
 		fn_print_checking_eol
-		fn_print_info "Checking start: LinuxGSM is currently starting: "
+		fn_print_info "Checking start: LinuxGSM is starting: "
 		fn_print_info_eol
-		fn_script_log_info "Checking backup: LinuxGSM is currently starting"
+		fn_script_log_info "Checking backup: LinuxGSM is starting"
 		core_exit.sh
 	fi
 }
@@ -96,9 +94,9 @@ fn_monitor_check_stopping(){
 	if [ -f "${lockdir}/stopping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking stop: "
 		fn_print_checking_eol
-		fn_print_info "Checking stop: LinuxGSM is currently stopping: "
+		fn_print_info "Checking stop: LinuxGSM is stopping: "
 		fn_print_info_eol
-		fn_script_log_info "Checking backup: LinuxGSM is currently stopping"
+		fn_script_log_info "Checking backup: LinuxGSM is stopping"
 		core_exit.sh
 	fi
 }
@@ -116,18 +114,16 @@ fn_monitor_check_backup() {
 		fi
 	fi
 
-	# Monitor will check if backup is running.
 	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} backup")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} b")" != "0" ]]; then
 		fn_print_dots "Checking backup: "
 		fn_print_checking_eol
-		fn_print_info "Checking backup: LinuxGSM is currently running a backup: "
+		fn_print_info "Checking backup: Backup is running: "
 		fn_print_info_eol
-		fn_script_log_info "Checking backup: LinuxGSM is currently running a backup"
+		fn_script_log_info "Checking backup: Backup is running"
 		core_exit.sh
 	fi
 }
 
-# This includes all update related commands.
 fn_monitor_check_update() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-update.lock" ]; then
@@ -144,13 +140,14 @@ fn_monitor_check_update() {
 	if [ -f "${lockdir}/${selfname}-update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
 		fn_print_dots "Checking update: "
 		fn_print_checking_eol
-		fn_print_info_nl "Checking update: LinuxGSM is currently updating: "
+		fn_print_info_nl "Checking update: LinuxGSM is updating: "
 		fn_print_info_eol
-		fn_script_log_pass "Checking update: LinuxGSM is currently updating"
+		fn_script_log_pass "Checking update: LinuxGSM is updating"
 		core_exit.sh
 	fi
 }
 
+# Source engine games may display a messages to indicate the server needs restarting.
 fn_monitor_check_update_source(){
  if [ -f "${consolelogdir}/${selfname}-console.log" ] && [ "${engine}" == "source" ]; then
 	 if grep -q "Your server needs to be restarted in order to receive the latest update." "${consolelogdir}/${selfname}-console.log"; then
@@ -172,7 +169,6 @@ fn_monitor_check_session() {
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	# uses status var from check_status.sh
 	if [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl

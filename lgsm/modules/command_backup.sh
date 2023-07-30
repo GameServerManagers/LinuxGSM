@@ -129,7 +129,7 @@ fn_backup_migrate_olddir() {
 
 fn_backup_create_lockfile() {
 	# Create lockfile.
-	date '+%s' > "${lockdir}/backup.lock"
+	date '+%s' > "${lockdir:?}/backup.lock"
 	fn_script_log_info "Backup lockfile generated"
 	fn_script_log_info "${lockdir}/backup.lock"
 	# trap to remove lockfile on quit.

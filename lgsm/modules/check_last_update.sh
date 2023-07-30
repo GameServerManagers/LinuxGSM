@@ -11,12 +11,12 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ -f "${lockdir}/${selfname}-last-started.lock" ]; then
 	laststart=$(cat "${lockdir}/${selfname}-last-started.lock")
 fi
-if [ -f "${lockdir}/lastupdate.lock" ]; then
-	lastupdate=$(cat "${lockdir}/lastupdate.lock")
+if [ -f last-updated.lock" ]; then
+	lastupdate=$(cat last-updated.lock")
 fi
 
 check_status.sh
-if [ -f "${lockdir}/lastupdate.lock" ] && [ "${status}" != "0" ]; then
+if [ -f last-updated.lock" ] && [ "${status}" != "0" ]; then
 	if [ ! -f "${lockdir}/${selfname}-last-started.lock" ] || [ "${laststart}" -lt "${lastupdate}" ]; then
 		fn_print_info "${selfname} has not been restarted since last update"
 		fn_script_log_info "${selfname} has not been restarted since last update"

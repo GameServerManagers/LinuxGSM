@@ -24,13 +24,13 @@ if [ "${forceupdate}" == "1" ]; then
 		command_stop.sh
 		fn_firstcommand_reset
 		fn_dl_steamcmd
-		date +%s > "${lockdir}/lastupdate.lock"
+		date +%s > "${lockdir}/last-updated.lock"
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
 	else
 		fn_dl_steamcmd
-		date +%s > "${lockdir}/lastupdate.lock"
+		date +%s > "${lockdir}/last-updated.lock"
 	fi
 else
 	fn_update_steamcmd_localbuild
