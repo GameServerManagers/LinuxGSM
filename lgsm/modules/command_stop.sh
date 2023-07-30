@@ -283,7 +283,7 @@ rm -f "${lockdir:?}/${selfname}-started.lock"
 
 # If user ran the stop command monitor will become disabled.
 if [ -z "${exitbypass}" ]; then
-	rm -f > "${lockdir:?}/${selfname}-monitoring.lock"
+	rm -f "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 
 
