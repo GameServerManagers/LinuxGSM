@@ -47,6 +47,6 @@ else
 fi
 
 # remove update lockfile
-rm -f "${lockdir}/${selfname}-update.lock"
+rm -f "${lockdir:?}/${selfname}-update.lock"
 
 core_exit.sh

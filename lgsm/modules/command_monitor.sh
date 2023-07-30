@@ -35,12 +35,12 @@ fn_monitor_check_lockfile() {
 fn_monitor_check_install() {
 	# Monitor will check if update is running.
 	if [ "$(pgrep -fc -u "${USER}" "${selfname} install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} i")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} auto-install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} ai")" != "0" ]; then
-		fn_print_dots "Checking for installer: "
+		fn_print_dots "Checking installer: "
 		fn_print_checking_eol
-		fn_script_log_info "Checking for installer: CHECKING"
-		fn_print_info "Checking for installer: LinuxGSM is currently installing: "
+		fn_script_log_info "Checking installer: CHECKING"
+		fn_print_info "Checking installer: LinuxGSM is currently installing: "
 		fn_print_info_eol
-		fn_script_log_pass "Checking for installer: LinuxGSM is currently installing"
+		fn_script_log_pass "Checking installer: LinuxGSM is currently installing"
 		core_exit.sh
 	fi
 }
@@ -48,9 +48,57 @@ fn_monitor_check_install() {
 fn_monitor_check_debug() {
 	# Monitor will check if debug is running.
 	if [ "$(pgrep -fc -u "${USER}" "${selfname} debug")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} d")" != "0" ]; then
+		fn_print_dots "Checking debug: "
+		fn_print_checking_eol
 		fn_print_info "Checking debug: LinuxGSM is currently in debug mode: "
 		fn_print_info_eol
 		fn_script_log_pass "Checking debug: LinuxGSM is currently in debug mode"
+		core_exit.sh
+	fi
+}
+
+fn_monitor_check_starting(){
+	# Remove stale lockfile.
+	if [ -f "${lockdir}/starting.lock" ]; then
+		if [ "$(find "${lockdir}/starting.lock" -mmin +5)" ]; then
+			fn_print_dots "Checking start: "
+			fn_print_checking_eol
+			fn_print_warn "Checking start: Removing stale lockfile: "
+			fn_print_warn_eol
+			fn_script_log_warn "Checking start: Removing stale lockfile"
+			rm -f "${lockdir:?}/starting.lock"
+		fi
+	fi
+
+	if [ -f "${lockdir}/starting.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} start")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+		fn_print_dots "Checking start: "
+		fn_print_checking_eol
+		fn_print_info "Checking start: LinuxGSM is currently starting: "
+		fn_print_info_eol
+		fn_script_log_info "Checking backup: LinuxGSM is currently starting"
+		core_exit.sh
+	fi
+}
+
+fn_monitor_check_stopping(){
+	# Remove stale lockfile.
+	if [ -f "${lockdir}/stopping.lock" ]; then
+		if [ "$(find "${lockdir}/stopping.lock" -mmin +5)" ]; then
+			fn_print_dots "Checking stop: "
+			fn_print_checking_eol
+			fn_print_warn "Checking stop: Removing stale lockfile: "
+			fn_print_warn_eol
+			fn_script_log_warn "Checking stop: Removing stale lockfile"
+			rm -f "${lockdir:?}/stopping.lock"
+		fi
+	fi
+
+	if [ -f "${lockdir}/stoping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+		fn_print_dots "Checking stop: "
+		fn_print_checking_eol
+		fn_print_info "Checking stop: LinuxGSM is currently stoping: "
+		fn_print_info_eol
+		fn_script_log_info "Checking backup: LinuxGSM is currently stoping"
 		core_exit.sh
 	fi
 }
@@ -60,16 +108,18 @@ fn_monitor_check_backup() {
 	if [ -f "${lockdir}/backup.lock" ]; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
 			fn_print_dots "Checking backup: "
+			fn_print_checking_eol
 			fn_print_warn "Checking backup: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking backup: Removing stale lockfile"
-			rm -f "${lockdir}/backup.lock"
+			rm -f "${lockdir:?}/backup.lock"
 		fi
 	fi
 
 	# Monitor will check if backup is running.
 	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} backup")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} b")" != "0" ]]; then
 		fn_print_dots "Checking backup: "
+		fn_print_checking_eol
 		fn_print_info "Checking backup: LinuxGSM is currently running a backup: "
 		fn_print_info_eol
 		fn_script_log_info "Checking backup: LinuxGSM is currently running a backup"
@@ -82,14 +132,18 @@ fn_monitor_check_update() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-update.lock" ]; then
 		if [ "$(find "${lockdir}/${selfname}-update.lock" -mmin +15)" ]; then
+			fn_print_dots "Checking update: "
+			fn_print_checking_eol
 			fn_print_warn "Checking update: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking update: Removing stale lockfile"
-			rm -f "${lockdir}/${selfname}-update.lock"
+			rm -f "${lockdir:?}/${selfname}-update.lock"
 		fi
 	fi
 
 	if [ -f "${lockdir}/${selfname}-update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
+		fn_print_dots "Checking update: "
+		fn_print_checking_eol
 		fn_print_info_nl "Checking update: LinuxGSM is currently updating: "
 		fn_print_info_eol
 		fn_script_log_pass "Checking update: LinuxGSM is currently updating"
@@ -105,10 +159,9 @@ fn_monitor_check_update_source(){
 		 fn_script_log_info "Checking update: CHECKING"
 		 fn_print_ok "Checking update: "
 		 fn_print_ok_eol_nl
-		 fn_script_log_pass "Checking update: Monitor is restarting ${selfname} to apply update"
+		 fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
 		 alert="restart"
 		 alert.sh
-		 fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
 		 command_restart.sh
 		 core_exit.sh
 	 fi
@@ -305,7 +358,8 @@ fn_monitor_check_update
 fn_monitor_check_backup
 fn_monitor_check_debug
 fn_monitor_check_lockfile
-
+fn_monitor_check_starting
+fn_monitor_check_stopping
 fn_monitor_check_session
 
 # Monitor will not continue if session only check.

@@ -43,6 +43,11 @@ fn_start_tmux() {
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
+	date '+%s' > "${lockdir}/${selfname}-starting.lock"
+	# Create start lockfile that exists only when the server is running.
+	date '+%s' > "${lockdir}/${selfname}-start.lock"
+	echo "${version}" >> "${lockdir}/${selfname}-start.lock"
+	echo "${port}" >> "${lockdir}/${selfname}-start.lock"
 	fn_reload_startparameters
 
 	# Create uid to ensure unique tmux socket name.
@@ -156,14 +161,11 @@ fn_start_tmux() {
 				fi
 			fi
 		fi
+		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	else
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
-		# Create start lockfile that exists only when the server is running.
-		date '+%s' > "${lockdir}/${selfname}-start.lock"
-		echo "${version}" >> "${lockdir}/${selfname}-start.lock"
-		echo "${port}" >> "${lockdir}/${selfname}-start.lock"
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
@@ -201,4 +203,5 @@ else
 	fn_start_tmux
 fi
 
+rm -f "${lockdir:?}/${selfname}-starting.lock"
 core_exit.sh
