@@ -53,6 +53,7 @@ fn_start_tmux() {
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
 		# stop running server (if running) to prevent lingering tmux sessions.
+		exitbypass=1
 		command_stop.sh
 		uid=$(date '+%s' | sha1sum | head -c 8)
 		echo "${uid}" > "${datadir}/${selfname}.uid"
