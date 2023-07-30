@@ -207,7 +207,7 @@ fn_update_steamcmd_compare() {
 	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
 		# Create update lockfile.
-		date '+%s' > "${lockdir:?}/${selfname}-update.lock"
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"

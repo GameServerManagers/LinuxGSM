@@ -50,18 +50,18 @@ fn_monitor_check_debug() {
 
 fn_monitor_check_starting(){
 	# Remove stale lockfile.
-	if [ -f "${lockdir}/starting.lock" ]; then
-		if [ "$(find "${lockdir}/starting.lock" -mmin +5)" ]; then
+	if [ -f "${lockdir}/${selfname}-starting.lock" ]; then
+		if [ "$(find "${lockdir}/${selfname}-starting.lock" -mmin +5)" ]; then
 			fn_print_dots "Checking start: "
 			fn_print_checking_eol
 			fn_print_warn "Checking start: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking start: Removing stale lockfile"
-			rm -f "${lockdir:?}/starting.lock"
+			rm -f "${lockdir:?}/${selfname}-starting.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/starting.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} start")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} start")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking start: "
 		fn_print_checking_eol
 		fn_print_info "Checking start: LinuxGSM is starting: "
@@ -73,18 +73,18 @@ fn_monitor_check_starting(){
 
 fn_monitor_check_stopping(){
 	# Remove stale lockfile.
-	if [ -f "${lockdir}/stopping.lock" ]; then
-		if [ "$(find "${lockdir}/stopping.lock" -mmin +5)" ]; then
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ]; then
+		if [ "$(find "${lockdir}/${selfname}-stopping.lock" -mmin +5)" ]; then
 			fn_print_dots "Checking stop: "
 			fn_print_checking_eol
 			fn_print_warn "Checking stop: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking stop: Removing stale lockfile"
-			rm -f "${lockdir:?}/stopping.lock"
+			rm -f "${lockdir:?}/${selfname}-stopping.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/stopping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking stop: "
 		fn_print_checking_eol
 		fn_print_info "Checking stop: LinuxGSM is stopping: "
@@ -119,18 +119,18 @@ fn_monitor_check_backup() {
 
 fn_monitor_check_update() {
 	# Remove stale lockfile.
-	if [ -f "${lockdir}/${selfname}-update.lock" ]; then
-		if [ "$(find "${lockdir}/${selfname}-update.lock" -mmin +15)" ]; then
+	if [ -f "${lockdir}/update.lock" ]; then
+		if [ "$(find "${lockdir}/update.lock" -mmin +15)" ]; then
 			fn_print_dots "Checking update: "
 			fn_print_checking_eol
 			fn_print_warn "Checking update: Removing stale lockfile: "
 			fn_print_warn_eol
 			fn_script_log_warn "Checking update: Removing stale lockfile"
-			rm -f "${lockdir:?}/${selfname}-update.lock"
+			rm -f "${lockdir:?}/update.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
 		fn_print_dots "Checking update: "
 		fn_print_checking_eol
 		fn_print_info_nl "Checking update: LinuxGSM is updating: "
