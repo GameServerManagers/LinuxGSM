@@ -13,7 +13,7 @@ fn_firstcommand_set
 
 fn_monitor_check_lockfile() {
 	# Monitor does not run if lockfile is not found.
-	if [ ! -f "${lockdir}/${selfname}-start.lock" ]; then
+	if [ ! -f "${lockdir}/${selfname}-started.lock" ]; then
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
@@ -25,10 +25,10 @@ fn_monitor_check_lockfile() {
 	fi
 
 	# Fix if lockfile is not unix time or contains letters
-	if [ -f "${lockdir}/${selfname}-start.lock" ] && [[ "$(head -n 1 "${lockdir}/${selfname}-start.lock")" =~ [A-Za-z] ]]; then
-		date '+%s' > "${lockdir}/${selfname}-start.lock"
-		echo "${version}" >> "${lockdir}/${selfname}-start.lock"
-		echo "${port}" >> "${lockdir}/${selfname}-start.lock"
+	if [ -f "${lockdir}/${selfname}-started.lock" ] && [[ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" =~ [A-Za-z] ]]; then
+		date '+%s' > "${lockdir}/${selfname}-started.lock"
+		echo "${version}" >> "${lockdir}/${selfname}-started.lock"
+		echo "${port}" >> "${lockdir}/${selfname}-started.lock"
 	fi
 }
 
@@ -93,12 +93,12 @@ fn_monitor_check_stopping(){
 		fi
 	fi
 
-	if [ -f "${lockdir}/stoping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/stopping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking stop: "
 		fn_print_checking_eol
-		fn_print_info "Checking stop: LinuxGSM is currently stoping: "
+		fn_print_info "Checking stop: LinuxGSM is currently stopping: "
 		fn_print_info_eol
-		fn_script_log_info "Checking backup: LinuxGSM is currently stoping"
+		fn_script_log_info "Checking backup: LinuxGSM is currently stopping"
 		core_exit.sh
 	fi
 }
@@ -229,12 +229,12 @@ fn_monitor_query() {
 			fn_print_querying_eol
 			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 			# querydelay
-			if [ "$(head -n 1 "${lockdir}/${selfname}-start.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
+			if [ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
 				fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
 				fn_print_delay_eol_nl
 				fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 				fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-				fn_script_log_info "Server started: $(date -d @$(head -n 1 "${lockdir}/${selfname}-start.lock"))"
+				fn_script_log_info "Server started: $(date -d @$(head -n 1 "${lockdir}/${selfname}-started.lock"))"
 				fn_script_log_info "Current time: $(date)"
 				monitorpass=1
 				core_exit.sh

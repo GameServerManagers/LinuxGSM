@@ -22,7 +22,7 @@ fn_backup_trap() {
 	echo -en "backup ${backupname}.tar.gz..."
 	fn_print_removed_eol_nl
 	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
-	# Remove lock file.
+	# Remove backup lockfile.
 	rm -f "${lockdir:?}/backup.lock"
 	fn_backup_start_server
 	unset exitbypass
@@ -31,9 +31,21 @@ fn_backup_trap() {
 
 # Check if a backup is pending or has been aborted using backup.lock.
 fn_backup_check_lockfile() {
+	# Remove stale lockfile.
 	if [ -f "${lockdir}/backup.lock" ]; then
-		fn_print_info_nl "Lock file found: Backup is currently running"
-		fn_script_log_error "Lock file found: Backup is currently running: ${lockdir}/backup.lock"
+		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
+			fn_print_dots "Lockfile found: "
+			fn_print_checking_eol
+			fn_print_warn "Lockfile found: Removing stale lockfile: "
+			fn_print_warn_eol
+			fn_script_log_warn "Lockfile found: Removing stale lockfile"
+			rm -f "${lockdir:?}/backup.lock"
+		fi
+	fi
+
+	if [ -f "${lockdir}/backup.lock" ]; then
+		fn_print_info_nl "Lockfile found: Backup is currently running"
+		fn_script_log_error "Lockfile found: Backup is currently running: ${lockdir}/backup.lock"
 		core_exit.sh
 	fi
 }
@@ -118,7 +130,7 @@ fn_backup_migrate_olddir() {
 fn_backup_create_lockfile() {
 	# Create lockfile.
 	date '+%s' > "${lockdir}/backup.lock"
-	fn_script_log_info "Lockfile generated"
+	fn_script_log_info "Backup lockfile generated"
 	fn_script_log_info "${lockdir}/backup.lock"
 	# trap to remove lockfile on quit.
 	trap fn_backup_trap INT
@@ -140,7 +152,7 @@ fn_backup_compression() {
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}/backup.lock" ./.
+	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" ./.
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
@@ -153,8 +165,6 @@ fn_backup_compression() {
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 	fi
-	# Remove lock file
-	rm -f "${lockdir:?}/backup.lock"
 }
 
 # Clear old backups according to maxbackups and maxbackupdays variables.
@@ -265,4 +275,6 @@ fn_backup_compression
 fn_backup_prune
 fn_backup_start_server
 
+# Remove backup lockfile.
+rm -f "${lockdir:?}/backup.lock"
 core_exit.sh

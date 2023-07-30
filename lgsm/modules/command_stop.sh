@@ -269,14 +269,20 @@ fn_stop_pre_check() {
 }
 
 check.sh
+
+# Create a stopping lockfile that only exists while the stop command is running.
+date '+%s' > "${lockdir}/${selfname}-stopping.lock"
+
 fn_print_dots "${servername}"
 
 info_game.sh
 fn_stop_pre_check
-# Remove lockfile.
-if [ -f "${lockdir}/${selfname}-start.lock" ]; then
-	rm -f "${lockdir:?}/${selfname}-start.lock"
-fi
+
+# Remove started lockfile.
+rm -f "${lockdir:?}/${selfname}-started.lock"
+
+# Remove stopping lockfile.
+rm -f "${lockdir:?}/${selfname}-stopping.lock"
 
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh

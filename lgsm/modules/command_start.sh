@@ -43,11 +43,14 @@ fn_start_tmux() {
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
+	# Create a starting lockfile that only exists while the start command is running.
 	date '+%s' > "${lockdir}/${selfname}-starting.lock"
+
 	# Create start lockfile that exists only when the server is running.
-	date '+%s' > "${lockdir}/${selfname}-start.lock"
-	echo "${version}" >> "${lockdir}/${selfname}-start.lock"
-	echo "${port}" >> "${lockdir}/${selfname}-start.lock"
+	date '+%s' > "${lockdir}/${selfname}-started.lock"
+	echo "${version}" >> "${lockdir}/${selfname}-started.lock"
+	echo "${port}" >> "${lockdir}/${selfname}-started.lock"
+
 	fn_reload_startparameters
 
 	# Create uid to ensure unique tmux socket name.
@@ -71,8 +74,9 @@ fn_start_tmux() {
 	# Create logfile.
 	touch "${consolelog}"
 
-	# Create last start lock file
-	date +%s > "${lockdir}/${selfname}-laststart.lock"
+	# Create last started Lockfile.
+	# TODO: should this be since last successful update?
+	date +%s > "${lockdir}/${selfname}-last-started.lock"
 
 	# tmux compiled from source will return "master", therefore ignore it.
 	if [ "${tmuxv}" == "master" ]; then
@@ -162,6 +166,7 @@ fn_start_tmux() {
 				fi
 			fi
 		fi
+		# Remove starting lockfile when command ends.
 		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	else
@@ -175,12 +180,13 @@ fn_start_tmux() {
 check.sh
 
 # If the server already started dont start again.
-# $status comes from check_status.sh, which is run by check.sh for the command.
 if [ "${status}" != "0" ]; then
 	fn_print_dots "${servername}"
 	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
+		# Remove starting lockfile when command ends.
+		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	fi
 fi
@@ -204,5 +210,6 @@ else
 	fn_start_tmux
 fi
 
+# Remove starting lockfile when command ends.
 rm -f "${lockdir:?}/${selfname}-starting.lock"
 core_exit.sh

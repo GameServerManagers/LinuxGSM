@@ -37,7 +37,7 @@ else
 	update_steamcmd.sh
 fi
 
-# remove update lockfile
+# remove update lockfile.
 rm -f "${lockdir:?}/${selfname}-update.lock"
 
 core_exit.sh
