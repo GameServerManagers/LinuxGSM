@@ -181,7 +181,7 @@ fn_start_tmux() {
 check.sh
 
 # If user ran the start command monitor will become enabled.
-if [ -z "${exitbypass}" ]; then
+if [ "${firstcommandname}" == "START" ]||[ "${firstcommandname}" == "RESTART" ]; then
 	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 

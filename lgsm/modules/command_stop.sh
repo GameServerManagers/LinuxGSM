@@ -282,7 +282,7 @@ fn_stop_pre_check
 rm -f "${lockdir:?}/${selfname}-started.lock"
 
 # If user ran the stop command monitor will become disabled.
-if [ -z "${exitbypass}" ]; then
+if [ "${firstcommandname}" == "STOP" ];then
 	rm -f "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 
