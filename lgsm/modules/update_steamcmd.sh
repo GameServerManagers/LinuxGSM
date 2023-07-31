@@ -23,6 +23,7 @@ if [ "${forceupdate}" == "1" ]; then
 		exitbypass=1
 		command_stop.sh
 		fn_firstcommand_reset
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_dl_steamcmd
 		date +%s > "${lockdir}/last-updated.lock"
 		exitbypass=1
