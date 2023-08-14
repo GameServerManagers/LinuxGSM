@@ -68,21 +68,22 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 		{
 		\"name\": \"LinuxGSM\",
 		\"params\": {
+			\"country\":\"${countrycode}\"
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
-			\"memusedroundup\": \"${memusedroundup}MB\",
-			\"serverfilesdu\": \"${serverfilesdu}\",
-			\"uuidhardware\": \"${uuidhardware}\",
-			\"uuidinstall\": \"${uuidinstall}\",
-			\"uuidinstance\": \"${uuidinstance}\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
 			\"game\": \"${gamename}\",
+			\"memusedroundup\": \"${memusedroundup}MB\",
 			\"ramused\": \"${memusedroundup}MB\",
 			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
 			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
 			\"serverdisk\": \"${totalspace}\",
+			\"serverfilesdu\": \"${serverfilesdu}\",
 			\"serverram\": \"${physmemtotal}\",
-			\"version\": \"${version}\"
+			\"uuidhardware\": \"${uuidhardware}\",
+			\"uuidinstall\": \"${uuidinstall}\",
+			\"uuidinstance\": \"${uuidinstance}\",
+			\"version\": \"${version}\",
 			}
 		}
 	]
