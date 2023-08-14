@@ -68,7 +68,7 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 		{
 		\"name\": \"LinuxGSM\",
 		\"params\": {
-			\"countryId\":\"${countrycode}\"
+			\"countryId\":\"${countrycode}\",
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
@@ -83,7 +83,7 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 			\"uuidhardware\": \"${uuidhardware}\",
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
-			\"version\": \"${version}\",
+			\"version\": \"${version}\"
 			}
 		}
 	]
