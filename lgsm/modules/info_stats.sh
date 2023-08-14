@@ -89,7 +89,6 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 }"
 
 curl -i -X POST https://stats.linuxgsm.com/api/event \
-  -H 'X-Forwarded-For: 127.0.0.1' \
   -H 'Content-Type: application/json' \
   --data "{\"name\":\"linuxgsm\",
 			\"url\":\"https://stats.linuxgsm.com\",
