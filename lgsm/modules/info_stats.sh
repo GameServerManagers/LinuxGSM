@@ -68,7 +68,6 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 		{
 		\"name\": \"LinuxGSM\",
 		\"params\": {
-			\"countryId\":\"${countrycode}\",
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
