@@ -61,7 +61,6 @@ memusedroundup="$(((memused + 99) / 100 * 100))"
 # Install Property - UA-165287622-2
 # Hardware Property - UA-165287622-3
 
-
 curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "
 {
 	\"client_id\": \"${uuidinstance}\",
@@ -89,6 +88,28 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 	]
 }"
 
+curl -i -X POST https://stats.linuxgsm.com/api/event \
+  -H 'X-Forwarded-For: 127.0.0.1' \
+  -H 'Content-Type: application/json' \
+  --data "{\"name\":\"linuxgsm\",
+			\"url\":\"https://stats.linuxgsm.com\",
+			\"domain\":\"stats.linuxgsm.com\",
+			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
+			\"memusedroundup\": \"${memusedroundup}MB\",
+			\"serverfilesdu\": \"${serverfilesdu}\",
+			\"uuidhardware\": \"${uuidhardware}\",
+			\"uuidinstall\": \"${uuidinstall}\",
+			\"uuidinstance\": \"${uuidinstance}\",
+			\"diskused\": \"${serverfilesdu}\",
+			\"distro\": \"${distroname}\",
+			\"game\": \"${gamename}\",
+			\"ramused\": \"${memusedroundup}MB\",
+			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
+			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
+			\"serverdisk\": \"${totalspace}\",
+			\"serverram\": \"${physmemtotal}\",
+			\"version\": \"${version}\"
+			}"
 ## Alert Stats.
 if [ "${discordalert}" == "on" ]; then
 	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Discord" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
