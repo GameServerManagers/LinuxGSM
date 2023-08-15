@@ -91,7 +91,7 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 curl -i -X POST https://stats.linuxgsm.com/api/event \
 	-H 'User-Agent: curl' \
 	-H 'Content-Type: application/json' \
-	--data "{\"name\":\"linuxgsm\",
+	--data "{\"name\":\"pageview\",
 				\"url\":\"https://stats.linuxgsm.com\",
 				\"domain\":\"stats.linuxgsm.com\",
 				\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
