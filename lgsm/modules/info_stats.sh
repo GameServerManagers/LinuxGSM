@@ -110,37 +110,18 @@ curl -X POST https://stats.linuxgsm.com/api/event \
 				\"serverdisk\": \"${totalspace}\",
 				\"serverram\": \"${physmemtotal}\",
 				\"version\": \"${version}\",
-				\"virtualenvironment\": \"${virtualenvironment}\"
+				\"virtualenvironment\": \"${virtualenvironment}\",
+				\"discordalert\": \"${discordalert}\",
+				\"emailalert\": \"${emailalert}\",
+				\"gotifyalert\": \"${gotifyalert}\",
+				\"iftttalert\": \"${iftttalert}\",
+				\"mailgunalert\": \"${mailgunalert}\",
+				\"pushbulletalert\": \"${pushbulletalert}\",
+				\"pushoveralert\": \"${pushoveralert}\",
+				\"rocketchatalert\": \"${rocketchatalert}\",
+				\"slackalert\": \"${slackalert}\",
+				\"telegramalert\": \"${telegramalert}\"
 			}"
-
-## Alert Stats.
-if [ "${discordalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Discord" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${emailalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Email" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${iftttalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=IFTTT" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${mailgunalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Mailgun" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${pushbulletalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushbullet" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${pushoveralert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushover" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${rocketchatalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Rocket Chat" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${slackalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Slack" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-if [ "${telegramalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Telegram" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
 
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* uuid-${selfname}: ${uuidinstance}"
@@ -155,3 +136,6 @@ fn_script_log_info "* Server CPU Model: ${cpumodel}"
 fn_script_log_info "* Server CPU Frequency: ${cpufreqency}"
 fn_script_log_info "* Server RAM: ${physmemtotal}"
 fn_script_log_info "* Server Disk: ${totalspace}"
+fn_script_log_info "* Virtual Environment: ${virtualenvironment}"
+fn_script_log_info "* LinuxGSM Version: ${version}"
+fn_script_log_info "* Enabled Alerts"
