@@ -83,7 +83,7 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
-			\"virtualenvironment\": \"${virtualenvironment}\"
+			\"virtualenvironment\": \"${virtualenvironment}\",
 			\"discordalert\": \"${discordalert}\",
 			\"emailalert\": \"${emailalert}\",
 			\"gotifyalert\": \"${gotifyalert}\",
