@@ -84,6 +84,16 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
 			\"virtualenvironment\": \"${virtualenvironment}\"
+			\"discordalert\": \"${discordalert}\",
+			\"emailalert\": \"${emailalert}\",
+			\"gotifyalert\": \"${gotifyalert}\",
+			\"iftttalert\": \"${iftttalert}\",
+			\"mailgunalert\": \"${mailgunalert}\",
+			\"pushbulletalert\": \"${pushbulletalert}\",
+			\"pushoveralert\": \"${pushoveralert}\",
+			\"rocketchatalert\": \"${rocketchatalert}\",
+			\"slackalert\": \"${slackalert}\",
+			\"telegramalert\": \"${telegramalert}\"
 			}
 		}
 	]
