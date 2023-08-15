@@ -89,7 +89,7 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 	]
 }"
 
-curl -i -X POST https://stats.linuxgsm.com/api/event \
+curl -X POST https://stats.linuxgsm.com/api/event \
 	-H 'User-Agent: curl' \
 	-H 'Content-Type: application/json' \
 	--data "{\"name\":\"pageview\",
