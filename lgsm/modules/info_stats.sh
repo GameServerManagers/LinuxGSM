@@ -82,7 +82,8 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 			\"uuidhardware\": \"${uuidhardware}\",
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
-			\"version\": \"${version}\"
+			\"version\": \"${version}\",
+			\"virtualenvironment\": \"${virtualenvironment}\"
 			}
 		}
 	]
@@ -108,7 +109,8 @@ curl -i -X POST https://stats.linuxgsm.com/api/event \
 				\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
 				\"serverdisk\": \"${totalspace}\",
 				\"serverram\": \"${physmemtotal}\",
-				\"version\": \"${version}\"
+				\"version\": \"${version}\",
+				\"virtualenvironment\": \"${virtualenvironment}\"
 			}"
 
 ## Alert Stats.

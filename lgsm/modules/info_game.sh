@@ -2397,20 +2397,6 @@ else
 	extip="$(cat "${tmpdir}/extip.txt")"
 fi
 
-# Country code of external IP address
-if [ ! -f "${tmpdir}/countrycode.txt" ]; then
-	countrycode="$(curl --connect-timeout 10 -s https://ipapi.co/country 2> /dev/null)"
-	exitcode=$?
-	# if curl passes add extip to externalip.txt
-	if [ "${exitcode}" == "0" ]; then
-		echo "${countrycode}" > "${tmpdir}/countrycode.txt"
-	else
-		echo "Unable to get external IP address"
-	fi
-else
-	countrycode="$(cat "${tmpdir}/countrycode.txt")"
-fi
-
 # Alert IP address
 if [ "${displayip}" ]; then
 	alertip="${displayip}"
