@@ -69,34 +69,34 @@ payload="{
 		\"params\": {"
 
 if [ "${discordalert}" == "on" ]; then
-	payload="${payload} \"discordalert\": \"${discordalert}\","
+	payload="${payload} \"alert\": \"discord\","
 fi
 if [ "${emailalert}" == "on" ]; then
-	payload="${payload} \"emailalert\": \"${emailalert}\","
+	payload="${payload} \"alert\": \"email\","
 fi
 if [ "${gotifyalert}" == "on" ]; then
-	payload="${payload}, \"gotifyalert\": \"${gotifyalert}\","
+	payload="${payload}, \"alert\": \"gotify\","
 fi
 if [ "${iftttalert}" == "on" ]; then
-	payload="${payload}, \"iftttalert\": \"${iftttalert}\","
+	payload="${payload}, \"alert\": \"ifttt\","
 fi
 if [ "${mailgunalert}" == "on" ]; then
-	payload="${payload} \"mailgunalert\": \"${mailgunalert}\","
+	payload="${payload} \"alert\": \"mailgun\","
 fi
 if [ "${pushbulletalert}" == "on" ]; then
-	payload="${payload} \"pushbulletalert\": \"${pushbulletalert}\","
+	payload="${payload} \"alert\": \"pushbullet\","
 fi
 if [ "${pushoveralert}" == "on" ]; then
-	payload="${payload} \"pushoveralert\": \"${pushoveralert}\","
+	payload="${payload} \"alert\": \"pushover\","
 fi
 if [ "${rocketchatalert}" == "on" ]; then
-	payload="${payload} \"rocketchatalert\": \"${rocketchatalert}\","
+	payload="${payload} \"alert\": \"rocketchat\","
 fi
 if [ "${slackalert}" == "on" ]; then
-	payload="${payload} \"slackalert\": \"${slackalert}\","
+	payload="${payload} \"alert\": \"slack\","
 fi
 if [ "${telegramalert}" == "on" ]; then
-	payload="${payload} \"telegramalert\": \"${telegramalert}\","
+	payload="${payload} \"alert\": \"telegram\","
 fi
 
 
