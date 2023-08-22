@@ -61,8 +61,7 @@ memusedroundup="$(((memused + 99) / 100 * 100))"
 # Install Property - UA-165287622-2
 # Hardware Property - UA-165287622-3
 
-curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "
-{
+payload="{
 	\"client_id\": \"${uuidinstance}\",
 	\"events\": [
 		{
@@ -83,21 +82,46 @@ curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMW
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
-			\"virtualenvironment\": \"${virtualenvironment}\",
-			\"discordalert\": \"${discordalert}\",
-			\"emailalert\": \"${emailalert}\",
-			\"gotifyalert\": \"${gotifyalert}\",
-			\"iftttalert\": \"${iftttalert}\",
-			\"mailgunalert\": \"${mailgunalert}\",
-			\"pushbulletalert\": \"${pushbulletalert}\",
-			\"pushoveralert\": \"${pushoveralert}\",
-			\"rocketchatalert\": \"${rocketchatalert}\",
-			\"slackalert\": \"${slackalert}\",
-			\"telegramalert\": \"${telegramalert}\"
+			\"virtualenvironment\": \"${virtualenvironment}\","
+
+if [ "${discordalert}" == "on" ]; then
+	payload="${payload}, \"discordalert\": \"${discordalert}\""
+fi
+if [ "${emailalert}" == "on" ]; then
+	payload="${payload}, \"emailalert\": \"${emailalert}\""
+fi
+if [ "${gotifyalert}" == "on" ]; then
+	payload="${payload}, \"gotifyalert\": \"${gotifyalert}\""
+fi
+if [ "${iftttalert}" == "on" ]; then
+	payload="${payload}, \"iftttalert\": \"${iftttalert}\""
+fi
+if [ "${mailgunalert}" == "on" ]; then
+	payload="${payload}, \"mailgunalert\": \"${mailgunalert}\""
+fi
+if [ "${pushbulletalert}" == "on" ]; then
+	payload="${payload}, \"pushbulletalert\": \"${pushbulletalert}\""
+fi
+if [ "${pushoveralert}" == "on" ]; then
+	payload="${payload}, \"pushoveralert\": \"${pushoveralert}\""
+fi
+if [ "${rocketchatalert}" == "on" ]; then
+	payload="${payload}, \"rocketchatalert\": \"${rocketchatalert}\""
+fi
+if [ "${slackalert}" == "on" ]; then
+	payload="${payload}, \"slackalert\": \"${slackalert}\""
+fi
+if [ "${telegramalert}" == "on" ]; then
+	payload="${payload}, \"telegramalert\": \"${telegramalert}\""
+fi
+
+payload="${payload}
 			}
 		}
 	]
 }"
+
+curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "${payload}"
 
 curl -X POST https://stats.linuxgsm.com/api/event \
 	-H 'User-Agent: curl' \
