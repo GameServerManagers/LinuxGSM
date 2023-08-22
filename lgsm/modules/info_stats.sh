@@ -66,7 +66,41 @@ payload="{
 	\"events\": [
 		{
 		\"name\": \"LinuxGSM\",
-		\"params\": {
+		\"params\": {"
+
+if [ "${discordalert}" == "on" ]; then
+	payload="${payload} \"discordalert\": \"${discordalert}\","
+fi
+if [ "${emailalert}" == "on" ]; then
+	payload="${payload} \"emailalert\": \"${emailalert}\","
+fi
+if [ "${gotifyalert}" == "on" ]; then
+	payload="${payload}, \"gotifyalert\": \"${gotifyalert}\","
+fi
+if [ "${iftttalert}" == "on" ]; then
+	payload="${payload}, \"iftttalert\": \"${iftttalert}\","
+fi
+if [ "${mailgunalert}" == "on" ]; then
+	payload="${payload} \"mailgunalert\": \"${mailgunalert}\","
+fi
+if [ "${pushbulletalert}" == "on" ]; then
+	payload="${payload} \"pushbulletalert\": \"${pushbulletalert}\","
+fi
+if [ "${pushoveralert}" == "on" ]; then
+	payload="${payload} \"pushoveralert\": \"${pushoveralert}\","
+fi
+if [ "${rocketchatalert}" == "on" ]; then
+	payload="${payload} \"rocketchatalert\": \"${rocketchatalert}\","
+fi
+if [ "${slackalert}" == "on" ]; then
+	payload="${payload} \"slackalert\": \"${slackalert}\","
+fi
+if [ "${telegramalert}" == "on" ]; then
+	payload="${payload} \"telegramalert\": \"${telegramalert}\","
+fi
+
+
+payload="${payload}
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
@@ -82,40 +116,7 @@ payload="{
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
-			\"virtualenvironment\": \"${virtualenvironment}\","
-
-if [ "${discordalert}" == "on" ]; then
-	payload="${payload}, \"discordalert\": \"${discordalert}\""
-fi
-if [ "${emailalert}" == "on" ]; then
-	payload="${payload}, \"emailalert\": \"${emailalert}\""
-fi
-if [ "${gotifyalert}" == "on" ]; then
-	payload="${payload}, \"gotifyalert\": \"${gotifyalert}\""
-fi
-if [ "${iftttalert}" == "on" ]; then
-	payload="${payload}, \"iftttalert\": \"${iftttalert}\""
-fi
-if [ "${mailgunalert}" == "on" ]; then
-	payload="${payload}, \"mailgunalert\": \"${mailgunalert}\""
-fi
-if [ "${pushbulletalert}" == "on" ]; then
-	payload="${payload}, \"pushbulletalert\": \"${pushbulletalert}\""
-fi
-if [ "${pushoveralert}" == "on" ]; then
-	payload="${payload}, \"pushoveralert\": \"${pushoveralert}\""
-fi
-if [ "${rocketchatalert}" == "on" ]; then
-	payload="${payload}, \"rocketchatalert\": \"${rocketchatalert}\""
-fi
-if [ "${slackalert}" == "on" ]; then
-	payload="${payload}, \"slackalert\": \"${slackalert}\""
-fi
-if [ "${telegramalert}" == "on" ]; then
-	payload="${payload}, \"telegramalert\": \"${telegramalert}\""
-fi
-
-payload="${payload}
+			\"virtualenvironment\": \"${virtualenvironment}\"
 			}
 		}
 	]
