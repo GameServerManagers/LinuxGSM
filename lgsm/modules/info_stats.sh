@@ -56,11 +56,7 @@ cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
 # nearest 100MB
 memusedroundup="$(((memused + 99) / 100 * 100))"
 
-# Spliting the metrics in to 3 propertys allows more accurate metrics on numbers of invidual instances, installs and hardware.
-# Instance Property - UA-165287622-1
-# Install Property - UA-165287622-2
-# Hardware Property - UA-165287622-3
-
+# Sending stats to Google Analytics GA4
 payload="{
 	\"client_id\": \"${uuidinstance}\",
 	\"events\": [
@@ -99,7 +95,6 @@ if [ "${telegramalert}" == "on" ]; then
 	payload="${payload} \"alert\": \"telegram\","
 fi
 
-
 payload="${payload}
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
 			\"diskused\": \"${serverfilesdu}\",
@@ -123,40 +118,6 @@ payload="${payload}
 }"
 
 curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "${payload}"
-
-curl -X POST https://stats.linuxgsm.com/api/event \
-	-H 'User-Agent: curl' \
-	-H 'Content-Type: application/json' \
-	--data "{\"name\":\"pageview\",
-				\"url\":\"https://stats.linuxgsm.com\",
-				\"domain\":\"stats.linuxgsm.com\",
-				\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
-				\"memusedroundup\": \"${memusedroundup}MB\",
-				\"serverfilesdu\": \"${serverfilesdu}\",
-				\"uuidhardware\": \"${uuidhardware}\",
-				\"uuidinstall\": \"${uuidinstall}\",
-				\"uuidinstance\": \"${uuidinstance}\",
-				\"diskused\": \"${serverfilesdu}\",
-				\"distro\": \"${distroname}\",
-				\"game\": \"${gamename}\",
-				\"ramused\": \"${memusedroundup}MB\",
-				\"servercpu\": \"${cpumodel} ${cpucores} cores\",
-				\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
-				\"serverdisk\": \"${totalspace}\",
-				\"serverram\": \"${physmemtotal}\",
-				\"version\": \"${version}\",
-				\"virtualenvironment\": \"${virtualenvironment}\",
-				\"discordalert\": \"${discordalert}\",
-				\"emailalert\": \"${emailalert}\",
-				\"gotifyalert\": \"${gotifyalert}\",
-				\"iftttalert\": \"${iftttalert}\",
-				\"mailgunalert\": \"${mailgunalert}\",
-				\"pushbulletalert\": \"${pushbulletalert}\",
-				\"pushoveralert\": \"${pushoveralert}\",
-				\"rocketchatalert\": \"${rocketchatalert}\",
-				\"slackalert\": \"${slackalert}\",
-				\"telegramalert\": \"${telegramalert}\"
-			}"
 
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* uuid-${selfname}: ${uuidinstance}"
