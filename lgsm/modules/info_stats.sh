@@ -56,46 +56,16 @@ cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
 # nearest 100MB
 memusedroundup="$(((memused + 99) / 100 * 100))"
 
+apisecret="A-OzP02TSMWt4_vHi6ZpUw"
+measurementid="G-0CR8V7EMT5"
+
 # Sending stats to Google Analytics GA4
 payload="{
 	\"client_id\": \"${uuidinstance}\",
 	\"events\": [
 		{
 		\"name\": \"LinuxGSM\",
-		\"params\": {"
-
-if [ "${discordalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"discord\","
-fi
-if [ "${emailalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"email\","
-fi
-if [ "${gotifyalert}" == "on" ]; then
-	payload="${payload}, \"alert\": \"gotify\","
-fi
-if [ "${iftttalert}" == "on" ]; then
-	payload="${payload}, \"alert\": \"ifttt\","
-fi
-if [ "${mailgunalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"mailgun\","
-fi
-if [ "${pushbulletalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"pushbullet\","
-fi
-if [ "${pushoveralert}" == "on" ]; then
-	payload="${payload} \"alert\": \"pushover\","
-fi
-if [ "${rocketchatalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"rocketchat\","
-fi
-if [ "${slackalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"slack\","
-fi
-if [ "${telegramalert}" == "on" ]; then
-	payload="${payload} \"alert\": \"telegram\","
-fi
-
-payload="${payload}
+		\"params\": {
 			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
@@ -117,7 +87,72 @@ payload="${payload}
 	]
 }"
 
+fn_alert_payload(){
+alertpayload="{
+	\"client_id\": \"${uuidinstance}\",
+	\"events\": [
+		{
+		\"name\": \"LinuxGSM\",
+		\"params\": {
+			\"alert\": \"${alerttype}\"
+			}
+		}
+	]
+}"
+}
+
 curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "${payload}"
+
+if [ "${discordalert}" == "on" ]; then
+	alerttype="discord"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${emailalert}" == "on" ]; then
+	alerttype="email"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${gotifyalert}" == "on" ]; then
+	alerttype="gotify"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${iftttalert}" == "on" ]; then
+	alerttype="ifttt"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${mailgunalert}" == "on" ]; then
+	alerttype="mailgun"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${pushbulletalert}" == "on" ]; then
+	alerttype="pushbullet"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${pushoveralert}" == "on" ]; then
+	alerttype="pushover"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${rocketchatalert}" == "on" ]; then
+	alerttype="rocketchat"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${slackalert}" == "on" ]; then
+	alerttype="slack"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${telegramalert}" == "on" ]; then
+	alerttype="telegram"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
 
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* uuid-${selfname}: ${uuidinstance}"
