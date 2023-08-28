@@ -119,6 +119,14 @@ fn_dl_steamcmd() {
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Update required but not completed - check network"
+			# Disk write failure.
+			elif [ -n "$(grep "0x606" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Disk write failure"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Disk write failure"
+			# Missing update files.
+			elif [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"

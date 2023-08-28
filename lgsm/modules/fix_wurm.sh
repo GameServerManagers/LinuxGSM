@@ -10,14 +10,15 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # First run requires start with no parms.
 # After first run new dirs are created.
 if [ ! -d "${serverfiles}/Creative" ]; then
-	parmsbypass=1
-	fixbypass=1
-	exitbypass=1
-	command_start.sh
-	fn_firstcommand_reset
-	sleep 10
-	exitbypass=1
-	command_stop.sh
-	fn_firstcommand_reset
-	unset parmsbypass
+	fixname="Copy Creative directory"
+	fn_fix_msg_start
+	cp -R "${serverfiles}/dist/Creative" "${serverfiles}/Creative"
+	fn_fix_msg_end
+fi
+
+if [ ! -d "${serverfiles}/Adventure" ]; then
+	fixname="Copy Adventure directory"
+	fn_fix_msg_start
+	cp -R "${serverfiles}/dist/Adventure" "${serverfiles}/Adventure"
+	fn_fix_msg_end
 fi

@@ -3,9 +3,9 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Core modules for SteamCMD
+# Description: Core functions for SteamCMD
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_steamcmd() {
 	if [ "${shortname}" == "ark" ] && [ "${installsteamcmd}" == "1" ]; then
@@ -32,10 +32,14 @@ fn_check_steamcmd_user() {
 	# Anonymous user is set if steamuser is missing.
 	if [ -z "${steamuser}" ]; then
 		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_info "Using anonymous Steam login"
+			fn_script_log_info "Login to SteamCMD as: anonymous"
 		fi
 		steamuser="anonymous"
 		steampass=''
+	else
+		if [ -d "${lgsmlogdir}" ]; then
+			fn_script_log_info "Login to SteamCMD as: ${steamuser}"
+		fi
 	fi
 }
 

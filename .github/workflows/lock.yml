@@ -1,20 +1,18 @@
-name: "Lock Threads"
-
+name: Lock Threads
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * 1"
 
 permissions:
-  contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   lock:
-    permissions:
-      issues: write # for dessant/lock-threads to lock issues
-      pull-requests: write # for dessant/lock-threads to lock PRs
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@v4
+      - name: Lock Threads
+        uses: dessant/lock-threads@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-comment: >

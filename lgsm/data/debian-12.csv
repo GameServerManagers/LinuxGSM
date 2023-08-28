@@ -16,11 +16,11 @@ bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev,dos2unix
+bt,libicu-dev,dos2unix,libxml2-utils
 btl
 cc
 cd
-ck,xvfb
+ck,xvfb,libxi6
 cmw
 cod,libstdc++5:i386
 cod2,libstdc++5:i386
@@ -32,6 +32,7 @@ cs
 cscz
 csgo
 css,libtinfo5:i386
+ct
 dab
 dayz
 dmc
@@ -48,6 +49,7 @@ ets2
 fctr
 fof
 gmod,libtinfo5:i386
+hcu
 hl2dm
 hldm
 hldms
@@ -75,9 +77,11 @@ nmrih,libtinfo5:i386
 ns
 ns2,speex,libtbb12
 ns2c,speex:i386,libtbb12
+ohd
 onset,libmariadb-dev
 opfor
 pc
+pc2
 pmc,openjdk-17-jre
 pstbs,libgconf-2-4
 pvkii
@@ -103,7 +107,7 @@ sfc,libtinfo5:i386
 sof2
 sol
 squad
-st
+st,libxml2-utils
 stn
 sven,libssl3:i386,zlib1g:i386
 terraria

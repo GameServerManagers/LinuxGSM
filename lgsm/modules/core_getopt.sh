@@ -22,7 +22,7 @@ cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
 cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
-cmd_sponso=("s;sponsor" "command_sponsor.sh" "Donation options.")
+cmd_sponsor=("s;sponsor" "command_sponsor.sh" "Donation options.")
 cmd_send=("sd;send" "command_send.sh" "Send command to game server console.")
 # Console servers only.
 cmd_console=("c;console" "command_console.sh" "Access server console.")
@@ -55,7 +55,7 @@ cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect requi
 cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
 cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
 cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
-cmd_dev_clear_modules=("cf;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
+cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 
 ### Set specific opt here.
 

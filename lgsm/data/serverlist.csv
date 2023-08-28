@@ -1,6 +1,7 @@
+shortname,gameservername,gamename,os
 ac,acserver,Assetto Corsa,ubuntu-22.04
 ahl,ahlserver,Action Half-Life,ubuntu-22.04
-ahl2,ahl2server,Action: Source,ubuntu-22.04
+ahl2,ahl2server,Action: Source,ubuntu-20.04
 ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
 arma3,arma3server,ARMA 3,ubuntu-22.04
 armar,armarserver,Arma Reforger,ubuntu-20.04
@@ -15,7 +16,7 @@ bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-22.04
 bo,boserver,Ballistic Overkill,ubuntu-22.04
 bs,bsserver,Blade Symphony,ubuntu-22.04
 bt,btserver,Barotrauma,ubuntu-22.04
-btl,btlserver,BATTALION: Legacy,ubuntu-22.04
+btl,btlserver,BATTALION: Legacy,ubuntu-20.04
 cc,ccserver,Codename CURE,ubuntu-22.04
 cd,cdserver,Crafting Dead,ubuntu-22.04
 ck,ckserver,Core Keeper,ubuntu-22.04
@@ -30,6 +31,7 @@ cs,csserver,Counter-Strike 1.6,ubuntu-22.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-22.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-22.04
 css,cssserver,Counter-Strike: Source,ubuntu-22.04
+ct,ctserver,Craftopia,ubuntu-22.04
 dab,dabserver,Double Action: Boogaloo,ubuntu-22.04
 dayz,dayzserver,DayZ,ubuntu-22.04
 dmc,dmcserver,Deathmatch Classic,ubuntu-22.04
@@ -46,6 +48,7 @@ ets2,ets2server,Euro Truck Simulator 2,ubuntu-22.04
 fctr,fctrserver,Factorio,ubuntu-22.04
 fof,fofserver,Fistful of Frags,ubuntu-22.04
 gmod,gmodserver,Garrys Mod,ubuntu-22.04
+hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-22.04
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
@@ -73,6 +76,7 @@ nmrih,nmrihserver,No More Room in Hell,ubuntu-22.04
 ns,nsserver,Natural Selection,ubuntu-22.04
 ns2,ns2server,Natural Selection 2,ubuntu-22.04
 ns2c,ns2cserver,NS2: Combat,ubuntu-22.04
+ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-22.04
 onset,onsetserver,Onset,ubuntu-20.04
 opfor,opforserver,Opposing Force,ubuntu-22.04
 pc,pcserver,Project Cars,ubuntu-22.04
@@ -128,4 +132,3 @@ wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
-

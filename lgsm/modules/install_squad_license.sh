@@ -15,9 +15,9 @@ echo -e "Server license is an optional feature for ${gamename} server"
 fn_script_log_info "Server license is an optional feature for ${gamename} server"
 
 echo -e "Get more info and a server license here:"
-echo -e "http://forums.joinsquad.com/topic/16519-server-licensing-general-info/"
+echo -e "https://squad.fandom.com/wiki/Server_licensing"
 fn_script_log_info "Get more info and a server license here:"
-fn_script_log_info "http://forums.joinsquad.com/topic/16519-server-licensing-general-info/"
+fn_script_log_info "https://squad.fandom.com/wiki/Server_licensing"
 echo -e ""
 fn_sleep_time
 echo -e "The Squad server license can be changed by editing ${servercfgdir}/License.cfg."

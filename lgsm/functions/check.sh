@@ -31,7 +31,7 @@ if [ "${commandname}" != "INSTALL" ] && [ "${commandname}" != "UPDATE-LGSM" ] &&
 	check_system_dir.sh
 fi
 
-allowed_commands_array=(START DEBUG)
+allowed_commands_array=(DEBUG START)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_executable.sh
@@ -47,7 +47,7 @@ if [ "$(whoami)" != "root" ] || [ -f /.dockerenv ]; then
 	done
 fi
 
-allowed_commands_array=(BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE)
+allowed_commands_array=(BACKUP CHANGE-PASSWORD CONSOLE DEBUG DETAILS FASTDL MAP-COMPRESSOR MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT UPDATE UPDATE-LGSM VALIDATE WIPE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_logs.sh
@@ -68,7 +68,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS START STOP POST-DETAILS)
+allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST-DETAILS START STOP)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ -z "${installflag}" ]; then
@@ -77,7 +77,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START UPDATE VALIDATE CHECK-UPDATE)
+allowed_commands_array=(CHECK-UPDATE DEBUG MONITOR START UPDATE VALIDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ "${appid}" ]; then
@@ -86,7 +86,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
+allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR POST-DETAILS START STOP UPDATE VALIDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_status.sh

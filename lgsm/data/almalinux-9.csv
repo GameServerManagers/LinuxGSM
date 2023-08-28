@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -16,7 +16,7 @@ bfv,compat-libstdc++-33.i686,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu,dos2unix
+bt,libicu,dos2unix,libxml2
 btl
 cc
 cd
@@ -32,6 +32,7 @@ cs
 cscz
 csgo
 css,ncurses-libs.i686
+ct
 dab
 dayz
 dmc
@@ -48,6 +49,7 @@ ets2
 fctr
 fof
 gmod,ncurses-libs.i686
+hcu
 hl2dm
 hldm
 hldms
@@ -75,9 +77,11 @@ nmrih,ncurses-libs.i686
 ns
 ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
+ohd
 onset,mariadb-connector-c
 opfor
 pc
+pc2
 pmc,java-17-openjdk
 pstbs,GConf2
 pvkii
@@ -103,7 +107,7 @@ sfc,ncurses-libs.i686
 sof2
 sol
 squad
-st
+st,libxml2
 stn
 sven
 terraria

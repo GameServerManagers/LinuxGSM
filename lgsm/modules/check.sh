@@ -21,7 +21,7 @@ fi
 
 check_tmuxception.sh
 
-if [ "$(whoami)" != "root" ] || [ -f /.dockerenv ]; then
+if [ "$(whoami)" != "root" ]; then
 	if [ "${commandname}" != "MONITOR" ]; then
 		check_permissions.sh
 	fi
@@ -38,7 +38,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-if [ "$(whoami)" != "root" ] || [ -f /.dockerenv ]; then
+if [ "$(whoami)" != "root" ]; then
 	allowed_commands_array=(DEBUG START INSTALL)
 	for allowed_command in "${allowed_commands_array[@]}"; do
 		if [ "${allowed_command}" == "${commandname}" ]; then

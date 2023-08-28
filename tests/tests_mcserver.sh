@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.2.3"
+version="v23.4.0"
 shortname="mc"
 gameservername="mcserver"
 commandname="CORE"
@@ -370,7 +370,7 @@ if [ "${shortname}" == "core" ]; then
 		if [ "${userinput}" == "${gameservername}" ] || [ "${userinput}" == "${gamename}" ] || [ "${userinput}" == "${shortname}" ]; then
 			fn_install_file
 		else
-			echo -e "[ FAIL ] unknown game server"
+			echo -e "[ FAIL ] Unknown game server"
 		fi
 	else
 		fn_install_getopt
