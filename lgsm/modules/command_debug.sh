@@ -13,7 +13,7 @@ fn_firstcommand_set
 # Trap to remove lockfile on quit.
 fn_lockfile_trap() {
 	# Remove lockfile.
-	rm -f "${lockdir:?}/${selfname}.lock"
+	rm -f "${lockdir:?}/${selfname}-started.lock"
 	# resets terminal. Servers can sometimes mess up the terminal on exit.
 	reset
 	fn_print_dots "Stopping debug"
@@ -98,12 +98,12 @@ fn_print_dots "Starting debug"
 fn_script_log_info "Starting debug"
 fn_print_ok_nl "Starting debug"
 
-# Create lockfile.
-date '+%s' > "${lockdir}/${selfname}.lock"
-echo "${version}" >> "${lockdir}/${selfname}.lock"
-echo "${port}" >> "${lockdir}/${selfname}.lock"
+# Create started lockfile.
+date '+%s' > "${lockdir:?}/${selfname}-started.lock"
+echo "${version}" >> "${lockdir}/${selfname}-started.lock"
+echo "${port}" >> "${lockdir}/${selfname}-started.lock"
 fn_script_log_info "Lockfile generated"
-fn_script_log_info "${lockdir}/${selfname}.lock"
+fn_script_log_info "${lockdir}/${selfname}-started.lock"
 
 if [ "${shortname}" == "av" ]; then
 	cd "${systemdir}" || exit

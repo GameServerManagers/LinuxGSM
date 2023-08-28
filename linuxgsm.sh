@@ -20,13 +20,12 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.3.6"
+version="v23.4.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
 rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
-sessionname=$(echo "${selfname}" | cut -f1 -d".")
 lgsmdir="${rootdir}/lgsm"
 [ -n "${LGSM_LOGDIR}" ] && logdir="${LGSM_LOGDIR}" || logdir="${rootdir}/log"
 lgsmlogdir="${logdir}/lgsm"
@@ -36,6 +35,8 @@ modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
+sessionname="${selfname}"
+[ -f "${datadir}/${selfname}.uid" ] && socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")" || socketname="${sessionname}"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
 [ -n "${LGSM_CONFIG}" ] && configdir="${LGSM_CONFIG}" || configdir="${lgsmdir}/config-lgsm"
