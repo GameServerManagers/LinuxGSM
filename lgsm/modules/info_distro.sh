@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid="$(tmux -L "${sessionname}" list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')"
+	gameserverpid="$(tmux -L "${socketname}" list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')"
 	if [ "${engine}" == "source" ]; then
 		srcdslinuxpid="$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep srcds_linux | awk '{print $2}')"
 	elif [ "${engine}" == "goldsrc" ]; then
