@@ -133,9 +133,9 @@ fn_monitor_check_update() {
 	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
 		fn_print_dots "Checking update: "
 		fn_print_checking_eol
-		fn_print_info_nl "Checking update: LinuxGSM is updating: "
+		fn_print_info "Checking update: LinuxGSM is updating the game server: "
 		fn_print_info_eol
-		fn_script_log_pass "Checking update: LinuxGSM is updating"
+		fn_script_log_pass "Checking update: LinuxGSM is updating the game server"
 		core_exit.sh
 	fi
 }
@@ -162,7 +162,30 @@ fn_monitor_check_session() {
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	if [ "${status}" != "0" ]; then
+	# Tmux session width and height needs to be reviewed as may no longer be required.
+	sessionwidth="80"
+	sessionheight="23"
+	# Check for PIDS with identical tmux sessions running.
+	if [ "$(pgrep -fc "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" -ge "2" ]; then
+		fn_print_error "Checking session: "
+		fn_print_error_eol_nl
+		fn_script_log_error "Checking session: ERROR"
+		fn_script_log_error "Checking session: There are PIDS with identical tmux sessions running"
+		fn_script_log_error "Checking session: Killing all tmux sessions with the socketname name ${socketname} and session name ${sessionname}"
+		pkill -f "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		command_restart.sh
+		core_exit.sh
+	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
+	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+		fn_print_error "Checking session: "
+		fn_print_error_eol_nl
+		fn_script_log_error "Checking session: ERROR"
+		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
+		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
+		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		command_restart.sh
+		core_exit.sh
+	elif [ "${status}" != "0" ]; then
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
@@ -178,8 +201,8 @@ fn_monitor_check_session() {
 	fi
 }
 
+# Monitor will check queryport is set before continuing.
 fn_monitor_check_queryport() {
-	# Monitor will check queryport is set before continuing.
 	if [ -z "${queryport}" ] || [ "${queryport}" == "0" ]; then
 		fn_print_dots "Checking port: "
 		fn_print_checking_eol
@@ -204,7 +227,7 @@ fn_query_gsquery() {
 }
 
 fn_query_tcp() {
-	bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}'' > /dev/null 2>&1
+	bash -c "exec 3<> /dev/tcp/'${queryip}'/'${queryport}'" > /dev/null 2>&1
 	querystatus="$?"
 }
 
@@ -223,7 +246,7 @@ fn_monitor_query() {
 				fn_print_delay_eol_nl
 				fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
 				fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
-				fn_script_log_info "Server started: $(date -d @$(head -n 1 "${lockdir}/${selfname}-started.lock"))"
+				fn_script_log_info "Server started: $(date -d "@$(head -n 1 "${lockdir}/${selfname}-started.lock")")"
 				fn_script_log_info "Current time: $(date)"
 				monitorpass=1
 				core_exit.sh
