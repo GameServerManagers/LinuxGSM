@@ -151,11 +151,6 @@ fn_update_steamcmd_localbuild() {
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Set branch to public if no custom branch.
-	if [ -z "${branch}" ]; then
-		branch="public"
-	fi
-
 	# Checks if localbuild variable has been set.
 	if [ -z "${localbuild}" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}: missing local build info"
@@ -176,6 +171,11 @@ fn_update_steamcmd_remotebuild() {
 	# Removes appinfo.vdf as a fix for not always getting up to date version info from SteamCMD.
 	if [ "$(find "${HOME}" -type f -name "appinfo.vdf" 2> /dev/null | wc -l)" -ne "0" ]; then
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \; 2> /dev/null
+	fi
+
+	# Set branch to public if no custom branch.
+	if [ -z "${branch}" ]; then
+		branch="public"
 	fi
 
 	# password for branch not needed to check the buildid
