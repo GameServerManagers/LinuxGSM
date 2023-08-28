@@ -12,13 +12,13 @@ fn_exit_dev_debug() {
 		echo -e ""
 		echo -e "${moduleselfname} exiting with code: ${exitcode}"
 		if [ -f "${rootdir}/dev-debug.log" ]; then
-			grep "modulefile=" "${rootdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
+			grep -a "modulefile=" "${rootdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
 		fi
 	fi
 }
 
 # If running dependency check as root will remove any files that belong to root user.
-if [ "$(whoami)" == "root" ] && [ ! -f /.dockerenv ]; then
+if [ "$(whoami)" == "root" ]; then
 	find "${lgsmdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 fi

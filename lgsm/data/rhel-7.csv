@@ -16,7 +16,7 @@ bfv,compat-libstdc++-33.i686,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu,dos2unix
+bt,libicu,dos2unix,libxml2
 btl
 cc
 cd
@@ -107,7 +107,7 @@ sfc,ncurses-libs.i686
 sof2
 sol
 squad
-st
+st,libxml2
 stn
 sven
 terraria

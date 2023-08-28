@@ -32,25 +32,6 @@ echo -e "=================================================================="
 	else
 		echo -e "Game:"
 	fi
-	if [ "${shortname}" == "rw" ]; then
-		if [ -v port2 ]; then
-			echo -e "Game+1: \t${port2} \t$(ss -tupl | grep -c "${port}") \t$(ss -tupl | grep "${port2}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port2}" | grep udp | awk '{ print $2 }')"
-		else
-			echo -e "Game+1:"
-		fi
-
-		if [ -v port3 ]; then
-			echo -e "Game+2: \t${port3} \t$(ss -tupl | grep -c "${port}") \t$(ss -tupl | grep "${port3}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port3}" | grep udp | awk '{ print $2 }')"
-		else
-			echo -e "Game+2:"
-		fi
-
-		if [ -v port4 ]; then
-			echo -e "Game+3: \t${port4} \t$(ss -tupl | grep -c "${port}") \t$(ss -tupl | grep "${port4}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port4}" | grep udp | awk '{ print $2 }')"
-		else
-			echo -e "Game+3:"
-		fi
-	fi
 	if [ "${shortname}" == "pvr" ]; then
 		if [ -v port401 ]; then
 			echo -e "Game+400: \t${port401} \t$(ss -tupl | grep -c "${port401}") \t$(ss -tupl | grep "${port401}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${port401}" | grep udp | awk '{ print $2 }')"

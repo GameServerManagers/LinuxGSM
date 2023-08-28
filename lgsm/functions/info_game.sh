@@ -97,17 +97,17 @@ fn_info_game_armar() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		adminpassword="${unavailable}"
 		maxplayers="${zero}"
-		port=${port:-"0"}
-		queryport=
+		port="${zero}"
+		queryport="${zero}"
 		servername="${unavailable}"
 		serverpassword="${unavailable}"
 	else
-		adminpassword=$(jq -r '.adminPassword' "${servercfgfullpath}")
+		adminpassword=$(jq -r '.game.passwordAdmin' "${servercfgfullpath}")
 		battleeyeport=1376
-		configip=$(jq -r '.gameHostBindAddress' "${servercfgfullpath}")
-		maxplayers=$(jq -r '.game.playerCountLimit' "${servercfgfullpath}")
-		port=$(jq -r '.gameHostBindPort' "${servercfgfullpath}")
-		queryport=$(jq -r '.steamQueryPort' "${servercfgfullpath}")
+		configip=$(jq -r '.bindAddress' "${servercfgfullpath}")
+		maxplayers=$(jq -r '.game.maxPlayers' "${servercfgfullpath}")
+		port=$(jq -r '.bindPort' "${servercfgfullpath}")
+		queryport=$(jq -r '.a2s.port' "${servercfgfullpath}")
 		servername=$(jq -r '.game.name' "${servercfgfullpath}")
 		serverpassword=$(jq -r '.game.password' "${servercfgfullpath}")
 

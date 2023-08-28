@@ -56,107 +56,103 @@ cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
 # nearest 100MB
 memusedroundup="$(((memused + 99) / 100 * 100))"
 
-# Spliting the metrics in to 3 propertys allows more accurate metrics on numbers of invidual instances, installs and hardware.
-# Instance Property - UA-165287622-1
-# Install Property - UA-165287622-2
-# Hardware Property - UA-165287622-3
+apisecret="A-OzP02TSMWt4_vHi6ZpUw"
+measurementid="G-0CR8V7EMT5"
 
-## Distro.
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=distro" -d "ea=${distroname}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+# Sending stats to Google Analytics GA4
+payload="{
+	\"client_id\": \"${uuidinstance}\",
+	\"events\": [
+		{
+		\"name\": \"LinuxGSM\",
+		\"params\": {
+			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
+			\"diskused\": \"${serverfilesdu}\",
+			\"distro\": \"${distroname}\",
+			\"game\": \"${gamename}\",
+			\"memusedroundup\": \"${memusedroundup}MB\",
+			\"ramused\": \"${memusedroundup}MB\",
+			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
+			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
+			\"serverdisk\": \"${totalspace}\",
+			\"serverfilesdu\": \"${serverfilesdu}\",
+			\"serverram\": \"${physmemtotal}\",
+			\"uuidhardware\": \"${uuidhardware}\",
+			\"uuidinstall\": \"${uuidinstall}\",
+			\"uuidinstance\": \"${uuidinstance}\",
+			\"version\": \"${version}\",
+			\"virtualenvironment\": \"${virtualenvironment}\"
+			}
+		}
+	]
+}"
 
-## Game Server Name.
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=game" -d "ea=${gamename}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+fn_alert_payload(){
+alertpayload="{
+	\"client_id\": \"${uuidinstance}\",
+	\"events\": [
+		{
+		\"name\": \"LinuxGSM\",
+		\"params\": {
+			\"alert\": \"${alerttype}\"
+			}
+		}
+	]
+}"
+}
 
-## LinuxGSM Version.
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=version" -d "ea=${version}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=A-OzP02TSMWt4_vHi6ZpUw&measurement_id=G-0CR8V7EMT5" -H "Content-Type: application/json" -d "${payload}"
 
-## CPU usage of a game server.
-if [ -n "${cpuusedmhzroundup}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=cpuused" -d "ea=${cpuusedmhzroundup}MHz" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-## Ram usage of a game server.
-if [ -n "${memusedroundup}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=ramused" -d "ea=${memusedroundup}MB" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-## Disk usage of a game server.
-if [ -n "${serverfilesdu}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=diskused" -d "ea=${serverfilesdu}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## CPU Model.
-if [ -n "${cpumodel}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=servercpu" -d "ea=${cpumodel} ${cpucores} cores" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-
-fi
-
-## CPU Frequency.
-if [ -n "${cpufreqency}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=servercpufreq" -d "ea=${cpufreqency} x${cpucores}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Server RAM.
-if [ -n "${physmemtotal}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=serverram" -d "ea=${physmemtotal}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Server Disk.
-if [ -n "${totalspace}" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=serverdisk" -d "ea=${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-fi
-
-## Alert Stats.
 if [ "${discordalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Discord" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="discord"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${emailalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Email" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="email"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${gotifyalert}" == "on" ]; then
+	alerttype="gotify"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${iftttalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=IFTTT" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="ifttt"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${mailgunalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Mailgun" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="mailgun"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${pushbulletalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushbullet" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="pushbullet"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${pushoveralert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Pushover" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="pushover"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${rocketchatalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Rocket Chat" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="rocketchat"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${slackalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Slack" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="slack"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
 if [ "${telegramalert}" == "on" ]; then
-	curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=alert" -d "ea=Telegram" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
+	alerttype="telegram"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
-
-## Summary Stats
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-1" -d "aip=1" -d "cid=${uuidinstance}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-2" -d "aip=1" -d "cid=${uuidinstall}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
-curl https://www.google-analytics.com/collect -d "tid=UA-165287622-3" -d "aip=1" -d "cid=${uuidhardware}" -d "t=event" -d "ec=summary" -d "ea=GAME: ${gamename} | DISTRO: ${distroname} | CPU MODEL: ${cpumodel} ${cpucores} cores | RAM: ${physmemtotal} | DISK: ${totalspace}" -d "el=${gamename}" -d "v=1" > /dev/null 2>&1
 
 fn_script_log_info "Send LinuxGSM stats"
 fn_script_log_info "* uuid-${selfname}: ${uuidinstance}"
@@ -171,3 +167,6 @@ fn_script_log_info "* Server CPU Model: ${cpumodel}"
 fn_script_log_info "* Server CPU Frequency: ${cpufreqency}"
 fn_script_log_info "* Server RAM: ${physmemtotal}"
 fn_script_log_info "* Server Disk: ${totalspace}"
+fn_script_log_info "* Virtual Environment: ${virtualenvironment}"
+fn_script_log_info "* LinuxGSM Version: ${version}"
+fn_script_log_info "* Enabled Alerts"
