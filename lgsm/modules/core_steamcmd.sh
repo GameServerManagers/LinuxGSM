@@ -352,8 +352,8 @@ fn_check_steamcmd_appmanifest() {
 	if [ "${engine}" == "goldsrc" ]; then
 		shareddepotsexists=$(grep -c SharedDepots "${serverfiles}/steamapps/appmanifest_90.acf")
 		if [ ! -f "${serverfiles}/steamapps/appmanifest_90.acf" ] || [ "${shareddepotsexists}" == "0" ]; then
-			fn_print_error_nl "SharedDepots missing from appmanifest_${appid}.acf"
-			fn_script_log_error "SharedDepots missing from appmanifest_${appid}.acf"
+			fn_print_error_nl "SharedDepots missing from appmanifest_90.acf"
+			fn_script_log_error "SharedDepots missing from appmanifest_90.acf"
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			if [ "${shortname}" == "ahl" ]; then
