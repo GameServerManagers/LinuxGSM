@@ -40,6 +40,11 @@ elif [ "${exitcode}" != "0" ]; then
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
+	# run error hook
+	if [ -f "${hooksdir}/hook-error-${hookoption}.sh" ]; then
+		eval "${hooksdir}/hook-error-${hookoption}.sh"
+	fi
+	unset hookoption
 	exit "${exitcode}"
 elif [ "${exitcode}" ] && [ "${exitcode}" == "0" ]; then
 	# List LinuxGSM version in logs
@@ -48,6 +53,11 @@ elif [ "${exitcode}" ] && [ "${exitcode}" == "0" ]; then
 	fn_exit_dev_debug
 	# remove trap.
 	trap - INT
+	# run post hook
+	if [ -f "${hooksdir}/hook-post-${hookoption}.sh" ]; then
+		eval "${hooksdir}/hook-post-${hookoption}.sh"
+	fi
+	unset hookoption
 	exit "${exitcode}"
 else
 	# List LinuxGSM version in logs
