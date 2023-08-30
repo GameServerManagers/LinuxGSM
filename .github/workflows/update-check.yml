@@ -31,6 +31,14 @@ jobs:
       - name: Enable developer mode
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
 
+      - name: Insert steamuser
+        if: matrix.shortname == 'jk2'
+        run: sed -i 's/steamuser=""/steamuser="${STEAMCMD_USER}"/g' lgsm/config-lgsm/cssserver/common.cfg
+
+      - name: Insert steampass
+        if: matrix.shortname == 'jk2'
+        run: sed -i 's/steampass=""/steampass='${STEAMCMD_PASS}' lgsm/config-lgsm/cssserver/common.cfg
+
       - name: Install server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server auto-install
 
