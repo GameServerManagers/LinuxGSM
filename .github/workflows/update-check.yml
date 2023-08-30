@@ -33,7 +33,7 @@ jobs:
 
       - name: Insert steamuser
         if: matrix.shortname == 'jk2'
-        run: echo "steamuser="${STEAMCMD_USER}\nsteampass='${STEAMCMD_PASS}'" lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
+        run: echo -e "steamuser=\"${STEAMCMD_USER}\"\nsteampass='${STEAMCMD_PASS}'" lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
 
       - name: Install server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server auto-install
