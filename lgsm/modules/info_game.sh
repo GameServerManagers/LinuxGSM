@@ -157,7 +157,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="valve_keyvalues"
 }
 
