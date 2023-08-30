@@ -33,11 +33,7 @@ jobs:
 
       - name: Insert steamuser
         if: matrix.shortname == 'jk2'
-        run: sed -i 's/steamuser=""/steamuser="${STEAMCMD_USER}"/g' lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
-
-      - name: Insert steampass
-        if: matrix.shortname == 'jk2'
-        run: sed -i 's/steampass=""/steampass='${STEAMCMD_PASS}'/g' lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
+        run: echo "steamuser="${STEAMCMD_USER}\nsteampass='${STEAMCMD_PASS}'" lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
 
       - name: Install server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server auto-install
