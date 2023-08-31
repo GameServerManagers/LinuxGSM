@@ -193,6 +193,8 @@ fn_update_steamcmd_remotebuild() {
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \; 2> /dev/null
 	fi
 
+	fn_login_steamcmd_nopass
+
 	# password for branch not needed to check the buildid
 	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
