@@ -58,9 +58,9 @@ fi
 echo -e "${lightblue}Game Server IP:\t${default}${ip}:${port}"
 
 # External server IP.
-if [ "${extip}" ]; then
-	if [ "${ip}" != "${extip}" ]; then
-		echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
+if [ "${publicip}" ]; then
+	if [ "${ip}" != "${publicip}" ]; then
+		echo -e "${lightblue}Internet IP:\t${default}${publicip}:${port}"
 	fi
 fi
 
