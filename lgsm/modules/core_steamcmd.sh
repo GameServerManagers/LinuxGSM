@@ -39,6 +39,21 @@ fn_check_steamcmd_user() {
 	fi
 }
 
+# Login to SteamCMD and prevent password being required again.
+# Will require login with password only once when @NoPromptForPassword is set.
+fn_login_steamcmd_nopass() {
+	cd "${steamcmddir}" || exit
+	# Check if login without a password is already possible. 1 = no, 0 = yes
+	if [ "${steamuser}" != "anonymous" ]; then
+		steamcmdnopromptpassword=$(${steamcmdcommand} +login "${steamuser}" @NoPromptForPassword +quit | grep -c "FAILED (Invalid Password)")
+	fi
+
+	# If login without a password is not yet possible, set @NoPasswordPrompt to 1
+	if [ "${steamuser}" != "anonymous" ] && [ "${steamcmdnopromptpassword}" == "1" ]; then
+		${steamcmdcommand} +login "${steamuser}" "${steampass}" @NoPromptForPassword 1 +quit
+	fi
+}
+
 fn_check_steamcmd() {
 	# Checks if SteamCMD exists when starting or updating a server.
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
@@ -179,7 +194,7 @@ fn_update_steamcmd_remotebuild() {
 	fi
 
 	# password for branch not needed to check the buildid
-	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
+	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
