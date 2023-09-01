@@ -166,8 +166,8 @@ fn_info_message_server_resource() {
 			echo -e "${lightblue}Link Speed:\t${default}${netlink}"
 		fi
 		echo -e "${lightblue}IP:\t${default}${ip}"
-		if [ "${ip}" != "${extip}" ]; then
-			echo -e "${lightblue}Internet IP:\t${default}${extip}"
+		if [ "${ip}" != "${publicip}" ]; then
+			echo -e "${lightblue}Internet IP:\t${default}${publicip}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -274,9 +274,9 @@ fn_info_message_gameserver() {
 		echo -e "${lightblue}Server IP:\t${default}${ip}:${port}"
 
 		# Internet ip
-		if [ -n "${extip}" ]; then
-			if [ "${ip}" != "${extip}" ]; then
-				echo -e "${lightblue}Internet IP:\t${default}${extip}:${port}"
+		if [ -n "${publicip}" ]; then
+			if [ "${ip}" != "${publicip}" ]; then
+				echo -e "${lightblue}Internet IP:\t${default}${publicip}:${port}"
 			fi
 		fi
 

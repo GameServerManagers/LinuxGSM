@@ -2378,30 +2378,30 @@ fi
 
 # External IP address
 # Cache external IP address for 24 hours
-if [ -f "${tmpdir}/extip.txt" ]; then
-	if [ "$(find "${tmpdir}/extip.txt" -mmin +1440)" ]; then
-		rm -f "${tmpdir:?}/extip.txt"
+if [ -f "${tmpdir}/publicip.txt" ]; then
+	if [ "$(find "${tmpdir}/publicip.txt" -mmin +1440)" ]; then
+		rm -f "${tmpdir:?}/publicip.txt"
 	fi
 fi
 
-if [ ! -f "${tmpdir}/extip.txt" ]; then
-	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
+if [ ! -f "${tmpdir}/publicip.txt" ]; then
+	publicip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
-	# if curl passes add extip to externalip.txt
+	# if curl passes add publicip to externalip.txt
 	if [ "${exitcode}" == "0" ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo "${publicip}" > "${tmpdir}/publicip.txt"
 	else
 		echo "Unable to get external IP address"
 	fi
 else
-	extip="$(cat "${tmpdir}/extip.txt")"
+	publicip="$(cat "${tmpdir}/publicip.txt")"
 fi
 
 # Alert IP address
 if [ "${displayip}" ]; then
 	alertip="${displayip}"
-elif [ "${extip}" ]; then
-	alertip="${extip}"
+elif [ "${publicip}" ]; then
+	alertip="${publicip}"
 else
 	alertip="${ip}"
 fi
@@ -2421,7 +2421,7 @@ if [ -z "${displaymasterserver}" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Query external IP first as most liky to succeed.
-				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 				if [ "${masterserver}" == "0" ]; then
 					# Loop though server IP addresses if external IP fails.
 					for queryip in "${queryips[@]}"; do
