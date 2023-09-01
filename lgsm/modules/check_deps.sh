@@ -93,16 +93,16 @@ fn_deps_email() {
 				array_deps_required+=(exim4)
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
-			elif [ "$(command -v dpkg-query 2> /dev/null)" ]; then
-				array_deps_required+=(mailutils postfix)
-			elif [ "$(command -v rpm 2> /dev/null)" ]; then
+			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
 				array_deps_required+=(mailx postfix)
+			elif [ "$(command -v apt 2> /dev/null)" ]; then
+				array_deps_required+=(mailutils postfix)
 			fi
 		else
-			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
-				array_deps_required+=(mailutils postfix)
-			elif [ "$(command -v rpm 2> /dev/null)" ]; then
+			if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
 				array_deps_required+=(mailx postfix)
+			elif [ "$(command -v apt 2> /dev/null)" ]; then
+				array_deps_required+=(mailutils postfix)
 			fi
 		fi
 	fi
@@ -144,7 +144,7 @@ fn_install_missing_deps() {
 		fi
 
 		# Add sudo dpkg --add-architecture i386 if using i386 packages.
-		if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+		if [ "$(command -v apt 2> /dev/null)" ]; then
 			if printf '%s\n' "${array_deps_required[@]}" | grep -q -P 'i386'; then
 				i386installcommand="sudo dpkg --add-architecture i386; "
 			fi
@@ -161,7 +161,7 @@ fn_install_missing_deps() {
 			echo -en "...\r"
 			sleep 1
 			echo -en "   \r"
-			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+			if [ "$(command -v apt 2> /dev/null)" ]; then
 				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
 				eval "${cmd}"
 			elif [ "$(command -v dnf 2> /dev/null)" ]; then
@@ -181,7 +181,7 @@ fn_install_missing_deps() {
 
 		# If automatic dependency install is unavailable.
 		if [ "${autodepinstall}" != "0" ]; then
-			if [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+			if [ "$(command -v apt 2> /dev/null)" ]; then
 				echo -e "${i386installcommand}sudo apt update; sudo apt install ${array_deps_missing[*]}"
 			elif [ "$(command -v dnf 2> /dev/null)" ]; then
 				echo -e "sudo dnf install ${array_deps_missing[*]}"
@@ -254,7 +254,7 @@ fn_deps_detector() {
 			depstatus=1
 			monostatus=1
 		fi
-	elif [ "$(command -v dpkg-query 2> /dev/null)" ]; then
+	elif [ "$(command -v apt 2> /dev/null)" ]; then
 		dpkg-query -W -f='${Status}' "${deptocheck}" 2> /dev/null | grep -q -P '^install ok installed'
 		depstatus=$?
 	elif [ "$(command -v dnf 2> /dev/null)" ]; then
