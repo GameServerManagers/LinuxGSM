@@ -86,10 +86,10 @@ if [ "${gamelogdir}" ]; then
 fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs.
-if [ -d "${rootdir}/Steam/logs" ]; then
-	if [ ! -L "${logdir}/steamcmd" ]; then
-		echo -en "creating symlink to steam log dir: ${logdir}/steamcmd -> ${rootdir}/Steam/logs..."
-		if ! ln -nfs "${rootdir}/Steam/logs" "${logdir}/steamcmd"; then
+if [ -d "${HOME}/.steam/steam/logs" ]; then
+	if [ ! -L "${logdir}/steam" ]; then
+		echo -en "creating symlink to steam log dir: ${logdir}/steam -> ${HOME}/.steam/steam/logs..."
+		if ! ln -nfs "${HOME}/.steam/steam/logs" "${logdir}/steam"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
