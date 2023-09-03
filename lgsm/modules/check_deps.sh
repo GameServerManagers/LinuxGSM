@@ -278,7 +278,7 @@ fn_deps_detector() {
 			monoinstalled=false
 		fi
 	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
+	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
 		# .NET is not installed.
 		if [ -z "${dotnetversion}" ]; then
 			depstatus=1
