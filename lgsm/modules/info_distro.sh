@@ -127,6 +127,10 @@ if [ "$(command -v mono 2> /dev/null)" ]; then
 	monoversion="$(mono --version 2>&1 | grep -Po '(?<=version )\d')"
 fi
 
+if [ "$(command -v dotnet 2> /dev/null)" ]; then
+	dotnetversion="$(dotnet --list-runtimes | grep -E 'Microsoft\.NETCore\.App' | awk '{print $2}')"
+fi
+
 ## Uptime
 uptime="$(< /proc/uptime)"
 uptime=${uptime/[. ]*/}
