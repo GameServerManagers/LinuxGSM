@@ -19,7 +19,9 @@ fn_install_mono_repo() {
 		sleep 1
 		echo -en "   \r"
 		if [ "${distroid}" == "ubuntu" ]; then
-			if [ "${distroversion}" == "20.04" ]; then
+			if [ "${distroversion}" == "22.04" ]; then
+				cmd="sudo apt install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-jammy main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+			elif [ "${distroversion}" == "20.04" ]; then
 				cmd="sudo apt install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 			elif [ "${distroversion}" == "18.04" ]; then
 				cmd="sudo apt install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-bionic main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
@@ -29,7 +31,11 @@ fn_install_mono_repo() {
 				monoautoinstall="1"
 			fi
 		elif [ "${distroid}" == "debian" ]; then
-			if [ "${distroversion}" == "10" ]; then
+			if [ "${distroversion}" == "12" ]; then
+				cmd="sudo apt install apt-transport-https dirmngr gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-bookworm main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+			elif [ "${distroversion}" == "11" ]; then
+				cmd="sudo apt install apt-transport-https dirmngr gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-bullseye main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
+			elif [ "${distroversion}" == "10" ]; then
 				cmd="sudo apt install apt-transport-https dirmngr gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-buster main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
 			elif [ "${distroversion}" == "9" ]; then
 				cmd="sudo apt install apt-transport-https dirmngr gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/debian stable-stretch main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
