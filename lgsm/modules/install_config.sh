@@ -788,7 +788,6 @@ elif [ "${shortname}" == "unt" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "vints" ]; then
 	# Config is generated on first run
-	fn_list_config_locations
 elif [ "${shortname}" == "vs" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
