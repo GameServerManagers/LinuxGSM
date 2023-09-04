@@ -256,7 +256,7 @@ fn_stop_tmux() {
 fn_stop_pre_check() {
 	if [ "${status}" == "0" ]; then
 		fn_print_info_nl "${servername} is already stopped"
-		fn_script_log_error "${servername} is already stopped"
+		fn_script_log_info "${servername} is already stopped"
 	else
 		# Select graceful shutdown.
 		fn_stop_graceful_select
@@ -282,10 +282,9 @@ fn_stop_pre_check
 rm -f "${lockdir:?}/${selfname}-started.lock"
 
 # If user ran the stop command monitor will become disabled.
-if [ "${firstcommandname}" == "STOP" ];then
+if [ "${firstcommandname}" == "STOP" ]; then
 	rm -f "${lockdir:?}/${selfname}-monitoring.lock"
 fi
-
 
 # Remove stopping lockfile.
 rm -f "${lockdir:?}/${selfname}-stopping.lock"
