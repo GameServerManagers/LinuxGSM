@@ -781,11 +781,8 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "unt" ]; then
-	array_configs+=(Config.json)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "vints" ]; then
 	# Config is generated on first run
 	:
