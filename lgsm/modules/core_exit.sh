@@ -35,7 +35,9 @@ elif [ "${exitcode}" != "0" ]; then
 	elif [ "${exitcode}" == "3" ]; then
 		fn_script_log_warn "${moduleselfname} exiting with code: ${exitcode}"
 	else
+		# if exit code is not set assume error.
 		fn_script_log_warn "${moduleselfname} exiting with code: ${exitcode}"
+		exitcode=4
 	fi
 	fn_exit_dev_debug
 	# remove trap.

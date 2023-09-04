@@ -154,7 +154,7 @@ fn_list_config_locations() {
 		elif [ -d "${servercfgfullpath}" ]; then
 			echo -e "Game Server Config Dir: ${servercfgfullpath}"
 		else
-			echo -e "Config file: ${red}${servercfgfullpath} (${red}FILE MISSING${default})"
+			echo -e "Config file: ${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
 		fi
 	fi
 	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
@@ -787,11 +787,8 @@ elif [ "${shortname}" == "unt" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "vints" ]; then
-	array_configs+=(serverconfig.json)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "vs" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config

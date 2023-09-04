@@ -36,7 +36,7 @@ fn_dl_steamcmd() {
 
 	# Unbuffer will allow the output of steamcmd not buffer allowing a smooth output.
 	# unbuffer us part of the expect package.
-	if [ "$(command -v unbuffer)" ]; then
+	if [ "$(command -v unbuffer 2> /dev/null)" ]; then
 		unbuffer="unbuffer"
 	fi
 

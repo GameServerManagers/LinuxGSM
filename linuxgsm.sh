@@ -36,7 +36,7 @@ tmpdir="${lgsmdir}/tmp"
 datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
 sessionname="${selfname}"
-[ -f "${datadir}/${selfname}.uid" ] && socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")" || socketname="${sessionname}"
+[ -f "${datadir}/${selfname}.uid" ] && socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
 serverlist="${datadir}/serverlist.csv"
 serverlistmenu="${datadir}/serverlistmenu.csv"
 [ -n "${LGSM_CONFIG}" ] && configdir="${LGSM_CONFIG}" || configdir="${lgsmdir}/config-lgsm"
@@ -413,6 +413,7 @@ else
 			fi
 		fi
 	fi
+
 	# Load the IP details before the first config is loaded.
 	check_ip.sh
 	# Configs have to be loaded twice to allow start startparameters to pick up all vars

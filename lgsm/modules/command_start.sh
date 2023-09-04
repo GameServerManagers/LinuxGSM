@@ -50,9 +50,12 @@ fn_start_tmux() {
 
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
-		# stop running server (if running) to prevent lingering tmux sessions.
-		exitbypass=1
-		command_stop.sh
+		check_status.sh
+		if [ "${status}" != "0" ]; then
+			# stop running server (if running) to prevent lingering tmux sessions.
+			exitbypass=1
+			command_stop.sh
+		fi
 		uid=$(date '+%s' | sha1sum | head -c 8)
 		echo "${uid}" > "${datadir}/${selfname}.uid"
 		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
@@ -181,7 +184,7 @@ fn_start_tmux() {
 check.sh
 
 # If user ran the start command monitor will become enabled.
-if [ "${firstcommandname}" == "START" ]||[ "${firstcommandname}" == "RESTART" ]; then
+if [ "${firstcommandname}" == "START" ] || [ "${firstcommandname}" == "RESTART" ]; then
 	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 
