@@ -787,10 +787,7 @@ elif [ "${shortname}" == "unt" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "vints" ]; then
-	array_configs+=(serverconfig.json)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
+	# Config is generated on first run
 	fn_list_config_locations
 elif [ "${shortname}" == "vs" ]; then
 	array_configs+=(server.cfg)
