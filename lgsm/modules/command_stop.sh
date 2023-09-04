@@ -260,11 +260,11 @@ fn_stop_pre_check() {
 	else
 		# Select graceful shutdown.
 		fn_stop_graceful_select
-	fi
-	# Check status again, a kill tmux session if graceful shutdown failed.
-	check_status.sh
-	if [ "${status}" != "0" ]; then
-		fn_stop_tmux
+		# Check status again, a kill tmux session if graceful shutdown failed.
+		check_status.sh
+		if [ "${status}" != "0" ]; then
+			fn_stop_tmux
+		fi
 	fi
 }
 
