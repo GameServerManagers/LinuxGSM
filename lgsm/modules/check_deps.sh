@@ -280,7 +280,10 @@ fn_deps_detector() {
 	# .NET Core: A .NET Core repo needs to be installed.
 	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
 		# .NET is not installed.
-		if [ -z "${dotnetversion}" ]; then
+		if [ -n "${dotnetversion}" ]; then
+			depstatus=0
+			dotnetinstalled=true
+		else
 			depstatus=1
 			dotnetinstalled=false
 		fi
