@@ -414,15 +414,6 @@ else
 		fi
 	fi
 
-	# Create uid to ensure unique tmux socket name.
-	if [ ! -f "${datadir}/${selfname}.uid" ]; then
-		# stop running server (if running) to prevent lingering tmux sessions.
-		exitbypass=1
-		uid=$(date '+%s' | sha1sum | head -c 8)
-		echo "${uid}" > "${datadir}/${selfname}.uid"
-		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
-	fi
-
 	# Load the IP details before the first config is loaded.
 	check_ip.sh
 	# Configs have to be loaded twice to allow start startparameters to pick up all vars

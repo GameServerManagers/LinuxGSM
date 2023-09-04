@@ -48,6 +48,19 @@ fn_start_tmux() {
 
 	fn_reload_startparameters
 
+	# Create uid to ensure unique tmux socket name.
+	if [ ! -f "${datadir}/${selfname}.uid" ]; then
+		check_status.sh
+		if [ "${status}" != "0" ]; then
+			# stop running server (if running) to prevent lingering tmux sessions.
+			exitbypass=1
+			command_stop.sh
+		fi
+		uid=$(date '+%s' | sha1sum | head -c 8)
+		echo "${uid}" > "${datadir}/${selfname}.uid"
+		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
+	fi
+
 	if [ "${shortname}" == "av" ]; then
 		cd "${systemdir}" || exit
 	else
