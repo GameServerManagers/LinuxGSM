@@ -48,5 +48,8 @@ else
 	fix.sh
 	install_stats.sh
 	install_complete.sh
+	if [ -z "${exitcode}" ]; then
+		exitcode=0
+	fi
 fi
 core_exit.sh
