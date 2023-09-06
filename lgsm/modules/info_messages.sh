@@ -1252,7 +1252,7 @@ fn_info_message_pc2() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_pstbs() {
+fn_info_message_ps() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1777,8 +1777,8 @@ fn_info_message_select_engine() {
 		fn_info_message_pc
 	elif [ "${shortname}" == "pc2" ]; then
 		fn_info_message_pc2
-	elif [ "${shortname}" == "pstbs" ]; then
-		fn_info_message_pstbs
+	elif [ "${shortname}" == "ps" ]; then
+		fn_info_message_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_message_pvr
 	elif [ "${shortname}" == "pz" ]; then

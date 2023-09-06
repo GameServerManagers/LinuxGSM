@@ -83,7 +83,7 @@ opfor
 pc
 pc2
 pmc,openjdk-17-jre
-pstbs,libgconf-2-4
+ps,libgconf-2-4
 pvkii
 pvr,libc++1
 pz,openjdk-17-jre,rng-tools

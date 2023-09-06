@@ -567,7 +567,7 @@ fn_info_game_mh() {
 # Comment: ; or #
 # Example: ServerName="SERVERNAME"
 # Filetype: cfg
-fn_info_game_pstbs() {
+fn_info_game_ps() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
@@ -2312,8 +2312,8 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
 	fn_info_game_pc2
-elif [ "${shortname}" == "pstbs" ]; then
-	fn_info_game_pstbs
+elif [ "${shortname}" == "ps" ]; then
+	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
 elif [ "${shortname}" == "pz" ]; then
