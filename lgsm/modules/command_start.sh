@@ -181,12 +181,12 @@ fn_start_tmux() {
 	echo -en "\n"
 }
 
-check.sh
-
 # If user ran the start command monitor will become enabled.
 if [ "${firstcommandname}" == "START" ] || [ "${firstcommandname}" == "RESTART" ]; then
 	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 fi
+
+check.sh
 
 # If the server already started dont start again.
 if [ "${status}" != "0" ]; then
