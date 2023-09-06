@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with ARK: Survival Evolved.
+# Description: Resolves issues with ARK: Survival Evolved.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

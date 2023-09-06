@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with 7 Days to Die.
+# Description: Resolves issues with 7 Days to Die.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with Red Orchestra.
+# Description: Resolves issues with Red Orchestra.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
