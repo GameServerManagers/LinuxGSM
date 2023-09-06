@@ -26,69 +26,69 @@ fn_monitor_check_monitoring() {
 }
 
 fn_monitor_check_install() {
-	if [ "$(pgrep -fc -u "${USER}" "${selfname} install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} i")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} auto-install")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} ai")" != "0" ]; then
+	if [ "$(pgrep -fc -u "${USER}" "/bin/bash ./${selfname} install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} i")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} auto-install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ai")" != "0" ]; then
 		fn_print_dots "Checking installer: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking installer: CHECKING"
-		fn_print_info "Checking installer: Installer is : "
-		fn_print_info_eol
+		fn_print_info "Checking installer: LinuxGSM is installing: "
+		fn_print_info_eol_nl
 		fn_script_log_pass "Checking installer: LinuxGSM is installing"
 		core_exit.sh
 	fi
 }
 
 fn_monitor_check_debug() {
-	if [ "$(pgrep -fc -u "${USER}" "${selfname} debug")" != "0" ] || [ "$(pgrep -fc -u "${USER}" "${selfname} d")" != "0" ]; then
+	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} debug")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} d")" != "0" ]; then
 		fn_print_dots "Checking debug: "
 		fn_print_checking_eol
 		fn_print_info "Checking debug: Debug is running: "
-		fn_print_info_eol
+		fn_print_info_eol_nl
 		fn_script_log_pass "Checking debug: Debug is running"
 		core_exit.sh
 	fi
 }
 
-fn_monitor_check_starting(){
+fn_monitor_check_starting() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-starting.lock" ]; then
 		if [ "$(find "${lockdir}/${selfname}-starting.lock" -mmin +5)" ]; then
 			fn_print_dots "Checking start: "
 			fn_print_checking_eol
 			fn_print_warn "Checking start: Removing stale lockfile: "
-			fn_print_warn_eol
+			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking start: Removing stale lockfile"
 			rm -f "${lockdir:?}/${selfname}-starting.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} start")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} start")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking start: "
 		fn_print_checking_eol
 		fn_print_info "Checking start: LinuxGSM is starting: "
-		fn_print_info_eol
+		fn_print_info_eol_nl
 		fn_script_log_info "Checking backup: LinuxGSM is starting"
 		core_exit.sh
 	fi
 }
 
-fn_monitor_check_stopping(){
+fn_monitor_check_stopping() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-stopping.lock" ]; then
 		if [ "$(find "${lockdir}/${selfname}-stopping.lock" -mmin +5)" ]; then
 			fn_print_dots "Checking stop: "
 			fn_print_checking_eol
 			fn_print_warn "Checking stop: Removing stale lockfile: "
-			fn_print_warn_eol
+			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking stop: Removing stale lockfile"
 			rm -f "${lockdir:?}/${selfname}-stopping.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} stop")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} stop")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
 		fn_print_dots "Checking stop: "
 		fn_print_checking_eol
 		fn_print_info "Checking stop: LinuxGSM is stopping: "
-		fn_print_info_eol
+		fn_print_info_eol_nl
 		fn_script_log_info "Checking backup: LinuxGSM is stopping"
 		core_exit.sh
 	fi
@@ -107,11 +107,11 @@ fn_monitor_check_backup() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} backup")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} b")" != "0" ]]; then
+	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} backup")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} b")" != "0" ]]; then
 		fn_print_dots "Checking backup: "
 		fn_print_checking_eol
 		fn_print_info "Checking backup: Backup is running: "
-		fn_print_info_eol
+		fn_print_info_eol_nl
 		fn_script_log_info "Checking backup: Backup is running"
 		core_exit.sh
 	fi
@@ -124,38 +124,38 @@ fn_monitor_check_update() {
 			fn_print_dots "Checking update: "
 			fn_print_checking_eol
 			fn_print_warn "Checking update: Removing stale lockfile: "
-			fn_print_warn_eol
+			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking update: Removing stale lockfile"
 			rm -f "${lockdir:?}/update.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fc -u "${USER}" "${selfname} update")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} validate")" != "0" || "$(pgrep -fc -u "${USER}" "${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "${selfname} fu")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "/bin/bash ./${selfname} fu")" != "0" ]]; then
 		fn_print_dots "Checking update: "
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server: "
-		fn_print_info_eol
+		fn_print_info_eol_nl
 		fn_script_log_pass "Checking update: LinuxGSM is updating the game server"
 		core_exit.sh
 	fi
 }
 
 # Source engine games may display a messages to indicate the server needs restarting.
-fn_monitor_check_update_source(){
- if [ -f "${consolelogdir}/${selfname}-console.log" ] && [ "${engine}" == "source" ]; then
-	 if grep -q "Your server needs to be restarted in order to receive the latest update." "${consolelogdir}/${selfname}-console.log"; then
-		 fn_print_dots "Checking update: "
-		 fn_print_checking_eol
-		 fn_script_log_info "Checking update: CHECKING"
-		 fn_print_ok "Checking update: "
-		 fn_print_ok_eol_nl
-		 fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
-		 alert="restart"
-		 alert.sh
-		 command_restart.sh
-		 core_exit.sh
-	 fi
- fi
+fn_monitor_check_update_source() {
+	if [ -f "${consolelogdir}/${selfname}-console.log" ] && [ "${engine}" == "source" ]; then
+		if grep -q "Your server needs to be restarted in order to receive the latest update." "${consolelogdir}/${selfname}-console.log"; then
+			fn_print_dots "Checking update: "
+			fn_print_checking_eol
+			fn_script_log_info "Checking update: CHECKING"
+			fn_print_ok "Checking update: "
+			fn_print_ok_eol_nl
+			fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
+			alert="restart"
+			alert.sh
+			command_restart.sh
+			core_exit.sh
+		fi
+	fi
 }
 
 fn_monitor_check_session() {
@@ -166,7 +166,7 @@ fn_monitor_check_session() {
 	sessionwidth="80"
 	sessionheight="23"
 	# Check for PIDS with identical tmux sessions running.
-	if [ "$(pgrep -fc "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" -ge "2" ]; then
+	if [ "$(pgrep -fcx "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" -ge "2" ]; then
 		fn_print_error "Checking session: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
