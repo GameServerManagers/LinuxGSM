@@ -12,8 +12,12 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_monitor_check_monitoring() {
-	# Monitor does not run if lockfile is not found.
-	if [ ! -f "${lockdir}/${selfname}-monitoring.lock" ]; then
+	if [ -f "${lockdir}/${selfname}.lock" ]; then
+		# Part of migration to v23.5.0. #4296
+		rm -f "${lockdir:?}/${selfname}.lock"
+		date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
+	elif [ ! -f "${lockdir}/${selfname}-monitoring.lock" ]; then
+		# Monitor does not run if lockfile is not found.
 		fn_print_dots "Checking lockfile: "
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
@@ -167,7 +171,7 @@ fn_monitor_check_session() {
 	sessionheight="23"
 	# Check for PIDS with identical tmux sessions running.
 	if [ "$(pgrep -fcx "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" -ge "2" ]; then
-		fn_print_error "Checking session: "
+		fn_print_error "Checking session: There are PIDS with identical tmux sessions running: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: There are PIDS with identical tmux sessions running"
@@ -177,7 +181,7 @@ fn_monitor_check_session() {
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
 	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
-		fn_print_error "Checking session: "
+		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running: "
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
