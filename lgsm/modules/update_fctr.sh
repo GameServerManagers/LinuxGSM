@@ -1,16 +1,16 @@
 #!/bin/bash
-# LinuxGSM update_vintagestory.sh module
+# LinuxGSM update_fctr.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Vintage Story servers.
+# Description: Handles updating of Factorio servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz" "${serverfiles}" "factorio"
 	fn_clear_tmp
 }
 
@@ -20,7 +20,7 @@ fn_update_localbuild() {
 	# Uses executable to get local build.
 	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
-		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
 	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
@@ -35,16 +35,11 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="http://api.vintagestory.at/stable-unstable.json"
+	apiurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
 	remotebuildresponse=$(curl -s "${apiurl}")
-	if [ "${branch}" == "stable" ]; then
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
-	else
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
-	fi
-	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
-	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
-	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.md5')
+	remotebuildversion=$(echo "${remotebuildresponse}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
+	remotebuildurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
+	remotebuildfilename="factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -76,8 +71,8 @@ fn_update_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -90,8 +85,8 @@ fn_update_compare() {
 		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
+		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -135,15 +130,15 @@ fn_update_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
+		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -157,8 +152,11 @@ fn_update_compare() {
 	fi
 }
 
+# Game server architecture.
+factorioarch="linux64"
+
 # The location where the builds are checked and downloaded.
-remotelocation="vintagestory.at"
+remotelocation="factorio.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

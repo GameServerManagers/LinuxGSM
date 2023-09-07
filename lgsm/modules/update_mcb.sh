@@ -1,27 +1,40 @@
 #!/bin/bash
-# LinuxGSM update_factorio.sh module
+# LinuxGSM update_mcb.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Factorio servers.
+# Description: Handles updating of Minecraft Bedrock servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
-	fn_dl_extract "${tmpdir}" "factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz" "${serverfiles}" "factorio"
-	fn_clear_tmp
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuildversion}.zip" "nochmodx" "norun" "noforce" "nohash"
+	echo -e "Extracting to ${serverfiles}...\c"
+	if [ "${firstcommandname}" == "INSTALL" ]; then
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "server.properties" -d "${serverfiles}"
+	else
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
+	fi
+	local exitcode=$?
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fatal "Extracting ${local_filename}"
+		if [ -f "${lgsmlog}" ]; then
+			echo -e "${extractcmd}" >> "${lgsmlog}"
+		fi
+		echo -e "${extractcmd}"
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Extracting ${local_filename}"
+	fi
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to get local build.
-	if [ -d "${executabledir}" ]; then
-		cd "${executabledir}" || exit
-		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
-	fi
+	# Uses log file to get local build.
+	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version: //' | tr -d '\000-\011\013-\037')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -34,12 +47,15 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	# Random number for userAgent
+	randnum=$((1 + RANDOM % 5000))
 	# Get remote build info.
-	apiurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
-	remotebuildresponse=$(curl -s "${apiurl}")
-	remotebuildversion=$(echo "${remotebuildresponse}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)
-	remotebuildurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
-	remotebuildfilename="factorio_headless_${factorioarch}-${remotebuildversion}.tar.xz"
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+	else
+		remotebuildversion="${mcversion}"
+	fi
+	remotebuildurl="https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuildversion}.zip"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -71,8 +87,8 @@ fn_update_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild} ${factorioarch}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
+		echo -e "* Local build: ${red}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
@@ -85,8 +101,8 @@ fn_update_compare() {
 		fi
 		echo -en "\n"
 		fn_script_log_info "Update available"
-		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
-		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -130,15 +146,15 @@ fn_update_compare() {
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild} ${factorioarch}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion} ${factorioarch}${default}"
+		echo -e "* Local build: ${green}${localbuild}${default}"
+		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
 			echo -e "* Branch: ${branch}"
 		fi
 		echo -en "\n"
 		fn_script_log_info "No update available"
-		fn_script_log_info "Local build: ${localbuild} ${factorioarch}"
-		fn_script_log_info "Remote build: ${remotebuildversion} ${factorioarch}"
+		fn_script_log_info "Local build: ${localbuild}"
+		fn_script_log_info "Remote build: ${remotebuildversion}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -152,11 +168,8 @@ fn_update_compare() {
 	fi
 }
 
-# Game server architecture.
-factorioarch="linux64"
-
 # The location where the builds are checked and downloaded.
-remotelocation="factorio.com"
+remotelocation="minecraft.net"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

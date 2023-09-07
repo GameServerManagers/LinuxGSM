@@ -151,11 +151,6 @@ fn_update_steamcmd_localbuild() {
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Set branch to public if no custom branch.
-	if [ -z "${branch}" ]; then
-		branch="public"
-	fi
-
 	# Checks if localbuild variable has been set.
 	if [ -z "${localbuild}" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}: missing local build info"
@@ -178,6 +173,13 @@ fn_update_steamcmd_remotebuild() {
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \; 2> /dev/null
 	fi
 
+	# Set branch to public if no custom branch.
+	if [ -z "${branch}" ]; then
+		branch="public"
+	fi
+
+	# added as was failing GitHub Actions test. Running SteamCMD twice seems to fix it.
+	${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit 2> /dev/null
 	# password for branch not needed to check the buildid
 	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
