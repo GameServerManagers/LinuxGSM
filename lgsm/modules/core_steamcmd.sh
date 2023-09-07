@@ -178,7 +178,6 @@ fn_update_steamcmd_remotebuild() {
 		branch="public"
 	fi
 
-
 	# added as was failing GitHub Actions test. Running SteamCMD twice seems to fix it.
 	${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit 2> /dev/null
 	# password for branch not needed to check the buildid

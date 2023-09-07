@@ -9,7 +9,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   update-check:
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -33,7 +32,7 @@ jobs:
 
       - name: Insert steamuser
         if: matrix.shortname == 'jk2'
-        run: echo -e "steamuser=\"${STEAMCMD_USER}\"\nsteampass='${STEAMCMD_PASS}'" lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
+        run: echo -e "steamuser=\"${{ secrets.STEAMCMD_USER }}\"\nsteampass='${{ secrets.STEAMCMD_PASS }}'" > lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
 
       - name: Install server
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server auto-install
