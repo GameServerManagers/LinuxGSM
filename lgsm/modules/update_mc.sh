@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM update_minecraft.sh module
+# LinuxGSM update_mc.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com

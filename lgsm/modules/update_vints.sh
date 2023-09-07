@@ -1,40 +1,27 @@
 #!/bin/bash
-# LinuxGSM update_minecraft_bedrock.sh module
+# LinuxGSM update_vints.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Minecraft Bedrock servers.
+# Description: Handles updating of Vintage Story servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuildversion}.zip" "nochmodx" "norun" "noforce" "nohash"
-	echo -e "Extracting to ${serverfiles}...\c"
-	if [ "${firstcommandname}" == "INSTALL" ]; then
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "server.properties" -d "${serverfiles}"
-	else
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
-	fi
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting ${local_filename}"
-		if [ -f "${lgsmlog}" ]; then
-			echo -e "${extractcmd}" >> "${lgsmlog}"
-		fi
-		echo -e "${extractcmd}"
-		core_exit.sh
-	else
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting ${local_filename}"
-	fi
+	# Download and extract files to serverfiles.
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to get local build.
-	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version: //' | tr -d '\000-\011\013-\037')
+	# Uses executable to get local build.
+	if [ -d "${executabledir}" ]; then
+		cd "${executabledir}" || exit
+		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -47,15 +34,17 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Random number for userAgent
-	randnum=$((1 + RANDOM % 5000))
 	# Get remote build info.
-	if [ "${mcversion}" == "latest" ]; then
-		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+	apiurl="http://api.vintagestory.at/stable-unstable.json"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	if [ "${branch}" == "stable" ]; then
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		remotebuildversion="${mcversion}"
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	fi
-	remotebuildurl="https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuildversion}.zip"
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.md5')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -169,7 +158,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="minecraft.net"
+remotelocation="vintagestory.at"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
