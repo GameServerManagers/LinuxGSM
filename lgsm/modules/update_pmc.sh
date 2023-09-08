@@ -12,6 +12,7 @@ fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "force" "${remotebuildhash}"
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
 	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
