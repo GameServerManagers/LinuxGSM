@@ -23,10 +23,12 @@ fn_update_dl() {
 			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
 		echo -e "${extractcmd}"
+		fn_clear_tmp
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting ${local_filename}"
+		fn_clear_tmp
 	fi
 }
 

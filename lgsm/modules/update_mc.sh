@@ -11,6 +11,7 @@ fn_update_dl() {
 	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {

@@ -20,7 +20,7 @@ fn_update_localbuild() {
 	# Uses executable to get local build.
 	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
-		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
+		localbuild="$(${preexecutable} ${executable} --version 2> /dev/null | sed '/^[[:space:]]*$/d')"
 	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
