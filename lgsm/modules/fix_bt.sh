@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves an issue with Barotrauma.
+# Description: Resolves issues with Barotrauma.
 
 module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

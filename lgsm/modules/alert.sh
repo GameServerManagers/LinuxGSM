@@ -72,6 +72,15 @@ fn_alert_check_update() {
 	alertbody="${gamename} update available: ${remotebuildversion}"
 }
 
+fn_alert_update_restart() {
+	fn_script_log_info "Sending alert: Restarted"
+	alertsubject="Alert - ${selfname} - Restarted"
+	alertemoji="🎮"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${gamename} received update: ${remotebuildversion} and required restarting"
+}
+
 fn_alert_permissions() {
 	fn_script_log_info "Sending alert: Permissions error"
 	alertsubject="Alert - ${selfname}: Permissions error"
@@ -102,6 +111,8 @@ elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
+elif [ "${alert}" == "update-restart" ]; then
+	fn_alert_update_restart
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 fi

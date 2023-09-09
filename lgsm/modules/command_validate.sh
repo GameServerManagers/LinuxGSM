@@ -23,7 +23,7 @@ fn_validate() {
 		fi
 	done
 	fn_print_warn_nl "Validate might overwrite some customised files"
-
+	date '+%s' > "${lockdir:?}/update.lock"
 	fn_dl_steamcmd
 }
 
@@ -45,5 +45,8 @@ if [ "${status}" != "0" ]; then
 else
 	fn_validate
 fi
+
+# remove update lockfile
+rm -f "${lockdir:?}/update.lock"
 
 core_exit.sh

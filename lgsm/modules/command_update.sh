@@ -18,23 +18,26 @@ check_last_update.sh
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	update_minecraft.sh
+	update_mc.sh
 elif [ "${shortname}" == "mcb" ]; then
-	update_minecraft_bedrock.sh
+	update_mcb.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
-	update_papermc.sh
+	update_pmc.sh
 elif [ "${shortname}" == "fctr" ]; then
-	update_factorio.sh
+	update_fctr.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then
-	update_jediknight2.sh
+	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then
-	update_vintagestory.sh
+	update_vints.sh
 elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 else
 	update_steamcmd.sh
 fi
+
+# remove update lockfile.
+rm -f "${lockdir:?}/update.lock"
 
 core_exit.sh

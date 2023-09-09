@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves various issues with CS:GO.
+# Description: Resolves issues with Counter-Strike: Global Offensive.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -37,6 +37,6 @@ libgccc_so="${serverfiles}/bin/libgcc_s.so.1"
 if [ -f "${libgccc_so}" ]; then
 	fixname="libgcc_s.so.1 move away"
 	fn_fix_msg_start
-	mv -v "${libgccc_so}" "${libgccc_so}.bck"
+	mv "${libgccc_so}" "${libgccc_so}.bak"
 	fn_fix_msg_end
 fi

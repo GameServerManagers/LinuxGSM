@@ -37,7 +37,7 @@ fn_start_teamspeak3() {
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2() {
 	fn_start_tmux
-	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
+	tmux -L "${sessionname}" send -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux() {
@@ -80,7 +80,7 @@ fn_start_tmux() {
 		cd "${executabledir}" || exit
 	fi
 
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux -L "${sessionname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -94,9 +94,9 @@ fn_start_tmux() {
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 			if [ "$logtimestamp" == "on" ]; then
-				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
-				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+				tmux -L "${sessionname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
 		fi
 
@@ -143,7 +143,7 @@ fn_start_tmux() {
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux -L \"${sessionname}\" new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="

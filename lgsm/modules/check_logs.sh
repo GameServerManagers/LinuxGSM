@@ -24,3 +24,8 @@ fi
 if [ "${gamelogdir}" ] && [ -d "${gamelogdir}" ] && [ ! -d "${logdir}/server" ]; then
 	fn_check_logs
 fi
+
+# Create Steam log symlink if missing
+if [ ! -d "${logdir}/steam" ] && [ -n "${appid}" ]; then
+	fn_check_logs
+fi

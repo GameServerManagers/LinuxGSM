@@ -1,27 +1,42 @@
 #!/bin/bash
-# LinuxGSM update_vintagestory.sh module
+# LinuxGSM update_mcb.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Vintage Story servers.
+# Description: Handles updating of Minecraft Bedrock servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
-	fn_clear_tmp
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuildversion}.zip" "nochmodx" "norun" "noforce" "nohash"
+	echo -e "Extracting to ${serverfiles}...\c"
+	if [ "${firstcommandname}" == "INSTALL" ]; then
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "server.properties" -d "${serverfiles}"
+	else
+		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
+	fi
+	local exitcode=$?
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fatal "Extracting ${local_filename}"
+		if [ -f "${lgsmlog}" ]; then
+			echo -e "${extractcmd}" >> "${lgsmlog}"
+		fi
+		echo -e "${extractcmd}"
+		fn_clear_tmp
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Extracting ${local_filename}"
+		fn_clear_tmp
+	fi
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses executable to get local build.
-	if [ -d "${executabledir}" ]; then
-		cd "${executabledir}" || exit
-		localbuild="$(${preexecutable} ${executable} --version | sed '/^[[:space:]]*$/d')"
-	fi
+	# Uses log file to get local build.
+	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version: //' | tr -d '\000-\011\013-\037')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -34,17 +49,15 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	# Random number for userAgent
+	randnum=$((1 + RANDOM % 5000))
 	# Get remote build info.
-	apiurl="http://api.vintagestory.at/stable-unstable.json"
-	remotebuildresponse=$(curl -s "${apiurl}")
-	if [ "${branch}" == "stable" ]; then
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
 	else
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion="${mcversion}"
 	fi
-	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.filename')
-	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.urls.cdn')
-	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].server.md5')
+	remotebuildurl="https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuildversion}.zip"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -69,7 +82,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -122,7 +138,7 @@ fn_update_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"
@@ -155,7 +171,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="vintagestory.at"
+remotelocation="minecraft.net"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

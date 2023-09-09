@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Game Server pid
 if [ "${status}" == "1" ]; then
-	gameserverpid="$(tmux list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')"
+	gameserverpid="$(tmux -L "${socketname}" list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')"
 	if [ "${engine}" == "source" ]; then
 		srcdslinuxpid="$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep srcds_linux | awk '{print $2}')"
 	elif [ "${engine}" == "goldsrc" ]; then
@@ -73,7 +73,12 @@ for distro_info in "${distro_info_array[@]}"; do
 	fi
 done
 
-# some RHEL based distros use 8.4 instead of just 8.
+# Get virtual environment
+if [ "$(command -v systemd-detect-virt 2> /dev/null)" ]; then
+	virtualenvironment="$(systemd-detect-virt)"
+fi
+
+# Some RHEL based distros use 8.4 instead of just 8.
 if [[ "${distroidlike}" == *"rhel"* ]] || [ "${distroid}" == "rhel" ]; then
 	distroversioncsv="${distroversionrh}"
 else
@@ -120,6 +125,10 @@ fi
 
 if [ "$(command -v mono 2> /dev/null)" ]; then
 	monoversion="$(mono --version 2>&1 | grep -Po '(?<=version )\d')"
+fi
+
+if [ "$(command -v dotnet 2> /dev/null)" ]; then
+	dotnetversion="$(dotnet --list-runtimes | grep -E 'Microsoft\.NETCore\.App' | awk '{print $2}')"
 fi
 
 ## Uptime

@@ -18,7 +18,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
-	localbuild=$(grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" "$(find ./* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
+	localbuild=$(grep -Eo "TeamSpeak 3 Server ((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" "$(find "${serverfiles}"/* -name "ts3server*_0.log" 2> /dev/null | sort | tail -1)" | grep -Eo "((\.)?[0-9]{1,3}){1,3}\.[0-9]{1,3}" | tail -1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -68,7 +68,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -121,7 +124,7 @@ fn_update_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"

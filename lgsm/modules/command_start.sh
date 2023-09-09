@@ -11,39 +11,14 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
 fn_firstcommand_set
 
-fn_start_teamspeak3() {
-	if [ ! -f "${servercfgfullpath}" ]; then
-		fn_print_warn_nl "${servercfgfullpath} is missing"
-		fn_script_log_warn "${servercfgfullpath} is missing"
-		echo "	* Creating blank ${servercfg}"
-		fn_script_log_info "Creating blank ${servercfg}"
-		fn_sleep_time
-		echo "	* ${servercfg} can remain blank by default."
-		fn_script_log_info "${servercfgfullpath} can remain blank by default."
-		fn_sleep_time
-		echo "	* ${servercfg} is located in ${servercfgfullpath}."
-		fn_script_log_info "${servercfg} is located in ${servercfgfullpath}."
-		sleep 5
-		touch "${servercfgfullpath}"
-	fi
-	# Accept license.
-	if [ ! -f "${executabledir}/.ts3server_license_accepted" ]; then
-		install_eula.sh
-	fi
-	fn_start_tmux
-}
-
 # This will allow the Jedi Knight 2 version to be printed in console on start.
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2() {
 	fn_start_tmux
-	tmux send -t "${sessionname}" version ENTER > /dev/null 2>&1
+	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux() {
-	if [ "${parmsbypass}" ]; then
-		startparameters=""
-	fi
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
 		sessionwidth="${servercfgtmuxwidth}"
@@ -68,11 +43,23 @@ fn_start_tmux() {
 		mv "${consolelog}" "${consolelogdate}"
 	fi
 
-	# Create lockfile
-	date '+%s' > "${lockdir}/${selfname}.lock"
-	echo "${version}" >> "${lockdir}/${selfname}.lock"
-	echo "${port}" >> "${lockdir}/${selfname}.lock"
+	# Create a starting lockfile that only exists while the start command is running.
+	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
+
 	fn_reload_startparameters
+
+	# Create uid to ensure unique tmux socket name.
+	if [ ! -f "${datadir}/${selfname}.uid" ]; then
+		check_status.sh
+		if [ "${status}" != "0" ]; then
+			# stop running server (if running) to prevent lingering tmux sessions.
+			exitbypass=1
+			command_stop.sh
+		fi
+		uid=$(date '+%s' | sha1sum | head -c 8)
+		echo "${uid}" > "${datadir}/${selfname}.uid"
+		socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
+	fi
 
 	if [ "${shortname}" == "av" ]; then
 		cd "${systemdir}" || exit
@@ -80,23 +67,20 @@ fn_start_tmux() {
 		cd "${executabledir}" || exit
 	fi
 
-	tmux new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
-
-	# Create last start lock file
-	date +%s > "${lockdir}/${selfname}-laststart.lock"
 
 	# tmux compiled from source will return "master", therefore ignore it.
 	if [ "${tmuxv}" == "master" ]; then
 		fn_script_log "tmux version: master (user compiled)"
 		echo -e "tmux version: master (user compiled)" >> "${consolelog}"
 		if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-			if [ "$logtimestamp" == "on" ]; then
-				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			if [ "${logtimestamp}" == "on" ]; then
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
-				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
 		fi
 
@@ -114,10 +98,10 @@ fn_start_tmux() {
 			Currently installed: $(tmux -V)" > "${consolelog}"
 		# Console logging enable or not set.
 		elif [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-			if [ "$logtimestamp" == "on" ]; then
-				tmux pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			if [ "${logtimestamp}" == "on" ]; then
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 			else
-				tmux pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+				tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 			fi
 		fi
 	else
@@ -127,7 +111,7 @@ fn_start_tmux() {
 
 	# Console logging disabled.
 	if [ "${consolelogging}" == "off" ]; then
-		echo -e "Console logging disabled by user" >> "${consolelog}"
+		echo -e "Console logging disabled in settings" >> "${consolelog}"
 		fn_script_log_info "Console logging disabled by user"
 	fi
 	fn_sleep_time
@@ -143,7 +127,7 @@ fn_start_tmux() {
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="
-			echo -e "tmux new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
+			echo -e "tmux -L \"${sessionname}\" new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
 			echo -e "================================="
@@ -176,8 +160,20 @@ fn_start_tmux() {
 				fi
 			fi
 		fi
+		# Remove starting lockfile when command ends.
+		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	else
+		# Create start lockfile that exists only when the server is running.
+		date '+%s' > "${lockdir:?}/${selfname}-started.lock"
+		echo "${version}" >> "${lockdir}/${selfname}-started.lock"
+		echo "${port}" >> "${lockdir}/${selfname}-started.lock"
+		fn_print_ok "${servername}"
+		fn_script_log_pass "Started ${servername}"
+
+		# Create last started Lockfile.
+		date +%s > "${lockdir}/${selfname}-last-started.lock"
+
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
 	fi
@@ -185,25 +181,30 @@ fn_start_tmux() {
 	echo -en "\n"
 }
 
+# If user ran the start command monitor will become enabled.
+if [ "${firstcommandname}" == "START" ] || [ "${firstcommandname}" == "RESTART" ]; then
+	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
+fi
+
 check.sh
 
-# Is the server already started.
-# $status comes from check_status.sh, which is run by check.sh for this command
+# If the server already started dont start again.
 if [ "${status}" != "0" ]; then
 	fn_print_dots "${servername}"
 	fn_print_info_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
+		# Remove starting lockfile when command ends.
+		rm -f "${lockdir:?}/${selfname}-starting.lock"
 		core_exit.sh
 	fi
 fi
-if [ -z "${fixbypass}" ]; then
-	fix.sh
-fi
+
+fix.sh
 info_game.sh
 core_logs.sh
 
-# Will check for updates is updateonstart is yes.
+# Will check for updates if updateonstart is yes.
 if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
 	exitbypass=1
 	unset updateonstart
@@ -212,13 +213,12 @@ if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${upda
 fi
 
 fn_print_dots "${servername}"
-
-if [ "${shortname}" == "ts3" ]; then
-	fn_start_teamspeak3
-elif [ "${shortname}" == "jk2" ]; then
+if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
 else
 	fn_start_tmux
 fi
 
+# Remove starting lockfile when command ends.
+rm -f "${lockdir:?}/${selfname}-starting.lock"
 core_exit.sh
