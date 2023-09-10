@@ -2060,11 +2060,11 @@ fn_info_game_terraria() {
 # Filetype: cfg
 fn_info_game_tw() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_quakec "servername" "sv_name"
-		fn_info_game_quakec "serverpassword" "password"
-		fn_info_game_quakec "rconpassword" "sv_rcon_password"
-		fn_info_game_quakec "port" "sv_port"
-		fn_info_game_quakec "maxplayers" "sv_max_clients"
+		fn_info_game_keyvalue_pairs_space "servername" "sv_name"
+		fn_info_game_keyvalue_pairs_space "serverpassword" "password"
+		fn_info_game_keyvalue_pairs_space "rconpassword" "sv_rcon_password"
+		fn_info_game_keyvalue_pairs_space "port" "sv_port"
+		fn_info_game_keyvalue_pairs_space "maxplayers" "sv_max_clients"
 	fi
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
