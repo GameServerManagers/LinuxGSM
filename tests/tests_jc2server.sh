@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.5.0"
+version="v23.5.1"
 shortname="jc2"
 gameservername="jc2server"
 commandname="CORE"
