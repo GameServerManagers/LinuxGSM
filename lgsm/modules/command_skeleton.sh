@@ -5,7 +5,10 @@
 # Website: https://linuxgsm.com
 # Description: Creates an copy of a game servers directorys.
 
+commandname="SKELETON"
+commandaction="Skeleton"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
 
 fn_print_dots "Creating skeleton directory"
 check.sh

@@ -29,7 +29,7 @@ elif [ "${shortname}" == "rust" ]; then
 elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
 	ramrequirementmb="1000"
 	ramrequirementgb="1"
-elif [ "${shortname}" == "pstbs" ]; then
+elif [ "${shortname}" == "ps" ]; then
 	ramrequirementmb="2000"
 	ramrequirementgb="2"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then

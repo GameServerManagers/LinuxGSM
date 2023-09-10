@@ -1,24 +1,27 @@
 #!/bin/bash
-# LinuxGSM update_papermc.sh module
+# LinuxGSM update_vints.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of PaperMC and Waterfall servers.
+# Description: Handles updating of Vintage Story servers.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "force" "${remotebuildhash}"
-	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
-	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses build file to get local build.
-	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	# Uses executable to get local build.
+	if [ -d "${executabledir}" ]; then
+		cd "${executabledir}" || exit
+		localbuild="$(${preexecutable} ${executable} --version 2> /dev/null | sed '/^[[:space:]]*$/d')"
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -32,35 +35,16 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://papermc.io/api/v2/projects"
-	# Get list of projects.
+	apiurl="http://api.vintagestory.at/stable-unstable.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
-	# Get list of Minecraft versions for project.
-	remotebuildresponseproject=$(curl -s "${apiurl}/${paperproject}")
-	# Get latest Minecraft: Java Edition version or user specified version.
-	if [ "${mcversion}" == "latest" ]; then
-		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r '.versions[-1]')
+	if [ "${branch}" == "stable" ]; then
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		# Checks if user specified version exists.
-		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg mcversion "${mcversion}" '.versions[]|select(. == $mcversion)')
-		if [ -z "${remotebuildmcversion}" ]; then
-			# user passed version does not exist
-			fn_print_error_nl "Version ${mcversion} not available from ${remotelocation}"
-			fn_script_log_error "Version ${mcversion} not available from ${remotelocation}"
-			core_exit.sh
-		fi
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	fi
-	# Get list of paper builds for specific Minecraft: Java Edition version.
-	remotebuildresponsemcversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}")
-	# Get latest paper build for specific Minecraft: Java Edition version.
-	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[-1]')
-	# Get various info about the paper build.
-	remotebuildresponseversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}")
-	remotebuildfilename=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.name')
-	remotebuildhash=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.sha256')
-	remotebuildurl="${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}/downloads/${remotebuildfilename}"
-	# Combines Minecraft: Java Edition version and paper build. e.g 1.16.5-456
-	remotebuildversion="${remotebuildmcversion}-${remotebuildpaperversion}"
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.md5')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -85,7 +69,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -138,7 +125,7 @@ fn_update_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"
@@ -171,15 +158,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="papermc.io"
-
-if [ "${shortname}" == "pmc" ]; then
-	paperproject="paper"
-elif [ "${shortname}" == "vpmc" ]; then
-	paperproject="velocity"
-elif [ "${shortname}" == "wmc" ]; then
-	paperproject="waterfall"
-fi
+remotelocation="vintagestory.at"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

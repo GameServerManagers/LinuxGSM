@@ -28,7 +28,7 @@ fn_serveradmin_password_prompt() {
 fn_serveradmin_password_set() {
 	# Start server in "new password mode".
 	ts3serverpass="1"
-	exitbypass="1"
+	exitbypass=1
 	command_start.sh
 	fn_firstcommand_reset
 	fn_print_ok_nl "New password applied"
@@ -40,7 +40,7 @@ check.sh
 fn_serveradmin_password_prompt
 if [ "${status}" != "0" ]; then
 	# Stop any running server.
-	exitbypass="1"
+	exitbypass=1
 	command_stop.sh
 	fn_firstcommand_reset
 	fn_serveradmin_password_set

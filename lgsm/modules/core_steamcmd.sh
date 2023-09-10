@@ -151,11 +151,6 @@ fn_update_steamcmd_localbuild() {
 	# Uses appmanifest to find local build.
 	localbuild=$(grep buildid "${appmanifestfile}" | tr '[:blank:]"' ' ' | tr -s ' ' | cut -d\  -f3)
 
-	# Set branch to public if no custom branch.
-	if [ -z "${branch}" ]; then
-		branch="public"
-	fi
-
 	# Checks if localbuild variable has been set.
 	if [ -z "${localbuild}" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}: missing local build info"
@@ -178,6 +173,13 @@ fn_update_steamcmd_remotebuild() {
 		find "${HOME}" -type f -name "appinfo.vdf" -exec rm -f {} \; 2> /dev/null
 	fi
 
+	# Set branch to public if no custom branch.
+	if [ -z "${branch}" ]; then
+		branch="public"
+	fi
+
+	# added as was failing GitHub Actions test. Running SteamCMD twice seems to fix it.
+	${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit 2> /dev/null
 	# password for branch not needed to check the buildid
 	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
@@ -204,7 +206,10 @@ fn_update_steamcmd_remotebuild() {
 
 fn_update_steamcmd_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -248,7 +253,7 @@ fn_update_steamcmd_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir:?}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"
@@ -352,8 +357,8 @@ fn_check_steamcmd_appmanifest() {
 	if [ "${engine}" == "goldsrc" ]; then
 		shareddepotsexists=$(grep -c SharedDepots "${serverfiles}/steamapps/appmanifest_90.acf")
 		if [ ! -f "${serverfiles}/steamapps/appmanifest_90.acf" ] || [ "${shareddepotsexists}" == "0" ]; then
-			fn_print_error_nl "SharedDepots missing from appmanifest_${appid}.acf"
-			fn_script_log_error "SharedDepots missing from appmanifest_${appid}.acf"
+			fn_print_error_nl "SharedDepots missing from appmanifest_90.acf"
+			fn_script_log_error "SharedDepots missing from appmanifest_90.acf"
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			if [ "${shortname}" == "ahl" ]; then

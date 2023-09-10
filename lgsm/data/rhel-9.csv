@@ -83,7 +83,7 @@ opfor
 pc
 pc2
 pmc,java-17-openjdk
-pstbs,GConf2
+ps,GConf2
 pvkii
 pvr,libcxx
 pz,java-11-openjdk rng-tools
@@ -124,7 +124,7 @@ ut2k4
 ut3
 ut99
 vh,glibc-devel
-vints,mono-complete
+vints,aspnetcore-runtime-7.0
 vpmc,java-17-openjdk
 vs
 wet

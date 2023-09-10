@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.4.0"
+modulesversion="v23.5.0"
 
 # Core
 
@@ -421,6 +421,11 @@ fix_onset.sh() {
 	fn_fetch_module
 }
 
+fix_pvr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ro.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -645,17 +650,17 @@ update_ts3.sh() {
 	fn_fetch_module
 }
 
-update_minecraft.sh() {
+update_mc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_minecraft_bedrock.sh() {
+update_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_papermc.sh() {
+update_pmc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -665,12 +670,12 @@ update_mta.sh() {
 	fn_fetch_module
 }
 
-update_factorio.sh() {
+update_fctr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_jediknight2.sh() {
+update_jk2.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -680,7 +685,7 @@ update_steamcmd.sh() {
 	fn_fetch_module
 }
 
-update_vintagestory.sh() {
+update_vints.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

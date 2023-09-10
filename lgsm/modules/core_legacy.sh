@@ -15,6 +15,10 @@ for legacy_version in "${legacy_versions_array[@]}"; do
 	fi
 done
 
+if [ -z "${socketname}" ]; then
+	socketname="${sessionname}"
+fi
+
 if [ -n "${webadminuser}" ]; then
 	httpuser="${webadminuser}"
 fi

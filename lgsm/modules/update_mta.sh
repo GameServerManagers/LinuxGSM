@@ -11,13 +11,17 @@ fn_update_dl() {
 	# Download and extract files to tmpdir.
 	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${serverfiles}" "multitheftauto_linux_x64"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to get local build.
-	localbuild=$(grep "= Multi Theft Auto: San Andreas v" "${serverfiles}/mods/deathmatch/logs/server.log" | awk '{ print $7 }' | sed -r 's/^.{1}//' | tail -1)
+	# Uses executable to get local build.
+	if [ -d "${executabledir}" ]; then
+		cd "${executabledir}" || exit
+		localbuild=$(${executable} -v 2> /dev/null)
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -31,11 +35,11 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://api.github.com/repos/multitheftauto/mtasa-blue/releases/latest"
+	apiurl="https://linux.multitheftauto.com/revision/latest.txt"
 	remotebuildresponse=$(curl -s "${apiurl}")
-	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
-	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
-	remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+	remotebuildfilename="multitheftauto_linux_x64.tar.gz"
+	remotebuildurl="http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz"
+	remotebuildversion=$(echo "${remotebuildresponse}")
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuildversion variable has been set.
@@ -59,7 +63,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		if [ "${forceupdate}" == "1" ]; then
 			# forceupdate bypasses checks, useful for small build changes
 			mtaupdatestatus="forced"
@@ -118,7 +125,7 @@ fn_update_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"

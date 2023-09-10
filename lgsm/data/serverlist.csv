@@ -82,7 +82,7 @@ opfor,opforserver,Opposing Force,ubuntu-22.04
 pc,pcserver,Project Cars,ubuntu-22.04
 pc2,pc2server,Project Cars 2,ubuntu-22.04
 pmc,pmcserver,PaperMC,ubuntu-22.04
-pstbs,pstbsserver,Post Scriptum: The Bloody Seventh,ubuntu-22.04
+ps,psserver,Post Scriptum,ubuntu-22.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-22.04
 pvr,pvrserver,Pavlov VR,ubuntu-22.04
 pz,pzserver,Project Zomboid,ubuntu-22.04

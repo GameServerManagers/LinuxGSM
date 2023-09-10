@@ -2,7 +2,7 @@
 # LinuxGSM fix_lo.sh module
 # Author: Daniel Gibbs
 # Website: https://linuxgsm.com
-# Description: Resolves installation issue with Last Oasis
+# Description: Resolves various issues with Last Oasis.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

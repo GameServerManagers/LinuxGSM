@@ -2,7 +2,7 @@
 # LinuxGSM fix_rust.sh module
 # Author: Alasdair Haig
 # Website: https://linuxgsm.com
-# Description: Resolves startup issue with Valheim
+# Description: Resolves issues with Valheim.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 

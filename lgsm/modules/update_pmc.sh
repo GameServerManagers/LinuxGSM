@@ -1,40 +1,25 @@
 #!/bin/bash
-# LinuxGSM update_minecraft_bedrock.sh module
+# LinuxGSM update_pmc.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Minecraft Bedrock servers.
+# Description: Handles updating of PaperMC and Waterfall servers.
 
-moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "bedrock_server.${remotebuildversion}.zip" "nochmodx" "norun" "noforce" "nohash"
-	echo -e "Extracting to ${serverfiles}...\c"
-	if [ "${firstcommandname}" == "INSTALL" ]; then
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "server.properties" -d "${serverfiles}"
-	else
-		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
-	fi
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting ${local_filename}"
-		if [ -f "${lgsmlog}" ]; then
-			echo -e "${extractcmd}" >> "${lgsmlog}"
-		fi
-		echo -e "${extractcmd}"
-		core_exit.sh
-	else
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting ${local_filename}"
-	fi
+	# Download and extract files to serverfiles.
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "force" "${remotebuildhash}"
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
+	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
+	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses log file to get local build.
-	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version: //' | tr -d '\000-\011\013-\037')
+	# Uses build file to get local build.
+	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -47,15 +32,36 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Random number for userAgent
-	randnum=$((1 + RANDOM % 5000))
 	# Get remote build info.
+	apiurl="https://papermc.io/api/v2/projects"
+	# Get list of projects.
+	remotebuildresponse=$(curl -s "${apiurl}")
+	# Get list of Minecraft versions for project.
+	remotebuildresponseproject=$(curl -s "${apiurl}/${paperproject}")
+	# Get latest Minecraft: Java Edition version or user specified version.
 	if [ "${mcversion}" == "latest" ]; then
-		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randnum}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://minecraft.azureedge.net/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r '.versions[-1]')
 	else
-		remotebuildversion="${mcversion}"
+		# Checks if user specified version exists.
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg mcversion "${mcversion}" '.versions[]|select(. == $mcversion)')
+		if [ -z "${remotebuildmcversion}" ]; then
+			# user passed version does not exist
+			fn_print_error_nl "Version ${mcversion} not available from ${remotelocation}"
+			fn_script_log_error "Version ${mcversion} not available from ${remotelocation}"
+			core_exit.sh
+		fi
 	fi
-	remotebuildurl="https://minecraft.azureedge.net/bin-linux/bedrock-server-${remotebuildversion}.zip"
+	# Get list of paper builds for specific Minecraft: Java Edition version.
+	remotebuildresponsemcversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}")
+	# Get latest paper build for specific Minecraft: Java Edition version.
+	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[-1]')
+	# Get various info about the paper build.
+	remotebuildresponseversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}")
+	remotebuildfilename=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.name')
+	remotebuildhash=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.sha256')
+	remotebuildurl="${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}/downloads/${remotebuildfilename}"
+	# Combines Minecraft: Java Edition version and paper build. e.g 1.16.5-456
+	remotebuildversion="${remotebuildmcversion}-${remotebuildpaperversion}"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -80,7 +86,10 @@ fn_update_remotebuild() {
 
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
+	# Update has been found or force update.
 	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+		# Create update lockfile.
+		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
 		echo -e "Update available"
@@ -133,7 +142,7 @@ fn_update_compare() {
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
-			date +%s > "${lockdir}/lastupdate.lock"
+			date +%s > "${lockdir}/last-updated.lock"
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"
@@ -166,7 +175,15 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="minecraft.net"
+remotelocation="papermc.io"
+
+if [ "${shortname}" == "pmc" ]; then
+	paperproject="paper"
+elif [ "${shortname}" == "vpmc" ]; then
+	paperproject="velocity"
+elif [ "${shortname}" == "wmc" ]; then
+	paperproject="waterfall"
+fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

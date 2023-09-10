@@ -34,10 +34,9 @@ fn_info_game_ini() {
 	configtype="ini"
 }
 
-# Config Type: custom
+# Config Type: Key Value Pairs (Equals Delimited)
 # Comment: ; or #
-# Note: this ini filter does not filter by section. Can cause issues with some games that have multiple sections with the same variable name.
-fn_info_game_keyvalue_pairs() {
+fn_info_game_keyvalue_pairs_equals() {
 	# sed is used to process the file.
 	# -n: Suppresses automatic printing of pattern space.
 	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
@@ -57,6 +56,31 @@ fn_info_game_keyvalue_pairs() {
 		servercfgparse="${servercfgfullpath}"
 	fi
 	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	configtype="keyvalue_pairs"
+}
+
+# Config Type: Key Value Pairs (Space Delimited)
+# Comment: ; or #
+fn_info_game_keyvalue_pairs_space() {
+	# sed is used to process the file.
+	# -n: Suppresses automatic printing of pattern space.
+	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
+	# { s/.*  *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
+	#   - s/.*  *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an space ( ), possibly surrounded by optional double quotes.
+	#     - .*: Matches any characters before the space.
+	#     - = *"\?: Matches the space and any optional spaces before an optional double quote.
+	#     - \([^"]*\): Captures any characters that are not double quotes.
+	#     - "\?: Matches an optional double quote.
+	#     - /1: Replaces the entire matched pattern with the captured value.
+	#   - p: Prints the modified line.
+	#   - q: Quits processing after modifying and printing the line.
+
+	if [ -n "${3}" ]; then
+		servercfgparse="${3}"
+	else
+		servercfgparse="${servercfgfullpath}"
+	fi
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="keyvalue_pairs"
 }
 
@@ -157,7 +181,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\?\([^"]*\)"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
 	configtype="valve_keyvalues"
 }
 
@@ -543,7 +567,7 @@ fn_info_game_mh() {
 # Comment: ; or #
 # Example: ServerName="SERVERNAME"
 # Filetype: cfg
-fn_info_game_pstbs() {
+fn_info_game_ps() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
@@ -896,11 +920,11 @@ fn_info_game_armar() {
 # Filetype: con
 fn_info_game_bf1942() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs "configip" "game.serverIp"
-		fn_info_game_keyvalue_pairs "maxplayers" "game.serverMaxPlayers"
-		fn_info_game_keyvalue_pairs "port" "game.serverPort"
-		fn_info_game_keyvalue_pairs "servername" "game.serverName"
-		fn_info_game_keyvalue_pairs "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
+		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
+		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
@@ -917,11 +941,11 @@ fn_info_game_bf1942() {
 # Filetype: con
 fn_info_game_bfv() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs "configip" "game.serverIp"
-		fn_info_game_keyvalue_pairs "maxplayers" "game.serverMaxPlayers"
-		fn_info_game_keyvalue_pairs "port" "game.serverPort"
-		fn_info_game_keyvalue_pairs "servername" "game.serverName"
-		fn_info_game_keyvalue_pairs "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "configip" "game.serverIp"
+		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
+		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
+		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
@@ -1750,14 +1774,14 @@ fn_info_game_rust() {
 
 fn_info_game_rw() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs "configip" "Server_IP"
-		fn_info_game_keyvalue_pairs "gamemode" "World_GameMode"
-		fn_info_game_keyvalue_pairs "maxplayers" "Server_MaxPlayers"
-		fn_info_game_keyvalue_pairs "port" "Server_Port"
-		fn_info_game_keyvalue_pairs "rconport" "RCON_Port"
-		fn_info_game_keyvalue_pairs "seed" "World_Seed"
-		fn_info_game_keyvalue_pairs "servername" "Server_Name"
-		fn_info_game_keyvalue_pairs "worldname" "World_Name"
+		fn_info_game_keyvalue_pairs_equals "configip" "Server_IP"
+		fn_info_game_keyvalue_pairs_equals "gamemode" "World_GameMode"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "Server_MaxPlayers"
+		fn_info_game_keyvalue_pairs_equals "port" "Server_Port"
+		fn_info_game_keyvalue_pairs_equals "rconport" "RCON_Port"
+		fn_info_game_keyvalue_pairs_equals "seed" "World_Seed"
+		fn_info_game_keyvalue_pairs_equals "servername" "Server_Name"
+		fn_info_game_keyvalue_pairs_equals "worldname" "World_Name"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	gamemode="${gamemode:-"NOT SET"}"
@@ -1994,12 +2018,12 @@ fn_info_game_spark() {
 # Filetype: cfg
 fn_info_game_squad() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs "servername" "ServerName"
-		fn_info_game_keyvalue_pairs "maxplayers" "MaxPlayers"
+		fn_info_game_keyvalue_pairs_equals "servername" "ServerName"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "MaxPlayers"
 	fi
 	if [ -f "${servercfgdir}/Rcon.cfg" ]; then
-		fn_info_game_keyvalue_pairs "rconport" "Port" "${servercfgdir}/Rcon.cfg"
-		fn_info_game_keyvalue_pairs "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
+		fn_info_game_keyvalue_pairs_equals "rconport" "Port" "${servercfgdir}/Rcon.cfg"
+		fn_info_game_keyvalue_pairs_equals "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -2017,10 +2041,10 @@ fn_info_game_squad() {
 # Filetype: cfg
 fn_info_game_terraria() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs "maxplayers" "maxplayers"
-		fn_info_game_keyvalue_pairs "port" "port"
-		fn_info_game_keyvalue_pairs "servername" "worldname"
-		fn_info_game_keyvalue_pairs "worldname" "world"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "maxplayers"
+		fn_info_game_keyvalue_pairs_equals "port" "port"
+		fn_info_game_keyvalue_pairs_equals "servername" "worldname"
+		fn_info_game_keyvalue_pairs_equals "worldname" "world"
 	fi
 	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -2288,8 +2312,8 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
 	fn_info_game_pc2
-elif [ "${shortname}" == "pstbs" ]; then
-	fn_info_game_pstbs
+elif [ "${shortname}" == "ps" ]; then
+	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
 elif [ "${shortname}" == "pz" ]; then
@@ -2378,30 +2402,30 @@ fi
 
 # External IP address
 # Cache external IP address for 24 hours
-if [ -f "${tmpdir}/extip.txt" ]; then
-	if [ "$(find "${tmpdir}/extip.txt" -mmin +1440)" ]; then
-		rm -f "${tmpdir:?}/extip.txt"
+if [ -f "${tmpdir}/publicip.txt" ]; then
+	if [ "$(find "${tmpdir}/publicip.txt" -mmin +1440)" ]; then
+		rm -f "${tmpdir:?}/publicip.txt"
 	fi
 fi
 
-if [ ! -f "${tmpdir}/extip.txt" ]; then
-	extip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
+if [ ! -f "${tmpdir}/publicip.txt" ]; then
+	publicip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
 	exitcode=$?
-	# if curl passes add extip to externalip.txt
+	# if curl passes add publicip to externalip.txt
 	if [ "${exitcode}" == "0" ]; then
-		echo "${extip}" > "${tmpdir}/extip.txt"
+		echo "${publicip}" > "${tmpdir}/publicip.txt"
 	else
 		echo "Unable to get external IP address"
 	fi
 else
-	extip="$(cat "${tmpdir}/extip.txt")"
+	publicip="$(cat "${tmpdir}/publicip.txt")"
 fi
 
 # Alert IP address
 if [ "${displayip}" ]; then
 	alertip="${displayip}"
-elif [ "${extip}" ]; then
-	alertip="${extip}"
+elif [ "${publicip}" ]; then
+	alertip="${publicip}"
 else
 	alertip="${ip}"
 fi
@@ -2421,7 +2445,7 @@ if [ -z "${displaymasterserver}" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Query external IP first as most liky to succeed.
-				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${extip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 				if [ "${masterserver}" == "0" ]; then
 					# Loop though server IP addresses if external IP fails.
 					for queryip in "${queryips[@]}"; do
