@@ -20,7 +20,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.5.1"
+version="v23.5.2"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -33,7 +33,7 @@ steamcmddir="${HOME}/.steam/steamcmd"
 [ -n "${LGSM_SERVERFILES}" ] && serverfiles="${LGSM_SERVERFILES}" || serverfiles="${rootdir}/serverfiles"
 modulesdir="${lgsmdir}/modules"
 tmpdir="${lgsmdir}/tmp"
-datadir="${lgsmdir}/data"
+[ -n "${LGSM_DATADIR}" ] && datadir="${LGSM_DATADIR}" || datadir="${lgsmdir}/data"
 lockdir="${lgsmdir}/lock"
 sessionname="${selfname}"
 [ -f "${datadir}/${selfname}.uid" ] && socketname="${sessionname}-$(cat "${datadir}/${selfname}.uid")"
