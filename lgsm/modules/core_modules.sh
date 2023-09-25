@@ -816,6 +816,11 @@ if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
 fi
 
+# if $USER id missing set to whoami
+if [ -z "${USER}" ]; then
+	USER="$(whoami)"
+fi
+
 # Calls on-screen messages (bootstrap)
 core_messages.sh
 
