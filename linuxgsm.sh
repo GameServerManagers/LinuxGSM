@@ -106,7 +106,7 @@ fn_bootstrap_fetch_file() {
 			trap fn_fetch_trap INT
 			# Larger files show a progress bar.
 
-			echo -en "fetching from ${fileurl_name} ( ${local_filename} )\c"
+			echo -en "fetching ${fileurl_name} ( ${local_filename} )\c"
 			curlcmd=$(curl --connect-timeout 10 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
 
 			local exitcode=$?

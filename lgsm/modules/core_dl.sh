@@ -403,7 +403,7 @@ fn_fetch_file() {
 				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
 				exitcode="$?"
 			else
-				echo -en "${dim}fetching from ${fileurl_name} ( ${local_filename} )\c"
+				echo -en "fetching from ${fileurl_name} ( ${local_filename} )\c"
 				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
 				exitcode="$?"
 			fi
