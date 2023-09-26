@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.5.2"
+modulesversion="v23.5.3"
 
 # Core
 
@@ -814,6 +814,11 @@ fi
 # Creates lock dir if missing
 if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
+fi
+
+# if $USER id missing set to whoami
+if [ -z "${USER}" ]; then
+	USER="$(whoami)"
 fi
 
 # Calls on-screen messages (bootstrap)

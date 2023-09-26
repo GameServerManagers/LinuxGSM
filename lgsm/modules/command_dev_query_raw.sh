@@ -260,6 +260,8 @@ echo -e ""
 echo -e "${lightgreen}Steam Master Server Response${default}"
 echo -e "=================================================================="
 echo -e ""
+echo -e "curl -m 3 -s https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}"
+echo -e ""
 echo -e "Response: ${displaymasterserver}"
 echo -e ""
 
