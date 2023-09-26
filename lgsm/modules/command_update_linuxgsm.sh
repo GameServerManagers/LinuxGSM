@@ -57,7 +57,7 @@ fi
 
 if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log "Checking ${remotereponame} linuxgsm.sh"
 	rm -f "${tmpdir:?}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nohash"
 else
@@ -73,7 +73,7 @@ fn_script_log_info "Checking ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${selfname}"
+	fn_script_log "Checking ${selfname}"
 	echo -en "backup ${selfname}...\c"
 	fn_script_log_info "Backup ${selfname}"
 	if [ ! -d "${backupdir}/script" ]; then
@@ -137,7 +137,7 @@ fi
 
 if [ "${config_file_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log_update "Checking ${remotereponame} config _default.cfg"
+	fn_script_log "Checking ${remotereponame} config _default.cfg"
 	rm -f "${configdirdefault:?}/config-lgsm/${gameservername:?}/_default.cfg"
 	fn_fetch_file_github "lgsm/config-default/config-lgsm/${gameservername}" "_default.cfg" "${configdirdefault}/config-lgsm/${gameservername}" "nochmodx" "norun" "noforce" "nohash"
 	alert="config"
@@ -171,7 +171,7 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
-		fn_script_log_update "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
+		fn_script_log "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 		rm -f "${datadir:?}/${distroid}-${distroversioncsv}.csv"
 		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
 	else
@@ -217,7 +217,7 @@ if [ -n "${modulesdir}" ]; then
 					# results
 					if [ "${module_file_diff}" != "" ]; then
 						fn_print_update_eol_nl
-						fn_script_log_update "Checking ${remotereponame} module ${modulefile}"
+						fn_script_log "Checking ${remotereponame} module ${modulefile}"
 						rm -rf "${modulesdir:?}/${modulefile}"
 						fn_update_module
 					else

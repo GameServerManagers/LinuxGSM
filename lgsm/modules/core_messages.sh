@@ -33,14 +33,11 @@ fn_ansi_loader() {
 	# carriage return & erase to end of line.
 	creeol="\r\033[K"
 
-	if command -v tput > /dev/null 2>&1; then
-		if num_colors=$(tput colors 2> /dev/null) && [ "${num_colors:-0}" -ge 8 ]; then
-			# Enable colors
-			tputreset="$(tput sgr 0)"
-			tputbold="$(tput bold)"
-			tputdim="$(tput dim)"
-		fi
-	fi
+	bold="\e[1m"
+	dim="\e[2m"
+	italic="\e[3m"
+	underline="\e[4m"
+	reverse="\e[7m"
 }
 
 fn_sleep_time() {
@@ -78,13 +75,13 @@ fn_script_log_pass() {
 	exitcode=0
 }
 
-## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
+## Feb 28 14:56:58 ut99-server: Monitor: FAIL:
 fn_script_log_fatal() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FAIL: ${1}" >> "${lgsmlog}"
 		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FATAL: ${1}" >> "${lgsmlog}"
+			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: FAIL: ${1}" >> "${lgsmlog}"
 		fi
 	fi
 	exitcode=1
@@ -125,35 +122,24 @@ fn_script_log_info() {
 	fi
 }
 
-## Feb 28 14:56:58 ut99-server: Monitor: UPDATE:
-fn_script_log_update() {
-	if [ -d "${lgsmlogdir}" ]; then
-		if [ -n "${commandname}" ]; then
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: UPDATE: ${1}" >> "${lgsmlog}"
-		else
-			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: UPDATE: ${1}" >> "${lgsmlog}"
-		fi
-	fi
-}
-
 # On-Screen - Automated functions
 ##################################
 
 # [ .... ]
 fn_print_dots() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[ .... ]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[ .... ]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[ .... ]${tputreset} $*"
+		echo -en "${bold}${creeol}[ .... ]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_dots_nl() {
 	if [ "${commandaction}" ]; then
-		echo -e "${tputbold}${creeol}[ .... ]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -e "${bold}${creeol}[ .... ]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -e "${tputbold}${creeol}[ .... ]${tputreset} $*"
+		echo -e "${bold}${creeol}[ .... ]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -162,18 +148,18 @@ fn_print_dots_nl() {
 # [  OK  ]
 fn_print_ok() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${green}  OK  ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${green}  OK  ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${green}  OK  ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${green}  OK  ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_ok_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${green}  OK  ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${green}  OK  ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${green}  OK  ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${green}  OK  ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -182,18 +168,18 @@ fn_print_ok_nl() {
 # [ FAIL ]
 fn_print_fail() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${red} FAIL ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${red} FAIL ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${red} FAIL ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${red} FAIL ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_fail_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${red} FAIL ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${red} FAIL ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${red} FAIL ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${red} FAIL ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -202,18 +188,18 @@ fn_print_fail_nl() {
 # [ ERROR ]
 fn_print_error() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${red} ERROR ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${red} ERROR ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${red} ERROR ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${red} ERROR ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_error_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${red} ERROR ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${red} ERROR ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${red} ERROR ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${red} ERROR ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -222,18 +208,18 @@ fn_print_error_nl() {
 # [ WARN ]
 fn_print_warn() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${lightyellow} WARN ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${lightyellow} WARN ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${lightyellow} WARN ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${lightyellow} WARN ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_warn_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${lightyellow} WARN ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${lightyellow} WARN ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${lightyellow} WARN ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${lightyellow} WARN ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -242,18 +228,18 @@ fn_print_warn_nl() {
 # [ INFO ]
 fn_print_info() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}:${tputreset} $*"
+		echo -en "${bold}${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}:${tputreset} $*"
 	else
-		echo -en "${tputbold}${creeol}[${cyan} INFO ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${cyan} INFO ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_info_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}:${tputreset} $*"
+		echo -en "${bold}${creeol}[${cyan} INFO ${default}] ${commandaction} ${selfname}:${tputreset} $*"
 	else
-		echo -en "${tputbold}${creeol}[${cyan} INFO ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${cyan} INFO ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -262,18 +248,18 @@ fn_print_info_nl() {
 # [ START ]
 fn_print_start() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${lightgreen} START ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${lightgreen} START ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${lightgreen} START ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${lightgreen} START ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 }
 
 fn_print_start_nl() {
 	if [ "${commandaction}" ]; then
-		echo -en "${tputbold}${creeol}[${lightgreen} START ${default}]${tputreset} ${commandaction} ${selfname}: $*"
+		echo -en "${bold}${creeol}[${lightgreen} START ${default}]${tputreset} ${commandaction} ${selfname}: $*"
 	else
-		echo -en "${tputbold}${creeol}[${lightgreen} START ${default}]${tputreset} $*"
+		echo -en "${bold}${creeol}[${lightgreen} START ${default}]${tputreset} $*"
 	fi
 	fn_sleep_time
 	echo -en "\n"
@@ -408,144 +394,144 @@ fn_print_no_eol_nl() {
 
 # OK
 fn_print_ok_eol() {
-	echo -en "${green}OK${default}"
+	echo -en " ${green}OK${default}"
 	fn_sleep_time
 }
 
 fn_print_ok_eol_nl() {
-	echo -e "${green}[ OK ]${default}"
+	echo -e " ${green}OK${default}"
 	fn_sleep_time
 }
 
 # FAIL
 fn_print_fail_eol() {
-	echo -en "${red}FAIL${default}"
+	echo -en " ${red}FAIL${default}"
 	fn_sleep_time
 }
 
 fn_print_fail_eol_nl() {
-	echo -e "${red}FAIL${default}"
+	echo -e " ${red}FAIL${default}"
 	fn_sleep_time
 }
 
 # ERROR
 fn_print_error_eol() {
-	echo -en "${red}ERROR${default}"
+	echo -en " ${red}ERROR${default}"
 	fn_sleep_time
 }
 
 fn_print_error_eol_nl() {
-	echo -e "${red}ERROR${default}"
+	echo -e " ${red}ERROR${default}"
 	fn_sleep_time
 }
 
 # WAIT
 fn_print_wait_eol() {
-	echo -en "${cyan}WAIT${default}"
+	echo -en " ${cyan}WAIT${default}"
 	fn_sleep_time
 }
 
 fn_print_wait_eol_nl() {
-	echo -e "${cyan}WAIT${default}"
+	echo -e " ${cyan}WAIT${default}"
 	fn_sleep_time
 }
 
 # WARN
 fn_print_warn_eol() {
-	echo -en "${lightyellow}WARN${default}"
+	echo -en " ${lightyellow}WARN${default}"
 	fn_sleep_time
 }
 
 fn_print_warn_eol_nl() {
-	echo -e "${lightyellow}WARN${default}"
+	echo -e " ${lightyellow}WARN${default}"
 	fn_sleep_time
 }
 
 # INFO
 fn_print_info_eol() {
-	echo -en "${cyan}INFO${default}"
+	echo -en " ${cyan}INFO${default}"
 	fn_sleep_time
 }
 
 fn_print_info_eol_nl() {
-	echo -e "${cyan}INFO${default}"
+	echo -e " ${cyan}INFO${default}"
 	fn_sleep_time
 }
 
 # QUERYING
 fn_print_querying_eol() {
-	echo -en "${cyan}QUERYING${default}"
+	echo -en " ${cyan}QUERYING${default}"
 	fn_sleep_time
 }
 
 fn_print_querying_eol_nl() {
-	echo -e "${cyan}QUERYING${default}"
+	echo -e " ${cyan}QUERYING${default}"
 	fn_sleep_time
 }
 
 # CHECKING
 fn_print_checking_eol() {
-	echo -en "${cyan}CHECKING${default}"
+	echo -en " ${cyan}CHECKING${default}"
 	fn_sleep_time
 }
 
 fn_print_checking_eol_nl() {
-	echo -e "${cyan}CHECKING${default}"
+	echo -e " ${cyan}CHECKING${default}"
 	fn_sleep_time
 }
 
 # DELAY
 fn_print_delay_eol() {
-	echo -en "${green}DELAY${default}"
+	echo -en " ${green}DELAY${default}"
 	fn_sleep_time
 }
 
 fn_print_delay_eol_nl() {
-	echo -e "${green}DELAY${default}"
+	echo -e " ${green}DELAY${default}"
 	fn_sleep_time
 }
 
 # CANCELED
 fn_print_canceled_eol() {
-	echo -en "${lightyellow}CANCELED${default}"
+	echo -en " ${lightyellow}CANCELED${default}"
 	fn_sleep_time
 }
 
 fn_print_canceled_eol_nl() {
-	echo -e "${lightyellow}CANCELED${default}"
+	echo -e " ${lightyellow}CANCELED${default}"
 	fn_sleep_time
 }
 
 # REMOVED
 fn_print_removed_eol() {
-	echo -en "${red}REMOVED${default}"
+	echo -en " ${red}REMOVED${default}"
 	fn_sleep_time
 }
 
 fn_print_removed_eol_nl() {
-	echo -e "${red}REMOVED${default}"
+	echo -e " ${red}REMOVED${default}"
 	fn_sleep_time
 }
 
 # UPDATE
 fn_print_update_eol() {
-	echo -en "${cyan}UPDATE${default}"
+	echo -en " ${cyan}UPDATE${default}"
 	fn_sleep_time
 }
 
 fn_print_update_eol_nl() {
-	echo -e "${cyan}UPDATE${default}"
+	echo -e " ${cyan}UPDATE${default}"
 	fn_sleep_time
 }
 
 # SKIP
 fn_print_skip_eol() {
-	echo -en " ${cyan}[ SKIP ]${default}"
+	echo -en " ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
 fn_print_skip_eol_nl() {
-	echo -e " ${cyan}[ SKIP ]${default}"
+	echo -e " ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
