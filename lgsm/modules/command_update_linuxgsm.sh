@@ -68,7 +68,7 @@ fi
 # Check gameserver.sh
 # Compare gameserver.sh against linuxgsm.sh in the tmp dir.
 # Ignoring server specific vars.
-echo -en "checking ${selfname}...\c"
+echo -en "${dim}checking ${selfname} ...\c${default}"
 fn_script_log_info "Checking ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
