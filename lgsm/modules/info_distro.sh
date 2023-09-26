@@ -73,7 +73,7 @@ for distro_info in "${distro_info_array[@]}"; do
 	fi
 done
 
-# Get virtual environment
+# Get virtual environment type.
 if [ "$(command -v systemd-detect-virt 2> /dev/null)" ]; then
 	virtualenvironment="$(systemd-detect-virt)"
 fi
