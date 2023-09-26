@@ -15,7 +15,7 @@ echo -en "creating ( ${serverfiles} )"
 
 if [ -d "${serverfiles}" ]; then
 	fn_print_skip_eol_nl
-	echo -e "\n* A game server is already exists at this location.\n"
+	echo -e "\n* A game server is already exists at this location."
 else
 	fn_print_ok_eol_nl
 fi
