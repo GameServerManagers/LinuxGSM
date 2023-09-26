@@ -14,7 +14,7 @@ if [ -z "${checklogs}" ]; then
 	fn_sleep_time
 fi
 
-echo -en "creating log directory [ ${logdir} ]..."
+echo -en "creating log directory ([${logdir} )"
 if [ ! -d "${logdir}" ]; then
 	if ! mkdir -p "${logdir}"; then
 		fn_print_fail_eol_nl
@@ -26,7 +26,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating script log directory [ ${lgsmlogdir} ]..."
+echo -en "creating script log directory ( ${lgsmlogdir} )"
 if [ ! -d "${lgsmlogdir}" ]; then
 	if ! mkdir -p "${lgsmlogdir}"; then
 		fn_print_fail_eol_nl
@@ -38,7 +38,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating script log [ ${lgsmlog} ]..."
+echo -en "creating script log ( ${lgsmlog} )"
 if [ ! -f "${lgsmlog}" ]; then
 	if ! touch "${lgsmlog}"; then
 		fn_print_fail_eol_nl
@@ -50,7 +50,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating console log directory [ ${consolelogdir} ]..."
+echo -en "creating console log directory ( ${consolelogdir} )"
 if [ ! -d "${consolelogdir}" ]; then
 	if ! mkdir -p "${consolelogdir}"; then
 		fn_print_fail_eol_nl
@@ -62,7 +62,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating console log [ ${consolelog} ]..."
+echo -en "creating console log ( ${consolelog} )"
 if [ ! -f "${consolelog}" ]; then
 	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
@@ -75,7 +75,7 @@ else
 fi
 
 if [ -n "${gamelogdir}" ]; then
-	echo -en "creating game log directory [ ${gamelogdir} ]..."
+	echo -en "creating game log directory ( ${gamelogdir} )"
 	if [ ! -d "${gamelogdir}" ]; then
 		if ! mkdir -p "${gamelogdir}"; then
 			fn_print_fail_eol_nl
