@@ -413,7 +413,7 @@ fn_print_ok_eol() {
 }
 
 fn_print_ok_eol_nl() {
-	echo -e "${green}OK${default}"
+	echo -e "${green}[ OK ]${default}"
 	fn_sleep_time
 }
 
