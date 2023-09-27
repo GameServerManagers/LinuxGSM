@@ -526,12 +526,12 @@ fn_print_update_eol_nl() {
 
 # SKIP
 fn_print_skip_eol() {
-	echo -en " ${cyan}SKIP${default}"
+	echo -en " ... ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
 fn_print_skip_eol_nl() {
-	echo -e " ${cyan}SKIP${default}"
+	echo -e " ... ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
