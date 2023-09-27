@@ -36,7 +36,7 @@ else
 fi
 
 # Check linuxsm.sh
-echo -en "checking ${remotereponame} [ linuxgsm.sh ]\c"
+echo -en "checking ${remotereponame} script [ linuxgsm.sh ]\c"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
 else
@@ -44,7 +44,7 @@ else
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
-	fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log_fatal "Checking ${remotereponame} script linuxgsm.sh"
 	fn_script_log_fatal "Curl returned error: $?"
 	core_exit.sh
 fi
@@ -57,37 +57,37 @@ fi
 
 if [ "${tmp_script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log "Checking ${remotereponame} script linuxgsm.sh"
 	rm -f "${tmpdir:?}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nohash"
 else
 	fn_print_update_eol_nl
-	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log_pass "Checking ${remotereponame} script linuxgsm.sh"
 fi
 
 # Check gameserver.sh
 # Compare gameserver.sh against linuxgsm.sh in the tmp dir.
 # Ignoring server specific vars.
-echo -en "checking [ ${selfname} ]\c"
+echo -en "checking script [ ${selfname} ]\c"
 fn_script_log_info "Checking ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
 	fn_print_update_eol_nl
-	fn_script_log "Checking ${selfname}"
+	fn_script_log "Checking script ${selfname}"
 	echo -en "backup ${selfname}\c"
-	fn_script_log_info "Backup ${selfname}"
+	fn_script_log_info "Backup script ${selfname}"
 	if [ ! -d "${backupdir}/script" ]; then
 		mkdir -p "${backupdir}/script"
 	fi
 	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	if [ $? != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Backup ${selfname}"
+		fn_script_log_fatal "Backup script ${selfname}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Backup ${selfname}"
-		echo -e "backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		fn_script_log_pass "Backup script${selfname}"
+		echo -e "backup location [ ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak ]"
 		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	fi
 
