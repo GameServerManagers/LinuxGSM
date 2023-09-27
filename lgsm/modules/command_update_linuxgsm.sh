@@ -203,7 +203,7 @@ if [ -n "${modulesdir}" ]; then
 						fn_script_log_fatal "Removing module ${modulefile}"
 						core_exit.sh
 					else
-						fn_print_skip_eol_nl
+						fn_print_ok_eol_nl
 						fn_script_log_pass "Removing module ${modulefile}"
 					fi
 				else
@@ -221,7 +221,7 @@ if [ -n "${modulesdir}" ]; then
 						rm -rf "${modulesdir:?}/${modulefile}"
 						fn_update_module
 					else
-						fn_print_ok_eol_nl
+						fn_print_skip_eol_nl
 						fn_script_log_pass "Checking ${remotereponame} module ${modulefile}"
 					fi
 				fi
