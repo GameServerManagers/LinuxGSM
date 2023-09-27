@@ -36,7 +36,7 @@ else
 fi
 
 # Check linuxsm.sh
-echo -en "checking ${remotereponame} ( linuxgsm.sh )\c"
+echo -en "checking ${remotereponame} [ linuxgsm.sh ]\c"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
 else
@@ -61,14 +61,14 @@ if [ "${tmp_script_diff}" != "" ]; then
 	rm -f "${tmpdir:?}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nohash"
 else
-	fn_print_ok_eol_nl
+	fn_print_update_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} linuxgsm.sh"
 fi
 
 # Check gameserver.sh
 # Compare gameserver.sh against linuxgsm.sh in the tmp dir.
 # Ignoring server specific vars.
-echo -en "checking ${selfname}\c"
+echo -en "checking [ ${selfname} ]\c"
 fn_script_log_info "Checking ${selfname}"
 script_diff=$(diff <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${tmpdir}/linuxgsm.sh") <(sed '\/shortname/d;\/gameservername/d;\/gamename/d;\/githubuser/d;\/githubrepo/d;\/githubbranch/d' "${rootdir}/${selfname}"))
 if [ "${script_diff}" != "" ]; then
@@ -115,7 +115,7 @@ else
 fi
 
 # Check _default.cfg.
-echo -en "checking ${remotereponame} config ( _default.cfg )\c"
+echo -en "checking ${remotereponame} config [ _default.cfg ]\c"
 fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
@@ -149,7 +149,7 @@ fi
 
 # Check distro csv. ${datadir}/${distroid}-${distroversioncsv}.csv
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
-	echo -en "checking ${remotereponame} config ( ${distroid}-${distroversioncsv}.csv )\c"
+	echo -en "checking ${remotereponame} config [ ${distroid}-${distroversioncsv}.csv ]\c"
 	fn_script_log_info "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 	if [ "${remotereponame}" == "GitHub" ]; then
 		curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
@@ -187,7 +187,7 @@ if [ -n "${modulesdir}" ]; then
 			for modulefile in *; do
 				# check if module exists in the repo and remove if missing.
 				# commonly used if module names change.
-				echo -en "checking ${remotereponame} module ( ${modulefile} )\c"
+				echo -en "checking ${remotereponame} module [ ${modulefile} ]\c"
 				github_file_url_dir="lgsm/modules"
 				if [ "${remotereponame}" == "GitHub" ]; then
 					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
