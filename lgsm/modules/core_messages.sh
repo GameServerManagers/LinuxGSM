@@ -333,6 +333,7 @@ fn_print_information_nl() {
 
 # Y/N Prompt
 fn_prompt_yn() {
+	echo -e ""
 	local prompt="$1"
 	local initial="$2"
 

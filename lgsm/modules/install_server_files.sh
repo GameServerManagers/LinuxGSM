@@ -210,8 +210,8 @@ if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}"
 fi
 
 echo -e ""
-echo -e "${lightyellow}Installing ${gamename} Server${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
+echo -e "${bold}=================================${default}"
 fn_sleep_time
 
 if [ "${appid}" ]; then
@@ -249,7 +249,7 @@ fi
 
 if [ -z "${autoinstall}" ]; then
 	echo -e ""
-	echo -e "================================="
+	echo -e "${bold}=================================${default}"
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi
