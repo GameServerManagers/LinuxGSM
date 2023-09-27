@@ -73,7 +73,7 @@ fn_default_config_local() {
 	echo -e "copying config file [ ${servercfgdefault} ]"
 	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
-		fn_print_failure_eol
+		fn_print_fail_eol
 		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
 	else
 		fn_print_ok_eol
@@ -89,8 +89,8 @@ fn_set_config_vars() {
 		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${random}"
-		echo -e "changing hostname."
-		fn_script_log_info "changing hostname."
+		echo -e "changing hostname"
+		fn_script_log_info "changing hostname"
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
@@ -100,17 +100,13 @@ fn_set_config_vars() {
 		else
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
 		fi
-		echo -e "changing rcon/admin password."
-		fn_script_log_info "changing rcon/admin password."
+		echo -e "changing rcon/admin password"
+		fn_script_log_info "changing rcon/admin password"
 		if [ "${shortname}" == "squad" ]; then
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg"
 		else
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
 		fi
-		fn_sleep_time
-	else
-		fn_script_log_warn "Config file not found, cannot alter it."
-		echo -e "Config file not found, cannot alter it."
 		fn_sleep_time
 	fi
 }
