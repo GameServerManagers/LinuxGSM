@@ -36,7 +36,7 @@ else
 fi
 
 # Check linuxsm.sh
-echo -en "checking ${remotereponame} script [ linuxgsm.sh ]\c"
+echo -en "checking ${remotereponame} script [ ${italic}linuxgsm.sh${default} ]\c"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
 else
@@ -115,7 +115,7 @@ else
 fi
 
 # Check _default.cfg.
-echo -en "checking ${remotereponame} config [ _default.cfg ]\c"
+echo -en "checking ${remotereponame} config [ ${italic}_default.cfg${default} ]\c"
 fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
@@ -149,7 +149,7 @@ fi
 
 # Check distro csv. ${datadir}/${distroid}-${distroversioncsv}.csv
 if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
-	echo -en "checking ${remotereponame} config [ ${distroid}-${distroversioncsv}.csv ]\c"
+	echo -en "checking ${remotereponame} config [ ${italic}${distroid}-${distroversioncsv}.csv${default} ]\c"
 	fn_script_log_info "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 	if [ "${remotereponame}" == "GitHub" ]; then
 		curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
@@ -187,7 +187,7 @@ if [ -n "${modulesdir}" ]; then
 			for modulefile in *; do
 				# check if module exists in the repo and remove if missing.
 				# commonly used if module names change.
-				echo -en "checking ${remotereponame} module [ ${modulefile} ]\c"
+				echo -en "checking ${remotereponame} module [ ${italic}${modulefile}${default} ]\c"
 				github_file_url_dir="lgsm/modules"
 				if [ "${remotereponame}" == "GitHub" ]; then
 					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
