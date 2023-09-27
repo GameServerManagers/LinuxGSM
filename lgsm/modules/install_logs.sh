@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -z "${checklogs}" ]; then
 	echo -e ""
-	echo -e "${lightyellow}Creating log directories${default}"
+	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
 	echo -e "================================="
 	fn_sleep_time
 fi
@@ -93,7 +93,7 @@ fi
 # e.g serverfiles/log is not within log/: symlink created
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ] && [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
-	echo -en "creating symlink to game log dir [ ${logdir}/server -> ${gamelogdir} )"
+	echo -en "creating symlink to game log directory [ ${logdir}/server -> ${gamelogdir} )"
 	# if path does not exist or does not match gamelogdir
 	if [ ! -h "${logdir}/server" ] || [ "$(readlink -f "${logdir}/server")" != "${gamelogdir}" ]; then
 		if ! ln -nfs "${gamelogdir}" "${logdir}/server"; then
@@ -109,14 +109,16 @@ fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs.
 if [ -d "${HOME}/.steam/steam/logs" ]; then
+	echo -en "creating symlink to steam log directory [ ${logdir}/steam -> ${HOME}/.steam/steam/logs )"
 	if [ ! -L "${logdir}/steam" ]; then
-		echo -en "creating symlink to steam log dir [ ${logdir}/steam -> ${HOME}/.steam/steam/logs )"
 		if ! ln -nfs "${HOME}/.steam/steam/logs" "${logdir}/steam"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
 		fi
+	else
+		fn_print_skip_eol_nl
 	fi
 fi
 fn_script_log_info "Logs installed"
