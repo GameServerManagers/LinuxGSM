@@ -61,7 +61,7 @@ if [ "${tmp_script_diff}" != "" ]; then
 	rm -f "${tmpdir:?}/linuxgsm.sh"
 	fn_fetch_file_github "" "linuxgsm.sh" "${tmpdir}" "nochmodx" "norun" "noforcedl" "nohash"
 else
-	fn_print_update_eol_nl
+	fn_print_skip_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} script linuxgsm.sh"
 fi
 
@@ -110,7 +110,7 @@ if [ "${script_diff}" != "" ]; then
 		fn_script_log_pass "copying ${selfname}"
 	fi
 else
-	fn_print_ok_eol_nl
+	fn_print_skip_eol_nl
 	fn_script_log_info "Checking ${selfname}"
 fi
 
@@ -143,7 +143,7 @@ if [ "${config_file_diff}" != "" ]; then
 	alert="config"
 	alert.sh
 else
-	fn_print_ok_eol_nl
+	fn_print_skip_eol_nl
 	fn_script_log_pass "Checking ${remotereponame} config _default.cfg"
 fi
 
@@ -175,7 +175,7 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 		rm -f "${datadir:?}/${distroid}-${distroversioncsv}.csv"
 		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
 	else
-		fn_print_ok_eol_nl
+		fn_print_skip_eol_nl
 		fn_script_log_pass "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 	fi
 fi
