@@ -9,13 +9,13 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${lightyellow}Server Directory${default}"
-echo -e "================================="
+echo -e "${bold}=================================${default}"
 fn_sleep_time
 echo -en "creating ( ${serverfiles} )"
 
 if [ -d "${serverfiles}" ]; then
 	fn_print_skip_eol_nl
-	echo -e "\n* A game server is already exists at this location."
+	echo -e "${italic}A game server is already exists at this location.${default}"
 else
 	fn_print_ok_eol_nl
 fi
