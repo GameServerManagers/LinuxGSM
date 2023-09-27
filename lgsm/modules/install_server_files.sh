@@ -205,6 +205,10 @@ fn_install_server_files() {
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
 }
 
+if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
+	install_eula.sh
+fi
+
 echo -e ""
 echo -e "${lightyellow}Installing ${gamename} Server${default}"
 echo -e "================================="
@@ -220,12 +224,10 @@ fi
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	install_eula.sh
 	update_mc.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ]; then
-	install_eula.sh
 	update_pmc.sh
 elif [ "${shortname}" == "wmc" ] || [ "${shortname}" == "vpmc" ]; then
 	update_pmc.sh
@@ -242,9 +244,6 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
-	if [ "${shortname}" == "ut" ]; then
-		install_eula.sh
-	fi
 	fn_install_server_files
 fi
 
