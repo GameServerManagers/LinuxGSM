@@ -336,15 +336,15 @@ fn_deps_detector() {
 if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies as root${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies as root${default}"
+		echo -e "${bold}=================================${default}"
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
 		fn_sleep_time
 	else
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies${default}"
+		echo -e "${bold}=================================${default}"
 	fi
 fi
 

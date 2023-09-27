@@ -21,7 +21,10 @@ fn_fetch_default_config() {
 	echo -e ""
 	echo -e "${lightyellow}Downloading ${gamename} Configs${default}"
 	echo -e "================================="
-	echo -e "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
+	echo -e "Default configs are downloaded from:"
+	echo -e ""
+	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
+	echo -e ""
 	fn_sleep_time
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
@@ -31,22 +34,35 @@ fn_fetch_default_config() {
 }
 
 # Copys default configs from Game-Server-Configs repo to server config location.
+# TODO: no error checking in place currently
 fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		# every config is copied
-		echo -e "copying ${config} config file."
-		fn_script_log_info "copying ${servercfg} config file."
+		echo -en "copying config file [ ${config} ]"
+		fn_script_log_info
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+			exitcode=$?
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+			exitcode=$?
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
+			mkdir -p "${clustercfgfullpath}"
 			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+			exitcode=$?
 		else
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+			exitcode=$?
+		fi
+		if [ "${exitcode}" != 0 ]; then
+			fn_print_failure_nl
+			fn_script_log_fatal "copying config file ${servercfg}."
+		else
+			fn_print_ok_nl
+			fn_script_log_pass "copying config file ${servercfg}."
 		fi
 	done
 	fn_sleep_time
@@ -64,7 +80,7 @@ fn_default_config_local() {
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2>/dev/null | head -c 8 | xargs)
+		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${random}"
 		echo -e "changing hostname."
