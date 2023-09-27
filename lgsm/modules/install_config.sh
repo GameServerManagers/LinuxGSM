@@ -58,10 +58,10 @@ fn_default_config_remote() {
 			exitcode=$?
 		fi
 		if [ "${exitcode}" != 0 ]; then
-			fn_print_failure_nl
+			fn_print_failure_eol
 			fn_script_log_fatal "copying config file ${servercfg}."
 		else
-			fn_print_ok_nl
+			fn_print_ok_eol
 			fn_script_log_pass "copying config file ${servercfg}."
 		fi
 	done
@@ -70,9 +70,15 @@ fn_default_config_remote() {
 
 # Copys local default config to server config location.
 fn_default_config_local() {
-	echo -e "copying ${servercfgdefault} config file."
+	echo -e "copying config file [ ${servercfgdefault} ]"
 	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
-	fn_sleep_time
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_failure_eol
+		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
+	else
+		fn_print_ok_eol
+		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
+	fi
 }
 
 # Changes some variables within the default configs.
