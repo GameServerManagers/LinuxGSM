@@ -11,7 +11,7 @@ echo -e ""
 echo -e "${bold}${lightyellow}Server Directory${default}"
 echo -e "${bold}=================================${default}"
 fn_sleep_time
-echo -en "creating serverfiles directory [ ${serverfiles} ]"
+echo -en "creating serverfiles directory [ ${italic}${serverfiles}${default} ]"
 
 if [ -d "${serverfiles}" ]; then
 	fn_print_skip_eol_nl

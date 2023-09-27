@@ -14,7 +14,7 @@ if [ -z "${checklogs}" ]; then
 	fn_sleep_time
 fi
 
-echo -en "creating log directory [ ${logdir} ]"
+echo -en "creating log directory [ ${italic}${logdir}${default} ]"
 if [ ! -d "${logdir}" ]; then
 	if ! mkdir -p "${logdir}"; then
 		fn_print_fail_eol_nl
@@ -26,7 +26,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating script log directory [ ${lgsmlogdir} ]"
+echo -en "creating script log directory [ ${italic}${lgsmlogdir}${default} ]"
 if [ ! -d "${lgsmlogdir}" ]; then
 	if ! mkdir -p "${lgsmlogdir}"; then
 		fn_print_fail_eol_nl
@@ -38,7 +38,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating script log [ ${lgsmlog} ]"
+echo -en "creating script log [ ${italic}${lgsmlog}${default} ]"
 if [ ! -f "${lgsmlog}" ]; then
 	if ! touch "${lgsmlog}"; then
 		fn_print_fail_eol_nl
@@ -50,7 +50,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating console log directory [ ${consolelogdir} ]"
+echo -en "creating console log directory [ ${italic}${consolelogdir}${default} ]"
 if [ ! -d "${consolelogdir}" ]; then
 	if ! mkdir -p "${consolelogdir}"; then
 		fn_print_fail_eol_nl
@@ -62,7 +62,7 @@ else
 	fn_print_skip_eol_nl
 fi
 
-echo -en "creating console log [ ${consolelog} ]"
+echo -en "creating console log [ ${italic}${consolelog}${default} ]"
 if [ ! -f "${consolelog}" ]; then
 	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
@@ -75,7 +75,7 @@ else
 fi
 
 if [ -n "${gamelogdir}" ]; then
-	echo -en "creating game log directory [ ${gamelogdir} ]"
+	echo -en "creating game log directory [ ${italic}${gamelogdir}${default} ]"
 	if [ ! -d "${gamelogdir}" ]; then
 		if ! mkdir -p "${gamelogdir}"; then
 			fn_print_fail_eol_nl
@@ -93,7 +93,7 @@ fi
 # e.g serverfiles/log is not within log/: symlink created
 # log/server is in log/: symlink not created
 if [ -n "${gamelogdir}" ] && [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
-	echo -en "creating symlink to game log directory [ ${logdir}/server -> ${gamelogdir} ]"
+	echo -en "creating symlink to game log directory [ ${italic}${logdir}/server -> ${gamelogdir}${default} ]"
 	# if path does not exist or does not match gamelogdir
 	if [ ! -h "${logdir}/server" ] || [ "$(readlink -f "${logdir}/server")" != "${gamelogdir}" ]; then
 		if ! ln -nfs "${gamelogdir}" "${logdir}/server"; then
@@ -109,7 +109,7 @@ fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs.
 if [ -d "${HOME}/.steam/steam/logs" ]; then
-	echo -en "creating symlink to steam log directory [ ${logdir}/steam -> ${HOME}/.steam/steam/logs ]"
+	echo -en "creating symlink to steam log directory [ ${italic}${logdir}/steam -> ${HOME}/.steam/steam/logs${default} ]"
 	if [ ! -L "${logdir}/steam" ]; then
 		if ! ln -nfs "${HOME}/.steam/steam/logs" "${logdir}/steam"; then
 			fn_print_fail_eol_nl
