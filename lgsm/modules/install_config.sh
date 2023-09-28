@@ -19,14 +19,13 @@ fn_check_cfgdir() {
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 fn_fetch_default_config() {
 	echo -e ""
-	echo -e "${lightyellow}Downloading ${gamename} Configs${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
+	echo -e "${bold}=================================${default}"
 	echo -e "Default configs are downloaded from:"
 	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time
-	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
 		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
@@ -39,33 +38,29 @@ fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		# every config is copied
 		echo -en "copying config file [ ${config} ]"
-		fn_script_log_info
+		fn_sleep_time
+		fn_script_log_info "copying config file ${config}"
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
-			exitcode=$?
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
-			exitcode=$?
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
 			mkdir -p "${clustercfgfullpath}"
 			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
-			exitcode=$?
 		else
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
-			exitcode=$?
 		fi
-		if [ "${exitcode}" != 0 ]; then
-			fn_print_failure_eol
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_failure_eol_nl
 			fn_script_log_fatal "copying config file ${servercfg}."
 		else
-			fn_print_ok_eol
+			fn_print_ok_eol_nl
 			fn_script_log_pass "copying config file ${servercfg}."
 		fi
 	done
-	fn_sleep_time
 }
 
 # Copys local default config to server config location.
@@ -89,25 +84,42 @@ fn_set_config_vars() {
 		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${random}"
-		echo -e "changing hostname"
-		fn_script_log_info "changing hostname"
-		fn_sleep_time
+
+		echo -en "changing server name"
+		fn_script_log_info "changing server name"
 		# prevents var from being overwritten with the servername.
+		changes=""
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
-			sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g" "${servercfgfullpath}"
+			changes+=$(sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		elif grep -q "SERVERNAME=\"SERVERNAME\"" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
-			sed -i "s/SERVERNAME=\"SERVERNAME\"/SERVERNAME=\"${servername}\"/g" "${servercfgfullpath}"
+			changes+=$(sed -i "s/SERVERNAME=\"SERVERNAME\"/SERVERNAME=\"${servername}\"/g w /dev/stdout" "${servercfgfullpath}")
 		else
-			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
+			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
-		echo -e "changing rcon/admin password"
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol
+		elif [ "$changes" != "" ]; then
+			fn_print_ok_eol_nl
+		else
+			fn_print_skip_eol_nl
+		fi
+		unset changes
+
+		echo -en "changing rcon/admin password"
 		fn_script_log_info "changing rcon/admin password"
 		if [ "${shortname}" == "squad" ]; then
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg"
 		else
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}"
 		fi
-		fn_sleep_time
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol
+		elif [ "$changes" != "" ]; then
+			fn_print_ok_eol_nl
+		else
+			fn_print_skip_eol_nl
+		fi
+		unset changes
 	fi
 }
 
