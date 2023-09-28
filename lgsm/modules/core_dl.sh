@@ -150,7 +150,7 @@ fn_dl_steamcmd() {
 
 # Emptys contents of the LinuxGSM tmpdir.
 fn_clear_tmp() {
-	echo -en "clearing tmp directory [ ${tmpdir} ]"
+	echo -en "clearing tmp directory [ ${italic}${tmpdir}${default} ]"
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
 		local exitcode=$?
@@ -397,11 +397,11 @@ fn_fetch_file() {
 			local exitcode=""
 			large_files=("bz2" "gz" "zip" "jar" "xz")
 			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
-				echo -e "downloading file [ ${local_filename} ]"
+				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
 				fn_sleep_time
 				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
 				exitcode="$?"
-				echo -en "downloading file [ ${local_filename} ]"
+				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
 				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1

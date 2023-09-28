@@ -9,24 +9,26 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir() {
-
+	changes=""
 	if [ "${shortname}" == "dst" ]; then
-		echo -en "creating ${clustercfgfullpath} config directory"
-		mkdir -p "${clustercfgfullpath}"
+		echo -en "creating config directory [ ${italic}${clustercfgfullpath}${default} ]"
+		changes+=$(mkdir -pv "${clustercfgfullpath}")
 	elif [ "${shortname}" == "arma3" ]; then
-		echo -en "creating ${networkcfgfullpath} config directory"
-		mkdir -p "${networkcfgfullpath}"
+		echo -en "creating config directory [ ${italic}${networkcfgfullpath}${default} ]"
+		changes+=$(mkdir -pv "${networkcfgfullpath}")
 	else
-		echo -en "creating ${servercfgdir} config directory"
-		mkdir -p "${servercfgdir}"
+		echo -en "creating config directory [ ${italic}${servercfgdir}${default} ]"
+		changes+=$(mkdir -pv "${servercfgdir}")
 	fi
 	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-		fn_print_fail_eol
+		fn_print_fail_eol_nl
 		fn_script_log_fatal "creating ${servercfgdir} config directory"
 		core_exit.sh
-	else
-		fn_print_ok_eol
+	elif [ "${changes}" != "" ]; then
+		fn_print_ok_eol_nl
 		fn_script_log_pass "creating ${servercfgdir} config directory"
+	else
+		fn_print_skip_eol_nl
 	fi
 }
 
@@ -45,34 +47,33 @@ fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		if [ ! -f "${lgsmdir}/config-default/config-game/${config}" ]; then
 			fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
-
-			fn_check_cfgdir
-
-			changes=""
-			if [ "${config}" == "${servercfgdefault}" ]; then
-				echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
-				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
-			elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
-				echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
-				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
-			elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-				echo -en "copying config file [ ${italic}${clustercfgdefault}${default} ]"
-				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
-			else
-				echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
-				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
-			fi
-			if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-				fn_print_failure_eol_nl
-				fn_script_log_fatal "copying config file ${servercfgfullpath}"
-			elif [ "${changes}" != "" ]; then
-				fn_print_ok_eol_nl
-				fn_script_log_pass "copying config file ${servercfgfullpath}"
-			else
-				fn_print_skip_eol_nl
-			fi
-
 		fi
+		fn_check_cfgdir
+
+		changes=""
+		if [ "${config}" == "${servercfgdefault}" ]; then
+			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
+		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
+			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
+		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
+			echo -en "copying config file [ ${italic}${clustercfgdefault}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
+		else
+			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
+		fi
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_failure_eol_nl
+			fn_script_log_fatal "copying config file ${servercfgfullpath}"
+		elif [ "${changes}" != "" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "copying config file ${servercfgfullpath}"
+		else
+			fn_print_skip_eol_nl
+		fi
+		unset changes
 	done
 }
 
@@ -118,13 +119,13 @@ fn_set_config_vars() {
 		unset changes
 
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
-		rconpass="admin${randomstring}"
+		adminpass="admin${randomstring}"
 		echo -en "generating rcon/admin password"
 		changes=""
 		if [ "${shortname}" == "squad" ]; then
-			changes+=$(sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg")
+			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgdir}/Rcon.cfg")
 		else
-			changes+=$(sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgfullpath}")
+			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol
@@ -144,7 +145,7 @@ fn_set_dst_config_vars() {
 	servername="LinuxGSM"
 	echo -en "changing cluster name"
 	changes=""
-	changes+=$(sed -i "s/SERVERNAME/${servername}/g" "${clustercfgfullpath}")
+	changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${clustercfgfullpath}")
 	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 		fn_print_fail_eol
 		fn_script_log_fatal "changing cluster name"
@@ -159,7 +160,7 @@ fn_set_dst_config_vars() {
 	randomstring=$(tr -dc A-Za-z0-9 < /dev/urandom 2> /dev/null | head -c 16 | xargs)
 	echo -en "generating cluster key"
 	changes=""
-	changes+=$(sed -i "s/CLUSTERKEY/${randomstring}/g" "${clustercfgfullpath}")
+	changes+=$(sed -i "s/CLUSTERKEY/${randomstring}/g w /dev/stdout" "${clustercfgfullpath}")
 	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 		fn_print_fail_eol
 		fn_script_log_fatal "generating cluster key"
