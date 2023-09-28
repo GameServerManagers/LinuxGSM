@@ -9,17 +9,24 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir() {
-	if [ ! -d "${servercfgdir}" ]; then
+
+	if [ "${shortname}" == "dst" ]; then
+		echo -en "creating ${clustercfgfullpath} config directory"
+		mkdir -p "${clustercfgfullpath}"
+	elif [ "${shortname}" == "arma3" ]; then
+		echo -en "creating ${networkcfgfullpath} config directory"
+		mkdir -p "${networkcfgfullpath}"
+	else
 		echo -en "creating ${servercfgdir} config directory"
-		mkdir -pv "${servercfgdir}"
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-			fn_print_fail_eol
-			fn_script_log_fatal "creating ${servercfgdir} config directory"
-			core_exit.sh
-		else
-			fn_print_ok_eol
-			fn_script_log_pass "creating ${servercfgdir} config directory"
-		fi
+		mkdir -p "${servercfgdir}"
+	fi
+	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+		fn_print_fail_eol
+		fn_script_log_fatal "creating ${servercfgdir} config directory"
+		core_exit.sh
+	else
+		fn_print_ok_eol
+		fn_script_log_pass "creating ${servercfgdir} config directory"
 	fi
 }
 
@@ -36,31 +43,35 @@ fn_default_config_remote() {
 	fn_sleep_time
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
-		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
-	done
-	fn_check_cfgdir
-	for config in "${array_configs[@]}"; do
-		# every config is copied
-		echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
-		if [ "${config}" == "${servercfgdefault}" ]; then
-			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
-		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
-			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
-		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-			mkdir -p "${clustercfgfullpath}"
-			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
-		else
-			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
-		fi
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-			fn_print_failure_eol_nl
-			fn_script_log_fatal "copying config file ${servercfgfullpath}"
-		else
-			fn_print_ok_eol_nl
-			fn_script_log_pass "copying config file ${servercfgfullpath}"
+		if [ ! -f "${lgsmdir}/config-default/config-game/${config}" ]; then
+			fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
+
+			fn_check_cfgdir
+
+			changes=""
+			if [ "${config}" == "${servercfgdefault}" ]; then
+				echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
+				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
+			elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
+				echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
+				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
+			elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
+				echo -en "copying config file [ ${italic}${clustercfgdefault}${default} ]"
+				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
+			else
+				echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
+				changes+=$(cp -n "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
+			fi
+			if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+				fn_print_failure_eol_nl
+				fn_script_log_fatal "copying config file ${servercfgfullpath}"
+			elif [ "${changes}" != "" ]; then
+				fn_print_ok_eol_nl
+				fn_script_log_pass "copying config file ${servercfgfullpath}"
+			else
+				fn_print_skip_eol_nl
+			fi
+
 		fi
 	done
 }
@@ -69,7 +80,7 @@ fn_default_config_remote() {
 fn_default_config_local() {
 	fn_check_cfgdir
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
-	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
@@ -176,7 +187,7 @@ fn_list_config_locations() {
 		fi
 	fi
 	echo -e "LinuxGSM config: ${italic}${lgsmdir}/config-lgsm/${gameservername}${default}"
-	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration{default}"
+	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
 if [ "${shortname}" == "sdtd" ]; then
