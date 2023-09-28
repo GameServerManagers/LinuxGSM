@@ -41,7 +41,7 @@ fn_default_config_remote() {
 	fn_check_cfgdir
 	for config in "${array_configs[@]}"; do
 		# every config is copied
-		echo -en "copying config file [ ${italic}${config}${default} ]"
+		echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
@@ -57,10 +57,10 @@ fn_default_config_remote() {
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_failure_eol_nl
-			fn_script_log_fatal "copying config file ${servercfg}."
+			fn_script_log_fatal "copying config file ${servercfgfullpath}"
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "copying config file ${servercfg}."
+			fn_script_log_pass "copying config file ${servercfgfullpath}"
 		fi
 	done
 }
@@ -175,7 +175,7 @@ fn_list_config_locations() {
 			echo -e "${gamename} config: ${italic}${red}${servercfgfullpath}${default} (${red}CONFIG IS MISSING${default})"
 		fi
 	fi
-	echo -e "LinuxGSM config: ${italic}${lgsmdir}/config-lgsm/${gameservername{default}}"
+	echo -e "LinuxGSM config: ${italic}${lgsmdir}/config-lgsm/${gameservername}${default}"
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration{default}"
 }
 

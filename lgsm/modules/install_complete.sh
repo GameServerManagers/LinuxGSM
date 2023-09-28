@@ -8,7 +8,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "================================="
+echo -e "${bold}=================================${default}"
 
 if [ "${exitcode}" == "1" ]; then
 	echo -e "Install Failed!"
@@ -24,9 +24,8 @@ elif [ -z "${exitcode}" ] || [ "${exitcode}" == "0" ]; then
 	fn_script_log_pass "Install Complete!"
 fi
 
-fn_script_log_info "Install Complete!"
 echo -e ""
-echo -e "To start server type:"
+echo -e "To start the ${gamename} server type:"
 echo -e "./${selfname} start"
 echo -e ""
 core_exit.sh

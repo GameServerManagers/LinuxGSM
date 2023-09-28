@@ -8,8 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}LinuxGSM Stats${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}LinuxGSM Stats${default}"
+echo -e "${bold}=================================${default}"
 fn_sleep_time
 echo -e "Assist LinuxGSM development by sending anonymous stats to developers."
 echo -e "More info: https://docs.linuxgsm.com/configuration/linuxgsm-stats"
@@ -24,5 +24,5 @@ if [ -z "${autoinstall}" ]; then
 		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
 else
-	fn_print_information_nl "auto-install leaves stats off by default. Stats can be enabled in common.cfg"
+	echo -e "auto-install leaves stats off by default. Stats can be enabled in common.cfg"
 fi
