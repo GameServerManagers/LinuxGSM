@@ -161,22 +161,22 @@ fn_set_dst_config_vars() {
 	unset changes
 }
 
-# Lists local config file locations
+# Lists local config locations
 fn_list_config_locations() {
 	echo -e ""
-	echo -e "${lightyellow}Config File Locations${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Config Locations${default}"
+	echo -e "${bold}=================================${default}"
 	if [ -n "${servercfgfullpath}" ]; then
 		if [ -f "${servercfgfullpath}" ]; then
-			echo -e "Game Server Config File: ${servercfgfullpath}"
+			echo -e "${gamename} config file: ${italic}${servercfgfullpath}${default}"
 		elif [ -d "${servercfgfullpath}" ]; then
-			echo -e "Game Server Config Dir: ${servercfgfullpath}"
+			echo -e "${gamename} config directory: ${italic}${servercfgfullpath}"
 		else
-			echo -e "Config file: ${red}${servercfgfullpath}${default} (${red}FILE MISSING${default})"
+			echo -e "${gamename} config: ${italic}${red}${servercfgfullpath}${default} (${red}CONFIG IS MISSING${default})"
 		fi
 	fi
-	echo -e "LinuxGSM Config: ${lgsmdir}/config-lgsm/${gameservername}"
-	echo -e "Documentation: https://docs.linuxgsm.com/configuration/game-server-config"
+	echo -e "LinuxGSM config: ${italic}${lgsmdir}/config-lgsm/${gameservername{default}}"
+	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration{default}"
 }
 
 if [ "${shortname}" == "sdtd" ]; then
