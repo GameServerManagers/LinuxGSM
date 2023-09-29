@@ -46,12 +46,12 @@ fn_check_steamcmd() {
 		if [ "${commandname}" == "INSTALL" ]; then
 			fn_install_steamcmd
 		else
-			fn_print_warn_nl "SteamCMD is missing"
-			fn_script_log_warn "SteamCMD is missing"
+			fn_print_warn_nl "SteamCMD is not installed"
+			fn_script_log_warn "SteamCMD is not installed"
 			fn_install_steamcmd
 		fi
 	elif [ "${commandname}" == "INSTALL" ]; then
-		echo -e "SteamCMD is already installed"
+		echo -en "SteamCMD is already installed"
 		fn_print_skip_eol_nl
 	fi
 }
