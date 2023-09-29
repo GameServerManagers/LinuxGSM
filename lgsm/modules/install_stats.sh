@@ -24,5 +24,6 @@ if [ -z "${autoinstall}" ]; then
 		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
 else
+	echo -e ""
 	echo -e "auto-install leaves stats off by default. Stats can be enabled in common.cfg"
 fi

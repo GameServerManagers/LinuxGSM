@@ -51,8 +51,8 @@ fn_check_steamcmd() {
 			fn_install_steamcmd
 		fi
 	elif [ "${commandname}" == "INSTALL" ]; then
-		fn_print_information "SteamCMD is already installed..."
-		fn_print_ok_eol_nl
+		echo -e "SteamCMD is already installed"
+		fn_print_skip_eol_nl
 	fi
 }
 

@@ -11,10 +11,10 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_check_cfgdir() {
 	changes=""
 	if [ "${shortname}" == "dst" ]; then
-		echo -en "creating config directory [ ${italic}${clustercfgfullpath}${default} ]"
+		echo -en "creating config directory [ ${italic}${clustercfgdir}${default} ]"
 		changes+=$(mkdir -pv "${clustercfgfullpath}")
 	elif [ "${shortname}" == "arma3" ]; then
-		echo -en "creating config directory [ ${italic}${networkcfgfullpath}${default} ]"
+		echo -en "creating config directory [ ${italic}${networkcfgdir}${default} ]"
 		changes+=$(mkdir -pv "${networkcfgfullpath}")
 	else
 		echo -en "creating config directory [ ${italic}${servercfgdir}${default} ]"
@@ -30,6 +30,7 @@ fn_check_cfgdir() {
 	else
 		fn_print_skip_eol_nl
 	fi
+	unset changes
 }
 
 # Copys default configs from Game-Server-Configs repo to server config location.
