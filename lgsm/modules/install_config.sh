@@ -12,10 +12,10 @@ fn_check_cfgdir() {
 	changes=""
 	if [ "${shortname}" == "dst" ]; then
 		echo -en "creating config directory [ ${italic}${clustercfgdir}${default} ]"
-		changes+=$(mkdir -pv "${clustercfgfullpath}")
+		changes+=$(mkdir -pv "${clustercfgdir}")
 	elif [ "${shortname}" == "arma3" ]; then
 		echo -en "creating config directory [ ${italic}${networkcfgdir}${default} ]"
-		changes+=$(mkdir -pv "${networkcfgfullpath}")
+		changes+=$(mkdir -pv "${networkcfgdir}")
 	else
 		echo -en "creating config directory [ ${italic}${servercfgdir}${default} ]"
 		changes+=$(mkdir -pv "${servercfgdir}")
