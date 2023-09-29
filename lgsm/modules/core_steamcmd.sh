@@ -44,6 +44,7 @@ fn_check_steamcmd() {
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ] && [ -z "$(command -v steamcmd 2> /dev/null)" ]; then
 		if [ "${commandname}" == "INSTALL" ]; then
+			echo -e "install SteamCMD"
 			fn_install_steamcmd
 		else
 			fn_print_warn_nl "SteamCMD is not installed"
@@ -51,7 +52,7 @@ fn_check_steamcmd() {
 			fn_install_steamcmd
 		fi
 	elif [ "${commandname}" == "INSTALL" ]; then
-		echo -en "SteamCMD is already installed"
+		echo -en "install SteamCMD"
 		fn_print_skip_eol_nl
 	fi
 }

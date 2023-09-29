@@ -434,18 +434,20 @@ fn_info_game_dodr() {
 # Filetype: ini
 fn_info_game_dst() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "port" "server_port"
-		fn_info_game_ini "steamauthport" "authentication_port"
-		fn_info_game_ini "steamport" "master_server_port"
+		fn_info_game_ini "port" "server_port" "${servercfgfullpath}"
+		fn_info_game_ini "shard" "name" "${servercfgfullpath}"
+		fn_info_game_ini "steamauthport" "authentication_port" "${servercfgfullpath}"
+		fn_info_game_ini "steamport" "master_server_port" "${servercfgfullpath}"
 	fi
 	if [ -f "${clustercfgfullpath}" ]; then
+		fn_info_game_ini "configip" "bind_ip" "${clustercfgfullpath}"
+		fn_info_game_ini "gamemode" "game_mode" "${clustercfgfullpath}"
+		fn_info_game_ini "masterport" "master_port" "${clustercfgfullpath}"
 		fn_info_game_ini "maxplayers" "max_players" "${clustercfgfullpath}"
 		fn_info_game_ini "servername" "cluster_name" "${clustercfgfullpath}"
 		fn_info_game_ini "serverpassword" "cluster_password" "${clustercfgfullpath}"
 		fn_info_game_ini "tickrate" "tick_rate" "${clustercfgfullpath}"
-		fn_info_game_ini "masterport" "master_port" "${clustercfgfullpath}"
-		fn_info_game_ini "gamemode" "game_mode" "${clustercfgfullpath}"
-		fn_info_game_ini "configip" "bind_ip" "${clustercfgfullpath}"
+
 	fi
 
 	cave="${cave:-"NOT SET"}"

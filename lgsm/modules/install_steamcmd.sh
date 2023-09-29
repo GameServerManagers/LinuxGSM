@@ -8,7 +8,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Installing SteamCMD${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Installing SteamCMD${default}"
+echo -e "${bold}=================================${default}"
 fn_sleep_time
 check_steamcmd.sh
