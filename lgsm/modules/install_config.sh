@@ -66,7 +66,7 @@ fn_default_config_remote() {
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-			fn_print_failure_eol_nl
+			fn_print_fail_eol_nl
 			fn_script_log_fatal "copying config file ${servercfgfullpath}"
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
