@@ -9,34 +9,8 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir() {
-	changes=""
-	if [ -n "${clustercfgdir}" ]; then
-		echo -en "creating config directory [ ${italic}${clustercfgdir}${default} ]"
-		changes+=$(mkdir -pv "${clustercfgdir}")
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-			fn_print_fail_eol_nl
-			fn_script_log_fatal "creating ${servercfgdir} config directory"
-			core_exit.sh
-		elif [ "${changes}" != "" ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "creating ${servercfgdir} config directory"
-		else
-			fn_print_skip_eol_nl
-		fi
-	elif [ -n "${networkcfgdir}" ]; then
-		echo -en "creating config directory [ ${italic}${networkcfgdir}${default} ]"
-		changes+=$(mkdir -pv "${networkcfgdir}")
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-			fn_print_fail_eol_nl
-			fn_script_log_fatal "creating ${servercfgdir} config directory"
-			core_exit.sh
-		elif [ "${changes}" != "" ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "creating ${servercfgdir} config directory"
-		else
-			fn_print_skip_eol_nl
-		fi
-	else
+	if [ -n "${servercfgdir}" ]; then
+		changes=""
 		echo -en "creating config directory [ ${italic}${servercfgdir}${default} ]"
 		changes+=$(mkdir -pv "${servercfgdir}")
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
@@ -49,9 +23,8 @@ fn_check_cfgdir() {
 		else
 			fn_print_skip_eol_nl
 		fi
+		unset changes
 	fi
-
-	unset changes
 }
 
 # Copys default configs from Game-Server-Configs repo to server config location.
@@ -65,18 +38,14 @@ fn_default_config_remote() {
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time
+	fn_check_cfgdir
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
 		if [ ! -f "${lgsmdir}/config-default/config-game/${config}" ]; then
 			fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
 		fi
-		fn_check_cfgdir
-
 		changes=""
-		if [ "${config}" == "${servercfgdefault}" ]; then
-			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
-			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
-		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
+		if [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
