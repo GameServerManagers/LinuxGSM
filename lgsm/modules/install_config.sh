@@ -33,7 +33,7 @@ fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	echo -e "${bold}=================================${default}"
-	echo -e "Default configs are downloaded from:"
+	echo -e "Downloading default configs from:"
 	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
@@ -48,8 +48,8 @@ fn_default_config_remote() {
 		if [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
-		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-			echo -en "copying config file [ ${italic}${clustercfgdefault}${default} ]"
+		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgfullpath}" ]; then
+			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
@@ -70,6 +70,10 @@ fn_default_config_remote() {
 
 # Copys local default config to server config location.
 fn_default_config_local() {
+	echo -e ""
+	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
+	echo -e "${bold}=================================${default}"
+	echo -e "Copying default configs."
 	fn_check_cfgdir
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
 	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"

@@ -435,7 +435,6 @@ fn_info_game_dodr() {
 fn_info_game_dst() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "port" "server_port" "${servercfgfullpath}"
-		fn_info_game_ini "shard" "name" "${servercfgfullpath}"
 		fn_info_game_ini "steamauthport" "authentication_port" "${servercfgfullpath}"
 		fn_info_game_ini "steamport" "master_server_port" "${servercfgfullpath}"
 	fi
