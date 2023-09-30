@@ -10,26 +10,47 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Checks if server cfg dir exists, creates it if it doesn't.
 fn_check_cfgdir() {
 	changes=""
-	if [ "${shortname}" == "dst" ]; then
+	if [ -n "${clustercfgdir}" ]; then
 		echo -en "creating config directory [ ${italic}${clustercfgdir}${default} ]"
 		changes+=$(mkdir -pv "${clustercfgdir}")
-	elif [ "${shortname}" == "arma3" ]; then
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating ${servercfgdir} config directory"
+			core_exit.sh
+		elif [ "${changes}" != "" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating ${servercfgdir} config directory"
+		else
+			fn_print_skip_eol_nl
+		fi
+	elif [ -n "${networkcfgdir}" ]; then
 		echo -en "creating config directory [ ${italic}${networkcfgdir}${default} ]"
 		changes+=$(mkdir -pv "${networkcfgdir}")
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating ${servercfgdir} config directory"
+			core_exit.sh
+		elif [ "${changes}" != "" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating ${servercfgdir} config directory"
+		else
+			fn_print_skip_eol_nl
+		fi
 	else
 		echo -en "creating config directory [ ${italic}${servercfgdir}${default} ]"
 		changes+=$(mkdir -pv "${servercfgdir}")
+		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol_nl
+			fn_script_log_fatal "creating ${servercfgdir} config directory"
+			core_exit.sh
+		elif [ "${changes}" != "" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "creating ${servercfgdir} config directory"
+		else
+			fn_print_skip_eol_nl
+		fi
 	fi
-	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
-		fn_print_fail_eol_nl
-		fn_script_log_fatal "creating ${servercfgdir} config directory"
-		core_exit.sh
-	elif [ "${changes}" != "" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "creating ${servercfgdir} config directory"
-	else
-		fn_print_skip_eol_nl
-	fi
+
 	unset changes
 }
 
