@@ -178,17 +178,6 @@ elif [ -z "${ifttttoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_script_error "IFTTT token not set"
 fi
 
-if [ "${mailgunalert}" == "on" ] && [ -n "${mailgunalert}" ]; then
-	alert_mailgun.sh
-elif [ "${mailgunalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_warn_nl "Mailgun alerts not enabled"
-	fn_script_log_warn "Mailgun alerts not enabled"
-elif [ -z "${mailguntoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
-	fn_print_error_nl "Mailgun token not set"
-	echo -e "* https://docs.linuxgsm.com/alerts/mailgun"
-	fn_script_error "Mailgun token not set"
-fi
-
 if [ "${pushbulletalert}" == "on" ] && [ -n "${pushbullettoken}" ]; then
 	alert_pushbullet.sh
 elif [ "${pushbulletalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then

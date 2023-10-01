@@ -565,11 +565,6 @@ alert_ifttt.sh() {
 	fn_fetch_function
 }
 
-alert_mailgun.sh() {
-	functionfile="${FUNCNAME[0]}"
-	fn_fetch_function
-}
-
 alert_pushbullet.sh() {
 	functionfile="${FUNCNAME[0]}"
 	fn_fetch_function

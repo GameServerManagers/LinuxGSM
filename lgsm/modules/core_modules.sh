@@ -575,11 +575,6 @@ alert_ifttt.sh() {
 	fn_fetch_module
 }
 
-alert_mailgun.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 alert_pushbullet.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

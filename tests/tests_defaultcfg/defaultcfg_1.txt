@@ -15,7 +15,6 @@
 # Discord Alerts | https://docs.linuxgsm.com/alerts/discord
 # Email Alerts | https://docs.linuxgsm.com/alerts/email
 # IFTTT Alerts | https://docs.linuxgsm.com/alerts/ifttt
-# Mailgun Email Alerts | https://docs.linuxgsm.com/alerts/mailgun
 # Pushbullet Alerts | https://docs.linuxgsm.com/alerts/pushbullet
 # Pushover Alerts | https://docs.linuxgsm.com/alerts/pushover
 # Slack Alerts | https://docs.linuxgsm.com/alerts/slack
