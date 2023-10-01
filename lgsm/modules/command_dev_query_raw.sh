@@ -182,11 +182,13 @@ fn_messages_separator
 
 } \
 	| column -s $'\t' -t
+
 echo -e ""
 echo -e "${bold}${lightyellow}SS Output${default}"
 fn_messages_separator
 fn_info_message_ports
 eval "${portcommand}"
+
 echo -e ""
 echo -e "${bold}${lightyellow}Query Port (${queryport}) - Gamedig Output${default}"
 fn_messages_separator
@@ -196,28 +198,30 @@ if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
 fi
 for queryip in "${queryips[@]}"; do
 	query_gamedig.sh
-	echo -e "${gamedigcmd}"
+	echo -e "${italic}${gamedigcmd}${default}"
 	echo""
 	echo "${gamedigraw}" | jq
 done
+
 echo -e ""
 echo -e "${bold}${lightyellow}Query Port (${queryport}) - gsquery Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
-	echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
+	echo -e "${italic}./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\"${default}"
 	echo -e ""
 	if [ ! -f "${modulesdir}/query_gsquery.py" ]; then
 		fn_fetch_file_github "lgsm/modules" "query_gsquery.py" "${modulesdir}" "chmodx" "norun" "noforce" "nohash"
 	fi
 	"${modulesdir}"/query_gsquery.py -a "${queryip}" -p "${queryport}" -e "${querytype}"
 done
+
 echo -e ""
 echo -e "${bold}${lightyellow}Query Port (${queryport}) - TCP Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
-	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''"
+	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''${default}"
 	echo -e ""
 	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
 	querystatus="$?"
@@ -233,7 +237,7 @@ echo -e "${bold}${lightyellow}Game Port (${port}) - TCP Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
-	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''"
+	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''${default}"
 	echo -e ""
 	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''
 	querystatus="$?"
