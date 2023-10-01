@@ -543,25 +543,41 @@ fn_info_message_script() {
 		fi
 
 		# Discord alert
-		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
+		if [ "${discordalert}" == "on" ]; then
+			echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
+		fi
 		# Email alert
-		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		if [ "${emailalert}" == "on" ]; then
+			echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		fi
 		# Gotify alert
-		echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
+		if [ "${gotifyalert}" == "on" ]; then
+			echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
+		fi
 		# IFTTT alert
-		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
-		# Mailgun alert
-		echo -e "${lightblue}Mailgun (email) alert:\t${default}${mailgunalert}"
+		if [ "${iftttalert}" == "on" ]; then
+			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
 		# Pushbullet alert
-		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
+		if [ "${pushbulletalert}" == "on" ]; then
+			echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
+		fi
 		# Pushover alert
-		echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		if [ "${pushoveralert}" == "on" ]; then
+			echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		fi
 		# Rocketchat alert
-		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		if [ "${rocketchatalert}" == "on" ]; then
+			echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		fi
 		# Slack alert
-		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
+		if [ "${slackalert}" == "on" ]; then
+			echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
+		fi
 		# Telegram alert
-		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+		if [ "${telegramalert}" == "on" ]; then
+			echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+		fi
 
 		# Update on start
 		if [ -n "${updateonstart}" ]; then
