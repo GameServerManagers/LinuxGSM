@@ -8,8 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Creating initial Factorio savefile${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Creating initial Factorio savefile${default}"
+fn_messages_separator
 fn_sleep_time
 check_glibc.sh
 "${executabledir}"/factorio --create "${serverfiles}/save1"

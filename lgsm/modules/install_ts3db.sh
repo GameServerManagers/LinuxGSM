@@ -23,8 +23,8 @@ fn_install_ts3db_mariadb() {
 	fi
 
 	echo -e ""
-	echo -e "${lightyellow}Configure ${gamename} Server for MariaDB${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Configure ${gamename} Server for MariaDB${default}"
+	fn_messages_separator
 	fn_sleep_time
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
@@ -50,8 +50,8 @@ fn_install_ts3db_mariadb() {
 }
 
 echo -e ""
-echo -e "${lightyellow}Select Database${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Select Database${default}"
+fn_messages_separator
 fn_sleep_time
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
@@ -64,8 +64,8 @@ fi
 install_eula.sh
 
 echo -e ""
-echo -e "${lightyellow}Getting Privilege Key${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Getting Privilege Key${default}"
+fn_messages_separator
 fn_sleep_time
 fn_print_information_nl "Save these details for later."
 fn_print_information_nl "Key also saved in:"

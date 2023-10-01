@@ -17,7 +17,7 @@ fi
 
 echo -e ""
 echo -e "${bold}${lightyellow}Accept ${gamename} EULA${default}"
-echo -e "${bold}=================================${default}"
+fn_messages_separator
 fn_sleep_time
 echo -e "You are required to accept the EULA:"
 echo -e ""

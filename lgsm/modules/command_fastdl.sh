@@ -37,7 +37,7 @@ echo -e ""
 
 # Prompts user for FastDL creation settings.
 echo -e "${commandaction} setup"
-echo -e "================================="
+fn_messages_separator
 
 # Prompt for clearing old files if directory was already here.
 if [ -d "${fastdldir}" ]; then

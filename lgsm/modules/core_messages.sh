@@ -272,8 +272,8 @@ fn_print_start_nl() {
 # =================================
 fn_print_header() {
 	echo -e ""
-	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
-	echo -e "=================================${default}"
+	echo -e "${bold}${lightyellow}${gamename} ${commandaction}${default}"
+	fn_messages_separator
 }
 
 # Complete!

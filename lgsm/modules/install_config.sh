@@ -32,7 +32,7 @@ fn_check_cfgdir() {
 fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
-	echo -e "${bold}=================================${default}"
+	fn_messages_separator
 	echo -e "Downloading default configs from:"
 	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
@@ -72,7 +72,7 @@ fn_default_config_remote() {
 fn_default_config_local() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
-	echo -e "${bold}=================================${default}"
+	fn_messages_separator
 	echo -e "Copying default configs."
 	fn_check_cfgdir
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
@@ -172,7 +172,7 @@ fn_set_dst_config_vars() {
 fn_list_config_locations() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Config Locations${default}"
-	echo -e "${bold}=================================${default}"
+	fn_messages_separator
 	if [ -n "${servercfgfullpath}" ]; then
 		if [ -f "${servercfgfullpath}" ]; then
 			echo -e "${gamename} config file: ${italic}${servercfgfullpath}${default}"

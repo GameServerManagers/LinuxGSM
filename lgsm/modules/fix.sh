@@ -80,7 +80,7 @@ if [ "${commandname}" == "INSTALL" ]; then
 	if grep -qEe "(^|\s)${shortname}(\s|$)" <<< "${apply_post_install_fix[@]}"; then
 		echo -e ""
 		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
-		echo -e "================================="
+		fn_messages_separator
 		fn_sleep_time
 		postinstall=1
 		fn_apply_fix "post install" "${shortname}"

@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ -z "${checklogs}" ]; then
 	echo -e ""
 	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
-	echo -e "================================="
+	fn_messages_separator
 	fn_sleep_time
 fi
 

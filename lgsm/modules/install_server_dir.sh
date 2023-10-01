@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${bold}${lightyellow}Server Directory${default}"
-echo -e "${bold}=================================${default}"
+fn_messages_separator
 fn_sleep_time
 echo -en "creating serverfiles directory [ ${italic}${serverfiles}${default} ]"
 

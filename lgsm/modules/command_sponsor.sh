@@ -12,7 +12,7 @@ fn_firstcommand_set
 
 fn_print_ascii_logo
 echo -e "${lightyellow}Support LinuxGSM${default}"
-echo -e "================================="
+fn_messages_separator
 echo -e ""
 echo -e "Been using LinuxGSM?"
 echo -e "Consider sponsoring to support development."
