@@ -7,15 +7,6 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Separator is different for details.
-fn_messages_separator() {
-	if [ "${commandname}" == "DETAILS" ]; then
-		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-	else
-		echo -e "${bold}=================================${default}"
-	fi
-}
-
 # Removes the passwords form all but details.
 fn_info_message_password_strip() {
 	if [ "${commandname}" != "DETAILS" ]; then

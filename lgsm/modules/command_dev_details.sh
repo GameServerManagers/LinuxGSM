@@ -90,7 +90,7 @@ done
 # Output the missing server details if there are any.
 if [ -n "$missing_details" ]; then
 	echo -e ""
-	echo -e "${lightgreen}Missing Server Details${default}"
+	echo -e "${bold}${lightyellow}Missing Server Details${default}"
 	fn_messages_separator
 	echo -e "${missing_details}"
 fi

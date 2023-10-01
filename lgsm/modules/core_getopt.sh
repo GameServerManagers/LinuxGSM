@@ -169,7 +169,7 @@ fn_opt_usage() {
 	echo -e "LinuxGSM - ${gamename} - Version ${version}"
 	echo -e "https://linuxgsm.com/${gameservername}"
 	echo -e ""
-	echo -e "${lightyellow}Commands${default}"
+	echo -e "${bold}${lightyellow}Commands${default}"
 	# Display available commands.
 	index="0"
 	{
