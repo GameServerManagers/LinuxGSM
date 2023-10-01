@@ -58,7 +58,36 @@ if [ ! "$(command -v curl 2> /dev/null)" ]; then
 	exit 1
 fi
 
-# Core module that is required first.
+fn_repo_selector() {
+	# Check if GitHub is accessible if not fail over to Bitbucket.
+	repocheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/master/linuxgsm.sh" 2> /dev/null)
+	if [ "${repocheck}" != "200" ]; then
+		echo -e "Selecting repo: GitHub is not accessable. Selecting Bitbucket"
+		repocheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/GameServerManagers/LinuxGSM/raw/master/linuxgsm.sh" 2> /dev/null)
+		if [ "${repocheck}" != "200" ]; then
+			echo -e "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
+			exit 1
+		else
+			remotereponame="Bitbucket"
+		fi
+	else
+		remotereponame="GitHub"
+	fi
+
+	# Check that git branch exists.
+	if [ "${remotereponame}" == "GitHub" ]; then
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 2> /dev/null)
+	else
+		branchexistscheck=$(curl -s -o /dev/null -w "%{http_code}" "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 2> /dev/null)
+	fi
+
+	if [ "${branchexistscheck}" != "200" ]; then
+		echo -e "Warning! ${githubbranch} branch does not exist. Defaulting to master branch."
+		githubbranch="master"
+	fi
+}
+
+# Fetches the core module required before passed off to core_dl.sh.
 core_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_bootstrap_fetch_file_github "lgsm/modules" "core_modules.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nomd5"
@@ -166,18 +195,25 @@ fn_bootstrap_fetch_file() {
 }
 
 fn_bootstrap_fetch_file_github() {
+	fn_repo_selector
 	github_file_url_dir="${1}"
 	github_file_url_name="${2}"
+
 	# By default modules will be downloaded from the version release to prevent potential version mixing. Only update-lgsm will allow an update.
-	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
-	else
-		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
-		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	if [ "${remotereponame}" == "GitHub" ]; then
+		if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+			remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		else
+			remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		fi
+	elif [ "${remotereponame}" == "BitBucket" ]; then
+		if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+			remote_fileurl="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+		else
+			remote_fileurl="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		fi
 	fi
 	remote_fileurl_name="GitHub"
-	remote_fileurl_backup_name="Bitbucket"
 	local_filedir="${3}"
 	local_filename="${github_file_url_name}"
 	chmodx="${4:-0}"
@@ -185,7 +221,7 @@ fn_bootstrap_fetch_file_github() {
 	forcedl="${6:-0}"
 	md5="${7:-0}"
 	# Passes vars to the file download module.
-	fn_bootstrap_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_bootstrap_fetch_file "${remote_fileurl}" "" "${remote_fileurl_name}" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 }
 
 # Installer menu.

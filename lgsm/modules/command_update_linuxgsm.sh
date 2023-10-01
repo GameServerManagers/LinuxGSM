@@ -16,24 +16,10 @@ info_distro.sh
 fn_print_dots ""
 fn_script_log_info "Updating LinuxGSM"
 
+fn_repo_selector
 fn_print_dots "Selecting repo"
-fn_script_log_info "Selecting repo"
-# Select remotereponame
-curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
-if [ $? != "0" ]; then
-	curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
-	if [ $? != "0" ]; then
-		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
-		fn_script_log_fatal "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
-		core_exit.sh
-	else
-		remotereponame="Bitbucket"
-		fn_print_ok_nl "Selecting repo: ${remotereponame}"
-	fi
-else
-	remotereponame="GitHub"
-	fn_print_ok_nl "Selecting repo: ${remotereponame}"
-fi
+fn_print_ok_nl "Selecting repo: ${remotereponame}"
+fn_script_log_pass "Selecting repo: ${remotereponame}"
 
 # Check linuxsm.sh
 echo -en "checking ${remotereponame} linuxgsm.sh...\c"
@@ -99,7 +85,7 @@ if [ "${script_diff}" != "" ]; then
 	sed -i "s+gamename=\"core\"+gamename=\"${gamename}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g;q" "${rootdir}/${selfname}"
 
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
