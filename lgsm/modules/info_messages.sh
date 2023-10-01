@@ -286,7 +286,7 @@ fn_info_message_gameserver() {
 			echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 		fi
 
-		# Query enabled (Starbound)
+		# Query enabled (Starbound, Minecraft)
 		if [ -n "${queryenabled}" ]; then
 			echo -e "${lightblue}Query enabled:\t${default}${queryenabled}"
 		fi

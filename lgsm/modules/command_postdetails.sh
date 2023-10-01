@@ -68,7 +68,7 @@ pdurl="${link}"
 if [ "${firstcommandname}" == "POST-DETAILS" ]; then
 	echo -e ""
 	echo -e "Please share the following url for support: "
-	echo -e "${pdurl}"
+	echo -e "${italic}${pdurl}${default}"
 fi
 fn_script_log_info "${pdurl}"
 alerturl="${pdurl}"
