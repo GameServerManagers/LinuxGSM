@@ -10,7 +10,6 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo -e ""
 echo -e "${bold}${lightyellow}Server Directory${default}"
 fn_messages_separator
-fn_sleep_time
 echo -en "creating serverfiles directory [ ${italic}${serverfiles}${default} ]"
 
 if [ -d "${serverfiles}" ]; then

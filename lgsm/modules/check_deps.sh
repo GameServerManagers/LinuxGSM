@@ -138,7 +138,6 @@ fn_install_missing_deps() {
 			fn_print_warn "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
-		fn_sleep_time
 
 		# Attempt automatic dependency installation
 		if [ "${autoinstall}" == "1" ]; then
@@ -340,7 +339,6 @@ if [ "${commandname}" == "INSTALL" ]; then
 		fn_messages_separator
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
-		fn_sleep_time
 	else
 		echo -e ""
 		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies${default}"

@@ -8,7 +8,6 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: ${email}"
-fn_sleep_time
 
 if [ -n "${emailfrom}" ]; then
 	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"

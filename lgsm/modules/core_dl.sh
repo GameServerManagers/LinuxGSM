@@ -277,7 +277,6 @@ fn_fetch_trap() {
 	echo -en "downloading ${local_filename}..."
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
-	fn_sleep_time
 	rm -f "${local_filedir:?}/${local_filename}"
 	echo -en "downloading ${local_filename}..."
 	fn_print_removed_eol_nl

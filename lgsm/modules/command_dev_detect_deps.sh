@@ -186,7 +186,7 @@ echo -e "${bold}Required Dependencies${default}"
 fn_messages_separator
 echo -e "${executable}"
 echo -e ""
-echo -e "CentOS"
+echo -e "${bold}CentOS"
 fn_messages_separator
 cat "${tmpdir}/.depdetect_centos_line"
 echo -e ""
