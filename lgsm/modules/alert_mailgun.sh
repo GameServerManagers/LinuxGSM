@@ -25,7 +25,7 @@ mailgunsend=$(curl --connect-timeout 10 -s --user "api:${mailguntoken}" \
 
 if [ -z "${mailgunsend}" ]; then
 	fn_print_fail_nl "Sending Email alert: Mailgun: ${mailgunemail}"
-	fn_script_log_fatal "Sending Email alert: Mailgun: ${mailgunemail}"
+	fn_script_log_fail "Sending Email alert: Mailgun: ${mailgunemail}"
 else
 	fn_print_ok_nl "Sending Email alert: Mailgun: ${mailgunemail}"
 	fn_script_log_pass "Sending Email alert: Mailgun: ${mailgunemail}"

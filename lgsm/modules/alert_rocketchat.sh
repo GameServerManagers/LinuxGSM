@@ -46,5 +46,5 @@ if [ -n "${rocketchatsend}" ]; then
 	fn_script_log_pass "Sending Rocketchat alert"
 else
 	fn_print_fail_nl "Sending Rocketchat alert: ${rocketchatsend}"
-	fn_script_log_fatal "Sending Rocketchat alert: ${rocketchatsend}"
+	fn_script_log_fail "Sending Rocketchat alert: ${rocketchatsend}"
 fi

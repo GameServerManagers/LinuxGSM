@@ -93,27 +93,27 @@ fn_dl_steamcmd() {
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
 				# Not enough space.
 			elif [ -n "$(grep "0x212" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"
 				core_exit.sh
 			# Two-factor authentication failure
 			elif [ -n "$(grep "Two-factor code mismatch" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Two-factor authentication failure"
 				core_exit.sh
 			# Incorrect Branch password
 			elif [ -n "$(grep "Password check for AppId" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
-				fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: betapassword is incorrect"
 				core_exit.sh
 			# Update did not finish.
 			elif [ -n "$(grep "0x402" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x602" "${steamcmdlog}" | tail -1)" ]; then
@@ -142,7 +142,7 @@ fn_dl_steamcmd() {
 
 		if [ "${counter}" -gt "10" ]; then
 			fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
-			fn_script_log_fatal "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
+			fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
 			core_exit.sh
 		fi
 	done
@@ -195,7 +195,7 @@ fn_dl_hash() {
 			fn_print_fail_eol_nl
 			echo -e "${local_filename} returned ${hashtype} checksum: ${hashsumcmd}"
 			echo -e "expected ${hashtype} checksum: ${hash}"
-			fn_script_log_fatal "Verifying ${local_filename} with ${hashtype}"
+			fn_script_log_fail "Verifying ${local_filename} with ${hashtype}"
 			fn_script_log_info "${local_filename} returned ${hashtype} checksum: ${hashsumcmd}"
 			fn_script_log_info "Expected ${hashtype} checksum: ${hash}"
 			core_exit.sh
@@ -226,8 +226,8 @@ fn_dl_extract() {
 	if [ ! -f "${local_filedir}/${local_filename}" ]; then
 		fn_print_fail_eol_nl
 		echo -en "file ${local_filedir}/${local_filename} not found"
-		fn_script_log_fatal "Extracting ${local_filename}"
-		fn_script_log_fatal "File ${local_filedir}/${local_filename} not found"
+		fn_script_log_fail "Extracting ${local_filename}"
+		fn_script_log_fail "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
@@ -259,7 +259,7 @@ fn_dl_extract() {
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Extracting ${local_filename}"
+		fn_script_log_fail "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
 			echo -e "${extractcmd}" >> "${lgsmlog}"
 		fi
@@ -319,8 +319,8 @@ fn_check_file() {
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_fatal "Checking ${remote_filename}"
-					fn_script_log_fatal "${fileurl}"
+					fn_script_log_fail "Checking ${remote_filename}"
+					fn_script_log_fail "${fileurl}"
 					checkflag=1
 				fi
 			else
@@ -420,8 +420,8 @@ fn_fetch_file() {
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}..."
-						fn_script_log_fatal "${fileurl}"
+						fn_script_log_fail "Downloading ${local_filename}..."
+						fn_script_log_fail "${fileurl}"
 					fi
 					core_exit.sh
 				else
@@ -616,7 +616,7 @@ fn_dl_latest_release_github() {
 	# Check how many releases we got from the api and exit if we have more then one.
 	if [ "$(echo -e "${githubreleaseassets}" | jq '. | length')" -gt 1 ]; then
 		fn_print_fatal_nl "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
-		fn_script_log_fatal "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
+		fn_script_log_fail "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
 	else
 		# Set variables for download via fn_fetch_file.
 		githubreleasefilename=$(echo -e "${githubreleaseassets}" | jq -r '.[]name')
@@ -625,7 +625,7 @@ fn_dl_latest_release_github() {
 		# Error if no version is there.
 		if [ -z "${githubreleasefilename}" ]; then
 			fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
-			fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
+			fn_script_log_fail "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 		else
 			# Fetch file from the remote location from the existing module to the ${tmpdir} for now.
 			fn_fetch_file "${githubreleasedownloadlink}" "" "${githubreleasefilename}" "" "${githubreleasedownloadpath}" "${githubreleasefilename}"

@@ -12,7 +12,7 @@ fn_messages_separator
 
 if [ "${exitcode}" == "1" ]; then
 	echo -e "${bold}${red}Install Failed!${default}"
-	fn_script_log_fatal "Install Failed!"
+	fn_script_log_fail "Install Failed!"
 elif [ "${exitcode}" == "2" ]; then
 	echo -e "${bold}${red}Install Completed with Errors!${default}}"
 	fn_script_log_error "Install Completed with Errors!"

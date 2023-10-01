@@ -206,7 +206,7 @@ fn_monitor_check_session() {
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Checking session: FAIL"
+		fn_script_log_fail "Checking session: FAIL"
 		alert="restart"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"

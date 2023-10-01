@@ -25,7 +25,7 @@ fn_check_steamcmd_user() {
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
 		echo -e "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_fatal "Steam login not set. Update steamuser in ${configdirserver}"
+			fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
 		fi
 		core_exit.sh
 	fi
@@ -130,7 +130,7 @@ fn_check_steamcmd_clear() {
 		rm -rf "${steamcmddir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal "Removing ${rootdir}/steamcmd"
+			fn_script_log_fail "Removing ${rootdir}/steamcmd"
 		else
 			fn_script_log_pass "Removing ${rootdir}/steamcmd"
 		fi
@@ -155,7 +155,7 @@ fn_update_steamcmd_localbuild() {
 	# Checks if localbuild variable has been set.
 	if [ -z "${localbuild}" ]; then
 		fn_print_fail "Checking local build: ${remotelocation}: missing local build info"
-		fn_script_log_fatal "Missing local build info"
+		fn_script_log_fail "Missing local build info"
 		core_exit.sh
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
@@ -189,7 +189,7 @@ fn_update_steamcmd_remotebuild() {
 		# Checks if remotebuildversion variable has been set.
 		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
-			fn_script_log_fatal "Checking remote build"
+			fn_script_log_fail "Checking remote build"
 			core_exit.sh
 		else
 			fn_print_ok "Checking remote build: ${remotelocation}"
@@ -199,7 +199,7 @@ fn_update_steamcmd_remotebuild() {
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
-			fn_script_log_fatal "Unable to get remote build"
+			fn_script_log_fail "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi
@@ -306,7 +306,7 @@ fn_check_steamcmd_appmanifest() {
 		# if error can not be resolved.
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			fn_script_log_fatal "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
+			fn_script_log_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			echo -e "* Check user permissions"
 			for appfile in ${appmanifestfile}; do
 				echo -e "	${appfile}"
@@ -328,7 +328,7 @@ fn_check_steamcmd_appmanifest() {
 		fn_appmanifest_info
 		if [ "${appmanifestfilewc}" -eq "0" ]; then
 			fn_print_fail_nl "Still no appmanifest_${appid}.acf found"
-			fn_script_log_fatal "Still no appmanifest_${appid}.acf found"
+			fn_script_log_fail "Still no appmanifest_${appid}.acf found"
 			core_exit.sh
 		fi
 	fi

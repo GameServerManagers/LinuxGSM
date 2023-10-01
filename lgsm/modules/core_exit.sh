@@ -29,7 +29,7 @@ elif [ "${exitcode}" != "0" ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	if [ "${exitcode}" == "1" ]; then
-		fn_script_log_fatal "${moduleselfname} exiting with code: ${exitcode}"
+		fn_script_log_fail "${moduleselfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
 		fn_script_log_error "${moduleselfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "3" ]; then

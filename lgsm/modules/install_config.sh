@@ -15,7 +15,7 @@ fn_check_cfgdir() {
 		changes+=$(mkdir -pv "${servercfgdir}")
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "creating ${servercfgdir} config directory"
+			fn_script_log_fail "creating ${servercfgdir} config directory"
 			core_exit.sh
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
@@ -57,7 +57,7 @@ fn_default_config_remote() {
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "copying config file ${servercfgfullpath}"
+			fn_script_log_fail "copying config file ${servercfgfullpath}"
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
 			fn_script_log_pass "copying config file ${servercfgfullpath}"
@@ -79,7 +79,7 @@ fn_default_config_local() {
 	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
-		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
+		fn_script_log_fail "copying config file [ ${servercfgdefault} ]"
 	else
 		fn_print_ok_eol
 		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
@@ -104,7 +104,7 @@ fn_set_config_vars() {
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol
-			fn_script_log_fatal "changing server name"
+			fn_script_log_fail "changing server name"
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
 			fn_script_log_pass "changing server name"
@@ -124,7 +124,7 @@ fn_set_config_vars() {
 		fi
 		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol
-			fn_script_log_fatal "generating rcon/admin password"
+			fn_script_log_fail "generating rcon/admin password"
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
 			fn_script_log_pass "generating rcon/admin password"
@@ -143,7 +143,7 @@ fn_set_dst_config_vars() {
 	changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${clustercfgfullpath}")
 	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 		fn_print_fail_eol
-		fn_script_log_fatal "changing cluster name"
+		fn_script_log_fail "changing cluster name"
 	elif [ "${changes}" != "" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "changing cluster name"
@@ -158,7 +158,7 @@ fn_set_dst_config_vars() {
 	changes+=$(sed -i "s/CLUSTERKEY/${randomstring}/g w /dev/stdout" "${clustercfgfullpath}")
 	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
 		fn_print_fail_eol
-		fn_script_log_fatal "generating cluster key"
+		fn_script_log_fail "generating cluster key"
 	elif [ "${changes}" != "" ]; then
 		fn_print_ok_eol_nl
 		fn_script_log_pass "generating cluster key"

@@ -71,7 +71,7 @@ fn_script_log_pass() {
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FAIL:
-fn_script_log_fatal() {
+fn_script_log_fail() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FAIL: ${1}" >> "${lgsmlog}"

@@ -28,8 +28,8 @@ fi
 
 if [ "${shortname}" == "vh" ] && [ -z "${serverpassword}" ]; then
 	fn_print_fail_nl "serverpassword is not set"
-	fn_script_log_fatal "serverpassword is not set"
+	fn_script_log_fail "serverpassword is not set"
 elif [ "${shortname}" == "vh" ] && [ "${#serverpassword}" -le "4" ]; then
 	fn_print_fail_nl "serverpassword is to short (min 5 chars)"
-	fn_script_log_fatal "serverpassword is to short (min 5 chars)"
+	fn_script_log_fail "serverpassword is to short (min 5 chars)"
 fi
