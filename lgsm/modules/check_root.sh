@@ -11,7 +11,7 @@ if [ "$(whoami)" == "root" ]; then
 	if [ "${commandname}" != "INSTALL" ]; then
 		fn_print_fail_nl "Do NOT run this script as root!"
 		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_fatal "${selfname} attempted to run as root."
+			fn_script_log_fail "${selfname} attempted to run as root."
 		else
 			# Forces exit code is log does not yet exist.
 			exitcode=1

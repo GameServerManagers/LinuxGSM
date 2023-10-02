@@ -12,7 +12,7 @@ echo -e "================================="
 
 if [ "${exitcode}" == "1" ]; then
 	echo -e "Install Failed!"
-	fn_script_log_fatal "Install Failed!"
+	fn_script_log_fail "Install Failed!"
 elif [ "${exitcode}" == "2" ]; then
 	echo -e "Install Completed with Errors!"
 	fn_script_log_error "Install Completed with Errors!"

@@ -50,7 +50,7 @@ fn_update_remotebuild() {
 		# Checks if remotebuildversion variable has been set.
 		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
-			fn_script_log_fatal "Checking remote build"
+			fn_script_log_fail "Checking remote build"
 			core_exit.sh
 		else
 			fn_print_ok "Checking remote build: ${remotelocation}"
@@ -60,7 +60,7 @@ fn_update_remotebuild() {
 		# Checks if remotebuild variable has been set.
 		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
-			fn_script_log_fatal "Unable to get remote build"
+			fn_script_log_fail "Unable to get remote build"
 			core_exit.sh
 		fi
 	fi
@@ -164,7 +164,7 @@ elif [ "${arch}" == "i386" ] || [ "${arch}" == "i686" ]; then
 	ts3arch="x86"
 else
 	fn_print_failure "Unknown or unsupported architecture: ${arch}"
-	fn_script_log_fatal "Unknown or unsupported architecture: ${arch}"
+	fn_script_log_fail "Unknown or unsupported architecture: ${arch}"
 	core_exit.sh
 fi
 

@@ -26,7 +26,7 @@ luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 # Check if bzip2 is installed.
 if [ ! "$(command -v bzip2 2> /dev/null)" ]; then
 	fn_print_fail "bzip2 is not installed"
-	fn_script_log_fatal "bzip2 is not installed"
+	fn_script_log_fail "bzip2 is not installed"
 	core_exit.sh
 fi
 
@@ -72,7 +72,7 @@ fn_clear_old_fastdl() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Clearing existing FastDL directory ${fastdldir}"
+			fn_script_log_fail "Clearing existing FastDL directory ${fastdldir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -89,7 +89,7 @@ fn_fastdl_dirs() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating web directory ${webdir}"
+			fn_script_log_fail "Creating web directory ${webdir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -102,7 +102,7 @@ fn_fastdl_dirs() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating fastdl directory ${fastdldir}"
+			fn_script_log_fail "Creating fastdl directory ${fastdldir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -218,13 +218,13 @@ fn_fastdl_preview() {
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
-				fn_script_log_fatal "Calculating total file size."
+				fn_script_log_fail "Calculating total file size."
 				core_exit.sh
 			fi
 		done < "${tmpdir}/fastdl_files_to_compress.txt"
 	else
 		fn_print_fail_eol_nl "generating file list"
-		fn_script_log_fatal "Generating file list."
+		fn_script_log_fail "Generating file list."
 		core_exit.sh
 	fi
 	echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
@@ -251,7 +251,7 @@ fn_fastdl_gmod() {
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
-				fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}"
+				fn_script_log_fail "Copying ${fastdlfile} > ${fastdldir}"
 				core_exit.sh
 			else
 				fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}"
@@ -268,7 +268,7 @@ fn_fastdl_gmod() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Updating addons file structure"
+			fn_script_log_fail "Updating addons file structure"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -281,7 +281,7 @@ fn_fastdl_gmod() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Clearing addons dir from fastdl dir"
+			fn_script_log_fail "Clearing addons dir from fastdl dir"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -296,7 +296,7 @@ fn_fastdl_gmod() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Correcting DarkRP files"
+			fn_script_log_fail "Correcting DarkRP files"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -347,7 +347,7 @@ fn_fastdl_source() {
 					exitcode=$?
 					if [ "${exitcode}" != 0 ]; then
 						fn_print_fail_eol_nl
-						fn_script_log_fatal "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
+						fn_script_log_fail "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 						core_exit.sh
 					else
 						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
@@ -383,7 +383,7 @@ fn_fastdl_gmod_dl_enforcer() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Removing existing download enforcer ${luafastdlfullpath}"
+			fn_script_log_fail "Removing existing download enforcer ${luafastdlfullpath}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -401,7 +401,7 @@ fn_fastdl_gmod_dl_enforcer() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Creating new download enforcer ${luafastdlfullpath}"
+			fn_script_log_fail "Creating new download enforcer ${luafastdlfullpath}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -418,7 +418,7 @@ fn_fastdl_bzip2() {
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "Compressing ${filetocompress}"
+			fn_script_log_fail "Compressing ${filetocompress}"
 			core_exit.sh
 		else
 			fn_script_log_pass "Compressing ${filetocompress}"

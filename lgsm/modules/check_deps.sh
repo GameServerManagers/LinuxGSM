@@ -80,7 +80,7 @@ fn_install_mono_repo() {
 		if [ "${monoautoinstall}" != "1" ]; then
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
-				fn_script_log_fatal "Unable to install Mono repository."
+				fn_script_log_fail "Unable to install Mono repository."
 			else
 				fn_print_complete_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
@@ -216,7 +216,7 @@ fn_install_missing_deps() {
 		if [ "${steamcmdfail}" ]; then
 			if [ "${commandname}" == "INSTALL" ]; then
 				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+				fn_script_log_fail "Missing dependencies required to run SteamCMD."
 				core_exit.sh
 			else
 				fn_print_error_nl "Missing dependencies required to run SteamCMD."

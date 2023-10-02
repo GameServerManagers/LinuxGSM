@@ -120,10 +120,10 @@ fn_start_tmux() {
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
-		fn_script_log_fatal "Unable to start ${servername}"
+		fn_script_log_fail "Unable to start ${servername}"
 		if [ -s "${lgsmlogdir}/.${selfname}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: tmux error:"
-			fn_script_log_fatal "Unable to start ${servername}: tmux error:"
+			fn_script_log_fail "Unable to start ${servername}: tmux error:"
 			echo -e ""
 			echo -e "Command"
 			echo -e "================================="

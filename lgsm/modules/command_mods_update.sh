@@ -97,7 +97,7 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		((installedmodsline++))
 	else
 		fn_print_fail "No mod was selected"
-		fn_script_log_fatal "No mod was selected"
+		fn_script_log_fail "No mod was selected"
 		exitcode="1"
 		core_exit.sh
 	fi

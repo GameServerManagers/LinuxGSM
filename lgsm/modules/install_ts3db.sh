@@ -14,7 +14,7 @@ fn_install_ts3db_mariadb() {
 		local exitcode=$?
 		if [ "${exitcode}" != "0" ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "copying libmariadb.so.2"
+			fn_script_log_fail "copying libmariadb.so.2"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl

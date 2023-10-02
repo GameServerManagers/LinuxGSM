@@ -72,7 +72,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
 		((exitcode = $?))
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
+			fn_script_log_fail "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
 			fn_script_log_pass "Removing ${modinstalldir}/${currentfileremove}"
@@ -103,7 +103,7 @@ fn_sleep_time
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
-	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
+	fn_script_log_fail "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -118,7 +118,7 @@ fn_sleep_time
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
-	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
+	fn_script_log_fail "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else

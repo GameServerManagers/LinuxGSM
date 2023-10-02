@@ -25,7 +25,7 @@ fn_check_ownership() {
 	fi
 	if [ "${selfownissue}" == "1" ] || [ "${funcownissue}" == "1" ] || [ "${filesownissue}" == "1" ]; then
 		fn_print_fail_nl "Ownership issues found"
-		fn_script_log_fatal "Ownership issues found"
+		fn_script_log_fail "Ownership issues found"
 		fn_print_information_nl "The current user ($(whoami)) does not have ownership of the following files:"
 		fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
 		{
@@ -56,7 +56,7 @@ fn_check_permissions() {
 	if [ -d "${modulesdir}" ]; then
 		if [ "$(find "${modulesdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
-			fn_script_log_fatal "Permissions issues found"
+			fn_script_log_fail "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
@@ -80,7 +80,7 @@ fn_check_permissions() {
 		grouprootdirperm="${rootdirperm:1:1}"
 		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
 			fn_print_fail_nl "Permissions issues found"
-			fn_script_log_fatal "Permissions issues found"
+			fn_script_log_fail "Permissions issues found"
 			fn_print_information_nl "The following directory does not have the correct permissions:"
 			fn_script_log_info "The following directory does not have the correct permissions:"
 			fn_script_log_info "${rootdir}"

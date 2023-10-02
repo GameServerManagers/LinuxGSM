@@ -23,7 +23,7 @@ telegramsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json
 
 if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"
-	fn_script_log_fatal "Sending Telegram alert: ${telegramsend}"
+	fn_script_log_fail "Sending Telegram alert: ${telegramsend}"
 else
 	fn_print_ok_nl "Sending Telegram alert"
 	fn_script_log_pass "Sent Telegram alert"

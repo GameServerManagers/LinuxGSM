@@ -26,7 +26,7 @@ pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user
 
 if [ -n "${pushoversend}" ]; then
 	fn_print_fail_nl "Sending Pushover alert: ${pushoversend}"
-	fn_script_log_fatal "Sending Pushover alert: ${pushoversend}"
+	fn_script_log_fail "Sending Pushover alert: ${pushoversend}"
 else
 	fn_print_ok_nl "Sending Pushover alert"
 	fn_script_log_pass "Sent Pushover alert"
