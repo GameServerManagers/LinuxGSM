@@ -11,9 +11,9 @@ commandaction="Developer detect ldd"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-echo -e "================================="
+fn_messages_separator
 echo -e "Shared Object dependencies Checker"
-echo -e "================================="
+fn_messages_separator
 
 if [ -z "${serverfiles}" ]; then
 	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
@@ -47,12 +47,12 @@ find "${serverfiles}" -type f -print0 \
 echo -e ""
 echo -e ""
 echo -e "All"
-echo -e "================================="
+fn_messages_separator
 cat "${tmpdir}/detect_ldd.tmp"
 
 echo -e ""
 echo -e "Not Found"
-echo -e "================================="
+fn_messages_separator
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 
 rm -f "${tmpdir:?}/detect_ldd.tmp"

@@ -16,7 +16,7 @@ fn_mods_check_installed
 
 fn_print_header
 echo -e "Remove addons/mods"
-echo -e "================================="
+fn_messages_separator
 
 # Displays list of installed mods.
 # Generates list to display to user.

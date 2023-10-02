@@ -8,8 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Enter ${gamename} Cluster Token${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Enter ${gamename} Cluster Token${default}"
+fn_messages_separator
 fn_sleep_time
 echo -e "A cluster token is required to run this server!"
 echo -e "Follow the instructions in this link to obtain this key:"

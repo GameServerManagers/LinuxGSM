@@ -206,8 +206,8 @@ fn_install_server_files() {
 }
 
 echo -e ""
-echo -e "${lightyellow}Installing ${gamename} Server${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
+fn_messages_separator
 fn_sleep_time
 
 if [ "${appid}" ]; then
@@ -250,7 +250,7 @@ fi
 
 if [ -z "${autoinstall}" ]; then
 	echo -e ""
-	echo -e "================================="
+	fn_messages_separator
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi

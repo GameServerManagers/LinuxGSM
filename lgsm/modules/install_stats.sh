@@ -8,12 +8,13 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}LinuxGSM Stats${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}LinuxGSM Stats${default}"
+fn_messages_separator
 fn_sleep_time
 echo -e "Assist LinuxGSM development by sending anonymous stats to developers."
-echo -e "More info: https://docs.linuxgsm.com/configuration/linuxgsm-stats"
-echo -e "The following info will be sent:"
+echo -e "Collected data is publicly available: ${italic}https://linuxgsm.com/data/usage${default}"
+echo -e "More info: ${italic}https://docs.linuxgsm.com/configuration/linuxgsm-stats${default}"
+echo -e "The following info will be sent: "
 echo -e "* game server"
 echo -e "* distro"
 echo -e "* game server resource usage"

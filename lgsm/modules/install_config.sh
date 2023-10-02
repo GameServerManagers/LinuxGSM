@@ -19,9 +19,12 @@ fn_check_cfgdir() {
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 fn_fetch_default_config() {
 	echo -e ""
-	echo -e "${lightyellow}Downloading ${gamename} Configs${default}"
-	echo -e "================================="
-	echo -e "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
+	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
+	fn_messages_separator
+	echo -e "Downloading default configs from:"
+	echo -e ""
+	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
+	echo -e ""
 	fn_sleep_time
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
@@ -54,9 +57,20 @@ fn_default_config_remote() {
 
 # Copys local default config to server config location.
 fn_default_config_local() {
-	echo -e "copying ${servercfgdefault} config file."
-	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
-	fn_sleep_time
+	echo -e ""
+	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
+	fn_messages_separator
+	echo -e "Copying default configs."
+	fn_check_cfgdir
+	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
+	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_fail_eol
+		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
+	else
+		fn_print_ok_eol
+		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
+	fi
 }
 
 # Changes some variables within the default configs.
@@ -146,8 +160,8 @@ fn_set_dst_config_vars() {
 # Lists local config file locations
 fn_list_config_locations() {
 	echo -e ""
-	echo -e "${lightyellow}Config File Locations${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Config Locations${default}"
+	fn_messages_separator
 	if [ -n "${servercfgfullpath}" ]; then
 		if [ -f "${servercfgfullpath}" ]; then
 			echo -e "Game Server Config File: ${servercfgfullpath}"
