@@ -46,7 +46,6 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 	ulxcount="0"
 	darkrpcount="0"
 	legacycount="0"
-	fn_sleep_time
 	fn_print_info "Removing logs older than ${logdays} days"
 	fn_script_log_info "Removing logs older than ${logdays} days"
 	# Logging logfiles to be removed according to "${logdays}", counting and removing them.

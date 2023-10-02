@@ -81,7 +81,6 @@ if [ "${commandname}" == "INSTALL" ]; then
 		echo -e ""
 		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
 		fn_messages_separator
-		fn_sleep_time
 		postinstall=1
 		fn_apply_fix "post install" "${shortname}"
 	fi

@@ -279,6 +279,7 @@ fn_messages_separator() {
 		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
 	else
 		echo -e "${bold}=================================${default}"
+		fn_sleep_time
 	fi
 }
 

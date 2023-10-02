@@ -10,7 +10,6 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo -e ""
 echo -e "${bold}${lightyellow}${gamename} Server License${default}"
 fn_messages_separator
-fn_sleep_time
 echo -e "Server license is an optional feature for ${gamename} server"
 fn_script_log_info "Server license is an optional feature for ${gamename} server"
 

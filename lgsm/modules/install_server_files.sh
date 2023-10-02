@@ -208,7 +208,6 @@ fn_install_server_files() {
 echo -e ""
 echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
 fn_messages_separator
-fn_sleep_time
 
 if [ "${appid}" ]; then
 	remotelocation="SteamCMD"

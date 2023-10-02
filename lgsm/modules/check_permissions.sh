@@ -198,7 +198,7 @@ fn_sys_perm_errors_fix() {
 		if [ "${sysdirpermerror}" == "1" ] || [ "${classdirpermerror}" == "1" ] || [ "${netdirpermerror}" == "1" ]; then
 			fn_print_error "Could not fix /sys permissions"
 			fn_script_log_error "Could not fix /sys permissions."
-			fn_sleep_time
+
 			# Show the user how to fix.
 			fn_sys_perm_fix_manually_msg
 		else
