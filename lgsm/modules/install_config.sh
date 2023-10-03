@@ -78,9 +78,9 @@ fn_default_config_local() {
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2>/dev/null | head -c 8 | xargs)
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
-		rconpass="admin${random}"
+		rconpass="admin${randomstring}"
 		echo -e "changing hostname."
 		fn_script_log_info "changing hostname."
 		fn_sleep_time
@@ -121,8 +121,8 @@ fn_set_dst_config_vars() {
 		fn_sleep_time
 		echo -e "randomizing cluster key."
 		fn_script_log_info "randomizing cluster key."
-		randomkey=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
-		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
+		sed -i "s/CLUSTERKEY/${randomstring}/g" "${clustercfgfullpath}"
 		fn_sleep_time
 	else
 		echo -e "${clustercfg} is already configured."

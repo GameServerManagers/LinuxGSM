@@ -16,8 +16,8 @@ if [ -f "${servercfgfullpath}" ]; then
 		fixname="change default rcon password"
 		fn_fix_msg_start
 		fn_script_log_info "changing rcon/admin password."
-		random=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
-		rconpass="admin${random}"
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
+		rconpass="admin${randomstring}"
 		sed -i "s/rcon_password changeme/rcon_password ${rconpass}/g" "${servercfgfullpath}"
 		fn_fix_msg_end
 	fi
