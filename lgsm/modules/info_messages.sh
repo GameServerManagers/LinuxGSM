@@ -126,7 +126,7 @@ fn_info_message_server_resource() {
 	echo -e "${bold}${lightyellow}Server Resource${default}"
 	fn_messages_separator
 	{
-		echo -e "${bold}${lightyellow}CPU\t${default}"
+		echo -e "${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
 		echo -e "${lightblue}Cores:\t${default}${cpucores}"
 		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
@@ -134,14 +134,14 @@ fn_info_message_server_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${bold}${lightyellow}Memory\t${default}"
+		echo -e "${lightyellow}Memory\t${default}"
 		echo -e "${lightblue}Mem:\t${lightblue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${bold}${lightyellow}Storage${default}"
+		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
 		echo -e "${lightblue}Total:\t\t${default}${totalspace}"
 		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
@@ -149,7 +149,7 @@ fn_info_message_server_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${bold}${lightyellow}Network${default}"
+		echo -e "${lightyellow}Network${default}"
 		if [ -n "${netint}" ]; then
 			echo -e "${lightblue}Interface:\t${default}${netint}"
 		fi
@@ -197,7 +197,7 @@ fn_info_message_gameserver_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${bold}${lightyellow}Storage${default}"
+		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
