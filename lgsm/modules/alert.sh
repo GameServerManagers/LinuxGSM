@@ -36,7 +36,36 @@ fn_alert_test() {
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
 }
 
-fn_alert_restart() {
+# Running command manually
+fn_alert_stopped() {
+	fn_script_log_info "Sending alert: Stopped"
+	alertsubject="Alert - ${selfname} - Stopped"
+	alertemoji="🟠"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} has stopped"
+}
+
+fn_alert_started() {
+	fn_script_log_info "Sending alert: Stopped"
+	alertsubject="Alert - ${selfname} - Stopped"
+	alertemoji="🟠"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} has started"
+}
+
+fn_alert_restarted() {
+	fn_script_log_info "Sending alert: Restarted"
+	alertsubject="Alert - ${selfname} - Restarted"
+	alertemoji="🟠"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} has restarted"
+}
+
+# Failed monitor checks
+fn_alert_monitor_session() {
 	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
 	alertsubject="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
@@ -45,7 +74,7 @@ fn_alert_restart() {
 	alertbody="${selfname} ${executable} not running"
 }
 
-fn_alert_restart_query() {
+fn_alert_monitor_query() {
 	fn_script_log_info "Sending alert: Restarted: ${selfname}"
 	alertsubject="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
@@ -54,6 +83,7 @@ fn_alert_restart_query() {
 	alertbody="Unable to query: ${selfname}"
 }
 
+# Update alerts
 fn_alert_update() {
 	fn_script_log_info "Sending alert: Updated"
 	alertsubject="Alert - ${selfname} - Updated"
@@ -70,15 +100,6 @@ fn_alert_check_update() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${gamename} update available: ${remotebuildversion}"
-}
-
-fn_alert_update_restart() {
-	fn_script_log_info "Sending alert: Restarted"
-	alertsubject="Alert - ${selfname} - Restarted"
-	alertemoji="🎮"
-	alertsound="1"
-	alerturl="not enabled"
-	alertbody="${gamename} received update: ${remotebuildversion} and required restarting"
 }
 
 fn_alert_permissions() {
@@ -99,12 +120,30 @@ fn_alert_config() {
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
 }
 
+fn_alert_wipe() {
+	fn_script_log_info "Sending alert: Wipe"
+	alertsubject="Alert - ${selfname} - Wipe"
+	alertemoji="🧹"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} has been wiped"
+}
+
+fn_alert_info() {
+	fn_script_log_info "Sending alert: Info"
+	alertsubject="Alert - ${selfname} - Info"
+	alertemoji="📄"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${selfname} info"
+}
+
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
-elif [ "${alert}" == "restart" ]; then
-	fn_alert_restart
-elif [ "${alert}" == "restartquery" ]; then
-	fn_alert_restart_query
+elif [ "${alert}" == "monitor-session" ]; then
+	fn_alert_monitor_session
+elif [ "${alert}" == "monitor-query" ]; then
+	fn_alert_monitor_query
 elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
@@ -115,6 +154,8 @@ elif [ "${alert}" == "update-restart" ]; then
 	fn_alert_update_restart
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
+elif [ "${alert}" == "wipe" ]; then
+	fn_alert_wipe
 fi
 
 # Generate alert log.
