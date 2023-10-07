@@ -8,8 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Game Server Login Token${default}"
-echo -e "================================="
+echo -e "${bold}${lightyellow}Game Server Login Token${default}"
+fn_messages_separator
 fn_sleep_time
 if [ "${shortname}" == "csgo" ] || [ "${shortname}" == "css" ] || [ "${shortname}" == "nmrih" ] || [ "${shortname}" == "bs" ]; then
 	echo -e "GSLT is required to run a public ${gamename} server"

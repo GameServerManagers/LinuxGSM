@@ -71,5 +71,5 @@ if [ "${slacksend}" == "ok" ]; then
 	fn_script_log_pass "Sending Slack alert"
 else
 	fn_print_fail_nl "Sending Slack alert: ${slacksend}"
-	fn_script_log_fatal "Sending Slack alert: ${slacksend}"
+	fn_script_log_fail "Sending Slack alert: ${slacksend}"
 fi

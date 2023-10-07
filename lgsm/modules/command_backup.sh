@@ -148,7 +148,7 @@ fn_backup_compression() {
 	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ]; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
-		fn_script_log_fatal "Problem identifying the previous backup directory for exclusion"
+		fn_script_log_fail "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
 
@@ -156,10 +156,10 @@ fn_backup_compression() {
 	local exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
-		fn_script_log_fatal "Backup in progress: FAIL"
+		fn_script_log_fail "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
 		fn_print_fail_nl "Starting backup"
-		fn_script_log_fatal "Starting backup"
+		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
@@ -217,7 +217,7 @@ fn_backup_relpath() {
 	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
-		fn_script_log_fatal "Problem assessing rootdir during relative path assessment: ${rootdir}"
+		fn_script_log_fail "Problem assessing rootdir during relative path assessment: ${rootdir}"
 		core_exit.sh
 	fi
 
@@ -225,7 +225,7 @@ fn_backup_relpath() {
 	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
-		fn_script_log_fatal "Problem assessing backupdir during relative path assessment: ${rootdir}"
+		fn_script_log_fail "Problem assessing backupdir during relative path assessment: ${rootdir}"
 		core_exit.sh
 	fi
 

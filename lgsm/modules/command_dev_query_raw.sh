@@ -17,14 +17,14 @@ info_messages.sh
 
 echo -e ""
 echo -e "${lightgreen}Query IP Addresses${default}"
-echo -e "=================================================================="
+fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
 	echo -e "${queryip}"
 done
 echo -e ""
 echo -e "${lightgreen}Game Server Ports${default}"
-echo -e "=================================================================="
+fn_messages_separator
 {
 	echo -e "${lightblue}Port Name \tPort Number \tStatus \tTCP \tUDP${default}"
 	if [ -v port ]; then
@@ -184,18 +184,18 @@ echo -e "=================================================================="
 	| column -s $'\t' -t
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
-echo -e "================================="
+fn_messages_separator
 fn_info_message_ports
 eval "${portcommand}"
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
-echo -e "=================================================================="
+fn_messages_separator
 echo -e ""
 echo -e "PORT: ${port}"
 echo -e "QUERY PORT: ${queryport}"
 echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
-echo -e "================================="
+fn_messages_separator
 echo -e ""
 if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
 	fn_print_failure_nl "gamedig not installed"
@@ -211,7 +211,7 @@ for queryip in "${queryips[@]}"; do
 done
 echo -e ""
 echo -e "${lightgreen}gsquery Raw Output${default}"
-echo -e "================================="
+fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
 	echo -e "./query_gsquery.py -a \"${queryip}\" -p \"${queryport}\" -e \"${querytype}\""
@@ -223,7 +223,7 @@ for queryip in "${queryips[@]}"; do
 done
 echo -e ""
 echo -e "${lightgreen}TCP Raw Output${default}"
-echo -e "================================="
+fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''"
@@ -239,10 +239,10 @@ for queryip in "${queryips[@]}"; do
 done
 echo -e ""
 echo -e "${lightgreen}Game Port - Raw Output${default}"
-echo -e "=================================================================="
+fn_messages_separator
 echo -e ""
 echo -e "${lightgreen}TCP Raw Output${default}"
-echo -e "================================="
+fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
 	echo -e "bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''"
@@ -258,7 +258,7 @@ for queryip in "${queryips[@]}"; do
 done
 echo -e ""
 echo -e "${lightgreen}Steam Master Server Response${default}"
-echo -e "=================================================================="
+fn_messages_separator
 echo -e ""
 echo -e "curl -m 3 -s https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}"
 echo -e ""

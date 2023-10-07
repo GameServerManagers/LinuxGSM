@@ -26,5 +26,5 @@ if [ -n "${gotifysend}" ]; then
 	fn_script_log_pass "Sending Gotify alert"
 else
 	fn_print_fail_nl "Sending Gotify alert: ${gotifysend}"
-	fn_script_log_fatal "Sending Gotify alert: ${gotifysend}"
+	fn_script_log_fail "Sending Gotify alert: ${gotifysend}"
 fi

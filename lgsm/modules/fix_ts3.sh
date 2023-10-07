@@ -40,7 +40,7 @@ if [ -f "${accountingfile}" ] && [ "${status}" == "0" ]; then
 	# file is not owned by the current user and needs to be deleted manually.
 	else
 		fn_print_error_nl "File ${accountingfile} is not owned by $(whoami) and needs to be deleted manually"
-		fn_script_log_fatal "File ${accountingfile} is not owned by $(whoami) and needs to be deleted manually"
+		fn_script_log_fail "File ${accountingfile} is not owned by $(whoami) and needs to be deleted manually"
 		core_exit.sh
 	fi
 fi

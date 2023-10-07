@@ -7,15 +7,6 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Separator is different for details.
-fn_messages_separator() {
-	if [ "${commandname}" == "DETAILS" ]; then
-		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-	else
-		echo -e "================================="
-	fi
-}
-
 # Removes the passwords form all but details.
 fn_info_message_password_strip() {
 	if [ "${commandname}" != "DETAILS" ]; then
@@ -57,7 +48,7 @@ fn_info_message_password_strip() {
 # used with alertlog
 fn_info_message_head() {
 	echo -e ""
-	echo -e "${lightyellow}Alert Summary${default}"
+	echo -e "${bold}${lightyellow}Alert Summary${default}"
 	fn_messages_separator
 	echo -e "Message"
 	echo -e "${alertbody}"
@@ -89,7 +80,7 @@ fn_info_message_distro() {
 	# glibc:     2.31
 
 	echo -e ""
-	echo -e "${lightyellow}Distro Details${default}"
+	echo -e "${bold}${lightyellow}Distro Details${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Date:\t${default}$(date)"
@@ -132,7 +123,7 @@ fn_info_message_server_resource() {
 	# Internet IP:  176.58.124.96
 
 	echo -e ""
-	echo -e "${lightyellow}Server Resource${default}"
+	echo -e "${bold}${lightyellow}Server Resource${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightyellow}CPU\t${default}"
@@ -185,7 +176,7 @@ fn_info_message_gameserver_resource() {
 	# Backups:      24K
 
 	echo -e ""
-	echo -e "${lightyellow}Game Server Resource Usage${default}"
+	echo -e "${bold}${lightgreen}${gamename} Resource Usage${default}"
 	fn_messages_separator
 	{
 		if [ "${status}" != "0" ] && [ -v status ]; then
@@ -234,7 +225,7 @@ fn_info_message_gameserver() {
 	# Status:           STARTED
 
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Server Details${default}"
+	echo -e "${bold}${lightgreen}${gamename} Server Details${default}"
 	fn_info_message_password_strip
 	fn_messages_separator
 	{
@@ -526,7 +517,7 @@ fn_info_message_script() {
 	# Location:               /home/lgsm/csgoserver
 	# Config file:            /home/lgsm/csgoserver/serverfiles/csgo/cfg/csgoserver.cfg
 
-	echo -e "${lightgreen}${selfname} Script Details${default}"
+	echo -e "${bold}${lightgreen}${selfname} Script Details${default}"
 	fn_messages_separator
 	{
 		# Script name
@@ -618,7 +609,7 @@ fn_info_message_backup() {
 	#     size:          945M
 
 	echo -e ""
-	echo -e "${lightgreen}Backups${default}"
+	echo -e "${bold}${lightgreen}Backups${default}"
 	fn_messages_separator
 	if [ ! -d "${backupdir}" ] || [ "${backupcount}" == "0" ]; then
 		echo -e "No Backups created"
@@ -646,7 +637,7 @@ fn_info_message_commandlineparms() {
 	# ./run_server_x86.sh +set net_strict 1
 
 	echo -e ""
-	echo -e "${lightgreen}Command-line Parameters${default}"
+	echo -e "${bold}${lightgreen}Command-line Parameters${default}"
 	fn_info_message_password_strip
 	fn_messages_separator
 	if [ "${serverpassword}" == "NOT SET" ]; then
@@ -663,7 +654,7 @@ fn_info_message_ports_edit() {
 	# Change ports by editing the parameters in:
 	# /home/lgsm/qlserver/serverfiles/baseq3/ql-server.cfg
 	echo -e ""
-	echo -e "${lightgreen}Ports${default}"
+	echo -e "${bold}${lightgreen}Ports${default}"
 	fn_messages_separator
 	echo -e "${lightblue}Change ports by editing the parameters in:${default}"
 
@@ -726,8 +717,8 @@ fn_info_message_statusbottom() {
 
 fn_info_logs() {
 	echo -e ""
-	echo -e "${selfname} Logs"
-	echo -e "================================="
+	echo -e "${bold}${selfname} Logs"
+	fn_messages_separator
 
 	if [ -n "${lgsmlog}" ]; then
 		echo -e "\nScript log\n==================="
@@ -1111,7 +1102,7 @@ fn_info_message_kf() {
 		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1130,7 +1121,7 @@ fn_info_message_kf2() {
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1235,7 +1226,7 @@ fn_info_message_pc() {
 		fn_port "API" apiport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1321,7 +1312,7 @@ fn_info_message_ro() {
 		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1400,7 +1391,7 @@ fn_info_message_sdtd() {
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1408,7 +1399,7 @@ fn_info_message_sdtd() {
 		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Telnet${default}"
+	echo -e "${bold}${lightgreen}${gamename} Telnet${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
@@ -1475,7 +1466,7 @@ fn_info_message_spark() {
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${gamename} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
@@ -1558,7 +1549,7 @@ fn_info_message_ut2k4() {
 		fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1577,7 +1568,7 @@ fn_info_message_unreal() {
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"
@@ -1613,7 +1604,7 @@ fn_info_message_ut3() {
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
-	echo -e "${lightgreen}${servername} Web Interface${default}"
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
 	fn_messages_separator
 	{
 		echo -e "${lightblue}Web Interface enabled:\t${default}${httpenabled}"

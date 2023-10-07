@@ -28,7 +28,7 @@ fn_github_get_latest_release_version() {
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
 		fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
-		fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
+		fn_script_log_fail "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 	fi
 }
 
@@ -46,7 +46,7 @@ fn_github_set_latest_release_version() {
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
 		fn_print_fail_nl "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
-		fn_script_log_fatal "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
+		fn_script_log_fail "Cannot get version from GitHub API for ${githubreleaseuser}/${githubreleaserepo}"
 	else
 		echo "${githubreleaseversion}" > "${githublocalversionfile}"
 	fi
@@ -81,7 +81,7 @@ fn_github_compare_version() {
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then
 		fn_print_fail_nl "Can not get version from Github Api for ${githubreleaseuser}/${githubreleaserepo}"
-		fn_script_log_fatal "Can not get version from Github Api for ${githubreleaseuser}/${githubreleaserepo}"
+		fn_script_log_fail "Can not get version from Github Api for ${githubreleaseuser}/${githubreleaserepo}"
 	else
 		if [ "${githublocalversion}" == "${githubreleaseversion}" ]; then
 			echo -en "\n"

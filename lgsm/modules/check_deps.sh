@@ -80,7 +80,7 @@ fn_install_mono_repo() {
 		if [ "${monoautoinstall}" != "1" ]; then
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
-				fn_script_log_fatal "Unable to install Mono repository."
+				fn_script_log_fail "Unable to install Mono repository."
 			else
 				fn_print_complete_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
@@ -138,7 +138,6 @@ fn_install_missing_deps() {
 			fn_print_warn "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
-		fn_sleep_time
 
 		# Attempt automatic dependency installation
 		if [ "${autoinstall}" == "1" ]; then
@@ -216,7 +215,7 @@ fn_install_missing_deps() {
 		if [ "${steamcmdfail}" ]; then
 			if [ "${commandname}" == "INSTALL" ]; then
 				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+				fn_script_log_fail "Missing dependencies required to run SteamCMD."
 				core_exit.sh
 			else
 				fn_print_error_nl "Missing dependencies required to run SteamCMD."
@@ -336,15 +335,14 @@ fn_deps_detector() {
 if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies as root${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies as root${default}"
+		fn_messages_separator
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
-		fn_sleep_time
 	else
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies${default}"
+		fn_messages_separator
 	fi
 fi
 

@@ -23,7 +23,7 @@ pushbulletsend=$(curl --connect-timeout 10 -sSL -u """${pushbullettoken}"":" -H 
 
 if [ -n "${pushbulletsend}" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: ${pushbulletsend}"
-	fn_script_log_fatal "Sending Pushbullet alert: ${pushbulletsend}"
+	fn_script_log_fail "Sending Pushbullet alert: ${pushbulletsend}"
 else
 	fn_print_ok_nl "Sending Pushbullet alert"
 	fn_script_log_pass "Sent Pushbullet alert"

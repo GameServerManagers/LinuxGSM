@@ -16,9 +16,8 @@ elif [ "${shortname}" == "ut" ]; then
 fi
 
 echo -e ""
-echo -e "${lightyellow}Accept ${gamename} EULA${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Accept ${gamename} EULA${default}"
+fn_messages_separator
 echo -e "You are required to accept the EULA:"
 echo -e "${eulaurl}"
 echo -e ""

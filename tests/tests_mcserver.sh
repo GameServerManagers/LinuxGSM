@@ -123,8 +123,8 @@ fn_bootstrap_fetch_file() {
 				if [ ${counter} -ge 2 ]; then
 					echo -e "FAIL"
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fatal "Downloading ${local_filename}"
-						fn_script_log_fatal "${fileurl}"
+						fn_script_log_fail "Downloading ${local_filename}"
+						fn_script_log_fail "${fileurl}"
 					fi
 					core_exit.sh
 				else

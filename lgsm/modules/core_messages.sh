@@ -70,7 +70,7 @@ fn_script_log_pass() {
 }
 
 ## Feb 28 14:56:58 ut99-server: Monitor: FATAL:
-fn_script_log_fatal() {
+fn_script_log_fail() {
 	if [ -d "${lgsmlogdir}" ]; then
 		if [ -n "${commandname}" ]; then
 			echo -e "$(date '+%b %d %H:%M:%S.%3N') ${selfname}: ${commandname}: FATAL: ${1}" >> "${lgsmlog}"
@@ -273,12 +273,22 @@ fn_print_start_nl() {
 # On-Screen - Interactive messages
 ##################################
 
+# Separator is different for details.
+fn_messages_separator() {
+	if [ "${commandname}" == "DETAILS" ]; then
+		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+	else
+		echo -e "${bold}=================================${default}"
+		fn_sleep_time
+	fi
+}
+
 # No More Room in Hell Debug
 # =================================
 fn_print_header() {
 	echo -e ""
-	echo -e "${lightyellow}${gamename} ${commandaction}${default}"
-	echo -e "=================================${default}"
+	echo -e "${bold}${lightyellow}${gamename} ${commandaction}${default}"
+	fn_messages_separator
 }
 
 # Complete!
