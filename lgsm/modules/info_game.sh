@@ -2409,16 +2409,25 @@ if [ -f "${tmpdir}/publicip.txt" ]; then
 fi
 
 if [ ! -f "${tmpdir}/publicip.txt" ]; then
-	publicip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
+	apiurl="http://ip-api.com/json/"
+	curl -s "${apiurl}" > "${tmpdir}/publicip.txt"
 	exitcode=$?
-	# if curl passes add publicip to externalip.txt
+	# if curl passes add publicip to publicip.txt
 	if [ "${exitcode}" == "0" ]; then
 		echo "${publicip}" > "${tmpdir}/publicip.txt"
 	else
 		echo "Unable to get external IP address"
 	fi
+fi
+
+if [ -f "${tmpdir}/publicip.txt" ]; then
+	publicip="$(jq -r '.query' "${tmpdir}/publicip.txt")"
+	country="$(jq -r '.country' "${tmpdir}/publicip.txt")"
+	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.txt")"
 else
-	publicip="$(cat "${tmpdir}/publicip.txt")"
+	publicip="unknown"
+	country="unknown"
+	countrycode="unknown"
 fi
 
 # Alert IP address
