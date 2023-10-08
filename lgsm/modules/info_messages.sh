@@ -506,7 +506,6 @@ fn_info_message_script() {
 	# Email alert:            off
 	# Gotify alert:           off
 	# IFTTT alert:            off
-	# Mailgun (email) alert:  off
 	# Pushbullet alert:       off
 	# Pushover alert:         off
 	# Rocketchat alert:       off
@@ -550,8 +549,6 @@ fn_info_message_script() {
 		echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
-		# Mailgun alert
-		echo -e "${lightblue}Mailgun (email) alert:\t${default}${mailgunalert}"
 		# Pushbullet alert
 		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
 		# Pushover alert
