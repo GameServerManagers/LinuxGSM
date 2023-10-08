@@ -2400,25 +2400,29 @@ elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
 fi
 
-# External IP address
-# Cache external IP address for 24 hours
-if [ -f "${tmpdir}/publicip.txt" ]; then
-	if [ "$(find "${tmpdir}/publicip.txt" -mmin +1440)" ]; then
-		rm -f "${tmpdir:?}/publicip.txt"
-	fi
-fi
-
-if [ ! -f "${tmpdir}/publicip.txt" ]; then
-	publicip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
+# Public IP address
+# Cache public IP address for 24 hours
+if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mmin +1440)" ]; then
+	apiurl="http://ip-api.com/json"
+	publicipresponse=$(curl -s "${apiurl}")
 	exitcode=$?
-	# if curl passes add publicip to externalip.txt
+	# if curl passes add publicip to publicip.json
 	if [ "${exitcode}" == "0" ]; then
-		echo "${publicip}" > "${tmpdir}/publicip.txt"
+		fn_script_log_pass "Getting public IP address"
+		echo "${publicipresponse}" > "${tmpdir}/publicip.json"
+		publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+		country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 	else
-		echo "Unable to get external IP address"
+		fn_script_log_warn "Unable to get public IP address"
+		publicip="NOT SET"
+		country="NOT SET"
+		countrycode="NOT SET"
 	fi
 else
-	publicip="$(cat "${tmpdir}/publicip.txt")"
+	publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address
