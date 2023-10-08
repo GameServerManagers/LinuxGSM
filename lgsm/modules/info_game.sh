@@ -2409,7 +2409,7 @@ if [ -f "${tmpdir}/publicip.txt" ]; then
 fi
 
 if [ ! -f "${tmpdir}/publicip.txt" ]; then
-	apiurl="http://ip-api.com/json/"
+	apiurl="http://ip-api.com/json"
 	curl -s "${apiurl}" > "${tmpdir}/publicip.txt"
 	exitcode=$?
 	# if curl passes add publicip to publicip.txt
@@ -2425,9 +2425,9 @@ if [ -f "${tmpdir}/publicip.txt" ]; then
 	country="$(jq -r '.country' "${tmpdir}/publicip.txt")"
 	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.txt")"
 else
-	publicip="unknown"
-	country="unknown"
-	countrycode="unknown"
+	publicip="NOT SET"
+	country="NOT SET"
+	countrycode="NOT SET"
 fi
 
 # Alert IP address
