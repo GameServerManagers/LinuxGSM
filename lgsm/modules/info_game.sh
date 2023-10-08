@@ -2402,17 +2402,17 @@ fi
 
 # Public IP address
 # Cache public IP address for 24 hours
-if [ ! -f "${tmpdir}/publicip.txt" ] || [ "$(find "${tmpdir}/publicip.txt" -mmin +1440)" ]; then
+if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mmin +1440)" ]; then
 	apiurl="http://ip-api.com/json"
 	publicipresponse=$(curl -s "${apiurl}")
 	exitcode=$?
-	# if curl passes add publicip to publicip.txt
+	# if curl passes add publicip to publicip.json
 	if [ "${exitcode}" == "0" ]; then
-		fn_script_pass "Getting public IP address"
-		echo "${publicipresponse}" > "${tmpdir}/publicip.txt"
-		publicip="$(jq -r '.query' "${tmpdir}/publicip.txt")"
-		country="$(jq -r '.country' "${tmpdir}/publicip.txt")"
-		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.txt")"
+		fn_script_log_pass "Getting public IP address"
+		echo "${publicipresponse}" > "${tmpdir}/publicip.json"
+		publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+		country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 	else
 		fn_script_log_warn "Unable to get public IP address"
 		publicip="NOT SET"
@@ -2420,9 +2420,9 @@ if [ ! -f "${tmpdir}/publicip.txt" ] || [ "$(find "${tmpdir}/publicip.txt" -mmin
 		countrycode="NOT SET"
 	fi
 else
-	publicip="$(jq -r '.query' "${tmpdir}/publicip.txt")"
-	country="$(jq -r '.country' "${tmpdir}/publicip.txt")"
-	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.txt")"
+	publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address
