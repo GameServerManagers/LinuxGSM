@@ -38,6 +38,10 @@ fn_sleep_time() {
 	sleep "0.1"
 }
 
+fn_sleep_time_05() {
+	sleep "0.5"
+}
+
 fn_sleep_time_1() {
 	sleep "1"
 }
@@ -144,7 +148,7 @@ fn_print_dots() {
 	else
 		echo -en "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time_1
+	fn_sleep_time_05
 }
 
 fn_print_dots_nl() {
@@ -153,7 +157,7 @@ fn_print_dots_nl() {
 	else
 		echo -e "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time_1
+	fn_sleep_time_05
 	echo -en "\n"
 }
 
