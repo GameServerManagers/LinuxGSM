@@ -50,6 +50,6 @@ if [ "${ramrequirementmb}" ]; then
 		# Warn the user.
 		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
 		echo "* ${gamename} server may fail to run or experience poor performance."
-		fn_sleep_time
+		fn_sleep_time_5
 	fi
 fi

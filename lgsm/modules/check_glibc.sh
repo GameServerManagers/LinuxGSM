@@ -16,6 +16,7 @@ elif [ -z "${glibc}" ]; then
 	fn_print_dots "glibc"
 	fn_print_error_nl "glibc requirement unknown"
 	fn_script_log_error "glibc requirement unknown"
+	fn_sleep_time_5
 elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
 	fn_print_dots "glibc"
 	fn_print_error_nl "glibc requirements not met"
@@ -26,4 +27,5 @@ elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" !=
 	echo -en "\n"
 	fn_print_information_nl "distro upgrade is required"
 	fn_script_log_info "distro upgrade is required"
+	fn_sleep_time_5
 fi

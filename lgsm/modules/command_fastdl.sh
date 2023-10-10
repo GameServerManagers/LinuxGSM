@@ -209,7 +209,7 @@ fn_fastdl_preview() {
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		echo -e "calculating total file size..."
-		fn_sleep_time
+		fn_sleep_time_1
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
 		while read -r dufile; do
@@ -276,7 +276,7 @@ fn_fastdl_gmod() {
 		fi
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
-		fn_sleep_time
+		fn_sleep_time_1
 		rm -rf "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then

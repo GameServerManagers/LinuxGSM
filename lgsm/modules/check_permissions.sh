@@ -171,7 +171,7 @@ fn_sys_perm_fix_manually_msg() {
 	fn_script_log_info "To fix this issue, run the following command as root:"
 	echo -e "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
-	fn_sleep_time
+	fn_sleep_time_5
 	if [ "${monitorflag}" == 1 ]; then
 		alert="permissions"
 		alert.sh

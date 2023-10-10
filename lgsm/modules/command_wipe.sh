@@ -79,7 +79,7 @@ fn_map_wipe_warning() {
 	fn_script_log_warn "Map wipe will reset the map data and keep blueprint data"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Map wipe will reset the map data and keep blueprint data: ${totalseconds}"
+		fn_print_warn "map wipe will reset the map data and keep blueprint data: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
@@ -94,7 +94,7 @@ fn_full_wipe_warning() {
 	fn_script_log_warn "Server wipe will reset the map data and remove blueprint data"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Server wipe will reset the map data and remove blueprint data: ${totalseconds}"
+		fn_print_warn "server wipe will reset the map data and remove blueprint data: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then

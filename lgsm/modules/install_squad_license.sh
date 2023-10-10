@@ -18,7 +18,7 @@ echo -e "https://squad.fandom.com/wiki/Server_licensing"
 fn_script_log_info "Get more info and a server license here:"
 fn_script_log_info "https://squad.fandom.com/wiki/Server_licensing"
 echo -e ""
-fn_sleep_time
+fn_sleep_time_1
 echo -e "The Squad server license can be changed by editing ${servercfgdir}/License.cfg."
 fn_script_log_info "The Squad server license can be changed by editing ${selfname}."
 echo -e ""

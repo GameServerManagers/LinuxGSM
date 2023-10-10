@@ -36,7 +36,7 @@ if [ -z "${autoinstall}" ]; then
 		fi
 	fi
 fi
-fn_sleep_time
+
 if [ "${shortname}" == "tu" ]; then
 	echo -e "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
@@ -44,4 +44,5 @@ else
 	echo -e "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
 	fn_script_log_info "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
 fi
+fn_sleep_time_1
 echo -e ""
