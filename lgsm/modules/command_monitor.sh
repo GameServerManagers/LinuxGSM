@@ -166,7 +166,6 @@ fn_monitor_check_session() {
 	fn_print_dots "Checking session: "
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
-	fn_sleep_time_1
 	# Tmux session width and height needs to be reviewed as may no longer be required.
 	sessionwidth="80"
 	sessionheight="23"

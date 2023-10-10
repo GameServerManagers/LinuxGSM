@@ -25,7 +25,7 @@ fn_fetch_default_config() {
 	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
-	fn_sleep_time
+	fn_sleep_time_1
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
