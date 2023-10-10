@@ -182,8 +182,8 @@ fn_sys_perm_fix_manually_msg() {
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix() {
 	if sudo -n true > /dev/null 2>&1; then
-		fn_print_dots "Automatically fixing /sys permissions"
-		fn_script_log_info "Automatically fixing /sys permissions."
+		fn_print_dots "Fixing /sys permissions"
+		fn_script_log_info "Fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
 			sudo chmod a+rx "/sys"
 		fi
@@ -202,7 +202,7 @@ fn_sys_perm_errors_fix() {
 			# Show the user how to fix.
 			fn_sys_perm_fix_manually_msg
 		else
-			fn_print_ok_nl "Automatically fixing /sys permissions"
+			fn_print_ok_nl "Fixing /sys permissions"
 			fn_script_log_pass "Permissions in /sys fixed"
 		fi
 	else

@@ -30,7 +30,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
 			echo -en "removing .map file(s)..."
-			fn_script_log_info "removing *.map file(s)"
+			fn_script_log_info "Removing *.map file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
@@ -45,7 +45,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
 			echo -en "removing .sav file(s)..."
-			fn_script_log_info "removing .sav file(s)"
+			fn_script_log_info "Removing .sav file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.sav*" -delete
@@ -61,7 +61,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f ! -name 'player.tokens.db' -name "*.db")" ]; then
 			echo -en "removing .db file(s)..."
-			fn_script_log_info "removing .db file(s)"
+			fn_script_log_info "Removing .db file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f ! -name 'player.tokens.db' -name "*.db" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f ! -name 'player.tokens.db' -name "*.db" -delete

@@ -142,7 +142,7 @@ fn_backup_compression() {
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
 	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
-	fn_script_log_info "backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
+	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
 	excludedir=$(fn_backup_relpath)
 
 	# Check that excludedir is a valid path.

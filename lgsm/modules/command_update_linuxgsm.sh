@@ -92,7 +92,7 @@ if [ "${script_diff}" != "" ]; then
 	fi
 
 	echo -en "copying ${selfname}...\c"
-	fn_script_log_info "copying ${selfname}"
+	fn_script_log_info "Copying ${selfname}"
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"

@@ -26,6 +26,6 @@ elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" !=
 	echo -e "	* glibc installed: ${red}${glibcversion}${default}"
 	echo -en "\n"
 	fn_print_information_nl "distro upgrade is required"
-	fn_script_log_info "distro upgrade is required"
+	fn_script_log_info "Distro upgrade is required"
 	fn_sleep_time_5
 fi
