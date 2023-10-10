@@ -144,7 +144,7 @@ fn_print_dots() {
 	else
 		echo -en "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_dots_nl() {
@@ -153,7 +153,7 @@ fn_print_dots_nl() {
 	else
 		echo -e "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time
+	fn_sleep_time_1
 	echo -en "\n"
 }
 
