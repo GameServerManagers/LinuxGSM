@@ -27,11 +27,11 @@ fn_validate() {
 	fn_dl_steamcmd
 }
 
-# The location where the builds are checked and downloaded.
-remotelocation="SteamCMD"
+fn_print_dots ""
 check.sh
+core_logs.sh
 
-fn_print_dots "${remotelocation}"
+fn_print_dots "SteamCMD"
 
 if [ "${status}" != "0" ]; then
 	fn_print_restart_warning

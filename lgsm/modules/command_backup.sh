@@ -264,7 +264,10 @@ fn_backup_start_server() {
 	fi
 }
 
-# Run functions.
+fn_print_dots ""
+check.sh
+core_logs.sh
+
 fn_backup_check_lockfile
 fn_backup_init
 fn_backup_stop_server

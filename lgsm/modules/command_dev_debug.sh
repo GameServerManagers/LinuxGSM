@@ -10,6 +10,10 @@ commandaction="Developer debug"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_reset
 
+fn_print_dots ""
+check.sh
+core_logs.sh
+
 if [ -f "${rootdir}/.dev-debug" ]; then
 	rm -f "${rootdir:?}/.dev-debug"
 	fn_print_ok_nl "Disabled dev-debug"

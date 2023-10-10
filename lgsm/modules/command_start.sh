@@ -186,6 +186,7 @@ if [ "${firstcommandname}" == "START" ] || [ "${firstcommandname}" == "RESTART" 
 	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 
+fn_print_dots ""
 check.sh
 
 # If the server already started dont start again.

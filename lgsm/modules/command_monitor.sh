@@ -371,6 +371,7 @@ fn_monitor_loop() {
 	done
 }
 
+fn_print_dots ""
 monitorflag=1
 # Dont do any monitoring or checks if installer is running.
 fn_monitor_check_install

@@ -268,6 +268,7 @@ fn_stop_pre_check() {
 	fi
 }
 
+fn_print_dots ""
 check.sh
 
 # Create a stopping lockfile that only exists while the stop command is running.

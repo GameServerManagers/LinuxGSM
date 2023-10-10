@@ -10,10 +10,10 @@ commandaction="Updating LinuxGSM"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_print_dots ""
 check.sh
 info_distro.sh
 
-fn_print_dots ""
 fn_script_log_info "Updating LinuxGSM"
 
 fn_print_dots "Selecting repo"
