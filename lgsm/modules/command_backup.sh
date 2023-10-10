@@ -103,32 +103,6 @@ fn_backup_dir() {
 	fi
 }
 
-# Migrate Backups from old dir before refactor
-fn_backup_migrate_olddir() {
-	# Check if old backup dir is there before the refactor and move the backups
-	if [ -d "${rootdir}/backups" ]; then
-		if [ "${rootdir}/backups" != "${backupdir}" ]; then
-			fn_print_dots "Backup directory is being migrated"
-			fn_script_log_info "Backup directory is being migrated"
-			fn_script_log_info "${rootdir}/backups > ${backupdir}"
-			mv "${rootdir}/backups/"* "${backupdir}" 2> /dev/null
-			exitcode=$?
-			if [ "${exitcode}" == 0 ]; then
-				rmdir "${rootdir}/backups" 2> /dev/null
-				exitcode=$?
-			fi
-			if [ "${exitcode}" != 0 ]; then
-				fn_print_error_nl "Backup directory is being migrated"
-				fn_script_log_error "Backup directory is being migrated"
-			else
-
-				fn_print_ok_nl "Backup directory is being migrated"
-				fn_script_log_pass "Backup directory is being migrated"
-			fi
-		fi
-	fi
-}
-
 fn_backup_create_lockfile() {
 	# Create lockfile.
 	date '+%s' > "${lockdir:?}/backup.lock"
@@ -274,7 +248,6 @@ fn_backup_check_lockfile
 fn_backup_init
 fn_backup_stop_server
 fn_backup_dir
-fn_backup_migrate_olddir
 fn_backup_create_lockfile
 fn_backup_compression
 fn_backup_prune
