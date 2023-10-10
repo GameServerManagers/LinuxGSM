@@ -35,12 +35,19 @@ fn_ansi_loader() {
 }
 
 fn_sleep_time() {
-	if [ "${sleeptime}" != "0" ] || [ "${travistest}" != "1" ]; then
-		if [ -z "${sleeptime}" ]; then
-			sleeptime=0.5
-		fi
-		sleep "${sleeptime}"
-	fi
+	sleep "0.1"
+}
+
+fn_sleep_time_1() {
+	sleep "1"
+}
+
+fn_sleep_time_5() {
+	sleep "5"
+}
+
+fn_sleep_time_10() {
+	sleep "10"
 }
 
 # Log display
