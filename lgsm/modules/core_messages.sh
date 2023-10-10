@@ -589,7 +589,7 @@ fn_print_restart_warning() {
 	for seconds in {3..1}; do
 		fn_print_warn "${selfname} will be restarted: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi

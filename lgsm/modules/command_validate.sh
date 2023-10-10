@@ -17,7 +17,7 @@ fn_validate() {
 	for seconds in {3..1}; do
 		fn_print_warn "Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
