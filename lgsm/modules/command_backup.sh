@@ -56,12 +56,14 @@ fn_backup_init() {
 	backupname="${selfname}-$(date '+%Y-%m-%d-%H%M%S')"
 
 	info_distro.sh
-	fn_print_dots "Backup starting"
-	fn_script_log_info "Backup starting"
-	fn_print_ok_nl "Backup starting"
+	fn_print_dots "Starting backup"
+	fn_script_log_info "Starting backup"
 	if [ ! -d "${backupdir}" ] || [ "${backupcount}" == "0" ]; then
-		fn_print_info_nl "There are no previous backups"
+		fn_print_info_nl "Starting backup: No previous backups found"
+		fn_script_log_info "No previous backups found"
 	else
+		fn_print_info_nl "Starting backup: Previous backups found"
+		fn_script_log_info "Previous backups found"
 		if [ "${lastbackupdaysago}" == "0" ]; then
 			daysago="less than 1 day ago"
 		elif [ "${lastbackupdaysago}" == "1" ]; then

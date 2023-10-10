@@ -46,9 +46,9 @@ fi
 # If the game or engine has a minimum RAM Requirement, compare it to system's available RAM.
 if [ "${ramrequirementmb}" ]; then
 	if [ "${physmemtotalmb}" -lt "${ramrequirementmb}" ]; then
-		fn_print_dots "Check RAM"
+		fn_print_dots "Checking RAM"
 		# Warn the user.
-		fn_print_warn_nl "Check RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
+		fn_print_warn_nl "Checking RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
 		echo "* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time_5
 	fi

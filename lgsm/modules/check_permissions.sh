@@ -216,8 +216,9 @@ fn_sys_perm_error_process() {
 	fn_sys_perm_errors_detect
 	# If any error was found.
 	if [ "${sysdirpermerror}" == "1" ] || [ "${classdirpermerror}" == "1" ] || [ "${netdirpermerror}" == "1" ]; then
-		fn_print_error_nl "Permission error(s) found in /sys"
-		fn_script_log_error "Permission error(s) found in /sys"
+		fn_print_dots "Checking /sys permissions"
+		fn_print_error_nl "Checking /sys permissions"
+		fn_script_log_error "Checking /sys permissions"
 		# Run the fix
 		fn_sys_perm_errors_fix
 	fi
