@@ -291,7 +291,7 @@ fn_fastdl_gmod() {
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons.
 	if [ -d "${fastdldir}/lua" ]; then
 		echo -en "correcting DarkRP files..."
-		fn_sleep_time
+		fn_sleep_time_1
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -335,7 +335,7 @@ fn_fastdl_source() {
 					tput rc
 					tput el
 					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}..."
-					fn_sleep_time
+					fn_sleep_time_1
 					# get relative path of file in the dir
 					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
 					copytodir="${tmprelfilepath%/*}"

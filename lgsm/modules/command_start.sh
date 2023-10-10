@@ -114,7 +114,7 @@ fn_start_tmux() {
 		echo -e "Console logging disabled in settings" >> "${consolelog}"
 		fn_script_log_info "Console logging disabled by user"
 	fi
-	fn_sleep_time
+	fn_sleep_time_1
 
 	# If the server fails to start.
 	check_status.sh
