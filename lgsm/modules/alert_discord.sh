@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsonshortinfo=$(
 	cat << EOF
 {
 	"username":"LinuxGSM",
@@ -46,7 +46,52 @@ json=$(
 EOF
 )
 
+jsonshortnoinfo=$(
+	cat << EOF
+{
+	"username":"LinuxGSM",
+	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+	"file":"content",
+	"embeds": [{
+		"color": "2067276",
+		"author": {
+			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
+			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+		},
+		"title": "${servername}",
+		"description": "${alertbody}",
+		"url": "",
+		"type": "content",
+		"thumbnail": {},
+		"fields": [
+			{
+				"name": "Game",
+				"value": "${gamename}",
+				"inline": true
+			},
+			{
+				"name": "Server IP",
+				"value": "${alertip}:${port}",
+				"inline": true
+			},
+			{
+				"name": "Hostname",
+				"value": "${HOSTNAME}",
+				"inline": true
+			}
+		]
+	}]
+}
+EOF
+)
+
 fn_print_dots "Sending Discord alert"
+
+if [ "${alerturl}" == "not enabled" ]; then
+	json="${jsonshortnoinfo}"
+else
+	json="${jsonshortinfo}"
+fi
 
 discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 
