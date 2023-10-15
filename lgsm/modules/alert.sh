@@ -34,34 +34,46 @@ fn_alert_test() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="Testing LinuxGSM Alert. No action to be taken."
+	# Green
+	alertcolourhex="#cdcd00"
+	alertcolourdec="13487360"
 }
 
 # Running command manually
 fn_alert_stopped() {
 	fn_script_log_info "Sending alert: Stopped"
 	alertsubject="Alert - ${selfname} - Stopped"
-	alertemoji="🟠"
+	alertemoji="❌"
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has stopped"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_started() {
-	fn_script_log_info "Sending alert: Stopped"
-	alertsubject="Alert - ${selfname} - Stopped"
-	alertemoji="🟠"
+	fn_script_log_info "Sending alert: Started"
+	alertsubject="Alert - ${selfname} - Started"
+	alertemoji="✅"
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has started"
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_restarted() {
 	fn_script_log_info "Sending alert: Restarted"
 	alertsubject="Alert - ${selfname} - Restarted"
-	alertemoji="🟠"
+	alertemoji="↺"
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has restarted"
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 # Failed monitor checks
@@ -72,6 +84,9 @@ fn_alert_monitor_session() {
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="${selfname} ${executable} not running"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_monitor_query() {
@@ -81,6 +96,9 @@ fn_alert_monitor_query() {
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="Unable to query: ${selfname}"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 # Update alerts
@@ -91,6 +109,9 @@ fn_alert_update() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${gamename} received update: ${remotebuildversion}"
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_check_update() {
@@ -100,6 +121,9 @@ fn_alert_check_update() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${gamename} update available: ${remotebuildversion}"
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 fn_alert_permissions() {
@@ -109,6 +133,9 @@ fn_alert_permissions() {
 	alertsound="2"
 	alerturl="not enabled"
 	alertbody="${selfname} has permissions issues"
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_config() {
@@ -118,6 +145,9 @@ fn_alert_config() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 fn_alert_wipe() {
@@ -127,6 +157,9 @@ fn_alert_wipe() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} has been wiped"
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 fn_alert_info() {
@@ -136,6 +169,9 @@ fn_alert_info() {
 	alertsound="1"
 	alerturl="not enabled"
 	alertbody="${selfname} info"
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
 if [ "${alert}" == "permissions" ]; then
