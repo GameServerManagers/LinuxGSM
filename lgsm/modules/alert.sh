@@ -174,6 +174,9 @@ fn_alert_info() {
 	alertcolourdec="2003199"
 }
 
+# Images
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
+
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
 elif [ "${alert}" == "monitor-session" ]; then

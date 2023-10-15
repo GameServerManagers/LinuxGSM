@@ -10,38 +10,46 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 jsonshortinfo=$(
 	cat << EOF
 {
-	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-	"file":"content",
-	"embeds": [{
-		"color": "2067276",
-		"author": {
-			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-		},
-		"title": "${servername}",
-		"description": "${alertbody} \n More info: ${alerturl}",
-		"url": "",
-		"type": "content",
-		"thumbnail": {},
-		"fields": [
-			{
-				"name": "Game",
-				"value": "${gamename}",
-				"inline": true
-			},
-			{
-				"name": "Server IP",
-				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
-				"inline": true
-			},
-			{
-				"name": "Hostname",
-				"value": "${HOSTNAME}",
-				"inline": true
-			}
-		]
-	}]
+    "username": "LinuxGSM",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+    "file": "content",
+    "embeds": [
+        {
+            "author": {
+                "name": "${alertemoji} ${alertsubject} ${alertemoji}",
+                "url": "",
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+            },
+            "title": "${servername}",
+            "url": "",
+            "description": "${alertbody} \n More info: ${alerturl}",
+            "color": "${alertcolourdec}",
+            "type": "content",
+            "thumbnail": {
+                "url": "${alerticon}"
+            },
+            "fields": [
+                {
+                    "name": "Game",
+                    "value": "${gamename}",
+                    "inline": true
+                },
+                {
+                    "name": "Server IP",
+                    "value": "${alertip}:${port}",
+                    "inline": true
+                },
+                {
+                    "name": "Hostname",
+                    "value": "${HOSTNAME}",
+                    "inline": true
+                }
+            ],
+            "footer": {
+                "text": "Sent by LinuxGSM ${version}"
+            }
+        }
+    ]
 }
 EOF
 )
@@ -49,39 +57,46 @@ EOF
 jsonshortnoinfo=$(
 	cat << EOF
 {
-	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-	"file":"content",
-	"embeds": [{
-		"color": "2067276",
-		"author": {
-			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-		},
-		"title": "${servername}",
-		"description": "${alertbody}",
-		"color": "${alertcolourdec}",
-		"url": "",
-		"type": "content",
-		"thumbnail": {},
-		"fields": [
-			{
-				"name": "Game",
-				"value": "${gamename}",
-				"inline": true
-			},
-			{
-				"name": "Server IP",
-				"value": "${alertip}:${port}",
-				"inline": true
-			},
-			{
-				"name": "Hostname",
-				"value": "${HOSTNAME}",
-				"inline": true
-			}
-		]
-	}]
+    "username": "LinuxGSM",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+    "file": "content",
+    "embeds": [
+        {
+            "author": {
+                "name": "${alertemoji} ${alertsubject} ${alertemoji}",
+                "url": "",
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+            },
+            "title": "${servername}",
+            "url": "",
+            "description": "${alertbody}",
+            "color": "${alertcolourdec}",
+            "type": "content",
+            "thumbnail": {
+                "url": "${alerticon}"
+            },
+            "fields": [
+                {
+                    "name": "Game",
+                    "value": "${gamename}",
+                    "inline": true
+                },
+                {
+                    "name": "Server IP",
+                    "value": "${alertip}:${port}",
+                    "inline": true
+                },
+                {
+                    "name": "Hostname",
+                    "value": "${HOSTNAME}",
+                    "inline": true
+                }
+            ],
+            "footer": {
+                "text": "Sent by LinuxGSM ${version}"
+            }
+        }
+    ]
 }
 EOF
 )
