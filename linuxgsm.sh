@@ -323,17 +323,18 @@ fn_install_file() {
 
 # Prevent LinuxGSM from running as root. Except if doing a dependency install.
 if [ "$(whoami)" == "root" ]; then
-	if [ "${userinput}" == "install" ] || [ "${userinput}" == "auto-install" ] || [ "${userinput}" == "i" ] || [ "${userinput}" == "ai" ]; then
-		if [ "${shortname}" == "core" ]; then
-			echo -e "[ FAIL ] Do NOT run this script as root!"
+	if [ -f "${modulesdir}/core_modules.sh" ] || [ -f "${modulesdir}/check_root.sh" ] || [ -f "${modulesdir}/core_messages.sh" ]; then
+		if [ "${userinput}" != "install" ] && [ "${userinput}" != "auto-install" ] && [ "${userinput}" != "i" ] && [ "${userinput}" != "ai" ]; then
+			core_modules.sh
+			core_messages.sh
+			fn_ansi_loader
+			check_root.sh
+		fi
+	else
+		if [ "${userinput}" != "install" ] && [ "${userinput}" != "auto-install" ] && [ "${userinput}" != "i" ] && [ "${userinput}" != "ai" ]; then
+			echo -e "[ FAIL ] Do NOT run as root!"
 			exit 1
 		fi
-	elif [ ! -f "${modulesdir}/core_modules.sh" ] || [ ! -f "${modulesdir}/check_root.sh" ] || [ ! -f "${modulesdir}/core_messages.sh" ]; then
-		echo -e "[ FAIL ] Do NOT run this script as root!"
-		exit 1
-	else
-		core_modules.sh
-		check_root.sh
 	fi
 fi
 
