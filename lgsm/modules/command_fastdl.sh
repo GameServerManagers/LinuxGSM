@@ -10,8 +10,6 @@ commandaction="Fastdl"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-check.sh
-
 # Directories.
 if [ -z "${webdir}" ]; then
 	webdir="${rootdir}/public_html"
@@ -427,6 +425,7 @@ fn_fastdl_bzip2() {
 	fn_print_ok_eol_nl
 }
 
+check.sh
 # Run functions.
 fn_fastdl_preview
 fn_clear_old_fastdl

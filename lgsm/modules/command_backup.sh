@@ -10,8 +10,6 @@ commandaction="Backing up"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-check.sh
-
 # Trap to remove lockfile on quit.
 fn_backup_trap() {
 	echo -e ""
