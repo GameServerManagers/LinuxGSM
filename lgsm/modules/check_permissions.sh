@@ -171,7 +171,7 @@ fn_sys_perm_fix_manually_msg() {
 	fn_script_log_info "To fix this issue, run the following command as root:"
 	echo -e "	  chmod a+rx /sys /sys/class /sys/class/net"
 	fn_script_log "chmod a+rx /sys /sys/class /sys/class/net"
-	fn_sleep_time
+	fn_sleep_time_5
 	if [ "${monitorflag}" == 1 ]; then
 		alert="permissions"
 		alert.sh
@@ -182,8 +182,8 @@ fn_sys_perm_fix_manually_msg() {
 # Attempt to fix /sys related permission errors if sudo is available, exits otherwise.
 fn_sys_perm_errors_fix() {
 	if sudo -n true > /dev/null 2>&1; then
-		fn_print_dots "Automatically fixing /sys permissions"
-		fn_script_log_info "Automatically fixing /sys permissions."
+		fn_print_dots "Fixing /sys permissions"
+		fn_script_log_info "Fixing /sys permissions."
 		if [ "${sysdirpermerror}" == "1" ]; then
 			sudo chmod a+rx "/sys"
 		fi
@@ -202,7 +202,7 @@ fn_sys_perm_errors_fix() {
 			# Show the user how to fix.
 			fn_sys_perm_fix_manually_msg
 		else
-			fn_print_ok_nl "Automatically fixing /sys permissions"
+			fn_print_ok_nl "Fixing /sys permissions"
 			fn_script_log_pass "Permissions in /sys fixed"
 		fi
 	else
@@ -216,8 +216,9 @@ fn_sys_perm_error_process() {
 	fn_sys_perm_errors_detect
 	# If any error was found.
 	if [ "${sysdirpermerror}" == "1" ] || [ "${classdirpermerror}" == "1" ] || [ "${netdirpermerror}" == "1" ]; then
-		fn_print_error_nl "Permission error(s) found in /sys"
-		fn_script_log_error "Permission error(s) found in /sys"
+		fn_print_dots "Checking /sys permissions"
+		fn_print_error_nl "Checking /sys permissions"
+		fn_script_log_error "Checking /sys permissions"
 		# Run the fix
 		fn_sys_perm_errors_fix
 	fi

@@ -19,8 +19,8 @@ carriagereturn=$(file -b "${servercfgfullpath}" | grep -q CRLF && echo "${red}CR
 echo -e ""
 echo -e "${bold}${lightgreen}Server Details${default}"
 fn_messages_separator
-echo -e ""
 
+echo -e ""
 echo -e "Game: ${gamename}"
 echo -e "Config type: ${configtype}"
 echo -e "Config file: ${servercfgfullpath}"

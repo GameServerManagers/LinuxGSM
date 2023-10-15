@@ -10,7 +10,6 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 echo -e ""
 echo -e "${bold}${lightyellow}Game Server Login Token${default}"
 fn_messages_separator
-fn_sleep_time
 if [ "${shortname}" == "csgo" ] || [ "${shortname}" == "css" ] || [ "${shortname}" == "nmrih" ] || [ "${shortname}" == "bs" ]; then
 	echo -e "GSLT is required to run a public ${gamename} server"
 	fn_script_log_info "GSLT is required to run a public ${gamename} server"
@@ -36,7 +35,7 @@ if [ -z "${autoinstall}" ]; then
 		fi
 	fi
 fi
-fn_sleep_time
+
 if [ "${shortname}" == "tu" ]; then
 	echo -e "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
 	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
@@ -44,4 +43,5 @@ else
 	echo -e "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
 	fn_script_log_info "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
 fi
+fn_sleep_time_1
 echo -e ""

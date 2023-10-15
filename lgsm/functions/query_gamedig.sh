@@ -4,7 +4,7 @@
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Querys a gameserver using node-gamedig.
-# https://github.com/sonicsnes/node-gamedig
+# https://github.com/gamedig/node-gamedig
 
 functionselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 querystatus="2"
