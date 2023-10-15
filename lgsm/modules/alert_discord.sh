@@ -60,6 +60,7 @@ jsonshortnoinfo=$(
 		},
 		"title": "${servername}",
 		"description": "${alertbody}",
+		"color": "${alertcolourdec}",
 		"url": "",
 		"type": "content",
 		"thumbnail": {},
