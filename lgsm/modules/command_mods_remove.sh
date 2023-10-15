@@ -59,7 +59,7 @@ fn_script_log_info "Removing ${modsfilelistsize} files from ${modprettyname}"
 echo -e "removing ${modprettyname}"
 echo -e "* ${modsfilelistsize} files to be removed"
 echo -e "* location: ${modinstalldir}"
-fn_sleep_time
+fn_sleep_time_1
 # Go through every file and remove it.
 modfileline="1"
 tput sc
@@ -99,7 +99,7 @@ fi
 
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
-fn_sleep_time
+fn_sleep_time_1
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
@@ -113,7 +113,7 @@ fi
 
 # Remove mods from installed mods list.
 echo -en "removing ${modcommand} from ${modsinstalledlist}..."
-fn_sleep_time
+fn_sleep_time_1
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 exitcode=$?

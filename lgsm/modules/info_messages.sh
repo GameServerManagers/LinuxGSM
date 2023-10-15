@@ -143,8 +143,8 @@ fn_info_message_server_resource() {
 	{
 		echo -e "${lightyellow}Storage${default}"
 		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
-		echo -e "${lightblue}Total:\t\t${default}${totalspace}"
-		echo -e "${lightblue}Used:\t\t${default}${usedspace}"
+		echo -e "${lightblue}Total:\t${default}${totalspace}"
+		echo -e "${lightblue}Used:\t${default}${usedspace}"
 		echo -e "${lightblue}Available:\t${default}${availspace}"
 	} | column -s $'\t' -t
 	echo -e ""

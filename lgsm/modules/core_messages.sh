@@ -35,12 +35,23 @@ fn_ansi_loader() {
 }
 
 fn_sleep_time() {
-	if [ "${sleeptime}" != "0" ] || [ "${travistest}" != "1" ]; then
-		if [ -z "${sleeptime}" ]; then
-			sleeptime=0.5
-		fi
-		sleep "${sleeptime}"
-	fi
+	sleep "0.1"
+}
+
+fn_sleep_time_05() {
+	sleep "0.5"
+}
+
+fn_sleep_time_1() {
+	sleep "1"
+}
+
+fn_sleep_time_5() {
+	sleep "5"
+}
+
+fn_sleep_time_10() {
+	sleep "10"
 }
 
 # Log display
@@ -137,7 +148,7 @@ fn_print_dots() {
 	else
 		echo -en "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time
+	fn_sleep_time_05
 }
 
 fn_print_dots_nl() {
@@ -146,7 +157,7 @@ fn_print_dots_nl() {
 	else
 		echo -e "${creeol}[ .... ] $*"
 	fi
-	fn_sleep_time
+	fn_sleep_time_05
 	echo -en "\n"
 }
 
@@ -476,56 +487,56 @@ fn_print_info_eol_nl() {
 # QUERYING
 fn_print_querying_eol() {
 	echo -en "${cyan}QUERYING${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_querying_eol_nl() {
 	echo -e "${cyan}QUERYING${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 # CHECKING
 fn_print_checking_eol() {
 	echo -en "${cyan}CHECKING${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_checking_eol_nl() {
 	echo -e "${cyan}CHECKING${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 # DELAY
 fn_print_delay_eol() {
 	echo -en "${green}DELAY${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_delay_eol_nl() {
 	echo -e "${green}DELAY${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 # CANCELED
 fn_print_canceled_eol() {
 	echo -en "${lightyellow}CANCELED${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_canceled_eol_nl() {
 	echo -e "${lightyellow}CANCELED${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 # REMOVED
 fn_print_removed_eol() {
 	echo -en "${red}REMOVED${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 fn_print_removed_eol_nl() {
 	echo -e "${red}REMOVED${default}"
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 # UPDATE
@@ -582,7 +593,7 @@ fn_print_restart_warning() {
 	for seconds in {3..1}; do
 		fn_print_warn "${selfname} will be restarted: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi

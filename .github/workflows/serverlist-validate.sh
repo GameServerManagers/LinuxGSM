@@ -10,7 +10,7 @@ csvlist="$(ls -1 | grep -E '^(ubuntu|debian|centos|rhel|almalinux|rocky).*\.csv$
 # loop though each csv file and make sure the number of lines is the same as the serverlistcount
 for csv in $csvlist; do
 	csvcount="$(wc -l < "${csv}")"
-	csvcount=$((csvcount-2))
+	csvcount=$((csvcount - 2))
 	if [ "$csvcount" -ne "$serverlistcount" ]; then
 		echo "ERROR: $csv ($csvcount) does not match serverlist.csv ($serverlistcount)"
 		exitcode=1

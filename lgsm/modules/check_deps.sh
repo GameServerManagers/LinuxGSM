@@ -25,11 +25,11 @@ fn_install_mono_repo() {
 		fn_print_information_nl "Automatically adding Mono repository."
 		fn_script_log_info "Automatically adding Mono repository."
 		echo -en ".\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "..\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "...\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "   \r"
 		if [ "${distroid}" == "ubuntu" ]; then
 			if [ "${distroversion}" == "22.04" ]; then
@@ -160,8 +160,8 @@ fn_install_missing_deps() {
 				fn_print_information_nl "$(whoami) has sudo access."
 				fn_script_log_info "$(whoami) has sudo access."
 			else
-				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
-				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
+				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
+				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
 			fi
 		fi
 
@@ -177,11 +177,11 @@ fn_install_missing_deps() {
 			fn_print_information_nl "Automatically installing missing dependencies."
 			fn_script_log_info "Automatically installing missing dependencies."
 			echo -en ".\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "..\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "...\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "   \r"
 			if [ "$(command -v apt 2> /dev/null)" ]; then
 				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
@@ -306,14 +306,14 @@ fn_deps_detector() {
 		missingdep=0
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			sleep 0.1
+			fn_sleep_time
 		fi
 	elif [ "${depstatus}" != "0" ]; then
 		# If dependency is not found.
 		missingdep=1
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			sleep 0.1
+			fn_sleep_time
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then

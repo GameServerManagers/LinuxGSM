@@ -330,7 +330,7 @@ fn_monitor_query() {
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt} : ${cyan}WAIT${default}"
-			sleep 0.5
+			fn_sleep_time_1
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
 				break
@@ -371,6 +371,7 @@ fn_monitor_loop() {
 	done
 }
 
+fn_print_dots ""
 monitorflag=1
 # Dont do any monitoring or checks if installer is running.
 fn_monitor_check_install

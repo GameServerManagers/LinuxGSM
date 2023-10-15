@@ -10,8 +10,6 @@ commandaction="Fastdl"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-check.sh
-
 # Directories.
 if [ -z "${webdir}" ]; then
 	webdir="${rootdir}/public_html"
@@ -209,7 +207,7 @@ fn_fastdl_preview() {
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
 		echo -e "calculating total file size..."
-		fn_sleep_time
+		fn_sleep_time_1
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
 		while read -r dufile; do
@@ -276,7 +274,7 @@ fn_fastdl_gmod() {
 		fi
 		# Clear addons directory in fastdl.
 		echo -en "clearing addons dir from fastdl dir..."
-		fn_sleep_time
+		fn_sleep_time_1
 		rm -rf "${fastdldir:?}/addons"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -291,7 +289,7 @@ fn_fastdl_gmod() {
 	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons.
 	if [ -d "${fastdldir}/lua" ]; then
 		echo -en "correcting DarkRP files..."
-		fn_sleep_time
+		fn_sleep_time_1
 		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -335,7 +333,7 @@ fn_fastdl_source() {
 					tput rc
 					tput el
 					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}..."
-					fn_sleep_time
+					fn_sleep_time_1
 					# get relative path of file in the dir
 					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
 					copytodir="${tmprelfilepath%/*}"
@@ -427,6 +425,7 @@ fn_fastdl_bzip2() {
 	fn_print_ok_eol_nl
 }
 
+check.sh
 # Run functions.
 fn_fastdl_preview
 fn_clear_old_fastdl

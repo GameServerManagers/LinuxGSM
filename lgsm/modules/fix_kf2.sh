@@ -13,7 +13,7 @@ fn_print_information "starting ${gamename} server to generate configs."
 exitbypass=1
 command_start.sh
 fn_firstcommand_reset
-sleep 10
+fn_sleep_time_10
 exitbypass=1
 command_stop.sh
 fn_firstcommand_reset
