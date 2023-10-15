@@ -25,7 +25,7 @@ json=$(
 										"type": "section",
 										"text": {
 												"type": "mrkdwn",
-												"text": "*${alertemoji} ${alertsubject}* \n ${alertbody}"
+												"text": "*${alertemoji} ${alerttitle}* \n ${alertmessage}"
 										}
 								},
 								{

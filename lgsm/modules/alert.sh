@@ -28,12 +28,12 @@ fn_alert_log() {
 }
 
 fn_alert_test() {
-	fn_script_log_info "Sending test alert"
-	alertsubject="Alert - ${selfname} - Test"
+	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
+	alerttitle="Alert - ${selfname} - Test"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="Testing LinuxGSM Alert. No action to be taken."
+	alertmessage="Testing LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
@@ -41,36 +41,36 @@ fn_alert_test() {
 
 # Running command manually
 fn_alert_stopped() {
-	fn_script_log_info "Sending alert: Stopped"
-	alertsubject="Alert - ${selfname} - Stopped"
+	fn_script_log_info "Sending alert: ${selfname} has stopped"
+	alerttitle="Alert - ${selfname} - Stopped"
 	alertemoji="❌"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has stopped"
+	alertmessage="${selfname} has stopped."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
 }
 
 fn_alert_started() {
-	fn_script_log_info "Sending alert: Started"
-	alertsubject="Alert - ${selfname} - Started"
+	fn_script_log_info "Sending alert: ${selfname} has started"
+	alerttitle="Alert - ${selfname} - Started"
 	alertemoji="✅"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has started"
+	alertmessage="${selfname} has started."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
 }
 
 fn_alert_restarted() {
-	fn_script_log_info "Sending alert: Restarted"
-	alertsubject="Alert - ${selfname} - Restarted"
+	fn_script_log_info "Sending alert: ${selfname} has restarted"
+	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="↺"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has restarted"
+	alertmessage="${selfname} has restarted"
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -78,24 +78,24 @@ fn_alert_restarted() {
 
 # Failed monitor checks
 fn_alert_monitor_session() {
-	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
-	alertsubject="Alert - ${selfname} - Restarted"
+	fn_script_log_info "Sending alert: ${selfname} is not running. Game server has been restarted"
+	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${selfname} ${executable} not running"
+	alertmessage="${selfname} is not running. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
 }
 
 fn_alert_monitor_query() {
-	fn_script_log_info "Sending alert: Restarted: ${selfname}"
-	alertsubject="Alert - ${selfname} - Restarted"
+	fn_script_log_info "Sending alert: Unable to query ${selfname}. Game server has been restarted"
+	alerttitle="Alert - ${selfname} - Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="Unable to query: ${selfname}"
+	alertmessage="Unable to query ${selfname}. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -103,72 +103,85 @@ fn_alert_monitor_query() {
 
 # Update alerts
 fn_alert_update() {
-	fn_script_log_info "Sending alert: Updated"
-	alertsubject="Alert - ${selfname} - Updated"
-	alertemoji="🎮"
+	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
+	alerttitle="Alert - ${selfname} - Updated"
+	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} received update: ${remotebuildversion}"
+	alertmessage="${selfname} has received a game server update: ${localbuild}."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
 }
 
 fn_alert_check_update() {
-	fn_script_log_info "Sending alert: Update available"
-	alertsubject="Alert - ${selfname} - Update available"
+	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
+	alerttitle="Alert - ${selfname} - Update available"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${gamename} update available: ${remotebuildversion}"
+	alertmessage="${gamename} update available: ${remotebuildversion}"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
 }
 
+fn_alert_update_linuxgsm() {
+	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	alerttitle="Alert - ${selfname} - LinuxGSM updated"
+	alertemoji="🎉"
+	alertsound="1"
+	alerturl="not enabled"
+	alertbody="${gamename} update available"
+	alertmessage="${selfname} has received an LinuxGSM update."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
 fn_alert_permissions() {
-	fn_script_log_info "Sending alert: Permissions error"
-	alertsubject="Alert - ${selfname}: Permissions error"
+	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
+	alerttitle="Alert - ${selfname}: Permissions error"
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
-	alertbody="${selfname} has permissions issues"
+	alertmessage="${selfname} has permissions issues"
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
 }
 
 fn_alert_config() {
-	fn_script_log_info "Sending alert: New _default.cfg"
-	alertsubject="Alert - ${selfname} - New _default.cfg"
+	fn_script_log_info "Sending alert: ${selfname} has received a new _default.cfg"
+	alerttitle="Alert - ${selfname} - New _default.cfg"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
+	alertmessage="${selfname} has received a new _default.cfg."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
 }
 
 fn_alert_wipe() {
-	fn_script_log_info "Sending alert: Wipe"
-	alertsubject="Alert - ${selfname} - Wipe"
+	fn_script_log_info "Sending alert: ${selfname} has been wiped"
+	alerttitle="Alert - ${selfname} - Wipe"
 	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} has been wiped"
+	alertmessage="${selfname} has been wiped"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
 }
 
 fn_alert_info() {
-	fn_script_log_info "Sending alert: Info"
-	alertsubject="Alert - ${selfname} - Info"
+	fn_script_log_info "Sending alert: ${selfname} info"
+	alerttitle="Alert - ${selfname} - Info"
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
-	alertbody="${selfname} info"
+	alertmessage="${selfname} info"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"

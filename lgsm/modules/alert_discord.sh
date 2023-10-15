@@ -16,13 +16,13 @@ jsonshortinfo=$(
     "embeds": [
         {
             "author": {
-                "name": "${alertemoji} ${alertsubject} ${alertemoji}",
+                "name": "${alertemoji} ${alerttitle} ${alertemoji}",
                 "url": "",
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
             "title": "${servername}",
             "url": "",
-            "description": "${alertbody} \n More info: ${alerturl}",
+            "description": "${alertmessage} \n More info: ${alerturl}",
             "color": "${alertcolourdec}",
             "type": "content",
             "thumbnail": {
@@ -63,13 +63,13 @@ jsonshortnoinfo=$(
     "embeds": [
         {
             "author": {
-                "name": "${alertemoji} ${alertsubject} ${alertemoji}",
+                "name": "${alertemoji} ${alerttitle} ${alertemoji}",
                 "url": "",
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
             "title": "${servername}",
             "url": "",
-            "description": "${alertbody}",
+            "description": "${alertmessage}",
             "color": "${alertcolourdec}",
             "type": "content",
             "thumbnail": {
