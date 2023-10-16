@@ -26,7 +26,6 @@ for gameicon in $(ls -1 gameicons); do
 	fi
 done
 
-# check that the number of gameicons matches the number of servers in serverlist.csv
 echo ""
 echo "Checking that the number of gameicons matches the number of servers in serverlist.csv"
 gameiconcount="$(ls -1 gameicons | wc -l)"
