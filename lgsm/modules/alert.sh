@@ -30,6 +30,7 @@ fn_alert_log() {
 fn_alert_test() {
 	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
 	alerttitle="Alert - ${selfname} - Test"
+	alertaction="Tested"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"

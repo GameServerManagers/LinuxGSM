@@ -16,13 +16,13 @@ jsonshortinfo=$(
     "embeds": [
         {
             "author": {
-                "name": "${alertemoji} ${alerttitle} ${alertemoji}",
+                "name": "LinuxGSM Alert",
                 "url": "",
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
-            "title": "${servername}",
+            "title": "${alertemoji} ${alertaction} - ${servername} ${alertemoji}",
             "url": "",
-            "description": "${alertmessage} \n More info: ${alerturl}",
+            "description": "",
             "color": "${alertcolourdec}",
             "type": "content",
             "thumbnail": {
@@ -43,9 +43,18 @@ jsonshortinfo=$(
                     "name": "Hostname",
                     "value": "${HOSTNAME}",
                     "inline": true
-                }
+                },
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				},
+				{
+					"name": "More Information",
+					"value": "${alerturl}"
+				}
             ],
             "footer": {
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
                 "text": "Sent by LinuxGSM ${version}"
             }
         }
@@ -63,13 +72,13 @@ jsonshortnoinfo=$(
     "embeds": [
         {
             "author": {
-                "name": "${alertemoji} ${alerttitle} ${alertemoji}",
+                "name": "LinuxGSM Alert",
                 "url": "",
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
-            "title": "${servername}",
+            "title": "${alertemoji} ${alertaction} - ${servername} ${alertemoji}",
             "url": "",
-            "description": "${alertmessage}",
+            "description": "",
             "color": "${alertcolourdec}",
             "type": "content",
             "thumbnail": {
@@ -90,9 +99,14 @@ jsonshortnoinfo=$(
                     "name": "Hostname",
                     "value": "${HOSTNAME}",
                     "inline": true
-                }
+                },
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				}
             ],
             "footer": {
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
                 "text": "Sent by LinuxGSM ${version}"
             }
         }
