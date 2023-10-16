@@ -14,13 +14,25 @@ for shortname in $(tail -n +2 serverlist.csv | cut -d ',' -f1); do
 	fi
 done
 
+echo ""
+echo "Checking if an unexpected gameicon exists"
+for gameicon in $(ls -1 gameicons); do
+	# check if $gameicon is in serverlist.csv
+	if ! grep -q "${gameicon%-icon.png}" serverlist.csv; then
+		echo "ERROR: gameicon ${gameicon} is not in serverlist.csv"
+		exitcode=1
+	else
+		echo "OK: gameicon ${gameicon} is in serverlist.csv"
+	fi
+done
+
 # check that the number of gameicons matches the number of servers in serverlist.csv
 echo ""
 echo "Checking that the number of gameicons matches the number of servers in serverlist.csv"
 gameiconcount="$(ls -1 gameicons | wc -l)"
 serverlistcount="$(tail -n +2 serverlist.csv | wc -l)"
 if [ "${gameiconcount}" -ne "${serverlistcount}" ]; then
-	echo "ERROR: game icons (${gameiconcount}) does not match serverlistcount ($serverlistcount)"
+	echo "ERROR: game icons (${gameiconcount}) does not match serverlist.csv ($serverlistcount)"
 	exitcode=1
 else
 	echo "OK: gameiconcount ($gameiconcount) matches serverlistcount ($serverlistcount)"
