@@ -23,6 +23,7 @@ done
 # if the game server is listed in serverlist.csv then it will have a $shortname-icon.png file
 
 # loop though shortname in serverlist.csv
+echo ""
 echo "Checking that all the game servers listed in serverlist.csv have a shortname-icon.png file"
 for shortname in $(tail -n +2 serverlist.csv | cut -d ',' -f1); do
 	# check if $shortname-icon.png exists
