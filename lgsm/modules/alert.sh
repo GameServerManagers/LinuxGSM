@@ -44,6 +44,7 @@ fn_alert_test() {
 fn_alert_stopped() {
 	fn_script_log_info "Sending alert: ${selfname} has stopped"
 	alerttitle="Alert - ${selfname} - Stopped"
+	alertaction="Stopped"
 	alertemoji="❌"
 	alertsound="1"
 	alerturl="not enabled"
@@ -56,6 +57,7 @@ fn_alert_stopped() {
 fn_alert_started() {
 	fn_script_log_info "Sending alert: ${selfname} has started"
 	alerttitle="Alert - ${selfname} - Started"
+	alertaction="Started"
 	alertemoji="✅"
 	alertsound="1"
 	alerturl="not enabled"
@@ -68,6 +70,7 @@ fn_alert_started() {
 fn_alert_restarted() {
 	fn_script_log_info "Sending alert: ${selfname} has restarted"
 	alerttitle="Alert - ${selfname} - Restarted"
+	alertaction="Restarted"
 	alertemoji="↺"
 	alertsound="1"
 	alerturl="not enabled"
@@ -81,6 +84,7 @@ fn_alert_restarted() {
 fn_alert_monitor_session() {
 	fn_script_log_info "Sending alert: ${selfname} is not running. Game server has been restarted"
 	alerttitle="Alert - ${selfname} - Restarted"
+	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
@@ -93,6 +97,7 @@ fn_alert_monitor_session() {
 fn_alert_monitor_query() {
 	fn_script_log_info "Sending alert: Unable to query ${selfname}. Game server has been restarted"
 	alerttitle="Alert - ${selfname} - Restarted"
+	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
 	alerturl="not enabled"
@@ -106,6 +111,7 @@ fn_alert_monitor_query() {
 fn_alert_update() {
 	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
 	alerttitle="Alert - ${selfname} - Updated"
+	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
@@ -118,6 +124,7 @@ fn_alert_update() {
 fn_alert_check_update() {
 	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
 	alerttitle="Alert - ${selfname} - Update available"
+	alertaction="Checked for Update"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
@@ -130,6 +137,7 @@ fn_alert_check_update() {
 fn_alert_update_linuxgsm() {
 	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
 	alerttitle="Alert - ${selfname} - LinuxGSM updated"
+	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
 	alerturl="not enabled"
@@ -143,6 +151,7 @@ fn_alert_update_linuxgsm() {
 fn_alert_permissions() {
 	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
 	alerttitle="Alert - ${selfname}: Permissions error"
+	alertaction="Checked Permissions"
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
@@ -155,6 +164,7 @@ fn_alert_permissions() {
 fn_alert_config() {
 	fn_script_log_info "Sending alert: ${selfname} has received a new _default.cfg"
 	alerttitle="Alert - ${selfname} - New _default.cfg"
+	alertaction="Updated _default.cfg"
 	alertemoji="🎮"
 	alertsound="1"
 	alerturl="not enabled"
@@ -167,6 +177,7 @@ fn_alert_config() {
 fn_alert_wipe() {
 	fn_script_log_info "Sending alert: ${selfname} has been wiped"
 	alerttitle="Alert - ${selfname} - Wipe"
+	alertaction="Wiped"
 	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
@@ -179,6 +190,7 @@ fn_alert_wipe() {
 fn_alert_info() {
 	fn_script_log_info "Sending alert: ${selfname} info"
 	alerttitle="Alert - ${selfname} - Info"
+	alertaction="Queried"
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
