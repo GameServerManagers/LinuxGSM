@@ -76,6 +76,7 @@ fn_info_message_distro() {
 	# Arch:      x86_64
 	# Kernel:    5.4.0-65-generic
 	# Hostname:  server
+	# Environment: kvm
 	# Uptime:    16d, 5h, 18m
 	# tmux:      tmux 3.0a
 	# glibc:     2.31
@@ -89,6 +90,7 @@ fn_info_message_distro() {
 		echo -e "${lightblue}Arch:\t${default}${arch}"
 		echo -e "${lightblue}Kernel:\t${default}${kernel}"
 		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
+		echo -e "${lightblue}Environment:\t${default}${virtualenvironment}"
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
 		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
