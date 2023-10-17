@@ -29,12 +29,11 @@ fn_alert_log() {
 
 fn_alert_test() {
 	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
-	alerttitle="Alert - ${selfname} - Test"
 	alertaction="Tested"
 	alertemoji="🚧"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="Testing LinuxGSM Alert. No action to be taken."
+	alertmessage="Testing ${selfname} LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
@@ -43,7 +42,6 @@ fn_alert_test() {
 # Running command manually
 fn_alert_stopped() {
 	fn_script_log_info "Sending alert: ${selfname} has stopped"
-	alerttitle="Alert - ${selfname} - Stopped"
 	alertaction="Stopped"
 	alertemoji="❌"
 	alertsound="1"
@@ -56,7 +54,6 @@ fn_alert_stopped() {
 
 fn_alert_started() {
 	fn_script_log_info "Sending alert: ${selfname} has started"
-	alerttitle="Alert - ${selfname} - Started"
 	alertaction="Started"
 	alertemoji="✅"
 	alertsound="1"
@@ -69,12 +66,11 @@ fn_alert_started() {
 
 fn_alert_restarted() {
 	fn_script_log_info "Sending alert: ${selfname} has restarted"
-	alerttitle="Alert - ${selfname} - Restarted"
 	alertaction="Restarted"
 	alertemoji="↺"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has restarted"
+	alertmessage="${selfname} has restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -83,7 +79,6 @@ fn_alert_restarted() {
 # Failed monitor checks
 fn_alert_monitor_session() {
 	fn_script_log_info "Sending alert: ${selfname} is not running. Game server has been restarted"
-	alerttitle="Alert - ${selfname} - Restarted"
 	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
@@ -96,7 +91,6 @@ fn_alert_monitor_session() {
 
 fn_alert_monitor_query() {
 	fn_script_log_info "Sending alert: Unable to query ${selfname}. Game server has been restarted"
-	alerttitle="Alert - ${selfname} - Restarted"
 	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
@@ -110,7 +104,6 @@ fn_alert_monitor_query() {
 # Update alerts
 fn_alert_update() {
 	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
-	alerttitle="Alert - ${selfname} - Updated"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
@@ -123,7 +116,6 @@ fn_alert_update() {
 
 fn_alert_check_update() {
 	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
-	alerttitle="Alert - ${selfname} - Update available"
 	alertaction="Checked for Update"
 	alertemoji="🎮"
 	alertsound="1"
@@ -136,7 +128,6 @@ fn_alert_check_update() {
 
 fn_alert_update_linuxgsm() {
 	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
-	alerttitle="Alert - ${selfname} - LinuxGSM updated"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
@@ -150,12 +141,11 @@ fn_alert_update_linuxgsm() {
 
 fn_alert_permissions() {
 	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
-	alerttitle="Alert - ${selfname}: Permissions error"
 	alertaction="Checked Permissions"
 	alertemoji="❗"
 	alertsound="2"
 	alerturl="not enabled"
-	alertmessage="${selfname} has permissions issues"
+	alertmessage="${selfname} has permissions issues."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -163,7 +153,6 @@ fn_alert_permissions() {
 
 fn_alert_config() {
 	fn_script_log_info "Sending alert: ${selfname} has received a new _default.cfg"
-	alerttitle="Alert - ${selfname} - New _default.cfg"
 	alertaction="Updated _default.cfg"
 	alertemoji="🎮"
 	alertsound="1"
@@ -176,12 +165,11 @@ fn_alert_config() {
 
 fn_alert_wipe() {
 	fn_script_log_info "Sending alert: ${selfname} has been wiped"
-	alerttitle="Alert - ${selfname} - Wipe"
 	alertaction="Wiped"
 	alertemoji="🧹"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} has been wiped"
+	alertmessage="${selfname} has been wiped."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -189,12 +177,12 @@ fn_alert_wipe() {
 
 fn_alert_info() {
 	fn_script_log_info "Sending alert: ${selfname} info"
-	alerttitle="Alert - ${selfname} - Info"
+	alerttitle="LinuxGSM Alert - ${selfname} - Info"
 	alertaction="Queried"
 	alertemoji="📄"
 	alertsound="1"
 	alerturl="not enabled"
-	alertmessage="${selfname} info"
+	alertmessage="${selfname} info."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -222,6 +210,8 @@ elif [ "${alert}" == "config" ]; then
 elif [ "${alert}" == "wipe" ]; then
 	fn_alert_wipe
 fi
+
+alerttitle="LinuxGSM Alert - ${alertaction} - ${servername}"
 
 # Generate alert log.
 fn_alert_log

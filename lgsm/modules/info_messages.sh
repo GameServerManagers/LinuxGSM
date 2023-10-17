@@ -48,22 +48,23 @@ fn_info_message_password_strip() {
 # used with alertlog
 fn_info_message_head() {
 	echo -e ""
-	echo -e "${bold}${lightyellow}Alert Summary${default}"
+	echo -e "LinuxGSM Alert Summary"
 	fn_messages_separator
-	echo -e "Message"
+	echo -e ""
+	echo -e "Server name"
+	echo -e "${servername}"
+	echo -e ""
+	echo -e "Information"
 	echo -e "${alertmessage}"
 	echo -e ""
 	echo -e "Game"
 	echo -e "${gamename}"
 	echo -e ""
-	echo -e "Server name"
-	echo -e "${servername}"
+	echo -e "Server IP"
+	echo -e "${alertip}:${port}"
 	echo -e ""
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
-	echo -e ""
-	echo -e "Server IP"
-	echo -e "${ip}:${port}"
 }
 
 fn_info_message_distro() {
