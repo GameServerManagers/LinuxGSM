@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsonshortinfo=$(
+jsoninfo=$(
 	cat << EOF
 {
     "username": "LinuxGSM",
@@ -63,7 +63,7 @@ jsonshortinfo=$(
 EOF
 )
 
-jsonshortnoinfo=$(
+jsonnoinfo=$(
 	cat << EOF
 {
     "username": "LinuxGSM",
@@ -117,10 +117,10 @@ EOF
 
 fn_print_dots "Sending Discord alert"
 
-if [ "${alerturl}" == "not enabled" ]; then
-	json="${jsonshortnoinfo}"
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
 else
-	json="${jsonshortinfo}"
+	json="${jsoninfo}"
 fi
 
 discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")

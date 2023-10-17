@@ -7,16 +7,33 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsoninfo=$(
 	cat << EOF
 {
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"body": "Server name\n${servername}\n\nMessage\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
+	"body": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
 }
 EOF
 )
+
+jsonnoinfo=$(
+	cat << EOF
+{
+	"channel_tag": "${channeltag}",
+	"type": "note",
+	"title": "${alertemoji} ${alerttitle} ${alertemoji}",
+	"body": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}"
+}
+EOF
+)
+
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
+else
+	json="${jsoninfo}"
+fi
 
 fn_print_dots "Sending Pushbullet alert"
 
