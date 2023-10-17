@@ -36,7 +36,7 @@ jsoninfo=$(
                 },
                 {
                     "name": "Server IP",
-                    "value": "${alertip}:${port}",
+                    "value": "\`${alertip}:${port}\`",
                     "inline": true
                 },
                 {
@@ -92,7 +92,7 @@ jsonnoinfo=$(
                 },
                 {
                     "name": "Server IP",
-                    "value": "${alertip}:${port}",
+                    "value": "\`${alertip}:${port}\`",
                     "inline": true
                 },
                 {
