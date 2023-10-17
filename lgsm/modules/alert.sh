@@ -32,7 +32,6 @@ fn_alert_test() {
 	alertaction="Tested"
 	alertemoji="🚧"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="Testing ${selfname} LinuxGSM Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
@@ -45,7 +44,6 @@ fn_alert_stopped() {
 	alertaction="Stopped"
 	alertemoji="❌"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has stopped."
 	# Red
 	alertcolourhex="#cd0000"
@@ -57,7 +55,6 @@ fn_alert_started() {
 	alertaction="Started"
 	alertemoji="✅"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has started."
 	# Green
 	alertcolourhex="#00cd00"
@@ -69,7 +66,6 @@ fn_alert_restarted() {
 	alertaction="Restarted"
 	alertemoji="↺"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has restarted."
 	# Green
 	alertcolourhex="#00cd00"
@@ -82,7 +78,6 @@ fn_alert_monitor_session() {
 	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="not enabled"
 	alertmessage="${selfname} is not running. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
@@ -94,7 +89,6 @@ fn_alert_monitor_query() {
 	alertaction="Restarted"
 	alertemoji="🚨"
 	alertsound="2"
-	alerturl="not enabled"
 	alertmessage="Unable to query ${selfname}. Game server has been restarted."
 	# Red
 	alertcolourhex="#cd0000"
@@ -107,7 +101,6 @@ fn_alert_update() {
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has received a game server update: ${localbuild}."
 	# Green
 	alertcolourhex="#00cd00"
@@ -119,7 +112,6 @@ fn_alert_check_update() {
 	alertaction="Checked for Update"
 	alertemoji="🎮"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${gamename} update available: ${remotebuildversion}"
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -131,7 +123,6 @@ fn_alert_update_linuxgsm() {
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
 	alertbody="${gamename} update available"
 	alertmessage="${selfname} has received an LinuxGSM update."
 	# Green
@@ -144,7 +135,6 @@ fn_alert_permissions() {
 	alertaction="Checked Permissions"
 	alertemoji="❗"
 	alertsound="2"
-	alerturl="not enabled"
 	alertmessage="${selfname} has permissions issues."
 	# Red
 	alertcolourhex="#cd0000"
@@ -156,7 +146,6 @@ fn_alert_config() {
 	alertaction="Updated _default.cfg"
 	alertemoji="🎮"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has received a new _default.cfg."
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -168,7 +157,6 @@ fn_alert_wipe() {
 	alertaction="Wiped"
 	alertemoji="🧹"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} has been wiped."
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -181,7 +169,6 @@ fn_alert_info() {
 	alertaction="Queried"
 	alertemoji="📄"
 	alertsound="1"
-	alerturl="not enabled"
 	alertmessage="${selfname} info."
 	# Blue
 	alertcolourhex="#1e90ff"
@@ -211,7 +198,7 @@ elif [ "${alert}" == "wipe" ]; then
 	fn_alert_wipe
 fi
 
-alerttitle="LinuxGSM Alert - ${alertaction} - ${servername}"
+alerttitle="${alertemoji} ${alertaction} - ${servername} ${alertemoji}"
 
 # Generate alert log.
 fn_alert_log

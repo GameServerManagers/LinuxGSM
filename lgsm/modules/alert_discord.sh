@@ -20,7 +20,7 @@ jsoninfo=$(
                 "url": "",
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
-            "title": "${alertemoji} ${alertaction} - ${servername} ${alertemoji}",
+            "title": "${alerttitle}",
             "url": "",
             "description": "",
             "color": "${alertcolourdec}",
