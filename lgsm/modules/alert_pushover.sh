@@ -23,9 +23,9 @@ else
 fi
 
 if [ -z "${alerturl}" ]; then
-	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message="<b>Server Name</b><br>${alertmessage}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}" "https://api.pushover.net/1/messages.json" | grep errors)
+	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}" "https://api.pushover.net/1/messages.json" | grep errors)
 else
-	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message="<b>Server Name</b><br>${alertmessage}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a>" "https://api.pushover.net/1/messages.json" | grep errors)
+	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a>" "https://api.pushover.net/1/messages.json" | grep errors)
 fi
 
 if [ -n "${pushoversend}" ]; then
