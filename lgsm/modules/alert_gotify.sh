@@ -7,18 +7,33 @@
 
 module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsoninfo=$(
 	cat << EOF
 {
 	"title": "${alerttitle}",
-	"message": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
+	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
 	"priority": 5
 }
 EOF
 )
 
-fn_print_dots "Sending Gotify alert"
+jsonnoinfo=$(
+	cat << EOF
+{
+	"title": "${alerttitle}",
+	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}",
+	"priority": 5
+}
+EOF
+)
 
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
+else
+	json="${jsoninfo}"
+fi
+
+fn_print_dots "Sending Gotify alert"
 gotifysend=$(curl --connect-timeout 10 -sSL "${gotifywebhook}/message"?token="${gotifytoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)")
 
 if [ -n "${gotifysend}" ]; then

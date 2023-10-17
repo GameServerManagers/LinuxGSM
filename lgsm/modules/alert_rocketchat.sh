@@ -7,11 +7,11 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsoninfo=$(
 	cat << EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alerttitle}* \n ${alertmessage} \n More info: ${alerturl}",
+	"text": "*${alerttitle}*\n${alertmessage}\nMore info: ${alerturl}",
 	"attachments": [
 		{
 			"fields": [
@@ -37,8 +37,43 @@ json=$(
 EOF
 )
 
-fn_print_dots "Sending Rocketchat alert"
+jsonnoinfo=$(
+	cat << EOF
+{
+	"alias": "LinuxGSM",
+	"text": "*${alerttitle}*\n${alertmessage}",
+	"attachments": [
+		{
+			"fields": [
+				{
+					"short": true,
+					"title": "Game",
+					"value": "${gamename}"
+				},
+				{
+					"short": true,
+					"title": "Server IP",
+					"value": "${alertip}:${port}"
+				},
+				{
+					"short": true,
+					"title": "Hostname",
+					"value": "${HOSTNAME}"
+				}
+			]
+		}
+	]
+}
+EOF
+)
 
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
+else
+	json="${jsoninfo}"
+fi
+
+fn_print_dots "Sending Rocketchat alert"
 rocketchatsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${rocketchatwebhook}")
 
 if [ -n "${rocketchatsend}" ]; then

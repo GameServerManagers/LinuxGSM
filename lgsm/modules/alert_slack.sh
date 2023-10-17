@@ -27,6 +27,20 @@ json=$(
 				},
 				{
 					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*Server Name*\n${servername}"
+					}
+				},
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*Information*\n${alertmessage}"
+					}
+				},
+				{
+					"type": "section",
 					"fields": [
 						{
 							"type": "mrkdwn",
@@ -45,13 +59,6 @@ json=$(
 						"type": "image",
 						"image_url": "${alerticon}",
 						"alt_text": "cute cat"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Information*\n${alertmessage}"
 					}
 				},
 				{

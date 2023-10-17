@@ -29,6 +29,14 @@ jsoninfo=$(
                 "url": "${alerticon}"
             },
             "fields": [
+				{
+					"name": "Server Name",
+					"value": "${servername}"
+				},
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				},
                 {
                     "name": "Game",
                     "value": "${gamename}",
@@ -43,15 +51,7 @@ jsoninfo=$(
                     "name": "Hostname",
                     "value": "${HOSTNAME}",
                     "inline": true
-                },
-				{
-					"name": "Information",
-					"value": "${alertmessage}"
-				},
-				{
-					"name": "More Information",
-					"value": "${alerturl}"
-				}
+                }
             ],
             "footer": {
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
@@ -85,6 +85,14 @@ jsonnoinfo=$(
                 "url": "${alerticon}"
             },
             "fields": [
+				{
+					"name": "Server Name",
+					"value": "${servername}"
+				},
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				},
                 {
                     "name": "Game",
                     "value": "${gamename}",
@@ -99,11 +107,7 @@ jsonnoinfo=$(
                     "name": "Hostname",
                     "value": "${HOSTNAME}",
                     "inline": true
-                },
-				{
-					"name": "Information",
-					"value": "${alertmessage}"
-				}
+                }
             ],
             "footer": {
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",

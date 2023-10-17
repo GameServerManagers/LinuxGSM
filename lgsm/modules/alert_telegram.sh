@@ -12,7 +12,7 @@ jsoninfo=$(
 {
 	"chat_id": "${telegramchatid}",
 	"parse_mode": "HTML",
-	"text": "<b>${alerttitle}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n<b>More info</b>\n<a href='${alerturl}'>${alerturl}</a>",
+	"text": "<b>${alerttitle}</b>\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n<b>More info</b>\n<a href='${alerturl}'>${alerturl}</a>",
 	"disable_web_page_preview": "yes"
 }
 EOF
@@ -23,7 +23,7 @@ jsonnoinfo=$(
 {
 	"chat_id": "${telegramchatid}",
 	"parse_mode": "HTML",
-	"text": "<b>${alerttitle}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n<b>More info</b>\n<a href='${alerturl}'>${alerturl}</a>",
+	"text": "<b>${alerttitle}</b>\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}",
 	"disable_web_page_preview": "yes"
 }
 EOF
