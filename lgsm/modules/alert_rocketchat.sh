@@ -11,23 +11,23 @@ json=$(
 	cat << EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alertemoji} ${alerttitle} ${alertemoji}* \n *${servername}* \n ${alertmessage} \n More info: ${alerturl}",
+	"text": "*${alerttitle}* \n ${alertmessage} \n More info: ${alerturl}",
 	"attachments": [
 		{
 			"fields": [
 				{
 					"short": true,
-					"title": "Game:",
+					"title": "Game",
 					"value": "${gamename}"
 				},
 				{
 					"short": true,
-					"title": "Server IP:",
+					"title": "Server IP",
 					"value": "${alertip}:${port}"
 				},
 				{
 					"short": true,
-					"title": "Hostname:",
+					"title": "Hostname",
 					"value": "${HOSTNAME}"
 				}
 			]

@@ -10,8 +10,8 @@ module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(
 	cat << EOF
 {
-	"title": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"message": "Server name\n${servername}\n\nMessage\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
+	"title": "${alerttitle}",
+	"message": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}",
 	"priority": 5
 }
 EOF

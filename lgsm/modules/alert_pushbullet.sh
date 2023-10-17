@@ -13,7 +13,7 @@ jsoninfo=$(
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alerttitle}",
-	"body": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
+	"body": "Information\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
 }
 EOF
 )
@@ -24,7 +24,7 @@ jsonnoinfo=$(
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alerttitle}",
-	"body": "Server name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}"
+	"body": "Information\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}"
 }
 EOF
 )

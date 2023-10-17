@@ -7,15 +7,31 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsoninfo=$(
 	cat << EOF
 {
 	"value1": "${selfname}",
-	"value2": "${alertemoji} ${alerttitle} ${alertemoji}",
-	"value3": "Message: \n${alertmessage}\n\nGame: \n${gamename}\n\nServer name: \n${servername}\n\nHostname: \n${HOSTNAME}\n\nServer IP: \n${alertip}:${port}\n\nMore info: \n${alerturl}"
+	"value2": "${alerttitle}",
+	"value3": "Information \n${alertmessage}\n\nGame: \n${gamename}\n\nServer name \n${servername}\n\nHostname \n${HOSTNAME}\n\nServer IP \n${alertip}:${port}\n\nMore info \n${alerturl}"
 }
 EOF
 )
+
+jsonnoinfo=$(
+	cat << EOF
+{
+	"value1": "${selfname}",
+	"value2": "${alerttitle}",
+	"value3": "Information \n${alertmessage}\n\nGame: \n${gamename}\n\nServer name \n${servername}\n\nHostname \n${HOSTNAME}\n\nServer IP \n${alertip}:${port}"
+}
+EOF
+)
+
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
+else
+	json="${jsoninfo}"
+fi
 
 fn_print_dots "Sending IFTTT alert"
 iftttsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://maker.ifttt.com/trigger/${iftttevent}/with/key/${ifttttoken}" | grep "Bad Request")
