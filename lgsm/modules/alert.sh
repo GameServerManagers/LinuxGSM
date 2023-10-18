@@ -303,7 +303,7 @@ if [ "${rocketchatalert}" == "on" ] && [ -n "${rocketchatalert}" ]; then
 elif [ "${rocketchatalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Rocketchat alerts not enabled"
 	fn_script_log_warn "Rocketchat alerts not enabled"
-elif [ -z "${rocketchattoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+elif [ -z "${rocketchatwebhook}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Rocketchat token not set"
 	#echo -e "* https://docs.linuxgsm.com/alerts/slack"
 	fn_script_error "Rocketchat token not set"

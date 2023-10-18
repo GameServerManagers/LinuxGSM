@@ -11,7 +11,7 @@ jsoninfo=$(
 	cat << EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alerttitle}*\n${alertmessage}\nMore info: ${alerturl}",
+	"text": "*${alerttitle}*\nInformation\n${alertmessage}\nMore info: ${alerturl}",
 	"attachments": [
 		{
 			"fields": [
@@ -41,7 +41,7 @@ jsonnoinfo=$(
 	cat << EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alerttitle}*\n${alertmessage}",
+	"text": "*${alerttitle}*\nInformation\n${alertmessage}",
 	"attachments": [
 		{
 			"fields": [
