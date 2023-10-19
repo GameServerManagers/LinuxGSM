@@ -17,7 +17,7 @@ jsonnoinfo=$(
 				{
 					"type": "header",
 					"text": {
-						"type": "plain_text",
+						"type": "mrkdwn",
 						"text": "${alerttitle}",
 						"emoji": true
 					}
@@ -75,7 +75,7 @@ jsonnoinfo=$(
 						},
 						{
 							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version} - $(date)",
+							"text": "Sent by LinuxGSM ${version}",
 							"emoji": true
 						}
 					]
@@ -97,7 +97,7 @@ jsoninfo=$(
 				{
 					"type": "header",
 					"text": {
-						"type": "plain_text",
+						"type": "mrkdwn",
 						"text": "${alerttitle}",
 						"emoji": true
 					}
@@ -162,7 +162,7 @@ jsoninfo=$(
 						},
 						{
 							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version} - $(date)",
+							"text": "Sent by LinuxGSM ${version}",
 							"emoji": true
 						}
 					]

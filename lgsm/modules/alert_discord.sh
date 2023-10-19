@@ -65,7 +65,7 @@ jsoninfo=$(
             ],
             "footer": {
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-                "text": "Sent by LinuxGSM ${version} - $(date)"
+                "text": "Sent by LinuxGSM ${version}"
             }
         }
     ]
@@ -126,7 +126,7 @@ jsonnoinfo=$(
             ],
             "footer": {
 				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-                "text": "Sent by LinuxGSM ${version} - $(date)"
+                "text": "Sent by LinuxGSM ${version}"
             }
         }
     ]
