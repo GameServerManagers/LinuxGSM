@@ -44,7 +44,7 @@ fn_alert_stopped() {
 	alertaction="Stopped"
 	alertemoji="❌"
 	alertsound="1"
-	alertmessage="${selfname} has stopped."
+	alertmessage="${selfname} has been stopped."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
@@ -55,7 +55,7 @@ fn_alert_started() {
 	alertaction="Started"
 	alertemoji="✅"
 	alertsound="1"
-	alertmessage="${selfname} has started."
+	alertmessage="${selfname} has been started."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -66,7 +66,7 @@ fn_alert_restarted() {
 	alertaction="Restarted"
 	alertemoji="↺"
 	alertsound="1"
-	alertmessage="${selfname} has restarted."
+	alertmessage="${selfname} has been restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -124,7 +124,7 @@ fn_alert_update_linuxgsm() {
 	alertemoji="🎉"
 	alertsound="1"
 	alertbody="${gamename} update available"
-	alertmessage="${selfname} has received an LinuxGSM update."
+	alertmessage="${selfname} has received an LinuxGSM update and been restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
