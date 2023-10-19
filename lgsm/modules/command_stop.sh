@@ -23,6 +23,10 @@ fn_stop_graceful_ctrlc() {
 			fn_print_ok "Graceful: CTRL+c: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: CTRL+c: OK: ${seconds} seconds"
+			if [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+				alert.sh
+			fi
 			break
 		fi
 		fn_sleep_time_1
@@ -53,6 +57,7 @@ fn_stop_graceful_cmd() {
 			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
 			if [ "${firstcommandname}" == "STOP" ]; then
 				alert="stopped"
+				alert.sh
 			fi
 			break
 		fi
@@ -85,6 +90,7 @@ fn_stop_graceful_goldsrc() {
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
 	if [ "${firstcommandname}" == "STOP" ]; then
 		alert="stopped"
+		alert.sh
 	fi
 }
 
@@ -207,6 +213,7 @@ fn_stop_graceful_avorion() {
 			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
 			if [ "${firstcommandname}" == "STOP" ]; then
 				alert="stopped"
+				alert.sh
 			fi
 			break
 		fi
@@ -261,6 +268,7 @@ fn_stop_tmux() {
 		fn_script_log_pass "Stopped ${servername}"
 		if [ "${firstcommandname}" == "STOP" ]; then
 			alert="stopped"
+			alert.sh
 		fi
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
