@@ -65,6 +65,9 @@ fn_info_message_head() {
 	echo -e ""
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
+	echo -e ""
+	echo -e "Server Time"
+	echo -e "$(date)"
 }
 
 fn_info_message_distro() {

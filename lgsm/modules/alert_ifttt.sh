@@ -12,7 +12,7 @@ jsoninfo=$(
 {
 	"value1": "${selfname}",
 	"value2": "${alerttitle}",
-	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}"
+	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}\n\nServer Time\n$(date)"
 }
 EOF
 )
@@ -22,7 +22,7 @@ jsonnoinfo=$(
 {
 	"value1": "${selfname}",
 	"value2": "${alerttitle}",
-	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}"
+	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nServer Time\n$(date)"
 }
 EOF
 )

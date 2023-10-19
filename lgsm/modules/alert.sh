@@ -53,7 +53,7 @@ fn_alert_stopped() {
 fn_alert_started() {
 	fn_script_log_info "Sending alert: ${selfname} has started"
 	alertaction="Started"
-	alertemoji="✅"
+	alertemoji="✔️"
 	alertsound="1"
 	alertmessage="${selfname} has been started."
 	# Green
@@ -64,7 +64,7 @@ fn_alert_started() {
 fn_alert_restarted() {
 	fn_script_log_info "Sending alert: ${selfname} has restarted"
 	alertaction="Restarted"
-	alertemoji="↺"
+	alertemoji="🗘"
 	alertsound="1"
 	alertmessage="${selfname} has been restarted."
 	# Green
@@ -110,7 +110,7 @@ fn_alert_update() {
 fn_alert_check_update() {
 	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
 	alertaction="Checked for Update"
-	alertemoji="🎮"
+	alertemoji="🎉"
 	alertsound="1"
 	alertmessage="${gamename} update available: ${remotebuildversion}"
 	# Blue
@@ -144,7 +144,7 @@ fn_alert_permissions() {
 fn_alert_config() {
 	fn_script_log_info "Sending alert: ${selfname} has received a new _default.cfg"
 	alertaction="Updated _default.cfg"
-	alertemoji="🎮"
+	alertemoji="🎉"
 	alertsound="1"
 	alertmessage="${selfname} has received a new _default.cfg."
 	# Blue
