@@ -41,22 +41,39 @@ jsonnoinfo=$(
 	cat << EOF
 {
 	"alias": "LinuxGSM",
-	"text": "*${alerttitle}*\nInformation\n${alertmessage}",
+	"text": "*${alerttitle}*",
 	"attachments": [
 		{
+			"title": "",
+			"color": "${alertcolourhex}",
+			"author_name": "LinuxGSM Alert",
+			"author_link": "https://linuxgsm.com",
+			"author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+			"thumb_url": "${alerticon}",
+			"text": "",
 			"fields": [
 				{
-					"short": true,
+					"short": false,
+					"title": "Server Name",
+					"value": "${servername}"
+				},
+				{
+					"short": false,
+					"title": "Information",
+					"value": "${alertmessage}"
+				},
+				{
+					"short": false,
 					"title": "Game",
 					"value": "${gamename}"
 				},
 				{
-					"short": true,
+					"short": false,
 					"title": "Server IP",
 					"value": "${alertip}:${port}"
 				},
 				{
-					"short": true,
+					"short": false,
 					"title": "Hostname",
 					"value": "${HOSTNAME}"
 				}

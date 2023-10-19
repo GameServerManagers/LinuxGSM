@@ -190,12 +190,24 @@ elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
-elif [ "${alert}" == "update-restart" ]; then
-	fn_alert_update_restart
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
 elif [ "${alert}" == "wipe" ]; then
 	fn_alert_wipe
+elif [ "${alert}" == "info" ]; then
+	fn_alert_info
+elif [ "${alert}" == "started" ]; then
+	fn_alert_started
+elif [ "${alert}" == "stopped" ]; then
+	fn_alert_stopped
+elif [ "${alert}" == "restarted" ]; then
+	fn_alert_restarted
+elif [ "${alert}" == "update-linuxgsm" ]; then
+	fn_alert_update_linuxgsm
+else
+	fn_print_fail_nl "Missing alert type"
+	fn_script_log_fatal "Missing alert type"
+	core_exit.sh
 fi
 
 alerttitle="${alertemoji} ${alertaction} - ${servername} ${alertemoji}"

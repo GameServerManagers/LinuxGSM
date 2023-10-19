@@ -51,6 +51,9 @@ fn_stop_graceful_cmd() {
 			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
+			if [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+			fi
 			break
 		fi
 		fn_sleep_time_1
@@ -80,6 +83,9 @@ fn_stop_graceful_goldsrc() {
 	fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
+	if [ "${firstcommandname}" == "STOP" ]; then
+		alert="stopped"
+	fi
 }
 
 # telnet command for sdtd graceful shutdown.
@@ -152,6 +158,10 @@ fn_stop_graceful_sdtd() {
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
 					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
+					if [ "${firstcommandname}" == "STOP" ]; then
+						alert="stopped"
+						alert.sh
+					fi
 					break
 				fi
 				fn_sleep_time_1
@@ -195,6 +205,9 @@ fn_stop_graceful_avorion() {
 			fn_print_ok "Graceful: /save /stop: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
+			if [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+			fi
 			break
 		fi
 		fn_sleep_time_1
@@ -246,6 +259,9 @@ fn_stop_tmux() {
 	if [ "${status}" == "0" ]; then
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
+		if [ "${firstcommandname}" == "STOP" ]; then
+			alert="stopped"
+		fi
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
 		fn_script_log_fail "Unable to stop ${servername}"

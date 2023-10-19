@@ -176,6 +176,13 @@ fn_start_tmux() {
 
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
+		if [ "${firstcommandname}" == "START" ]; then
+			alert="started"
+			alert.sh
+		elif [ "${firstcommandname}" == "RESTART" ]; then
+			alert="restarted"
+			alert.sh
+		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
