@@ -176,10 +176,10 @@ fn_start_tmux() {
 
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
-		if [ "${firstcommandname}" == "START" ]; then
+		if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "START" ]; then
 			alert="started"
 			alert.sh
-		elif [ "${firstcommandname}" == "RESTART" ]; then
+		elif [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "RESTART" ]; then
 			alert="restarted"
 			alert.sh
 		fi
