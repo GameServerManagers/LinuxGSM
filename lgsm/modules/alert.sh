@@ -130,6 +130,17 @@ fn_alert_update_linuxgsm() {
 	alertcolourdec="52480"
 }
 
+fn_alert_backup() {
+	fn_script_log_info "Sending alert: ${selfname} has been backed up"
+	alertaction="Backed Up"
+	alertemoji="📂"
+	alertsound="1"
+	alertmessage="${selfname} has been backed up."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
 fn_alert_permissions() {
 	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
 	alertaction="Checked Permissions"
@@ -204,6 +215,8 @@ elif [ "${alert}" == "restarted" ]; then
 	fn_alert_restarted
 elif [ "${alert}" == "update-linuxgsm" ]; then
 	fn_alert_update_linuxgsm
+elif [ "${alert}" == "backup" ]; then
+	fn_alert_backup
 else
 	fn_print_fail_nl "Missing alert type"
 	fn_script_log_fatal "Missing alert type"

@@ -138,6 +138,8 @@ fn_backup_compression() {
 		fn_print_ok_eol
 		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		alert="backup"
+		alert.sh
 	fi
 }
 
