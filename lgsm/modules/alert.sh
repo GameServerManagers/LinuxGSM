@@ -169,9 +169,9 @@ fn_alert_wipe() {
 	alertemoji="🧹"
 	alertsound="1"
 	alertmessage="${selfname} has been wiped."
-	# Blue
-	alertcolourhex="#1e90ff"
-	alertcolourdec="2003199"
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_info() {
