@@ -1134,14 +1134,6 @@ fn_info_message_kf2() {
 	} | column -s $'\t' -t
 }
 
-fn_info_message_lo() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
 fn_info_message_mc() {
 	{
 		fn_port "header"
@@ -1747,8 +1739,6 @@ fn_info_message_select_engine() {
 		fn_info_message_kf
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_message_kf2
-	elif [ "${shortname}" == "lo" ]; then
-		fn_info_message_lo
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
 		fn_info_message_mc
 	elif [ "${shortname}" == "mcb" ]; then
