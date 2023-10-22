@@ -1366,14 +1366,6 @@ fn_info_game_jk2() {
 	serverversion="${serverversion:-"NOT SET"}"
 }
 
-# Config Type: unknown
-fn_info_game_lo() {
-	servername="${servername:-"NOT SET"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	maxplayers="${slots:-"0"}"
-}
-
 # Config Type: Java properties
 # Comment: # or !
 # Example: motd=SERVERNAME
@@ -2288,8 +2280,6 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
-elif [ "${shortname}" == "lo" ]; then
-	fn_info_game_lo
 elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then

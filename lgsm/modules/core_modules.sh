@@ -396,11 +396,6 @@ fix_kf2.sh() {
 	fn_fetch_module
 }
 
-fix_lo.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
