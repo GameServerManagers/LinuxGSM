@@ -154,7 +154,7 @@ fn_monitor_check_update_source() {
 			fn_print_ok "Checking update: "
 			fn_print_ok_eol_nl
 			fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
-			alert="update-restart"
+			alert="update"
 			alert.sh
 			command_restart.sh
 			core_exit.sh
@@ -207,7 +207,7 @@ fn_monitor_check_session() {
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Checking session: FAIL"
-		alert="restart"
+		alert="monitor-session"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
 		command_restart.sh
@@ -319,7 +319,7 @@ fn_monitor_query() {
 					fn_print_fail_eol_nl
 					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 					# Send alert if enabled.
-					alert="restartquery"
+					alert="monitor-query"
 					alert.sh
 					command_restart.sh
 					fn_firstcommand_reset

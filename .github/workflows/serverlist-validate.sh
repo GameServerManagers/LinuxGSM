@@ -19,4 +19,20 @@ for csv in $csvlist; do
 	fi
 done
 
+# Compare all game servers listed in serverlist.csv to $shortname-icon.png files in lgsm/data/gameicons
+# if the game server is listed in serverlist.csv then it will have a $shortname-icon.png file
+
+# loop though shortname in serverlist.csv
+echo ""
+echo "Checking that all the game servers listed in serverlist.csv have a shortname-icon.png file"
+for shortname in $(tail -n +2 serverlist.csv | cut -d ',' -f1); do
+	# check if $shortname-icon.png exists
+	if [ ! -f "gameicons/${shortname}-icon.png" ]; then
+		echo "ERROR: gameicons/${shortname}-icon.png does not exist"
+		exitcode=1
+	else
+		echo "OK: gameicons/${shortname}-icon.png exists"
+	fi
+done
+
 exit ${exitcode}

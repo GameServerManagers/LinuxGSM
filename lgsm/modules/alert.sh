@@ -28,94 +28,202 @@ fn_alert_log() {
 }
 
 fn_alert_test() {
-	fn_script_log_info "Sending test alert"
-	alertsubject="Alert - ${selfname} - Test"
+	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
+	alertaction="Tested"
 	alertemoji="🚧"
 	alertsound="1"
-	alerturl="not enabled"
-	alertbody="Testing LinuxGSM Alert. No action to be taken."
+	alertmessage="Testing ${selfname} LinuxGSM Alert. No action to be taken."
+	# Green
+	alertcolourhex="#cdcd00"
+	alertcolourdec="13487360"
 }
 
-fn_alert_restart() {
-	fn_script_log_info "Sending alert: Restarted: ${executable} not running"
-	alertsubject="Alert - ${selfname} - Restarted"
-	alertemoji="🚨"
-	alertsound="2"
-	alerturl="not enabled"
-	alertbody="${selfname} ${executable} not running"
-}
-
-fn_alert_restart_query() {
-	fn_script_log_info "Sending alert: Restarted: ${selfname}"
-	alertsubject="Alert - ${selfname} - Restarted"
-	alertemoji="🚨"
-	alertsound="2"
-	alerturl="not enabled"
-	alertbody="Unable to query: ${selfname}"
-}
-
-fn_alert_update() {
-	fn_script_log_info "Sending alert: Updated"
-	alertsubject="Alert - ${selfname} - Updated"
-	alertemoji="🎮"
+# Running command manually
+fn_alert_stopped() {
+	fn_script_log_info "Sending alert: ${selfname} has stopped"
+	alertaction="Stopped"
+	alertemoji="❌"
 	alertsound="1"
-	alerturl="not enabled"
-	alertbody="${gamename} received update: ${remotebuildversion}"
+	alertmessage="${selfname} has been stopped."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
+}
+
+fn_alert_started() {
+	fn_script_log_info "Sending alert: ${selfname} has started"
+	alertaction="Started"
+	alertemoji="✔️"
+	alertsound="1"
+	alertmessage="${selfname} has been started."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
+fn_alert_restarted() {
+	fn_script_log_info "Sending alert: ${selfname} has restarted"
+	alertaction="Restarted"
+	alertemoji="🗘"
+	alertsound="1"
+	alertmessage="${selfname} has been restarted."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
+# Failed monitor checks
+fn_alert_monitor_session() {
+	fn_script_log_info "Sending alert: ${selfname} is not running. Game server has been restarted"
+	alertaction="Restarted"
+	alertemoji="🚨"
+	alertsound="2"
+	alertmessage="${selfname} is not running. Game server has been restarted."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
+}
+
+fn_alert_monitor_query() {
+	fn_script_log_info "Sending alert: Unable to query ${selfname}. Game server has been restarted"
+	alertaction="Restarted"
+	alertemoji="🚨"
+	alertsound="2"
+	alertmessage="Unable to query ${selfname}. Game server has been restarted."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
+}
+
+# Update alerts
+fn_alert_update() {
+	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
+	alertaction="Updated"
+	alertemoji="🎉"
+	alertsound="1"
+	alertmessage="${selfname} has received a game server update: ${localbuild}."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_check_update() {
-	fn_script_log_info "Sending alert: Update available"
-	alertsubject="Alert - ${selfname} - Update available"
-	alertemoji="🎮"
+	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
+	alertaction="Checked for Update"
+	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
-	alertbody="${gamename} update available: ${remotebuildversion}"
+	alertmessage="${gamename} update available: ${remotebuildversion}"
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
 
-fn_alert_update_restart() {
-	fn_script_log_info "Sending alert: Restarted"
-	alertsubject="Alert - ${selfname} - Restarted"
-	alertemoji="🎮"
+fn_alert_update_linuxgsm() {
+	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	alertaction="Updated"
+	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
-	alertbody="${gamename} received update: ${remotebuildversion} and required restarting"
+	alertbody="${gamename} update available"
+	alertmessage="${selfname} has received an LinuxGSM update and been restarted."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
+fn_alert_backup() {
+	fn_script_log_info "Sending alert: ${selfname} has been backed up"
+	alertaction="Backed Up"
+	alertemoji="📂"
+	alertsound="1"
+	alertmessage="${selfname} has been backed up."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
 }
 
 fn_alert_permissions() {
-	fn_script_log_info "Sending alert: Permissions error"
-	alertsubject="Alert - ${selfname}: Permissions error"
+	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
+	alertaction="Checked Permissions"
 	alertemoji="❗"
 	alertsound="2"
-	alerturl="not enabled"
-	alertbody="${selfname} has permissions issues"
+	alertmessage="${selfname} has permissions issues."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_config() {
-	fn_script_log_info "Sending alert: New _default.cfg"
-	alertsubject="Alert - ${selfname} - New _default.cfg"
-	alertemoji="🎮"
+	fn_script_log_info "Sending alert: ${selfname} has received a new _default.cfg"
+	alertaction="Updated _default.cfg"
+	alertemoji="🎉"
 	alertsound="1"
-	alerturl="not enabled"
-	alertbody="${selfname} has received a new _default.cfg. Check file for changes."
+	alertmessage="${selfname} has received a new _default.cfg."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
 }
+
+fn_alert_wipe() {
+	fn_script_log_info "Sending alert: ${selfname} has been wiped"
+	alertaction="Wiped"
+	alertemoji="🧹"
+	alertsound="1"
+	alertmessage="${selfname} has been wiped."
+	# Green
+	alertcolourhex="#00cd00"
+	alertcolourdec="52480"
+}
+
+fn_alert_info() {
+	fn_script_log_info "Sending alert: ${selfname} info"
+	alerttitle="LinuxGSM Alert - ${selfname} - Info"
+	alertaction="Queried"
+	alertemoji="📄"
+	alertsound="1"
+	alertmessage="${selfname} info."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
+}
+
+# Images
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
-elif [ "${alert}" == "restart" ]; then
-	fn_alert_restart
-elif [ "${alert}" == "restartquery" ]; then
-	fn_alert_restart_query
+elif [ "${alert}" == "monitor-session" ]; then
+	fn_alert_monitor_session
+elif [ "${alert}" == "monitor-query" ]; then
+	fn_alert_monitor_query
 elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
-elif [ "${alert}" == "update-restart" ]; then
-	fn_alert_update_restart
 elif [ "${alert}" == "config" ]; then
 	fn_alert_config
+elif [ "${alert}" == "wipe" ]; then
+	fn_alert_wipe
+elif [ "${alert}" == "info" ]; then
+	fn_alert_info
+elif [ "${alert}" == "started" ]; then
+	fn_alert_started
+elif [ "${alert}" == "stopped" ]; then
+	fn_alert_stopped
+elif [ "${alert}" == "restarted" ]; then
+	fn_alert_restarted
+elif [ "${alert}" == "update-linuxgsm" ]; then
+	fn_alert_update_linuxgsm
+elif [ "${alert}" == "backup" ]; then
+	fn_alert_backup
+else
+	fn_print_fail_nl "Missing alert type"
+	fn_script_log_fatal "Missing alert type"
+	core_exit.sh
 fi
+
+alerttitle="${alertemoji} ${alertaction} - ${servername} ${alertemoji}"
 
 # Generate alert log.
 fn_alert_log
@@ -220,7 +328,7 @@ if [ "${rocketchatalert}" == "on" ] && [ -n "${rocketchatalert}" ]; then
 elif [ "${rocketchatalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Rocketchat alerts not enabled"
 	fn_script_log_warn "Rocketchat alerts not enabled"
-elif [ -z "${rocketchattoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+elif [ -z "${rocketchatwebhook}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Rocketchat token not set"
 	#echo -e "* https://docs.linuxgsm.com/alerts/slack"
 	fn_script_error "Rocketchat token not set"
