@@ -219,7 +219,7 @@ elif [ "${alert}" == "backup" ]; then
 	fn_alert_backup
 else
 	fn_print_fail_nl "Missing alert type"
-	fn_script_log_fatal "Missing alert type"
+	fn_script_log_fail "Missing alert type"
 	core_exit.sh
 fi
 

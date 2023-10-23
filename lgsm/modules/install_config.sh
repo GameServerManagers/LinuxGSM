@@ -66,7 +66,7 @@ fn_default_config_local() {
 	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
-		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
+		fn_script_log_fail "copying config file [ ${servercfgdefault} ]"
 	else
 		fn_print_ok_eol
 		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
