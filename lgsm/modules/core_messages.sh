@@ -10,6 +10,8 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.
 fn_ansi_loader() {
+	# carriage return.
+	creeol="\r"
 	if [ "${ansi}" != "off" ]; then
 		# echo colors
 		default="\e[0m"
@@ -29,9 +31,9 @@ fn_ansi_loader() {
 		darkgrey="\e[90m"
 		lightgrey="\e[37m"
 		white="\e[97m"
+  		# erase to end of line.
+		creeol+="\033[K"
 	fi
-	# carriage return & erase to end of line.
-	creeol="\r\033[K"
 }
 
 fn_sleep_time() {
