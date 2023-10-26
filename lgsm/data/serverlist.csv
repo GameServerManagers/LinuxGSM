@@ -3,6 +3,7 @@ ac,acserver,Assetto Corsa,ubuntu-22.04
 ahl,ahlserver,Action Half-Life,ubuntu-22.04
 ahl2,ahl2server,Action: Source,ubuntu-20.04
 ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
+asa,asaserver,ARK: Survival Ascended,ubuntu-22.04
 arma3,arma3server,ARMA 3,ubuntu-22.04
 armar,armarserver,Arma Reforger,ubuntu-20.04
 ats,atsserver,American Truck Simulator,ubuntu-22.04
