@@ -1132,6 +1132,26 @@ fn_info_game_col() {
 	steamport="${steamport:-"0"}"
 }
 
+# Config Type: Valve KeyValues
+# Comment: //
+# Example: hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_cs2() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_valve_keyvalues "servername" "hostname"
+	fi
+	# Steamport can be between 26901-26910 and is normally automatically set.
+	# Some servers might support -steamport parameter to set
+	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
+		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -2252,6 +2272,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "cs2" ]; then
+	fn_info_game_cs2
 elif [ "${shortname}" == "ct" ]; then
 	fn_info_game_ct
 elif [ "${shortname}" == "dayz" ]; then

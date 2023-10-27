@@ -15,7 +15,7 @@ if [ ! -d "${serverfiles}" ]; then
 	core_exit.sh
 fi
 
-if [ ! -d "${systemdir}" ]; then
+if [ ! -d "${systemdir}" ] && [ -z "${CI}" ]; then
 	fn_print_fail_nl "Cannot access ${systemdir}: No such directory"
 	if [ -d "${lgsmlogdir}" ]; then
 		fn_script_log_fail "Cannot access ${systemdir}: No such directory."
