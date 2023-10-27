@@ -674,7 +674,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
