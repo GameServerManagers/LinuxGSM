@@ -952,6 +952,14 @@ fn_info_message_col() {
 	} | column -s $'\t' -t
 }
 
+fn_info_message_cs2() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_message_csgo() {
 	{
 		fn_port "header"
@@ -1691,6 +1699,8 @@ fn_info_message_select_engine() {
 		fn_info_messages_cd
 	elif [ "${shortname}" == "ck" ]; then
 		fn_info_messages_ck
+	elif [ "${shortname}" == "cs2" ]; then
+		fn_info_messages_cs2
 	elif [ "${shortname}" == "csgo" ]; then
 		fn_info_message_csgo
 	elif [ "${shortname}" == "cmw" ]; then

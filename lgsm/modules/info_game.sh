@@ -1132,6 +1132,33 @@ fn_info_game_col() {
 	steamport="${steamport:-"0"}"
 }
 
+# Config Type: Valve KeyValues
+# Comment: //
+# Example: hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_cs2() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_valve_keyvalues "rconpassword" "rcon_password"
+		fn_info_game_valve_keyvalues "servername" "hostname"
+		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
+	fi
+	# Steamport can be between 26901-26910 and is normally automatically set.
+	# Some servers might support -steamport parameter to set
+	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
+		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	fi
+	clientport="${clientport:-"0"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	rconport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	# steamport="${steamport:-"0"}" Steamport is optional so we dont want it to show as not set.
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
