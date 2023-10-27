@@ -2272,6 +2272,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "cs2" ]; then
+	fn_info_game_cs2
 elif [ "${shortname}" == "ct" ]; then
 	fn_info_game_ct
 elif [ "${shortname}" == "dayz" ]; then
