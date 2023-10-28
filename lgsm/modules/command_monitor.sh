@@ -52,6 +52,17 @@ fn_monitor_check_debug() {
 	fi
 }
 
+fn_monitor_check_details() {
+	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} details")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} dt")" != "0" ]; then
+		fn_print_dots "Checking details: "
+		fn_print_checking_eol
+		fn_print_info "Checking details: Details is running: "
+		fn_print_info_eol_nl
+		fn_script_log_pass "Checking details: Details is running"
+		core_exit.sh
+	fi
+}
+
 fn_monitor_check_starting() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-starting.lock" ]; then
@@ -380,10 +391,11 @@ core_logs.sh
 info_game.sh
 
 # query pre-checks
-fn_monitor_check_update_source
-fn_monitor_check_update
+fn_monitor_check_details
 fn_monitor_check_backup
 fn_monitor_check_debug
+fn_monitor_check_update_source
+fn_monitor_check_update
 fn_monitor_check_monitoring
 fn_monitor_check_starting
 fn_monitor_check_stopping
