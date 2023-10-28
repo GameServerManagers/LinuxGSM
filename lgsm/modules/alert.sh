@@ -107,9 +107,20 @@ fn_alert_update() {
 	alertcolourdec="52480"
 }
 
+fn_alert_update_request() {
+	fn_script_log_info "Sending alert: ${selfname} has requested an update and needs to be restarted."
+	alertaction="Updating"
+	alertemoji="🎉"
+	alertsound="1"
+	alertmessage="${selfname} has requested an update and needs to be restarted."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
+}
+
 fn_alert_check_update() {
 	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
-	alertaction="Checked for Update"
+	alertaction="Update available"
 	alertemoji="🎉"
 	alertsound="1"
 	alertmessage="${gamename} update available: ${remotebuildversion}"
@@ -199,6 +210,8 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
+elif [ "${alert}" == "update-request" ]; then
+	fn_alert_update_request
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
