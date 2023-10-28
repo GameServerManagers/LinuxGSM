@@ -13,6 +13,8 @@ fn_exit_dev_debug() {
 		echo -e "${moduleselfname} exiting with code: ${exitcode}"
 		if [ -f "${rootdir}/dev-debug.log" ]; then
 			grep -a "modulefile=" "${rootdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
+		elif [ -f "${lgsmlogdir}/dev-debug.log" ]; then
+			grep -a "modulefile=" "${lgsmlogdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
 		fi
 	fi
 }

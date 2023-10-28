@@ -15,7 +15,11 @@
 
 # Debugging
 if [ -f ".dev-debug" ]; then
-	exec 5> dev-debug.log
+	if [ -f /.dockerenv ]; then
+		exec 5> /data/log/dev-debug.log
+	else
+		exec 5> dev-debug.log
+	fi
 	BASH_XTRACEFD="5"
 	set -x
 fi
