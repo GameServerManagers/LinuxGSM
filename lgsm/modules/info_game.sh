@@ -287,6 +287,8 @@ fn_info_game_ac() {
 fn_info_game_ark() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "ServerAdminPassword"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "rconport" "RCONPort"
 		fn_info_game_ini "servername" "SessionName"
 		fn_info_game_ini "serverpassword" "ServerPassword"
 	fi
