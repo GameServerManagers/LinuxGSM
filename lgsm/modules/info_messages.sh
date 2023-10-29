@@ -1542,6 +1542,16 @@ fn_info_messages_tu() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_tf() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Beacon" beaconport udp
+		fn_port "Shutdown" shutdownport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ut2k4() {
 	{
 		fn_port "header"
@@ -1813,6 +1823,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_stn
 	elif [ "${shortname}" == "terraria" ]; then
 		fn_info_messages_terraria
+	elif [ "${shortname}" == "tf" ]; then
+		fn_info_messages_tf
 	elif [ "${shortname}" == "ti" ]; then
 		fn_info_messages_ti
 	elif [ "${shortname}" == "ts3" ]; then
