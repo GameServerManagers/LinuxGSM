@@ -16,6 +16,16 @@ info_distro.sh
 info_messages.sh
 
 echo -e ""
+echo -e "${lightgreen}IP Addresses Variables${default}"
+fn_messages_separator
+echo -e ""
+echo -e "IP: ${ip}"
+echo -e "HTTP IP: ${httpip}"
+echo -e "Public IP: ${publicip}"
+echo -e "Telnet IP: ${telnetip}"
+echo -e "Display IP: ${displayip}"
+
+echo -e ""
 echo -e "${lightgreen}Query IP Addresses${default}"
 fn_messages_separator
 echo -e ""
