@@ -18,7 +18,7 @@ find "${rootdir}" -type d -not \( -path ./skel -prune \) | cpio -pdvm skel 2> /d
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
 	fn_print_fail_nl "Creating skeleton directory"
-	fn_script_log_fatal "Creating skeleton directory"
+	fn_script_log_fail "Creating skeleton directory"
 else
 	fn_print_ok_nl "Creating skeleton directory: ./skel"
 	fn_script_log_pass "Creating skeleton directory: ./skel"

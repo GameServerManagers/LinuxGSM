@@ -10,9 +10,9 @@ commandaction="Clearing modules"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-echo -e "================================="
-echo -e "Clear Modules"
-echo -e "================================="
+echo -e ""
+echo -e "${bold}${lightyellow}Clear Modules${default}"
+fn_messages_separator
 echo -e ""
 if fn_prompt_yn "Do you want to delete all modules?" Y; then
 	rm -rfv "${modulesdir:?}/"*

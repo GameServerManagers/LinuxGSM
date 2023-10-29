@@ -681,6 +681,24 @@ fn_info_game_stn() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: parameters
+# Parameters: true
+# Comment:
+# Example: -ServerName="SERVERNAME"
+# Filetype: parameters
+fn_info_game_tf() {
+	beaconport="${beaconport:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	shutdownport="${shutdownport:-"0"}"
+
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -1132,6 +1150,26 @@ fn_info_game_col() {
 	steamport="${steamport:-"0"}"
 }
 
+# Config Type: Valve KeyValues
+# Comment: //
+# Example: hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_cs2() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_valve_keyvalues "servername" "hostname"
+	fi
+	# Steamport can be between 26901-26910 and is normally automatically set.
+	# Some servers might support -steamport parameter to set
+	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
+		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -1364,14 +1402,6 @@ fn_info_game_jk2() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	serverversion="${serverversion:-"NOT SET"}"
-}
-
-# Config Type: unknown
-fn_info_game_lo() {
-	servername="${servername:-"NOT SET"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	maxplayers="${slots:-"0"}"
 }
 
 # Config Type: Java properties
@@ -2260,6 +2290,8 @@ elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then
 	fn_info_game_col
+elif [ "${shortname}" == "cs2" ]; then
+	fn_info_game_cs2
 elif [ "${shortname}" == "ct" ]; then
 	fn_info_game_ct
 elif [ "${shortname}" == "dayz" ]; then
@@ -2288,8 +2320,6 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
-elif [ "${shortname}" == "lo" ]; then
-	fn_info_game_lo
 elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
@@ -2360,6 +2390,8 @@ elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
+elif [ "${shortname}" == "tf" ]; then
+	fn_info_game_tf
 elif [ "${shortname}" == "ti" ]; then
 	fn_info_game_ti
 elif [ "${shortname}" == "ts3" ]; then
@@ -2400,25 +2432,29 @@ elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
 fi
 
-# External IP address
-# Cache external IP address for 24 hours
-if [ -f "${tmpdir}/publicip.txt" ]; then
-	if [ "$(find "${tmpdir}/publicip.txt" -mmin +1440)" ]; then
-		rm -f "${tmpdir:?}/publicip.txt"
-	fi
-fi
-
-if [ ! -f "${tmpdir}/publicip.txt" ]; then
-	publicip="$(curl --connect-timeout 10 -s https://api.ipify.org 2> /dev/null)"
+# Public IP address
+# Cache public IP address for 24 hours
+if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mmin +1440)" ]; then
+	apiurl="http://ip-api.com/json"
+	publicipresponse=$(curl -s "${apiurl}")
 	exitcode=$?
-	# if curl passes add publicip to externalip.txt
+	# if curl passes add publicip to publicip.json
 	if [ "${exitcode}" == "0" ]; then
-		echo "${publicip}" > "${tmpdir}/publicip.txt"
+		fn_script_log_pass "Getting public IP address"
+		echo "${publicipresponse}" > "${tmpdir}/publicip.json"
+		publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+		country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 	else
-		echo "Unable to get external IP address"
+		fn_script_log_warn "Unable to get public IP address"
+		publicip="NOT SET"
+		country="NOT SET"
+		countrycode="NOT SET"
 	fi
 else
-	publicip="$(cat "${tmpdir}/publicip.txt")"
+	publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
+	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address

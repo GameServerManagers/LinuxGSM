@@ -28,6 +28,7 @@ coduo,coduoserver,Call of Duty: United Offensive,ubuntu-22.04
 codwaw,codwawserver,Call of Duty: World at War,ubuntu-22.04
 col,colserver,Colony Survival,ubuntu-22.04
 cs,csserver,Counter-Strike 1.6,ubuntu-22.04
+cs2,cs2server,Counter-Strike 2,ubuntu-22.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-22.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-22.04
 css,cssserver,Counter-Strike: Source,ubuntu-22.04
@@ -63,7 +64,6 @@ kf,kfserver,Killing Floor,ubuntu-22.04
 kf2,kf2server,Killing Floor 2,ubuntu-22.04
 l4d,l4dserver,Left 4 Dead,ubuntu-22.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-22.04
-lo,loserver,Last Oasis,ubuntu-22.04
 mc,mcserver,Minecraft,ubuntu-22.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
 mh,mhserver,MORDHAU,ubuntu-22.04
@@ -110,6 +110,7 @@ st,stserver,Stationeers,ubuntu-22.04
 stn,stnserver,Survive the Nights,ubuntu-22.04
 sven,svenserver,Sven Co-op,ubuntu-20.04
 terraria,terrariaserver,Terraria,ubuntu-22.04
+tf,tfserver,The Front,ubuntu-22.04
 tf2,tf2server,Team Fortress 2,ubuntu-22.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-22.04
 ti,tiserver,The Isle,ubuntu-22.04

@@ -114,30 +114,30 @@ fn_start_tmux() {
 		echo -e "Console logging disabled in settings" >> "${consolelog}"
 		fn_script_log_info "Console logging disabled by user"
 	fi
-	fn_sleep_time
+	fn_sleep_time_1
 
 	# If the server fails to start.
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_fail_nl "Unable to start ${servername}"
-		fn_script_log_fatal "Unable to start ${servername}"
+		fn_script_log_fail "Unable to start ${servername}"
 		if [ -s "${lgsmlogdir}/.${selfname}-tmux-error.tmp" ]; then
 			fn_print_fail_nl "Unable to start ${servername}: tmux error:"
-			fn_script_log_fatal "Unable to start ${servername}: tmux error:"
+			fn_script_log_fail "Unable to start ${servername}: tmux error:"
 			echo -e ""
 			echo -e "Command"
-			echo -e "================================="
+			fn_messages_separator
 			echo -e "tmux -L \"${sessionname}\" new-session -d -s \"${sessionname}\" \"${preexecutable} ${executable} ${startparameters}\"" | tee -a "${lgsmlog}"
 			echo -e ""
 			echo -e "Error"
-			echo -e "================================="
+			fn_messages_separator
 			tee -a "${lgsmlog}" < "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 			# Detected error https://linuxgsm.com/support
 			if grep -c "Operation not permitted" "${lgsmlogdir}/.${selfname}-tmux-error.tmp"; then
 				echo -e ""
 				echo -e "Fix"
-				echo -e "================================="
+				fn_messages_separator
 				if ! grep "tty:" /etc/group | grep "$(whoami)"; then
 					echo -e "$(whoami) is not part of the tty group."
 					fn_script_log_info "$(whoami) is not part of the tty group."
@@ -176,6 +176,13 @@ fn_start_tmux() {
 
 		fn_print_ok "${servername}"
 		fn_script_log_pass "Started ${servername}"
+		if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "START" ]; then
+			alert="started"
+			alert.sh
+		elif [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "RESTART" ]; then
+			alert="restarted"
+			alert.sh
+		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
@@ -186,6 +193,7 @@ if [ "${firstcommandname}" == "START" ] || [ "${firstcommandname}" == "RESTART" 
 	date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 fi
 
+fn_print_dots ""
 check.sh
 
 # If the server already started dont start again.

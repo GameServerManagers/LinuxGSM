@@ -87,8 +87,8 @@ payload="{
 	]
 }"
 
-fn_alert_payload(){
-alertpayload="{
+fn_alert_payload() {
+	alertpayload="{
 	\"client_id\": \"${uuidinstance}\",
 	\"events\": [
 		{
@@ -120,11 +120,6 @@ if [ "${gotifyalert}" == "on" ]; then
 fi
 if [ "${iftttalert}" == "on" ]; then
 	alerttype="ifttt"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${mailgunalert}" == "on" ]; then
-	alerttype="mailgun"
 	fn_alert_payload
 	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi

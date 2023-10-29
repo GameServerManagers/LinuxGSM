@@ -52,6 +52,17 @@ fn_monitor_check_debug() {
 	fi
 }
 
+fn_monitor_check_details() {
+	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} details")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} dt")" != "0" ]; then
+		fn_print_dots "Checking details: "
+		fn_print_checking_eol
+		fn_print_info "Checking details: Details is running: "
+		fn_print_info_eol_nl
+		fn_script_log_pass "Checking details: Details is running"
+		core_exit.sh
+	fi
+}
+
 fn_monitor_check_starting() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-starting.lock" ]; then
@@ -153,10 +164,10 @@ fn_monitor_check_update_source() {
 			fn_script_log_info "Checking update: CHECKING"
 			fn_print_ok "Checking update: "
 			fn_print_ok_eol_nl
-			fn_script_log_info "Checking update: Monitor is restarting ${selfname} to apply update"
-			alert="update-restart"
+			fn_script_log_info "Checking update: ${selfname} has requested an update and needs to be restarted"
+			alert="update-request"
 			alert.sh
-			command_restart.sh
+			command_update.sh
 			core_exit.sh
 		fi
 	fi
@@ -206,8 +217,8 @@ fn_monitor_check_session() {
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Checking session: FAIL"
-		alert="restart"
+		fn_script_log_fail "Checking session: FAIL"
+		alert="monitor-session"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
 		command_restart.sh
@@ -319,7 +330,7 @@ fn_monitor_query() {
 					fn_print_fail_eol_nl
 					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 					# Send alert if enabled.
-					alert="restartquery"
+					alert="monitor-query"
 					alert.sh
 					command_restart.sh
 					fn_firstcommand_reset
@@ -330,7 +341,7 @@ fn_monitor_query() {
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
 			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt} : ${cyan}WAIT${default}"
-			sleep 0.5
+			fn_sleep_time_1
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
 				break
@@ -371,6 +382,7 @@ fn_monitor_loop() {
 	done
 }
 
+fn_print_dots ""
 monitorflag=1
 # Dont do any monitoring or checks if installer is running.
 fn_monitor_check_install
@@ -379,10 +391,11 @@ core_logs.sh
 info_game.sh
 
 # query pre-checks
-fn_monitor_check_update_source
-fn_monitor_check_update
+fn_monitor_check_details
 fn_monitor_check_backup
 fn_monitor_check_debug
+fn_monitor_check_update_source
+fn_monitor_check_update
 fn_monitor_check_monitoring
 fn_monitor_check_starting
 fn_monitor_check_stopping

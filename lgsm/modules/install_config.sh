@@ -11,7 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_check_cfgdir() {
 	if [ ! -d "${servercfgdir}" ]; then
 		echo -e "creating ${servercfgdir} config directory."
-		fn_script_log_info "creating ${servercfgdir} config directory."
+		fn_script_log_info "Creating ${servercfgdir} config directory."
 		mkdir -pv "${servercfgdir}"
 	fi
 }
@@ -19,10 +19,13 @@ fn_check_cfgdir() {
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 fn_fetch_default_config() {
 	echo -e ""
-	echo -e "${lightyellow}Downloading ${gamename} Configs${default}"
-	echo -e "================================="
-	echo -e "default configs from https://github.com/GameServerManagers/Game-Server-Configs"
-	fn_sleep_time
+	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
+	fn_messages_separator
+	echo -e "Downloading default configs from:"
+	echo -e ""
+	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
+	echo -e ""
+	fn_sleep_time_1
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
@@ -35,7 +38,7 @@ fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		# every config is copied
 		echo -e "copying ${config} config file."
-		fn_script_log_info "copying ${servercfg} config file."
+		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
@@ -54,9 +57,20 @@ fn_default_config_remote() {
 
 # Copys local default config to server config location.
 fn_default_config_local() {
-	echo -e "copying ${servercfgdefault} config file."
-	cp -nv "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
-	fn_sleep_time
+	echo -e ""
+	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
+	fn_messages_separator
+	echo -e "Copying default configs."
+	fn_check_cfgdir
+	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
+	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	if [ "${exitcode}" != 0 ]; then
+		fn_print_fail_eol
+		fn_script_log_fail "copying config file [ ${servercfgdefault} ]"
+	else
+		fn_print_ok_eol
+		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
+	fi
 }
 
 # Changes some variables within the default configs.
@@ -64,11 +78,11 @@ fn_default_config_local() {
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
-		random=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2>/dev/null | head -c 8 | xargs)
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
-		rconpass="admin${random}"
+		rconpass="admin${randomstring}"
 		echo -e "changing hostname."
-		fn_script_log_info "changing hostname."
+		fn_script_log_info "Changing hostname."
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
@@ -79,7 +93,7 @@ fn_set_config_vars() {
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
 		fi
 		echo -e "changing rcon/admin password."
-		fn_script_log_info "changing rcon/admin password."
+		fn_script_log_info "Changing rcon/admin password."
 		if [ "${shortname}" == "squad" ]; then
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg"
 		else
@@ -98,17 +112,17 @@ fn_set_dst_config_vars() {
 	## cluster.ini
 	if grep -Fq "SERVERNAME" "${clustercfgfullpath}"; then
 		echo -e "changing server name."
-		fn_script_log_info "changing server name."
+		fn_script_log_info "Changing server name."
 		sed -i "s/SERVERNAME/LinuxGSM/g" "${clustercfgfullpath}"
 		fn_sleep_time
 		echo -e "changing shard mode."
-		fn_script_log_info "changing shard mode."
+		fn_script_log_info "Changing shard mode."
 		sed -i "s/USESHARDING/${sharding}/g" "${clustercfgfullpath}"
 		fn_sleep_time
 		echo -e "randomizing cluster key."
-		fn_script_log_info "randomizing cluster key."
-		randomkey=$(tr -dc A-Za-z0-9_ < /dev/urandom | head -c 8 | xargs)
-		sed -i "s/CLUSTERKEY/${randomkey}/g" "${clustercfgfullpath}"
+		fn_script_log_info "Randomizing cluster key."
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
+		sed -i "s/CLUSTERKEY/${randomstring}/g" "${clustercfgfullpath}"
 		fn_sleep_time
 	else
 		echo -e "${clustercfg} is already configured."
@@ -125,18 +139,18 @@ fn_set_dst_config_vars() {
 	fi
 
 	echo -e "changing shard name."
-	fn_script_log_info "changing shard name."
+	fn_script_log_info "Changing shard name."
 	sed -i "s/SHARDNAME/${shard}/g" "${servercfgfullpath}"
 	fn_sleep_time
 	echo -e "changing master setting."
-	fn_script_log_info "changing master setting."
+	fn_script_log_info "Changing master setting."
 	sed -i "s/ISMASTER/${master}/g" "${servercfgfullpath}"
 	fn_sleep_time
 
 	## worldgenoverride.lua
 	if [ "${cave}" == "true" ]; then
 		echo -e "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
-		fn_script_log_info "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
+		fn_script_log_info "Defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
 		echo 'return { override_enabled = true, preset = "DST_CAVE", }' > "${servercfgdir}/worldgenoverride.lua"
 	fi
 	fn_sleep_time
@@ -146,8 +160,8 @@ fn_set_dst_config_vars() {
 # Lists local config file locations
 fn_list_config_locations() {
 	echo -e ""
-	echo -e "${lightyellow}Config File Locations${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Config Locations${default}"
+	fn_messages_separator
 	if [ -n "${servercfgfullpath}" ]; then
 		if [ -f "${servercfgfullpath}" ]; then
 			echo -e "Game Server Config File: ${servercfgfullpath}"
@@ -327,6 +341,12 @@ elif [ "${shortname}" == "col" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
+	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "cs2" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
 	fn_default_config_remote

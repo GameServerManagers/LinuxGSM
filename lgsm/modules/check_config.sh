@@ -8,7 +8,6 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
-	fn_print_dots ""
 	fn_print_warn_nl "Configuration file missing!"
 	echo -e "${servercfgfullpath}"
 	fn_script_log_warn "Configuration file missing!"
@@ -17,19 +16,17 @@ if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 fi
 
 if [ "${shortname}" == "rust" ] && [ -v rconpassword ] && [ -z "${rconpassword}" ]; then
-	fn_print_dots ""
 	fn_print_fail_nl "RCON password is not set"
 	fn_script_log_warn "RCON password is not set"
 elif [ -v rconpassword ] && [ "${rconpassword}" == "CHANGE_ME" ]; then
-	fn_print_dots ""
 	fn_print_warn_nl "Default RCON Password detected"
 	fn_script_log_warn "Default RCON Password detected"
 fi
 
 if [ "${shortname}" == "vh" ] && [ -z "${serverpassword}" ]; then
 	fn_print_fail_nl "serverpassword is not set"
-	fn_script_log_fatal "serverpassword is not set"
+	fn_script_log_fail "serverpassword is not set"
 elif [ "${shortname}" == "vh" ] && [ "${#serverpassword}" -le "4" ]; then
 	fn_print_fail_nl "serverpassword is to short (min 5 chars)"
-	fn_script_log_fatal "serverpassword is to short (min 5 chars)"
+	fn_script_log_fail "serverpassword is to short (min 5 chars)"
 fi

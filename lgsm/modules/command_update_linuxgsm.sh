@@ -10,10 +10,10 @@ commandaction="Updating LinuxGSM"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_print_dots ""
 check.sh
 info_distro.sh
 
-fn_print_dots ""
 fn_script_log_info "Updating LinuxGSM"
 
 fn_print_dots "Selecting repo"
@@ -24,7 +24,7 @@ if [ $? != "0" ]; then
 	curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
 	if [ $? != "0" ]; then
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
-		fn_script_log_fatal "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
+		fn_script_log_fail "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		core_exit.sh
 	else
 		remotereponame="Bitbucket"
@@ -44,8 +44,8 @@ else
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
-	fn_script_log_fatal "Checking ${remotereponame} linuxgsm.sh"
-	fn_script_log_fatal "Curl returned error: $?"
+	fn_script_log_fail "Checking ${remotereponame} linuxgsm.sh"
+	fn_script_log_fail "Curl returned error: $?"
 	core_exit.sh
 fi
 
@@ -82,7 +82,7 @@ if [ "${script_diff}" != "" ]; then
 	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	if [ $? != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Backup ${selfname}"
+		fn_script_log_fail "Backup ${selfname}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -92,7 +92,7 @@ if [ "${script_diff}" != "" ]; then
 	fi
 
 	echo -en "copying ${selfname}...\c"
-	fn_script_log_info "copying ${selfname}"
+	fn_script_log_info "Copying ${selfname}"
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
@@ -103,7 +103,7 @@ if [ "${script_diff}" != "" ]; then
 
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "copying ${selfname}"
+		fn_script_log_fail "copying ${selfname}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -124,8 +124,8 @@ else
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
-	fn_script_log_fatal "Checking ${remotereponame} config _default.cfg"
-	fn_script_log_fatal "Curl returned error: $?"
+	fn_script_log_fail "Checking ${remotereponame} config _default.cfg"
+	fn_script_log_fail "Curl returned error: $?"
 	core_exit.sh
 fi
 
@@ -158,8 +158,8 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	fi
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fatal "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
-		fn_script_log_fatal "Curl returned error: $?"
+		fn_script_log_fail "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
+		fn_script_log_fail "Curl returned error: $?"
 		core_exit.sh
 	fi
 
@@ -200,7 +200,7 @@ if [ -n "${modulesdir}" ]; then
 					echo -en "removing module ${modulefile}...\c"
 					if ! rm -f "${modulefile:?}"; then
 						fn_print_fail_eol_nl
-						fn_script_log_fatal "Removing module ${modulefile}"
+						fn_script_log_fail "Removing module ${modulefile}"
 						core_exit.sh
 					else
 						fn_print_ok_eol_nl

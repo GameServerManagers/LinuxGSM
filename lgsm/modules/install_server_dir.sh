@@ -8,9 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Server Directory${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Server Directory${default}"
+fn_messages_separator
 if [ -d "${serverfiles}" ]; then
 	fn_print_warning_nl "A server is already installed here."
 fi

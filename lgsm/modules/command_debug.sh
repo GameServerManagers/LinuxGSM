@@ -82,7 +82,7 @@ echo -e ""
 echo -e "Use debug for identifying server issues only!"
 echo -e "Press CTRL+c to drop out of debug mode."
 fn_print_warning_nl "If ${selfname} is already running it will be stopped."
-echo -e ""
+
 if ! fn_prompt_yn "Continue?" Y; then
 	exitcode=0
 	core_exit.sh

@@ -199,16 +199,15 @@ fn_install_server_files() {
 		md5="0188ae86dbc9376f11ae3032dba2d665"
 	else
 		fn_print_fail_nl "Installing ${gamename} Server failed, missing default configuration"
-		fn_script_log_fatal "Installing ${gamename} Server failed, missing default configuration"
+		fn_script_log_fail "Installing ${gamename} Server failed, missing default configuration"
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
 }
 
 echo -e ""
-echo -e "${lightyellow}Installing ${gamename} Server${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
+fn_messages_separator
 
 if [ "${appid}" ]; then
 	remotelocation="SteamCMD"
@@ -250,7 +249,7 @@ fi
 
 if [ -z "${autoinstall}" ]; then
 	echo -e ""
-	echo -e "================================="
+	fn_messages_separator
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi

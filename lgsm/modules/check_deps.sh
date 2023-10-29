@@ -25,11 +25,11 @@ fn_install_mono_repo() {
 		fn_print_information_nl "Automatically adding Mono repository."
 		fn_script_log_info "Automatically adding Mono repository."
 		echo -en ".\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "..\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "...\r"
-		sleep 1
+		fn_sleep_time_1
 		echo -en "   \r"
 		if [ "${distroid}" == "ubuntu" ]; then
 			if [ "${distroversion}" == "22.04" ]; then
@@ -80,7 +80,7 @@ fn_install_mono_repo() {
 		if [ "${monoautoinstall}" != "1" ]; then
 			if [ $? != 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
-				fn_script_log_fatal "Unable to install Mono repository."
+				fn_script_log_fail "Unable to install Mono repository."
 			else
 				fn_print_complete_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
@@ -138,7 +138,6 @@ fn_install_missing_deps() {
 			fn_print_warn "Missing dependencies: ${red}${array_deps_missing[*]}${default}"
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
-		fn_sleep_time
 
 		# Attempt automatic dependency installation
 		if [ "${autoinstall}" == "1" ]; then
@@ -161,8 +160,8 @@ fn_install_missing_deps() {
 				fn_print_information_nl "$(whoami) has sudo access."
 				fn_script_log_info "$(whoami) has sudo access."
 			else
-				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies."
-				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies."
+				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
+				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
 			fi
 		fi
 
@@ -178,11 +177,11 @@ fn_install_missing_deps() {
 			fn_print_information_nl "Automatically installing missing dependencies."
 			fn_script_log_info "Automatically installing missing dependencies."
 			echo -en ".\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "..\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "...\r"
-			sleep 1
+			fn_sleep_time_1
 			echo -en "   \r"
 			if [ "$(command -v apt 2> /dev/null)" ]; then
 				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
@@ -216,7 +215,7 @@ fn_install_missing_deps() {
 		if [ "${steamcmdfail}" ]; then
 			if [ "${commandname}" == "INSTALL" ]; then
 				fn_print_failure_nl "Missing dependencies required to run SteamCMD."
-				fn_script_log_fatal "Missing dependencies required to run SteamCMD."
+				fn_script_log_fail "Missing dependencies required to run SteamCMD."
 				core_exit.sh
 			else
 				fn_print_error_nl "Missing dependencies required to run SteamCMD."
@@ -307,14 +306,14 @@ fn_deps_detector() {
 		missingdep=0
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${green}${deptocheck}${default}"
-			sleep 0.1
+			fn_sleep_time
 		fi
 	elif [ "${depstatus}" != "0" ]; then
 		# If dependency is not found.
 		missingdep=1
 		if [ "${commandname}" == "INSTALL" ]; then
 			echo -e "${red}${deptocheck}${default}"
-			sleep 0.1
+			fn_sleep_time
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
@@ -336,15 +335,14 @@ fn_deps_detector() {
 if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies as root${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies as root${default}"
+		fn_messages_separator
 		fn_print_information_nl "Checking any missing dependencies for ${gamename} server only."
 		fn_print_information_nl "This will NOT install a ${gamename} server."
-		fn_sleep_time
 	else
 		echo -e ""
-		echo -e "${lightyellow}Checking Dependencies${default}"
-		echo -e "================================="
+		echo -e "${bold}${lightyellow}Checking ${gamename} Dependencies${default}"
+		fn_messages_separator
 	fi
 fi
 

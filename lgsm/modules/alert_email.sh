@@ -8,12 +8,11 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_print_dots "Sending Email alert: ${email}"
-fn_sleep_time
 
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"
+	mail -s "${alerttitle}" -r "${emailfrom}" "${email}" < "${alertlog}"
 else
-	mail -s "${alertsubject}" "${email}" < "${alertlog}"
+	mail -s "${alerttitle}" "${email}" < "${alertlog}"
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then
@@ -21,5 +20,5 @@ if [ "${exitcode}" == "0" ]; then
 	fn_script_log_pass "Sending Email alert: ${email}"
 else
 	fn_print_fail_nl "Sending Email alert: ${email}"
-	fn_script_log_fatal "Sending Email alert: ${email}"
+	fn_script_log_fail "Sending Email alert: ${email}"
 fi

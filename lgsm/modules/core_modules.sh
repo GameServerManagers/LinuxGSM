@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.5.3"
+modulesversion="v23.6.0"
 
 # Core
 
@@ -396,11 +396,6 @@ fix_kf2.sh() {
 	fn_fetch_module
 }
 
-fix_lo.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -571,11 +566,6 @@ alert_email.sh() {
 }
 
 alert_ifttt.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-alert_mailgun.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

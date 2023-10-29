@@ -14,7 +14,7 @@ fn_install_ts3db_mariadb() {
 		local exitcode=$?
 		if [ "${exitcode}" != "0" ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fatal "copying libmariadb.so.2"
+			fn_script_log_fail "copying libmariadb.so.2"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -23,9 +23,8 @@ fn_install_ts3db_mariadb() {
 	fi
 
 	echo -e ""
-	echo -e "${lightyellow}Configure ${gamename} Server for MariaDB${default}"
-	echo -e "================================="
-	fn_sleep_time
+	echo -e "${bold}${lightyellow}Configure ${gamename} Server for MariaDB${default}"
+	fn_messages_separator
 	read -rp "Enter MariaDB hostname: " mariahostname
 	read -rp "Enter MariaDB port: " mariaport
 	read -rp "Enter MariaDB username: " mariausername
@@ -46,13 +45,12 @@ fn_install_ts3db_mariadb() {
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
 	echo -e "updating ts3db_mariadb.ini."
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 echo -e ""
-echo -e "${lightyellow}Select Database${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Select Database${default}"
+fn_messages_separator
 if [ -z "${autoinstall}" ]; then
 	if fn_prompt_yn "Do you want to use MariaDB instead of sqlite? (MariaDB must be pre-configured)" N; then
 		fn_install_ts3db_mariadb
@@ -64,13 +62,12 @@ fi
 install_eula.sh
 
 echo -e ""
-echo -e "${lightyellow}Getting Privilege Key${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Getting Privilege Key${default}"
+fn_messages_separator
 fn_print_information_nl "Save these details for later."
 fn_print_information_nl "Key also saved in:"
 echo -e "${serverfiles}/privilege_key.txt"
 cd "${executabledir}" || exit
 ./ts3server_startscript.sh start inifile=ts3-server.ini 2>&1 | tee "${serverfiles}/privilege_key.txt"
-sleep 5
+fn_sleep_time_5
 ./ts3server_startscript.sh stop

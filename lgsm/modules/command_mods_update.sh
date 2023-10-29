@@ -18,7 +18,7 @@ mods_core.sh
 fn_remove_cfg_files() {
 	if [ "${modkeepfiles}" != "OVERWRITE" ] && [ "${modkeepfiles}" != "NOUPDATE" ]; then
 		echo -e "the following files/directories will be preserved:"
-		fn_sleep_time
+		fn_sleep_time_1
 		# Count how many files there are to remove.
 		filestopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')
 		# Test all subvalues of "modkeepfiles" using the ";" separator.
@@ -97,7 +97,7 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 		((installedmodsline++))
 	else
 		fn_print_fail "No mod was selected"
-		fn_script_log_fatal "No mod was selected"
+		fn_script_log_fail "No mod was selected"
 		exitcode="1"
 		core_exit.sh
 	fi

@@ -9,10 +9,9 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${checklogs}" != "1" ]; then
 	echo -e ""
-	echo -e "${lightyellow}Creating log directories${default}"
-	echo -e "================================="
+	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
+	fn_messages_separator
 fi
-fn_sleep_time
 # Create LinuxGSM logs.
 echo -en "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"

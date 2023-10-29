@@ -16,7 +16,7 @@ fn_mods_check_installed
 
 fn_print_header
 echo -e "Remove addons/mods"
-echo -e "================================="
+fn_messages_separator
 
 # Displays list of installed mods.
 # Generates list to display to user.
@@ -59,7 +59,7 @@ fn_script_log_info "Removing ${modsfilelistsize} files from ${modprettyname}"
 echo -e "removing ${modprettyname}"
 echo -e "* ${modsfilelistsize} files to be removed"
 echo -e "* location: ${modinstalldir}"
-fn_sleep_time
+fn_sleep_time_1
 # Go through every file and remove it.
 modfileline="1"
 tput sc
@@ -72,7 +72,7 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
 		((exitcode = $?))
 		if [ "${exitcode}" != 0 ]; then
-			fn_script_log_fatal "Removing ${modinstalldir}/${currentfileremove}"
+			fn_script_log_fail "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
 			fn_script_log_pass "Removing ${modinstalldir}/${currentfileremove}"
@@ -99,11 +99,11 @@ fi
 
 # Remove file list.
 echo -en "removing ${modcommand}-files.txt..."
-fn_sleep_time
+fn_sleep_time_1
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
-	fn_script_log_fatal "Removing ${modsdir}/${modcommand}-files.txt"
+	fn_script_log_fail "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else
@@ -113,12 +113,12 @@ fi
 
 # Remove mods from installed mods list.
 echo -en "removing ${modcommand} from ${modsinstalledlist}..."
-fn_sleep_time
+fn_sleep_time_1
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 exitcode=$?
 if [ "${exitcode}" != 0 ]; then
-	fn_script_log_fatal "Removing ${modcommand} from ${modsinstalledlist}"
+	fn_script_log_fail "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh
 else

@@ -29,6 +29,7 @@ coduo,libstdc++5:i386
 codwaw
 col
 cs
+cs2
 cscz
 csgo
 css,libtinfo5:i386
@@ -64,7 +65,6 @@ kf
 kf2
 l4d
 l4d2
-lo
 mc,openjdk-11-jre
 mcb
 mh
@@ -111,6 +111,7 @@ st,libxml2-utils
 stn
 sven,libssl1.1:i386,zlib1g:i386
 terraria
+tf
 tf2,libcurl4-gnutls-dev:i386
 tfc
 ti

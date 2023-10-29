@@ -8,9 +8,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "${lightyellow}Enter ${gamename} CD Key${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Enter ${gamename} CD Key${default}"
+fn_messages_separator
 echo -e "To get your server listed on the Master Server list"
 echo -e "you must get a free CD key. Get a key here:"
 echo -e "https://www.epicgames.com/unrealtournament/forums/cdkey.php?2004"

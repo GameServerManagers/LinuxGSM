@@ -53,12 +53,12 @@ fn_apply_fix() {
 }
 
 apply_pre_start_fix=(arma3 armar ark av bt bo csgo cmw dst hw ins nmrih onset pvr rust rw sdtd sfc sof2 squad st tf2 terraria ts3 mcb mta unt vh wurm zmr)
-apply_post_install_fix=(av kf kf2 lo ro samp ut2k4 ut ut3)
+apply_post_install_fix=(av kf kf2 ro samp ut2k4 ut ut3)
 
 # validate registered fixes for safe development
 for fix in "${apply_pre_start_fix[@]}" "${apply_post_install_fix[@]}"; do
 	if ! fn_exists_fix "${fix}"; then
-		fn_print_fail_nl "fix_${fix}.sh is registered but doesn't exist. Typo or did you miss to modify core_functions.sh?"
+		fn_print_fail_nl "fix_${fix}.sh is registered but doesn't exist. Typo or did you miss to modify core_modules.sh?"
 		exitcode=1
 		core_exit.sh
 	fi
@@ -80,8 +80,7 @@ if [ "${commandname}" == "INSTALL" ]; then
 	if grep -qEe "(^|\s)${shortname}(\s|$)" <<< "${apply_post_install_fix[@]}"; then
 		echo -e ""
 		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
-		echo -e "================================="
-		fn_sleep_time
+		fn_messages_separator
 		postinstall=1
 		fn_apply_fix "post install" "${shortname}"
 	fi

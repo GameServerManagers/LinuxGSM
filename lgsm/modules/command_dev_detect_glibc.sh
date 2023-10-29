@@ -11,13 +11,13 @@ commandaction="Developer detect glibc"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-echo -e "================================="
+fn_messages_separator
 echo -e "glibc Requirements Checker"
-echo -e "================================="
+fn_messages_separator
 
 if [ ! "$(command -v objdump 2> /dev/null)" ]; then
 	fn_print_failure_nl "objdump is missing"
-	fn_script_log_fatal "objdump is missing"
+	fn_script_log_fail "objdump is missing"
 	core_exit.sh
 fi
 
@@ -59,7 +59,7 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 		echo -e ""
 		echo -e ""
 		echo -e "${glibc_check_name} glibc Requirements"
-		echo -e "================================="
+		fn_messages_separator
 		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo -e "Required glibc"
 			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 | tee -a "${tmpdir}/detect_glibc_highest.tmp"
@@ -81,7 +81,7 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 done
 echo -e ""
 echo -e "Final glibc Requirement"
-echo -e "================================="
+fn_messages_separator
 if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
 	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1
 	rm -f "${tmpdir:?}/detect_glibc_highest.tmp"

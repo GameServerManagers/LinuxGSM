@@ -16,9 +16,8 @@ elif [ "${shortname}" == "ut" ]; then
 fi
 
 echo -e ""
-echo -e "${lightyellow}Accept ${gamename} EULA${default}"
-echo -e "================================="
-fn_sleep_time
+echo -e "${bold}${lightyellow}Accept ${gamename} EULA${default}"
+fn_messages_separator
 echo -e "You are required to accept the EULA:"
 echo -e "${eulaurl}"
 echo -e ""
@@ -31,10 +30,10 @@ if [ -z "${autoinstall}" ]; then
 	fi
 elif [ "${commandname}" == "START" ]; then
 	fn_print_info "By continuing you are indicating your agreement to the EULA."
-	sleep 5
+	fn_sleep_time_5
 else
 	echo -e "By using auto-install you are indicating your agreement to the EULA."
-	sleep 5
+	fn_sleep_time_5
 fi
 
 if [ "${shortname}" == "ts3" ]; then

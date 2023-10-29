@@ -8,19 +8,19 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-echo -e "================================="
+fn_messages_separator
 
 if [ "${exitcode}" == "1" ]; then
-	echo -e "Install Failed!"
-	fn_script_log_fatal "Install Failed!"
+	echo -e "${bold}${red}Install Failed!${default}"
+	fn_script_log_fail "Install Failed!"
 elif [ "${exitcode}" == "2" ]; then
-	echo -e "Install Completed with Errors!"
+	echo -e "${bold}${red}Install Completed with Errors!${default}}"
 	fn_script_log_error "Install Completed with Errors!"
 elif [ "${exitcode}" == "3" ]; then
-	echo -e "Install Completed with Warnings!"
+	echo -e "${bold}${lightyellow}Install Completed with Warnings!${default}}"
 	fn_script_log_warn "Install Completed with Warnings!"
 elif [ -z "${exitcode}" ] || [ "${exitcode}" == "0" ]; then
-	echo -e "Install Complete!"
+	echo -e "${bold}${green}Install Complete!${default}"
 	fn_script_log_pass "Install Complete!"
 fi
 

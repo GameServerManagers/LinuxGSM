@@ -13,6 +13,8 @@ fn_exit_dev_debug() {
 		echo -e "${moduleselfname} exiting with code: ${exitcode}"
 		if [ -f "${rootdir}/dev-debug.log" ]; then
 			grep -a "modulefile=" "${rootdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
+		elif [ -f "${lgsmlogdir}/dev-debug.log" ]; then
+			grep -a "modulefile=" "${lgsmlogdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
 		fi
 	fi
 }
@@ -29,7 +31,7 @@ elif [ "${exitcode}" != "0" ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	if [ "${exitcode}" == "1" ]; then
-		fn_script_log_fatal "${moduleselfname} exiting with code: ${exitcode}"
+		fn_script_log_fail "${moduleselfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "2" ]; then
 		fn_script_log_error "${moduleselfname} exiting with code: ${exitcode}"
 	elif [ "${exitcode}" == "3" ]; then

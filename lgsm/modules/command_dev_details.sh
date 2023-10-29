@@ -17,10 +17,10 @@ info_game.sh
 carriagereturn=$(file -b "${servercfgfullpath}" | grep -q CRLF && echo "${red}CRLF${default}" || echo "${lightgreen}LF${default}")
 
 echo -e ""
-echo -e "${lightgreen}Server Details${default}"
-echo -e "=================================================================="
-echo -e ""
+echo -e "${bold}${lightgreen}Server Details${default}"
+fn_messages_separator
 
+echo -e ""
 echo -e "Game: ${gamename}"
 echo -e "Config type: ${configtype}"
 echo -e "Config file: ${servercfgfullpath}"
@@ -76,8 +76,8 @@ missing_details=""
 
 # Loop through the server details and output them.
 echo -e ""
-echo -e "${lightgreen}Available Server Details${default}"
-echo -e "================================="
+echo -e "${bold}${lightgreen}Available Server Details${default}"
+fn_messages_separator
 for key in "${!server_details[@]}"; do
 	value=${server_details[$key]}
 	if [ -z "$value" ]; then
@@ -91,7 +91,7 @@ done
 if [ -n "$missing_details" ]; then
 	echo -e ""
 	echo -e "${lightgreen}Missing Server Details${default}"
-	echo -e "================================="
+	fn_messages_separator
 	echo -e "${missing_details}"
 fi
 
