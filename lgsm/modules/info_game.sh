@@ -683,6 +683,24 @@ fn_info_game_stn() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: parameters
+# Parameters: true
+# Comment:
+# Example: -ServerName="SERVERNAME"
+# Filetype: parameters
+fn_info_game_tf() {
+	beaconport="${beaconport:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	saveinterval="${saveinterval:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	shutdownport="${shutdownport:-"0"}"
+
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -2374,6 +2392,8 @@ elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
 elif [ "${shortname}" == "terraria" ]; then
 	fn_info_game_terraria
+elif [ "${shortname}" == "tf" ]; then
+	fn_info_game_tf
 elif [ "${shortname}" == "ti" ]; then
 	fn_info_game_ti
 elif [ "${shortname}" == "ts3" ]; then
