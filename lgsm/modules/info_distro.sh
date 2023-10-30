@@ -105,33 +105,23 @@ elif [[ "${distroidlike}" == *"rhel"* ]] || [ "${distroid}" == "rhel" ]; then
 fi
 
 ## Glibc version
-# e.g: 1.17
-glibcversion="$(ldd --version | sed -n '1s/.* //p')"
+glibcversion="$(ldd --version | sed -n '1s/.* //p')" # e.g: 2.17
 
 ## tmux version
-# e.g: tmux 1.6
-if [ ! "$(command -V tmux 2> /dev/null)" ]; then
-	tmuxv="${red}NOT INSTALLED!${default}"
-	tmuxvdigit="0"
-else
-	tmuxvdigit="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
-	if [ "${tmuxvdigit}" -lt "16" ]; then
-		tmuxv="$(tmux -V) (>= 1.6 required for console log)"
-	else
-		tmuxv="$(tmux -V)"
-	fi
+if [ "$(command -V tmux 2> /dev/null)" ]; then
+	tmuxversion="$(tmux -V | awk '{print $2}')" # e.g: tmux 3.3
 fi
 
 if [ "$(command -V java 2> /dev/null)" ]; then
-	javaversion="$(java -version 2>&1 | grep "version")"
+	javaversion="$(java -version 2>&1 | grep "version")" # e.g: openjdk version "17.0.8.1" 2023-08-24
 fi
 
 if [ "$(command -v mono 2> /dev/null)" ]; then
-	monoversion="$(mono --version 2>&1 | grep -Po '(?<=version )\d')"
+	monoversion="$(mono --version 2>&1 | grep -Po '(?<=version )\d')" # e.g: 6
 fi
 
 if [ "$(command -v dotnet 2> /dev/null)" ]; then
-	dotnetversion="$(dotnet --list-runtimes | grep -E 'Microsoft\.NETCore\.App' | awk '{print $2}')"
+	dotnetversion="$(dotnet --list-runtimes | grep -E 'Microsoft\.NETCore\.App' | awk '{print $2}')" # e.g: 6.0.0
 fi
 
 ## Uptime
@@ -144,16 +134,16 @@ days="$((uptime / 60 / 60 / 24))"
 ### Performance information
 
 ## Average server load
-load="$(uptime | awk -F 'load average: ' '{ print $2 }')"
+load="$(uptime | awk -F 'load average: ' '{ print $2 }')" # e.g 0.01, 0.05, 0.11
 
 ## CPU information
-cpumodel="$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')"
+cpumodel="$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')" # e.g Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
 cpucores="$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)"
-cpufreqency="$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')"
+cpufreqency="$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')" # e.g 2394.503
 # CPU usage of the game server pid
 if [ -n "${gameserverpid}" ]; then
-	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')"
-	cpuusedmhz="$(echo "${cpufreqency} * ${cpuused} / 100" | bc)"
+	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')" # integer
+	cpuusedmhz="$(echo "${cpufreqency} * ${cpuused} / 100" | bc)"                        # integer
 fi
 
 ## Memory information
@@ -265,21 +255,21 @@ if [ -d "${backupdir}" ]; then
 	# If there are backups in backup dir.
 	if [ "$(find "${backupdir}" -name "*.tar.gz" | wc -l)" -ne "0" ]; then
 		# number of backups.
-		backupcount="$(find "${backupdir}"/*.tar.gz | wc -l)"
+		backupcount="$(find "${backupdir}"/*.tar.gz | wc -l)" # integer
 		# most recent backup.
-		lastbackup="$(ls -1t "${backupdir}"/*.tar.gz | head -1)"
+		lastbackup="$(ls -1t "${backupdir}"/*.tar.gz | head -1)" # string
 		# date of most recent backup.
-		lastbackupdate="$(date -r "${lastbackup}")"
+		lastbackupdate="$(date -r "${lastbackup}")" # string
 		# no of days since last backup.
-		lastbackupdaysago="$((($(date +'%s') - $(date -r "${lastbackup}" +'%s')) / 60 / 60 / 24))"
+		lastbackupdaysago="$((($(date +'%s') - $(date -r "${lastbackup}" +'%s')) / 60 / 60 / 24))" # integer
 		# size of most recent backup.
-		lastbackupsize="$(du -h "${lastbackup}" | awk '{print $1}')"
+		lastbackupsize="$(du -h "${lastbackup}" | awk '{print $1}')" # string
 	fi
 fi
 
 # Network Interface name
-netint=$(${ipcommand} -o addr | grep "${ip}" | awk '{print $2}')
-netlink=$(${ethtoolcommand} "${netint}" 2> /dev/null | grep Speed | awk '{print $2}')
+netint=$(${ipcommand} -o addr | grep "${ip}" | awk '{print $2}')                      # e.g eth0
+netlink=$(${ethtoolcommand} "${netint}" 2> /dev/null | grep Speed | awk '{print $2}') # e.g 1000Mb/s
 
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ "${appid}" ]; then
@@ -288,5 +278,5 @@ if [ "${appid}" ]; then
 	fi
 fi
 
-# Gather Port Info using ss
+# Gather Port Info using ss.
 ssinfo="$(ss -tuplwn)"

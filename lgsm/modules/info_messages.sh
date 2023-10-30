@@ -95,7 +95,7 @@ fn_info_messages_distro() {
 		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${lightblue}Environment:\t${default}${virtualenvironment}"
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
-		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
+		echo -e "${lightblue}tmux:\t${default}${tmuxversion}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 		if [ -n "${javaram}" ]; then
 			echo -e "${lightblue}Java:\t${default}${javaversion}"

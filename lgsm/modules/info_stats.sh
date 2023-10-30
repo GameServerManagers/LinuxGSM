@@ -82,7 +82,8 @@ payload="{
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
-			\"virtualenvironment\": \"${virtualenvironment}\"
+			\"virtualenvironment\": \"${virtualenvironment}\",
+			\"tmuxversion\": \"${tmuxversion}\"
 			}
 		}
 	]
