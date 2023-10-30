@@ -168,8 +168,8 @@ if [ "$(command -v numfmt 2> /dev/null)" ]; then
 	fi
 
 	# Available RAM and swap.
-	physmemtotalmb="$(((physmemtotalkb + 512) / 1024))"                                                                                                       # integer
-	physmemtotalgb="$(((physmemtotalmb + 512) / 1024))"                                                                                                       # integer
+	physmemtotalmb="$(((physmemtotalkb + 512) / 1024))"                                                                                                       # integer                                                                                                     # integer
+	physmemtotalgb="$(((physmemtotalmb + 512) / 1024))"                                                                                                       # integer                                                                                                   # integer
 	physmemtotal="$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")"                                                                              # string
 	physmemfree="$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")"                                                                          # string
 	physmemused="$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb - physmemfreekb - physmembufferskb - physmemcachedkb - physmemreclaimablekb))K")" # string

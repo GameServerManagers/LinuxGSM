@@ -66,12 +66,12 @@ payload="{
 		{
 		\"name\": \"LinuxGSM\",
 		\"params\": {
-			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
+			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
 			\"game\": \"${gamename}\",
-			\"memusedmbroundup\": \"${memusedmbroundup}MB\",
-			\"ramused\": \"${memusedmbroundup}MB\",
+			\"memusedmbroundup\": \"${memusedmbroundup}\",
+			\"ramused\": \"${memusedmbroundup}\",
 			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
 			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
 			\"serverdisk\": \"${totalspace}\",
@@ -83,7 +83,8 @@ payload="{
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
 			\"virtualenvironment\": \"${virtualenvironment}\",
-			\"tmuxversion\": \"${tmuxversion}\"
+			\"tmuxversion\": \"${tmuxversion}\",
+			\"java\": \"${javaversion}\"
 			}
 		}
 	]
