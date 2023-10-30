@@ -56,6 +56,9 @@ cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
 # nearest 100MB
 memusedmbroundup="$(((memusedmb + 99) / 100 * 100))"
 
+# Convert any commas to dots.
+physmemtotal="${physmemtotal//,/.}"
+
 apisecret="A-OzP02TSMWt4_vHi6ZpUw"
 measurementid="G-0CR8V7EMT5"
 
