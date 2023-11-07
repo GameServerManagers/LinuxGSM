@@ -95,7 +95,7 @@ fn_info_messages_distro() {
 		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${lightblue}Environment:\t${default}${virtualenvironment}"
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
-		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
+		echo -e "${lightblue}tmux:\t${default}${tmuxversion}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 		if [ -n "${javaram}" ]; then
 			echo -e "${lightblue}Java:\t${default}${javaversion}"
@@ -191,10 +191,10 @@ fn_info_messages_gameserver_resource() {
 			else
 				echo -e "${lightblue}CPU Used:\t${red}unknown${default}"
 			fi
-			if [ -n "${memused}" ]; then
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			if [ -n "${memusedmb}" ]; then
+				echo -e "${lightblue}Mem Used:\t${default}${memusedpct}%\t${memusedmb}MB${default}"
 			else
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}\t${red}unknown${default}"
+				echo -e "${lightblue}Mem Used:\t${default}${memusedpct}\t${red}unknown${default}"
 			fi
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
