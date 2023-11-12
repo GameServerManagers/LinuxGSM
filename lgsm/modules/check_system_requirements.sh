@@ -45,6 +45,8 @@ elif [ "${shortname}" == "rust" ]; then
 	ramrequirementgb="9"
 elif [ "${shortname}" == "sdtd" ]; then
 	ramrequirementgb="4"
+elif [ "${shortname}" == "sf" ]; then
+	ramrequirementgb="12"
 elif [ "${shortname}" == "squad" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "st" ]; then
