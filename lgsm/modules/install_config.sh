@@ -245,7 +245,7 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "btl" ]; then
 	fn_check_cfgdir
-	array_configs+=(DefaultGame.ini)
+	array_configs+=(Game.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -484,7 +484,7 @@ elif [ "${shortname}" == "hldms" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "ohd" ]; then
-	array_configs+=(Game.ini)
+	array_configs+=(Admins.cfg Engine.ini Game.ini MapCycle.cfg)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
