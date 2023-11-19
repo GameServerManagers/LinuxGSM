@@ -36,7 +36,6 @@ fi
 if [ -f "${serverfiles}/RustDedicated_Data/Managed/Oxide.Rust.dll" ]; then
 	# tmux version is 3.3 or higher
 	tmuxvdigit="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
-
 	if [ "${tmuxvdigit}" -ge "33" ]; then
 		if [ ! -f "${HOME}/.tmux.conf" ]; then
 			touch "${HOME}/.tmux.conf"
@@ -46,7 +45,6 @@ if [ -f "${serverfiles}/RustDedicated_Data/Managed/Oxide.Rust.dll" ]; then
 			fn_fix_msg_start
 			echo "set -g default-terminal \"screen-256color\"" >> "${HOME}/.tmux.conf"
 			fn_fix_msg_end
-
 		fi
 	fi
 fi
