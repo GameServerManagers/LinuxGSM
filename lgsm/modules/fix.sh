@@ -52,8 +52,8 @@ fn_apply_fix() {
 	fi
 }
 
-apply_pre_start_fix=(arma3 armar ark av bt bo csgo cmw dst hw ins nmrih onset pvr rust rw sdtd sfc sof2 squad st tf2 terraria ts3 mcb mta unt vh wurm zmr)
-apply_post_install_fix=(av kf kf2 ro samp ut2k4 ut ut3)
+apply_pre_start_fix=(arma3 armar ark av bt bo csgo cmw dst hw ins kf nmrih onset pvr rust rw samp sdtd sfc sof2 squad st tf2 terraria ts3 mcb mta unt vh wurm zmr)
+apply_post_install_fix=(av kf kf2 ro ut2k4 ut ut3)
 
 # validate registered fixes for safe development
 for fix in "${apply_pre_start_fix[@]}" "${apply_post_install_fix[@]}"; do
