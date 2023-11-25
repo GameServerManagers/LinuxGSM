@@ -8,55 +8,54 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 ### Define all commands here.
-## User commands | Trigger commands | Description
+## User commands | Option | Trigger commands | Description
 # Standard commands.
-cmd_install=("i;install" "command_install.sh" "Install the server.")
-cmd_auto_install=("ai;auto-install" "fn_autoinstall" "Install the server without prompts.")
-cmd_start=("st;start" "command_start.sh" "Start the server.")
-cmd_stop=("sp;stop" "command_stop.sh" "Stop the server.")
-cmd_restart=("r;restart" "command_restart.sh" "Restart the server.")
-cmd_details=("dt;details" "command_details.sh" "Display server information.")
-cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
-cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
-cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
-cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
-cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
-cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
-cmd_sponsor=("s;sponsor" "command_sponsor.sh" "Donation options.")
-cmd_send=("sd;send" "command_send.sh" "Send command to game server console.")
+cmd_install=("i;install" "install" "command_install.sh" "Install the server.")
+cmd_auto_install=("ai;auto-install" "auto-install" "fn_autoinstall" "Install the server without prompts.")
+cmd_start=("st;start" "start" "command_start.sh" "Start the server.")
+cmd_stop=("sp;stop" "stop" "command_stop.sh" "Stop the server.")
+cmd_restart=("r;restart" "restart" "command_restart.sh" "Restart the server.")
+cmd_details=("dt;details" "details" "command_details.sh" "Display server information.")
+cmd_postdetails=("pd;postdetails" "postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
+cmd_backup=("b;backup" "backup" "command_backup.sh" "Create backup archives of the server.")
+cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "update-lgsm" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
+cmd_test_alert=("ta;test-alert" "test-alert" "command_test_alert.sh" "Send a test alert.")
+cmd_monitor=("m;monitor" "monitor" "command_monitor.sh" "Check server status and restart if crashed.")
+cmd_skeleton=("sk;skeleton" "skeleton" "command_skeleton.sh" "Create a skeleton directory.")
+cmd_sponsor=("s;sponsor" "sponsor" "command_sponsor.sh" "Donation options.")
+cmd_send=("sd;send" "send" "command_send.sh" "Send command to game server console.")
 # Console servers only.
-cmd_console=("c;console" "command_console.sh" "Access server console.")
-cmd_debug=("d;debug" "command_debug.sh" "Start server directly in your terminal.")
+cmd_console=("c;console" "console" "command_console.sh" "Access server console.")
+cmd_debug=("d;debug" "debug" "command_debug.sh" "Start server directly in your terminal.")
 # Update servers only.
-cmd_update=("u;update" "command_update.sh" "Check and apply any server updates.")
-cmd_check_update=("cu;check-update" "command_check_update.sh" "Check if a gameserver update is available")
-cmd_force_update=("fu;force-update;update-restart;ur" "forceupdate=1; command_update.sh" "Apply server updates bypassing check.")
+cmd_update=("u;update" "update" "command_update.sh" "Check and apply any server updates.")
+cmd_check_update=("cu;check-update" "check-update" "command_check_update.sh" "Check if a gameserver update is available")
+cmd_force_update=("fu;force-update;update-restart;ur" "force-update" "forceupdate=1; command_update.sh" "Apply server updates bypassing check.")
 # SteamCMD servers only.
-cmd_validate=("v;validate" "command_validate.sh" "Validate server files with SteamCMD.")
+cmd_validate=("v;validate" "validate" "command_validate.sh" "Validate server files with SteamCMD.")
 # Server with mods-install.
-cmd_mods_install=("mi;mods-install" "command_mods_install.sh" "View and install available mods/addons.")
-cmd_mods_remove=("mr;mods-remove" "command_mods_remove.sh" "View and remove an installed mod/addon.")
-cmd_mods_update=("mu;mods-update" "command_mods_update.sh" "Update installed mods/addons.")
+cmd_mods_install=("mi;mods-install" "mods-install" "command_mods_install.sh" "View and install available mods/addons.")
+cmd_mods_remove=("mr;mods-remove" "mods-remove" "command_mods_remove.sh" "View and remove an installed mod/addon.")
+cmd_mods_update=("mu;mods-update" "mods-update" "command_mods_update.sh" "Update installed mods/addons.")
 # Server specific.
-cmd_change_password=("pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password.")
-cmd_install_default_resources=("ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
-cmd_fullwipe=("fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data.")
-cmd_mapwipe=("mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data.")
-cmd_map_compressor_u99=("mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps.")
-cmd_map_compressor_u2=("mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps.")
-cmd_install_cdkey=("cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key.")
-cmd_install_dst_token=("ct;cluster-token" "install_dst_token.sh" "Configure cluster token.")
-cmd_install_squad_license=("li;license" "install_squad_license.sh" "Add your Squad server license.")
-cmd_fastdl=("fd;fastdl" "command_fastdl.sh" "Build a FastDL directory.")
+cmd_change_password=("pw;change-password" "change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password.")
+cmd_install_default_resources=("ir;install-default-resources" "install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
+cmd_fullwipe=("fw;full-wipe;wa;wipeall" "full-wipe" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data.")
+cmd_mapwipe=("mw;map-wipe;w;wipe;wi" "map-wipe" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data.")
+cmd_map_compressor_u99=("mc;map-compressor" "map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps.")
+cmd_map_compressor_u2=("mc;map-compressor" "map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps.")
+cmd_install_cdkey=("cd;server-cd-key" "server-cd-key" "install_ut2k4_key.sh" "Add your server cd key.")
+cmd_install_dst_token=("ct;cluster-token" "cluster-token" "install_dst_token.sh" "Configure cluster token.")
+cmd_install_squad_license=("li;license" "license" "install_squad_license.sh" "Add your Squad server license.")
+cmd_fastdl=("fd;fastdl" "fastdl" "command_fastdl.sh" "Build a FastDL directory.")
 # Dev commands.
-cmd_dev_debug=("dev;developer" "command_dev_debug.sh" "Enable developer Mode.")
-cmd_dev_details=("ddt;detect-details" "command_dev_details.sh" "Display parsed details.")
-cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies.")
-cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
-cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
-cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
-cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
-
+cmd_dev_debug=("dev;developer" "developer" "command_dev_debug.sh" "Enable developer Mode.")
+cmd_dev_details=("ddt;detect-details" "detect-details" "command_dev_details.sh" "Display parsed details.")
+cmd_dev_detect_deps=("dd;detect-deps" "detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies.")
+cmd_dev_detect_glibc=("dg;detect-glibc" "detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
+cmd_dev_detect_ldd=("dl;detect-ldd" "detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
+cmd_dev_query_raw=("qr;query-raw" "query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
+cmd_dev_clear_modules=("cm;clear-modules" "clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 ### Set specific opt here.
 
 currentopt=("${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}")
@@ -155,7 +154,7 @@ currentopt+=("${cmd_sponsor[@]}")
 ### Build list of available commands.
 optcommands=()
 index="0"
-for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
+for ((index = "0"; index < ${#currentopt[@]}; index += 4)); do
 	cmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
 	for ((cmdindex = 1; cmdindex <= cmdamount; cmdindex++)); do
 		optcommands+=("$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')")
@@ -175,8 +174,8 @@ fn_opt_usage() {
 	{
 		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
 			# Hide developer commands.
-			if [ "${currentopt[index + 2]}" != "DEVCOMMAND" ]; then
-				echo -e "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
+			if [ "${currentopt[index + 3]}" != "DEVCOMMAND" ]; then
+				echo -e "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 3]}"
 			fi
 		done
 	} | column -s $'\t' -t
@@ -193,12 +192,17 @@ for i in "${optcommands[@]}"; do
 	if [ "${i}" == "${getopt}" ]; then
 		# Seek and run command.
 		index="0"
-		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
+		for ((index = "0"; index < ${#currentopt[@]}; index += 4)); do
 			currcmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
 			for ((currcmdindex = 1; currcmdindex <= currcmdamount; currcmdindex++)); do
 				if [ "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+					# run pre hook
+					hookoption="${currentopt[index + 1]}"
+					if [ -f "${hooksdir}/hook-pre-${hookoption}.sh" ]; then
+						eval "${hooksdir}/hook-pre-${hookoption}.sh"
+					fi
 					# Run command.
-					eval "${currentopt[index + 1]}"
+					eval "${currentopt[index + 2]}"
 					# Exit should occur in modules. Should this not happen print an error
 					fn_print_error2_nl "Command did not exit correctly: ${getopt}"
 					fn_script_log_error "Command did not exit correctly: ${getopt}"
