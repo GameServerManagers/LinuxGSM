@@ -252,7 +252,7 @@ fn_deps_detector() {
 	elif [ "${deptocheck}" == "steamcmd" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
-	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE "^deb .*non-free" /etc/apt/sources.list; then
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 	# Java: Added for users using Oracle JRE to bypass check.
