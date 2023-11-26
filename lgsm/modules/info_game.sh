@@ -2033,14 +2033,15 @@ fn_info_game_source() {
 
 fn_info_game_spark() {
 	defaultmap="${defaultmap:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpport="${httpport:-"0"}"
+	httpuser="${httpuser:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
+	modserverport=${modserverport:-"0"}
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	httpuser="${httpuser:-"NOT SET"}"
-	httppassword="${httppassword:-"NOT SET"}"
-	httpport="${httpport:-"0"}"
 }
 
 # Config Type: Custom (key-value pairs)
