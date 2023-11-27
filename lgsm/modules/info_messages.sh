@@ -694,6 +694,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
+	elif [ "${shortname}" == "q4" ]; then
+		portcommand="ss -tuplwn | grep q4ded.x86"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
