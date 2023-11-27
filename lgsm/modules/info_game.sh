@@ -1687,6 +1687,25 @@ fn_info_game_q3() {
 
 # Config Type: QuakeC
 # Comment: // or /* */
+# fn_info_game_quakec "SERVERNAME"
+# Filetype: cfg
+fn_info_game_q4() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "net_serverRemoteConsolePassword"
+		fn_info_game_quakec "servername" "si_name"
+		fn_info_game_quakec "serverpassword" "g_password"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+}
+
+# Config Type: QuakeC
+# Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
 # Filetype: cfg
 fn_info_game_ql() {
@@ -2355,6 +2374,8 @@ elif [ "${shortname}" == "q2" ]; then
 	fn_info_game_q2
 elif [ "${shortname}" == "q3" ]; then
 	fn_info_game_q3
+elif [ "${shortname}" == "q4" ]; then
+	fn_info_game_q4
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_game_ql
 elif [ "${shortname}" == "qw" ]; then
