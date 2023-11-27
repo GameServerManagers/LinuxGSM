@@ -1286,6 +1286,7 @@ fn_info_messages_q2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1293,6 +1294,15 @@ fn_info_messages_q3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_q4() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1793,6 +1803,8 @@ fn_info_messages_select_engine() {
 	elif [ "${shortname}" == "q2" ]; then
 		fn_info_messages_q2
 	elif [ "${shortname}" == "q3" ]; then
+		fn_info_messages_q3
+	elif [ "${shortname}" == "q4" ]; then
 		fn_info_messages_q3
 	elif [ "${shortname}" == "ql" ]; then
 		fn_info_messages_ql
