@@ -1832,14 +1832,7 @@ fn_info_game_rw() {
 # example: hostname "SERVERNAME"
 # filetypes: cfg
 fn_info_game_samp() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="unnamed server"
-		rconpassword="${unavailable}"
-		port="7777"
-		rconport="${port}"
-		maxplayers="50"
-	else
+	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
