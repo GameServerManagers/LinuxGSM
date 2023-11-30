@@ -87,6 +87,7 @@ pvr,pvrserver,Pavlov VR,ubuntu-22.04
 pz,pzserver,Project Zomboid,ubuntu-22.04
 q2,q2server,Quake 2,ubuntu-22.04
 q3,q3server,Quake 3: Arena,ubuntu-22.04
+q4,q4server,Quake 4,ubuntu-22.04
 ql,qlserver,Quake Live,ubuntu-22.04
 qw,qwserver,Quake World,ubuntu-22.04
 ricochet,ricochetserver,Ricochet,ubuntu-22.04

@@ -694,6 +694,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
+	elif [ "${shortname}" == "q4" ]; then
+		portcommand="ss -tuplwn | grep q4ded.x86"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
@@ -1286,6 +1288,7 @@ fn_info_messages_q2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1293,6 +1296,15 @@ fn_info_messages_q3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_q4() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1791,6 +1803,8 @@ fn_info_messages_select_engine() {
 	elif [ "${shortname}" == "q2" ]; then
 		fn_info_messages_q2
 	elif [ "${shortname}" == "q3" ]; then
+		fn_info_messages_q3
+	elif [ "${shortname}" == "q4" ]; then
 		fn_info_messages_q3
 	elif [ "${shortname}" == "ql" ]; then
 		fn_info_messages_ql
