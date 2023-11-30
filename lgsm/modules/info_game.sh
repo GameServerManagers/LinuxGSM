@@ -2268,8 +2268,6 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "btl" ]; then
 	fn_info_game_btl
-elif [ "${shortname}" == "cd" ]; then
-	fn_info_game_cd
 elif [ "${shortname}" == "ck" ]; then
 	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
