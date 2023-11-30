@@ -286,12 +286,6 @@ elif [ "${shortname}" == "bmdm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "cd" ]; then
-	array_configs+=(properties.json)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "ck" ]; then
 	array_configs+=(ServerConfig.json)
 	fn_fetch_default_config
