@@ -18,7 +18,6 @@ bs,bsserver,Blade Symphony,ubuntu-22.04
 bt,btserver,Barotrauma,ubuntu-22.04
 btl,btlserver,BATTALION: Legacy,ubuntu-20.04
 cc,ccserver,Codename CURE,ubuntu-22.04
-cd,cdserver,Crafting Dead,ubuntu-22.04
 ck,ckserver,Core Keeper,ubuntu-22.04
 cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-22.04
 cod,codserver,Call of Duty,ubuntu-22.04
@@ -88,6 +87,7 @@ pvr,pvrserver,Pavlov VR,ubuntu-22.04
 pz,pzserver,Project Zomboid,ubuntu-22.04
 q2,q2server,Quake 2,ubuntu-22.04
 q3,q3server,Quake 3: Arena,ubuntu-22.04
+q4,q4server,Quake 4,ubuntu-22.04
 ql,qlserver,Quake Live,ubuntu-22.04
 qw,qwserver,Quake World,ubuntu-22.04
 ricochet,ricochetserver,Ricochet,ubuntu-22.04

@@ -30,3 +30,21 @@ if [ -f "${serverfiles}/carbon/tools/environment.sh" ]; then
 	# shellcheck source=/dev/null
 	source "${serverfiles}/carbon/tools/environment.sh"
 fi
+
+# fix for #4268
+# insert set -g default-terminal "screen-256color" into ~/.tmux.conf
+if [ -f "${serverfiles}/RustDedicated_Data/Managed/Oxide.Rust.dll" ]; then
+	# tmux version is 3.3 or higher
+	tmuxvdigit="$(tmux -V | sed "s/tmux //" | sed -n '1 p' | tr -cd '[:digit:]')"
+	if [ "${tmuxvdigit}" -ge "33" ]; then
+		if [ ! -f "${HOME}/.tmux.conf" ]; then
+			touch "${HOME}/.tmux.conf"
+		fi
+		if ! grep -q "set -g default-terminal \"screen-256color\"" "${HOME}/.tmux.conf"; then
+			fixname="tmux screen-256color"
+			fn_fix_msg_start
+			echo "set -g default-terminal \"screen-256color\"" >> "${HOME}/.tmux.conf"
+			fn_fix_msg_end
+		fi
+	fi
+fi

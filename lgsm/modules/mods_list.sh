@@ -200,7 +200,7 @@ mod_info_hwoxide=(MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlin
 mod_info_sdtdoxide=(MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "https://umod.org/games/7-days-to-die" "Allows for the use of plugins")
 
 # ValheimPlus
-mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valeimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/valheimPlus/ValheimPlus" "Mod to improve Valheim gameplay")
+mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valeimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/Grantapher/ValheimPlus.git" "Mod to improve Valheim gameplay")
 
 # BepInEx Valheim
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")

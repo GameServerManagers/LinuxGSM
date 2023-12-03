@@ -19,8 +19,15 @@ if [ "${shortname}" == "rust" ] && [ -v rconpassword ] && [ -z "${rconpassword}"
 	fn_print_fail_nl "RCON password is not set"
 	fn_script_log_warn "RCON password is not set"
 elif [ -v rconpassword ] && [ "${rconpassword}" == "CHANGE_ME" ]; then
-	fn_print_warn_nl "Default RCON Password detected"
-	fn_script_log_warn "Default RCON Password detected"
+	fn_print_warn_nl "Default RCON password detected"
+	fn_script_log_warn "Default RCON password detected"
+elif [ -v httppassword ] && [ "${httppassword}" == "CHANGE_ME" ]; then
+	fn_print_warn_nl "Default Web password detected"
+	fn_script_log_warn "Default Web password detected"
+elif [ -v adminpassword ] && [ "${adminpassword}" == "CHANGE_ME" ]; then
+	fn_print_warn_nl "Default Admin password detected"
+	fn_script_log_warn "Default Admin password detected"
+
 fi
 
 if [ "${shortname}" == "vh" ] && [ -z "${serverpassword}" ]; then

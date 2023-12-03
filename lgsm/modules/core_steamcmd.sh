@@ -179,7 +179,9 @@ fn_update_steamcmd_remotebuild() {
 	fi
 
 	# added as was failing GitHub Actions test. Running SteamCMD twice seems to fix it.
-	${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit > /dev/null 2>&1
+	if [ "${CI}" ]; then
+		${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit > /dev/null 2>&1
+	fi
 	# password for branch not needed to check the buildid
 	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
