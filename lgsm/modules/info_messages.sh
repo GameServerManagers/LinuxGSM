@@ -95,7 +95,7 @@ fn_info_messages_distro() {
 		echo -e "${lightblue}Hostname:\t${default}${HOSTNAME}"
 		echo -e "${lightblue}Environment:\t${default}${virtualenvironment}"
 		echo -e "${lightblue}Uptime:\t${default}${days}d, ${hours}h, ${minutes}m"
-		echo -e "${lightblue}tmux:\t${default}${tmuxv}"
+		echo -e "${lightblue}tmux:\t${default}${tmuxversion}"
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 		if [ -n "${javaram}" ]; then
 			echo -e "${lightblue}Java:\t${default}${javaversion}"
@@ -191,10 +191,10 @@ fn_info_messages_gameserver_resource() {
 			else
 				echo -e "${lightblue}CPU Used:\t${red}unknown${default}"
 			fi
-			if [ -n "${memused}" ]; then
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}%\t${memused}MB${default}"
+			if [ -n "${memusedmb}" ]; then
+				echo -e "${lightblue}Mem Used:\t${default}${memusedpct}%\t${memusedmb}MB${default}"
 			else
-				echo -e "${lightblue}Mem Used:\t${default}${pmemused}\t${red}unknown${default}"
+				echo -e "${lightblue}Mem Used:\t${default}${memusedpct}\t${red}unknown${default}"
 			fi
 		else
 			echo -e "${lightblue}CPU Used:\t${default}0%${default}"
@@ -663,7 +663,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "cd" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -674,7 +674,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -692,6 +692,10 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "dayz" ]; then
+		portcommand="ss -tuplwn | grep enfMain"
+	elif [ "${shortname}" == "q4" ]; then
+		portcommand="ss -tuplwn | grep q4ded.x86"
 	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
@@ -1284,6 +1288,7 @@ fn_info_messages_q2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1291,6 +1296,15 @@ fn_info_messages_q3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_q4() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1466,6 +1480,7 @@ fn_info_messages_spark() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "Mod Server" modserverport tcp
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1705,8 +1720,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_bt
 	elif [ "${shortname}" == "btl" ]; then
 		fn_info_messages_btl
-	elif [ "${shortname}" == "cd" ]; then
-		fn_info_messages_cd
 	elif [ "${shortname}" == "ck" ]; then
 		fn_info_messages_ck
 	elif [ "${shortname}" == "cs2" ]; then
@@ -1790,6 +1803,8 @@ fn_info_messages_select_engine() {
 	elif [ "${shortname}" == "q2" ]; then
 		fn_info_messages_q2
 	elif [ "${shortname}" == "q3" ]; then
+		fn_info_messages_q3
+	elif [ "${shortname}" == "q4" ]; then
 		fn_info_messages_q3
 	elif [ "${shortname}" == "ql" ]; then
 		fn_info_messages_ql

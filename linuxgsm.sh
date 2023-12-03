@@ -24,7 +24,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v23.6.2"
+version="v23.7.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"

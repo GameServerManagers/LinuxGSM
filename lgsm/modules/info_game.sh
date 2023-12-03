@@ -287,6 +287,8 @@ fn_info_game_ac() {
 fn_info_game_ark() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "ServerAdminPassword"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "rconport" "RCONPort"
 		fn_info_game_ini "servername" "SessionName"
 		fn_info_game_ini "serverpassword" "ServerPassword"
 	fi
@@ -487,7 +489,7 @@ fn_info_game_kf() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
@@ -523,11 +525,11 @@ fn_info_game_kf2() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/KFWeb.ini"
-		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "port" "Port" "${servercfgdir}/LinuxServer-KFEngine.ini"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/KFWeb.ini"
+		fn_info_game_ini "httppassword" "AdminPassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1685,6 +1687,25 @@ fn_info_game_q3() {
 
 # Config Type: QuakeC
 # Comment: // or /* */
+# fn_info_game_quakec "SERVERNAME"
+# Filetype: cfg
+fn_info_game_q4() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "net_serverRemoteConsolePassword"
+		fn_info_game_quakec "servername" "si_name"
+		fn_info_game_quakec "serverpassword" "g_password"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+}
+
+# Config Type: QuakeC
+# Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
 # Filetype: cfg
 fn_info_game_ql() {
@@ -1730,7 +1751,7 @@ fn_info_game_ro() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
@@ -1830,14 +1851,7 @@ fn_info_game_rw() {
 # example: hostname "SERVERNAME"
 # filetypes: cfg
 fn_info_game_samp() {
-	# Config
-	if [ ! -f "${servercfgfullpath}" ]; then
-		servername="unnamed server"
-		rconpassword="${unavailable}"
-		port="7777"
-		rconport="${port}"
-		maxplayers="50"
-	else
+	if [ -f "${servercfgfullpath}" ]; then
 		servername=$(grep "hostname" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^\//d' -e 's/hostname//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		rconpassword=$(grep "rcon_password" "${servercfgfullpath}" | sed -e 's/^[ \t]*//g' -e '/^#/d' -e 's/^rcon_password//g' | tr -d '=\";,:' | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//')
 		port=$(grep "port" "${servercfgfullpath}" | grep -v "#" | tr -cd '[:digit:]')
@@ -2031,14 +2045,15 @@ fn_info_game_source() {
 
 fn_info_game_spark() {
 	defaultmap="${defaultmap:-"NOT SET"}"
+	httppassword="${httppassword:-"NOT SET"}"
+	httpport="${httpport:-"0"}"
+	httpuser="${httpuser:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
+	modserverport=${modserverport:-"0"}
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	httpuser="${httpuser:-"NOT SET"}"
-	httppassword="${httppassword:-"NOT SET"}"
-	httpport="${httpport:-"0"}"
 }
 
 # Config Type: Custom (key-value pairs)
@@ -2272,8 +2287,6 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "btl" ]; then
 	fn_info_game_btl
-elif [ "${shortname}" == "cd" ]; then
-	fn_info_game_cd
 elif [ "${shortname}" == "ck" ]; then
 	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
@@ -2352,6 +2365,8 @@ elif [ "${shortname}" == "q2" ]; then
 	fn_info_game_q2
 elif [ "${shortname}" == "q3" ]; then
 	fn_info_game_q3
+elif [ "${shortname}" == "q4" ]; then
+	fn_info_game_q4
 elif [ "${shortname}" == "ql" ]; then
 	fn_info_game_ql
 elif [ "${shortname}" == "qw" ]; then
