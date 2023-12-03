@@ -19,7 +19,6 @@ bs
 bt,libicu-dev,dos2unix,libxml2-utils
 btl
 cc
-cd
 ck,xvfb,libxi6
 cmw
 cod,libstdc++5:i386

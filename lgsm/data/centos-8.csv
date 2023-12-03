@@ -19,7 +19,6 @@ bs
 bt,libicu,dos2unix,libxml2
 btl
 cc
-cd
 ck,xorg-x11-server-Xvfb
 cmw
 cod,compat-libstdc++-33.i686
