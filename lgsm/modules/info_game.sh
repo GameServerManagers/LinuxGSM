@@ -489,7 +489,7 @@ fn_info_game_kf() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
@@ -525,11 +525,11 @@ fn_info_game_kf2() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/KFWeb.ini"
-		fn_info_game_ini "port" "Port"
+		fn_info_game_ini "port" "Port" "${servercfgdir}/LinuxServer-KFEngine.ini"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/KFWeb.ini"
+		fn_info_game_ini "httppassword" "AdminPassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1751,7 +1751,7 @@ fn_info_game_ro() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
-		fn_info_game_ini "httppassword" "httppasswordword"
+		fn_info_game_ini "httppassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "httpuser" "AdminName"
 		fn_info_game_ini "lanport" "LANServerPort"
