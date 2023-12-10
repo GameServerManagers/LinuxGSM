@@ -195,15 +195,16 @@ else
 	else
 		humanreadable="-h"
 	fi
-	physmemtotalmb="$(free -m | awk '/Mem:/ {print $2}')"             # string
+	physmemtotalmb="$(free -m | awk '/Mem:/ {print $2}')"             # integer
+	physmemtotalgb="$(free -m | awk '/Mem:/ {print $2}')"             # integer
 	physmemtotal="$(free ${humanreadable} | awk '/Mem:/ {print $2}')" # string
 	physmemfree="$(free ${humanreadable} | awk '/Mem:/ {print $4}')"  # string
 	physmemused="$(free ${humanreadable} | awk '/Mem:/ {print $3}')"  # string
 
 	oldfree="$(free ${humanreadable} | awk '/cache:/')"
 	if [ "${oldfree}" ]; then
-		physmemavailable="n/a"
-		physmemcached="n/a"
+		physmemavailable="n/a" # string
+		physmemcached="n/a"    # string
 	else
 		physmemavailable="$(free ${humanreadable} | awk '/Mem:/ {print $7}')" # string
 		physmemcached="$(free ${humanreadable} | awk '/Mem:/ {print $6}')"    # string
