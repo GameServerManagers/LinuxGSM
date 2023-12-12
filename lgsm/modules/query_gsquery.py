@@ -10,13 +10,13 @@ import argparse
 import socket
 import sys
 
-engine_types=('protocol-valve','protocol-quake3','protocol-quake3','protocol-gamespy1','protocol-unreal2','ut3','minecraft','minecraftbe','jc2mp','mumbleping','soldat','teeworlds')
+engine_types=('protocol-valve','protocol-quake2','protocol-quake3','protocol-gamespy1','protocol-unreal2','ut3','minecraft','minecraftbe','jc2mp','mumbleping','soldat','teeworlds')
 
 class gsquery:
     server_response_timeout = 2
     default_buffer_length = 1024
     sourcequery=('protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsrc','spark','starbound','unity3d','unreal4','wurm')
-    idtech2query=('protocol-quake3','idtech2','quake','iw2.0')
+    idtech2query=('protocol-quake2','idtech2','quake','iw2.0')
     idtech3query=('protocol-quake3','iw3.0','ioquake3','qfusion')
     minecraftquery=('minecraft','lwjgl2')
     minecraftbequery=('minecraftbe',)
