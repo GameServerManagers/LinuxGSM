@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   issue-labeler:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Issue Labeler
@@ -22,6 +23,7 @@ jobs:
           include-title: 1
 
   is-sponsor-label:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Is Sponsor Label
