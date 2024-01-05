@@ -97,7 +97,7 @@ oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos
 oxidehurtworldlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
 oxidesdtdlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 # Valheim Plus
-valeimpluslatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/valheimPlus/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+valheimpluslatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 # Valheim BepInEx
 bepinexvhlatestlink=$(curl --connect-timeout 10 -sL "https://valheim.thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
 
@@ -200,7 +200,7 @@ mod_info_hwoxide=(MOD "hwoxide" "Oxide for Hurtworld" "${oxidehurtworldlatestlin
 mod_info_sdtdoxide=(MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatestlink}" "Oxide.SevenDaysToDie.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "7 Days To Die;" "NOTGAMES" "https://umod.org/games/7-days-to-die" "Allows for the use of plugins")
 
 # ValheimPlus
-mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valeimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/Grantapher/ValheimPlus.git" "Mod to improve Valheim gameplay")
+mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/Grantapher/ValheimPlus.git" "Mod to improve Valheim gameplay")
 
 # BepInEx Valheim
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
