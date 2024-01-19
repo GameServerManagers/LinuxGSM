@@ -604,6 +604,12 @@ elif [ "${shortname}" == "pvkii" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "pw" ]; then
+	array_configs+=(PalWorldSettings.ini)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "pz" ]; then
 	fn_check_cfgdir
 	array_configs+=(server.ini)
