@@ -1269,6 +1269,13 @@ fn_info_messages_pvr() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_pw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_pz() {
 	{
 		fn_port "header"
@@ -1798,6 +1805,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_messages_pvr
+	elif [ "${shortname}" == "pw" ]; then
+		fn_info_messages_pw
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_messages_pz
 	elif [ "${shortname}" == "q2" ]; then
