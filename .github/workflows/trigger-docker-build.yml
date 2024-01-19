@@ -6,6 +6,7 @@ on:
 
 jobs:
   trigger_build_docker-linuxgsm:
+    if: github.repository_owner == 'GameServerManagers'
     name: Trigger Build Docker LinuxGSM
     runs-on: ubuntu-latest
     steps:
@@ -18,6 +19,7 @@ jobs:
           workflow_file_name: docker-publish.yml
 
   trigger_build_docker-gameserver:
+    if: github.repository_owner == 'GameServerManagers'
     name: Trigger Build Docker GameServer
     needs: trigger_build_docker-linuxgsm
     runs-on: ubuntu-latest

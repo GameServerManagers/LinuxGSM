@@ -5,6 +5,7 @@ on:
       - opened
 jobs:
   potential-duplicates:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Potential Duplicates

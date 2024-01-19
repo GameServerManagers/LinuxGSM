@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   create-matrix:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -28,6 +29,7 @@ jobs:
           echo -n "matrix=${shortnamearray}" >> $GITHUB_OUTPUT
 
   details-check:
+    if: github.repository_owner == 'GameServerManagers'
     needs: create-matrix
     continue-on-error: true
     runs-on: ubuntu-latest
