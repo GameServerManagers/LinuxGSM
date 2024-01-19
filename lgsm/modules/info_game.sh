@@ -619,13 +619,9 @@ fn_info_game_pvr() {
 # Example: ServerName=SERVERNAME
 # Filetype: cfg
 fn_info_game_pw() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "servername" "ServerName"
-		fn_info_game_ini "maxplayers" "MaxPlayers"
-	fi
-	servername="${servername:-"NOT SET"}"
-	maxplayers="${maxplayers:-"0"}"
+	servername="${selfname:-"NOT SET"}"
 	port="${port:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: ini
