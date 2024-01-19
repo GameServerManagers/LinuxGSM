@@ -621,7 +621,7 @@ fn_info_game_pvr() {
 fn_info_game_pw() {
 	servername="${selfname:-"NOT SET"}"
 	port="${port:-"0"}"
-	players="${players:-"0"}"
+	maxplayers="${players:-"0"}"
 }
 
 # Config Type: ini
