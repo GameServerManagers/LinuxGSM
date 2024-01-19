@@ -619,9 +619,9 @@ fn_info_game_pvr() {
 # Example: ServerName=SERVERNAME
 # Filetype: cfg
 fn_info_game_pw() {
-	servername="${selfname:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
-	maxplayers="${players:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: ini
