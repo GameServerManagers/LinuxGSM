@@ -614,6 +614,20 @@ fn_info_game_pvr() {
 }
 
 # Config Type: ini
+# Parameters: false
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: cfg
+fn_info_game_pw() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+}
+
+# Config Type: ini
 # Parameters: true
 # Comment: ; or #
 # Example: PublicName=SERVERNAME
@@ -2359,6 +2373,8 @@ elif [ "${shortname}" == "ps" ]; then
 	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
+elif [ "${shortname}" == "pw" ]; then
+	fn_info_game_pw
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_game_pz
 elif [ "${shortname}" == "q2" ]; then
