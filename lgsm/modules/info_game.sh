@@ -623,6 +623,7 @@ fn_info_game_pw() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 	fi
+	servername="${servername:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 }
