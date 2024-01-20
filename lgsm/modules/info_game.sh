@@ -622,6 +622,7 @@ fn_info_game_pw() {
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
+	steamport="${steamport:-"0"}"
 }
 
 # Config Type: ini

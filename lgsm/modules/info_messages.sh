@@ -1273,6 +1273,7 @@ fn_info_messages_pw() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
