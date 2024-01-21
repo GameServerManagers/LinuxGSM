@@ -74,6 +74,8 @@
   - "/(Barotrauma)/i"
 "game: Counter-Strike: Global Offensive":
   - "/(Counter-Strike: Global Offensive|CS:GO|csgo)/i"
+"game: Counter-Strike 2":
+  - "/(Counter-Strike 2|CS2)/i"
 "game: Counter-Strike: Source":
   - "/(Counter-Strike: Source|CS:S)/i"
 "game: Counter-Strike 1.6":
@@ -95,13 +97,13 @@
 "game: Left 4 Dead 2":
   - "/(Left 4 Dead 2|L4D2)/i"
 "game: Minecraft":
-  - "/(minecraft)((?!bedrock).)*$/i"
+  - "/(Minecraft)((?!bedrock).)*$/i"
 "game: Minecraft Bedrock":
   - "/(Bedrock)/i"
 "game: Mumble":
   - "/(Mumble)/i"
 "game: Project Zomboid":
-  - "/(Project Zomboid)/i"
+  - "/(Project Zomboid|PZ)/i"
 "game: Quake 3":
   - "/(Quake 3|Q3A|q3)/i"
 "game: Rising World":
