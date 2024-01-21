@@ -9,6 +9,7 @@ armar,libcurl,openssl11-libs
 ats
 av
 bb
+pw
 bb2,libcurl.i686
 bd
 bf1942,ncurses-libs.i686

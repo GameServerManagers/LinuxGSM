@@ -614,6 +614,18 @@ fn_info_game_pvr() {
 }
 
 # Config Type: ini
+# Parameters: false
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: cfg
+fn_info_game_pw() {
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	steamport="27015"
+	unknownport="1985"
+}
+
+# Config Type: ini
 # Parameters: true
 # Comment: ; or #
 # Example: PublicName=SERVERNAME
@@ -2357,6 +2369,8 @@ elif [ "${shortname}" == "ps" ]; then
 	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
+elif [ "${shortname}" == "pw" ]; then
+	fn_info_game_pw
 elif [ "${shortname}" == "pz" ]; then
 	fn_info_game_pz
 elif [ "${shortname}" == "q2" ]; then

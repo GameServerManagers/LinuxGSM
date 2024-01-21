@@ -9,6 +9,7 @@ armar,libcurl4
 ats
 av
 bb
+pw
 bb2,libcurl4-gnutls-dev:i386
 bd
 bf1942,libncurses5:i386,libtinfo5:i386

@@ -674,7 +674,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "pw" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -1269,6 +1269,15 @@ fn_info_messages_pvr() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_pw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Steam" steamport udp
+		fn_port "Unknown" unknownport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_pz() {
 	{
 		fn_port "header"
@@ -1798,6 +1807,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_messages_pvr
+	elif [ "${shortname}" == "pw" ]; then
+		fn_info_messages_pw
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_messages_pz
 	elif [ "${shortname}" == "q2" ]; then
