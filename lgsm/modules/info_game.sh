@@ -621,7 +621,8 @@ fn_info_game_pvr() {
 fn_info_game_pw() {
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
-	unknownport="${unknownport:-"0"}"
+	steamport="27015"
+	unknownport="1985"
 }
 
 # Config Type: ini
