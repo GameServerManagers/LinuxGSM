@@ -214,6 +214,10 @@ fn_monitor_check_session() {
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
+		# send LinuxGSM stats if monitor is OK.
+		if [ "${stats}" == "on" ] || [ "${stats}" == "y" ] && [ "${querymode}" == "1" ]; then
+			info_stats.sh
+		fi
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
