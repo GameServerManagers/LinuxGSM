@@ -1978,7 +1978,7 @@ fn_info_game_sdtd() {
 # Config Type: Parameters (with an ini)
 fn_info_game_sf() {
 	# Parameters
-	servername="${selfname:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
@@ -2131,7 +2131,7 @@ fn_info_game_tw() {
 
 # Config Type: Parameters
 fn_info_game_unt() {
-	servername="${selfname:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	steamport="$((port + 1))"
