@@ -96,6 +96,11 @@ command_postdetails.sh() {
 	fn_fetch_module
 }
 
+command_custom_alert.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_test_alert.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

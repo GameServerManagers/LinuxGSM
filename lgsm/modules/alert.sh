@@ -27,6 +27,17 @@ fn_alert_log() {
 	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${alertlog}" > /dev/null 2>&1
 }
 
+fn_alert_custom() {
+	fn_script_log_info "Sending custom alert: Custom alert from ${selfname}."
+	alertaction="${customalerttitle}"
+	alertemoji="📢"
+	alertsound="1"
+	alertmessage="${customalertmessage}"
+	# Green
+	alertcolourhex="#6600CC"
+	alertcolourdec="6684876"
+}
+
 fn_alert_test() {
 	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
 	alertaction="Tested"
@@ -206,6 +217,8 @@ elif [ "${alert}" == "monitor-session" ]; then
 	fn_alert_monitor_session
 elif [ "${alert}" == "monitor-query" ]; then
 	fn_alert_monitor_query
+elif [ "${alert}" == "custom" ]; then
+	fn_alert_custom
 elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
