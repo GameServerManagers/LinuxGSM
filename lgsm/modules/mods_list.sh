@@ -71,6 +71,12 @@ steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
 steamworkslatestfile=$(curl --connect-timeout 10 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
+# Stripper:Source
+stripperversion="1.2.2-git141"
+stripperlatestfile="stripper-${stripperversion}-linux.tar.gz"
+stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperlatestfile}"
+stripperurl="${stripperdownloadurl}"
+
 # CS:GO Mods
 get5lastbuild=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
 get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
@@ -149,7 +155,7 @@ mod_info_ts_amxx=(MOD "amxmodxts" "AMX Mod X: The Specialists" "${amxxtsurl}" "$
 mod_info_metamodsource=(MOD "metamodsource" "Metamod: Source" "${metamodsourceurl}" "${metamodsourcelatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source;" "GAMES" "NOTGAMES" "https://www.sourcemm.net" "Plugins Framework")
 mod_info_sourcemod=(MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "source;" "GAMES" "NOTGAMES" "http://www.sourcemod.net" "Admin Features (requires Metamod: Source)")
 mod_info_steamworks=(MOD "steamworks" "SteamWorks" "${steamworksurl}" "${steamworkslatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KyleSanderson/SteamWorks" "Exposing SteamWorks functions to SourcePawn")
-mod_info_stripper=(MOD "stripper" "Stripper Source" "http://www.bailopan.net/stripper/snapshots/1.2/stripper-1.2.2-git129-linux.tar.gz" "stripper-1.2.2-git129-linux.tar.gz" "0" "LowercaseOff" "${systemdir}" "addons/stripper/maps;" "ENGINES" "Counter-Strike: Global Offensive;Counter-Strike: Source;Day of Defeat: Source;Half Life: Deathmatch;Half Life 2: Deathmatch;Insurgency;Left 4 Dead;Left 4 Dead 2;Nuclear Dawn;Team Fortress 2;" "NOTGAMES" "http://www.bailopan.net/stripper/" "Add or remove objects from map (requires MetaMod)")
+mod_info_stripper=(MOD "stripper" "Stripper Source" "${stripperurl}" "${stripperlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/stripper/maps;" "ENGINES" "Counter-Strike: Global Offensive;Counter-Strike: Source;Day of Defeat: Source;Half Life: Deathmatch;Half Life 2: Deathmatch;Insurgency;Left 4 Dead;Left 4 Dead 2;Nuclear Dawn;Team Fortress 2;" "NOTGAMES" "http://www.bailopan.net/stripper/" "Add or remove objects from map (requires MetaMod)")
 
 # CS:GO Mods
 mod_info_gokz=(MOD "gokz" "GOKZ" "${gokzlatestlink}" "${gokzlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KZGlobalTeam/gokz" "GOKZ ${gokzlatestversion} - Implements the KZ game mode (requires SourceMod and MetaMod)")
