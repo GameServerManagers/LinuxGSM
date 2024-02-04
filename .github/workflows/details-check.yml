@@ -3,6 +3,8 @@ name: Details Check
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop
 
 concurrency:
   group: details-check-${{ github.ref_name }}
