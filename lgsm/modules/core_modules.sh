@@ -181,6 +181,11 @@ command_send.sh() {
 	fn_fetch_module
 }
 
+command_rcon.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 # Checks
 
 check.sh() {
@@ -735,6 +740,11 @@ install_eula.sh() {
 }
 
 install_gsquery.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+install_rcon.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
