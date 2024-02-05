@@ -47,7 +47,7 @@ if [ "$(whoami)" != "root" ]; then
 	done
 fi
 
-allowed_commands_array=(BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE)
+allowed_commands_array=(BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RCON RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_logs.sh
@@ -61,14 +61,14 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(CONSOLE DEBUG MONITOR START STOP)
+allowed_commands_array=(CONSOLE DEBUG MONITOR RCON START STOP)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_config.sh
 	fi
 done
 
-allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS START STOP POST-DETAILS)
+allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS RCON START STOP POST-DETAILS)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ -z "${installflag}" ]; then
@@ -86,7 +86,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
+allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR RCON START STOP UPDATE VALIDATE POST-DETAILS)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_status.sh
