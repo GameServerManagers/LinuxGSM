@@ -31,11 +31,11 @@ for distro_info in "${distro_info_array[@]}"; do
 		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"   # e.g. Ubuntu 22.04.3 LTS
 		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')" # e.g. 22.04
 		# Special var for rhel like distros to remove point in number e.g 8.4 to just 8.
+		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')"          # e.g. ubuntu
+		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')" # e.g. debian
 		if [[ "${distroidlike}" == *"rhel"* ]] || [ "${distroid}" == "rhel" ]; then
 			distroversionrh="$(sed -nr 's/^VERSION_ID="([0-9]*).+?"/\1/p' /etc/os-release)" # e.g. 8
 		fi
-		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')"          # e.g. ubuntu
-		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')" # e.g. debian
 		distrocodename="$(grep "VERSION_CODENAME" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"     # e.g. jammy
 	elif [ "$(command -v lsb_release 2> /dev/null)" ] && [ "${distro_info}" == "lsb_release" ]; then
 		if [ -z "${distroname}" ]; then
