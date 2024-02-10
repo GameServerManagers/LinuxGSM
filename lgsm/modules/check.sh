@@ -99,3 +99,10 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 		check_system_requirements.sh
 	fi
 done
+
+allowed_commands_array=(DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
+for allowed_command in "${allowed_commands_array[@]}"; do
+	if [ "${allowed_command}" == "${commandname}" ]; then
+		install_gamedig.sh
+	fi
+done
