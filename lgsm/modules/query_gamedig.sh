@@ -10,7 +10,14 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Default query status to failure. Will be changed to 0 if query is successful.
 querystatus="2"
 # Check if gamedig and jq are installed.
-if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
+
+if [ -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
+	gamedigbinary="${lgsmdir}/node_modules/gamedig/bin/gamedig.js"
+else
+	gamedigbinary="gamedig"
+fi
+
+if [ "$(command -v "${gamedigbinary}" 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 
 	# will bypass query if server offline.
 	check_status.sh
@@ -20,8 +27,8 @@ if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)"
 			queryport="${port}"
 		fi
 		# checks if query is working null = pass.
-		gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" \"${queryip}:${queryport}\"|jq")
-		gamedigraw=$(gamedig --type "${querytype}" "${queryip}:${queryport}")
+		gamedigcmd=$(echo -e "${gamedigbinary} --type \"${querytype}\" \"${queryip}:${queryport}\"|jq")
+		gamedigraw=$(${gamedigbinary} --type "${querytype}" "${queryip}:${queryport}")
 		querystatus=$(echo "${gamedigraw}" | jq '.error|length')
 
 		if [ "${querytype}" == "teamspeak3" ]; then
