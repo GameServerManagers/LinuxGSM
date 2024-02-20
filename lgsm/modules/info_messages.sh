@@ -692,6 +692,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "bfv" ]; then
+		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
