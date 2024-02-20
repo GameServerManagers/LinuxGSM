@@ -1251,6 +1251,7 @@ fn_info_game_eco() {
 	httpport="${httpport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
