@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM fix_kf.sh module
+# LinuxGSM fix_ro.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Resolves issues with Killing Floor.
+# Description: Resolves issues with Red Orchestra: Ostfront 41-45.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
