@@ -1017,7 +1017,9 @@ fn_info_messages_eco() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 		fn_port "Web Interface" httpport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
