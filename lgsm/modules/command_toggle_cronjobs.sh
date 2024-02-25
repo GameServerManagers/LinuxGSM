@@ -28,7 +28,8 @@ fn_toggle_cronjob() {
 
     local completejob="${jobschedule} ${lgsmcommand} > ${outputlog} 2> ${errorlog} ${lgsmcomment}"
 
-    local currentcrontab=$(crontab -l 2>/dev/null)
+    local currentcrontab
+	currentcrontab=$(crontab -l 2>/dev/null)
 
 	# If a cronjob for this LinuxGSM  command already exists
 	# ! ($| ) is used to match the end of the line or a space after the command to avoid matching similar commands like ./gameserver update & ./gameserver update-lgsm
@@ -36,12 +37,12 @@ fn_toggle_cronjob() {
         # If the existing cronjob was auto-added by LinuxGSM
         if echo "$currentcrontab" | grep -E "${lgsmcommand}($| )" | grep -q "${lgsmcomment}"; then
             # Remove the existing cronjob
-            local newcrontab=$(echo "$currentcrontab" | grep -Ev "${lgsmcommand}($| )")
-			# Update the crontab to keep all cronjobs except the removed one
-            echo "$newcrontab" | crontab -
+            local newcrontab
+			newcrontab=$(echo "$currentcrontab" | grep -Ev "${lgsmcommand}($| )")
 
+			# Update the crontab to keep all cronjobs except the removed one
 			# Check if the crontab was updated successfully
-			if [ $? -eq 0 ]; then
+			if echo "$newcrontab" | crontab -; then
             	fn_print_ok_nl "Removed cronjob for '${lgsmcommand}'"
 				fn_script_log_pass "Removed the auto-added cronjob for '${lgsmcommand}' from the crontab."
         	else
@@ -55,10 +56,8 @@ fn_toggle_cronjob() {
         fi
     else
         # Add the job to the crontab while keeping existing cronjobs
-        printf "%s\n%s\n" "$currentcrontab" "$completejob" | crontab -
-
 		# Check if the crontab was updated successfully
-		if [ $? -eq 0 ]; then
+		if printf "%s\n%s\n" "$currentcrontab" "$completejob" | crontab -; then
             fn_print_ok_nl "Added the cronjob for '${lgsmcommand}'"
             fn_script_log_pass "Added the cronjob for '${lgsmcommand}' to the crontab."
         else
