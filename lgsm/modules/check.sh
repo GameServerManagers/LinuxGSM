@@ -54,7 +54,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START)
+allowed_commands_array=(BACKUP DEBUG START)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_deps.sh
