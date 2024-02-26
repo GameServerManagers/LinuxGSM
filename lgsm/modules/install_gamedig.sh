@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Installs nodejs and gamedig
 
-if [ "$(command -v node)" ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
+if [ "$(command -v node)" ] && [ "$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)" -ge 16 ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	echo -e ""
 	echo -e "${bold}${lightyellow}Installing Gamedig${default}"
 	fn_script_log_info "Installing Gamedig"
