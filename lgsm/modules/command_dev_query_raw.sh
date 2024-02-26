@@ -207,7 +207,7 @@ echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
 echo -e ""
-if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
+if [ ! "$(command -v gamedig 2> /dev/null)" ] || [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
 if [ ! "$(command -v jq 2> /dev/null)" ]; then

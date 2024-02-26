@@ -714,6 +714,11 @@ install_factorio_save.sh() {
 	fn_fetch_module
 }
 
+check_gamedig.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_dst_token.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

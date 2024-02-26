@@ -621,6 +621,7 @@ fn_info_game_pvr() {
 fn_info_game_pw() {
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
+	queryport="${port:-"0"}"
 	steamport="${steamport:-"0"}"
 	unknownport="1985"
 }
@@ -1242,6 +1243,7 @@ fn_info_game_eco() {
 		fn_info_game_json "httpport" ".WebServerPort"
 		fn_info_game_json "maxplayers" ".MaxConnections"
 		fn_info_game_json "port" ".GameServerPort"
+		fn_info_game_json "rconport" ".RconServerPort"
 		fn_info_game_json "servername" ".Description"
 		fn_info_game_json "serverpassword" ".Password"
 		fn_info_game_json "tickrate" ".Rate"
@@ -1250,6 +1252,8 @@ fn_info_game_eco() {
 	httpport="${httpport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
