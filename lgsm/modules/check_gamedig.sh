@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM install_gamedig.sh module
+# LinuxGSM check_gamedig.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com

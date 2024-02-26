@@ -103,6 +103,6 @@ done
 allowed_commands_array=(DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
-		install_gamedig.sh
+		check_gamedig.sh
 	fi
 done
