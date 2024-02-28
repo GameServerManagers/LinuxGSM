@@ -12,7 +12,7 @@ fn_firstcommand_set
 
 # Only stop the server if there are no players on the server
 fn_stop_players_online() {
-	if [ "${stopifnoplayers}" == "on" ]; then
+	if [ "${stoponlyifnoplayers}" == "on" ]; then
 		if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
 			for queryip in "${queryips[@]}"; do
 				query_gamedig.sh
