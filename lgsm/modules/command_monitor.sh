@@ -109,6 +109,18 @@ fn_monitor_check_stopping() {
 	fi
 }
 
+fn_monitor_check_restart_request() {
+	if [ -f "${lockdir}/${selfname}-restart-request.lock" ]; then
+		fn_print_dots "Checking restart: "
+		fn_print_checking_eol
+		fn_print_info "Checking restart: Restart requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking restart: Restart requested"
+		command_restart.sh
+		core_exit.sh
+	fi
+}
+
 fn_monitor_check_backup() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/backup.lock" ]; then
@@ -416,4 +428,5 @@ if [ "${querymode}" != "1" ]; then
 
 	fn_monitor_loop
 fi
+fn_monitor_check_restart_request
 core_exit.sh

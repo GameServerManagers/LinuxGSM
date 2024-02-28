@@ -20,8 +20,12 @@ fn_stop_players_online() {
 					if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
 						fn_print_info "Server will not stop while ${gdplayers} players are on the server"
 						fn_script_log_info "Server will not stop while ${gdplayers} players are on the server"
+						date '+%s' > "${lockdir:?}/${selfname}-restart-request.lock"
 						core_exit.sh
 					else
+						if [ -f "${lockdir:?}/${selfname}-restart-request.lock" ]; then
+							rm -f "${lockdir:?}/${selfname}-restart-request.lock"
+						fi
 						break
 					fi
 				fi
