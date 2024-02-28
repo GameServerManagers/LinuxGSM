@@ -22,7 +22,6 @@ fn_stop_players_online() {
 						fn_script_log_info "Server will not stop while ${gdplayers} players are on the server"
 						core_exit.sh
 					else
-						echo "No players on server, stopping server"
 						break
 					fi
 				fi
