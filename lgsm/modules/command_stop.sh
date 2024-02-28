@@ -10,6 +10,27 @@ commandaction="Stopping"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# Only stop the server if there are no players on the server
+fn_stop_players_online() {
+	if [ "${stopifnoplayers}" == "on" ]; then
+		if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
+			for queryip in "${queryips[@]}"; do
+				query_gamedig.sh
+				if [ "${querystatus}" == "0" ]; then
+					if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
+						fn_print_info "Server will not stop while ${gdplayers} players are on the server"
+						fn_script_log_info "Server will not stop while ${gdplayers} players are on the server"
+						core_exit.sh
+					else
+						echo "No players on server, stopping server"
+						break
+					fi
+				fi
+			done
+		fi
+	fi
+}
+
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
@@ -282,6 +303,7 @@ fn_stop_pre_check() {
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_info "${servername} is already stopped"
 	else
+		fn_stop_players_online
 		# Select graceful shutdown.
 		fn_stop_graceful_select
 		# Check status again, a kill tmux session if graceful shutdown failed.
@@ -306,7 +328,7 @@ fn_stop_pre_check
 # Remove started lockfile.
 rm -f "${lockdir:?}/${selfname}-started.lock"
 
-# If user ran the stop command monitor will become disabled.
+# If user ran the stop command, monitor will become disabled.
 if [ "${firstcommandname}" == "STOP" ]; then
 	rm -f "${lockdir:?}/${selfname}-monitoring.lock"
 fi
