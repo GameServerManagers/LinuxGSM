@@ -2467,25 +2467,52 @@ fi
 # Cache public IP address for 24 hours
 if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mmin +1440)" ]; then
 	apiurl="http://ip-api.com/json"
-	publicipresponse=$(curl -s "${apiurl}")
+	fn_script_log_info "Querying ${apiurl} for public IP address"
+
+	ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query ip-api.com with a 3 second timeout
 	exitcode=$?
-	# if curl passes add publicip to publicip.json
-	if [ "${exitcode}" == "0" ]; then
-		fn_script_log_pass "Getting public IP address"
-		echo "${publicipresponse}" > "${tmpdir}/publicip.json"
-		publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
-		country="$(jq -r '.country' "${tmpdir}/publicip.json")"
-		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
+
+	# Check if the first request was successfull
+	if [ "${exitcode}" -eq 0 ]; then
+		fn_script_log_pass "Queried ${apiurl} for public IP address"
+
+        # Parse and reformat the response
+        publicip="$(echo "${ipresponse}" | jq -r '.query')"
+        country="$(echo "${ipresponse}" | jq -r '.country')"
+        countrycode="$(echo "${ipresponse}" | jq -r '.countryCode')"
+        # Construct a universal JSON format
+        echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
 	else
-		fn_script_log_warn "Unable to get public IP address"
-		publicip="NOT SET"
-		country="NOT SET"
-		countrycode="NOT SET"
+		# Fallback to myip.wtf if the initial request failed or timed out
+		apiurl="https://myip.wtf/json"
+		fn_script_log_pass "Querying ${apiurl} for public IP address"
+
+		ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query myip.wtf with a 3 second timeout as a backup
+		exitcode=$?
+
+		# Check if the backup request was successfull
+		if [ "${exitcode}" -eq 0 ]; then
+			fn_script_log_pass "Queried ${apiurl} for public IP address"
+
+            # Parse and reformat the response from myip.wtf
+            publicip="$(echo "${ipresponse}" | jq -r '.YourFuckingIPAddress')"
+            country="$(echo "${ipresponse}" | jq -r '.YourFuckingCountry')"
+            countrycode="$(echo "${ipresponse}" | jq -r '.YourFuckingCountryCode')"
+            # Construct a universal JSON format
+            echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
+		else
+			fn_script_log_error "Unable to get public IP address"
+			publicip="NOT SET"
+			country="NOT SET"
+			countrycode="NOT SET"
+		fi
 	fi
 else
-	publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
-	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
-	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
+	# Cached IP is still valid
+    fn_script_log_pass "Using cached IP as public IP address"
+    publicip="$(jq -r '.ip' "${tmpdir}/publicip.json")"
+    country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+    countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address
