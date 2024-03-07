@@ -1,0 +1,9 @@
+{
+	"MD013": false,
+	"MD030": {
+	  "ul_single": 3,
+	  "ol_single": 1,
+	  "ul_multi": 3,
+	  "ol_multi": 1
+	}
+  }
