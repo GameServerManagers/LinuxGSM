@@ -1328,6 +1328,23 @@ fn_info_game_hw() {
 	creativemode="${creativemode:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_hz() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "servername" "ServerName"
+	fi
+	adminpass="${adminpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rconport="$((port + 2))"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: parameters
 # Parameters: true
 # Comment:
@@ -2334,6 +2351,8 @@ elif [ "${shortname}" == "etl" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
 elif [ "${shortname}" == "hw" ]; then
+	fn_info_game_hw
+elif [ "${shortname}" == "hz" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss

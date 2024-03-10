@@ -1064,6 +1064,15 @@ fn_info_messages_hw() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_hz() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ins() {
 	{
 		fn_port "header"
@@ -1771,6 +1780,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_hcu
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_messages_hw
+	elif [ "${shortname}" == "hz" ]; then
+		fn_info_messages_hz
 	elif [ "${shortname}" == "ins" ]; then
 		fn_info_messages_ins
 	elif [ "${shortname}" == "inss" ]; then

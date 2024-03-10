@@ -495,6 +495,13 @@ elif [ "${shortname}" == "hl2dm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "hz" ]; then
+	fn_check_cfgdir
+	array_configs+=(GameUserSettings.ini)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ins" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
