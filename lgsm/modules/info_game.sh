@@ -2353,7 +2353,7 @@ elif [ "${shortname}" == "fctr" ]; then
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
-	fn_info_game_hw
+	fn_info_game_hz
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss
 elif [ "${shortname}" == "jc2" ]; then
