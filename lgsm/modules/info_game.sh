@@ -4,6 +4,7 @@
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gathers various game server information.
+# !Note: When adding variables to this script, ensure that they are also added to the command_dev_parse_game_details.sh script.
 
 # shellcheck disable=SC2317
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
