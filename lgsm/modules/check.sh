@@ -54,7 +54,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START)
+allowed_commands_array=(BACKUP DEBUG START)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_deps.sh
@@ -97,5 +97,12 @@ allowed_commands_array=(DEBUG START INSTALL)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_system_requirements.sh
+	fi
+done
+
+allowed_commands_array=(DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
+for allowed_command in "${allowed_commands_array[@]}"; do
+	if [ "${allowed_command}" == "${commandname}" ]; then
+		check_gamedig.sh
 	fi
 done

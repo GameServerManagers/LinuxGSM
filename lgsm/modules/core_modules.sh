@@ -299,7 +299,12 @@ command_dev_debug.sh() {
 	fn_fetch_module
 }
 
-command_dev_details.sh() {
+command_dev_parse_game_details.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_parse_distro_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -710,6 +715,11 @@ install_config.sh() {
 }
 
 install_factorio_save.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+check_gamedig.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
