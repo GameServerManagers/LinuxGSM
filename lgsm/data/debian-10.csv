@@ -1,7 +1,7 @@
 ac
 ahl
 ahl2
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 ark
 arma3
 armar,libcurl4
@@ -53,6 +53,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hz
 ins
 inss
 ios

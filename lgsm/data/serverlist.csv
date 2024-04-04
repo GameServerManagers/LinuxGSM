@@ -53,6 +53,7 @@ hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
 hw,hwserver,Hurtworld,ubuntu-22.04
+hz,hzserver,Humanitz,ubuntu-22.04
 ins,insserver,Insurgency,ubuntu-22.04
 inss,inssserver,Insurgency: Sandstorm,ubuntu-22.04
 ios,iosserver,IOSoccer,ubuntu-22.04

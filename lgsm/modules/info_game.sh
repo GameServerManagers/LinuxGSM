@@ -4,6 +4,7 @@
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gathers various game server information.
+# !Note: When adding variables to this script, ensure that they are also added to the command_dev_parse_game_details.sh script.
 
 # shellcheck disable=SC2317
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -621,6 +622,7 @@ fn_info_game_pvr() {
 fn_info_game_pw() {
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
+	queryport="${port:-"0"}"
 	steamport="${steamport:-"0"}"
 	unknownport="1985"
 }
@@ -1242,6 +1244,7 @@ fn_info_game_eco() {
 		fn_info_game_json "httpport" ".WebServerPort"
 		fn_info_game_json "maxplayers" ".MaxConnections"
 		fn_info_game_json "port" ".GameServerPort"
+		fn_info_game_json "rconport" ".RconServerPort"
 		fn_info_game_json "servername" ".Description"
 		fn_info_game_json "serverpassword" ".Password"
 		fn_info_game_json "tickrate" ".Rate"
@@ -1250,6 +1253,8 @@ fn_info_game_eco() {
 	httpport="${httpport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
@@ -1322,6 +1327,23 @@ fn_info_game_hw() {
 	# #4189 option setting can be blank
 	# defaultmap="${defaultmap:-"NOT SET"}"
 	creativemode="${creativemode:-"NOT SET"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_hz() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "servername" "ServerName"
+	fi
+	adminpass="${adminpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rconport="$((port + 2))"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: parameters
@@ -2331,6 +2353,8 @@ elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
+elif [ "${shortname}" == "hz" ]; then
+	fn_info_game_hz
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss
 elif [ "${shortname}" == "jc2" ]; then
@@ -2463,25 +2487,52 @@ fi
 # Cache public IP address for 24 hours
 if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mmin +1440)" ]; then
 	apiurl="http://ip-api.com/json"
-	publicipresponse=$(curl -s "${apiurl}")
+	fn_script_log_info "Querying ${apiurl} for public IP address"
+
+	ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query ip-api.com with a 3 second timeout
 	exitcode=$?
-	# if curl passes add publicip to publicip.json
-	if [ "${exitcode}" == "0" ]; then
-		fn_script_log_pass "Getting public IP address"
-		echo "${publicipresponse}" > "${tmpdir}/publicip.json"
-		publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
-		country="$(jq -r '.country' "${tmpdir}/publicip.json")"
-		countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
+
+	# Check if the first request was successfull
+	if [ "${exitcode}" -eq 0 ]; then
+		fn_script_log_pass "Queried ${apiurl} for public IP address"
+
+        # Parse and reformat the response
+        publicip="$(echo "${ipresponse}" | jq -r '.query')"
+        country="$(echo "${ipresponse}" | jq -r '.country')"
+        countrycode="$(echo "${ipresponse}" | jq -r '.countryCode')"
+        # Construct a universal JSON format
+        echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
 	else
-		fn_script_log_warn "Unable to get public IP address"
-		publicip="NOT SET"
-		country="NOT SET"
-		countrycode="NOT SET"
+		# Fallback to myip.wtf if the initial request failed or timed out
+		apiurl="https://myip.wtf/json"
+		fn_script_log_pass "Querying ${apiurl} for public IP address"
+
+		ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query myip.wtf with a 3 second timeout as a backup
+		exitcode=$?
+
+		# Check if the backup request was successfull
+		if [ "${exitcode}" -eq 0 ]; then
+			fn_script_log_pass "Queried ${apiurl} for public IP address"
+
+            # Parse and reformat the response from myip.wtf
+            publicip="$(echo "${ipresponse}" | jq -r '.YourFuckingIPAddress')"
+            country="$(echo "${ipresponse}" | jq -r '.YourFuckingCountry')"
+            countrycode="$(echo "${ipresponse}" | jq -r '.YourFuckingCountryCode')"
+            # Construct a universal JSON format
+            echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
+		else
+			fn_script_log_error "Unable to get public IP address"
+			publicip="NOT SET"
+			country="NOT SET"
+			countrycode="NOT SET"
+		fi
 	fi
 else
-	publicip="$(jq -r '.query' "${tmpdir}/publicip.json")"
-	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
-	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
+	# Cached IP is still valid
+    fn_script_log_pass "Using cached IP as public IP address"
+    publicip="$(jq -r '.ip' "${tmpdir}/publicip.json")"
+    country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+    countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address

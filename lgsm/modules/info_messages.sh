@@ -692,6 +692,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "bfv" ]; then
+		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
@@ -1015,7 +1017,9 @@ fn_info_messages_eco() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 		fn_port "Web Interface" httpport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1057,6 +1061,15 @@ fn_info_messages_hw() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_hz() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1767,6 +1780,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_hcu
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_messages_hw
+	elif [ "${shortname}" == "hz" ]; then
+		fn_info_messages_hz
 	elif [ "${shortname}" == "ins" ]; then
 		fn_info_messages_ins
 	elif [ "${shortname}" == "inss" ]; then
