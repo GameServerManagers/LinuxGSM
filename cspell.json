@@ -1,0 +1,14 @@
+{
+  // https://cspell.org/configuration/
+  "version": "0.2",
+  "language": "en",
+  "dictionaries": [], // https://cspell.org/docs/dictionaries/
+  "allowCompoundWords": true,
+  "enableFiletypes": ["shellscript"],
+  "ignorePaths": ["cspell.json", "node_modules"],
+  "minWordLength": 4,
+  "maxNumberOfProblems": 100, 
+  "flagWords": [], // List of words to be always considered incorrect
+  "ignoreWords": [], // Ignore allows you the specify a list of words you want to ignore
+  "words": [] // List of words to be ignored (even if they are in the flagWords list)
+}
