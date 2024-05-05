@@ -64,7 +64,7 @@ kf
 kf2
 l4d
 l4d2
-mc,openjdk-17-jre
+mc,openjdk-21-jre
 mcb
 mh
 mohaa,libstdc++5:i386
@@ -81,12 +81,12 @@ onset,libmariadb-dev
 opfor
 pc
 pc2
-pmc,openjdk-17-jre
+pmc,openjdk-21-jre
 ps,libgconf-2-4
 pvkii
 pvr,libc++1
 pw
-pz,openjdk-17-jre,rng-tools5
+pz,openjdk-21-jre,rng-tools5
 q2
 q3
 q4
@@ -96,7 +96,7 @@ ricochet
 ro
 rtcw
 rust,lib32z1
-rw,openjdk-17-jre
+rw,openjdk-21-jre
 samp
 sb
 sbots
@@ -127,11 +127,11 @@ ut3
 ut99
 vh,libc6-dev
 vints,aspnetcore-runtime-7.0
-vpmc,openjdk-17-jre
+vpmc,openjdk-21-jre
 vs
 wet
 wf
-wmc,openjdk-17-jre
+wmc,openjdk-21-jre
 wurm,xvfb
 zmr,libtinfo5:i386
 zps,libtinfo5:i386
