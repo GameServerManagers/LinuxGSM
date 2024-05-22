@@ -126,7 +126,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,glibc-devel
+vh,glibc-devel,libatomic,pulseaudio-libs-devel
 vints,aspnetcore-runtime-7.0
 vpmc,java-11-openjdk
 vs
