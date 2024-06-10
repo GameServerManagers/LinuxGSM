@@ -105,6 +105,7 @@ scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod,ubuntu-22.04
 sdtd,sdtdserver,7 Days to Die,ubuntu-22.04
 sf,sfserver,Satisfactory,ubuntu-22.04
 sfc,sfcserver,SourceForts Classic,ubuntu-22.04
+sm,smserver,Soulmask,ubuntu-22.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-22.04
 sol,solserver,Soldat,ubuntu-22.04
 squad,squadserver,Squad,ubuntu-22.04
