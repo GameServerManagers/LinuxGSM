@@ -106,7 +106,7 @@ scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
-sm
+sm,telnet,expect
 sof2
 sol
 squad
