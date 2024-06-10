@@ -115,7 +115,6 @@ declare -A server_details=(
 	['Telnet Enabled']="${telnetenabled}"
 	['Telnet IP']="${telnetip}"
 	['Telnet Password']="${telnetpass}"
-	['Telnet Password']="${telnetpassword}"
 	['Telnet Port']="${telnetport}"
 	['Tickrate']="${tickrate}"
 	['Unknown Port']="${unknownport}"
