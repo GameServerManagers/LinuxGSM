@@ -702,11 +702,6 @@ elif [ "${shortname}" == "sf" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "sm" ]; then
-	# array_configs+=(Engine.ini)
-	# fn_fetch_default_config
-	# fn_default_config_remote
-	# fn_set_config_vars
-	# fn_list_config_locations
 	fn_default_config_local
 	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then

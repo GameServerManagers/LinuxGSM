@@ -2010,7 +2010,6 @@ fn_info_game_sf() {
 fn_info_game_sm() {
 	servername="${servername:-"NOT SET"}"
 	adminpassword="${adminpassword:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
