@@ -1456,6 +1456,23 @@ fn_info_messages_sf() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_sm() {
+	fn_info_messages_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Telnet" telnetport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Telnet${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_sof2() {
 	{
 		fn_port "header"
@@ -1852,6 +1869,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_sdtd
 	elif [ "${shortname}" == "sf" ]; then
 		fn_info_messages_sf
+	elif [ "${shortname}" == "sm" ]; then
+		fn_info_messages_sm
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_messages_sof2
 	elif [ "${shortname}" == "sol" ]; then
