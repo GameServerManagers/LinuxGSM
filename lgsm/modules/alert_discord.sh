@@ -119,6 +119,11 @@ jsonnoinfo=$(
                     "inline": true
                 },
                 {
+                    "name": "Is my Game Server Online?",
+                    "value": "https://ismygameserver.online/${querytype}/${alertip}:${queryport}",
+                    "inline": true
+                },
+                {
                     "name": "Server Time",
                     "value": "$(date)",
                     "inline": true
@@ -142,7 +147,7 @@ else
 	json="${jsoninfo}"
 fi
 
-discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
+discordsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"
