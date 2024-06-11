@@ -268,12 +268,16 @@ fn_stop_graceful_sm_telnet() {
 		}
 		spawn telnet '"${telnetip}"' '"${telnetport}"'
 		expect {
-			"session."  { send "saveworld 1\r" }
-			default         abort
+			"Hello:"	{ send "saveworld 1\r" }
+			default	abort
 		}
 		expect {
-			"session."  { send "quit 1\r" }
-			default         abort
+			"the world is saved."	{ send "quit 1\r" }
+			default	abort
+		}
+		expect {
+			"World is closing..."	{}
+			default	abort
 		}
 		expect { eof }
 		puts "Completed.\n"
