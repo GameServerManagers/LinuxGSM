@@ -2496,12 +2496,12 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 	if [ "${exitcode}" -eq 0 ]; then
 		fn_script_log_pass "Queried ${apiurl} for public IP address"
 
-        # Parse and reformat the response
-        publicip="$(echo "${ipresponse}" | jq -r '.query')"
-        country="$(echo "${ipresponse}" | jq -r '.country')"
-        countrycode="$(echo "${ipresponse}" | jq -r '.countryCode')"
-        # Construct a universal JSON format
-        echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
+		# Parse and reformat the response
+		publicip="$(echo "${ipresponse}" | jq -r '.query')"
+		country="$(echo "${ipresponse}" | jq -r '.country')"
+		countrycode="$(echo "${ipresponse}" | jq -r '.countryCode')"
+		# Construct a universal JSON format
+		echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
 	else
 		# Fallback to myip.wtf if the initial request failed or timed out
 		apiurl="https://myip.wtf/json"
@@ -2514,12 +2514,12 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 		if [ "${exitcode}" -eq 0 ]; then
 			fn_script_log_pass "Queried ${apiurl} for public IP address"
 
-            # Parse and reformat the response from myip.wtf
-            publicip="$(echo "${ipresponse}" | jq -r '.YourFuckingIPAddress')"
-            country="$(echo "${ipresponse}" | jq -r '.YourFuckingCountry')"
-            countrycode="$(echo "${ipresponse}" | jq -r '.YourFuckingCountryCode')"
-            # Construct a universal JSON format
-            echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
+			# Parse and reformat the response from myip.wtf
+			publicip="$(echo "${ipresponse}" | jq -r '.YourFuckingIPAddress')"
+			country="$(echo "${ipresponse}" | jq -r '.YourFuckingCountry')"
+			countrycode="$(echo "${ipresponse}" | jq -r '.YourFuckingCountryCode')"
+			# Construct a universal JSON format
+			echo "{\"ip\":\"${publicip}\",\"country\":\"${country}\",\"countryCode\":\"${countrycode}\",\"apiurl\":\"${apiurl}\"}" > "${tmpdir}/publicip.json"
 		else
 			fn_script_log_error "Unable to get public IP address"
 			publicip="NOT SET"
@@ -2529,10 +2529,10 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 	fi
 else
 	# Cached IP is still valid
-    fn_script_log_pass "Using cached IP as public IP address"
-    publicip="$(jq -r '.ip' "${tmpdir}/publicip.json")"
-    country="$(jq -r '.country' "${tmpdir}/publicip.json")"
-    countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
+	fn_script_log_pass "Using cached IP as public IP address"
+	publicip="$(jq -r '.ip' "${tmpdir}/publicip.json")"
+	country="$(jq -r '.country' "${tmpdir}/publicip.json")"
+	countrycode="$(jq -r '.countryCode' "${tmpdir}/publicip.json")"
 fi
 
 # Alert IP address
@@ -2559,11 +2559,11 @@ if [ -z "${displaymasterserver}" ]; then
 		if [ -n "${ip}" ] && [ -n "${port}" ]; then
 			if [ "${steammaster}" == "true" ] || [ "${commandname}" == "DEV-QUERY-RAW" ]; then
 				# Query external IP first as most liky to succeed.
-				masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+				masterserver="$(curl --connect-timeout 3 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${publicip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 				if [ "${masterserver}" == "0" ]; then
 					# Loop though server IP addresses if external IP fails.
 					for queryip in "${queryips[@]}"; do
-						masterserver="$(curl --connect-timeout 10 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
+						masterserver="$(curl --connect-timeout 3 -m 3 -s "https://api.steampowered.com/ISteamApps/GetServersAtAddress/v0001?addr=${queryip}&format=json" | jq --arg port "${port}" --arg queryport "${queryport}" --arg port3 "${port3}" 'if .response.servers != null then .response.servers[] | select((.gameport == ($port|tonumber) or .gameport == ($queryport|tonumber) or .gameport == ($port3|tonumber))) | .addr else empty end' | wc -l 2> /dev/null)"
 					done
 				fi
 				if [ "${masterserver}" == "0" ]; then
