@@ -1510,24 +1510,6 @@ fn_info_game_mohaa() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
-# Config Type: json
-# Parameters: true
-# Comment: // or /* */
-fn_info_game_mom() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_json "defaultmap" ".MapName"
-		fn_info_game_json "maxplayers" ".MaxPlayers"
-		fn_info_game_json "servername" ".ServerName"
-		fn_info_game_json "serverpassword" ".ServerPassword"
-	fi
-	beaconport="${beaconport:-"0"}"
-	defaultmap="${defaultmap:-"NOT SET"}"
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
-}
-
 # Config Type: xml
 # Comment: <!-- -->
 # Example: <servername>Default MTA Server</servername>
@@ -2375,8 +2357,6 @@ elif [ "${shortname}" == "mh" ]; then
 	fn_info_game_mh
 elif [ "${shortname}" == "mohaa" ]; then
 	fn_info_game_mohaa
-elif [ "${shortname}" == "mom" ]; then
-	fn_info_game_mom
 elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
 elif [ "${shortname}" == "nec" ]; then
