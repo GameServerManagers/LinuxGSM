@@ -416,6 +416,7 @@ fn_monitor_check_monitoring
 fn_monitor_check_starting
 fn_monitor_check_stopping
 fn_monitor_check_session
+fn_monitor_check_restart_request
 
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
@@ -428,5 +429,5 @@ if [ "${querymode}" != "1" ]; then
 
 	fn_monitor_loop
 fi
-fn_monitor_check_restart_request
+
 core_exit.sh
