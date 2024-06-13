@@ -331,7 +331,7 @@ fn_stop_pre_check
 # Remove started lockfile.
 rm -f "${lockdir:?}/${selfname}-started.lock"
 
-# If user ran the stop command, monitor will become disabled.
+# If user ran the stop command monitor will become disabled.
 if [ "${firstcommandname}" == "STOP" ]; then
 	rm -f "${lockdir:?}/${selfname}-monitoring.lock"
 fi
