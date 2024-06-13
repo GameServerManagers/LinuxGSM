@@ -14,12 +14,12 @@ fn_check_ownership() {
 		fi
 	fi
 	if [ -d "${modulesdir}" ]; then
-		if [ "$(find "${modulesdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
+		if [ "$(find "${modulesdir}" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			funcownissue=1
 		fi
 	fi
 	if [ -d "${serverfiles}" ]; then
-		if [ "$(find "${serverfiles}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
+		if [ "$(find "${serverfiles}" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi

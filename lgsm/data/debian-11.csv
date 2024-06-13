@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hz
 ins
 inss
 ios
@@ -68,7 +69,6 @@ mc,openjdk-17-jre
 mcb
 mh
 mohaa,libstdc++5:i386
-mom
 mta,libncursesw5,libxml2-utils
 nd
 nec
@@ -125,7 +125,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,libc6-dev
+vh,libc6-dev,libatomic1,libpulse-dev
 vints,aspnetcore-runtime-7.0
 vpmc,openjdk-11-jre
 vs

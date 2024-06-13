@@ -53,6 +53,7 @@ hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
 hw,hwserver,Hurtworld,ubuntu-22.04
+hz,hzserver,Humanitz,ubuntu-22.04
 ins,insserver,Insurgency,ubuntu-22.04
 inss,inssserver,Insurgency: Sandstorm,ubuntu-22.04
 ios,iosserver,IOSoccer,ubuntu-22.04
@@ -67,7 +68,6 @@ mc,mcserver,Minecraft,ubuntu-22.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
 mh,mhserver,MORDHAU,ubuntu-22.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
-mom,momserver,Memories of Mars,ubuntu-22.04
 mta,mtaserver,Multi Theft Auto,ubuntu-22.04
 nd,ndserver,Nuclear Dawn,ubuntu-22.04
 nec,necserver,Necesse,ubuntu-22.04

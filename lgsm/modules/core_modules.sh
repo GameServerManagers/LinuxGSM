@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v24.1.4"
+modulesversion="v24.2.1"
 
 # Core
 
@@ -299,7 +299,12 @@ command_dev_debug.sh() {
 	fn_fetch_module
 }
 
-command_dev_details.sh() {
+command_dev_parse_game_details.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_parse_distro_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

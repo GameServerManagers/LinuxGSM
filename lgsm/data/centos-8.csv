@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,zlib-devel
+hz
 ins
 inss
 ios
@@ -64,11 +65,10 @@ kf
 kf2
 l4d
 l4d2
-mc,java-17-openjdk
+mc,java-21-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
-mom
 mta,ncurses-compat-libs,libxml2
 nd
 nec
@@ -125,7 +125,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,glibc-devel
+vh,glibc-devel,libatomic,pulseaudio-libs-devel
 vints,aspnetcore-runtime-7.0
 vpmc,java-17-openjdk
 vs
