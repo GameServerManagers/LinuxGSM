@@ -1160,7 +1160,7 @@ fn_info_game_col() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
-	rcpassword="${rconpassword:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steamport="${steamport:-"0"}"
@@ -1174,11 +1174,11 @@ fn_info_game_cs2() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "defaultmap" "map"
-		fn_info_game_valve_keyvalues "password" "sv_password"
+		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
-	password="${password:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
