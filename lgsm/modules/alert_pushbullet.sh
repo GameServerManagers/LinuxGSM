@@ -36,7 +36,7 @@ else
 fi
 
 fn_print_dots "Sending Pushbullet alert"
-pushbulletsend=$(curl --connect-timeout 10 -sSL -H "Access-Token: ${pushbullettoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
+pushbulletsend=$(curl --connect-timeout 3 -sSL -H "Access-Token: ${pushbullettoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
 
 if [ -n "${pushbulletsend}" ]; then
 	fn_print_fail_nl "Sending Pushbullet alert: ${pushbulletsend}"

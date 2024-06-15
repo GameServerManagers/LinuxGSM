@@ -1192,14 +1192,6 @@ fn_info_messages_mohaa() {
 	} | column -s $'\t' -t
 }
 
-fn_info_messages_mom() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Beacon" beaconport udp
-	} | column -s $'\t' -t
-}
-
 fn_info_messages_mta() {
 	{
 		fn_port "header"
@@ -1821,8 +1813,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_mh
 	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_messages_mohaa
-	elif [ "${shortname}" == "mom" ]; then
-		fn_info_messages_mom
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_messages_mta
 	elif [ "${shortname}" == "nec" ]; then

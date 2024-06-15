@@ -70,7 +70,6 @@ declare -A server_details=(
 	['Max Players']="${maxplayers}"
 	['Mod Server Port']="${modserverport}"
 	['OldQueryPortNumber']="${oldqueryportnumber}"
-	['Password']="${password}"
 	['Port 401']="${port401}"
 	['Port IPv6']="${portipv6}"
 	['Port']="${port}"
@@ -85,7 +84,6 @@ declare -A server_details=(
 	['Queue Port']="${queueport}"
 	['Random Map']="${randommap}"
 	['Raw Port']="${rawport}"
-	['RC Password']="${rcpassword}"
 	['RCON Enabled']="${rconenabled}"
 	['RCON Password']="${rconpassword}"
 	['RCON Port']="${rconport}"
@@ -132,7 +130,7 @@ missing_details=""
 
 # Loop through the server details and store them.
 for key in "${!server_details[@]}"; do
-    value=${server_details[$key]}
+	value=${server_details[$key]}
 	if [ -n "$value" ]; then
 		available_details+="${lightblue}${key}: ${default}${value}\n"
 	else
@@ -143,9 +141,9 @@ done
 # Sort and output the available distro details.
 if [ -n "$available_details" ]; then
 	echo -e ""
-    echo -e "${bold}${lightgreen}Available Gameserver Details${default}"
-    fn_messages_separator
-    echo -e "${available_details}" | sort
+	echo -e "${bold}${lightgreen}Available Gameserver Details${default}"
+	fn_messages_separator
+	echo -e "${available_details}" | sort
 fi
 
 # Output the missing server details if there are any.

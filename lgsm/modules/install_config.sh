@@ -589,12 +589,6 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shotname}" == "mom" ]; then
-	array_configs+=(DedicatedServerConfig.cfg)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "pvr" ]; then
 	fn_check_cfgdir
 	array_configs+=(Game.ini)
