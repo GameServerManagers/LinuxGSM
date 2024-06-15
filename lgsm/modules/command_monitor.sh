@@ -110,7 +110,7 @@ fn_monitor_check_stopping() {
 }
 
 fn_monitor_check_restart_request() {
-	if [ -f "${lockdir}/${selfname}-restart-request.lock" ]; then
+	if [ -f "${lockdir}/${selfname}-stop-request.lock" ]; then
 		fn_print_dots "Checking restart: "
 		fn_print_checking_eol
 		fn_print_info "Checking restart: Restart requested: "
