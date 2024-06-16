@@ -30,8 +30,8 @@ fn_info_messages_password_strip() {
 			httppassword="********"
 		fi
 
-		if [ "${telnetpass}" ]; then
-			telnetpass="********"
+		if [ "${telnetpassword}" ]; then
+			telnetpassword="********"
 		fi
 
 		if [ "${wsapikey}" ]; then
@@ -1442,7 +1442,7 @@ fn_info_messages_sdtd() {
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
 		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
-		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
+		echo -e "${lightblue}Telnet password:\t${default}${telnetpassword}"
 	} | column -s $'\t' -t
 }
 

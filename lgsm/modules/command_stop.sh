@@ -96,7 +96,7 @@ fn_stop_graceful_goldsrc() {
 
 # telnet command for sdtd graceful shutdown.
 fn_stop_graceful_sdtd_telnet() {
-	if [ -z "${telnetpass}" ] || [ "${telnetpass}" == "NOT SET" ]; then
+	if [ -z "${telnetpassword}" ] || [ "${telnetpassword}" == "NOT SET" ]; then
 		sdtd_telnet_shutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
@@ -118,7 +118,7 @@ fn_stop_graceful_sdtd_telnet() {
 		}
 		spawn telnet '"${telnetip}"' '"${telnetport}"'
 		expect {
-			"password:"     { send "'"${telnetpass}"'\r" }
+			"password:"     { send "'"${telnetpassword}"'\r" }
 			default         abort
 		}
 		expect {

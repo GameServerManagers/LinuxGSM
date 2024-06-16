@@ -1970,7 +1970,7 @@ fn_info_game_sdtd() {
 	telnetenabled="${telnetenabled:-"NOT SET"}"
 	# Telnet IP will be localhost if no password is set
 	# check_ip will set the IP first. This will overwrite it.
-	if [ -z "${telnetpass}" ]; then
+	if [ -z "${telnetpassword}" ]; then
 		telnetip="127.0.0.1"
 	fi
 	telnetpass="${telnetpass:-"NOT SET"}"
