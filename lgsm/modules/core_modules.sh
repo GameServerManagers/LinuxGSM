@@ -446,6 +446,11 @@ fix_sfc.sh() {
 	fn_fetch_module
 }
 
+fix_sm.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_st.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

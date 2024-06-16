@@ -112,7 +112,6 @@ declare -A server_details=(
 	['Steamworks Port']="${steamworksport}"
 	['Telnet Enabled']="${telnetenabled}"
 	['Telnet IP']="${telnetip}"
-	['Telnet Password']="${telnetpass}"
 	['Telnet Password']="${telnetpassword}"
 	['Telnet Port']="${telnetport}"
 	['Tickrate']="${tickrate}"

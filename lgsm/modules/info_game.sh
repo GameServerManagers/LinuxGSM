@@ -1970,7 +1970,7 @@ fn_info_game_sdtd() {
 	telnetenabled="${telnetenabled:-"NOT SET"}"
 	# Telnet IP will be localhost if no password is set
 	# check_ip will set the IP first. This will overwrite it.
-	if [ -z "${telnetpass}" ]; then
+	if [ -z "${telnetpassword}" ]; then
 		telnetip="127.0.0.1"
 	fi
 	telnetpass="${telnetpass:-"NOT SET"}"
@@ -1986,6 +1986,19 @@ fn_info_game_sf() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
+}
+
+# Config Type: Parameters (with an ini)
+fn_info_game_sm() {
+	servername="${servername:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	# telnet config
+	telnetenabled=true
+	telnetip="127.0.0.1"
+	telnetport="${telnetport:-"0"}"
 }
 
 # Config Type: QuakeC
@@ -2407,6 +2420,8 @@ elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd
 elif [ "${shortname}" == "sf" ]; then
 	fn_info_game_sf
+elif [ "${shortname}" == "sm" ]; then
+	fn_info_game_sm
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_game_sof2
 elif [ "${shortname}" == "sol" ]; then

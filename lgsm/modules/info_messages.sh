@@ -30,8 +30,8 @@ fn_info_messages_password_strip() {
 			httppassword="********"
 		fi
 
-		if [ "${telnetpass}" ]; then
-			telnetpass="********"
+		if [ "${telnetpassword}" ]; then
+			telnetpassword="********"
 		fi
 
 		if [ "${wsapikey}" ]; then
@@ -483,6 +483,11 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
 		fi
 
+		# backupinterval (Soulmask)
+		if [ -n "${backupinterval}" ]; then
+			echo -e "${lightblue}Backup Interval:\t${default}${backupinterval}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
@@ -702,6 +707,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
+	elif [ "${shortname}" == "sm" ]; then
+		portcommand="ss -tuplwn | grep WSServer-Linux"
 	elif [ "${engine}" == "source" ]; then
 		portcommand="ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
@@ -1435,7 +1442,7 @@ fn_info_messages_sdtd() {
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
 		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
-		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
+		echo -e "${lightblue}Telnet password:\t${default}${telnetpassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1445,6 +1452,23 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_sm() {
+	fn_info_messages_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Telnet" telnetport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Telnet${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 	} | column -s $'\t' -t
 }
 
@@ -1842,6 +1866,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_sdtd
 	elif [ "${shortname}" == "sf" ]; then
 		fn_info_messages_sf
+	elif [ "${shortname}" == "sm" ]; then
+		fn_info_messages_sm
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_messages_sof2
 	elif [ "${shortname}" == "sol" ]; then
