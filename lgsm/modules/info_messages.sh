@@ -483,6 +483,11 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
 		fi
 
+		# backupinterval (Soulmask)
+		if [ -n "${backupinterval}" ]; then
+			echo -e "${lightblue}Backup Interval:\t${default}${backupinterval}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
