@@ -97,7 +97,7 @@ fn_stop_graceful_goldsrc() {
 # telnet command for sdtd graceful shutdown.
 fn_stop_graceful_sdtd_telnet() {
 	if [ -z "${telnetpassword}" ] || [ "${telnetpassword}" == "NOT SET" ]; then
-		sdtd_telnet_shutdown=$(expect -c '
+		sdtdtelnetshutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
@@ -111,7 +111,7 @@ fn_stop_graceful_sdtd_telnet() {
 		puts "Completed.\n"
 		')
 	else
-		sdtd_telnet_shutdown=$(expect -c '
+		sdtdtelnetshutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
@@ -143,8 +143,8 @@ fn_stop_graceful_sdtd() {
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_stop_graceful_sdtd_telnet
-			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
-			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
+			completed=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Completed.")
+			refused=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Timeout or EOF")
 			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
@@ -159,7 +159,7 @@ fn_stop_graceful_sdtd() {
 		if [ "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_graceful_sdtd_telnet
-				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
+				refused=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Timeout or EOF")
 				if [ "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
@@ -185,7 +185,7 @@ fn_stop_graceful_sdtd() {
 			fi
 			echo -en "\n" | tee -a "${lgsmlog}"
 			echo -en "Telnet output:" | tee -a "${lgsmlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtdtelnetshutdown}" | tee -a "${lgsmlog}"
 			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
@@ -207,8 +207,8 @@ fn_stop_graceful_sm() {
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_stop_graceful_sm_telnet
-			completed=$(echo -en "\n ${sm_telnet_shutdown}" | grep "Completed.")
-			refused=$(echo -en "\n ${sm_telnet_shutdown}" | grep "Timeout or EOF")
+			completed=$(echo -en "\n ${smtelnetshutdown}" | grep "Completed.")
+			refused=$(echo -en "\n ${smtelnetshutdown}" | grep "Timeout or EOF")
 			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
@@ -223,7 +223,7 @@ fn_stop_graceful_sm() {
 		if [ "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_graceful_sm_telnet
-				refused=$(echo -en "\n ${sm_telnet_shutdown}" | grep "Timeout or EOF")
+				refused=$(echo -en "\n ${smtelnetshutdown}" | grep "Timeout or EOF")
 				if [ "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
@@ -249,7 +249,7 @@ fn_stop_graceful_sm() {
 			fi
 			echo -en "\n" | tee -a "${lgsmlog}"
 			echo -en "Telnet output:" | tee -a "${lgsmlog}"
-			echo -en "\n ${sm_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n ${smtelnetshutdown}" | tee -a "${lgsmlog}"
 			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
@@ -261,7 +261,7 @@ fn_stop_graceful_sm() {
 
 # telnet command for soulmask graceful shutdown.
 fn_stop_graceful_sm_telnet() {
-	sm_telnet_shutdown=$(expect -c '
+	smtelnetshutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
