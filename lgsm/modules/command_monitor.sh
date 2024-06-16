@@ -110,12 +110,28 @@ fn_monitor_check_stopping() {
 }
 
 fn_monitor_check_restart_request() {
-	if [ -f "${lockdir}/${selfname}-stop-request.lock" ]; then
+	if [ -f "${lockdir}/${selfname}-restart-request.lock" ]; then
 		fn_print_dots "Checking restart: "
 		fn_print_checking_eol
 		fn_print_info "Checking restart: Restart requested: "
 		fn_print_info_eol_nl
 		fn_script_log_info "Checking restart: Restart requested"
+		if [ "${stoponlyifnoplayers}" == "on" ]; then
+			if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
+				for queryip in "${queryips[@]}"; do
+					query_gamedig.sh
+					if [ "${querystatus}" == "0" ]; then
+						if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
+							fn_print_info_nl "${gdplayers} players are on the server: restart postponed"
+							fn_script_log_info "${gdplayers} players are on the server: restart postponed"
+							echo "${gdplayers}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+							date '+%s' > "${lockdir:?}/${selfname}-restart-request.lock"
+							core_exit.sh
+						fi
+					fi
+				done
+			fi
+		fi
 		command_restart.sh
 		core_exit.sh
 	fi

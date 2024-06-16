@@ -18,15 +18,10 @@ fn_stop_players_online() {
 				query_gamedig.sh
 				if [ "${querystatus}" == "0" ]; then
 					if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
-						fn_print_info_nl "Server will not stop while ${gdplayers} players are on the server"
-						fn_script_log_info "Server will not stop while ${gdplayers} players are on the server"
-						date '+%s' > "${lockdir:?}/${selfname}-stop-request.lock"
+						fn_print_info_nl "${gdplayers} players are on the server: stop prevented"
+						fn_script_log_info "${gdplayers} players are on the server: stop prevented"
+						echo "${gdplayers}" > "${lockdir:?}/${selfname}-player-numbers.lock"
 						core_exit.sh
-					else
-						if [ -f "${lockdir:?}/${selfname}-stop-request.lock" ]; then
-							rm -f "${lockdir:?}/${selfname}-stop-request.lock"
-						fi
-						break
 					fi
 				fi
 			done
