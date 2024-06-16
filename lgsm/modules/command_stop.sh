@@ -10,6 +10,25 @@ commandaction="Stopping"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# Only stop the server if there are no players on the server
+fn_stop_players_online() {
+	if [ "${stoponlyifnoplayers}" == "on" ]; then
+		if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
+			for queryip in "${queryips[@]}"; do
+				query_gamedig.sh
+				if [ "${querystatus}" == "0" ]; then
+					if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
+						fn_print_info_nl "${gdplayers} players are on the server: stop prevented"
+						fn_script_log_info "${gdplayers} players are on the server: stop prevented"
+						echo "${gdplayers}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+						core_exit.sh
+					fi
+				fi
+			done
+		fi
+	fi
+}
+
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
@@ -373,6 +392,7 @@ fn_stop_pre_check() {
 		fn_print_info_nl "${servername} is already stopped"
 		fn_script_log_info "${servername} is already stopped"
 	else
+		fn_stop_players_online
 		# Select graceful shutdown.
 		fn_stop_graceful_select
 		# Check status again, a kill tmux session if graceful shutdown failed.
