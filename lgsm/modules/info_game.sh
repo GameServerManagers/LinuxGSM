@@ -1997,13 +1997,7 @@ fn_info_game_sm() {
 	maxplayers="${maxplayers:-"0"}"
 	# telnet config
 	telnetenabled=true
-	telnetport="${telnetport:-"0"}"
-	# Telnet IP will be localhost if no password is set
-	# check_ip will set the IP first. This will overwrite it.
-	if [ -z "${telnetpass}" ]; then
-		telnetip="127.0.0.1"
-	fi
-	telnetpass="${telnetpass:-"NOT SET"}"
+	telnetip="127.0.0.1"
 	telnetport="${telnetport:-"0"}"
 }
 
