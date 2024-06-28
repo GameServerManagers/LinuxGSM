@@ -105,7 +105,7 @@ scpslsm
 sdtd,telnet,expect,libxml2
 sf
 sfc,ncurses-libs.i686
-sm,telnet,expect
+sm,telnet,expect,pigz
 sof2
 sol
 squad
