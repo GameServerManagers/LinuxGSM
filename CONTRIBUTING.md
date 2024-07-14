@@ -6,32 +6,33 @@ The following is a set of guidelines for contributing to LinuxGSM, which are hos
 
 ## Table of Contents
 
- [Contributing to LinuxGSM](#contributing-to-linuxgsm)
-  * [Table of Contents](#table-of-contents)
-  * [Code of Conduct](#code-of-conduct)
-  * [🎉 Bug/Enhancement Contributions 🐛](#bug-enhancement-contributions)
-    + [🐛Reporting Bugs](#reporting-bugs)
-      - [Before Submitting A Bug Report](#before-submitting-a-bug-report)
-      - [How Do I Submit A (Good) Bug Report?](#how-do-i-submit-a--good--bug-report-)
-    + [🎉Suggesting Features](#suggesting-features)
-      - [Before Submitting An Feature Suggestion](#before-submitting-an-feature-suggestion)
-      - [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
-    + [🎮 Game Server Requests](#game-server-requests)
-      - [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
-      - [How Do I Submit A (Good) Game Server Request?](#how-do-i-submit-a--good--game-server-request-)
-    + [🎮 Game Server Specific Issues](#game-server-specific-issues)
-  * [💻 Code Contributions](#code-contributions)
-    + [Pull Requests](#pull-requests)
-      - [Pull Request naming convention](#pull-request-naming-convention)
-    + [Testing](#testing)
-      - [Pull Request Status Checks](#pull-request-status-checks)
-      - [Test Environment](#test-environment)
-    + [:wine_glass: Styleguides](#-wine-glass--styleguides)
-      - [Git Commit Messages](#git-commit-messages)
-      - [BASH Styleguide](#bash-styleguide)
-  * [:blue_book: Document Contributions](#-blue-book--document-contributions)
-    + [Documentation Styleguide](#documentation-styleguide)
-  * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
+[Contributing to LinuxGSM](#contributing-to-linuxgsm)
+
+-   [Table of Contents](#table-of-contents)
+-   [Code of Conduct](#code-of-conduct)
+-   [🎉 Bug/Enhancement Contributions 🐛](#bug-enhancement-contributions)
+    -   [🐛Reporting Bugs](#reporting-bugs)
+        -   [Before Submitting A Bug Report](#before-submitting-a-bug-report)
+        -   [How Do I Submit A (Good) Bug Report?](#how-do-i-submit-a--good--bug-report-)
+    -   [🎉Suggesting Features](#suggesting-features)
+        -   [Before Submitting An Feature Suggestion](#before-submitting-an-feature-suggestion)
+        -   [How Do I Submit A (Good) Feature Suggestion?](#how-do-i-submit-a--good--feature-suggestion-)
+    -   [🎮 Game Server Requests](#game-server-requests)
+        -   [Before Submitting a Game Server Request](#before-submitting-a-game-server-request)
+        -   [How Do I Submit A (Good) Game Server Request?](#how-do-i-submit-a--good--game-server-request-)
+    -   [🎮 Game Server Specific Issues](#game-server-specific-issues)
+-   [💻 Code Contributions](#code-contributions)
+    -   [Pull Requests](#pull-requests)
+        -   [Pull Request naming convention](#pull-request-naming-convention)
+    -   [Testing](#testing)
+        -   [Pull Request Status Checks](#pull-request-status-checks)
+        -   [Test Environment](#test-environment)
+    -   [:wine_glass: Styleguides](#-wine-glass--styleguides)
+        -   [Git Commit Messages](#git-commit-messages)
+        -   [BASH Styleguide](#bash-styleguide)
+-   [:blue_book: Document Contributions](#-blue-book--document-contributions)
+    -   [Documentation Styleguide](#documentation-styleguide)
+-   [Issue and Pull Request Labels](#issue-and-pull-request-labels)
 
 ## Code of Conduct
 
@@ -43,24 +44,24 @@ This project and everyone participating in it is governed by the [LinuxGSM Code 
 
 This section guides you through submitting a bug report for LinuxGSM. Following these guidelines help maintainers and the community understand your report 📝, reproduce the behaviour💻, and find any related reports 🔎.
 
-Before creating bug reports, please check [this list](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#before-submitting-a-bug-report) as you might find out that you don’t need to create one. When you are creating a bug report, please [include as many details as possible](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#how-do-i-submit-a-good-bug-report). Fill out [the required template]([https://github.com/GameServerManagers/LinuxGSM/issues/new/choose](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose)), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#before-submitting-a-bug-report) as you might find out that you don’t need to create one. When you are creating a bug report, please [include as many details as possible](https://github.com/GameServerManagers/linuxgsm/blob/master/CONTRIBUTING.md#how-do-i-submit-a-good-bug-report). Fill out [the required template](<[https://github.com/GameServerManagers/LinuxGSM/issues/new/choose](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose)>), the information it asks for helps us resolve issues faster.
 
 #### Before Submitting A Bug Report
 
-* **Check the [documentation](https://docs.linuxgsm.com).** You might be able to find the cause of the problem and fix things yourself.
-* **Check the** [**support page**](https://linuxgsm.com/support) for links to other support options.
-* **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
+-   **Check the [documentation](https://docs.linuxgsm.com).** You might be able to find the cause of the problem and fix things yourself.
+-   **Check the** [**support page**](https://linuxgsm.com/support) for links to other support options.
+-   **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
 Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue and provide the following information by filling in [the issues form](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose).
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Complete the user story** to give a summary of the issue.
-* **Provide basic info** to help us understand the context of the issue.
-* **Provide further info** to give specifics and more detail.
-* **Give steps to reproduce** the issue, allowing developers to follow steps that lead to the issue.
-* **Explain what you expect** to happen, so we know what you think should occur.
+-   **Use a clear and descriptive title** for the issue to identify the problem.
+-   **Complete the user story** to give a summary of the issue.
+-   **Provide basic info** to help us understand the context of the issue.
+-   **Provide further info** to give specifics and more detail.
+-   **Give steps to reproduce** the issue, allowing developers to follow steps that lead to the issue.
+-   **Explain what you expect** to happen, so we know what you think should occur.
 
 ### 🎉Suggesting Features
 
@@ -68,31 +69,34 @@ This section guides you through submitting a feature suggestion for LinuxGSM, in
 
 #### Before Submitting An Feature Suggestion
 
-* **Check the** [**documentation**](https://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/)) to confirm that the enhancement doesn’t already exist.
-* **Check your** [**LinuxGSM version**](https://docs.linuxgsm.com/commands/update-lgsm)**.** A newer version of LinuxGSM may already have your enhancement.
-* **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the enhancement has already been suggested. If it has **and the enhancement is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
+-   **Check the** [**documentation**](<https://docs.linuxgsm.com/%5D(https://docs.linuxgsm.com/)>) to confirm that the enhancement doesn’t already exist.
+-   **Check your** [**LinuxGSM version**](https://docs.linuxgsm.com/commands/update-lgsm)**.** A newer version of LinuxGSM may already have your enhancement.
+-   **Perform a** [**cursory search**](https://github.com/search?q=org:GameServerManagers%20type:issues&type=Issues) to see if the enhancement has already been suggested. If it has **and the enhancement is still open**, add a comment to the existing issue and give it a thumbs up instead of opening a new one.
 
 #### How Do I Submit A (Good) Feature Suggestion?
 
 Features are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue and provide the following information by filling in [the issues form](https://github.com/GameServerManagers/LinuxGSM/issues/new/choose).
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Complete the user story** to give a summary of the issue.
-* **Provide basic info** to help us understand the context of the enhancement.
-* **Provide further info** to give specifics and more detail.
-* **Provide any further reading** materials that might assist in developing the enhancement.
+-   **Use a clear and descriptive title** for the issue to identify the problem.
+-   **Complete the user story** to give a summary of the issue.
+-   **Provide basic info** to help us understand the context of the enhancement.
+-   **Provide further info** to give specifics and more detail.
+-   **Provide any further reading** materials that might assist in developing the enhancement.
 
 ### 🎮 Game Server Requests
 
 This section guides you through submitting a game server request for LinuxGSM, Following these guidelines help maintainers and the community understand your game server request 📝.
+
 #### Before Submitting a Game Server Request
 
-* **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs up.
-* **Check the game server is supported on Linux**, this does not include Wine servers which we do not support.
+-   **Check for existing** [**game server requests**](https://github.com/GameServerManagers/LinuxGSM/labels/type%3A%20game%20server%20request) to see if the new game server has already been suggested. If it has **and if the new game server is still open**, give it a thumbs up.
+-   **Check the game server is supported on Linux**, this does not include Wine servers which we do not support.
+
 #### How Do I Submit A (Good) Game Server Request?
-* The title should be as follows: **[Server Request] Game Name**
-*  **Provide Steam App ID** if applicable
-* **Supply any documentation/how-to guides** for the game server.
+
+-   The title should be as follows: **[Server Request] Game Name**
+-   **Provide Steam App ID** if applicable
+-   **Supply any documentation/how-to guides** for the game server.
 
 ### 🎮 Game Server Specific Issues
 
@@ -110,10 +114,10 @@ A [list](https://docs.linuxgsm.com/support/game-server) of known game developer 
 
 The process described here has several goals:
 
-* Maintain LinuxGSM quality.
-* Fix problems that are important to users.
-* Engage the community in working toward the best possible LinuxGSM.
-* Enable a sustainable system for LinuxGSM maintainers to review contributions.
+-   Maintain LinuxGSM quality.
+-   Fix problems that are important to users.
+-   Engage the community in working toward the best possible LinuxGSM.
+-   Enable a sustainable system for LinuxGSM maintainers to review contributions.
 
 Please follow these steps to have your contribution considered by the maintainers:
 
@@ -135,18 +139,18 @@ If applied, this commit will _your subject line here_
 
 For example:
 
-* If applied, this commit will **refactor subsystem X for readability**
-* If applied, this commit will **update getting started documentation**
-* If applied, this commit will **remove deprecated methods**
-* If applied, this commit will **release version 1.0.0**
-* If applied, this commit will **merge pull request #123 from user/branch**
+-   If applied, this commit will **refactor subsystem X for readability**
+-   If applied, this commit will **update getting started documentation**
+-   If applied, this commit will **remove deprecated methods**
+-   If applied, this commit will **release version 1.0.0**
+-   If applied, this commit will **merge pull request #123 from user/branch**
 
 Notice how this doesn’t work for the other non-imperative forms:
 
-* If applied, this commit will **fixed bug with Y**
-* If applied, this commit will **change the behaviour of X**
-* If applied, this commit will **more fixes for broken stuff**
-* If applied, this commit will **sweet new API methods**
+-   If applied, this commit will **fixed bug with Y**
+-   If applied, this commit will **change the behaviour of X**
+-   If applied, this commit will **more fixes for broken stuff**
+-   If applied, this commit will **sweet new API methods**
 
 Below is an example of the subject line for a pull request:
 
@@ -157,10 +161,13 @@ Below is an example of the subject line for a pull request:
 ### Testing
 
 #### Pull Request Status Checks
-When a Pull Request is submitted, a series of status check tests are conducted.  These tests will assess the code quality, complete CI tests etc. To get your PR merged these status checks must pass.
+
+When a Pull Request is submitted, a series of status check tests are conducted. These tests will assess the code quality, complete CI tests etc. To get your PR merged these status checks must pass.
 
 #### Test Environment
+
 It is recommended that you have a testing environment available to test your code during development. To test your own code you must change some variables within the `linuxgsm.sh` file. This will force the use of your own code branch.
+
 ```bash
 ## GitHub Branch Select
 # Allows for the use of different function files
@@ -203,10 +210,11 @@ Highlights the LinuxGSM command the Issue/PR relates to.
 Labels to help pinpoint what the issue or PR relates to.
 
 variants:
-* _distro_
-* _engine_
-* _game_
-* _info_
+
+-   _distro_
+-   _engine_
+-   _game_
+-   _info_
 
 **outcome** Labels
 Labels that identify why an issue was closed.

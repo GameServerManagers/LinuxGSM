@@ -1,0 +1,18 @@
+name: Server List Validation
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  serverlist-validate:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compare Versions
+        run: chmod +x .github/workflows/serverlist-validate.sh; .github/workflows/serverlist-validate.sh
+
+      - name: Validate Game Icons
+        run: chmod +x .github/workflows/serverlist-validate-game-icons.sh; .github/workflows/serverlist-validate-game-icons.sh
