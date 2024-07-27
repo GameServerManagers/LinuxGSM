@@ -18,6 +18,13 @@ fn_start_jk2() {
 	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
+# Like above but for Jedi Academy version to be printed in console on start.
+# Used to allow update to detect OpenJK server version.
+fn_start_jk3() {
+	fn_start_tmux
+	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
+}
+
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -199,6 +206,8 @@ fi
 fn_print_dots "${servername}"
 if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
+elif [ "$shortname" == "jk3" ]; then
+	fn_start_jk3
 else
 	fn_start_tmux
 fi

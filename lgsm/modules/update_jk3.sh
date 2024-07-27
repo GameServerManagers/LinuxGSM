@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM update_jk2.sh module
+# LinuxGSM update_jk3.sh module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Jedi Knight 2 servers.
+# Description: Handles updating of Jedi Academy servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
