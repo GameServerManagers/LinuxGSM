@@ -1798,13 +1798,9 @@ fn_info_messages_select_engine() {
 	elif [ "${shortname}" == "jc3" ]; then
 		fn_info_messages_jc3
 	elif [ "${shortname}" == "jk2" ]; then
-<<<<<<< HEAD:lgsm/functions/info_messages.sh
 		fn_info_message_jk2
 	elif [ "${shortname}" == "jk3" ]; then
 		fn_info_message_jk3
-=======
-		fn_info_messages_jk2
->>>>>>> 1522cbd7b3d673aadf5b1a611cc03badf1f32b36:lgsm/modules/info_messages.sh
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then

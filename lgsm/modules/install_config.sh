@@ -666,7 +666,6 @@ elif [ "${shortname}" == "jk2" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 elif [ "${shortname}" == "jk3" ]; then
-	gamedirname="JediKnightJediAcademy"
 	array_configs+=( server.cfg )
 	fn_fetch_default_config
 	fn_default_config_remote
