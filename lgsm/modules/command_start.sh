@@ -80,7 +80,8 @@ fn_start_tmux() {
 
 	# Enable console logging.
 	if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-		if [ "${logtimestamp}" == "on" ]; then
+		# timestamp will break mcb update check.
+		if [ "${logtimestamp}" == "on" ] && [ "${shortname}" != "mcb" ]; then
 			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 		else
 			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
