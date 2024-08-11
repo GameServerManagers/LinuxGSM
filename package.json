@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/GameServerManagers/LinuxGSM#readme",
   "dependencies": {
-    "gamedig": "^5.0.0-beta.2"
+    "gamedig": "^5.1.1"
   }
 }
