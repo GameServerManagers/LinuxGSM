@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v24.2.2"
+modulesversion="v24.2.3"
 
 # Core
 
