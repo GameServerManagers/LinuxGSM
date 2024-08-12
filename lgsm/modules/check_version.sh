@@ -16,8 +16,8 @@ if [ -n "${modulesversion}" ] && [ -n "${version}" ] && [ "${version}" != "${mod
 	echo -e "* ${selfname}: ${version}"
 	echo -e "* modules: ${modulesversion}"
 	echo -e ""
-	fn_sleep_time
 	fn_script_log_error "LinuxGSM Version mismatch: ${selfname}: ${version}: modules: ${modulesversion}"
+	fn_sleep_time_1
 	command_update_linuxgsm.sh
 	fn_firstcommand_reset
 fi

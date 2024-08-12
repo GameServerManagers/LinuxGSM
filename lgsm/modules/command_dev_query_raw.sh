@@ -16,6 +16,16 @@ info_distro.sh
 info_messages.sh
 
 echo -e ""
+echo -e "${lightgreen}IP Addresses Variables${default}"
+fn_messages_separator
+echo -e ""
+echo -e "IP: ${ip}"
+echo -e "HTTP IP: ${httpip}"
+echo -e "Public IP: ${publicip}"
+echo -e "Telnet IP: ${telnetip}"
+echo -e "Display IP: ${displayip}"
+
+echo -e ""
 echo -e "${lightgreen}Query IP Addresses${default}"
 fn_messages_separator
 echo -e ""
@@ -185,7 +195,7 @@ fn_messages_separator
 echo -e ""
 echo -e "${lightgreen}SS Output${default}"
 fn_messages_separator
-fn_info_message_ports
+fn_info_messages_ports
 eval "${portcommand}"
 echo -e ""
 echo -e "${lightgreen}Query Port - Raw Output${default}"
@@ -197,7 +207,7 @@ echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
 echo -e ""
-if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
+if [ ! "$(command -v gamedig 2> /dev/null)" ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
 if [ ! "$(command -v jq 2> /dev/null)" ]; then

@@ -7,48 +7,147 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-json=$(
+jsoninfo=$(
 	cat << EOF
 {
-	"username":"LinuxGSM",
-	"avatar_url":"https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-	"file":"content",
-	"embeds": [{
-		"color": "2067276",
-		"author": {
-			"name": "${alertemoji} ${alertsubject} ${alertemoji}",
-			"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-		},
-		"title": "${servername}",
-		"description": "${alertbody} \n More info: ${alerturl}",
-		"url": "",
-		"type": "content",
-		"thumbnail": {},
-		"fields": [
-			{
-				"name": "Game",
-				"value": "${gamename}",
-				"inline": true
-			},
-			{
-				"name": "Server IP",
-				"value": "[${alertip}:${port}](https://www.gametracker.com/server_info/${alertip}:${port})",
-				"inline": true
-			},
-			{
-				"name": "Hostname",
-				"value": "${HOSTNAME}",
-				"inline": true
-			}
-		]
-	}]
+    "username": "LinuxGSM",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+    "file": "content",
+    "embeds": [
+        {
+            "author": {
+                "name": "LinuxGSM Alert",
+                "url": "",
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+            },
+            "title": "${alerttitle}",
+            "url": "",
+            "description": "",
+            "color": "${alertcolourdec}",
+            "type": "content",
+            "thumbnail": {
+                "url": "${alerticon}"
+            },
+            "fields": [
+				{
+					"name": "Server Name",
+					"value": "${servername}"
+				},
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				},
+                {
+                    "name": "Game",
+                    "value": "${gamename}",
+                    "inline": true
+                },
+                {
+                    "name": "Server IP",
+                    "value": "\`${alertip}:${port}\`",
+                    "inline": true
+                },
+                {
+                    "name": "Hostname",
+                    "value": "${HOSTNAME}",
+                    "inline": true
+                },
+				{
+					"name": "More info",
+					"value": "${alerturl}",
+					"inline": true
+				},
+                {
+                    "name": "Server Time",
+                    "value": "$(date)",
+                    "inline": true
+                }
+            ],
+            "footer": {
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+                "text": "Sent by LinuxGSM ${version}"
+            }
+        }
+    ]
+}
+EOF
+)
+
+jsonnoinfo=$(
+	cat << EOF
+{
+    "username": "LinuxGSM",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+    "file": "content",
+    "embeds": [
+        {
+            "author": {
+                "name": "LinuxGSM Alert",
+                "url": "",
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
+            },
+            "title": "${alerttitle}",
+            "url": "",
+            "description": "",
+            "color": "${alertcolourdec}",
+            "type": "content",
+            "thumbnail": {
+                "url": "${alerticon}"
+            },
+            "fields": [
+				{
+					"name": "Server Name",
+					"value": "${servername}"
+				},
+				{
+					"name": "Information",
+					"value": "${alertmessage}"
+				},
+                {
+                    "name": "Game",
+                    "value": "${gamename}",
+                    "inline": true
+                },
+                {
+                    "name": "Server IP",
+                    "value": "\`${alertip}:${port}\`",
+                    "inline": true
+                },
+                {
+                    "name": "Hostname",
+                    "value": "${HOSTNAME}",
+                    "inline": true
+                },
+                {
+                    "name": "Is my Game Server Online?",
+                    "value": "https://ismygameserver.online/${querytype}/${alertip}:${queryport}",
+                    "inline": true
+                },
+                {
+                    "name": "Server Time",
+                    "value": "$(date)",
+                    "inline": true
+                }
+            ],
+            "footer": {
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+                "text": "Sent by LinuxGSM ${version}"
+            }
+        }
+    ]
 }
 EOF
 )
 
 fn_print_dots "Sending Discord alert"
 
-discordsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
+if [ -z "${alerturl}" ]; then
+	json="${jsonnoinfo}"
+else
+	json="${jsoninfo}"
+fi
+
+discordsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 
 if [ -n "${discordsend}" ]; then
 	fn_print_fail_nl "Sending Discord alert: ${discordsend}"

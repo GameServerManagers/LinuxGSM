@@ -11,7 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_check_cfgdir() {
 	if [ ! -d "${servercfgdir}" ]; then
 		echo -e "creating ${servercfgdir} config directory."
-		fn_script_log_info "creating ${servercfgdir} config directory."
+		fn_script_log_info "Creating ${servercfgdir} config directory."
 		mkdir -pv "${servercfgdir}"
 	fi
 }
@@ -25,7 +25,7 @@ fn_fetch_default_config() {
 	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
-	fn_sleep_time
+	fn_sleep_time_1
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
@@ -38,7 +38,7 @@ fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		# every config is copied
 		echo -e "copying ${config} config file."
-		fn_script_log_info "copying ${servercfg} config file."
+		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
@@ -66,7 +66,7 @@ fn_default_config_local() {
 	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
-		fn_script_log_fatal "copying config file [ ${servercfgdefault} ]"
+		fn_script_log_fail "copying config file [ ${servercfgdefault} ]"
 	else
 		fn_print_ok_eol
 		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
@@ -82,7 +82,7 @@ fn_set_config_vars() {
 		servername="LinuxGSM"
 		rconpass="admin${randomstring}"
 		echo -e "changing hostname."
-		fn_script_log_info "changing hostname."
+		fn_script_log_info "Changing hostname."
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
@@ -93,7 +93,7 @@ fn_set_config_vars() {
 			sed -i "s/SERVERNAME/${servername}/g" "${servercfgfullpath}"
 		fi
 		echo -e "changing rcon/admin password."
-		fn_script_log_info "changing rcon/admin password."
+		fn_script_log_info "Changing rcon/admin password."
 		if [ "${shortname}" == "squad" ]; then
 			sed -i "s/ADMINPASSWORD/${rconpass}/g" "${servercfgdir}/Rcon.cfg"
 		else
@@ -112,15 +112,15 @@ fn_set_dst_config_vars() {
 	## cluster.ini
 	if grep -Fq "SERVERNAME" "${clustercfgfullpath}"; then
 		echo -e "changing server name."
-		fn_script_log_info "changing server name."
+		fn_script_log_info "Changing server name."
 		sed -i "s/SERVERNAME/LinuxGSM/g" "${clustercfgfullpath}"
 		fn_sleep_time
 		echo -e "changing shard mode."
-		fn_script_log_info "changing shard mode."
+		fn_script_log_info "Changing shard mode."
 		sed -i "s/USESHARDING/${sharding}/g" "${clustercfgfullpath}"
 		fn_sleep_time
 		echo -e "randomizing cluster key."
-		fn_script_log_info "randomizing cluster key."
+		fn_script_log_info "Randomizing cluster key."
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		sed -i "s/CLUSTERKEY/${randomstring}/g" "${clustercfgfullpath}"
 		fn_sleep_time
@@ -139,18 +139,18 @@ fn_set_dst_config_vars() {
 	fi
 
 	echo -e "changing shard name."
-	fn_script_log_info "changing shard name."
+	fn_script_log_info "Changing shard name."
 	sed -i "s/SHARDNAME/${shard}/g" "${servercfgfullpath}"
 	fn_sleep_time
 	echo -e "changing master setting."
-	fn_script_log_info "changing master setting."
+	fn_script_log_info "Changing master setting."
 	sed -i "s/ISMASTER/${master}/g" "${servercfgfullpath}"
 	fn_sleep_time
 
 	## worldgenoverride.lua
 	if [ "${cave}" == "true" ]; then
 		echo -e "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
-		fn_script_log_info "defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
+		fn_script_log_info "Defining ${shard} as cave in ${servercfgdir}/worldgenoverride.lua."
 		echo 'return { override_enabled = true, preset = "DST_CAVE", }' > "${servercfgdir}/worldgenoverride.lua"
 	fi
 	fn_sleep_time
@@ -245,7 +245,7 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "btl" ]; then
 	fn_check_cfgdir
-	array_configs+=(DefaultGame.ini)
+	array_configs+=(Game.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -282,12 +282,6 @@ elif [ "${shortname}" == "bb2" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "bmdm" ]; then
 	array_configs+=(server.cfg)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "cd" ]; then
-	array_configs+=(properties.json)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -341,6 +335,12 @@ elif [ "${shortname}" == "col" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "cs" ]; then
+	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "cs2" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -478,7 +478,7 @@ elif [ "${shortname}" == "hldms" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "ohd" ]; then
-	array_configs+=(Game.ini)
+	array_configs+=(Admins.cfg Engine.ini Game.ini MapCycle.cfg)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -495,6 +495,9 @@ elif [ "${shortname}" == "hl2dm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "hz" ]; then
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "ins" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
@@ -586,12 +589,6 @@ elif [ "${shortname}" == "mta" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shotname}" == "mom" ]; then
-	array_configs+=(DedicatedServerConfig.cfg)
-	fn_fetch_default_config
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "pvr" ]; then
 	fn_check_cfgdir
 	array_configs+=(Game.ini)
@@ -600,6 +597,12 @@ elif [ "${shortname}" == "pvr" ]; then
 	fn_set_config_vars
 elif [ "${shortname}" == "pvkii" ]; then
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "pw" ]; then
+	array_configs+=(PalWorldSettings.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
@@ -634,6 +637,12 @@ elif [ "${shortname}" == "q2" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "q3" ]; then
+	array_configs+=(server.cfg)
+	fn_fetch_default_configs
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "q4" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
 	fn_default_config_remote
@@ -685,6 +694,9 @@ elif [ "${shortname}" == "sf" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "sm" ]; then
+	fn_default_config_local
 	fn_list_config_locations
 elif [ "${shortname}" == "sol" ]; then
 	array_configs+=(soldat.ini)

@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v23.5.3"
+modulesversion="v24.2.3"
 
 # Core
 
@@ -299,7 +299,12 @@ command_dev_debug.sh() {
 	fn_fetch_module
 }
 
-command_dev_details.sh() {
+command_dev_parse_game_details.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_parse_distro_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -396,11 +401,6 @@ fix_kf2.sh() {
 	fn_fetch_module
 }
 
-fix_lo.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -442,6 +442,11 @@ fix_rw.sh() {
 }
 
 fix_sfc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_sm.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -715,6 +720,11 @@ install_config.sh() {
 }
 
 install_factorio_save.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+check_gamedig.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

@@ -45,7 +45,7 @@ fn_install_ts3db_mariadb() {
 	sed -i "s/dbpluginparameter=/dbpluginparameter=ts3db_mariadb.ini/g" "${servercfgfullpath}"
 	sed -i "s/dbsqlcreatepath=create_sqlite\//dbsqlcreatepath=create_mariadb\//g" "${servercfgfullpath}"
 	echo -e "updating ts3db_mariadb.ini."
-	fn_sleep_time
+	fn_sleep_time_1
 }
 
 echo -e ""
@@ -69,5 +69,5 @@ fn_print_information_nl "Key also saved in:"
 echo -e "${serverfiles}/privilege_key.txt"
 cd "${executabledir}" || exit
 ./ts3server_startscript.sh start inifile=ts3-server.ini 2>&1 | tee "${serverfiles}/privilege_key.txt"
-sleep 5
+fn_sleep_time_5
 ./ts3server_startscript.sh stop

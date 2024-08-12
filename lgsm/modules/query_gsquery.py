@@ -10,23 +10,26 @@ import argparse
 import socket
 import sys
 
-engine_types=('protocol-valve','protocol-quake3','protocol-quake3','protocol-gamespy1','protocol-unreal2','ut3','minecraft','minecraftbe','jc2mp','mumbleping','soldat','teeworlds')
+engine_types = ('protocol-valve', 'protocol-quake2', 'protocol-quake3', 'protocol-gamespy1',
+                'protocol-unreal2', 'ut3', 'minecraft', 'minecraftbe', 'jc2m', 'mumbleping', 'soldat', 'teeworlds')
+
 
 class gsquery:
     server_response_timeout = 2
     default_buffer_length = 1024
-    sourcequery=('protocol-valve','avalanche3.0','barotrauma','madness','quakelive','realvirtuality','refractor','source','goldsrc','spark','starbound','unity3d','unreal4','wurm')
-    idtech2query=('protocol-quake3','idtech2','quake','iw2.0')
-    idtech3query=('protocol-quake3','iw3.0','ioquake3','qfusion')
-    minecraftquery=('minecraft','lwjgl2')
-    minecraftbequery=('minecraftbe',)
-    jc2mpquery=('jc2mp',)
-    mumblequery=('mumbleping',)
-    soldatquery=('soldat',)
-    twquery=('teeworlds',)
-    unrealquery=('protocol-gamespy1','unreal')
-    unreal2query=('protocol-unreal2','unreal2')
-    unreal3query=('ut3','unreal3')
+    sourcequery = ('protocol-valve', 'avalanche3.0', 'barotrauma', 'madness', 'quakelive', 'realvirtuality',
+                   'refractor', 'source', 'goldsrc', 'spark', 'starbound', 'unity3d', 'unreal4', 'wurm')
+    idtech2query = ('protocol-quake2', 'idtech2', 'quake', 'iw2.0')
+    idtech3query = ('protocol-quake3', 'iw3.0', 'ioquake3', 'qfusion')
+    minecraftquery = ('minecraft', 'lwjgl2')
+    minecraftbequery = ('minecraftbe',)
+    jc2mquery = ('jc2m',)
+    mumblequery = ('mumbleping',)
+    soldatquery = ('soldat',)
+    twquery = ('teeworlds',)
+    unrealquery = ('protocol-gamespy1', 'unreal')
+    unreal2query = ('protocol-unreal2', 'unreal2')
+    unreal3query = ('ut3', 'unreal3')
 
     def __init__(self, arguments):
         self.argument = arguments
@@ -37,7 +40,7 @@ class gsquery:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.argument.engine in self.idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.argument.engine in self.jc2mpquery:
+        elif self.argument.engine in self.jc2mquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.argument.engine in self.minecraftquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'
@@ -48,7 +51,8 @@ class gsquery:
         elif self.argument.engine in self.soldatquery:
             self.query_prompt_string = b'\x69\x00'
         elif self.argument.engine in self.twquery:
-            self.query_prompt_string = b'\x04\x00\x00\xff\xff\xff\xff\x05' + bytearray(511)
+            self.query_prompt_string = b'\x04\x00\x00\xff\xff\xff\xff\x05' + \
+                bytearray(511)
         elif self.argument.engine in self.unrealquery:
             self.query_prompt_string = b'\x5C\x69\x6E\x66\x6F\x5C'
         elif self.argument.engine in self.unreal2query:
@@ -74,7 +78,8 @@ class gsquery:
         connection = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         connection.settimeout(self.server_response_timeout)
         try:
-            self.connected = connection.connect((self.argument.address, int(self.argument.port)))
+            self.connected = connection.connect(
+                (self.argument.address, int(self.argument.port)))
         except socket.timeout:
             self.fatal_error('Request timed out', 1)
         except Exception:
@@ -94,6 +99,7 @@ class gsquery:
             sys.exit('Short response.', 3)
         else:
             self.exit_success(str(self.response))
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -142,10 +148,12 @@ def parse_args():
     )
     return parser.parse_args()
 
+
 def main():
     arguments = parse_args()
     server = gsquery(arguments)
     server.responding()
+
 
 if __name__ == '__main__':
     main()

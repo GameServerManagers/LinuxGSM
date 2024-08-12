@@ -11,9 +11,7 @@ if [ "${checklogs}" != "1" ]; then
 	echo -e ""
 	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
 	fn_messages_separator
-	fn_sleep_time
 fi
-fn_sleep_time
 # Create LinuxGSM logs.
 echo -en "installing log dir: ${logdir}..."
 mkdir -p "${logdir}"

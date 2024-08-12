@@ -10,9 +10,9 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_print_dots "Sending Email alert: ${email}"
 
 if [ -n "${emailfrom}" ]; then
-	mail -s "${alertsubject}" -r "${emailfrom}" "${email}" < "${alertlog}"
+	mail -s "${alerttitle}" -r "${emailfrom}" "${email}" < "${alertlog}"
 else
-	mail -s "${alertsubject}" "${email}" < "${alertlog}"
+	mail -s "${alerttitle}" "${email}" < "${alertlog}"
 fi
 exitcode=$?
 if [ "${exitcode}" == "0" ]; then

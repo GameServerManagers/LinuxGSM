@@ -13,17 +13,19 @@ if [ "${glibc}" == "null" ]; then
 	# Glibc is not required.
 	:
 elif [ -z "${glibc}" ]; then
-	fn_print_dots "glibc"
-	fn_print_error_nl "glibc requirement unknown"
-	fn_script_log_error "glibc requirement unknown"
+	fn_print_dots "Checking glibc"
+	fn_print_error_nl "Checking glibc: requirement unknown"
+	fn_script_log_error "Checking glibc: requirement unknown"
+	fn_sleep_time_5
 elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
-	fn_print_dots "glibc"
-	fn_print_error_nl "glibc requirements not met"
-	fn_script_log_error "glibc requirements not met"
+	fn_print_dots "Checking glibc"
+	fn_print_error_nl "Checking glibc: requirements not met"
+	fn_script_log_error "Checking glibc: requirements not met"
 	echo -en "\n"
 	echo -e "	* glibc required: ${glibc}"
 	echo -e "	* glibc installed: ${red}${glibcversion}${default}"
 	echo -en "\n"
-	fn_print_information_nl "distro upgrade is required"
-	fn_script_log_info "distro upgrade is required"
+	fn_print_information_nl "Distro upgrade is required"
+	fn_script_log_info "Distro upgrade is required"
+	fn_sleep_time_5
 fi

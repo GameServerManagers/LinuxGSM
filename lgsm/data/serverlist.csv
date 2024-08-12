@@ -18,7 +18,6 @@ bs,bsserver,Blade Symphony,ubuntu-22.04
 bt,btserver,Barotrauma,ubuntu-22.04
 btl,btlserver,BATTALION: Legacy,ubuntu-20.04
 cc,ccserver,Codename CURE,ubuntu-22.04
-cd,cdserver,Crafting Dead,ubuntu-22.04
 ck,ckserver,Core Keeper,ubuntu-22.04
 cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-22.04
 cod,codserver,Call of Duty,ubuntu-22.04
@@ -28,6 +27,7 @@ coduo,coduoserver,Call of Duty: United Offensive,ubuntu-22.04
 codwaw,codwawserver,Call of Duty: World at War,ubuntu-22.04
 col,colserver,Colony Survival,ubuntu-22.04
 cs,csserver,Counter-Strike 1.6,ubuntu-22.04
+cs2,cs2server,Counter-Strike 2,ubuntu-22.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-22.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-22.04
 css,cssserver,Counter-Strike: Source,ubuntu-22.04
@@ -53,6 +53,7 @@ hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
 hw,hwserver,Hurtworld,ubuntu-22.04
+hz,hzserver,Humanitz,ubuntu-22.04
 ins,insserver,Insurgency,ubuntu-22.04
 inss,inssserver,Insurgency: Sandstorm,ubuntu-22.04
 ios,iosserver,IOSoccer,ubuntu-22.04
@@ -63,12 +64,10 @@ kf,kfserver,Killing Floor,ubuntu-22.04
 kf2,kf2server,Killing Floor 2,ubuntu-22.04
 l4d,l4dserver,Left 4 Dead,ubuntu-22.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-22.04
-lo,loserver,Last Oasis,ubuntu-22.04
 mc,mcserver,Minecraft,ubuntu-22.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
 mh,mhserver,MORDHAU,ubuntu-22.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
-mom,momserver,Memories of Mars,ubuntu-22.04
 mta,mtaserver,Multi Theft Auto,ubuntu-22.04
 nd,ndserver,Nuclear Dawn,ubuntu-22.04
 nec,necserver,Necesse,ubuntu-22.04
@@ -85,9 +84,11 @@ pmc,pmcserver,PaperMC,ubuntu-22.04
 ps,psserver,Post Scriptum,ubuntu-22.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-22.04
 pvr,pvrserver,Pavlov VR,ubuntu-22.04
+pw,pwserver,Palworld,ubuntu-22.04
 pz,pzserver,Project Zomboid,ubuntu-22.04
 q2,q2server,Quake 2,ubuntu-22.04
 q3,q3server,Quake 3: Arena,ubuntu-22.04
+q4,q4server,Quake 4,ubuntu-22.04
 ql,qlserver,Quake Live,ubuntu-22.04
 qw,qwserver,Quake World,ubuntu-22.04
 ricochet,ricochetserver,Ricochet,ubuntu-22.04
@@ -103,6 +104,7 @@ scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod,ubuntu-22.04
 sdtd,sdtdserver,7 Days to Die,ubuntu-22.04
 sf,sfserver,Satisfactory,ubuntu-22.04
 sfc,sfcserver,SourceForts Classic,ubuntu-22.04
+sm,smserver,Soulmask,ubuntu-22.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-22.04
 sol,solserver,Soldat,ubuntu-22.04
 squad,squadserver,Squad,ubuntu-22.04
@@ -110,6 +112,7 @@ st,stserver,Stationeers,ubuntu-22.04
 stn,stnserver,Survive the Nights,ubuntu-22.04
 sven,svenserver,Sven Co-op,ubuntu-20.04
 terraria,terrariaserver,Terraria,ubuntu-22.04
+tf,tfserver,The Front,ubuntu-22.04
 tf2,tf2server,Team Fortress 2,ubuntu-22.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-22.04
 ti,tiserver,The Isle,ubuntu-22.04

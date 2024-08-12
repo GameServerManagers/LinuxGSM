@@ -14,7 +14,7 @@ fn_firstcommand_set
 fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
-	# Sends quit.
+	# Sends CTRL+c.
 	tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
 	for seconds in {1..30}; do
@@ -23,9 +23,13 @@ fn_stop_graceful_ctrlc() {
 			fn_print_ok "Graceful: CTRL+c: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: CTRL+c: OK: ${seconds} seconds"
+			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+				alert.sh
+			fi
 			break
 		fi
-		sleep 1
+		fn_sleep_time_1
 		fn_print_dots "Graceful: CTRL+c: ${seconds}"
 	done
 	check_status.sh
@@ -51,9 +55,13 @@ fn_stop_graceful_cmd() {
 			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
+			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+				alert.sh
+			fi
 			break
 		fi
-		sleep 1
+		fn_sleep_time_1
 		fn_print_dots "Graceful: sending \"${1}\": ${seconds}"
 	done
 	check_status.sh
@@ -74,18 +82,22 @@ fn_stop_graceful_goldsrc() {
 	tmux -L "${socketname}" send -t "${sessionname}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
-		sleep 1
+		fn_sleep_time_1
 		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
 	done
 	fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
+	if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+		alert="stopped"
+		alert.sh
+	fi
 }
 
 # telnet command for sdtd graceful shutdown.
 fn_stop_graceful_sdtd_telnet() {
-	if [ -z "${telnetpass}" ] || [ "${telnetpass}" == "NOT SET" ]; then
-		sdtd_telnet_shutdown=$(expect -c '
+	if [ -z "${telnetpassword}" ] || [ "${telnetpassword}" == "NOT SET" ]; then
+		sdtdtelnetshutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
@@ -99,14 +111,14 @@ fn_stop_graceful_sdtd_telnet() {
 		puts "Completed.\n"
 		')
 	else
-		sdtd_telnet_shutdown=$(expect -c '
+		sdtdtelnetshutdown=$(expect -c '
 		proc abort {} {
 			puts "Timeout or EOF\n"
 			exit 1
 		}
 		spawn telnet '"${telnetip}"' '"${telnetport}"'
 		expect {
-			"password:"     { send "'"${telnetpass}"'\r" }
+			"password:"     { send "'"${telnetpassword}"'\r" }
 			default         abort
 		}
 		expect {
@@ -131,8 +143,8 @@ fn_stop_graceful_sdtd() {
 			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
 			fn_stop_graceful_sdtd_telnet
-			completed=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Completed.")
-			refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
+			completed=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Completed.")
+			refused=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Timeout or EOF")
 			if [ "${refused}" ]; then
 				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
 				fn_print_fail_eol_nl
@@ -147,14 +159,18 @@ fn_stop_graceful_sdtd() {
 		if [ "${completed}" ]; then
 			for seconds in {1..30}; do
 				fn_stop_graceful_sdtd_telnet
-				refused=$(echo -en "\n ${sdtd_telnet_shutdown}" | grep "Timeout or EOF")
+				refused=$(echo -en "\n ${sdtdtelnetshutdown}" | grep "Timeout or EOF")
 				if [ "${refused}" ]; then
 					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
 					fn_print_ok_eol_nl
 					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
+					if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+						alert="stopped"
+						alert.sh
+					fi
 					break
 				fi
-				sleep 1
+				fn_sleep_time_1
 				fn_print_dots "Graceful: telnet: ${seconds}"
 			done
 		# If telnet shutdown fails tmux shutdown will be used, this risks loss of world save.
@@ -169,7 +185,7 @@ fn_stop_graceful_sdtd() {
 			fi
 			echo -en "\n" | tee -a "${lgsmlog}"
 			echo -en "Telnet output:" | tee -a "${lgsmlog}"
-			echo -en "\n ${sdtd_telnet_shutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n ${sdtdtelnetshutdown}" | tee -a "${lgsmlog}"
 			echo -en "\n\n" | tee -a "${lgsmlog}"
 		fi
 	else
@@ -179,13 +195,102 @@ fn_stop_graceful_sdtd() {
 	fi
 }
 
+# Attempts graceful shutdown of Soulmask using telnet.
+fn_stop_graceful_sm() {
+	fn_print_dots "Graceful: telnet"
+	fn_script_log_info "Graceful: telnet"
+	if [ "${telnetenabled}" == "false" ]; then
+		fn_print_info_nl "Graceful: telnet: DISABLED: Enable in ${servercfg}"
+	elif [ "$(command -v expect 2> /dev/null)" ]; then
+		# Tries to shutdown with both localhost and server IP.
+		for telnetip in 127.0.0.1 ${ip}; do
+			fn_print_dots "Graceful: telnet: ${telnetip}:${telnetport}"
+			fn_script_log_info "Graceful: telnet: ${telnetip}:${telnetport}"
+			fn_stop_graceful_sm_telnet
+			completed=$(echo -en "\n ${smtelnetshutdown}" | grep "Completed.")
+			refused=$(echo -en "\n ${smtelnetshutdown}" | grep "Timeout or EOF")
+			if [ "${refused}" ]; then
+				fn_print_error "Graceful: telnet: ${telnetip}:${telnetport} : "
+				fn_print_fail_eol_nl
+				fn_script_log_error "Graceful: telnet:  ${telnetip}:${telnetport} : FAIL"
+			elif [ "${completed}" ]; then
+				break
+			fi
+		done
+
+		# If telnet shutdown was successful will use telnet again to check
+		# the connection has closed, confirming that the tmux session can now be killed.
+		if [ "${completed}" ]; then
+			for seconds in {1..30}; do
+				fn_stop_graceful_sm_telnet
+				refused=$(echo -en "\n ${smtelnetshutdown}" | grep "Timeout or EOF")
+				if [ "${refused}" ]; then
+					fn_print_ok "Graceful: telnet: ${telnetip}:${telnetport} : "
+					fn_print_ok_eol_nl
+					fn_script_log_pass "Graceful: telnet: ${telnetip}:${telnetport} : ${seconds} seconds"
+					if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+						alert="stopped"
+						alert.sh
+					fi
+					break
+				fi
+				fn_sleep_time_1
+				fn_print_dots "Graceful: telnet: ${seconds}"
+			done
+		# If telnet shutdown fails, show it and stop
+		else
+			if [ "${refused}" ]; then
+				fn_print_error "Graceful: telnet: "
+				fn_print_fail_eol_nl
+				fn_script_log_error "Graceful: telnet: ${telnetip}:${telnetport} : FAIL"
+			else
+				fn_print_error_nl "Graceful: telnet: Unknown error"
+				fn_script_log_error "Graceful: telnet: Unknown error"
+			fi
+			echo -en "\n" | tee -a "${lgsmlog}"
+			echo -en "Telnet output:" | tee -a "${lgsmlog}"
+			echo -en "\n ${smtelnetshutdown}" | tee -a "${lgsmlog}"
+			echo -en "\n\n" | tee -a "${lgsmlog}"
+		fi
+	else
+		fn_print_warn "Graceful: telnet: expect not installed: "
+		fn_print_fail_eol_nl
+		fn_script_log_warn "Graceful: telnet: expect not installed: FAIL"
+	fi
+}
+
+# telnet command for soulmask graceful shutdown.
+fn_stop_graceful_sm_telnet() {
+	smtelnetshutdown=$(expect -c '
+		proc abort {} {
+			puts "Timeout or EOF\n"
+			exit 1
+		}
+		spawn telnet '"${telnetip}"' '"${telnetport}"'
+		expect {
+			"Hello:"	{ send "saveworld 1\r" }
+			default	abort
+		}
+		expect {
+			"the world is saved."	{ send "quit 1\r" }
+			default	abort
+		}
+		expect {
+			"World is closing..."	{}
+			default	abort
+		}
+		expect { eof }
+		puts "Completed.\n"
+	')
+}
+
 # Attempts graceful shutdown by sending /save /stop.
 fn_stop_graceful_avorion() {
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
 	tmux -L "${socketname}" send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
-	sleep 5
+	fn_sleep_time_5
 	# Sends /quit.
 	tmux -L "${socketname}" send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefuly.
@@ -195,9 +300,13 @@ fn_stop_graceful_avorion() {
 			fn_print_ok "Graceful: /save /stop: ${seconds}: "
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
+			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+				alert.sh
+			fi
 			break
 		fi
-		sleep 1
+		fn_sleep_time_1
 		fn_print_dots "Graceful: /save /stop: ${seconds}"
 	done
 	check_status.sh
@@ -233,6 +342,8 @@ fn_stop_graceful_select() {
 		fn_stop_graceful_cmd "end" 30
 	elif [ "${stopmode}" == "12" ]; then
 		fn_stop_graceful_cmd "shutdown" 30
+	elif [ "${stopmode}" == "13" ]; then
+		fn_stop_graceful_sm
 	fi
 }
 
@@ -241,11 +352,15 @@ fn_stop_tmux() {
 	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
 	# Kill tmux session.
 	tmux -L "${socketname}" kill-session -t "${sessionname}" > /dev/null 2>&1
-	sleep 0.5
+	fn_sleep_time_1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_print_ok_nl "${servername}"
 		fn_script_log_pass "Stopped ${servername}"
+		if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+			alert="stopped"
+			alert.sh
+		fi
 	else
 		fn_print_fail_nl "Unable to stop ${servername}"
 		fn_script_log_fail "Unable to stop ${servername}"
@@ -268,6 +383,7 @@ fn_stop_pre_check() {
 	fi
 }
 
+fn_print_dots ""
 check.sh
 
 # Create a stopping lockfile that only exists while the stop command is running.
