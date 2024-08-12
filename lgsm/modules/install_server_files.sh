@@ -191,7 +191,7 @@ fn_install_server_files() {
 		force="noforce"
 		md5="581a333cc7eacda2f56d5a00fe11eafa"
 	elif [ "${shortname}" == "samp" ]; then
-		remote_fileurl="https://files.sa-mp.com/samp037svr_R2-1.tar.gz"
+		remote_fileurl="https://files.samp-sc.com/samp037svr_R2-1.tar.gz"
 		local_filedir="${tmpdir}"
 		local_filename="samp037svr_R2-1.tar.gz"
 		chmodx="nochmodx" run="norun"
