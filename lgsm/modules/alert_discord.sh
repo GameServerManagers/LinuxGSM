@@ -52,6 +52,11 @@ jsoninfo=$(
                     "value": "${HOSTNAME}",
                     "inline": true
                 },
+                {
+                    "name": "Is my Game Server Online?",
+                    "value": "https://ismygameserver.online/${querytype}/${alertip}:${queryport}",
+                    "inline": true
+                },
 				{
 					"name": "More info",
 					"value": "${alerturl}",
