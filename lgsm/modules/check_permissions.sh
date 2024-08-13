@@ -61,7 +61,7 @@ fn_check_permissions() {
 	# Check modules files are executable.
 	if [ -d "${modulesdir}" ]; then
 		findnotexecutable="$(find "${modulesdir}" -type f -not -executable)"
-		findnotexecutablewc="$(echo "${findnotexecutable}" | wc -l)"
+		findnotexecutablewc="$(find "${modulesdir}" -type f -not -executable | wc -l)"
 		if [ "${findnotexecutablewc}" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fail "Permissions issues found"
