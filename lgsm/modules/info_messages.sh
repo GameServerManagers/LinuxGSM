@@ -66,6 +66,11 @@ fn_info_messages_head() {
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
+	if [ -n "${querytype}" ]; then
+		echo -e "Is my Game Server Online?"
+		echo -e "https://ismygameserver.online/${querytype}/${alertip}:${queryport}"
+		echo -e ""
+	fi
 	echo -e "Server Time"
 	echo -e "$(date)"
 }

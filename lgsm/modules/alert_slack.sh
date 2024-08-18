@@ -7,178 +7,118 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsonnoinfo=$(
+json=$(
 	cat << EOF
 {
-	"attachments": [
-		{
-			"color": "${alertcolourhex}",
-			"blocks": [
-				{
-					"type": "header",
-					"text": {
-						"type": "mrkdwn",
-						"text": "${alerttitle}",
-						"emoji": true
-					}
-				},
-				{
-					"type": "divider"
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Server Name*\n${servername}"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Information*\n${alertmessage}"
-					}
-				},
-				{
-					"type": "section",
-					"fields": [
-						{
-							"type": "mrkdwn",
-							"text": "*Game*\n${gamename}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Server IP*\n\`${alertip}:${port}\`"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Hostname*\n${HOSTNAME}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Server Time*\n$(date)"
-						}
-					],
-					"accessory": {
-						"type": "image",
-						"image_url": "${alerticon}",
-						"alt_text": "cute cat"
-					}
-				},
-				{
-					"type": "context",
-					"elements": [
-						{
-							"type": "image",
-							"image_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-							"alt_text": "LinuxGSM icon"
-						},
-						{
-							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version}",
-							"emoji": true
-						}
-					]
-				}
-			]
-		}
-	]
-}
+    "attachments": [
+        {
+            "color": "${alertcolourhex}",
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "${alerttitle}",
+                        "emoji": true
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "*Server Name*\n${servername}"
+                    }
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "*Information*\n${alertmessage}"
+                    }
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Game*\n${gamename}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Server IP*\n\`${alertip}:${port}\`"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Hostname*\n${HOSTNAME}"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Server Time*\n$(date)"
+                        }
+                    ],
+                    "accessory": {
+                        "type": "image",
+                        "image_url": "${alerticon}",
+                        "alt_text": "cute cat"
+                    }
+                },
 EOF
 )
 
-jsoninfo=$(
-	cat << EOF
-{
-	"attachments": [
-		{
-			"color": "${alertcolourhex}",
-			"blocks": [
-				{
-					"type": "header",
-					"text": {
-						"type": "mrkdwn",
-						"text": "${alerttitle}",
-						"emoji": true
-					}
-				},
-				{
-					"type": "divider"
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Server Name*\n${servername}"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Information*\n${alertmessage}"
-					}
-				},
-				{
-					"type": "section",
-					"fields": [
-						{
-							"type": "mrkdwn",
-							"text": "*Game*\n${gamename}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Server IP*\n\`${alertip}:${port}\`"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Hostname*\n${HOSTNAME}"
-						},
-						{
-							"type": "mrkdwn",
-							"text": "*Server Time*\n$(date)"
-						}
-					],
-					"accessory": {
-						"type": "image",
-						"image_url": "${alerticon}",
-						"alt_text": "cute cat"
-					}
-				},
-				{
-					"type": "section",
-					"text": {
-						"type": "mrkdwn",
-						"text": "*Server Time*\n${alertmessage}"
-					}
-				},
-				{
-					"type": "context",
-					"elements": [
-						{
-							"type": "image",
-							"image_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-							"alt_text": "LinuxGSM icon"
-						},
-						{
-							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version}",
-							"emoji": true
-						}
-					]
-				}
-			]
-		}
-	]
-}
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "*Is my Game Server Online?*\n<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+                    }
+                },
 EOF
-)
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
+	)
 fi
+
+if [ -n "${alerturl}" ]; then
+	json+=$(
+		cat << EOF
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "*More info*\n<${alerturl}|${alerturl}>"
+                    }
+                },
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
+                {
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "image",
+                            "image_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+                            "alt_text": "LinuxGSM icon"
+                        },
+                        {
+                            "type": "plain_text",
+                            "text": "Sent by LinuxGSM ${version}",
+                            "emoji": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+EOF
+)
 
 fn_print_dots "Sending Slack alert"
 

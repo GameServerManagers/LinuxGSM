@@ -7,120 +7,86 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsoninfo=$(
+json=$(
 	cat << EOF
 {
-	"alias": "LinuxGSM",
-	"text": "*${alerttitle}*",
-	"attachments": [
-		{
-			"title": "",
-			"color": "${alertcolourhex}",
-			"author_name": "LinuxGSM Alert",
-			"author_link": "https://linuxgsm.com",
-			"author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-			"thumb_url": "${alerticon}",
-			"text": "",
-			"fields": [
-				{
-					"short": false,
-					"title": "Server Name",
-					"value": "${servername}"
-				},
-				{
-					"short": false,
-					"title": "Information",
-					"value": "${alertmessage}"
-				},
-				{
-					"short": false,
-					"title": "Game",
-					"value": "${gamename}"
-				},
-				{
-					"short": false,
-					"title": "Server IP",
-					"value": "${alertip}:${port}"
-				},
-				{
-					"short": false,
-					"title": "Hostname",
-					"value": "${HOSTNAME}"
-				},
-				{
-					"short": false,
-					"title": "More info",
-					"value": "${alerturl}"
-				},
-				{
-					"short": false,
-					"title": "Server Time",
-					"value": "$(date)"
-				}
-			]
-		}
-	]
-}
+    "alias": "LinuxGSM",
+    "text": "*${alerttitle}*",
+    "attachments": [
+        {
+            "title": "",
+            "color": "${alertcolourhex}",
+            "author_name": "LinuxGSM Alert",
+            "author_link": "https://linuxgsm.com",
+            "author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+            "thumb_url": "${alerticon}",
+            "text": "",
+            "fields": [
+                {
+                    "short": false,
+                    "title": "Server Name",
+                    "value": "${servername}"
+                },
+                {
+                    "short": false,
+                    "title": "Information",
+                    "value": "${alertmessage}"
+                },
+                {
+                    "short": false,
+                    "title": "Game",
+                    "value": "${gamename}"
+                },
+                {
+                    "short": false,
+                    "title": "Server IP",
+                    "value": "${alertip}:${port}"
+                },
+                {
+                    "short": false,
+                    "title": "Hostname",
+                    "value": "${HOSTNAME}"
+                },
 EOF
 )
 
-jsonnoinfo=$(
-	cat << EOF
-{
-	"alias": "LinuxGSM",
-	"text": "*${alerttitle}*",
-	"attachments": [
-		{
-			"title": "",
-			"color": "${alertcolourhex}",
-			"author_name": "LinuxGSM Alert",
-			"author_link": "https://linuxgsm.com",
-			"author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-			"thumb_url": "${alerticon}",
-			"text": "",
-			"fields": [
-				{
-					"short": false,
-					"title": "Server Name",
-					"value": "${servername}"
-				},
-				{
-					"short": false,
-					"title": "Information",
-					"value": "${alertmessage}"
-				},
-				{
-					"short": false,
-					"title": "Game",
-					"value": "${gamename}"
-				},
-				{
-					"short": false,
-					"title": "Server IP",
-					"value": "${alertip}:${port}"
-				},
-				{
-					"short": false,
-					"title": "Hostname",
-					"value": "${HOSTNAME}"
-				},
-				{
-					"short": false,
-					"title": "Server Time",
-					"value": "$(date)"
-				}
-			]
-		}
-	]
-}
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+                {
+                    "short": false,
+                    "title": "Is my Game Server Online?",
+                    "value": "<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+                },
 EOF
-)
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
+	)
 fi
+
+if [ -n "${alerturl}" ]; then
+	json+=$(
+		cat << EOF
+                {
+                    "short": false,
+                    "title": "More info",
+                    "value": "${alerturl}"
+                },
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
+                {
+                    "short": false,
+                    "title": "Server Time",
+                    "value": "$(date)"
+                }
+            ]
+        }
+    ]
+}
+EOF
+)
 
 fn_print_dots "Sending Rocketchat alert"
 rocketchatsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${rocketchatwebhook}")
