@@ -197,7 +197,7 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="93705e165550c97484678236749198a4"
-	elif [ "${shortname}" == "xonotic" ]; then
+	elif [ "${shortname}" == "xnt" ]; then
 		remote_fileurl="https://dl.xonotic.org/xonotic-0.8.6.zip"
 		local_filedir="${tmpdir}"
 		local_filename="xonotic-0.8.6.zip"
@@ -254,8 +254,8 @@ elif [ "${shortname}" == "vints" ]; then
 elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
-elif [ "${shortname}" == "xonotic" ]; then
-	update_xonotic.sh
+elif [ "${shortname}" == "xnt" ]; then
+	update_xnt.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
