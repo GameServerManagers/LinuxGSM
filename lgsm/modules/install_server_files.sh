@@ -197,6 +197,13 @@ fn_install_server_files() {
 		chmodx="nochmodx" run="norun"
 		force="noforce"
 		md5="93705e165550c97484678236749198a4"
+	elif [ "${shortname}" == "xonotic" ]; then
+		remote_fileurl="https://dl.xonotic.org/xonotic-0.8.6.zip"
+		local_filedir="${tmpdir}"
+		local_filename="xonotic-0.8.6.zip"
+		chmodx="nochmodx" run="norun"
+		force="noforce"
+		md5="32cdf9f90930e4599177dafc41adda48"
 	elif [ "${shortname}" == "zmr" ]; then
 		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b6_1.tar.xz"
 		local_filedir="${tmpdir}"
@@ -247,6 +254,8 @@ elif [ "${shortname}" == "vints" ]; then
 elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
+elif [ "${shortname}" == "xonotic" ]; then
+	update_xonotic.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
