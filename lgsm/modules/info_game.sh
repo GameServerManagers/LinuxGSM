@@ -2242,6 +2242,16 @@ fn_info_game_wf() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: Xonotic
+# Comment: //
+# Filetype: cfg
+fn_info_game_xnt() {
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	adminpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 fn_info_game_wmc() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -2476,6 +2486,8 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
+elif [ "${shortname}" == "xnt" ]; then
+	fn_info_game_xnt
 fi
 
 # Public IP address
