@@ -2246,10 +2246,17 @@ fn_info_game_wf() {
 # Comment: //
 # Filetype: cfg
 fn_info_game_xnt() {
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "rconpassword"
+		fn_info_game_ini "port" "port"
+		fn_info_game_ini "servername" "hostname"
+		fn_info_game_ini "maxplayers" "maxplayers"
+	else
+	maxplayers="${maxplayers:-"8"}"
+	port="${port:-"2600"}"
 	adminpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
+	fi
 }
 
 fn_info_game_wmc() {
