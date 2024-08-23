@@ -256,7 +256,6 @@ elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	fn_install_server_files
-	bash update_xnt.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh

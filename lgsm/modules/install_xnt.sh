@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM update_xnt module
+# LinuxGSM install_xnt module
 # Author: Daniel Gibbs
 # Contributors: http://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
