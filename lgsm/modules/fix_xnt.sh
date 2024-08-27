@@ -13,6 +13,6 @@ if [ ! -d "${serverfiles}/Xonotic/${selfname}/data" ]; then
 fi
 
 # Copy the server.cfg file if it exists
-if [ -f "${serverfiles}/Xonotic/${selfname}/data/server.cfg" ]; then
+if [ ! -f "${serverfiles}/Xonotic/${selfname}/data/server.cfg" ]; then
 	cp "${serverfiles}/Xonotic/server/server.cfg" "${serverfiles}/Xonotic/${selfname}/data/server.cfg"
 fi
