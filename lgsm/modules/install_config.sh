@@ -68,7 +68,7 @@ fn_default_config_local() {
 		mkdir -p "$(dirname "${servercfgfullpath}")"
 	fi
 
-	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
+	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]: "
 	cp --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	exitcode=$?
 	if [ "${exitcode}" != 0 ]; then

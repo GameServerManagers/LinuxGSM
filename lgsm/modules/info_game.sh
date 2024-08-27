@@ -2242,15 +2242,15 @@ fn_info_game_wf() {
 	servername="${servername:-"NOT SET"}"
 }
 
-# Config Type: Xonotic
+# Config Type: QuakeC
 # Comment: //
 # Filetype: cfg
 fn_info_game_xnt() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_quakec "rconpassword" "rcon_password"
-		fn_info_game_quakec "port" "port"
-		fn_info_game_quakec "servername" "hostname"
-		fn_info_game_quakec "maxplayers" "maxplayers"
+		fn_info_game_keyvalue_pairs_space "rconpassword" "rcon_password"
+		fn_info_game_keyvalue_pairs_space "port" "port"
+		fn_info_game_keyvalue_pairs_space "servername" "hostname"
+		fn_info_game_keyvalue_pairs_space "maxplayers" "maxplayers"
 	fi
 	rconpassword="${rconpassword:-"NOT SET"}"
 	maxplayers="${maxplayers:-"8"}"
