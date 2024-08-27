@@ -957,13 +957,14 @@ fn_info_game_bf1942() {
 		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
 		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -980,11 +981,12 @@ fn_info_game_bfv() {
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
