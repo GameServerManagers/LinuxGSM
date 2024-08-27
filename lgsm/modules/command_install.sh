@@ -46,8 +46,6 @@ else
 	elif [ "${shortname}" == "mta" ]; then
 		command_install_resources_mta.sh
 		fn_firstcommand_reset
-	elif [ "${shortname}" == "xnt" ]; then
-		install_xnt.sh
 	fi
 
 	fix.sh

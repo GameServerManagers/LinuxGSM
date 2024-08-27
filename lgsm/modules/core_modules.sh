@@ -531,6 +531,11 @@ fix_wurm.sh() {
 	fn_fetch_module
 }
 
+fix_xmt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_zmr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
