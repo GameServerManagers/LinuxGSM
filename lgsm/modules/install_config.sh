@@ -64,8 +64,8 @@ fn_default_config_local() {
 	fn_check_cfgdir
 
 	# Check if the directory for ${servercfgfullpath} exists, if not, create it
-	if [ ! -d "${servercfgfullpath}" ]; then
-		mkdir -p "${servercfgfullpath}"
+	if [ ! -d "$(dirname "${servercfgfullpath}")" ]; then
+		mkdir -p "$(dirname "${servercfgfullpath}")"
 	fi
 
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
