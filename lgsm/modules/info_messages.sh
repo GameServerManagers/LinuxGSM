@@ -1548,6 +1548,14 @@ fn_info_messages_st() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_stn() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ti() {
 	{
 		fn_port "header"
@@ -1728,7 +1736,7 @@ fn_info_messages_wurm() {
 	} | column -s $'\t' -t
 }
 
-fn_info_messages_stn() {
+fn_info_messages_xnt() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1914,6 +1922,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_wf
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_messages_wurm
+	elif [ "${shortname}" == "xnt" ]; then
+		fn_info_messages_xnt
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_messages_goldsrc
 	elif [ "${engine}" == "prism3d" ]; then
