@@ -29,7 +29,7 @@ fn_script_log_info "Selecting repo"
 curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
 
 if [ $? != "0" ]; then
-	curl curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
+	curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
 	if [ $? != "0" ]; then
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		fn_script_log_fail "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
