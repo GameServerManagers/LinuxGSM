@@ -8,6 +8,6 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Create the directory if it doesn't exist
-if [ ! -d "${serverfiles}/Xonotic/${selfname}/data" ]; then
-	mkdir -p "${serverfiles}/Xonotic/${selfname}/data"
+if [ ! -d "${systemdir}/${selfname}/data" ]; then
+	mkdir -p "${systemdir}/${selfname}/data"
 fi
