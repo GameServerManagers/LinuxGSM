@@ -62,6 +62,12 @@ fn_default_config_local() {
 	fn_messages_separator
 	echo -e "Copying default configs."
 	fn_check_cfgdir
+
+	# Check if the directory for ${servercfgfullpath} exists, if not, create it
+	if [ ! -d "${servercfgfullpath}" ]; then
+		mkdir -p "${servercfgfullpath}"
+	fi
+
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
 	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	if [ "${exitcode}" != 0 ]; then
@@ -72,7 +78,6 @@ fn_default_config_local() {
 		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
 	fi
 }
-
 # Changes some variables within the default configs.
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
@@ -835,6 +840,9 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${shortname}" == "xnt" ]; then
+	fn_default_config_local
+	fn_list_config_locations
 elif [ "${shortname}" == "wurm" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
