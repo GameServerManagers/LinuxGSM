@@ -69,7 +69,7 @@ fn_default_config_local() {
 	fi
 
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
-	cp -v --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	cp --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
