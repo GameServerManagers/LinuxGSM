@@ -9,9 +9,8 @@ module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
-	echo "${remotebuildversion}" > "${serverfiles}/build.txt"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}" "Xonotic"
 	fn_clear_tmp
 }
 
