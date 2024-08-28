@@ -163,6 +163,11 @@ fn_start_tmux() {
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
 	echo -en "\n"
+
+	# Send version command to Xonotic server.
+	if [ "${shortname}" == "xnt" ]; then
+		tmux -L "${socketname}" send-keys -t "${sessionname}" version > /dev/null 2>&1
+	fi
 }
 
 # If user ran the start command monitor will become enabled.

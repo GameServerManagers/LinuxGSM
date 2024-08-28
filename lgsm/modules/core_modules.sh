@@ -700,6 +700,11 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_xnt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fn_update_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
