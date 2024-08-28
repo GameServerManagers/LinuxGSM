@@ -224,14 +224,6 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="93705e165550c97484678236749198a4"
-	elif [ "${shortname}" == "xnt" ]; then
-		remote_fileurl="https://dl.xonotic.org/xonotic-0.8.6.zip"
-		local_filedir="${tmpdir}"
-		local_filename="xonotic-0.8.6.zip"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="32cdf9f90930e4599177dafc41adda48"
 	elif [ "${shortname}" == "zmr" ]; then
 		remote_fileurl="http://linuxgsm.download/ZombieMasterReborn/zombie_master_reborn_b6_1.tar.xz"
 		local_filedir="${tmpdir}"
