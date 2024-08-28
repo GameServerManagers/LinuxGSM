@@ -2242,6 +2242,23 @@ fn_info_game_wf() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: QuakeC
+# Comment: //
+# Filetype: cfg
+fn_info_game_xnt() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_space "maxplayers" "maxplayers"
+		fn_info_game_keyvalue_pairs_space "port" "port"
+		fn_info_game_keyvalue_pairs_space "rconpassword" "rcon_password"
+		fn_info_game_keyvalue_pairs_space "servername" "hostname"
+	fi
+	maxplayers="${maxplayers:-"8"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 fn_info_game_wmc() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -2476,6 +2493,8 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
+elif [ "${shortname}" == "xnt" ]; then
+	fn_info_game_xnt
 fi
 
 # Public IP address

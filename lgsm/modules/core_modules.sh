@@ -531,6 +531,11 @@ fix_wurm.sh() {
 	fn_fetch_module
 }
 
+fix_xnt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_zmr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -695,6 +700,11 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_xnt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fn_update_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -819,6 +829,11 @@ fi
 # Creates lock dir if missing
 if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
+fi
+
+# Creates data dir if missing
+if [ ! -d "${datadir}" ]; then
+	mkdir -p "${datadir}"
 fi
 
 # if $USER id missing set to whoami

@@ -33,6 +33,8 @@ elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
 elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
+elif [ "${shortname}" == "xnt" ]; then
+	update_xnt.sh
 else
 	update_steamcmd.sh
 fi

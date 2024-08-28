@@ -41,15 +41,15 @@ fn_default_config_remote() {
 		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -v --update=none "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	fn_sleep_time
@@ -62,14 +62,21 @@ fn_default_config_local() {
 	fn_messages_separator
 	echo -e "Copying default configs."
 	fn_check_cfgdir
-	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]"
-	cp -n "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+
+	# Check if the directory for ${servercfgfullpath} exists, if not, create it
+	if [ ! -d "$(dirname "${servercfgfullpath}")" ]; then
+		mkdir -p "$(dirname "${servercfgfullpath}")"
+	fi
+
+	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]: "
+	cp --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	exitcode=$?
 	if [ "${exitcode}" != 0 ]; then
 		fn_print_fail_eol
-		fn_script_log_fail "copying config file [ ${servercfgdefault} ]"
+		fn_script_log_fail "copying config file [ ${servercfgdefault} ]: "
 	else
 		fn_print_ok_eol
-		fn_script_log_pass "copying config file [ ${servercfgdefault} ]"
+		fn_script_log_pass "copying config file [ ${servercfgdefault} ]: "
 	fi
 }
 
@@ -835,6 +842,13 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "xnt" ]; then
+	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "wurm" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
