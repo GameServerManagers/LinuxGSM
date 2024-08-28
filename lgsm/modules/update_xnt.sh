@@ -40,8 +40,10 @@ fn_update_remotebuild() {
 	apiurl="https://api.github.com/repos/xonotic/xonotic/tags"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildtag=$(echo "${remotebuildresponse}" | jq -r '.[0].name')
-	remotebuildurl="https://dl.xonotic.org/${remotebuildtag}.zip"
-	remotebuildfilename="${remotebuildtag}.zip"
+	remotebuildfilename=$(echo "${remotebuildtag}" | tr -d 'v')
+	remotebuildfilename="${remotebuildfilename}.zip"
+	remotebuildurl="https://dl.xonotic.org/${remotebuildfilename}"
+
 	remotebuildversion="${remotebuildtag}"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
