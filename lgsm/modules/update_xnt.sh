@@ -18,6 +18,11 @@ fn_update_dl() {
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
+
+	# Send version command to Xonotic server.
+	tmux -L "${socketname}" send-keys -t "${sessionname}" "version\r" > /dev/null 2>&1
+	fn_sleep_time_1
+
 	# Uses log file to get local build.
 	localbuild=$(grep "SVQC version: xonotic-v" "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*SVQC version: \(xonotic-v[0-9.]*\).*/\1/' | tr -d '\000-\011\013-\037')
 	if [ -z "${localbuild}" ]; then
