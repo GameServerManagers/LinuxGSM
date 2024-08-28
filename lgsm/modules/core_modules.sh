@@ -831,6 +831,11 @@ if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
 fi
 
+# Creates data dir if missing
+if [ ! -d "${datadir}" ]; then
+	mkdir -p "${datadir}"
+fi
+
 # if $USER id missing set to whoami
 if [ -z "${USER}" ]; then
 	USER="$(whoami)"
