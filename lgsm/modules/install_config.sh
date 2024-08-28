@@ -79,6 +79,7 @@ fn_default_config_local() {
 		fn_script_log_pass "copying config file [ ${servercfgdefault} ]: "
 	fi
 }
+
 # Changes some variables within the default configs.
 # SERVERNAME to LinuxGSM
 # PASSWORD to random password
