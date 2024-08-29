@@ -238,6 +238,7 @@ fn_install_server_files() {
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
+	fn_clear_tmp
 }
 
 echo -e ""
