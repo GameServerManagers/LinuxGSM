@@ -63,8 +63,8 @@ fn_check_permissions() {
 		findnotexecutable="$(find "${modulesdir}" -type f -not -executable)"
 		findnotexecutablewc="$(find "${modulesdir}" -type f -not -executable | wc -l)"
 		if [ "${findnotexecutablewc}" -ne "0" ]; then
-			fn_print_fail_nl "Permissions issues found"
-			fn_script_log_fail "Permissions issues found"
+			fn_print_error_nl "Permissions issues found"
+			fn_script_log_error "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
