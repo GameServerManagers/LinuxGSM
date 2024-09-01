@@ -71,11 +71,27 @@ fn_check_permissions() {
 				echo -en "File:"
 				echo -en "${findnotexecutable}"
 			} | column -s $'\t' -t | tee -a "${lgsmlog}"
-			if [ "${monitorflag}" == 1 ]; then
-				alert="permissions"
-				alert.sh
+
+			# Attempt to make the files executable
+			fn_print_information_nl "Attempting to fix permissions issues"
+			fn_script_log_info "Attempting to fix permissions issues"
+			echo "${findnotexecutable}" | xargs chmod +x
+
+			# Re-check if there are still non-executable files
+			findnotexecutable="$(find "${modulesdir}" -type f -not -executable)"
+			findnotexecutablewc="$(find "${modulesdir}" -type f -not -executable | wc -l)"
+			if [ "${findnotexecutablewc}" -ne "0" ]; then
+				fn_print_fail_nl "Failed to resolve permissions issues"
+				fn_script_log_fail "Failed to resolve permissions issues"
+				if [ "${monitorflag}" == 1 ]; then
+					alert="permissions"
+					alert.sh
+				fi
+				core_exit.sh
+			else
+				fn_print_ok_nl "Permissions issues resolved"
+				fn_script_log_pass "Permissions issues resolved"
 			fi
-			core_exit.sh
 		fi
 	fi
 
