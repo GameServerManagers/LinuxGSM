@@ -832,7 +832,7 @@ fn_info_messages_armar() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Steam Query" queryport udp
+		fn_port "Query" queryport udp
 		fn_port "BattleEye" battleeyeport tcp
 	} | column -s $'\t' -t
 }
@@ -1130,7 +1130,7 @@ fn_info_messages_kf() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" queryportgs udp
+		fn_port "Query (GameSpy)" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 		fn_port "Steamworks P2P" steamworksport udp
@@ -1343,11 +1343,12 @@ fn_info_messages_ro() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Query - Steam" queryport udp
+		fn_port "Query - Unreal 2" unreal2queryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
+
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
@@ -1504,7 +1505,7 @@ fn_info_messages_source() {
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
-		# Will not show if unaviable
+		# Will not show if unavailable
 		if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
 			fn_port "Steam" steamport udp
 		fi
@@ -1570,9 +1571,9 @@ fn_info_messages_ts3() {
 		fn_port "header"
 		fn_port "Voice" port udp
 		fn_port "Query" queryport tcp
-		fn_port "Query (SSH)" querysshport tcp
-		fn_port "Query (http)" queryhttpport tcp
-		fn_port "Query (https)" queryhttpsport tcp
+		fn_port "Query (SSH)" sshqueryport tcp
+		fn_port "Query (http)" httpqueryport tcp
+		fn_port "Query (https)" httpsqueryport tcp
 		fn_port "File Transfer" fileport tcp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
@@ -1618,7 +1619,7 @@ fn_info_messages_ut2k4() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" queryportgs udp
+		fn_port "Query (GameSpy)" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
