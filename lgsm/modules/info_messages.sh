@@ -508,6 +508,11 @@ fn_info_messages_gameserver() {
 		else
 			echo -e "${lightblue}Status:\t${green}STARTED${default}"
 		fi
+
+		# ismygameserver.online
+		if [ -n "${querytype}" ]; then
+			echo -e "${lightblue}Query Check:\t${default}https://ismygameserver.online/${querytype}/${alertip}:${queryport}"
+		fi
 	} | column -s $'\t' -t
 	echo -e ""
 }
