@@ -204,9 +204,14 @@ echo -e ""
 echo -e "PORT: ${port}"
 echo -e "QUERY PORT: ${queryport}"
 echo -e ""
+echo -e "${lightgreen}Is My Game Server Online?${default}"
+fn_messages_separator
+echo -e "Game server status: https://ismygameserver.online/${querytype}/${queryip}:${queryport}"
+echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
 echo -e ""
+
 if [ ! "$(command -v gamedig 2> /dev/null)" ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
