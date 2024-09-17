@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,python36,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -9,6 +9,7 @@ armar,libcurl,openssl11-libs
 ats
 av
 bb
+pw
 bb2,libcurl.i686
 bd
 bf1942,ncurses-libs.i686
@@ -54,6 +55,7 @@ hl2dm
 hldm
 hldms
 hw,zlib-devel
+hz
 ins
 inss
 ios

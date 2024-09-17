@@ -30,6 +30,9 @@ else
 		install_server_files.sh
 	fi
 
+	# Install gamedig
+	check_gamedig.sh
+
 	# Configuration.
 	install_config.sh
 	if [ -v gslt ]; then

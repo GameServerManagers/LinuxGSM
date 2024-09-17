@@ -214,6 +214,10 @@ fn_monitor_check_session() {
 		fn_print_ok "Checking session: "
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
+		# send LinuxGSM stats if monitor is OK.
+		if [ "${stats}" == "on" ] || [ "${stats}" == "y" ] && [ "${querymode}" == "1" ]; then
+			info_stats.sh
+		fi
 	else
 		fn_print_error "Checking session: "
 		fn_print_fail_eol_nl
@@ -365,7 +369,7 @@ fn_monitor_loop() {
 	for querymethod in "${query_methods_array[@]}"; do
 		# Will check if gamedig is installed and bypass if not.
 		if [ "${querymethod}" == "gamedig" ]; then
-			if [ "$(command -v gamedig 2> /dev/null)" ] && [ "$(command -v jq 2> /dev/null)" ]; then
+			if [ "$(command -v gamedig 2> /dev/null)" ] || [ -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ] && [ "$(command -v jq 2> /dev/null)" ]; then
 				if [ -z "${monitorpass}" ]; then
 					fn_monitor_query
 				fi

@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 steamcmd,lib32gcc-s1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hz
 ins
 inss
 ios
@@ -85,6 +86,7 @@ pmc,openjdk-17-jre
 ps,libgconf-2-4
 pvkii
 pvr,libc++1
+pw
 pz,openjdk-17-jre,rng-tools5
 q2
 q3

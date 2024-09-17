@@ -53,6 +53,7 @@ hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
 hw,hwserver,Hurtworld,ubuntu-22.04
+hz,hzserver,Humanitz,ubuntu-22.04
 ins,insserver,Insurgency,ubuntu-22.04
 inss,inssserver,Insurgency: Sandstorm,ubuntu-22.04
 ios,iosserver,IOSoccer,ubuntu-22.04
@@ -84,6 +85,7 @@ pmc,pmcserver,PaperMC,ubuntu-22.04
 ps,psserver,Post Scriptum,ubuntu-22.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-22.04
 pvr,pvrserver,Pavlov VR,ubuntu-22.04
+pw,pwserver,Palworld,ubuntu-22.04
 pz,pzserver,Project Zomboid,ubuntu-22.04
 q2,q2server,Quake 2,ubuntu-22.04
 q3,q3server,Quake 3: Arena,ubuntu-22.04

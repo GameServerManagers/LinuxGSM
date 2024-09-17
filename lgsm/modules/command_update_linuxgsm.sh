@@ -13,6 +13,7 @@ fn_firstcommand_set
 fn_print_dots ""
 check.sh
 info_distro.sh
+info_game.sh
 
 fn_script_log_info "Updating LinuxGSM"
 

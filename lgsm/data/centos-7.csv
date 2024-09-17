@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python3,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,zlib-devel
+hz
 ins
 inss
 ios
@@ -64,7 +65,7 @@ kf
 kf2
 l4d
 l4d2
-mc,java-11-openjdk
+mc,java-21-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
@@ -85,6 +86,7 @@ pmc,java-11-openjdk
 ps,GConf2
 pvkii
 pvr,libcxx
+pw
 pz,java-11-openjdk rng-tools
 q2
 q3

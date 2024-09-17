@@ -674,7 +674,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "pw" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -692,6 +692,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "bfv" ]; then
+		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
@@ -1015,7 +1017,9 @@ fn_info_messages_eco() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 		fn_port "Web Interface" httpport tcp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1057,6 +1061,15 @@ fn_info_messages_hw() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_hz() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1266,6 +1279,15 @@ fn_info_messages_pvr() {
 		fn_port "Game" port tcp
 		fn_port "Game+400" port401 udp
 		fn_port "Query" queryport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_pw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Steam" steamport udp
+		fn_port "Unknown" unknownport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1758,6 +1780,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_hcu
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_messages_hw
+	elif [ "${shortname}" == "hz" ]; then
+		fn_info_messages_hz
 	elif [ "${shortname}" == "ins" ]; then
 		fn_info_messages_ins
 	elif [ "${shortname}" == "inss" ]; then
@@ -1798,6 +1822,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_messages_pvr
+	elif [ "${shortname}" == "pw" ]; then
+		fn_info_messages_pw
 	elif [ "${shortname}" == "pz" ]; then
 		fn_info_messages_pz
 	elif [ "${shortname}" == "q2" ]; then

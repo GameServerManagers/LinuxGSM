@@ -495,6 +495,9 @@ elif [ "${shortname}" == "hl2dm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "hz" ]; then
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "ins" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config
@@ -600,6 +603,12 @@ elif [ "${shortname}" == "pvr" ]; then
 	fn_set_config_vars
 elif [ "${shortname}" == "pvkii" ]; then
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "pw" ]; then
+	array_configs+=(PalWorldSettings.ini)
 	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
