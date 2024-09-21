@@ -496,12 +496,13 @@ fn_info_game_kf() {
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "gamespyqueryport" "QueryPort"
+		fn_info_game_ini "gamespyqueryport" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
+	gamespyqueryport="${gamespyqueryport:-"0"}" # Gamespy Query Port
 	httpenabled="${httpenabled:-"NOT SET"}"
 	httppassword="${adminpassword}"
 	httpport="${httpport:-"0"}"
@@ -509,12 +510,11 @@ fn_info_game_kf() {
 	lanport="${lanport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
-	gamespyqueryport="${gamespyqueryport:-"0"}"
+	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="28852"
-	steamworksport="20560"
+	steamport="20610"
+	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 
 # Config Type: ini
@@ -1761,6 +1761,11 @@ fn_info_game_qw() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
 fn_info_game_ro() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"

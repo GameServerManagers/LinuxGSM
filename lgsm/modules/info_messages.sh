@@ -1129,11 +1129,11 @@ fn_info_messages_kf() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" gamespyqueryport udp
+		fn_port "Query - Steam" queryport udp
+		fn_port "Query - Unreal 2" unreal2queryport udp
+		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
