@@ -1618,8 +1618,8 @@ fn_info_messages_ut2k4() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" gamespyqueryport udp
+		fn_port "Query - Unreal 2" queryport udp
+		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
