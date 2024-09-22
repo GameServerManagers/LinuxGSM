@@ -30,17 +30,13 @@ body:
       label: Linux distro
       multiple: true
       options:
+        - Ubuntu 24.04
         - Ubuntu 22.04
         - Ubuntu 20.04
-        - Ubuntu 18.04
-        - Ubuntu 16.04
         - Debian 12
         - Debian 11
-        - Debian 10
-        - Debian 9
         - RedHat 9
         - RedHat 8
-        - RedHat 7
         - Other
     validations:
       required: false
