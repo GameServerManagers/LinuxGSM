@@ -193,13 +193,13 @@ fn_install_server_files() {
 		force="noforce"
 		md5="41dd92015713a78211eaccf503b72393"
 	elif [ "${shortname}" == "ut3" ]; then
-		remote_fileurl="http://linuxgsm.download/UnrealTournament3/UT3-linux-server-2.1.tar.xz"
+		remote_fileurl="http://linuxgsm.download/UnrealTournament3/UT3-linux-server-2.1-openspy.tar.xz"
 		local_filedir="${tmpdir}"
-		local_filename="UT3-linux-server-2.1.tar.xz"
+		local_filename="UT3-linux-server-2.1-openspy.tar.xz"
 		chmodx="nochmodx"
 		run="norun"
 		force="noforce"
-		md5="8876cca61e3f83ea08db25208bde6ac6"
+		md5="97058e7346946c8ebdc4181483238d0d"
 	elif [ "${shortname}" == "vs" ]; then
 		remote_fileurl="http://linuxgsm.download/VampireSlayer/vs_l-6.0_full.tar.xz"
 		local_filedir="${tmpdir}"
