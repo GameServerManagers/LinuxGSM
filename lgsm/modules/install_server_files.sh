@@ -199,7 +199,7 @@ fn_install_server_files() {
 		chmodx="nochmodx"
 		run="norun"
 		force="noforce"
-		md5="97058e7346946c8ebdc4181483238d0d"
+		md5="f60b745613a8676666eb6a2450cbdc8e"
 	elif [ "${shortname}" == "vs" ]; then
 		remote_fileurl="http://linuxgsm.download/VampireSlayer/vs_l-6.0_full.tar.xz"
 		local_filedir="${tmpdir}"
