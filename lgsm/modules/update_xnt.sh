@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_ut99.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Unreal Tournament 99 servers.
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_distro.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Variables providing useful info on the Operating System such as disk and performace info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
@@ -29,8 +29,8 @@ kernel="$(uname -r)" # Kernel e.g. 2.6.32-042stab120.16
 distro_info_array=(os-release lsb_release hostnamectl debian_version redhat-release)
 for distro_info in "${distro_info_array[@]}"; do
 	if [ -f "/etc/os-release" ] && [ "${distro_info}" == "os-release" ]; then
-		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"   # e.g. Ubuntu 22.04.3 LTS
-		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')" # e.g. 22.04
+		distroname="$(grep "PRETTY_NAME" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"              # e.g. Ubuntu 22.04.3 LTS
+		distroversion="$(grep "VERSION_ID" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"            # e.g. 22.04
 		distroid="$(grep "ID=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')"          # e.g. ubuntu
 		distroidlike="$(grep "ID_LIKE=" /etc/os-release | grep -v _ID | awk -F= '{gsub(/"/,"",$2);print $2}')" # e.g. debian
 		distrocodename="$(grep "VERSION_CODENAME" /etc/os-release | awk -F= '{gsub(/"/,"",$2);print $2}')"     # e.g. jammy

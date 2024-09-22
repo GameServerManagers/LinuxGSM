@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_parse_distro_details.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Display parsed distro details.
 
@@ -87,7 +87,7 @@ missing_details=""
 
 # Loop through the distro details and store them.
 for key in "${!server_details[@]}"; do
-    value=${server_details[$key]}
+	value=${server_details[$key]}
 	if [ -n "$value" ]; then
 		available_details+="${lightblue}${key}: ${default}${value}\n"
 	else
@@ -97,18 +97,18 @@ done
 
 # Sort and output the available distro details.
 if [ -n "$available_details" ]; then
-    echo -e ""
-    echo -e "${bold}${lightgreen}Available Distro Details${default}"
-    fn_messages_separator
-    echo -e "${available_details}" | sort
+	echo -e ""
+	echo -e "${bold}${lightgreen}Available Distro Details${default}"
+	fn_messages_separator
+	echo -e "${available_details}" | sort
 fi
 
 # Sort and output the missing distro details.
 if [ -n "$missing_details" ]; then
-    echo -e ""
-    echo -e "${lightgreen}Missing or unsupported Distro Details${default}"
-    fn_messages_separator
-    echo -e "${missing_details}" | sort
+	echo -e ""
+	echo -e "${lightgreen}Missing or unsupported Distro Details${default}"
+	fn_messages_separator
+	echo -e "${missing_details}" | sort
 fi
 
 core_exit.sh

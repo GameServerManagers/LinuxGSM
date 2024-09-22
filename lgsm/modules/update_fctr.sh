@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_fctr.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 

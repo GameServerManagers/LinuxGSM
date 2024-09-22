@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_update_linuxgsm.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Deletes the modules dir to allow re-downloading of modules from GitHub.
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_detect_deps.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 

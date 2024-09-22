@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # LinuxGSM query_gsquery.py module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
 
