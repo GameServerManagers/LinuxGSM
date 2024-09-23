@@ -559,6 +559,12 @@ elif [ "${shortname}" == "mcb" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "mcv" ]; then
+	array_configs+=(server.cfg)
+	fn_fetch_default_config
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "mohaa" ]; then
 	array_configs+=(server.cfg)
 	fn_fetch_default_config

@@ -66,6 +66,7 @@ l4d,l4dserver,Left 4 Dead,ubuntu-22.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-22.04
 mc,mcserver,Minecraft,ubuntu-22.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
+mcv,mcvserver,Military Conflict: Vietnam,ubuntu-22.04
 mh,mhserver,MORDHAU,ubuntu-22.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
 mta,mtaserver,Multi Theft Auto,ubuntu-22.04
