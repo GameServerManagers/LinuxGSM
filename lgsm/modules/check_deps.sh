@@ -358,9 +358,9 @@ info_distro.sh
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the distro dependency csv file exists.
-	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
+	fn_check_file_github "${datadir}" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ] && [ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "${datadir}" "${distroid}-${distroversioncsv}.csv" "${datadir}" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 

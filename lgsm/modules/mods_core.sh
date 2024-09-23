@@ -412,7 +412,7 @@ fn_create_mods_dir() {
 		fi
 	fi
 
-	# Create lgsm/data/${modsinstalledlist}.
+	# Create ${datadir}/${modsinstalledlist}.
 	if [ ! -f "${modsinstalledlistfullpath}" ]; then
 		touch "${modsinstalledlistfullpath}"
 		fn_script_log_info "Created ${modsinstalledlistfullpath}"
