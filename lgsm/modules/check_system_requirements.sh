@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_system_requirements.sh
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks RAM requirements.
 
@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
-# RAM requirements in megabytes for each game or engine.
+# RAM requirements in gigabytes for each game or engine.
 
 if [ "${shortname}" == "ark" ]; then
 	ramrequirementgb="7"
@@ -49,6 +49,8 @@ elif [ "${shortname}" == "sf" ]; then
 	ramrequirementgb="12"
 elif [ "${shortname}" == "squad" ]; then
 	ramrequirementgb="2"
+elif [ "${shortname}" == "sm" ]; then
+	ramrequirementgb="10"
 elif [ "${shortname}" == "st" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "stn" ]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_query_raw.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
@@ -207,7 +207,7 @@ echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
 echo -e ""
-if [ ! "$(command -v gamedig 2> /dev/null)" ] || [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
+if [ ! "$(command -v gamedig 2> /dev/null)" ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
 if [ ! "$(command -v jq 2> /dev/null)" ]; then

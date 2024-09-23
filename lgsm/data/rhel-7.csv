@@ -70,7 +70,6 @@ mc,java-11-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
-mom
 mta,ncurses-libs,libxml2
 nd
 nec
@@ -106,6 +105,7 @@ scpslsm
 sdtd,telnet,expect,libxml2
 sf
 sfc,ncurses-libs.i686
+sm,telnet,expect
 sof2
 sol
 squad
@@ -126,7 +126,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,glibc-devel
+vh,glibc-devel,libatomic,pulseaudio-libs-devel
 vints,aspnetcore-runtime-7.0
 vpmc,java-11-openjdk
 vs
@@ -134,5 +134,6 @@ wet
 wf
 wmc,java-11-openjdk
 wurm,xorg-x11-server-Xvfb
+xnt
 zmr,ncurses-libs.i686
 zps,ncurses-libs.i686

@@ -68,7 +68,6 @@ mc,mcserver,Minecraft,ubuntu-22.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
 mh,mhserver,MORDHAU,ubuntu-22.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
-mom,momserver,Memories of Mars,ubuntu-22.04
 mta,mtaserver,Multi Theft Auto,ubuntu-22.04
 nd,ndserver,Nuclear Dawn,ubuntu-22.04
 nec,necserver,Necesse,ubuntu-22.04
@@ -105,6 +104,7 @@ scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod,ubuntu-22.04
 sdtd,sdtdserver,7 Days to Die,ubuntu-22.04
 sf,sfserver,Satisfactory,ubuntu-22.04
 sfc,sfcserver,SourceForts Classic,ubuntu-22.04
+sm,smserver,Soulmask,ubuntu-22.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-22.04
 sol,solserver,Soldat,ubuntu-22.04
 squad,squadserver,Squad,ubuntu-22.04
@@ -133,5 +133,6 @@ wet,wetserver,Wolfenstein: Enemy Territory,ubuntu-22.04
 wf,wfserver,Warfork,ubuntu-22.04
 wmc,wmcserver,WaterfallMC,ubuntu-22.04
 wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
+xnt,xntserver,Xonotic,ubuntu-22.04
 zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
 zps,zpsserver,Zombie Panic! Source,ubuntu-22.04

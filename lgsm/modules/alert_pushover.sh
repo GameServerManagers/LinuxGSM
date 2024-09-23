@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_pushover.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Pushover alert.
 
@@ -23,9 +23,9 @@ else
 fi
 
 if [ -z "${alerturl}" ]; then
-	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
+	pushoversend=$(curl --connect-timeout 3 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
 else
-	pushoversend=$(curl --connect-timeout 10 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a><br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
+	pushoversend=$(curl --connect-timeout 3 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a><br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
 fi
 
 if [ -n "${pushoversend}" ]; then

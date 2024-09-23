@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_messages.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines on-screen messages such as [  OK  ] and how script logs look.
 
@@ -31,7 +31,7 @@ fn_ansi_loader() {
 		darkgrey="\e[90m"
 		lightgrey="\e[37m"
 		white="\e[97m"
-  		# erase to end of line.
+		# erase to end of line.
 		creeol+="\033[K"
 	fi
 }

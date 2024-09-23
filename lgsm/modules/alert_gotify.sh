@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_gotify.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Gotify alert.
 
@@ -34,7 +34,7 @@ else
 fi
 
 fn_print_dots "Sending Gotify alert"
-gotifysend=$(curl --connect-timeout 10 -sSL "${gotifywebhook}/message"?token="${gotifytoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)")
+gotifysend=$(curl --connect-timeout 3 -sSL "${gotifywebhook}/message"?token="${gotifytoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)")
 
 if [ -n "${gotifysend}" ]; then
 	fn_print_ok_nl "Sending Gotify alert"

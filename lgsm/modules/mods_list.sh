@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM mods_list.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Lists and defines available mods for LinuxGSM supported servers; works along with mods_core.sh.
 # Usage: To add a mod, you need to add an array variable following the guide to set proper values;
@@ -68,7 +68,7 @@ sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${so
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl --connect-timeout 10 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # Stripper:Source
@@ -78,34 +78,34 @@ stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperla
 stripperurl="${stripperdownloadurl}"
 
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
 get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
 get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
-csgopracticelatest=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
+csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
 csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
 csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
-csgopuglatest=$(curl --connect-timeout 10 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
-gokzlatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
 gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
 gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
-movementapilatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+movementapilatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
 movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
 movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 
 # Oxide
-oxiderustlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 # Valheim Plus
-valheimpluslatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 # Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 10 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
 
 # Define mods information (required)
 

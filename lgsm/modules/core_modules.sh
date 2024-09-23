@@ -1,14 +1,14 @@
 #!/bin/bash
 # LinuxGSM core_modules.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines all modules to allow download and execution of modules using fn_fetch_module.
 # This module is called first before any other module. Without this file other modules will not load.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v24.2.4"
+modulesversion="v24.3.0"
 
 # Core
 
@@ -446,6 +446,11 @@ fix_sfc.sh() {
 	fn_fetch_module
 }
 
+fix_sm.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_st.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -522,6 +527,11 @@ fix_vh.sh() {
 }
 
 fix_wurm.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_xnt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -690,6 +700,11 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_xnt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fn_update_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -814,6 +829,11 @@ fi
 # Creates lock dir if missing
 if [ ! -d "${lockdir}" ]; then
 	mkdir -p "${lockdir}"
+fi
+
+# Creates data dir if missing
+if [ ! -d "${datadir}" ]; then
+	mkdir -p "${datadir}"
 fi
 
 # if $USER id missing set to whoami

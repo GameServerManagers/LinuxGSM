@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_messages.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines server info messages for details and alerts.
 
@@ -30,8 +30,8 @@ fn_info_messages_password_strip() {
 			httppassword="********"
 		fi
 
-		if [ "${telnetpass}" ]; then
-			telnetpass="********"
+		if [ "${telnetpassword}" ]; then
+			telnetpassword="********"
 		fi
 
 		if [ "${wsapikey}" ]; then
@@ -483,6 +483,11 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}Version Count:\t${default}${versioncount}"
 		fi
 
+		# backupinterval (Soulmask)
+		if [ -n "${backupinterval}" ]; then
+			echo -e "${lightblue}Backup Interval:\t${default}${backupinterval}"
+		fi
+
 		# Listed on Master server
 		if [ -n "${displaymasterserver}" ]; then
 			if [ "${displaymasterserver}" == "true" ]; then
@@ -663,7 +668,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -702,6 +707,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
+	elif [ "${shortname}" == "sm" ]; then
+		portcommand="ss -tuplwn | grep WSServer-Linux"
 	elif [ "${engine}" == "source" ]; then
 		portcommand="ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
@@ -825,7 +832,7 @@ fn_info_messages_armar() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Steam Query" queryport udp
+		fn_port "Query" queryport udp
 		fn_port "BattleEye" battleeyeport tcp
 	} | column -s $'\t' -t
 }
@@ -1122,11 +1129,11 @@ fn_info_messages_kf() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" queryportgs udp
+		fn_port "Query - Steam" queryport udp
+		fn_port "Query - Unreal 2" unreal2queryport udp
+		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1189,14 +1196,6 @@ fn_info_messages_mohaa() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_mom() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Beacon" beaconport udp
 	} | column -s $'\t' -t
 }
 
@@ -1344,11 +1343,12 @@ fn_info_messages_ro() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Query - Steam" queryport udp
+		fn_port "Query - Unreal 2" unreal2queryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "Steam" steamport udp
+
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
@@ -1443,7 +1443,7 @@ fn_info_messages_sdtd() {
 	{
 		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
 		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
-		echo -e "${lightblue}Telnet password:\t${default}${telnetpass}"
+		echo -e "${lightblue}Telnet password:\t${default}${telnetpassword}"
 	} | column -s $'\t' -t
 }
 
@@ -1453,6 +1453,23 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_sm() {
+	fn_info_messages_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Telnet" telnetport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Telnet${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Telnet enabled:\t${default}${telnetenabled}"
+		echo -e "${lightblue}Telnet address:\t${default}${telnetip} ${telnetport}"
 	} | column -s $'\t' -t
 }
 
@@ -1488,7 +1505,7 @@ fn_info_messages_source() {
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
-		# Will not show if unaviable
+		# Will not show if unavailable
 		if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
 			fn_port "Steam" steamport udp
 		fi
@@ -1532,6 +1549,14 @@ fn_info_messages_st() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_stn() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ti() {
 	{
 		fn_port "header"
@@ -1546,9 +1571,9 @@ fn_info_messages_ts3() {
 		fn_port "header"
 		fn_port "Voice" port udp
 		fn_port "Query" queryport tcp
-		fn_port "Query (SSH)" querysshport tcp
-		fn_port "Query (http)" queryhttpport tcp
-		fn_port "Query (https)" queryhttpsport tcp
+		fn_port "Query (SSH)" sshqueryport tcp
+		fn_port "Query (http)" httpqueryport tcp
+		fn_port "Query (https)" httpsqueryport tcp
 		fn_port "File Transfer" fileport tcp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
@@ -1593,8 +1618,8 @@ fn_info_messages_ut2k4() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Query (GameSpy)" queryportgs udp
+		fn_port "Query - Unreal 2" queryport udp
+		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
 	} | column -s $'\t' -t
@@ -1712,7 +1737,7 @@ fn_info_messages_wurm() {
 	} | column -s $'\t' -t
 }
 
-fn_info_messages_stn() {
+fn_info_messages_xnt() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1804,8 +1829,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_mh
 	elif [ "${shortname}" == "mohaa" ]; then
 		fn_info_messages_mohaa
-	elif [ "${shortname}" == "mom" ]; then
-		fn_info_messages_mom
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_messages_mta
 	elif [ "${shortname}" == "nec" ]; then
@@ -1852,6 +1875,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_sdtd
 	elif [ "${shortname}" == "sf" ]; then
 		fn_info_messages_sf
+	elif [ "${shortname}" == "sm" ]; then
+		fn_info_messages_sm
 	elif [ "${shortname}" == "sof2" ]; then
 		fn_info_messages_sof2
 	elif [ "${shortname}" == "sol" ]; then
@@ -1898,6 +1923,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_wf
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_messages_wurm
+	elif [ "${shortname}" == "xnt" ]; then
+		fn_info_messages_xnt
 	elif [ "${engine}" == "goldsrc" ]; then
 		fn_info_messages_goldsrc
 	elif [ "${engine}" == "prism3d" ]; then

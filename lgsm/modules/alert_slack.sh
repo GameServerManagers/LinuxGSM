@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_slack.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Slack alert.
 
@@ -182,7 +182,7 @@ fi
 
 fn_print_dots "Sending Slack alert"
 
-slacksend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${slackwebhook}")
+slacksend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${slackwebhook}")
 
 if [ "${slacksend}" == "ok" ]; then
 	fn_print_ok_nl "Sending Slack alert"

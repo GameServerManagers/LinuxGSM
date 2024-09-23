@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_permissions.sh
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks ownership & permissions of scripts, files and directories.
 
@@ -11,6 +11,11 @@ fn_check_ownership() {
 	if [ -f "${rootdir}/${selfname}" ]; then
 		if [ "$(find "${rootdir}/${selfname}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			selfownissue=1
+		fi
+	fi
+	if [ -d "${lgsmdir}" ]; then
+		if [ "$(find "${lgsmdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
+			lgsmownissue=1
 		fi
 	fi
 	if [ -d "${modulesdir}" ]; then
@@ -23,18 +28,18 @@ fn_check_ownership() {
 			filesownissue=1
 		fi
 	fi
-	if [ "${selfownissue}" == "1" ] || [ "${funcownissue}" == "1" ] || [ "${filesownissue}" == "1" ]; then
+	if [ "${selfownissue}" == "1" ] || [ "${lgsmownissue}" == "1" ] || [ "${filesownissue}" == "1" ]; then
 		fn_print_fail_nl "Ownership issues found"
 		fn_script_log_fail "Ownership issues found"
 		fn_print_information_nl "The current user ($(whoami)) does not have ownership of the following files:"
 		fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
 		{
-			echo -e "User\tGroup\tFile\n"
+			echo -en "User\tGroup\tFile:"
 			if [ "${selfownissue}" == "1" ]; then
 				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
-			if [ "${funcownissue}" == "1" ]; then
-				find "${modulesdir}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
+			if [ "${lgsmownissue}" == "1" ]; then
+				find "${lgsmdir}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1" ]; then
 				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
@@ -53,27 +58,46 @@ fn_check_ownership() {
 }
 
 fn_check_permissions() {
+	# Check modules files are executable.
 	if [ -d "${modulesdir}" ]; then
-		if [ "$(find "${modulesdir}" -type f -not -executable | wc -l)" -ne "0" ]; then
+		findnotexecutable="$(find "${modulesdir}" -type f -not -executable)"
+		findnotexecutablewc="$(find "${modulesdir}" -type f -not -executable | wc -l)"
+		if [ "${findnotexecutablewc}" -ne "0" ]; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fail "Permissions issues found"
 			fn_print_information_nl "The following files are not executable:"
 			fn_script_log_info "The following files are not executable:"
 			{
-				echo -e "File\n"
-				find "${modulesdir}" -type f -not -executable -printf "%p\n"
+				echo -en "File:"
+				echo -en "${findnotexecutable}"
 			} | column -s $'\t' -t | tee -a "${lgsmlog}"
-			if [ "${monitorflag}" == 1 ]; then
-				alert="permissions"
-				alert.sh
+
+			# Attempt to make the files executable
+			fn_print_information_nl "Attempting to fix permissions issues"
+			fn_script_log_info "Attempting to fix permissions issues"
+			echo "${findnotexecutable}" | xargs chmod +x
+
+			# Re-check if there are still non-executable files
+			findnotexecutable="$(find "${modulesdir}" -type f -not -executable)"
+			findnotexecutablewc="$(find "${modulesdir}" -type f -not -executable | wc -l)"
+			if [ "${findnotexecutablewc}" -ne "0" ]; then
+				fn_print_fail_nl "Failed to resolve permissions issues"
+				fn_script_log_fail "Failed to resolve permissions issues"
+				if [ "${monitorflag}" == 1 ]; then
+					alert="permissions"
+					alert.sh
+				fi
+				core_exit.sh
+			else
+				fn_print_ok_nl "Permissions issues resolved"
+				fn_script_log_pass "Permissions issues resolved"
 			fi
-			core_exit.sh
 		fi
 	fi
 
 	# Check rootdir permissions.
-	if [ "${rootdir}" ]; then
-		# Get permission numbers on directory under the form 775.
+	if [ -d "${rootdir}" ]; then
+		# Get permission numbers on directory should return 775.
 		rootdirperm=$(stat -c %a "${rootdir}")
 		# Grab the first and second digit for user and group permission.
 		userrootdirperm="${rootdirperm:0:1}"
@@ -92,6 +116,7 @@ fn_check_permissions() {
 			core_exit.sh
 		fi
 	fi
+
 	# Check if executable is executable and attempt to fix it.
 	# First get executable name.
 	execname=$(basename "${executable}")
@@ -141,7 +166,7 @@ fn_check_permissions() {
 	fi
 }
 
-## The following fn_sys_perm_* modules checks for permission errors in /sys directory.
+## The following fn_sys_perm_* function checks for permission errors in /sys directory.
 
 # Checks for permission errors in /sys directory.
 fn_sys_perm_errors_detect() {

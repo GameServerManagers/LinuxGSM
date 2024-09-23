@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_vints.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Vintage Story servers.
 

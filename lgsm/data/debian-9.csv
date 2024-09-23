@@ -69,7 +69,6 @@ mc,openjdk-8-jre
 mcb
 mh
 mohaa,libstdc++5:i386
-mom
 mta,libncursesw5,libxml2-utils
 nd
 nec
@@ -106,6 +105,7 @@ scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
+sm,telnet,expect
 sof2
 sol
 squad
@@ -126,7 +126,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,libc6-dev
+vh,libc6-dev,libatomic1,libpulse-dev
 vints,aspnetcore-runtime-7.0
 vpmc,openjdk-8-jre
 vs
@@ -134,5 +134,6 @@ wet
 wf
 wmc,openjdk-8-jre
 wurm,xvfb
+xnt
 zmr,libtinfo5:i386
 zps,libtinfo5:i386
