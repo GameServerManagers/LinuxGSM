@@ -41,15 +41,15 @@ fn_default_config_remote() {
 		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-			cp -v --update=none "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
 		else
 			mkdir -p "${servercfgdir}"
-			cp -v --update=none "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
 		fi
 	done
 	fn_sleep_time
