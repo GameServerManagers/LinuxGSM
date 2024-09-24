@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_gslt.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Configures GSLT.
 

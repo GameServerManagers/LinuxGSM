@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM mods_list.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Lists and defines available mods for LinuxGSM supported servers; works along with mods_core.sh.
 # Usage: To add a mod, you need to add an array variable following the guide to set proper values;

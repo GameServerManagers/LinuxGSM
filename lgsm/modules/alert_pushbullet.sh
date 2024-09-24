@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_pushbullet.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Pushbullet Messenger alert.
 

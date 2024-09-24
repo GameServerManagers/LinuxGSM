@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_mods_install.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Core modules for mods list/install/update/remove
 
@@ -412,7 +412,7 @@ fn_create_mods_dir() {
 		fi
 	fi
 
-	# Create lgsm/data/${modsinstalledlist}.
+	# Create ${datadir}/${modsinstalledlist}.
 	if [ ! -f "${modsinstalledlistfullpath}" ]; then
 		touch "${modsinstalledlistfullpath}"
 		fn_script_log_info "Created ${modsinstalledlistfullpath}"

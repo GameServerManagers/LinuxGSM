@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_eula.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 

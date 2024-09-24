@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_stats.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Collect optional Stats sent to LinuxGSM project.
 # Uses Google analytics.
@@ -23,10 +23,10 @@ fi
 if [ ! -f "${datadir}/uuid-${selfname}.txt" ] || [ ! -f "${datadir}/uuid-install.txt" ]; then
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
-		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
+		fn_fetch_file_github "${datadir}" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
 	fi
 	if [ ! -f "${datadir}/name-right.csv" ]; then
-		fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
+		fn_fetch_file_github "${datadir}" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
 	fi
 
 	# generate instance uuid

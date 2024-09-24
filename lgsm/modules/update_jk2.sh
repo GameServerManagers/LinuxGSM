@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_jk2.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Jedi Knight 2 servers.
 

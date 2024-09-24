@@ -1,14 +1,14 @@
 #!/bin/bash
 # LinuxGSM core_modules.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Defines all modules to allow download and execution of modules using fn_fetch_module.
 # This module is called first before any other module. Without this file other modules will not load.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v24.2.4"
+modulesversion="v24.3.0"
 
 # Core
 

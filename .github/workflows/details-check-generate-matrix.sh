@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/lgsm/data/serverlist.csv" | grep -v '^[[:blank:]]*$' > serverlist.csv
+curl "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/${datadir}/serverlist.csv" | grep -v '^[[:blank:]]*$' > serverlist.csv
 
 echo -n "{" > "shortnamearray.json"
 echo -n "\"include\":[" >> "shortnamearray.json"

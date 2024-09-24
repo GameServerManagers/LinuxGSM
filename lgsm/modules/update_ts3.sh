@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_ts3.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Teamspeak 3 servers.
 

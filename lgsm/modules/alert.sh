@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall module for managing alerts.
 
@@ -198,7 +198,7 @@ fn_alert_info() {
 }
 
 # Images
-alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/gameicons/${shortname}-icon.png"
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions

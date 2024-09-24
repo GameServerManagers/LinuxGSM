@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM query_gamedig.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Querys a gameserver using node-gamedig.
 # https://github.com/gamedig/node-gamedig

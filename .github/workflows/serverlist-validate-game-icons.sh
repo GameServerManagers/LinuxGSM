@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd "lgsm/data" || exit
+cd "${datadir}" || exit
 
 echo ""
 echo "Checking that all the game servers listed in serverlist.csv have a shortname-icon.png file"

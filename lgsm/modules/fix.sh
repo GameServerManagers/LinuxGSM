@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall module for managing fixes.
 # Runs modules that will fix an issue.

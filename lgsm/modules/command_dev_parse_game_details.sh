@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_parse_game_details.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Display parsed gameserver details.
 
