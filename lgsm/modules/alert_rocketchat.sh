@@ -67,11 +67,11 @@ EOF
 if [ -n "${querytype}" ]; then
 	json+=$(
 		cat << EOF
-                {
-                    "short": false,
-                    "title": "Is my Game Server Online?",
-                    "value": "<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
-                },
+				{
+					"short": false,
+					"title": "Is my Game Server Online?",
+					"value": "<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+				},
 EOF
 	)
 fi
@@ -79,11 +79,11 @@ fi
 if [ -n "${alerturl}" ]; then
 	json+=$(
 		cat << EOF
-                {
-                    "short": false,
-                    "title": "More info",
-                    "value": "${alerturl}"
-                },
+				{
+					"short": false,
+					"title": "More info",
+					"value": "${alerturl}"
+				},
 EOF
 	)
 fi

@@ -86,8 +86,7 @@ jsonnoinfo=$(
 					"inline": true
 				},
 EOF
-	)
-fi
+)
 
 json+=$(
 	cat << EOF

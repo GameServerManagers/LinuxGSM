@@ -10,10 +10,10 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(
 	cat << EOF
 {
-    "channel_tag": "${channeltag}",
-    "type": "note",
-    "title": "${alerttitle}",
-    "body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
+	"channel_tag": "${channeltag}",
+	"type": "note",
+	"title": "${alerttitle}",
+	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
 EOF
 )
 

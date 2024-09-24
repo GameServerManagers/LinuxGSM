@@ -90,13 +90,13 @@ EOF
 if [ -n "${querytype}" ]; then
 	json+=$(
 		cat << EOF
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "*Is my Game Server Online?*\n<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
-                    }
-                },
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*Is my Game Server Online?*\n<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+					}
+				},
 EOF
 	)
 fi
@@ -104,13 +104,13 @@ fi
 if [ -n "${alerturl}" ]; then
 	json+=$(
 		cat << EOF
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "*More info*\n<${alerturl}|${alerturl}>"
-                    }
-                },
+				{
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*More info*\n<${alerturl}|${alerturl}>"
+					}
+				},
 EOF
 	)
 fi

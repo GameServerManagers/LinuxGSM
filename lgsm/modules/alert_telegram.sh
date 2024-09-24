@@ -10,11 +10,11 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(
 	cat << EOF
 {
-    "chat_id": "${telegramchatid}",
-    "message_thread_id": "${telegramthreadid}",
-    "parse_mode": "HTML",
-    "disable_notification": "${telegramdisablenotification}",
-    "text": "<b>${alerttitle}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n
+	"chat_id": "${telegramchatid}",
+	"message_thread_id": "${telegramthreadid}",
+	"parse_mode": "HTML",
+	"disable_notification": "${telegramdisablenotification}",
+	"text": "<b>${alerttitle}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n
 EOF
 )
 
@@ -37,7 +37,7 @@ fi
 json+=$(
 	cat << EOF
 <b>Server Time</b>\n$(date)",
-    "disable_web_page_preview": "yes"
+	"disable_web_page_preview": "yes"
 }
 EOF
 )
