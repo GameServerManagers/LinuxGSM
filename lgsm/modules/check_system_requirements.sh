@@ -9,7 +9,11 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
-# RAM requirements in gigabytes for each game or engine.
+if [[ "${arch}" != "x86_64" && "${arch}" != "i386" && "${arch}" != "i686" ]]; then
+	echo -e "${red}Error: Only x86 type architectures are supported. Detected architecture: ${arch}${default}"
+	fn_script_log_error "Only x86 type architectures are supported. Detected architecture: ${arch}"
+	core_exit.sh
+fi
 
 if [ "${shortname}" == "ark" ]; then
 	ramrequirementgb="7"
