@@ -11,14 +11,14 @@ jsoninfo=$(
 	cat << EOF
 {
     "username": "LinuxGSM",
-    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
     "file": "content",
     "embeds": [
         {
             "author": {
                 "name": "LinuxGSM Alert",
                 "url": "",
-                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg"
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
             "title": "${alerttitle}",
             "url": "",
@@ -64,7 +64,7 @@ jsoninfo=$(
                 }
             ],
             "footer": {
-				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
                 "text": "Sent by LinuxGSM ${version}"
             }
         }
@@ -77,14 +77,14 @@ jsonnoinfo=$(
 	cat << EOF
 {
     "username": "LinuxGSM",
-    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg",
+    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
     "file": "content",
     "embeds": [
         {
             "author": {
                 "name": "LinuxGSM Alert",
                 "url": "",
-                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg"
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
             },
             "title": "${alerttitle}",
             "url": "",
@@ -125,7 +125,7 @@ jsonnoinfo=$(
                 }
             ],
             "footer": {
-				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/alert_discord_logo.jpg",
+				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
                 "text": "Sent by LinuxGSM ${version}"
             }
         }

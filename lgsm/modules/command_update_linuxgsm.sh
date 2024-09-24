@@ -160,9 +160,9 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	echo -en "checking ${remotereponame} config ${distroid}-${distroversioncsv}.csv...\c"
 	fn_script_log_info "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 	if [ "${remotereponame}" == "GitHub" ]; then
-		curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/${distroid}-${distroversioncsv}.csv" 1> /dev/null
+		curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
 	else
-		curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${datadir}/${distroid}-${distroversioncsv}.csv" 1> /dev/null
+		curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
 	fi
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
@@ -172,9 +172,9 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	fi
 
 	if [ "${remotereponame}" == "GitHub" ]; then
-		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${datadir}/${distroid}-${distroversioncsv}.csv"))
+		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
 	else
-		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${datadir}/${distroid}-${distroversioncsv}.csv"))
+		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
 	fi
 
 	if [ "${config_file_diff}" != "" ]; then
