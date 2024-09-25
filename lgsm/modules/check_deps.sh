@@ -195,9 +195,10 @@ fn_install_missing_deps() {
 			fi
 			autodepinstall="$?"
 
-			# If auto install passes remove steamcmd install failure.
+			# If auto install passes, remove steamcmd install failure and set exit code to 0.
 			if [ "${autodepinstall}" == "0" ]; then
 				unset steamcmdfail
+				exitcode=0
 			fi
 		fi
 
