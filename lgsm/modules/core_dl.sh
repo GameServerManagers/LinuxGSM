@@ -393,7 +393,7 @@ fn_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
-			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2)
+			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 
 			# if is large file show progress, else be silent
 			local exitcode=""
