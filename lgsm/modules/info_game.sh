@@ -1438,6 +1438,29 @@ fn_info_game_jk2() {
 	serverversion="${serverversion:-"NOT SET"}"
 }
 
+# Config Type: QuakeC
+# Parameters: true
+# Comment: // or /* */
+# Example: set sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_jk3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "rconpassword"
+		fn_info_game_quakec "servername" "sv_hostname"
+		fn_info_game_quakec "serverpassword" "g_password"
+		fn_info_game_quakec "serverversion" "mv_serverversion"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	serverversion="${serverversion:-"NOT SET"}"
+}
+
 # Config Type: Java properties
 # Comment: # or !
 # Example: motd=SERVERNAME
@@ -2378,6 +2401,8 @@ elif [ "${shortname}" == "jc3" ]; then
 	fn_info_game_jc3
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_game_jk2
+elif [ "${shortname}" == "jk3" ]; then
+	fn_info_game_jk3
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
