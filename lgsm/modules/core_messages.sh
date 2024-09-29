@@ -486,56 +486,56 @@ fn_print_info_eol_nl() {
 
 # QUERYING
 fn_print_querying_eol() {
-	echo -en "${cyan}QUERYING${default}"
+	echo -en " ... ${cyan}QUERYING${default}"
 	fn_sleep_time_1
 }
 
 fn_print_querying_eol_nl() {
-	echo -e "${cyan}QUERYING${default}"
+	echo -e " ... ${cyan}QUERYING${default}"
 	fn_sleep_time_1
 }
 
 # CHECKING
 fn_print_checking_eol() {
-	echo -en "${cyan}CHECKING${default}"
+	echo -en " ... ${cyan}CHECKING${default}"
 	fn_sleep_time_1
 }
 
 fn_print_checking_eol_nl() {
-	echo -e "${cyan}CHECKING${default}"
+	echo -e " ... ${cyan}CHECKING${default}"
 	fn_sleep_time_1
 }
 
 # DELAY
 fn_print_delay_eol() {
-	echo -en "${green}DELAY${default}"
+	echo -en " ... ${green}DELAY${default}"
 	fn_sleep_time_1
 }
 
 fn_print_delay_eol_nl() {
-	echo -e "${green}DELAY${default}"
+	echo -e " ... ${green}DELAY${default}"
 	fn_sleep_time_1
 }
 
 # CANCELED
 fn_print_canceled_eol() {
-	echo -en "${lightyellow}CANCELED${default}"
+	echo -en " ... ${lightyellow}CANCELED${default}"
 	fn_sleep_time_1
 }
 
 fn_print_canceled_eol_nl() {
-	echo -e "${lightyellow}CANCELED${default}"
+	echo -e " ... ${lightyellow}CANCELED${default}"
 	fn_sleep_time_1
 }
 
 # REMOVED
 fn_print_removed_eol() {
-	echo -en "${red}REMOVED${default}"
+	echo -en " ... ${red}REMOVED${default}"
 	fn_sleep_time_1
 }
 
 fn_print_removed_eol_nl() {
-	echo -e "${red}REMOVED${default}"
+	echo -e " ... ${red}REMOVED${default}"
 	fn_sleep_time_1
 }
 

@@ -152,8 +152,8 @@ fn_bootstrap_fetch_file() {
 				fi
 			else
 				echo -en " ... OK"
-				sleep 0.3
-				echo -en "\033[2K\\r"
+				sleep "0.1"
+				echo -e "\033\\r"
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
@@ -409,10 +409,10 @@ else
 			echo -en "copying _default.cfg...\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			if [ $? != 0 ]; then
-				echo -e "FAIL"
+				echo -e " ... FAIL"
 				exit 1
 			else
-				echo -e "OK"
+				echo -e " ... OK"
 			fi
 		else
 			config_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
@@ -424,7 +424,7 @@ else
 					echo -e "FAIL"
 					exit 1
 				else
-					echo -e "OK"
+					echo -e " ... OK"
 				fi
 			fi
 		fi
