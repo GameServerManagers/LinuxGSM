@@ -36,18 +36,21 @@ fn_default_config_remote() {
 		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
-			cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
-			cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
+			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
 		fi
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fail "copying config file ${servercfgfullpath}"
 		elif [ "${changes}" != "" ]; then
