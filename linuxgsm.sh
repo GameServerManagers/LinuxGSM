@@ -70,6 +70,18 @@ core_modules.sh() {
 
 # Bootstrap
 # Fetches the core modules required before passed off to core_dl.sh.
+fn_bootstrap_fetch_trap() {
+	echo -e ""
+	echo -en "downloading ${local_filename}..."
+	fn_print_canceled_eol_nl
+	fn_script_log_info "Downloading ${local_filename}...CANCELED"
+	rm -f "${local_filedir:?}/${local_filename}"
+	echo -en "downloading ${local_filename}..."
+	fn_print_removed_eol_nl
+	fn_script_log_info "Downloading ${local_filename}...REMOVED"
+	core_exit.sh
+}
+
 fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -108,7 +120,7 @@ fn_bootstrap_fetch_file() {
 				mkdir -p "${local_filedir}"
 			fi
 			# Trap will remove part downloaded files if canceled.
-			trap fn_fetch_trap INT
+			trap fn_bootstrap_fetch_trap INT
 			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 
 			# if is large file show progress, else be silent
