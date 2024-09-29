@@ -17,8 +17,7 @@ fn_check_cfgdir() {
 }
 
 # Copys default configs from Game-Server-Configs repo to server config location.
-# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
-fn_fetch_default_config() {
+fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	fn_messages_separator
@@ -30,14 +29,9 @@ fn_fetch_default_config() {
 	mkdir -p "${lgsmdir}/config-default/config-game"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
+		# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
-	done
-}
-
-# Copys default configs from Game-Server-Configs repo to server config location.
-fn_default_config_remote() {
-	for config in "${array_configs[@]}"; do
-		# every config is copied
+		# Every config is copied.
 		echo -e "copying ${config} config file."
 		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
@@ -52,7 +46,8 @@ fn_default_config_remote() {
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
 		fi
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol_nl
 			fn_script_log_fail "copying config file ${servercfgfullpath}"
 		elif [ "${changes}" != "" ]; then
