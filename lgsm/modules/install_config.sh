@@ -18,7 +18,7 @@ fn_check_cfgdir() {
 
 # Copys default configs from Game-Server-Configs repo to server config location.
 # Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
-fn_default_config_remote() {
+fn_fetch_default_config() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	fn_messages_separator
