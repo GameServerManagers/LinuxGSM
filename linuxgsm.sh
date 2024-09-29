@@ -82,6 +82,30 @@ fn_bootstrap_fetch_trap() {
 	core_exit.sh
 }
 
+# Fetches modules from the Git repo during first download.
+fn_bootstrap_fetch_module() {
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	local_filedir="${modulesdir}"
+	local_filename="${github_file_url_name}"
+	chmodx="chmodx"
+	run="run"
+	forcedl="noforce"
+	hash="nohash"
+	# Passes vars to the file download module.
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
+}
+
 fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"

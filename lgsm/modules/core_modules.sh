@@ -42,6 +42,11 @@ core_legacy.sh() {
 core_exit.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
+		echo "fn_fetch_module failed, using fn_bootstrap_fetch_module instead."
+		fn_bootstrap_fetch_module
+	fi
 }
 
 core_getopt.sh() {
