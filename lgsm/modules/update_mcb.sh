@@ -27,7 +27,9 @@ fn_update_dl() {
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting ${local_filename}"
+		if [ -f "${lgsmlog}" ]; then
+			fn_script_log_pass "Extracting ${local_filename}"
+		fi
 		fn_clear_tmp
 	fi
 }

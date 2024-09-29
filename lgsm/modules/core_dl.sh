@@ -313,7 +313,7 @@ fn_check_file() {
 			fileurl_name="${remote_fileurl_backup_name}"
 		fi
 		counter=$((counter + 1))
-		echo -en "checking ${fileurl_name} ${remote_filename}...\c"
+		echo -e "checking ${fileurl_name} ${remote_filename}\c"
 		curlcmd=$(curl --output /dev/null --silent --head --fail "${fileurl}" 2>&1)
 		local exitcode=$?
 
