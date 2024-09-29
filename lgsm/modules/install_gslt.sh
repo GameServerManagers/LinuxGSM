@@ -44,4 +44,3 @@ else
 	fn_script_log_info "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
 fi
 fn_sleep_time_1
-echo -e ""

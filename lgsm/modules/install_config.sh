@@ -96,7 +96,7 @@ fn_set_config_vars() {
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${randomstring}"
-		echo -e "setting hostname\c"
+		echo -en "setting hostname\c"
 		fn_script_log_info "setting hostname"
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.

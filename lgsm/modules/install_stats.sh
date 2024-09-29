@@ -9,6 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${bold}${lightyellow}LinuxGSM Stats${default}"
+fn_messages_separator
 echo -e "Assist LinuxGSM development by sending anonymous stats to developers."
 echo -e "Collected data is publicly available: ${italic}https://linuxgsm.com/data/usage${default}"
 echo -e "More info: ${italic}https://docs.linuxgsm.com/configuration/linuxgsm-stats${default}"

@@ -8,7 +8,6 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
-fn_messages_separator
 
 if [ "${exitcode}" == "1" ]; then
 	echo -e "${bold}${red}Install Failed!${default}"
@@ -23,6 +22,7 @@ elif [ -z "${exitcode}" ] || [ "${exitcode}" == "0" ]; then
 	echo -e "${bold}${green}Install Complete!${default}"
 	fn_script_log_pass "Install Complete!"
 fi
+fn_messages_separator
 
 echo -e ""
 echo -e "To start the ${gamename} server type:"
