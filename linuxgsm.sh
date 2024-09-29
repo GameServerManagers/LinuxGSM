@@ -72,11 +72,11 @@ core_modules.sh() {
 # Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_trap() {
 	echo -e ""
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	rm -f "${local_filedir:?}/${local_filename}"
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
 	core_exit.sh
@@ -418,9 +418,10 @@ else
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
-			echo -en "copying _default.cfg...\c"
+			echo -en "copying _default.cfg\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			if [ $? != 0 ]; then
+			exitcode=$?
+			if [ "${exitcode}" != 0 ]; then
 				echo -e " ... FAIL"
 				exit 1
 			else

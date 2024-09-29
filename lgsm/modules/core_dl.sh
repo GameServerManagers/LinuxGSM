@@ -277,11 +277,11 @@ fn_dl_extract() {
 # Trap to remove file download if canceled before completed.
 fn_fetch_trap() {
 	echo -e ""
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	rm -f "${local_filedir:?}/${local_filename}"
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
 	core_exit.sh
