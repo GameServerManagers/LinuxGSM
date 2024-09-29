@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_mods_update.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
@@ -18,7 +18,7 @@ mods_core.sh
 fn_remove_cfg_files() {
 	if [ "${modkeepfiles}" != "OVERWRITE" ] && [ "${modkeepfiles}" != "NOUPDATE" ]; then
 		echo -e "the following files/directories will be preserved:"
-		fn_sleep_time
+		fn_sleep_time_1
 		# Count how many files there are to remove.
 		filestopreserve=$(echo -e "${modkeepfiles}" | awk -F ';' '{ print NF }')
 		# Test all subvalues of "modkeepfiles" using the ";" separator.

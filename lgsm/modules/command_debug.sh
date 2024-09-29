@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_debug.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Runs the server without tmux and directly from the terminal.
 
@@ -34,7 +34,7 @@ fn_print_header
 	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
 	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
 	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
-	echo -e "${lightblue}tmux:\t\t${default}${tmuxv}"
+	echo -e "${lightblue}tmux:\t\t${default}${tmuxversion}"
 	echo -e "${lightblue}Avg Load:\t\t${default}${load}"
 	echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
 	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"

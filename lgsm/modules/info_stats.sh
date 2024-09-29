@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_stats.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Collect optional Stats sent to LinuxGSM project.
 # Uses Google analytics.
@@ -23,10 +23,10 @@ fi
 if [ ! -f "${datadir}/uuid-${selfname}.txt" ] || [ ! -f "${datadir}/uuid-install.txt" ]; then
 	# download dictionary words
 	if [ ! -f "${datadir}/name-left.csv" ]; then
-		fn_fetch_file_github "lgsm/data" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
+		fn_fetch_file_github "${datadir}" "name-left.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
 	fi
 	if [ ! -f "${datadir}/name-right.csv" ]; then
-		fn_fetch_file_github "lgsm/data" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
+		fn_fetch_file_github "${datadir}" "name-right.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
 	fi
 
 	# generate instance uuid
@@ -54,7 +54,10 @@ uuidhardware=$(cat "/etc/machine-id")
 # nearest 100Mhz.
 cpuusedmhzroundup="$(((cpuusedmhz + 99) / 100 * 100))"
 # nearest 100MB
-memusedroundup="$(((memused + 99) / 100 * 100))"
+memusedmbroundup="$(((memusedmb + 99) / 100 * 100))"
+
+# Convert any commas to dots.
+physmemtotal="${physmemtotal//,/.}"
 
 apisecret="A-OzP02TSMWt4_vHi6ZpUw"
 measurementid="G-0CR8V7EMT5"
@@ -66,29 +69,32 @@ payload="{
 		{
 		\"name\": \"LinuxGSM\",
 		\"params\": {
-			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}MHz\",
+			\"cpuusedmhzroundup\": \"${cpuusedmhzroundup}\",
 			\"diskused\": \"${serverfilesdu}\",
 			\"distro\": \"${distroname}\",
 			\"game\": \"${gamename}\",
-			\"memusedroundup\": \"${memusedroundup}MB\",
-			\"ramused\": \"${memusedroundup}MB\",
+			\"memusedmbroundup\": \"${memusedmbroundup}\",
+			\"ramused\": \"${memusedmbroundup}\",
 			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
 			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
 			\"serverdisk\": \"${totalspace}\",
 			\"serverfilesdu\": \"${serverfilesdu}\",
 			\"serverram\": \"${physmemtotal}\",
+			\"serverramgb\": \"${physmemtotalgb}\",
 			\"uuidhardware\": \"${uuidhardware}\",
 			\"uuidinstall\": \"${uuidinstall}\",
 			\"uuidinstance\": \"${uuidinstance}\",
 			\"version\": \"${version}\",
-			\"virtualenvironment\": \"${virtualenvironment}\"
+			\"virtualenvironment\": \"${virtualenvironment}\",
+			\"tmuxversion\": \"${tmuxversion}\",
+			\"java\": \"${javaversion}\"
 			}
 		}
 	]
 }"
 
-fn_alert_payload(){
-alertpayload="{
+fn_alert_payload() {
+	alertpayload="{
 	\"client_id\": \"${uuidinstance}\",
 	\"events\": [
 		{
@@ -120,11 +126,6 @@ if [ "${gotifyalert}" == "on" ]; then
 fi
 if [ "${iftttalert}" == "on" ]; then
 	alerttype="ifttt"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${mailgunalert}" == "on" ]; then
-	alerttype="mailgun"
 	fn_alert_payload
 	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
@@ -161,7 +162,7 @@ fn_script_log_info "* uuid-hardware: ${uuidhardware}"
 fn_script_log_info "* Game Name: ${gamename}"
 fn_script_log_info "* Distro Name: ${distroname}"
 fn_script_log_info "* Game Server CPU Used: ${cpuusedmhzroundup}MHz"
-fn_script_log_info "* Game Server RAM Used: ${memusedroundup}MB"
+fn_script_log_info "* Game Server RAM Used: ${memusedmbroundup}MB"
 fn_script_log_info "* Game Server Disk Used: ${serverfilesdu}"
 fn_script_log_info "* Server CPU Model: ${cpumodel}"
 fn_script_log_info "* Server CPU Frequency: ${cpufreqency}"

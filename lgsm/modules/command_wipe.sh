@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Wipes server data, useful after updates for some games like Rust.
 
@@ -30,7 +30,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ]; then
 			echo -en "removing .map file(s)..."
-			fn_script_log_info "removing *.map file(s)"
+			fn_script_log_info "Removing *.map file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.map" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.map" -delete | tee -a "${lgsmlog}"
@@ -45,7 +45,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ] || [ -n "${mapwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f -name "*.sav*")" ]; then
 			echo -en "removing .sav file(s)..."
-			fn_script_log_info "removing .sav file(s)"
+			fn_script_log_info "Removing .sav file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f -name "*.sav*" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f -name "*.sav*" -delete
@@ -61,7 +61,7 @@ fn_wipe_files() {
 	if [ -n "${serverwipe}" ]; then
 		if [ -n "$(find "${serveridentitydir}" -type f ! -name 'player.tokens.db' -name "*.db")" ]; then
 			echo -en "removing .db file(s)..."
-			fn_script_log_info "removing .db file(s)"
+			fn_script_log_info "Removing .db file(s)"
 			fn_sleep_time
 			find "${serveridentitydir:?}" -type f ! -name 'player.tokens.db' -name "*.db" -printf "%f\n" >> "${lgsmlog}"
 			find "${serveridentitydir:?}" -type f ! -name 'player.tokens.db' -name "*.db" -delete
@@ -79,9 +79,9 @@ fn_map_wipe_warning() {
 	fn_script_log_warn "Map wipe will reset the map data and keep blueprint data"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Map wipe will reset the map data and keep blueprint data: ${totalseconds}"
+		fn_print_warn "map wipe will reset the map data and keep blueprint data: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
@@ -94,9 +94,9 @@ fn_full_wipe_warning() {
 	fn_script_log_warn "Server wipe will reset the map data and remove blueprint data"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Server wipe will reset the map data and remove blueprint data: ${totalseconds}"
+		fn_print_warn "server wipe will reset the map data and remove blueprint data: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
@@ -167,6 +167,8 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ] || [ -n "$(find
 		fn_wipe_random_seed
 		fn_print_complete_nl "${wipetype}"
 		fn_script_log_pass "${wipetype}"
+		alert="wipe"
+		alert.sh
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
@@ -175,6 +177,8 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ] || [ -n "$(find
 		fn_wipe_random_seed
 		fn_print_complete_nl "${wipetype}"
 		fn_script_log_pass "${wipetype}"
+		alert="wipe"
+		alert.sh
 	fi
 else
 	fn_print_ok_nl "Wipe not required"

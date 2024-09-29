@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall module for managing fixes.
 # Runs modules that will fix an issue.
@@ -52,13 +52,13 @@ fn_apply_fix() {
 	fi
 }
 
-apply_pre_start_fix=(arma3 armar ark av bt bo csgo cmw dst hw ins nmrih onset pvr rust rw sdtd sfc sof2 squad st tf2 terraria ts3 mcb mta unt vh wurm zmr)
-apply_post_install_fix=(av kf kf2 lo ro samp ut2k4 ut ut3)
+apply_pre_start_fix=(arma3 armar ark av bt bo csgo cmw dst hw ins kf nmrih onset pvr ro rust rw samp sdtd sfc sm sof2 squad st tf2 terraria ts3 mcb mta unt vh wurm xnt zmr)
+apply_post_install_fix=(av kf kf2 ro ut2k4 ut ut3)
 
 # validate registered fixes for safe development
 for fix in "${apply_pre_start_fix[@]}" "${apply_post_install_fix[@]}"; do
 	if ! fn_exists_fix "${fix}"; then
-		fn_print_fail_nl "fix_${fix}.sh is registered but doesn't exist. Typo or did you miss to modify core_functions.sh?"
+		fn_print_fail_nl "fix_${fix}.sh is registered but doesn't exist. Typo or did you miss to modify core_modules.sh?"
 		exitcode=1
 		core_exit.sh
 	fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_update_linuxgsm.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Deletes the modules dir to allow re-downloading of modules from GitHub.
 
@@ -10,18 +10,26 @@ commandaction="Updating LinuxGSM"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_print_dots ""
 check.sh
 info_distro.sh
+info_game.sh
 
-fn_print_dots ""
+# Prevent github from using a cached version of the file if dev-debug is enabled.
+if [ -f "${rootdir}/.dev-debug" ]; then
+	nocache="-H \"Cache-Control: no-cache\" -H \"Pragma: no-cache\""
+fi
+
 fn_script_log_info "Updating LinuxGSM"
 
 fn_print_dots "Selecting repo"
 fn_script_log_info "Selecting repo"
 # Select remotereponame
-curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
+
+curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
+
 if [ $? != "0" ]; then
-	curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
+	curl curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
 	if [ $? != "0" ]; then
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		fn_script_log_fail "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
@@ -38,21 +46,21 @@ fi
 # Check linuxsm.sh
 echo -en "checking ${remotereponame} script [ ${italic}linuxgsm.sh${default} ]\c"
 if [ "${remotereponame}" == "GitHub" ]; then
-	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
+	curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
 else
-	curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
+	curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
-	fn_script_log_fail "Checking ${remotereponame} script linuxgsm.sh"
+	fn_script_log_fail "Checking ${remotereponame} linuxgsm.sh"
 	fn_script_log_fail "Curl returned error: $?"
 	core_exit.sh
 fi
 
 if [ "${remotereponame}" == "GitHub" ]; then
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh"))
 else
-	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
+	tmp_script_diff=$(diff "${tmpdir}/linuxgsm.sh" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh"))
 fi
 
 if [ "${tmp_script_diff}" != "" ]; then
@@ -82,7 +90,7 @@ if [ "${script_diff}" != "" ]; then
 	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	if [ $? != 0 ]; then
 		fn_print_fail_eol_nl
-		fn_script_log_fail "Backup script ${selfname}"
+		fn_script_log_fail "Backup ${selfname}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -92,7 +100,7 @@ if [ "${script_diff}" != "" ]; then
 	fi
 
 	echo -en "copying ${selfname}...\c"
-	fn_script_log_info "copying ${selfname}"
+	fn_script_log_info "Copying ${selfname}"
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
@@ -118,9 +126,9 @@ fi
 echo -en "checking ${remotereponame} config [ ${italic}_default.cfg${default} ]\c"
 fn_script_log_info "Checking ${remotereponame} config _default.cfg"
 if [ "${remotereponame}" == "GitHub" ]; then
-	curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
+	curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
 else
-	curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
+	curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
 fi
 if [ $? != "0" ]; then
 	fn_print_fail_eol_nl
@@ -130,9 +138,9 @@ if [ $? != "0" ]; then
 fi
 
 if [ "${remotereponame}" == "GitHub" ]; then
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 else
-	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
+	config_file_diff=$(diff "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg"))
 fi
 
 if [ "${config_file_diff}" != "" ]; then
@@ -152,9 +160,9 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	echo -en "checking ${remotereponame} config [ ${italic}${distroid}-${distroversioncsv}.csv${default} ]\c"
 	fn_script_log_info "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 	if [ "${remotereponame}" == "GitHub" ]; then
-		curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
+		curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
 	else
-		curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
+		curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
 	fi
 	if [ $? != "0" ]; then
 		fn_print_fail_eol_nl
@@ -164,16 +172,16 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	fi
 
 	if [ "${remotereponame}" == "GitHub" ]; then
-		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
+		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
 	else
-		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
+		config_file_diff=$(diff "${datadir}/${distroid}-${distroversioncsv}.csv" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv"))
 	fi
 
 	if [ "${config_file_diff}" != "" ]; then
 		fn_print_update_eol_nl
 		fn_script_log "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 		rm -f "${datadir:?}/${distroid}-${distroversioncsv}.csv"
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "${datadir}" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
 	else
 		fn_print_skip_eol_nl
 		fn_script_log_pass "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
@@ -190,9 +198,9 @@ if [ -n "${modulesdir}" ]; then
 				echo -en "checking ${remotereponame} module [ ${italic}${modulefile}${default} ]\c"
 				github_file_url_dir="lgsm/modules"
 				if [ "${remotereponame}" == "GitHub" ]; then
-					curl --connect-timeout 10 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
+					curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
 				else
-					curl --connect-timeout 10 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
+					curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
 				fi
 				if [ $? != 0 ]; then
 					fn_print_error_eol_nl
@@ -209,9 +217,9 @@ if [ -n "${modulesdir}" ]; then
 				else
 					# compare file
 					if [ "${remotereponame}" == "GitHub" ]; then
-						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}"))
+						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl ${nocache} --connect-timeout 3 -s "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${modulefile}"))
 					else
-						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl --connect-timeout 10 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}"))
+						module_file_diff=$(diff "${modulesdir}/${modulefile}" <(curl ${nocache} --connect-timeout 3 -s "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}"))
 					fi
 
 					# results

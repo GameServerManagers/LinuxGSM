@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM fix_sfc.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves issue that the default rcon password is not changed.
 
@@ -15,8 +15,8 @@ if [ -f "${servercfgfullpath}" ]; then
 	if [ "${currentpass}" == "${defaultpass}" ]; then
 		fixname="change default rcon password"
 		fn_fix_msg_start
-		fn_script_log_info "changing rcon/admin password."
-		randomstring=$(tr -dc A-Za-z0-9 < /dev/urandom 2> /dev/null | head -c 8 | xargs)
+		fn_script_log_info "Changing rcon/admin password."
+		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		rconpass="admin${randomstring}"
 		sed -i "s/rcon_password changeme/rcon_password ${rconpass}/g" "${servercfgfullpath}"
 		fn_fix_msg_end
@@ -27,7 +27,7 @@ if [ -f "${servercfgfullpath}" ]; then
 	if [ "${currenthostname}" == "${defaulthostname}" ]; then
 		fixname="change default hostname"
 		fn_fix_msg_start
-		fn_script_log_info "changing default hostname to LinuxGSM"
+		fn_script_log_info "Changing default hostname to LinuxGSM"
 		sed -i "s/hostname ${defaulthostname}/hostname LinuxGSM/g" "${servercfgfullpath}"
 		fn_fix_msg_end
 	fi

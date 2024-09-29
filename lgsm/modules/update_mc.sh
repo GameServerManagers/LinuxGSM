@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_mc.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft: Java Edition servers.
 
@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_dl() {
 	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
-	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/minecraft_server.jar"
 	fn_clear_tmp
 }
 
@@ -116,7 +116,7 @@ fn_update_compare() {
 					command_start.sh
 					fn_firstcommand_reset
 					exitbypass=1
-					sleep 5
+					fn_sleep_time_5
 					command_stop.sh
 					fn_firstcommand_reset
 				fi

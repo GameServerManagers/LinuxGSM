@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_query_raw.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Raw gamedig output of the server.
 
@@ -14,6 +14,16 @@ check.sh
 info_game.sh
 info_distro.sh
 info_messages.sh
+
+echo -e ""
+echo -e "${lightgreen}IP Addresses Variables${default}"
+fn_messages_separator
+echo -e ""
+echo -e "IP: ${ip}"
+echo -e "HTTP IP: ${httpip}"
+echo -e "Public IP: ${publicip}"
+echo -e "Telnet IP: ${telnetip}"
+echo -e "Display IP: ${displayip}"
 
 echo -e ""
 echo -e "${bold}${lightyellow}Query IP Addresses${default}"
@@ -193,7 +203,13 @@ echo -e ""
 echo -e "${bold}${lightyellow}Query Port (${queryport}) - Gamedig Output${default}"
 fn_messages_separator
 echo -e ""
-if [ ! "$(command -v gamedig 2> /dev/null)" ]; then
+echo -e "PORT: ${port}"
+echo -e "QUERY PORT: ${queryport}"
+echo -e ""
+echo -e "${lightgreen}Gamedig Raw Output${default}"
+fn_messages_separator
+echo -e ""
+if [ ! "$(command -v gamedig 2> /dev/null)" ] && [ ! -f "${lgsmdir}/node_modules/gamedig/bin/gamedig.js" ]; then
 	fn_print_failure_nl "gamedig not installed"
 fi
 for queryip in "${queryips[@]}"; do
@@ -234,6 +250,9 @@ for queryip in "${queryips[@]}"; do
 done
 echo -e ""
 echo -e "${bold}${lightyellow}Game Port (${port}) - TCP Output${default}"
+fn_messages_separator
+echo -e ""
+echo -e "${lightgreen}TCP Raw Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do

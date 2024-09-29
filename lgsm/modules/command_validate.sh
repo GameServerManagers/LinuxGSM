@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_validate.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Runs a server validation.
 
@@ -17,7 +17,7 @@ fn_validate() {
 	for seconds in {3..1}; do
 		fn_print_warn "Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
-		sleep 1
+		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
@@ -27,11 +27,11 @@ fn_validate() {
 	fn_dl_steamcmd
 }
 
-# The location where the builds are checked and downloaded.
-remotelocation="SteamCMD"
+fn_print_dots ""
 check.sh
+core_logs.sh
 
-fn_print_dots "${remotelocation}"
+fn_print_dots "SteamCMD"
 
 if [ "${status}" != "0" ]; then
 	fn_print_restart_warning

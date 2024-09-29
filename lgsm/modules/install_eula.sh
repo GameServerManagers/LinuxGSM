@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_eula.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gets user to accept the EULA.
 
@@ -30,10 +30,10 @@ if [ -z "${autoinstall}" ]; then
 	fi
 elif [ "${commandname}" == "START" ]; then
 	fn_print_info "By continuing you are indicating your agreement to the EULA."
-	sleep 5
+	fn_sleep_time_5
 else
 	echo -e "By using auto-install you are indicating your agreement to the EULA."
-	sleep 5
+	fn_sleep_time_5
 fi
 
 if [ "${shortname}" == "ts3" ]; then

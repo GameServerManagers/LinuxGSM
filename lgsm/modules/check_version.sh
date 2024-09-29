@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_version.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Will run update-lgsm if gameserver.sh and modules version does not match
 # this will allow gameserver.sh to update - useful for multi instance servers.
@@ -16,8 +16,8 @@ if [ -n "${modulesversion}" ] && [ -n "${version}" ] && [ "${version}" != "${mod
 	echo -e "* ${selfname}: ${version}"
 	echo -e "* modules: ${modulesversion}"
 	echo -e ""
-	fn_sleep_time
 	fn_script_log_error "LinuxGSM Version mismatch: ${selfname}: ${version}: modules: ${modulesversion}"
+	fn_sleep_time_1
 	command_update_linuxgsm.sh
 	fn_firstcommand_reset
 fi

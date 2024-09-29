@@ -5,8 +5,8 @@
     "test": "tests"
   },
   "devDependencies": {
-    "prettier": "^2.8.8",
-    "prettier-plugin-sh": "^0.12.8"
+    "prettier": "^3.0.3",
+    "prettier-plugin-sh": "^0.13.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/GameServerManagers/LinuxGSM/issues"
   },
-  "homepage": "https://github.com/GameServerManagers/LinuxGSM#readme"
+  "homepage": "https://github.com/GameServerManagers/LinuxGSM#readme",
+  "dependencies": {
+    "gamedig": "^5.1.3"
+  }
 }

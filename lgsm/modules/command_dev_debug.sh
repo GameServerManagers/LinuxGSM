@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_dev_debug.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Dev only: Enables debugging log to be saved to dev-debug.log.
 
@@ -9,6 +9,10 @@ commandname="DEV-DEBUG"
 commandaction="Developer debug"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_reset
+
+fn_print_dots ""
+check.sh
+core_logs.sh
 
 if [ -f "${rootdir}/.dev-debug" ]; then
 	rm -f "${rootdir:?}/.dev-debug"

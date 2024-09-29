@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 steamcmd,lib32gcc1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -8,6 +8,7 @@ arma3
 armar,libcurl4
 ats
 av
+pw
 bb
 bb2,libcurl4-gnutls-dev:i386
 bd
@@ -19,7 +20,6 @@ bs
 bt,libicu-dev,dos2unix,libxml2-utils
 btl
 cc
-cd
 ck,xvfb,libxi6
 cmw
 cod,libstdc++5:i386
@@ -29,6 +29,7 @@ coduo,libstdc++5:i386
 codwaw
 col
 cs
+cs2
 cscz
 csgo
 css,libtinfo5:i386
@@ -54,6 +55,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hz
 ins
 inss
 ios
@@ -64,12 +66,10 @@ kf
 kf2
 l4d
 l4d2
-lo
 mc,openjdk-11-jre
 mcb
 mh
 mohaa,libstdc++5:i386
-mom
 mta,libncursesw5,libxml2-utils
 nd
 nec
@@ -89,6 +89,7 @@ pvr,libc++1
 pz,openjdk-11-jre,rng-tools
 q2
 q3
+q4
 ql
 qw
 ricochet
@@ -104,6 +105,7 @@ scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
+sm,telnet,expect
 sof2
 sol
 squad
@@ -111,6 +113,7 @@ st,libxml2-utils
 stn
 sven,libssl1.1:i386,zlib1g:i386
 terraria
+tf
 tf2,libcurl4-gnutls-dev:i386
 tfc
 ti
@@ -123,7 +126,7 @@ ut
 ut2k4
 ut3
 ut99
-vh,libc6-dev
+vh,libc6-dev,libatomic1,libpulse-dev
 vints,aspnetcore-runtime-7.0
 vpmc,openjdk-11-jre
 vs
@@ -131,5 +134,6 @@ wet
 wf
 wmc,openjdk-11-jre
 wurm,xvfb
+xnt
 zmr,libtinfo5:i386
 zps,libtinfo5:i386

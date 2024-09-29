@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_logs.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates log directories.
 
@@ -11,7 +11,6 @@ if [ -z "${checklogs}" ]; then
 	echo -e ""
 	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
 	fn_messages_separator
-	fn_sleep_time
 fi
 
 echo -en "creating log directory [ ${italic}${logdir}${default} ]"

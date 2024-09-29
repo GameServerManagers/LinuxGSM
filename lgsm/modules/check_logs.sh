@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_logs.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if log files exist.
 

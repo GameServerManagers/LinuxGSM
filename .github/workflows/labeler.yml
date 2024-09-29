@@ -11,10 +11,11 @@ permissions:
 
 jobs:
   issue-labeler:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Issue Labeler
-        uses: github/issue-labeler@v3.2
+        uses: github/issue-labeler@v3.4
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/labeler.yml
@@ -22,6 +23,7 @@ jobs:
           include-title: 1
 
   is-sponsor-label:
+    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Is Sponsor Label

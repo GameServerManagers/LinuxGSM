@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_stats.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Enabled LinuxGSM Stats.
 
@@ -9,8 +9,6 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 echo -e "${bold}${lightyellow}LinuxGSM Stats${default}"
-fn_messages_separator
-fn_sleep_time
 echo -e "Assist LinuxGSM development by sending anonymous stats to developers."
 echo -e "Collected data is publicly available: ${italic}https://linuxgsm.com/data/usage${default}"
 echo -e "More info: ${italic}https://docs.linuxgsm.com/configuration/linuxgsm-stats${default}"
