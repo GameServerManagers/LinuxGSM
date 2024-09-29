@@ -109,14 +109,15 @@ fn_set_config_vars() {
 		else
 			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
-		echo -e "changing rcon/admin password."
+		echo -en "changing rcon/admin password."
 		fn_script_log_info "Changing rcon/admin password."
 		if [ "${shortname}" == "squad" ]; then
 			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgdir}/Rcon.cfg")
 		else
 			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
-		if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol
 			fn_script_log_fail "generating rcon/admin password"
 		elif [ "${changes}" != "" ]; then
