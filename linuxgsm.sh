@@ -80,7 +80,8 @@ fn_bootstrap_fetch_file() {
 	chmodx="${7:-0}"
 	run="${8:-0}"
 	forcedl="${9:-0}"
-	md5="${10:-0}"
+	hash="${10:-0}"
+
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
@@ -108,17 +109,27 @@ fn_bootstrap_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
-			# Larger files show a progress bar.
+			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 
-			echo -en "fetching ${fileurl_name} [ ${local_filename} ]\c"
-			curlcmd=$(curl --connect-timeout 3 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
-
-			local exitcode=$?
+			# if is large file show progress, else be silent
+			local exitcode=""
+			large_files=("bz2" "gz" "zip" "jar" "xz")
+			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
+				echo -e "downloading file [ ${local_filename} ]"
+				fn_sleep_time
+				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+				exitcode="$?"
+				echo -en "downloading file [ ${local_filename} ]"
+			else
+				echo -en "fetching ${fileurl_name} [ ${local_filename} ]\c"
+				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+				exitcode="$?"
+			fi
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm -f "${local_filedir:?}/${local_filename:?}"
+				if head -n 1 "${local_filedir}/${local_filename}" | grep -q "DOCTYPE"; then
+					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
@@ -126,25 +137,25 @@ fn_bootstrap_fetch_file() {
 			# On first try will error. On second try will fail.
 			if [ "${exitcode}" != 0 ]; then
 				if [ ${counter} -ge 2 ]; then
-					echo -e "FAIL"
+					echo -e " ... FAIL"
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fail "Downloading ${local_filename}"
+						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
 					fi
 					core_exit.sh
 				else
-					echo -e "ERROR"
+					echo -e " ... ERROR"
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
-				echo -en "OK"
+				echo -en " ... OK"
 				sleep 0.3
 				echo -en "\033[2K\\r"
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}"
+					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 
 				# Make file executable if chmodx is set.

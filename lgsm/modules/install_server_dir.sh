@@ -26,5 +26,5 @@ if [ -z "${autoinstall}" ]; then
 	fi
 fi
 if [ ! -d "${serverfiles}" ]; then
-	mkdir -v "${serverfiles}"
+	mkdir "${serverfiles}"
 fi
