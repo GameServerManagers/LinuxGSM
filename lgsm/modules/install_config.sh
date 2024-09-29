@@ -96,8 +96,8 @@ fn_set_config_vars() {
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
 		rconpass="admin${randomstring}"
-		echo -e "changing hostname."
-		fn_script_log_info "Changing hostname."
+		echo -e "setting hostname\c"
+		fn_script_log_info "setting hostname"
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.
 		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
@@ -107,8 +107,8 @@ fn_set_config_vars() {
 		else
 			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
-		echo -en "changing rcon/admin password."
-		fn_script_log_info "Changing rcon/admin password."
+		echo -e "generating rcon/admin password\c"
+		fn_script_log_info "generating rcon/admin password"
 		if [ "${shortname}" == "squad" ]; then
 			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgdir}/Rcon.cfg")
 		else
