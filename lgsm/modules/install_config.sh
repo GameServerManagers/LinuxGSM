@@ -107,8 +107,20 @@ fn_set_config_vars() {
 		else
 			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
-		echo -e "generating rcon/admin password\c"
-		fn_script_log_info "generating rcon/admin password"
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
+			fn_print_fail_eol
+			fn_script_log_fail "setting hostname"
+		elif [ "${changes}" != "" ]; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "setting hostname"
+		else
+			fn_print_skip_eol_nl
+		fi
+
+		echo -en "generating admin/rcon password\c"
+		fn_script_log_info "generating admin/rcon password"
+		fn_sleep_time
 		if [ "${shortname}" == "squad" ]; then
 			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgdir}/Rcon.cfg")
 		else
@@ -117,10 +129,10 @@ fn_set_config_vars() {
 		exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
 			fn_print_fail_eol
-			fn_script_log_fail "generating rcon/admin password"
+			fn_script_log_fail "generating admin/rcon password"
 		elif [ "${changes}" != "" ]; then
 			fn_print_ok_eol_nl
-			fn_script_log_pass "generating rcon/admin password"
+			fn_script_log_pass "generating admin/rcon password"
 		else
 			fn_print_skip_eol_nl
 		fi
