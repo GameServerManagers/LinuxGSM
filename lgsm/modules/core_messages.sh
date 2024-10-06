@@ -551,23 +551,23 @@ fn_print_removed_eol_nl() {
 
 # UPDATE
 fn_print_update_eol() {
-	echo -en " ... ${cyan}UPDATE${default}"
+	echo -en " ... ${lightblue}UPDATE${default}"
 	fn_sleep_time
 }
 
 fn_print_update_eol_nl() {
-	echo -e " ... ${cyan}UPDATE${default}"
+	echo -e " ... ${lightblue}UPDATE${default}"
 	fn_sleep_time
 }
 
 # SKIP
 fn_print_skip_eol() {
-	echo -en " ... ${lightblue}SKIP${default}"
+	echo -en " ... ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
 fn_print_skip_eol_nl() {
-	echo -e " ... ${lightblue}}SKIP${default}"
+	echo -e " ... ${cyan}SKIP${default}"
 	fn_sleep_time
 }
 
