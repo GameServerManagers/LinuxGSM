@@ -36,3 +36,5 @@ echo -e "${dim}dim${default}"
 echo -e "${italic}italic${default}"
 echo -e "${underline}underline${default}"
 echo -e "${reverse}reverse${default}"
+
+core_exit.sh
