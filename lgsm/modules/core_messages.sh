@@ -142,12 +142,10 @@ fn_script_log_info() {
 
 fn_print() {
 	echo -en "$*${default}"
-	fn_sleep_time
 }
 
 fn_print_nl() {
 	echo -e "$*${default}"
-	fn_sleep_time
 }
 
 # [ .... ]
