@@ -6,7 +6,7 @@
 # Description: Sends a test alert.
 
 commandname="TEST-ALERT"
-commandaction="Sending Alert"
+commandaction="Sending alert"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

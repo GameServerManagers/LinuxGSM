@@ -224,7 +224,7 @@ fn_update_steamcmd_compare() {
 		if [ -n "${betapassword}" ]; then
 			fn_print_nl "* Branch password: ${betapassword}"
 		fi
-		fn_print_nl "https://steamdb.info/app/${appid}/history"
+		fn_print_nl "${italic}https://steamdb.info/app/${appid}/history"
 		fn_print "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"

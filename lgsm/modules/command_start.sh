@@ -127,12 +127,12 @@ fn_start_tmux() {
 					echo -e ""
 					echo -e "	usermod -G tty $(whoami)"
 					echo -e ""
-					echo -e "https://linuxgsm.com/tmux-op-perm"
+					echo -e "${italic}https://linuxgsm.com/tmux-op-perm"
 					fn_script_log_info "https://linuxgsm.com/tmux-op-perm"
 				else
 					echo -e "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo -e "https://linuxgsm.com/support"
+					echo -e "${italic}https://linuxgsm.com/support"
 					fn_script_log_info "https://linuxgsm.com/support"
 				fi
 			fi

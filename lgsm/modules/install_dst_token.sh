@@ -12,7 +12,7 @@ echo -e "${bold}${lightyellow}Enter ${gamename} Cluster Token${default}"
 fn_messages_separator
 echo -e "A cluster token is required to run this server!"
 echo -e "Follow the instructions in this link to obtain this key:"
-echo -e "https://linuxgsm.com/dst-auth-token"
+echo -e "${italic}https://linuxgsm.com/dst-auth-token"
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	overwritetoken="true"

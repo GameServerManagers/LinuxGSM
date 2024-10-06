@@ -115,7 +115,7 @@ fn_backup_compression() {
 	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress ..."
 	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
 	excludedir=$(fn_backup_relpath)
 
@@ -136,7 +136,7 @@ fn_backup_compression() {
 		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok_nl "Completed: ${italic}${backupname}.tar.gz${default}, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		alert="backup"
 		alert.sh

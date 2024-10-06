@@ -10,8 +10,6 @@ commandaction="Posting details"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-posttarget="https://termbin.com"
-
 # source all of the modules defined in the details command.
 info_messages.sh
 
