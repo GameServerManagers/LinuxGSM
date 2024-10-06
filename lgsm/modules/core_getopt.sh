@@ -148,7 +148,7 @@ currentopt+=("${cmd_install[@]}" "${cmd_auto_install[@]}")
 ## Developer commands.
 currentopt+=("${cmd_dev_debug[@]}")
 if [ -f ".dev-debug" ]; then
-	currentopt+=("${cmd_dev_parse_game_details[@]}" "${cmd_dev_parse_distro_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_modules[@]}")
+	currentopt+=("${cmd_dev_parse_game_details[@]}" "${cmd_dev_parse_distro_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_ui[@]}" "${cmd_dev_clear_modules[@]}")
 fi
 
 ## Sponsor.
