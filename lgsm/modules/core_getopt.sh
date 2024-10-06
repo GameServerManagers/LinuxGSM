@@ -56,6 +56,7 @@ cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect requi
 cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
 cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
 cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
+cmd_dev_ui=("ui;ui" "command_dev_ui.sh" "Assist with UI development.")
 cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 
 ### Set specific opt here.

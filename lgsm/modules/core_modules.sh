@@ -329,6 +329,11 @@ command_dev_detect_ldd.sh() {
 	fn_fetch_module
 }
 
+command_dev_ui.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_dev_query_raw.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
