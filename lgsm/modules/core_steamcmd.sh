@@ -265,17 +265,17 @@ fn_update_steamcmd_compare() {
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "${bold}No ${underline}update${default} available${default}"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print_nl "${bold}No ${underline}update${default} available"
+		fn_print_nl "* Local build: ${green}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			echo -e "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ${betapassword}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"
-		echo -en "\n"
+		fn_print_nl "https://steamdb.info/app/${appid}/"
+		fn_print "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
