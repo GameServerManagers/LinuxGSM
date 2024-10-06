@@ -265,7 +265,7 @@ fn_update_steamcmd_compare() {
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		echo -en "\n"
-		echo -e "No update available"
+		echo -e "${bold}No ${underline}update${default} available${default}"
 		echo -e "* Local build: ${green}${localbuild}${default}"
 		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
