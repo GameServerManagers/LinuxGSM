@@ -158,7 +158,7 @@ fn_fastdl_preview() {
 				((fileswc++))
 				tput rc
 				tput el
-				fn_print_nl "gathering ${allowed_extention} : ${fileswc}"
+				fn_print "gathering ${allowed_extention} : ${fileswc}"
 				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 			done < <(find . -type f -iname "${allowed_extention}")
 			if [ ${fileswc} != 0 ]; then
@@ -190,12 +190,12 @@ fn_fastdl_preview() {
 						((fileswc++))
 						tput rc
 						tput el
-						fn_print_nl "gathering ${directory} ${allowed_extention} : ${fileswc}"
-						fn_print_nl "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+						fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
+						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 					tput rc
 					tput el
-					fn_print_nl "gathering ${directory} ${allowed_extention} : ${fileswc}"
+					fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
 					else
@@ -394,7 +394,7 @@ fn_fastdl_gmod_dl_enforcer() {
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path.
 		while read -r line; do
-			fn_print_nl "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
+			echo -e "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
 		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
