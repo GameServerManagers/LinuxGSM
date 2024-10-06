@@ -158,9 +158,9 @@ currentopt+=("${cmd_sponsor[@]}")
 optcommands=()
 index="0"
 for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
-	cmdamount=$(fn_print_nl "${currentopt[index]}" | awk -F ';' '{ print NF }')
+	cmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
 	for ((cmdindex = 1; cmdindex <= cmdamount; cmdindex++)); do
-		optcommands+=("$(fn_print_nl "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')")
+		optcommands+=("$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${cmdindex} '{ print $x }')")
 	done
 done
 
@@ -178,7 +178,7 @@ fn_opt_usage() {
 		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
 			# Hide developer commands.
 			if [ "${currentopt[index + 2]}" != "DEVCOMMAND" ]; then
-				fn_print_nl "${cyan}$(fn_print_nl "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(fn_print_nl "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
+				fn_print_nl "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
 			fi
 		done
 	} | column -s $'\t' -t
@@ -196,9 +196,9 @@ for i in "${optcommands[@]}"; do
 		# Seek and run command.
 		index="0"
 		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
-			currcmdamount=$(fn_print_nl "${currentopt[index]}" | awk -F ';' '{ print NF }')
+			currcmdamount=$(echo -e "${currentopt[index]}" | awk -F ';' '{ print NF }')
 			for ((currcmdindex = 1; currcmdindex <= currcmdamount; currcmdindex++)); do
-				if [ "$(fn_print_nl "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
+				if [ "$(echo -e "${currentopt[index]}" | awk -F ';' -v x=${currcmdindex} '{ print $x }')" == "${getopt}" ]; then
 					# Run command.
 					eval "${currentopt[index + 1]}"
 					# Exit should occur in modules. Should this not happen print an error
