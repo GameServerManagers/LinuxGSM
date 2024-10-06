@@ -129,7 +129,7 @@ fn_dl_steamcmd() {
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
-				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
+				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
 		elif [ "${exitcode}" != 0 ]; then

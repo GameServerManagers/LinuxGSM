@@ -140,6 +140,16 @@ fn_script_log_info() {
 # On-Screen - Automated functions
 ##################################
 
+fn_print() {
+	echo -en "$*"
+	fn_sleep_time
+}
+
+fn_print_nl() {
+	echo -e "$*"
+	fn_sleep_time
+}
+
 # [ .... ]
 fn_print_dots() {
 	if [ "${commandaction}" ]; then
