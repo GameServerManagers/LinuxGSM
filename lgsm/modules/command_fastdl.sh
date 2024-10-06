@@ -159,7 +159,7 @@ fn_fastdl_preview() {
 				tput rc
 				tput el
 				fn_print_nl "gathering ${allowed_extention} : ${fileswc}"
-				fn_print_nl "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
+				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 			done < <(find . -type f -iname "${allowed_extention}")
 			if [ ${fileswc} != 0 ]; then
 				fn_print_ok_eol_nl
@@ -206,7 +206,7 @@ fn_fastdl_preview() {
 		done
 	fi
 	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		fn_print_nl "calculating total file size..."
+		fn_print_nl "calculating total file size"
 		fn_sleep_time_1
 		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
 		# Calculates total file size.
@@ -216,7 +216,7 @@ fn_fastdl_preview() {
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
 				fn_print_fail_eol_nl
-				fn_script_log_fail "Calculating total file size."
+				fn_script_log_fail "Calculating total file size"
 				core_exit.sh
 			fi
 		done < "${tmpdir}/fastdl_files_to_compress.txt"
