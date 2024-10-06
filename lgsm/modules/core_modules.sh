@@ -71,6 +71,11 @@ command_backup.sh() {
 	fn_fetch_module
 }
 
+command_toggle_cronjobs.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_console.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
