@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Creates a FastDL directory.
+# Description: Creates a Fastdl directory.
 
 commandname="FASTDL"
 commandaction="Fastdl"
@@ -30,16 +30,16 @@ fi
 
 # Header
 fn_print_header
-echo -e "More info: https://docs.linuxgsm.com/commands/fastdl"
+echo -e "More info: ${italic}https://docs.linuxgsm.com/commands/fastdl"
 echo -e ""
 
-# Prompts user for FastDL creation settings.
-echo -e "${commandaction} setup"
+# Prompts user for Fastdl creation settings.
+echo -e "${bold}${lightyellow}${commandaction} Setup"
 fn_messages_separator
 
 # Prompt for clearing old files if directory was already here.
 if [ -d "${fastdldir}" ]; then
-	fn_print_warning_nl "FastDL directory already exists."
+	fn_print_warning_nl "Fastdl directory already exists."
 	echo -e "${fastdldir}"
 	echo -e ""
 	if fn_prompt_yn "Overwrite existing directory?" Y; then
@@ -63,18 +63,18 @@ fi
 
 # Clears any fastdl directory content.
 fn_clear_old_fastdl() {
-	# Clearing old FastDL.
+	# Clearing old Fastdl.
 	if [ -d "${fastdldir}" ]; then
-		echo -en "clearing existing FastDL directory ${fastdldir}..."
+		echo -en "clearing existing Fastdl directory ${fastdldir}"
 		rm -rf "${fastdldir:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fail "Clearing existing FastDL directory ${fastdldir}"
+			fn_script_log_fail "Clearing existing Fastdl directory ${fastdldir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Clearing existing FastDL directory ${fastdldir}"
+			fn_script_log_pass "Clearing existing Fastdl directory ${fastdldir}"
 		fi
 	fi
 }
@@ -82,7 +82,7 @@ fn_clear_old_fastdl() {
 fn_fastdl_dirs() {
 	# Check and create directories.
 	if [ ! -d "${webdir}" ]; then
-		echo -en "creating web directory ${webdir}..."
+		echo -en "creating web directory ${webdir}"
 		mkdir -p "${webdir}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -95,7 +95,7 @@ fn_fastdl_dirs() {
 		fi
 	fi
 	if [ ! -d "${fastdldir}" ]; then
-		echo -en "creating fastdl directory ${fastdldir}..."
+		echo -en "creating fastdl directory ${fastdldir}"
 		mkdir -p "${fastdldir}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -158,7 +158,7 @@ fn_fastdl_preview() {
 				((fileswc++))
 				tput rc
 				tput el
-				echo -e "gathering ${allowed_extention} : ${fileswc}..."
+				echo -e "gathering ${allowed_extention} : ${fileswc}"
 				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 			done < <(find . -type f -iname "${allowed_extention}")
 			if [ ${fileswc} != 0 ]; then
@@ -190,12 +190,12 @@ fn_fastdl_preview() {
 						((fileswc++))
 						tput rc
 						tput el
-						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+						echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}"
 						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
 					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
 					tput rc
 					tput el
-					echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}..."
+					echo -e "gathering ${directory} ${allowed_extention} : ${fileswc}"
 					if [ ${fileswc} != 0 ]; then
 						fn_print_ok_eol_nl
 					else
@@ -244,7 +244,7 @@ fn_fastdl_gmod() {
 			((fileswc++))
 			tput rc
 			tput el
-			echo -e "copying ${allowed_extention} : ${fileswc}..."
+			echo -e "copying ${allowed_extention} : ${fileswc}"
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
@@ -259,7 +259,7 @@ fn_fastdl_gmod() {
 			fn_print_ok_eol_nl
 		fi
 	done
-	# Correct addons directory structure for FastDL.
+	# Correct addons directory structure for Fastdl.
 	if [ -d "${fastdldir}/addons" ]; then
 		echo -en "updating addons file structure..."
 		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
@@ -332,7 +332,7 @@ fn_fastdl_source() {
 					((fileswc++))
 					tput rc
 					tput el
-					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}..."
+					echo -e "copying ${directory} ${allowed_extention} : ${fileswc}"
 					fn_sleep_time_1
 					# get relative path of file in the dir
 					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
@@ -361,7 +361,7 @@ fn_fastdl_source() {
 
 # Builds the fastdl directory content.
 fn_fastdl_build() {
-	# Copy all needed files for FastDL.
+	# Copy all needed files for Fastdl.
 	echo -e "copying files to ${fastdldir}"
 	fn_script_log_info "Copying files to ${fastdldir}"
 	if [ "${shortname}" == "gmod" ]; then
@@ -372,11 +372,11 @@ fn_fastdl_build() {
 	fi
 }
 
-# Generate lua file that will force download any file into the FastDL directory.
+# Generate lua file that will force download any file into the Fastdl directory.
 fn_fastdl_gmod_dl_enforcer() {
 	# Clear old lua file.
 	if [ -f "${luafastdlfullpath}" ]; then
-		echo -en "removing existing download enforcer: ${luafastdlfile}..."
+		echo -en "removing existing download enforcer: ${luafastdlfile}"
 		rm -f "${luafastdlfullpath:?}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -390,7 +390,7 @@ fn_fastdl_gmod_dl_enforcer() {
 	fi
 	# Generate new one if user said yes.
 	if [ "${luaresource}" == "on" ]; then
-		echo -en "creating new download enforcer: ${luafastdlfile}..."
+		echo -en "creating new download enforcer: ${luafastdlfile}"
 		touch "${luafastdlfullpath}"
 		# Read all filenames and put them into a lua file at the right path.
 		while read -r line; do
@@ -408,10 +408,10 @@ fn_fastdl_gmod_dl_enforcer() {
 	fi
 }
 
-# Compresses FastDL files using bzip2.
+# Compresses Fastdl files using bzip2.
 fn_fastdl_bzip2() {
 	while read -r filetocompress; do
-		echo -en "\r\033[Kcompressing ${filetocompress}..."
+		echo -en "\r\033[Kcompressing ${filetocompress}"
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -433,9 +433,9 @@ fn_fastdl_dirs
 fn_fastdl_build
 fn_fastdl_bzip2
 # Finished message.
-echo -e "FastDL files are located in:"
+echo -e "Fastdl files are located in:"
 echo -e "${fastdldir}"
-echo -e "FastDL completed"
-fn_script_log_info "FastDL completed"
+echo -e "Fastdl completed"
+fn_script_log_info "Fastdl completed"
 
 core_exit.sh
