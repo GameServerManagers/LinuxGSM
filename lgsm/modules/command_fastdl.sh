@@ -244,7 +244,7 @@ fn_fastdl_gmod() {
 			((fileswc++))
 			tput rc
 			tput el
-			fn_print_nl "copying ${allowed_extention} : ${fileswc}"
+			fn_print "copying ${allowed_extention} : ${fileswc}"
 			cp --parents "${fastdlfile}" "${fastdldir}"
 			exitcode=$?
 			if [ "${exitcode}" != 0 ]; then
@@ -332,8 +332,8 @@ fn_fastdl_source() {
 					((fileswc++))
 					tput rc
 					tput el
-					fn_print_nl "copying ${directory} ${allowed_extention} : ${fileswc}"
-					fn_sleep_time_1
+					fn_print "copying ${directory} ${allowed_extention} : ${fileswc}"
+					fn_sleep_time
 					# get relative path of file in the dir
 					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
 					copytodir="${tmprelfilepath%/*}"
