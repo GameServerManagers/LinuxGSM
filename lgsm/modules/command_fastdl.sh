@@ -164,7 +164,7 @@ fn_fastdl_preview() {
 			if [ ${fileswc} != 0 ]; then
 				fn_print_ok_eol_nl
 			else
-				fn_print_info_eol_nl
+				fn_print_skip_eol_nl
 			fi
 		done
 	# Source engine
@@ -225,8 +225,8 @@ fn_fastdl_preview() {
 		fn_script_log_fail "Generating file list."
 		core_exit.sh
 	fi
-	fn_print_nl "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
-	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size ${filesizetotal} 0)"
+	fn_print_nl "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
 	rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	if ! fn_prompt_yn "Continue?" Y; then
 		fn_script_log "User exited"
@@ -411,7 +411,7 @@ fn_fastdl_gmod_dl_enforcer() {
 # Compresses Fastdl files using bzip2.
 fn_fastdl_bzip2() {
 	while read -r filetocompress; do
-		fn_print "\r\033[Kcompressing ${filetocompress}"
+		fn_print "compressing ${filetocompress}"
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
