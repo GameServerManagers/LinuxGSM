@@ -24,6 +24,7 @@ cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart i
 cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
 cmd_sponsor=("s;sponsor" "command_sponsor.sh" "Sponsorship options.")
 cmd_send=("sd;send" "command_send.sh" "Send command to game server console.")
+cmd_rcon=("rc;rcon" "command_rcon.sh" "Send RCON command to game server.")
 # Console servers only.
 cmd_console=("c;console" "command_console.sh" "Access server console.")
 cmd_debug=("d;debug" "command_debug.sh" "Start server directly in your terminal.")
@@ -91,6 +92,11 @@ currentopt+=("${cmd_console[@]}" "${cmd_debug[@]}")
 if [ "${consoleinteract}" == "yes" ]; then
 	currentopt+=("${cmd_send[@]}")
 fi
+
+# RCON command.
+# TODO: Add RCON type to all _default.cfg files [Source RCON Protocol / Other Protocols?! / None?!]
+# TODO: then add a check in the rcon command to use the appropriate protocol
+currentopt+=("${cmd_rcon[@]}")
 
 ## Game server exclusive commands.
 
