@@ -48,6 +48,7 @@ configdirserver="${configdir}/${gameservername}"
 configdirdefault="${lgsmdir}/config-default"
 userinput="${1}"
 userinput2="${2}"
+userinput3="${3}"
 
 ## GitHub Branch Select
 # Allows for the use of different function files
