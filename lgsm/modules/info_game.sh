@@ -1310,7 +1310,7 @@ fn_info_game_fctr() {
 	# get server version if installed.
 	local factoriobin="${executabledir}${executable:1}"
 	if [ -f "${factoriobin}" ]; then
-		serverversion="$(${factoriobin} --version | grep "Version:" | awk '{print $2}')"
+		serverversion="$(${factoriobin} --version | grep -m 1 "Version:" | awk '{print $2}')"
 	fi
 }
 
