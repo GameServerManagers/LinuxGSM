@@ -411,7 +411,7 @@ fn_fastdl_gmod_dl_enforcer() {
 # Compresses Fastdl files using bzip2.
 fn_fastdl_bzip2() {
 	while read -r filetocompress; do
-		fn_print "compressing ${filetocompress}"
+		fn_print_nl "compressing ${filetocompress}"
 		bzip2 -f "${filetocompress}"
 		exitcode=$?
 		if [ "${exitcode}" != 0 ]; then
@@ -419,10 +419,10 @@ fn_fastdl_bzip2() {
 			fn_script_log_fail "Compressing ${filetocompress}"
 			core_exit.sh
 		else
+			fn_print_ok_eol_nl
 			fn_script_log_pass "Compressing ${filetocompress}"
 		fi
 	done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
-	fn_print_ok_eol_nl
 }
 
 check.sh
