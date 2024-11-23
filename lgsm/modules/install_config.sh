@@ -133,7 +133,7 @@ fn_set_config_vars() {
 			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol
 			fn_script_log_fail "setting hostname"
 		elif [ "${changes}" != "" ]; then
@@ -152,7 +152,7 @@ fn_set_config_vars() {
 			changes+=$(sed -i "s/ADMINPASSWORD/${adminpass}/g w /dev/stdout" "${servercfgfullpath}")
 		fi
 		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then # shellcheck disable=SC2181
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol
 			fn_script_log_fail "generating admin/rcon password"
 		elif [ "${changes}" != "" ]; then

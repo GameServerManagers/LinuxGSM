@@ -294,7 +294,7 @@ fn_install_menu_whiptail() {
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
 	exitcode=$?
-	if [ "${exitcode}" == 0 ]; then
+	if [ "${exitcode}" -eq 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
 		eval "$resultvar="
