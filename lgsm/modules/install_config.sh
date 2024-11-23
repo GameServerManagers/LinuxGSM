@@ -21,8 +21,7 @@ fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	fn_messages_separator
-	echo -e "Downloading default configs from:"
-	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
+	echo -e "Downloading default configs from: ${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time_1
 	mkdir -p "${lgsmdir}/config-default/config-game"
@@ -30,34 +29,61 @@ fn_default_config_remote() {
 	for config in "${array_configs[@]}"; do
 		# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
+
 		# Every config is copied.
-		echo -e "copying ${config} config file."
-		fn_script_log_info "Copying ${servercfg} config file."
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fail "copying config file ${servercfgfullpath}"
+			elif [ "${changes}" != "" ]; then
+				fn_print_ok_eol_nl
+				fn_script_log_pass "copying config file ${servercfgfullpath}"
+			else
+				fn_print_skip_eol_nl
+			fi
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fail "copying config file ${networkcfgdefault}"
+			elif [ "${changes}" != "" ]; then
+				fn_print_ok_eol_nl
+				fn_script_log_pass "copying config file ${networkcfgdefault}"
+			else
+				fn_print_skip_eol_nl
+			fi
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fail "copying config file ${clustercfgfullpath}"
+			elif [ "${changes}" != "" ]; then
+				fn_print_ok_eol_nl
+				fn_script_log_pass "copying config file ${clustercfgfullpath}"
+			else
+				fn_print_skip_eol_nl
+			fi
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
 			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fail "copying config file ${servercfgdir}/${config}"
+			elif [ "${changes}" != "" ]; then
+				fn_print_ok_eol_nl
+				fn_script_log_pass "copying config file ${servercfgdir}/${config}"
+			else
+				fn_print_skip_eol_nl
+			fi
 		fi
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fail "copying config file ${servercfgfullpath}"
-		elif [ "${changes}" != "" ]; then
-			fn_print_ok_eol_nl
-			fn_script_log_pass "copying config file ${servercfgfullpath}"
-		else
-			fn_print_skip_eol_nl
-		fi
+
 		unset changes
 	done
 }

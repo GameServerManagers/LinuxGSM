@@ -19,8 +19,8 @@ else
 fi
 
 echo -e ""
-echo -e "Get more info: ${italic}https://docs.linuxgsm.com/steamcmd/gslt${default}"
-fn_script_log_info "Get more info: https://docs.linuxgsm.com/steamcmd/gslt"
+echo -e "More info: ${italic}https://docs.linuxgsm.com/steamcmd/gslt${default}"
+fn_script_log_info "More info: https://docs.linuxgsm.com/steamcmd/gslt"
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	if [ "${shortname}" != "tu" ]; then
@@ -36,10 +36,10 @@ if [ -z "${autoinstall}" ]; then
 fi
 
 if [ "${shortname}" == "tu" ]; then
-	echo -e "The GSLT can be changed by editing ${italic}${servercfgdir}/${servercfg}${default}"
-	fn_script_log_info "The GSLT can be changed by editing ${servercfgdir}/${servercfg}."
+	echo -e "The GSLT can be changed by editing: ${italic}${servercfgdir}/${servercfg}${default}"
+	fn_script_log_info "The GSLT can be changed by editing: ${servercfgdir}/${servercfg}."
 else
-	echo -e "The GSLT can be changed by editing ${italic}${configdirserver}/${selfname}.cfg${default}"
-	fn_script_log_info "The GSLT can be changed by editing ${configdirserver}/${selfname}.cfg."
+	echo -e "The GSLT can be changed by editing: ${italic}${configdirserver}/${selfname}.cfg${default}"
+	fn_script_log_info "The GSLT can be changed by editing: ${configdirserver}/${selfname}.cfg."
 fi
 fn_sleep_time_1
