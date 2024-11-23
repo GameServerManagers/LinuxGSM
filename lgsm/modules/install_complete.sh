@@ -18,7 +18,7 @@ elif [ "${exitcode}" -eq 2 ]; then
 elif [ "${exitcode}" -eq 3 ]; then
 	echo -e "${bold}${lightyellow}Install Completed with Warnings!${default}}"
 	fn_script_log_warn "Install Completed with Warnings!"
-elif [ -z "${exitcode}" ] || [ "${exitcode}" -qe 0 ]; then
+elif [ -z "${exitcode}" ] || [ "${exitcode}" -eq 0 ]; then
 	echo -e "${bold}${green}Install Complete!${default}"
 	fn_script_log_pass "Install Complete!"
 fi
