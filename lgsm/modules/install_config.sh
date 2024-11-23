@@ -22,7 +22,6 @@ fn_default_config_remote() {
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	fn_messages_separator
 	echo -e "Downloading default configs from:"
-	echo -e ""
 	echo -e "${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time_1
