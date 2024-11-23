@@ -9,16 +9,16 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 echo -e ""
 
-if [ "${exitcode}" == "1" ]; then
+if [ "${exitcode}" -eq 1 ]; then
 	echo -e "${bold}${red}Install Failed!${default}"
 	fn_script_log_fail "Install Failed!"
-elif [ "${exitcode}" == "2" ]; then
+elif [ "${exitcode}" -eq 2 ]; then
 	echo -e "${bold}${red}Install Completed with Errors!${default}}"
 	fn_script_log_error "Install Completed with Errors!"
-elif [ "${exitcode}" == "3" ]; then
+elif [ "${exitcode}" -eq 3 ]; then
 	echo -e "${bold}${lightyellow}Install Completed with Warnings!${default}}"
 	fn_script_log_warn "Install Completed with Warnings!"
-elif [ -z "${exitcode}" ] || [ "${exitcode}" == "0" ]; then
+elif [ -z "${exitcode}" ] || [ "${exitcode}" -qe 0 ]; then
 	echo -e "${bold}${green}Install Complete!${default}"
 	fn_script_log_pass "Install Complete!"
 fi

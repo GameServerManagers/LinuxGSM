@@ -129,7 +129,7 @@ fn_check_steamcmd_clear() {
 	if [ "$(command -v steamcmd 2> /dev/null)" ] && [ -d "${rootdir}/steamcmd" ]; then
 		rm -rf "${steamcmddir:?}"
 		exitcode=$?
-		if [ "${exitcode}" != 0 ]; then
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_script_log_fail "Removing ${rootdir}/steamcmd"
 		else
 			fn_script_log_pass "Removing ${rootdir}/steamcmd"

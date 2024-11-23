@@ -154,12 +154,12 @@ fn_bootstrap_fetch_file() {
 				echo -e "downloading file [ ${local_filename} ]"
 				fn_sleep_time
 				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
 				echo -en "downloading file [ ${local_filename} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${local_filename} ]\c"
 				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
 			fi
 
 			# Download will fail if downloads a html file.
@@ -171,7 +171,7 @@ fn_bootstrap_fetch_file() {
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ "${exitcode}" != 0 ]; then
+			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e " ... FAIL"
 					if [ -f "${lgsmlog}" ]; then
@@ -293,7 +293,8 @@ fn_install_menu_whiptail() {
 		menu_options+=("${val//\"/}" "${key//\"/}")
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
-	if [ $? == 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" == 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
 		eval "$resultvar="
@@ -445,7 +446,7 @@ else
 			echo -en "copying _default.cfg\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
 			exitcode=$?
-			if [ "${exitcode}" != 0 ]; then
+			if [ "${exitcode}" -ne 0 ]; then
 				echo -e " ... FAIL"
 				exit 1
 			else
@@ -457,7 +458,8 @@ else
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				if [ $? != 0 ]; then
+				exitcode=$?
+				if [ "${exitcode}" -ne 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else

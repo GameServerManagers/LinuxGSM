@@ -54,7 +54,7 @@ fn_dl_steamcmd() {
 		rm -f "${steamcmdlog:?}"
 	fi
 	counter=0
-	while [ "${counter}" == "0" ] || [ "${exitcode}" != "0" ]; do
+	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
 		# Select SteamCMD parameters
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
@@ -133,7 +133,7 @@ fn_dl_steamcmd() {
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
-		elif [ "${exitcode}" != 0 ]; then
+		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
@@ -154,8 +154,8 @@ fn_clear_tmp() {
 	echo -en "clearing tmp directory [ ${italic}${tmpdir}${default} ]"
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
-		local exitcode=$?
-		if [ "${exitcode}" != 0 ]; then
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_error_eol_nl
 			fn_script_log_error "clearing tmp directory ${tmpdir}"
 		else
@@ -260,8 +260,8 @@ fn_dl_extract() {
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
 		fi
 	fi
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
@@ -316,10 +316,10 @@ fn_check_file() {
 		counter=$((counter + 1))
 		echo -e "checking ${fileurl_name} ${remote_filename}\c"
 		curlcmd=$(curl --output /dev/null --silent --head --fail "${fileurl}" 2>&1)
-		local exitcode=$?
+		exitcode=$?
 
 		# On first try will error. On second try will fail.
-		if [ "${exitcode}" != 0 ]; then
+		if [ "${exitcode}" -ne 0 ]; then
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${lgsmlog}" ]; then
@@ -404,12 +404,12 @@ fn_fetch_file() {
 				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
 				fn_sleep_time
 				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
 				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
 				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
 			fi
 
 			# Download will fail if downloads a html file.
@@ -421,7 +421,7 @@ fn_fetch_file() {
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ "${exitcode}" != 0 ]; then
+			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then

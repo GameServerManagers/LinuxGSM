@@ -188,13 +188,10 @@ if [ "$(command -v numfmt 2> /dev/null)" ]; then
 else
 	# Older distros will need to use free.
 	# Older versions of free do not support -h option.
-	if [ "$(
-		free -h > /dev/null 2>&1
-		echo $?
-	)" -ne "0" ]; then
-		humanreadable="-m"
-	else
+	if free -h > /dev/null 2>&1; then
 		humanreadable="-h"
+	else
+		humanreadable="-m"
 	fi
 	physmemtotalmb="$(free -m | awk '/Mem:/ {print $2}')"             # integer
 	physmemtotalgb="$(free -m | awk '/Mem:/ {print $2}')"             # integer

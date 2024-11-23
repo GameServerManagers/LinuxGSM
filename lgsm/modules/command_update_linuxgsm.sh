@@ -27,10 +27,11 @@ fn_script_log_info "Selecting repo"
 # Select remotereponame
 
 curl ${nocache} --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
-
-if [ $? != "0" ]; then
+exitcode=$?
+if [ "${exitcode}" -ne "0" ]; then
 	curl curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
-	if [ $? != "0" ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne "0" ]; then
 		fn_print_fail_nl "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		fn_script_log_fail "Selecting repo: Unable to to access GitHub or Bitbucket repositories"
 		core_exit.sh
@@ -50,10 +51,11 @@ if [ "${remotereponame}" == "GitHub" ]; then
 else
 	curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/linuxgsm.sh" 1> /dev/null
 fi
-if [ $? != "0" ]; then
+exitcode=$?
+if [ "${exitcode}" -ne 0 ]; then
 	fn_print_fail_eol_nl
 	fn_script_log_fail "Checking ${remotereponame} linuxgsm.sh"
-	fn_script_log_fail "Curl returned error: $?"
+	fn_script_log_fail "Curl returned error: ${exitcode}"
 	core_exit.sh
 fi
 
@@ -88,7 +90,8 @@ if [ "${script_diff}" != "" ]; then
 		mkdir -p "${backupdir}/script"
 	fi
 	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
-	if [ $? != 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Backup ${selfname}"
 		core_exit.sh
@@ -109,7 +112,8 @@ if [ "${script_diff}" != "" ]; then
 	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
 
-	if [ $? != "0" ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "copying ${selfname}"
 		core_exit.sh
@@ -130,10 +134,11 @@ if [ "${remotereponame}" == "GitHub" ]; then
 else
 	curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/config-default/config-lgsm/${gameservername}/_default.cfg" 1> /dev/null
 fi
-if [ $? != "0" ]; then
+exitcode=$?
+if [ "${exitcode}" -ne 0 ]; then
 	fn_print_fail_eol_nl
 	fn_script_log_fail "Checking ${remotereponame} config _default.cfg"
-	fn_script_log_fail "Curl returned error: $?"
+	fn_script_log_fail "Curl returned error: ${exitcode}"
 	core_exit.sh
 fi
 
@@ -164,10 +169,11 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	else
 		curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/lgsm/data/${distroid}-${distroversioncsv}.csv" 1> /dev/null
 	fi
-	if [ $? != "0" ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
-		fn_script_log_fail "Curl returned error: $?"
+		fn_script_log_fail "Curl returned error: ${exitcode}"
 		core_exit.sh
 	fi
 
@@ -202,7 +208,8 @@ if [ -n "${modulesdir}" ]; then
 				else
 					curl ${nocache} --connect-timeout 3 -IsfL "https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${modulefile}" 1> /dev/null
 				fi
-				if [ $? != 0 ]; then
+				exitcode=$?
+				if [ "${exitcode}" -ne 0 ]; then
 					fn_print_error_eol_nl
 					fn_script_log_error "Checking ${remotereponame} module ${modulefile}"
 					echo -en "removing module ${modulefile}...\c"

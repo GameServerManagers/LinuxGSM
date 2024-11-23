@@ -104,7 +104,7 @@ fn_default_config_local() {
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]: "
 	cp --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
 	exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fail "copying config file [ ${servercfgdefault} ]: "
 	else
@@ -191,7 +191,8 @@ fn_set_dst_config_vars() {
 	echo -en "generating cluster key"
 	changes=""
 	changes+=$(sed -i "s/CLUSTERKEY/${randomstring}/g w /dev/stdout" "${clustercfgfullpath}")
-	if [ "$?" -ne 0 ]; then # shellcheck disable=SC2181
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fail "generating cluster key"
 	elif [ "${changes}" != "" ]; then

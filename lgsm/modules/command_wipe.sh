@@ -13,7 +13,7 @@ fn_firstcommand_set
 # Provides an exit code upon error.
 fn_wipe_exit_code() {
 	exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else

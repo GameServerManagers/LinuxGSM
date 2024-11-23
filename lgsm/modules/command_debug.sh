@@ -123,9 +123,10 @@ else
 	eval "${preexecutable} ${executable} ${startparameters}"
 fi
 
-if [ $? -ne 0 ]; then
-	fn_print_error_nl "Server has stopped: exit code: $?"
-	fn_script_log_error "Server has stopped: exit code: $?"
+exitcode=$?
+if [ "${exitcode}" -ne 0 ]; then
+	fn_print_error_nl "Server has stopped: exit code: ${exitcode}"
+	fn_script_log_error "Server has stopped: exit code: ${exitcode}"
 	fn_print_error_nl "Press ENTER to exit debug mode"
 	read -r
 else

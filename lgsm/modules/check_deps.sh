@@ -78,7 +78,8 @@ fn_install_mono_repo() {
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			if [ $? != 0 ]; then
+			exitcode=$?
+			if [ "${exitcode}" != 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
