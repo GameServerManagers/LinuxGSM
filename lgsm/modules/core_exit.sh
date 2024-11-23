@@ -45,7 +45,7 @@ elif [ "${exitcode}" -ne 0 ]; then
 	# remove trap.
 	trap - INT
 	exit "${exitcode}"
-elif [ "${exitcode}" ] && [ "${exitcode}" -qe 0 ]; then
+elif [ "${exitcode}" ] && [ "${exitcode}" -eq 0 ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	fn_script_log_pass "${moduleselfname} exiting with code: ${exitcode}"
