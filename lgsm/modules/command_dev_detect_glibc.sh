@@ -11,7 +11,6 @@ commandaction="Developer detect glibc"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_messages_separator
 echo -e "glibc Requirements Checker"
 fn_messages_separator
 
