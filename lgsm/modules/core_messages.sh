@@ -231,47 +231,57 @@ fn_print_header() {
 
 # Complete!
 fn_print_complete() {
-	fn_print_message "Complete!" "${green}" "$*"
+	echo -en "${green}Complete!${default} $*${default}"
+	fn_sleep_time
 }
 
 fn_print_complete_nl() {
-	fn_print_message_nl "Complete!" "${green}" "$*"
+	echo -e "${green}Complete!${default} $*${default}"
+	fn_sleep_time
 }
 
 # Failure!
 fn_print_failure() {
-	fn_print_message "Failure!" "${red}" "$*"
+	echo -en "${red}Failure!${default} $*${default}"
+	fn_sleep_time
 }
 
 fn_print_failure_nl() {
-	fn_print_message_nl "Failure!" "${red}" "$*"
+	echo -e "${red}Failure!${default} $*${default}"
+	fn_sleep_time
 }
 
 # Error!
 fn_print_error2() {
-	fn_print_message "Error!" "${red}" "$*"
+	echo -en "${red}Error!${default} $*${default}"
+	fn_sleep_time
 }
 
 fn_print_error2_nl() {
-	fn_print_message_nl "Error!" "${red}" "$*"
+	echo -e "${red}Error!${default} $*${default}"
+	fn_sleep_time
 }
 
 # Warning!
 fn_print_warning() {
-	fn_print_message "Warning!" "${lightyellow}" "$*"
+	echo -en "${lightyellow}Warning!${default} $*${default}"
+	fn_sleep_time
 }
 
 fn_print_warning_nl() {
-	fn_print_message_nl "Warning!" "${lightyellow}" "$*"
+	echo -e "${lightyellow}Warning!${default} $*${default}"
+	fn_sleep_time
 }
 
 # Information!
 fn_print_information() {
-	fn_print_message "Information!" "${cyan}" "$*"
+	echo -en "${cyan}Information!${default} $*${default}"
+	fn_sleep_time
 }
 
 fn_print_information_nl() {
-	fn_print_message_nl "Information!" "${cyan}" "$*"
+	echo -e "${cyan}Information!${default} $*${default}"
+	fn_sleep_time
 }
 
 # Y/N Prompt
