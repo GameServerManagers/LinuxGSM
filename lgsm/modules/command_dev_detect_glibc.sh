@@ -7,12 +7,11 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-GLIBC"
-commandaction="Developer detect glibc"
+commandaction="Detect Glibc Requirements"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-echo -e "glibc Requirements Checker"
-fn_messages_separator
+fn_print_header
 
 if [ ! "$(command -v objdump 2> /dev/null)" ]; then
 	fn_print_failure_nl "objdump is missing"

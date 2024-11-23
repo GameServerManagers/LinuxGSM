@@ -8,11 +8,16 @@
 commandname="DEV-DEBUG"
 commandaction="Developer ui"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-fn_firstcommand_reset
+fn_firstcommand_set
+
+fn_print_header
 
 # Load ANSI colors
 fn_ansi_loader
 
+echo -e ""
+echo -e "${lightgreen}Colours${default}"
+fn_messages_separator
 # Print supported colors
 echo -e "${default}default"
 echo -e "${black}black${default}"

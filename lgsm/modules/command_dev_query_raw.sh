@@ -10,6 +10,8 @@ commandaction="Developer query raw"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_print_header
+
 check.sh
 info_game.sh
 info_distro.sh

@@ -6,12 +6,13 @@
 # Description: Gives access to the server tmux console.
 
 commandname="CONSOLE"
-commandaction="Access console"
+commandaction="Access Console"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-check.sh
 fn_print_header
+
+check.sh
 
 if [ "${consoleverbose}" == "yes" ]; then
 	echo -e "* Verbose output: ${lightgreen}yes${default}"

@@ -6,7 +6,7 @@
 # Description: Runs the server without tmux and directly from the terminal.
 
 commandname="DEBUG"
-commandaction="Debuging"
+commandaction="Debugging"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -24,11 +24,13 @@ fn_lockfile_trap() {
 	core_exit.sh
 }
 
+fn_print_header
+
 check.sh
 fix.sh
 info_distro.sh
 info_game.sh
-fn_print_header
+
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
 	echo -e "${lightblue}Architecture:\t\t${default}${arch}"

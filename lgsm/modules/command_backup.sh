@@ -6,7 +6,7 @@
 # Description: Creates a .tar.gz file in the backup directory.
 
 commandname="BACKUP"
-commandaction="Backing up"
+commandaction="Backup"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

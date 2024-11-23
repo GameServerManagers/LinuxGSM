@@ -6,7 +6,7 @@
 # Description: Detects dependencies the server binary requires.
 
 commandname="DEV-DETECT-DEPS"
-commandaction="Dependencies Checker"
+commandaction="Dependency Checker"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
