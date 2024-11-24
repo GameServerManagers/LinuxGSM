@@ -14,6 +14,7 @@ echo -en "creating serverfiles directory [ ${italic}${serverfiles}${default} ]"
 
 if [ -d "${serverfiles}" ]; then
 	fn_print_skip_eol_nl
+	echo -e ""
 	echo -e "${italic}A game server is already exists at this location.${default}"
 else
 	fn_print_ok_eol_nl

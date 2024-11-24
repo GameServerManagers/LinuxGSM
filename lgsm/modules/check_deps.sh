@@ -83,7 +83,7 @@ fn_install_mono_repo() {
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
-				fn_print_complete_nl "Installing Mono repository completed."
+				fn_print_success_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
 			fi
 		fi

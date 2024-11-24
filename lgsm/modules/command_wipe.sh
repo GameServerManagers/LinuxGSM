@@ -165,7 +165,7 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ] || [ -n "$(find
 		fn_firstcommand_reset
 		fn_wipe_files
 		fn_wipe_random_seed
-		fn_print_complete_nl "${wipetype}"
+		fn_print_success_nl "${wipetype}"
 		fn_script_log_pass "${wipetype}"
 		alert="wipe"
 		alert.sh
@@ -175,7 +175,7 @@ if [ -n "$(find "${serveridentitydir}" -type f -name "*.map")" ] || [ -n "$(find
 	else
 		fn_wipe_files
 		fn_wipe_random_seed
-		fn_print_complete_nl "${wipetype}"
+		fn_print_success_nl "${wipetype}"
 		fn_script_log_pass "${wipetype}"
 		alert="wipe"
 		alert.sh

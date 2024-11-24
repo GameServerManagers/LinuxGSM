@@ -229,14 +229,14 @@ fn_print_header() {
 	fn_messages_separator
 }
 
-# Complete!
-fn_print_complete() {
-	echo -en "${green}Complete!${default} $*${default}"
+# Success!
+fn_print_success() {
+	echo -en "${green}Success!${default} $*${default}"
 	fn_sleep_time
 }
 
-fn_print_complete_nl() {
-	echo -e "${green}Complete!${default} $*${default}"
+fn_print_success_nl() {
+	echo -e "${green}Success!${default} $*${default}"
 	fn_sleep_time
 }
 

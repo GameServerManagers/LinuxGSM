@@ -137,7 +137,7 @@ fn_dl_steamcmd() {
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
-			fn_print_complete_nl "${commandaction} ${selfname}: ${remotelocation}"
+			fn_print_success_nl "${commandaction} ${selfname}: ${remotelocation}"
 			fn_script_log_pass "${commandaction} ${selfname}: ${remotelocation}"
 		fi
 
