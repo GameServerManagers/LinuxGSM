@@ -140,7 +140,6 @@ fn_print_message_nl() {
 		echo -e "${bold}${creeol}[${color} ${type} ${default}]${default} ${message}${default}"
 	fi
 	fn_sleep_time
-	echo -en "\n"
 }
 
 # [ .... ]
