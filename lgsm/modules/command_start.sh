@@ -176,7 +176,7 @@ check.sh
 # If the server already started dont start again.
 if [ "${status}" != "0" ]; then
 	fn_print_dots "${servername}"
-	fn_print_info_nl "${servername} is already running"
+	fn_print_skip_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
 		# Remove starting lockfile when command ends.

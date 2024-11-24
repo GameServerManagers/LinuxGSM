@@ -227,7 +227,7 @@ fn_install_missing_deps() {
 
 	else
 		if [ "${commandname}" == "INSTALL" ]; then
-			fn_print_information_nl "Required dependencies already installed."
+			fn_print_skip2_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
 	fi

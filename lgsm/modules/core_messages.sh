@@ -198,6 +198,15 @@ fn_print_info_nl() {
 	fn_print_message_nl "INFO" "${cyan}" "$*"
 }
 
+# [ SKIP ]
+fn_print_skip() {
+	fn_print_message "SKIP" "${cyan}" "$*"
+}
+
+fn_print_SKIP_nl() {
+	fn_print_message_nl "SKIP" "${cyan}" "$*"
+}
+
 # [ START ]
 fn_print_start() {
 	fn_print_message "START" "${lightgreen}" "$*"
@@ -280,6 +289,17 @@ fn_print_information() {
 
 fn_print_information_nl() {
 	echo -e "${cyan}Information!${default} $*${default}"
+	fn_sleep_time
+}
+
+# Skip!
+fn_print_skip2() {
+	echo -en "${cyan}Skip!${default} $*${default}"
+	fn_sleep_time
+}
+
+fn_print_skip2_nl() {
+	echo -e "${cyan}Skip!${default} $*${default}"
 	fn_sleep_time
 }
 
