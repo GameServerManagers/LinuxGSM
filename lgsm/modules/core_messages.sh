@@ -203,7 +203,7 @@ fn_print_skip() {
 	fn_print_message "SKIP" "${cyan}" "$*"
 }
 
-fn_print_SKIP_nl() {
+fn_print_skip_nl() {
 	fn_print_message_nl "SKIP" "${cyan}" "$*"
 }
 
