@@ -102,4 +102,9 @@ fn_print_update_eol_nl
 fn_print "Print skip message with eol"
 fn_print_skip_eol_nl
 
+fn_print_nl ""
+fn_print_nl "${lightgreen}Restart warning${default}"
+fn_messages_separator
+fn_print_restart_warning
+
 core_exit.sh
