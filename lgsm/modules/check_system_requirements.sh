@@ -71,7 +71,8 @@ fi
 if [ "${ramrequirementgb}" ]; then
 	if (($(echo "${physmemtotalgb} < ${ramrequirementgb}" | bc -l))); then
 		fn_print_dots "Checking RAM"
-		fn_print_warn_nl "Checking RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
+		fn_print_warn_nl "Checking RAM: Minumum RAM requirements not met"
+		fn_print_nl "* ${ramrequirementgb}G is required, but only ${physmemtotal} is available."
 		fn_print_nl "* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time_5
 	fi
