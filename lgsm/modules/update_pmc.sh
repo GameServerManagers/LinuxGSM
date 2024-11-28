@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of PaperMC and Waterfall servers.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
