@@ -183,23 +183,17 @@ fn_set_dst_config_vars() {
 		sed -i "s/CLUSTERKEY/${randomstring}/g" "${clustercfgfullpath}"
 		fn_sleep_time
 	else
-		fn_print_skip_eol_nl
+		echo -e "${clustercfg} is already configured."
+		fn_script_log_info "${clustercfg} is already configured."
 	fi
-	unset changes
 
-	randomstring=$(tr -dc A-Za-z0-9 < /dev/urandom 2> /dev/null | head -c 16 | xargs)
-	echo -en "generating cluster key"
-	changes=""
-	changes+=$(sed -i "s/CLUSTERKEY/${randomstring}/g w /dev/stdout" "${clustercfgfullpath}")
-	exitcode=$?
-	if [ "${exitcode}" -ne 0 ]; then
-		fn_print_fail_eol
-		fn_script_log_fail "generating cluster key"
-	elif [ "${changes}" != "" ]; then
-		fn_print_ok_eol_nl
-		fn_script_log_pass "generating cluster key"
-	else
-		fn_print_skip_eol_nl
+	## server.ini
+	# removing unnecessary options (dependent on sharding & shard type).
+	if [ "${sharding}" == "false" ]; then
+		sed -i "s/ISMASTER//g" "${servercfgfullpath}"
+		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
+	elif [ "${master}" == "true" ]; then
+		sed -i "/SHARDNAME/d" "${servercfgfullpath}"
 	fi
 
 	echo -e "changing shard name."
