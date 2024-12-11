@@ -16,7 +16,7 @@ done
 
 echo ""
 echo "Checking if an unexpected gameicon exists"
-for gameicon in $(ls -1 gameicons); do
+for gameicon in gameicons/*; do
 	# check if $gameicon is in serverlist.csv
 	if ! grep -q "${gameicon%-icon.png}" serverlist.csv; then
 		echo "ERROR: gameicon ${gameicon} is not in serverlist.csv"
@@ -37,4 +37,4 @@ else
 	echo "OK: gameiconcount ($gameiconcount) matches serverlistcount ($serverlistcount)"
 fi
 
-exit ${exitcode}
+exit "${exitcode}"

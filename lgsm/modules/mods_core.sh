@@ -618,7 +618,7 @@ fn_mod_install_liblist_gam_file() {
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
-				fn_script_log_pass ${logentry}
+				fn_script_log_pass "${logentry}"
 				fn_print_ok_eol_nl
 			fi
 		fi
@@ -642,7 +642,7 @@ fn_mod_remove_liblist_gam_file() {
 			fn_script_log_fail "${logentry}"
 			fn_print_fail_eol_nl
 		else
-			fn_script_log_pass ${logentry}
+			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
 
@@ -658,7 +658,7 @@ fn_mod_remove_liblist_gam_file() {
 			fn_script_log_fail "${logentry}"
 			fn_print_fail_eol_nl
 		else
-			fn_script_log_pass ${logentry}
+			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
 
@@ -676,7 +676,7 @@ fn_mod_remove_liblist_gam_file() {
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
-				fn_script_log_pass ${logentry}
+				fn_script_log_pass "${logentry}"
 				fn_print_ok_eol_nl
 			fi
 		fi
@@ -699,7 +699,7 @@ fn_mod_install_amxmodx_file() {
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
-				fn_script_log_pass ${logentry}
+				fn_script_log_pass "${logentry}"
 				fn_print_ok_eol_nl
 			fi
 		fi
@@ -712,7 +712,7 @@ fn_mod_install_amxmodx_file() {
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
-			fn_script_log_pass ${logentry}
+			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
 	fi
@@ -736,7 +736,7 @@ fn_mod_remove_amxmodx_file() {
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
-				fn_script_log_pass ${logentry}
+				fn_script_log_pass "${logentry}"
 				fn_print_ok_eol_nl
 			fi
 

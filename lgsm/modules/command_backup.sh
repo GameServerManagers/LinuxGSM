@@ -190,7 +190,7 @@ fn_backup_prune() {
 fn_backup_relpath() {
 	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 	# Populate an array of tokens initialized from the rootdir components.
-	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+	mapfile -t rdirtoks < <(readlink -f "${rootdir}" | sed "s/\// /g")
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
 		fn_script_log_fail "Problem assessing rootdir during relative path assessment: ${rootdir}"
@@ -198,7 +198,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	mapfile -t bdirtoks < <(readlink -f "${backupdir}" | sed "s/\// /g")
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fail "Problem assessing backupdir during relative path assessment: ${rootdir}"

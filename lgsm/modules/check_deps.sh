@@ -235,7 +235,7 @@ fn_install_missing_deps() {
 
 fn_check_loop() {
 	# Loop though required depenencies checking if they are installed.
-	for deptocheck in ${array_deps_required[*]}; do
+	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
 
@@ -319,7 +319,7 @@ fn_deps_detector() {
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-			for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+			for steamcmddeptocheck in "${array_deps_required_steamcmd[@]}"; do
 				if [ "${deptocheck}" != "steamcmd" ] && [ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
 					steamcmdfail=1
 				fi

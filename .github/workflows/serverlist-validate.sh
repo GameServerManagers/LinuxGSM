@@ -35,4 +35,4 @@ for shortname in $(tail -n +2 serverlist.csv | cut -d ',' -f1); do
 	fi
 done
 
-exit ${exitcode}
+exit "${exitcode}"
