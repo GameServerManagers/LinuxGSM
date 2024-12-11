@@ -6,7 +6,7 @@
 # Description: Dev only: Assist with UI development.
 
 commandname="DEV-DEBUG"
-commandaction="Developer ui"
+commandaction="Developer UI"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
