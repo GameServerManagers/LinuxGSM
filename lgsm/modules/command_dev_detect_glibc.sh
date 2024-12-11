@@ -56,18 +56,18 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 			done
 		echo -e ""
 		echo -e ""
-		echo -e "${glibc_check_name} glibc Requirements"
+		fn_print_nl "${bold}${lightyellow}${glibc_check_name} glibc Requirements"
 		fn_messages_separator
 		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo -e "Required glibc"
-			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 | tee -a "${tmpdir}/detect_glibc_highest.tmp"
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 | sed 's/)$//' | tee -a "${tmpdir}/detect_glibc_highest.tmp"
 			echo -e ""
 			echo -e "Files requiring GLIBC"
 			echo -e "Highest verion required: filename"
 			cat "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
 			echo -e ""
 			echo -e "All required GLIBC versions"
-			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort
+			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | sed 's/)$//'
 			rm -f "${tmpdir:?}/detect_glibc_${glibc_check_var}.tmp"
 			rm -f "${tmpdir:?}/detect_glibc_files_${glibc_check_var}.tmp"
 		else
@@ -78,10 +78,10 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 	fi
 done
 echo -e ""
-echo -e "Final glibc Requirement"
+fn_print_nl "${bold}${lightyellow}Final glibc Requirement"
 fn_messages_separator
 if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
-	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1
+	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1 | sed 's/)$//'
 	rm -f "${tmpdir:?}/detect_glibc_highest.tmp"
 else
 	fn_print_information_nl "glibc is not required"

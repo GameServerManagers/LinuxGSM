@@ -44,12 +44,12 @@ find "${serverfiles}" -type f -print0 \
 	done
 echo -e ""
 echo -e ""
-echo -e "All"
+fn_print_nl "${bold}${lightyellow}All${default}"
 fn_messages_separator
 cat "${tmpdir}/detect_ldd.tmp"
 
 echo -e ""
-echo -e "Not Found"
+fn_print_nl "${bold}${lightyellow}Not Found${default}"
 fn_messages_separator
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 
