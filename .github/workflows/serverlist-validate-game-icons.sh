@@ -37,4 +37,4 @@ else
 	echo "OK: gameiconcount ($gameiconcount) matches serverlistcount ($serverlistcount)"
 fi
 
-exit "${exitcode}"
+exit ${exitcode}
