@@ -5,6 +5,13 @@
 # Website: https://linuxgsm.com
 # Description: Display parsed gameserver details.
 
+commandname="DEV-PARSE-GAME-DETAILS"
+commandaction="Parse Game Details"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
+
+fn_print_header
+
 if [ -f "config" ]; then
 	servercfgfullpath="config"
 fi

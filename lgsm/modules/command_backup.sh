@@ -6,7 +6,7 @@
 # Description: Creates a .tar.gz file in the backup directory.
 
 commandname="BACKUP"
-commandaction="Backing up"
+commandaction="Backup"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -115,7 +115,7 @@ fn_backup_compression() {
 	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress ..."
 	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
 	excludedir=$(fn_backup_relpath)
 
@@ -127,8 +127,8 @@ fn_backup_compression() {
 	fi
 
 	tar --use-compress-program=pigz -cf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fail "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
@@ -136,7 +136,7 @@ fn_backup_compression() {
 		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok_nl "Completed: ${italic}${backupname}.tar.gz${default}, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		alert="backup"
 		alert.sh
@@ -190,7 +190,7 @@ fn_backup_prune() {
 fn_backup_relpath() {
 	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 	# Populate an array of tokens initialized from the rootdir components.
-	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+	mapfile -t rdirtoks < <(readlink -f "${rootdir}" | sed "s/\// /g")
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
 		fn_script_log_fail "Problem assessing rootdir during relative path assessment: ${rootdir}"
@@ -198,7 +198,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	mapfile -t bdirtoks < <(readlink -f "${backupdir}" | sed "s/\// /g")
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fail "Problem assessing backupdir during relative path assessment: ${rootdir}"

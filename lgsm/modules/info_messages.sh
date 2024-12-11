@@ -132,7 +132,7 @@ fn_info_messages_server_resource() {
 	echo -e "${bold}${lightyellow}Server Resource${default}"
 	fn_messages_separator
 	{
-		echo -e "${lightyellow}CPU\t${default}"
+		echo -e "${bold}${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
 		echo -e "${lightblue}Cores:\t${default}${cpucores}"
 		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
@@ -140,14 +140,14 @@ fn_info_messages_server_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${lightyellow}Memory\t${default}"
+		echo -e "${bold}${lightyellow}Memory\t${default}"
 		echo -e "${lightblue}Mem:\t${lightblue}total\tused\tfree\tcached\tavailable${default}"
 		echo -e "${lightblue}Physical:\t${default}${physmemtotal}\t${physmemused}\t${physmemfree}\t${physmemcached}\t${physmemavailable}${default}"
 		echo -e "${lightblue}Swap:\t${default}${swaptotal}\t${swapused}\t${swapfree}${default}"
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${lightyellow}Storage${default}"
+		echo -e "${bold}${lightyellow}Storage${default}"
 		echo -e "${lightblue}Filesystem:\t${default}${filesystem}"
 		echo -e "${lightblue}Total:\t${default}${totalspace}"
 		echo -e "${lightblue}Used:\t${default}${usedspace}"
@@ -155,7 +155,7 @@ fn_info_messages_server_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${lightyellow}Network${default}"
+		echo -e "${bold}${lightyellow}Network${default}"
 		if [ -n "${netint}" ]; then
 			echo -e "${lightblue}Interface:\t${default}${netint}"
 		fi
@@ -203,7 +203,7 @@ fn_info_messages_gameserver_resource() {
 	} | column -s $'\t' -t
 	echo -e ""
 	{
-		echo -e "${lightyellow}Storage${default}"
+		echo -e "${bold}${lightyellow}Storage${default}"
 		echo -e "${lightblue}Total:\t${default}${rootdirdu}"
 		echo -e "${lightblue}Serverfiles:\t${default}${serverfilesdu}"
 		if [ -d "${backupdir}" ]; then
@@ -292,7 +292,7 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}Server password:\t${default}${serverpassword}"
 		fi
 
-		# Query enabled (Starbound)
+		# Query enabled (Starbound, Minecraft)
 		if [ -n "${queryenabled}" ]; then
 			echo -e "${lightblue}Query enabled:\t${default}${queryenabled}"
 		fi
@@ -553,23 +553,39 @@ fn_info_messages_script() {
 		fi
 
 		# Discord alert
-		echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
+		if [ "${discordalert}" == "on" ]; then
+			echo -e "${lightblue}Discord alert:\t${default}${discordalert}"
+		fi
 		# Email alert
-		echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		if [ "${emailalert}" == "on" ]; then
+			echo -e "${lightblue}Email alert:\t${default}${emailalert}"
+		fi
 		# Gotify alert
-		echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
+		if [ "${gotifyalert}" == "on" ]; then
+			echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
+		fi
 		# IFTTT alert
 		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		# Pushbullet alert
-		echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
+		if [ "${pushbulletalert}" == "on" ]; then
+			echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
+		fi
 		# Pushover alert
-		echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		if [ "${pushoveralert}" == "on" ]; then
+			echo -e "${lightblue}Pushover alert:\t${default}${pushoveralert}"
+		fi
 		# Rocketchat alert
-		echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		if [ "${rocketchatalert}" == "on" ]; then
+			echo -e "${lightblue}Rocketchat alert:\t${default}${rocketchatalert}"
+		fi
 		# Slack alert
-		echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
+		if [ "${slackalert}" == "on" ]; then
+			echo -e "${lightblue}Slack alert:\t${default}${slackalert}"
+		fi
 		# Telegram alert
-		echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+		if [ "${telegramalert}" == "on" ]; then
+			echo -e "${lightblue}Telegram alert:\t${default}${telegramalert}"
+		fi
 
 		# Update on start
 		if [ -n "${updateonstart}" ]; then

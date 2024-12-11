@@ -11,8 +11,8 @@ fn_install_ts3db_mariadb() {
 	if [ ! -f "${serverfiles}/libts3db_mariadb.so" ]; then
 		echo -e "copying libmariadb.so.2...\c"
 		cp "${serverfiles}/redist/libmariadb.so.2" "${serverfiles}"
-		local exitcode=$?
-		if [ "${exitcode}" != "0" ]; then
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
 			fn_script_log_fail "copying libmariadb.so.2"
 			core_exit.sh
