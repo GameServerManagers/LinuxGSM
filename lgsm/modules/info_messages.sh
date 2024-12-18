@@ -1477,6 +1477,7 @@ fn_info_messages_sm() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
