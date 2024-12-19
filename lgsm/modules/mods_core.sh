@@ -11,7 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 modsdir="${lgsmdir}/mods"
 modstmpdir="${modsdir}/tmp"
 extractdest="${modstmpdir}/extract"
-modsinstalledlist="installed-mods.txt"
+modsinstalledlist="${selfname}-installed-mods.txt"
 modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 ## Installation.
