@@ -936,6 +936,8 @@ fn_info_game_armar() {
 		fn_info_game_json "queryport" ".a2s.port"
 		fn_info_game_json "servername" ".game.name"
 		fn_info_game_json "serverpassword" ".game.password"
+		fn_info_game_json "rconpassword" ".rcon.password"
+		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"

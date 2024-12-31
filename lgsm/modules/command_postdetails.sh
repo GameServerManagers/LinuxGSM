@@ -15,8 +15,6 @@ fn_bad_postdetailslog() {
 	core_exit.sh
 }
 
-fn_print_header
-
 # source all of the modules defined in the details command.
 info_messages.sh
 
