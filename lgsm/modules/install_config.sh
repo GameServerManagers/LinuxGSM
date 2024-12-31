@@ -120,7 +120,7 @@ fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
 		servername="LinuxGSM"
-		rconpass="admin${randomstring}"
+		adminpass="admin${randomstring}"
 		echo -en "setting hostname\c"
 		fn_script_log_info "setting hostname"
 		fn_sleep_time
