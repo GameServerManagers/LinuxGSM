@@ -128,6 +128,9 @@ fn_dl_steamcmd() {
 			elif [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
+			elif [ -n "$(grep "0x6A6" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
