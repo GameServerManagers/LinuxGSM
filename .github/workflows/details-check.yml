@@ -1,0 +1,89 @@
+# This action will check that LinuxGSM is picking up game server config and parameter variables.
+name: Details Check
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: details-check-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  create-matrix:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate matrix with generate-matrix.sh
+        run: chmod +x .github/workflows/details-check-generate-matrix.sh; .github/workflows/details-check-generate-matrix.sh
+
+      - name: Set Matrix
+        id: set-matrix
+        run: |
+          shortnamearray=$(cat shortnamearray.json)
+          echo "${shortnamearray}"
+          echo -n "matrix=${shortnamearray}" >> $GITHUB_OUTPUT
+
+  details-check:
+    if: github.repository_owner == 'GameServerManagers'
+    needs: create-matrix
+    continue-on-error: true
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Download linuxgsm.sh
+        run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
+
+      - name: Install dependencies
+        run: sudo apt-get install libxml2-utils jq
+
+      - name: Create serverfiles directory
+        run: mkdir -p serverfiles
+
+      - name: Grab server
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
+
+      - name: Enable developer mode
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
+
+      - name: Generate servercfgname
+        id: sets-servercfgname
+        run: |
+          servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" lgsm/config-lgsm/${{ matrix.shortname }}server/_default.cfg)
+          echo "servercfgname=$servercfg" >> "$GITHUB_OUTPUT"
+
+      - name: Download config
+        run: |
+          if [ "${{ steps.sets-servercfgname.outputs.servercfgname }}" == "" ]; then
+            echo "This game server has no config file."
+          else
+            curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
+          fi
+      - name: Display config
+        run: |
+          if [ "${{ steps.sets-servercfgname.outputs.servercfgname }}" == "" ]; then
+            echo "This game server has no config file."
+          else
+            cat config
+          fi
+
+      - name: Display parameters
+        run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
+
+      - name: Details
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+
+      - name: Detect details
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server parse-game-details
+
+      - name: Query Raw
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw

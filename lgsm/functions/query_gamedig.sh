@@ -22,6 +22,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 			gamedigcmd=$(echo -e "gamedig --type \"${querytype}\" --host \"${ip}\" --port \"${queryport}\"|jq")
 			gamedigraw=$(gamedig --type "${querytype}" --host "${ip}" --port "${queryport}")
 			querystatus=$(echo "${gamedigraw}" | jq '.error|length')
+
 		fi
 
 		# server name.
@@ -31,12 +32,10 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numplayers.
-		if [ "${querytype}" == "minecraft" ]; then
-			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')
-		fi
+		gdplayers=$(echo "${gamedigraw}" | jq -re '.raw.vanilla.raw.players.online')
 		if [ "${gdplayers}" == "null" ]; then
 			unset gdplayers
-		elif [ "${gdplayers}" == "[]" ] || [ "${gdplayers}" == "-1" ]; then
+		elif [ "${gdplayers}" == "[]" ]; then
 			gdplayers=0
 		fi
 
@@ -61,7 +60,7 @@ if [ "$(command -v gamedig 2>/dev/null)" ]&&[ "$(command -v jq 2>/dev/null)" ]; 
 		fi
 
 		# numbots.
-		gdbots=$(echo "${gamedigraw}" | jq -re '.bots | length')
+		gdbots=$(echo "${gamedigraw}" | jq -re '.raw.numbots')
 		if [ "${gdbots}" == "null" ]||[ "${gdbots}" == "0" ]; then
 			unset gdbots
 		fi

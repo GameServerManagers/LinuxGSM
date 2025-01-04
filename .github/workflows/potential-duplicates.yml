@@ -1,0 +1,23 @@
+name: Potential Duplicates
+on:
+  issues:
+    types:
+      - opened
+jobs:
+  potential-duplicates:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Potential Duplicates
+        uses: wow-actions/potential-duplicates@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          filter: ""
+          exclude: ""
+          label: potential-duplicate
+          state: all
+          threshold: 0.8
+          comment: >
+            Potential duplicates: {{#issues}}
+              - [#{{ number }}] {{ title }} ({{ accuracy }}%)
+            {{/issues}}

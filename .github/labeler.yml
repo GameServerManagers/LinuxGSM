@@ -1,0 +1,162 @@
+"command: backup":
+  - "/(backup)/i"
+"command: console":
+  - "/(console|tmux)/i"
+"command: debug":
+  - "/(command: debug)/i"
+"command: details":
+  - "/(command: details)/i"
+"command: fast-dl":
+  - "/(fast-dl|fastdl)/i"
+"command: install":
+  - "/(install)/i"
+"command: mods":
+  - "/(command: mods)/i"
+"command: monitor":
+  - "/(command: monitor)/i"
+"command: post-details":
+  - "/(command: post-details)/i"
+"command: restart":
+  - "/(command: restart)/i"
+"command: send":
+  - "/(command: send)/i"
+"command: skeleton":
+  - "/(command: skeleton)/i"
+"command: start":
+  - "/(command: start)/i"
+"command: stop":
+  - "/(command: stop)/i"
+"command: update-lgsm":
+  - "/(update-lgsm)/i"
+"command: update":
+  - "/(command: update)/i"
+"command: validate":
+  - "/(validate)/i"
+"command: wipe":
+  - "/(wipe)/i"
+
+# Distros
+"distro: AlmaLinux":
+  - "/(Alma)/i"
+"distro: Arch Linux":
+  - "/(Arch Linux)/i"
+"distro: CentOS":
+  - "/(CentOS)/i"
+"distro: Debian":
+  - "/(Debian)/i"
+"distro: Fedora":
+  - "/(Fedora)/i"
+"distro: openSUSE":
+  - "/(openSUSE|suse)/i"
+"distro: Rocky Linux":
+  - "/(Rocky)/i"
+"distro: Slackware":
+  - "/(Slackware)/i"
+"distro: Ubuntu":
+  - "/(Ubuntu)/i"
+
+# Games
+"game: 7 Days to Die":
+  - "/(7 Days to Die|sdtd)/i"
+"game: Ark: Survival Evolved":
+  - "/(Ark: Survival Evolved|Ark)/i"
+"game: ARMA 3":
+  - "/(ARMA 3|ARMA3)/i"
+"game: Assetto Corsa":
+  - "/(Assetto Corsa)/i"
+"game: Avorion":
+  - "/(Avorion)/i"
+"game: Ballistic Overkill":
+  - "/(Ballistic Overkill)/i"
+"game: BATTALION: Legacy":
+  - "/(BATTALION: Legacy)/i"
+"game: Barotrauma":
+  - "/(Barotrauma)/i"
+"game: Counter-Strike: Global Offensive":
+  - "/(Counter-Strike: Global Offensive|CS:GO|csgo)/i"
+"game: Counter-Strike 2":
+  - "/(Counter-Strike 2|CS2)/i"
+"game: Counter-Strike: Source":
+  - "/(Counter-Strike: Source|CS:S)/i"
+"game: Counter-Strike 1.6":
+  - "/(Counter-Strike 1.6|Counter Strike 1.6|CS 1.6|cs1.6)/i"
+"game: Dayz":
+  - "/(Dayz)/i"
+"game: Don't Starve Together":
+  - "/(Don't Starve Together|Dont Starve Together|DST)/i"
+"game: Eco":
+  - "/(^Eco$)/i"
+"game: Factorio":
+  - "/(Factorio)/i"
+"game: Garry's Mod":
+  - "/(Garry's Mod|Garrys Mod|GMod)/i"
+"game: Insurgency: Sandstorm":
+  - "/(Insurgency: Sandstorm|Insurgency)/i"
+"game: Killing Floor 2":
+  - "/(Killing Floor 2|KF2)/i"
+"game: Left 4 Dead 2":
+  - "/(Left 4 Dead 2|L4D2)/i"
+"game: Minecraft":
+  - "/(Minecraft)((?!bedrock).)*$/i"
+"game: Minecraft Bedrock":
+  - "/(Bedrock)/i"
+"game: Mumble":
+  - "/(Mumble)/i"
+"game: Project Zomboid":
+  - "/(Project Zomboid|PZ)/i"
+"game: Quake 3":
+  - "/(Quake 3|Q3A|q3)/i"
+"game: Rising World":
+  - "/(Rising World)/i"
+"game: Satisfactory":
+  - "/(Satisfactory)/i"
+"game: Squad":
+  - "/(Squad)/i"
+"game: Starbound":
+  - "/(Starbound)/i"
+"game: Stationeers":
+  - "/(Stationeers)/i"
+"game: Teamspeak 3":
+  - "/(Teamspeak 3|ts3)/i"
+"game: Rust":
+  - "/(Rust)/i"
+"game: Unturned":
+  - "/(Unturned)/i"
+"game: Unreal Tournament 99":
+  - "/(Unreal Tournament 99|ut99)/i"
+"game: Unreal Tournament 2004":
+  - "/(Unreal Tournament 2004|ut2k4)/i"
+"game: Unreal Tournament 3":
+  - "/(Unreal Tournament 3|ut3)/i"
+"game: Valheim":
+  - "/(Valheim)/i"
+
+# Info
+"info: alerts":
+  - "/(alert)/i"
+"info: dependency":
+  - "/(dependency|deps)/i"
+"info: docker":
+  - "/(docker)/i"
+"info: docs":
+  - "/(documentation|^docs$)/i"
+"info: email":
+  - "/(postfix|sendmail|exim|smtp)/i"
+"info: query":
+  - "/(gamedig|gsquery)/i"
+"info: steamcmd":
+  - "/(steamcmd)/i"
+"info: systemd":
+  - "/(systemd)/i"
+"info: tmux":
+  - "/(tmux)/i"
+"info: website":
+  - "/(website)/i"
+
+# Type
+"type: game server request":
+  - "/(Server Request)/i"
+"type: bug":
+  - "/(bug)/i"
+"type: feature request":
+  - "/(feature)/i"

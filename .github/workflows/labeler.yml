@@ -1,0 +1,32 @@
+name: Issue Labeler
+on:
+  issues:
+    types:
+      - opened
+      - edited
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  issue-labeler:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Issue Labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+
+  is-sponsor-label:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is Sponsor Label
+        uses: JasonEtco/is-sponsor-label-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
