@@ -114,13 +114,13 @@ fn_deps_email() {
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
 		else
 			if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
