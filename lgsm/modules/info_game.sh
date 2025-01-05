@@ -673,7 +673,7 @@ fn_info_game_st() {
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
+	worldsave="${worldsave:-"NOT SET"}"
 	worldtype="${worldtype:-"NOT SET"}"
 }
 

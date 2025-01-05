@@ -687,6 +687,11 @@ elif [ "${shortname}" == "sb" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "st" ]; then
+	array_configs+=(setting.xml)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "stn" ]; then
 	array_configs+=(ServerConfig.txt ServerUsers.txt TpPresets.json UserPermissions.json)
 	fn_default_config_remote

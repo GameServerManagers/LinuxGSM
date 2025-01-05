@@ -198,7 +198,7 @@ fn_messages_separator
 echo -e ""
 echo -e "${bold}${lightyellow}SS Output${default}"
 fn_messages_separator
-fn_info_message_ports
+fn_info_messages_ports
 eval "${portcommand}"
 
 echo -e ""
