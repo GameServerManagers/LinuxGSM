@@ -710,7 +710,7 @@ fn_info_game_tf() {
 	queryport="${queryport:-"0"}"
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
-	serverpassword="${serverpassword:-"NOT SET"}"
+	#serverpassword="${serverpassword:-"NOT SET"}"
 	shutdownport="${shutdownport:-"0"}"
 
 }
