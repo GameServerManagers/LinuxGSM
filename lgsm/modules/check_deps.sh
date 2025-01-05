@@ -348,6 +348,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 	fi
 fi
 
+info_distro.sh
+
 # Will warn user if their distro is no longer supported by the vendor.
 if [ -n "${distrosupport}" ]; then
 	if [ "${distrosupport}" == "unsupported" ]; then
@@ -356,7 +358,13 @@ if [ -n "${distrosupport}" ]; then
 	fi
 fi
 
-info_distro.sh
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "24.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
+    if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
+        fn_print_warning_nl "${gamename} is not supported on ${distroname}."
+        fn_script_log_warn "${gamename} is not supported on ${distroname}."
+        core_exit.sh
+    fi
+fi
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the distro dependency csv file exists.

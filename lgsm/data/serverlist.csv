@@ -10,8 +10,8 @@ av,avserver,Avorion,ubuntu-24.04
 bb,bbserver,BrainBread,ubuntu-24.04
 bb2,bb2server,BrainBread 2,ubuntu-24.04
 bd,bdserver,Base Defense,ubuntu-24.04
-bf1942,bf1942server,Battlefield 1942,ubuntu-24.04
-bfv,bfvserver,Battlefield: Vietnam,ubuntu-24.04
+bf1942,bf1942server,Battlefield 1942,ubuntu-22.04
+bfv,bfvserver,Battlefield: Vietnam,ubuntu-22.04
 bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-24.04
 bo,boserver,Ballistic Overkill,ubuntu-24.04
 bs,bsserver,Blade Symphony,ubuntu-24.04
