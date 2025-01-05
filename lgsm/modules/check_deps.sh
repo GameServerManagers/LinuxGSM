@@ -360,8 +360,8 @@ fi
 
 if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "24.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
     if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
-        fn_print_warning_nl "${gamename} is not supported on ${distroname}."
-        fn_script_log_warn "${gamename} is not supported on ${distroname}."
+        fn_print_failure_nl "${gamename} is not supported on ${distroname}."
+        fn_script_log_fail "${gamename} is not supported on ${distroname}."
         core_exit.sh
     fi
 fi
