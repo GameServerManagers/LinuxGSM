@@ -2404,7 +2404,7 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
 	fn_info_game_pc2
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr

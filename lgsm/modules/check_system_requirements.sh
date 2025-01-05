@@ -39,7 +39,7 @@ elif [ "${shortname}" == "mh" ]; then
 	ramrequirementgb="4"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then
 	ramrequirementgb="1"
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "pvr" ]; then
 	ramrequirementgb="1"

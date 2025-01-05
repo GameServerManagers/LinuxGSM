@@ -81,7 +81,6 @@ opfor,opforserver,Opposing Force,ubuntu-24.04
 pc,pcserver,Project Cars,ubuntu-24.04
 pc2,pc2server,Project Cars 2,ubuntu-24.04
 pmc,pmcserver,PaperMC,ubuntu-24.04
-ps,psserver,Post Scriptum,ubuntu-24.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-24.04
 pvr,pvrserver,Pavlov VR,ubuntu-24.04
 pw,pwserver,Palworld,ubuntu-24.04
@@ -108,6 +107,7 @@ sm,smserver,Soulmask,ubuntu-24.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-24.04
 sol,solserver,Soldat,ubuntu-24.04
 squad,squadserver,Squad,ubuntu-24.04
+squad44,squad44server,Squad 44,ubuntu-24.04
 st,stserver,Stationeers,ubuntu-24.04
 stn,stnserver,Survive the Nights,ubuntu-24.04
 sven,svenserver,Sven Co-op,ubuntu-20.04
