@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # LinuxGSM query_gsquery.py module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Allows querying of various game servers.
 
@@ -40,7 +40,7 @@ class gsquery:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.argument.engine in self.idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.argument.engine in self.jc2mpquery:
+        elif self.argument.engine in self.jc2mquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.argument.engine in self.minecraftquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'

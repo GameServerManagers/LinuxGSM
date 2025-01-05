@@ -1,11 +1,11 @@
 #!/bin/bash
 # LinuxGSM update_pmc.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of PaperMC and Waterfall servers.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
@@ -33,7 +33,7 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://papermc.io/api/v2/projects"
+	apiurl="https://api.papermc.io/v2/projects"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Get list of Minecraft versions for project.
@@ -176,6 +176,12 @@ fn_update_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="papermc.io"
+
+if [ "$(command -v jq 2> /dev/null)" ]; then
+	fn_print_fail_nl "jq is not installed"
+	fn_script_log_fatal "jq is not installed"
+	core_exit.sh
+fi
 
 if [ "${shortname}" == "pmc" ]; then
 	paperproject="paper"

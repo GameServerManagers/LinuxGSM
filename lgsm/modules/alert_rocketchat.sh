@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM alert_rocketchat.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Sends Rocketchat alert.
 
@@ -123,7 +123,7 @@ else
 fi
 
 fn_print_dots "Sending Rocketchat alert"
-rocketchatsend=$(curl --connect-timeout 10 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${rocketchatwebhook}")
+rocketchatsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${rocketchatwebhook}")
 
 if [ -n "${rocketchatsend}" ]; then
 	fn_print_ok_nl "Sending Rocketchat alert"

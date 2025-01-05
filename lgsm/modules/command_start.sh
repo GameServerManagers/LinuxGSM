@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_start.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Starts the server.
 
@@ -80,7 +80,8 @@ fn_start_tmux() {
 
 	# Enable console logging.
 	if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
-		if [ "${logtimestamp}" == "on" ]; then
+		# timestamp will break mcb update check.
+		if [ "${logtimestamp}" == "on" ] && [ "${shortname}" != "mcb" ]; then
 			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 		else
 			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
@@ -126,12 +127,12 @@ fn_start_tmux() {
 					echo -e ""
 					echo -e "	usermod -G tty $(whoami)"
 					echo -e ""
-					echo -e "https://linuxgsm.com/tmux-op-perm"
+					echo -e "${italic}https://linuxgsm.com/tmux-op-perm"
 					fn_script_log_info "https://linuxgsm.com/tmux-op-perm"
 				else
 					echo -e "No known fix currently. Please log an issue."
 					fn_script_log_info "No known fix currently. Please log an issue."
-					echo -e "https://linuxgsm.com/support"
+					echo -e "${italic}https://linuxgsm.com/support"
 					fn_script_log_info "https://linuxgsm.com/support"
 				fi
 			fi
@@ -175,7 +176,7 @@ check.sh
 # If the server already started dont start again.
 if [ "${status}" != "0" ]; then
 	fn_print_dots "${servername}"
-	fn_print_info_nl "${servername} is already running"
+	fn_print_skip_nl "${servername} is already running"
 	fn_script_log_error "${servername} is already running"
 	if [ -z "${exitbypass}" ]; then
 		# Remove starting lockfile when command ends.

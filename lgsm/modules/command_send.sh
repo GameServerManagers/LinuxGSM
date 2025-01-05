@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_send.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Send command to the server tmux console.
 
@@ -26,8 +26,8 @@ if [ "${status}" != "0" ]; then
 	fi
 	echo ""
 	fn_print_dots "Sending command to console: \"${commandtosend}\""
-	tmux -L "${socketname}" send-keys -t "${sessionname}" "${commandtosend}" ENTER
 	fn_print_ok_nl "Sending command to console: \"${commandtosend}\""
+	tmux -L "${socketname}" send-keys -t "${sessionname}" "${commandtosend}" ENTER
 	fn_script_log_pass "Command \"${commandtosend}\" sent to console"
 else
 	fn_print_error_nl "Server not running"

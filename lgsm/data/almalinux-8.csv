@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,python36,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,python36,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -19,7 +19,6 @@ bs
 bt,libicu,dos2unix,libxml2
 btl
 cc
-cd
 ck,xorg-x11-server-Xvfb
 cmw
 cod,compat-libstdc++-33.i686
@@ -55,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,zlib-devel
+hz
 ins
 inss
 ios
@@ -65,11 +65,10 @@ kf
 kf2
 l4d
 l4d2
-mc,java-17-openjdk
+mc,java-21-openjdk
 mcb,libnsl
 mh
 mohaa,compat-libstdc++-33.i686
-mom
 mta,ncurses-compat-libs,libxml2
 nd
 nec
@@ -82,13 +81,15 @@ onset,mariadb-connector-c
 opfor
 pc
 pc2
-pmc,java-17-openjdk
+pmc,java-21-openjdk
 ps,GConf2
 pvkii
 pvr,libcxx
+pw
 pz,java-11-openjdk rng-tools
 q2
 q3
+q4
 ql
 qw
 ricochet
@@ -104,6 +105,7 @@ scpslsm
 sdtd,telnet,expect,libxml2
 sf
 sfc,ncurses-libs.i686
+sm,telnet,expect
 sof2
 sol
 squad
@@ -124,13 +126,14 @@ ut
 ut2k4
 ut3
 ut99
-vh,glibc-devel
+vh,glibc-devel,libatomic,pulseaudio-libs-devel
 vints,aspnetcore-runtime-7.0
-vpmc,java-17-openjdk
+vpmc,java-21-openjdk
 vs
 wet
 wf
-wmc,java-17-openjdk
+wmc,java-21-openjdk
 wurm,xorg-x11-server-Xvfb
+xnt
 zmr,ncurses-libs.i686
 zps,ncurses-libs.i686

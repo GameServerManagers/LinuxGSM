@@ -1,18 +1,16 @@
 #!/bin/bash
 # LinuxGSM command_dev_detect_deps.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Detects dependencies the server binary requires.
 
 commandname="DEV-DETECT-DEPS"
-commandaction="Developer detect deps"
+commandaction="Dependency Checker"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-echo -e ""
-echo -e "${bold}Dependencies Checker${default}"
-fn_messages_separator
+fn_print_header
 echo -e "Checking directory: "
 echo -e "${serverfiles}"
 if [ "$(command -v eu-readelf 2> /dev/null)" ]; then
@@ -186,7 +184,7 @@ echo -e "${bold}Required Dependencies${default}"
 fn_messages_separator
 echo -e "${executable}"
 echo -e ""
-echo -e "CentOS"
+echo -e "${bold}CentOS"
 fn_messages_separator
 cat "${tmpdir}/.depdetect_centos_line"
 echo -e ""

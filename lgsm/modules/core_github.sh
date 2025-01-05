@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_github.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: core module file for updates via github
 
@@ -23,7 +23,7 @@ fn_github_get_latest_release_version() {
 	local githubreleaserepo="${2}"
 	local githublatestreleaseurl="${github_api}/repos/${githubreleaseuser}/${githubreleaserepo}/releases/latest"
 
-	githubreleaseversion=$(curl -s --connect-timeout 10 "${githublatestreleaseurl}" | jq '.tag_name')
+	githubreleaseversion=$(curl -s --connect-timeout 3 "${githublatestreleaseurl}" | jq '.tag_name')
 
 	# error if no version is there
 	if [ -z "${githubreleaseversion}" ]; then

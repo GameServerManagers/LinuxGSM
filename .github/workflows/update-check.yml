@@ -3,6 +3,8 @@ name: Update Check
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop
 
 concurrency:
   group: update-check-${{ github.ref_name }}
@@ -10,6 +12,7 @@ concurrency:
 
 jobs:
   update-check:
+    if: github.repository_owner == 'GameServerManagers'
     continue-on-error: true
     runs-on: ubuntu-latest
 

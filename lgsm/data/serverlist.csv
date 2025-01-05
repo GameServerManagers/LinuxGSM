@@ -1,135 +1,138 @@
 shortname,gameservername,gamename,os
-ac,acserver,Assetto Corsa,ubuntu-22.04
-ahl,ahlserver,Action Half-Life,ubuntu-22.04
-ahl2,ahl2server,Action: Source,ubuntu-20.04
-ark,arkserver,ARK: Survival Evolved,ubuntu-22.04
-arma3,arma3server,ARMA 3,ubuntu-22.04
-armar,armarserver,Arma Reforger,ubuntu-20.04
-ats,atsserver,American Truck Simulator,ubuntu-22.04
-av,avserver,Avorion,ubuntu-22.04
-bb,bbserver,BrainBread,ubuntu-22.04
-bb2,bb2server,BrainBread 2,ubuntu-22.04
-bd,bdserver,Base Defense,ubuntu-22.04
-bf1942,bf1942server,Battlefield 1942,ubuntu-22.04
-bfv,bfvserver,Battlefield: Vietnam,ubuntu-22.04
-bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-22.04
-bo,boserver,Ballistic Overkill,ubuntu-22.04
-bs,bsserver,Blade Symphony,ubuntu-22.04
-bt,btserver,Barotrauma,ubuntu-22.04
+ac,acserver,Assetto Corsa,ubuntu-24.04
+ahl,ahlserver,Action Half-Life,ubuntu-24.04
+ahl2,ahl2server,Action: Source,ubuntu-24.04
+ark,arkserver,ARK: Survival Evolved,ubuntu-24.04
+arma3,arma3server,ARMA 3,ubuntu-24.04
+armar,armarserver,Arma Reforger,ubuntu-24.04
+ats,atsserver,American Truck Simulator,ubuntu-24.04
+av,avserver,Avorion,ubuntu-24.04
+bb,bbserver,BrainBread,ubuntu-24.04
+bb2,bb2server,BrainBread 2,ubuntu-24.04
+bd,bdserver,Base Defense,ubuntu-24.04
+bf1942,bf1942server,Battlefield 1942,ubuntu-24.04
+bfv,bfvserver,Battlefield: Vietnam,ubuntu-24.04
+bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-24.04
+bo,boserver,Ballistic Overkill,ubuntu-24.04
+bs,bsserver,Blade Symphony,ubuntu-24.04
+bt,btserver,Barotrauma,ubuntu-24.04
 btl,btlserver,BATTALION: Legacy,ubuntu-20.04
-cc,ccserver,Codename CURE,ubuntu-22.04
-cd,cdserver,Crafting Dead,ubuntu-22.04
-ck,ckserver,Core Keeper,ubuntu-22.04
-cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-22.04
-cod,codserver,Call of Duty,ubuntu-22.04
-cod2,cod2server,Call of Duty 2,ubuntu-22.04
-cod4,cod4server,Call of Duty 4,ubuntu-22.04
-coduo,coduoserver,Call of Duty: United Offensive,ubuntu-22.04
-codwaw,codwawserver,Call of Duty: World at War,ubuntu-22.04
-col,colserver,Colony Survival,ubuntu-22.04
-cs,csserver,Counter-Strike 1.6,ubuntu-22.04
-cs2,cs2server,Counter-Strike 2,ubuntu-22.04
-cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-22.04
-csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-22.04
-css,cssserver,Counter-Strike: Source,ubuntu-22.04
-ct,ctserver,Craftopia,ubuntu-22.04
-dab,dabserver,Double Action: Boogaloo,ubuntu-22.04
-dayz,dayzserver,DayZ,ubuntu-22.04
-dmc,dmcserver,Deathmatch Classic,ubuntu-22.04
-dod,dodserver,Day of Defeat,ubuntu-22.04
-dodr,dodrserver,Day of Dragons,ubuntu-22.04
-dods,dodsserver,Day of Defeat: Source,ubuntu-22.04
-doi,doiserver,Day of Infamy,ubuntu-22.04
-dst,dstserver,Don't Starve Together,ubuntu-22.04
-dys,dysserver,Dystopia,ubuntu-22.04
-eco,ecoserver,Eco,ubuntu-22.04
-em,emserver,Empires Mod,ubuntu-22.04
-etl,etlserver,ET: Legacy,ubuntu-22.04
-ets2,ets2server,Euro Truck Simulator 2,ubuntu-22.04
-fctr,fctrserver,Factorio,ubuntu-22.04
-fof,fofserver,Fistful of Frags,ubuntu-22.04
-gmod,gmodserver,Garrys Mod,ubuntu-22.04
-hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-22.04
-hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-22.04
-hldm,hldmserver,Half-Life: Deathmatch,ubuntu-22.04
-hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-22.04
-hw,hwserver,Hurtworld,ubuntu-22.04
-ins,insserver,Insurgency,ubuntu-22.04
-inss,inssserver,Insurgency: Sandstorm,ubuntu-22.04
-ios,iosserver,IOSoccer,ubuntu-22.04
-jc2,jc2server,Just Cause 2,ubuntu-22.04
-jc3,jc3server,Just Cause 3,ubuntu-22.04
-jk2,jk2server,Jedi Knight II: Jedi Outcast,ubuntu-22.04
-kf,kfserver,Killing Floor,ubuntu-22.04
-kf2,kf2server,Killing Floor 2,ubuntu-22.04
-l4d,l4dserver,Left 4 Dead,ubuntu-22.04
-l4d2,l4d2server,Left 4 Dead 2,ubuntu-22.04
-mc,mcserver,Minecraft,ubuntu-22.04
-mcb,mcbserver,Minecraft Bedrock,ubuntu-22.04
-mh,mhserver,MORDHAU,ubuntu-22.04
-mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-22.04
-mom,momserver,Memories of Mars,ubuntu-22.04
-mta,mtaserver,Multi Theft Auto,ubuntu-22.04
-nd,ndserver,Nuclear Dawn,ubuntu-22.04
-nec,necserver,Necesse,ubuntu-22.04
-nmrih,nmrihserver,No More Room in Hell,ubuntu-22.04
-ns,nsserver,Natural Selection,ubuntu-22.04
-ns2,ns2server,Natural Selection 2,ubuntu-22.04
-ns2c,ns2cserver,NS2: Combat,ubuntu-22.04
-ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-22.04
+cc,ccserver,Codename CURE,ubuntu-24.04
+ck,ckserver,Core Keeper,ubuntu-24.04
+cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-24.04
+cod,codserver,Call of Duty,ubuntu-24.04
+cod2,cod2server,Call of Duty 2,ubuntu-24.04
+cod4,cod4server,Call of Duty 4,ubuntu-24.04
+coduo,coduoserver,Call of Duty: United Offensive,ubuntu-24.04
+codwaw,codwawserver,Call of Duty: World at War,ubuntu-24.04
+col,colserver,Colony Survival,ubuntu-24.04
+cs,csserver,Counter-Strike 1.6,ubuntu-24.04
+cs2,cs2server,Counter-Strike 2,ubuntu-24.04
+cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-24.04
+csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-24.04
+css,cssserver,Counter-Strike: Source,ubuntu-24.04
+ct,ctserver,Craftopia,ubuntu-24.04
+dab,dabserver,Double Action: Boogaloo,ubuntu-24.04
+dayz,dayzserver,DayZ,ubuntu-24.04
+dmc,dmcserver,Deathmatch Classic,ubuntu-24.04
+dod,dodserver,Day of Defeat,ubuntu-24.04
+dodr,dodrserver,Day of Dragons,ubuntu-24.04
+dods,dodsserver,Day of Defeat: Source,ubuntu-24.04
+doi,doiserver,Day of Infamy,ubuntu-24.04
+dst,dstserver,Don't Starve Together,ubuntu-24.04
+dys,dysserver,Dystopia,ubuntu-24.04
+eco,ecoserver,Eco,ubuntu-24.04
+em,emserver,Empires Mod,ubuntu-24.04
+etl,etlserver,ET: Legacy,ubuntu-24.04
+ets2,ets2server,Euro Truck Simulator 2,ubuntu-24.04
+fctr,fctrserver,Factorio,ubuntu-24.04
+fof,fofserver,Fistful of Frags,ubuntu-24.04
+gmod,gmodserver,Garrys Mod,ubuntu-24.04
+hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-24.04
+hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-24.04
+hldm,hldmserver,Half-Life: Deathmatch,ubuntu-24.04
+hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-24.04
+hw,hwserver,Hurtworld,ubuntu-24.04
+hz,hzserver,Humanitz,ubuntu-24.04
+ins,insserver,Insurgency,ubuntu-24.04
+inss,inssserver,Insurgency: Sandstorm,ubuntu-24.04
+ios,iosserver,IOSoccer,ubuntu-24.04
+jc2,jc2server,Just Cause 2,ubuntu-24.04
+jc3,jc3server,Just Cause 3,ubuntu-24.04
+jk2,jk2server,Jedi Knight II: Jedi Outcast,ubuntu-24.04
+kf,kfserver,Killing Floor,ubuntu-24.04
+kf2,kf2server,Killing Floor 2,ubuntu-24.04
+l4d,l4dserver,Left 4 Dead,ubuntu-24.04
+l4d2,l4d2server,Left 4 Dead 2,ubuntu-24.04
+mc,mcserver,Minecraft,ubuntu-24.04
+mcb,mcbserver,Minecraft Bedrock,ubuntu-24.04
+mh,mhserver,MORDHAU,ubuntu-24.04
+mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-24.04
+mta,mtaserver,Multi Theft Auto,ubuntu-24.04
+nd,ndserver,Nuclear Dawn,ubuntu-24.04
+nec,necserver,Necesse,ubuntu-24.04
+nmrih,nmrihserver,No More Room in Hell,ubuntu-24.04
+ns,nsserver,Natural Selection,ubuntu-24.04
+ns2,ns2server,Natural Selection 2,ubuntu-24.04
+ns2c,ns2cserver,NS2: Combat,ubuntu-24.04
+ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-24.04
 onset,onsetserver,Onset,ubuntu-20.04
-opfor,opforserver,Opposing Force,ubuntu-22.04
-pc,pcserver,Project Cars,ubuntu-22.04
-pc2,pc2server,Project Cars 2,ubuntu-22.04
-pmc,pmcserver,PaperMC,ubuntu-22.04
-ps,psserver,Post Scriptum,ubuntu-22.04
-pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-22.04
-pvr,pvrserver,Pavlov VR,ubuntu-22.04
-pz,pzserver,Project Zomboid,ubuntu-22.04
-q2,q2server,Quake 2,ubuntu-22.04
-q3,q3server,Quake 3: Arena,ubuntu-22.04
-ql,qlserver,Quake Live,ubuntu-22.04
-qw,qwserver,Quake World,ubuntu-22.04
-ricochet,ricochetserver,Ricochet,ubuntu-22.04
-ro,roserver,Red Orchestra: Ostfront 41-45,ubuntu-22.04
-rtcw,rtcwserver,Return to Castle Wolfenstein,ubuntu-22.04
-rust,rustserver,Rust,ubuntu-22.04
-rw,rwserver,Rising World,ubuntu-22.04
-samp,sampserver,San Andreas Multiplayer,ubuntu-22.04
-sb,sbserver,Starbound,ubuntu-22.04
-sbots,sbotsserver,StickyBots,ubuntu-22.04
-scpsl,scpslserver,SCP: Secret Laboratory,ubuntu-22.04
-scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod,ubuntu-22.04
-sdtd,sdtdserver,7 Days to Die,ubuntu-22.04
-sf,sfserver,Satisfactory,ubuntu-22.04
-sfc,sfcserver,SourceForts Classic,ubuntu-22.04
-sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-22.04
-sol,solserver,Soldat,ubuntu-22.04
-squad,squadserver,Squad,ubuntu-22.04
-st,stserver,Stationeers,ubuntu-22.04
-stn,stnserver,Survive the Nights,ubuntu-22.04
+opfor,opforserver,Opposing Force,ubuntu-24.04
+pc,pcserver,Project Cars,ubuntu-24.04
+pc2,pc2server,Project Cars 2,ubuntu-24.04
+pmc,pmcserver,PaperMC,ubuntu-24.04
+ps,psserver,Post Scriptum,ubuntu-24.04
+pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-24.04
+pvr,pvrserver,Pavlov VR,ubuntu-24.04
+pw,pwserver,Palworld,ubuntu-24.04
+pz,pzserver,Project Zomboid,ubuntu-24.04
+q2,q2server,Quake 2,ubuntu-24.04
+q3,q3server,Quake 3: Arena,ubuntu-24.04
+q4,q4server,Quake 4,ubuntu-24.04
+ql,qlserver,Quake Live,ubuntu-24.04
+qw,qwserver,Quake World,ubuntu-24.04
+ricochet,ricochetserver,Ricochet,ubuntu-24.04
+ro,roserver,Red Orchestra: Ostfront 41-45,ubuntu-24.04
+rtcw,rtcwserver,Return to Castle Wolfenstein,ubuntu-24.04
+rust,rustserver,Rust,ubuntu-24.04
+rw,rwserver,Rising World,ubuntu-24.04
+samp,sampserver,San Andreas Multiplayer,ubuntu-24.04
+sb,sbserver,Starbound,ubuntu-24.04
+sbots,sbotsserver,StickyBots,ubuntu-24.04
+scpsl,scpslserver,SCP: Secret Laboratory,ubuntu-24.04
+scpslsm,scpslsmserver,SCP: Secret Laboratory ServerMod,ubuntu-24.04
+sdtd,sdtdserver,7 Days to Die,ubuntu-24.04
+sf,sfserver,Satisfactory,ubuntu-24.04
+sfc,sfcserver,SourceForts Classic,ubuntu-24.04
+sm,smserver,Soulmask,ubuntu-24.04
+sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-24.04
+sol,solserver,Soldat,ubuntu-24.04
+squad,squadserver,Squad,ubuntu-24.04
+st,stserver,Stationeers,ubuntu-24.04
+stn,stnserver,Survive the Nights,ubuntu-24.04
 sven,svenserver,Sven Co-op,ubuntu-20.04
-terraria,terrariaserver,Terraria,ubuntu-22.04
-tf,tfserver,The Front,ubuntu-22.04
-tf2,tf2server,Team Fortress 2,ubuntu-22.04
-tfc,tfcserver,Team Fortress Classic,ubuntu-22.04
-ti,tiserver,The Isle,ubuntu-22.04
-ts,tsserver,The Specialists,ubuntu-22.04
-ts3,ts3server,Teamspeak 3,ubuntu-22.04
-tu,tuserver,Tower Unite,ubuntu-22.04
-tw,twserver,Teeworlds,ubuntu-22.04
-unt,untserver,Unturned,ubuntu-22.04
-ut,utserver,Unreal Tournament,ubuntu-22.04
-ut2k4,ut2k4server,Unreal Tournament 2004,ubuntu-22.04
-ut3,ut3server,Unreal Tournament 3,ubuntu-22.04
-ut99,ut99server,Unreal Tournament 99,ubuntu-22.04
-vh,vhserver,Valheim,ubuntu-22.04
-vints,vintsserver,Vintage Story,ubuntu-22.04
-vpmc,vpmcserver,Velocity Proxy MC,ubuntu-22.04
-vs,vsserver,Vampire Slayer,ubuntu-22.04
-wet,wetserver,Wolfenstein: Enemy Territory,ubuntu-22.04
-wf,wfserver,Warfork,ubuntu-22.04
-wmc,wmcserver,WaterfallMC,ubuntu-22.04
-wurm,wurmserver,Wurm Unlimited,ubuntu-22.04
-zmr,zmrserver,Zombie Master: Reborn,ubuntu-22.04
-zps,zpsserver,Zombie Panic! Source,ubuntu-22.04
+terraria,terrariaserver,Terraria,ubuntu-24.04
+tf,tfserver,The Front,ubuntu-24.04
+tf2,tf2server,Team Fortress 2,ubuntu-24.04
+tfc,tfcserver,Team Fortress Classic,ubuntu-24.04
+ti,tiserver,The Isle,ubuntu-24.04
+ts,tsserver,The Specialists,ubuntu-24.04
+ts3,ts3server,Teamspeak 3,ubuntu-24.04
+tu,tuserver,Tower Unite,ubuntu-24.04
+tw,twserver,Teeworlds,ubuntu-24.04
+unt,untserver,Unturned,ubuntu-24.04
+ut,utserver,Unreal Tournament,ubuntu-24.04
+ut2k4,ut2k4server,Unreal Tournament 2004,ubuntu-24.04
+ut3,ut3server,Unreal Tournament 3,ubuntu-24.04
+ut99,ut99server,Unreal Tournament 99,ubuntu-24.04
+vh,vhserver,Valheim,ubuntu-24.04
+vints,vintsserver,Vintage Story,ubuntu-24.04
+vpmc,vpmcserver,Velocity Proxy MC,ubuntu-24.04
+vs,vsserver,Vampire Slayer,ubuntu-24.04
+wet,wetserver,Wolfenstein: Enemy Territory,ubuntu-24.04
+wf,wfserver,Warfork,ubuntu-24.04
+wmc,wmcserver,WaterfallMC,ubuntu-24.04
+wurm,wurmserver,Wurm Unlimited,ubuntu-24.04
+xnt,xntserver,Xonotic,ubuntu-24.04
+zmr,zmrserver,Zombie Master: Reborn,ubuntu-24.04
+zps,zpsserver,Zombie Panic! Source,ubuntu-24.04

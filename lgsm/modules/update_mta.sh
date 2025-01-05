@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_mta.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Multi Theft Auto servers.
 
@@ -159,6 +159,12 @@ fn_update_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="linux.mtasa.com"
+
+if [ "$(command -v jq 2> /dev/null)" ]; then
+	fn_print_fail_nl "jq is not installed"
+	fn_script_log_fatal "jq is not installed"
+	core_exit.sh
+fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

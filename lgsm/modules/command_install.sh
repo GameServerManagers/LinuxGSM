@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_install.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall module for the installer.
 
@@ -29,6 +29,9 @@ else
 		install_steamcmd.sh
 		install_server_files.sh
 	fi
+
+	# Install gamedig
+	check_gamedig.sh
 
 	# Configuration.
 	install_config.sh
