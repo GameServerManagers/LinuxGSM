@@ -18,7 +18,7 @@ EOF
 if [ -n "${querytype}" ]; then
 	json+=$(
 		cat << EOF
-Is my Game Server Online?\nhttps://ismygameserver.online/${querytype}/${alertip}:${queryport}\n\n
+Is my Game Server Online?\nhttps://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}\n\n
 EOF
 	)
 fi

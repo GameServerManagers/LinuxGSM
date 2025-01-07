@@ -70,7 +70,7 @@ if [ -n "${querytype}" ]; then
 				{
 					"short": false,
 					"title": "Is my Game Server Online?",
-					"value": "<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+					"value": "<https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}|Check here>"
 				},
 EOF
 	)

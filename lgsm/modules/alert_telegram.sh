@@ -21,7 +21,7 @@ EOF
 if [ -n "${querytype}" ]; then
 	json+=$(
 		cat << EOF
-<b>Is my Game Server Online?</b>\n<a href='https://ismygameserver.online/${querytype}/${alertip}:${queryport}'>Check here</a>\n\n
+<b>Is my Game Server Online?</b>\n<a href='https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}'>Check here</a>\n\n
 EOF
 	)
 fi

@@ -94,7 +94,7 @@ if [ -n "${querytype}" ]; then
 					"type": "section",
 					"text": {
 						"type": "mrkdwn",
-						"text": "*Is my Game Server Online?*\n<https://ismygameserver.online/${querytype}/${alertip}:${queryport}|Check here>"
+						"text": "*Is my Game Server Online?*\n<https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}|Check here>"
 					}
 				},
 EOF

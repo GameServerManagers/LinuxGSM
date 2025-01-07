@@ -25,7 +25,7 @@ fi
 message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br>"
 
 if [ -n "${querytype}" ]; then
-	message+="<b>Is my Game Server Online?</b><br><a href='https://ismygameserver.online/${querytype}/${alertip}:${queryport}'>Check here</a><br><br>"
+	message+="<b>Is my Game Server Online?</b><br><a href='https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}'>Check here</a><br><br>"
 fi
 
 if [ -n "${alerturl}" ]; then

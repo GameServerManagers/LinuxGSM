@@ -210,7 +210,7 @@ echo -e "QUERY PORT: ${queryport}"
 echo -e ""
 echo -e "${lightgreen}Is My Game Server Online?${default}"
 fn_messages_separator
-echo -e "Game server status: https://ismygameserver.online/${querytype}/${queryip}:${queryport}"
+echo -e "Game server status: https://ismygameserver.online/${imgsoquerytype}/${queryip}:${queryport}"
 echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
