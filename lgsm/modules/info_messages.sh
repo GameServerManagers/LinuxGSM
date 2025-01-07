@@ -7,6 +7,29 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Converts querytype to imgsoquerytype for use with ismygameserver.online urls
+if [ -n "${querytype}" ]; then
+	if [ "${querytype}" == "protocol-valve" ]; then
+		imgsoquerytype="valve"
+	elif [ "${querytype}" == "protocol-gamespy1" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-gamespy2" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-gamespy3" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-quake1" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-quake2" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-quake3" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-unreal2" ]; then
+		imgsoquerytype="unrealtournament2004"
+	else
+		imgsoquerytype="${querytype}"
+	fi
+fi
+
 # Removes the passwords form all but details.
 fn_info_messages_password_strip() {
 	if [ "${commandname}" != "DETAILS" ]; then
@@ -66,6 +89,11 @@ fn_info_messages_head() {
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
+	if [ -n "${querytype}" ]; then
+		echo -e "Is my Game Server Online?"
+		echo -e "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
+		echo -e ""
+	fi
 	echo -e "Server Time"
 	echo -e "$(date)"
 }
@@ -502,6 +530,11 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}Status:\t${red}STOPPED${default}"
 		else
 			echo -e "${lightblue}Status:\t${green}STARTED${default}"
+		fi
+
+		# ismygameserver.online
+		if [ -n "${querytype}" ]; then
+			echo -e "${lightblue}Query Check:\t${default}https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
 		fi
 	} | column -s $'\t' -t
 	echo -e ""
