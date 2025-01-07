@@ -7,64 +7,83 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-if [ "${checklogs}" != "1" ]; then
+if [ -z "${checklogs}" ]; then
 	echo -e ""
 	echo -e "${bold}${lightyellow}Creating Log Directories${default}"
 	fn_messages_separator
 fi
-# Create LinuxGSM logs.
-echo -en "installing log dir: ${logdir}..."
-mkdir -p "${logdir}"
-if [ $? != 0 ]; then
-	fn_print_fail_eol_nl
-	core_exit.sh
-else
-	fn_print_ok_eol_nl
-fi
 
-echo -en "installing LinuxGSM log dir: ${lgsmlogdir}..."
-mkdir -p "${lgsmlogdir}"
-if [ $? != 0 ]; then
-	fn_print_fail_eol_nl
-	core_exit.sh
-else
-	fn_print_ok_eol_nl
-fi
-echo -en "creating LinuxGSM log: ${lgsmlog}..."
-touch "${lgsmlog}"
-if [ $? != 0 ]; then
-	fn_print_fail_eol_nl
-	core_exit.sh
-else
-	fn_print_ok_eol_nl
-fi
-# Create Console logs.
-if [ "${consolelogdir}" ]; then
-	echo -en "installing console log dir: ${consolelogdir}..."
-	mkdir -p "${consolelogdir}"
-	if [ $? != 0 ]; then
+echo -en "creating log directory [ ${italic}${logdir}${default} ]"
+if [ ! -d "${logdir}" ]; then
+	if ! mkdir -p "${logdir}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 	fi
-	echo -en "creating console log: ${consolelog}..."
+else
+	fn_print_skip_eol_nl
+fi
+
+echo -en "creating script log directory [ ${italic}${lgsmlogdir}${default} ]"
+if [ ! -d "${lgsmlogdir}" ]; then
+	if ! mkdir -p "${lgsmlogdir}"; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
+else
+	fn_print_skip_eol_nl
+fi
+
+echo -en "creating script log [ ${italic}${lgsmlog}${default} ]"
+if [ ! -f "${lgsmlog}" ]; then
+	if ! touch "${lgsmlog}"; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
+else
+	fn_print_skip_eol_nl
+fi
+
+echo -en "creating console log directory [ ${italic}${consolelogdir}${default} ]"
+if [ ! -d "${consolelogdir}" ]; then
+	if ! mkdir -p "${consolelogdir}"; then
+		fn_print_fail_eol_nl
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+	fi
+else
+	fn_print_skip_eol_nl
+fi
+
+echo -en "creating console log [ ${italic}${consolelog}${default} ]"
+if [ ! -f "${consolelog}" ]; then
 	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
 	fi
+else
+	fn_print_skip_eol_nl
 fi
 
-# Create Game logs.
-if [ "${gamelogdir}" ] && [ ! -d "${gamelogdir}" ]; then
-	echo -en "installing game log dir: ${gamelogdir}..."
-	if ! mkdir -p "${gamelogdir}"; then
-		fn_print_fail_eol_nl
-		core_exit.sh
+if [ -n "${gamelogdir}" ]; then
+	echo -en "creating game log directory [ ${italic}${gamelogdir}${default} ]"
+	if [ ! -d "${gamelogdir}" ]; then
+		if ! mkdir -p "${gamelogdir}"; then
+			fn_print_fail_eol_nl
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+		fi
 	else
-		fn_print_ok_eol_nl
+		fn_print_skip_eol_nl
 	fi
 fi
 
@@ -72,28 +91,33 @@ fi
 # unless gamelogdir is within logdir.
 # e.g serverfiles/log is not within log/: symlink created
 # log/server is in log/: symlink not created
-if [ "${gamelogdir}" ]; then
-	if [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
-		echo -en "creating symlink to game log dir: ${logdir}/server -> ${gamelogdir}..."
+if [ -n "${gamelogdir}" ] && [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; then
+	echo -en "creating symlink to game log directory [ ${italic}${logdir}/server -> ${gamelogdir}${default} ]"
+	# if path does not exist or does not match gamelogdir
+	if [ ! -h "${logdir}/server" ] || [ "$(readlink -f "${logdir}/server")" != "${gamelogdir}" ]; then
 		if ! ln -nfs "${gamelogdir}" "${logdir}/server"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
 		fi
+	else
+		fn_print_skip_eol_nl
 	fi
 fi
 
 # If server uses SteamCMD create a symbolic link to the Steam logs.
 if [ -d "${HOME}/.steam/steam/logs" ]; then
+	echo -en "creating symlink to steam log directory [ ${italic}${logdir}/steam -> ${HOME}/.steam/steam/logs${default} ]"
 	if [ ! -L "${logdir}/steam" ]; then
-		echo -en "creating symlink to steam log dir: ${logdir}/steam -> ${HOME}/.steam/steam/logs..."
 		if ! ln -nfs "${HOME}/.steam/steam/logs" "${logdir}/steam"; then
 			fn_print_fail_eol_nl
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
 		fi
+	else
+		fn_print_skip_eol_nl
 	fi
 fi
 fn_script_log_info "Logs installed"

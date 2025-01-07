@@ -23,7 +23,7 @@ fn_check_steamcmd_user() {
 	# Checks if steamuser is setup.
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
-		echo -e "	* Change steamuser=\"username\" to a valid steam login."
+		fn_print_nl "	* Change steamuser=\"username\" to a valid steam login."
 		if [ -d "${lgsmlogdir}" ]; then
 			fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
 		fi
@@ -44,15 +44,16 @@ fn_check_steamcmd() {
 	# Only install if steamcmd package is missing or steamcmd dir is missing.
 	if [ ! -f "${steamcmddir}/steamcmd.sh" ] && [ -z "$(command -v steamcmd 2> /dev/null)" ]; then
 		if [ "${commandname}" == "INSTALL" ]; then
+			fn_print_nl "install SteamCMD"
 			fn_install_steamcmd
 		else
-			fn_print_warn_nl "SteamCMD is missing"
-			fn_script_log_warn "SteamCMD is missing"
+			fn_print_warn_nl "SteamCMD is not installed"
+			fn_script_log_warn "SteamCMD is not installed"
 			fn_install_steamcmd
 		fi
 	elif [ "${commandname}" == "INSTALL" ]; then
-		fn_print_information "SteamCMD is already installed..."
-		fn_print_ok_eol_nl
+		fn_print "install SteamCMD"
+		fn_print_skip_eol_nl
 	fi
 }
 
@@ -128,7 +129,7 @@ fn_check_steamcmd_clear() {
 	if [ "$(command -v steamcmd 2> /dev/null)" ] && [ -d "${rootdir}/steamcmd" ]; then
 		rm -rf "${steamcmddir:?}"
 		exitcode=$?
-		if [ "${exitcode}" != 0 ]; then
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_script_log_fail "Removing ${rootdir}/steamcmd"
 		else
 			fn_script_log_pass "Removing ${rootdir}/steamcmd"
@@ -182,8 +183,9 @@ fn_update_steamcmd_remotebuild() {
 	if [ "${CI}" ]; then
 		${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +quit > /dev/null 2>&1
 	fi
+
 	# password for branch not needed to check the buildid
-	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
+	remotebuildversion=$(${steamcmdcommand} +login "${steamuser}" "${steampass}" +app_info_request "${appid}" +login "${steamuser}" "${steampass}" +app_info_update 1 +app_info_print "${appid}" +quit | sed -e '/"branches"/,/^}/!d' | sed -n "/\"${branch}\"/,/}/p" | grep -m 1 buildid | tr -cd '[:digit:]')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -213,18 +215,18 @@ fn_update_steamcmd_compare() {
 		# Create update lockfile.
 		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}Update${default} available"
+		fn_print_nl "* Local build: ${red}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			echo -e "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ${betapassword}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"
-		echo -en "\n"
+		fn_print_nl "${italic}https://steamdb.info/app/${appid}/history"
+		fn_print "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
@@ -263,18 +265,18 @@ fn_update_steamcmd_compare() {
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}No update${default} available"
+		fn_print_nl "* Local build: ${green}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			echo -e "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ${betapassword}"
 		fi
-		echo -e "https://steamdb.info/app/${appid}/"
-		echo -en "\n"
+		fn_print_nl "https://steamdb.info/app/${appid}/history"
+		fn_print "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
@@ -308,9 +310,9 @@ fn_check_steamcmd_appmanifest() {
 		if [ "${appmanifestfilewc}" -ge "2" ]; then
 			fn_print_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
 			fn_script_log_fail "Unable to remove x${appmanifestfilewc} appmanifest_${appid}.acf files"
-			echo -e "* Check user permissions"
+			fn_print_nl "* Check user permissions"
 			for appfile in ${appmanifestfile}; do
-				echo -e "	${appfile}"
+				fn_print_nl "	${appfile}"
 			done
 			core_exit.sh
 		else

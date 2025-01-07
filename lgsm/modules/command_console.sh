@@ -6,12 +6,13 @@
 # Description: Gives access to the server tmux console.
 
 commandname="CONSOLE"
-commandaction="Access console"
+commandaction="Access Console"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-check.sh
 fn_print_header
+
+check.sh
 
 if [ "${consoleverbose}" == "yes" ]; then
 	echo -e "* Verbose output: ${lightgreen}yes${default}"
@@ -29,10 +30,10 @@ else
 	echo -e "* Interactive output: ${red}unknown${default}"
 fi
 echo ""
-fn_print_information_nl "Press \"CTRL+b\" then \"d\" to exit console."
-fn_print_warning_nl "Do NOT press CTRL+c to exit."
-echo -e "* https://docs.linuxgsm.com/commands/console"
+fn_print_information_nl "Press ${italic}\"CTRL+b\"${default} then ${italic}\"d\"${default} to exit console."
+fn_print_warning_nl "Do ${underline}NOT${default} press CTRL+c to exit."
 echo -e ""
+echo -e "${italic}https://docs.linuxgsm.com/commands/console${default}"
 if ! fn_prompt_yn "Continue?" Y; then
 	exitcode=0
 	core_exit.sh

@@ -14,7 +14,7 @@ echo -e "Server license is an optional feature for ${gamename} server"
 fn_script_log_info "Server license is an optional feature for ${gamename} server"
 
 echo -e "Get more info and a server license here:"
-echo -e "https://squad.fandom.com/wiki/Server_licensing"
+echo -e "${italic}https://squad.fandom.com/wiki/Server_licensing"
 fn_script_log_info "Get more info and a server license here:"
 fn_script_log_info "https://squad.fandom.com/wiki/Server_licensing"
 echo -e ""

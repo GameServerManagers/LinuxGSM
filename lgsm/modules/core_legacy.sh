@@ -35,6 +35,12 @@ if [ -n "${autosaveinterval}" ]; then
 	saveinterval="${autosaveinterval}"
 fi
 
+if [ "${shortname}" == "st" ]; then
+	if [ -n "${worldname}" ]; then
+		worldsave="${worldname}"
+	fi
+fi
+
 # Added as part of migrating functions dir to modules dir.
 # Will remove functions dir if files in modules dir older than 14 days
 functionsdir="${lgsmdir}/modules"

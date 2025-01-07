@@ -6,7 +6,7 @@
 # Description: Compresses unreal maps.
 
 commandname="MAP-COMPRESSOR"
-commandaction="Compressing maps"
+commandaction="Compressing Maps"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

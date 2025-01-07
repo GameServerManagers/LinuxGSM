@@ -24,7 +24,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v24.3.0"
+version="v24.3.3"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -70,6 +70,42 @@ core_modules.sh() {
 
 # Bootstrap
 # Fetches the core modules required before passed off to core_dl.sh.
+fn_bootstrap_fetch_trap() {
+	echo -e ""
+	echo -en "downloading ${local_filename}"
+	fn_print_canceled_eol_nl
+	fn_script_log_info "Downloading ${local_filename}...CANCELED"
+	rm -f "${local_filedir:?}/${local_filename}"
+	echo -en "downloading ${local_filename}"
+	fn_print_removed_eol_nl
+	fn_script_log_info "Downloading ${local_filename}...REMOVED"
+	core_exit.sh
+}
+
+# Fetches modules from the Git repo during first download.
+fn_bootstrap_fetch_module() {
+	github_file_url_dir="lgsm/modules"
+	github_file_url_name="${modulefile}"
+	# If master branch will currently running LinuxGSM version to prevent "version mixing". This is ignored if a fork.
+	if [ "${githubbranch}" == "master" ] && [ "${githubuser}" == "GameServerManagers" ] && [ "${commandname}" != "UPDATE-LGSM" ]; then
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${version}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${version}/${github_file_url_dir}/${github_file_url_name}"
+	else
+		remote_fileurl="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+		remote_fileurl_backup="https://bitbucket.org/${githubuser}/${githubrepo}/raw/${githubbranch}/${github_file_url_dir}/${github_file_url_name}"
+	fi
+	remote_fileurl_name="GitHub"
+	remote_fileurl_backup_name="Bitbucket"
+	local_filedir="${modulesdir}"
+	local_filename="${github_file_url_name}"
+	chmodx="chmodx"
+	run="run"
+	forcedl="noforce"
+	hash="nohash"
+	# Passes vars to the file download module.
+	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
+}
+
 fn_bootstrap_fetch_file() {
 	remote_fileurl="${1}"
 	remote_fileurl_backup="${2}"
@@ -80,7 +116,8 @@ fn_bootstrap_fetch_file() {
 	chmodx="${7:-0}"
 	run="${8:-0}"
 	forcedl="${9:-0}"
-	md5="${10:-0}"
+	hash="${10:-0}"
+
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
 		# If backup fileurl exists include it.
@@ -107,44 +144,54 @@ fn_bootstrap_fetch_file() {
 				mkdir -p "${local_filedir}"
 			fi
 			# Trap will remove part downloaded files if canceled.
-			trap fn_fetch_trap INT
-			# Larger files show a progress bar.
+			trap fn_bootstrap_fetch_trap INT
+			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 
-			echo -en "fetching ${fileurl_name} ${local_filename}...\c"
-			curlcmd=$(curl --connect-timeout 3 -s --fail -L -o "${local_filedir}/${local_filename}" "${fileurl}" 2>&1)
-
-			local exitcode=$?
+			# if is large file show progress, else be silent
+			local exitcode=""
+			large_files=("bz2" "gz" "zip" "jar" "xz")
+			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
+				echo -e "downloading file [ ${local_filename} ]"
+				fn_sleep_time
+				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+				exitcode=$?
+				echo -en "downloading file [ ${local_filename} ]"
+			else
+				echo -en "fetching ${fileurl_name} [ ${local_filename} ]\c"
+				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+				exitcode=$?
+			fi
 
 			# Download will fail if downloads a html file.
 			if [ -f "${local_filedir}/${local_filename}" ]; then
-				if [ -n "$(head "${local_filedir}/${local_filename}" | grep "DOCTYPE")" ]; then
-					rm -f "${local_filedir:?}/${local_filename:?}"
+				if head -n 1 "${local_filedir}/${local_filename}" | grep -q "DOCTYPE"; then
+					rm "${local_filedir:?}/${local_filename:?}"
 					local exitcode=2
 				fi
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ "${exitcode}" != 0 ]; then
+			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
-					echo -e "FAIL"
+					echo -e " ... FAIL"
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_fail "Downloading ${local_filename}"
+						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
 					fi
 					core_exit.sh
 				else
-					echo -e "ERROR"
+					echo -e " ... ERROR"
 					if [ -f "${lgsmlog}" ]; then
-						fn_script_log_error "Downloading ${local_filename}"
+						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
 				fi
 			else
-				echo -en "OK"
-				sleep 0.3
-				echo -en "\033[2K\\r"
+				echo -en " ... OK"
+				sleep "0.1"
+				echo -e "\033\\r"
 				if [ -f "${lgsmlog}" ]; then
-					fn_script_log_pass "Downloading ${local_filename}"
+					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 
 				# Make file executable if chmodx is set.
@@ -246,7 +293,8 @@ fn_install_menu_whiptail() {
 		menu_options+=("${val//\"/}" "${key//\"/}")
 	done < "${options}"
 	OPTION=$(${menucmd} --title "${title}" --menu "${caption}" "${height}" "${width}" "${menuheight}" "${menu_options[@]}" 3>&1 1>&2 2>&3)
-	if [ $? == 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -eq 0 ]; then
 		eval "$resultvar=\"${OPTION}\""
 	else
 		eval "$resultvar="
@@ -345,7 +393,7 @@ fi
 # LinuxGSM installer mode.
 if [ "${shortname}" == "core" ]; then
 	# Download the latest serverlist. This is the complete list of all supported servers.
-	fn_bootstrap_fetch_file_github "${datadir}" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
+	fn_bootstrap_fetch_file_github "lgsm/data" "serverlist.csv" "${datadir}" "nochmodx" "norun" "forcedl" "nomd5"
 	if [ ! -f "${serverlist}" ]; then
 		echo -e "[ FAIL ] serverlist.csv could not be loaded."
 		exit 1
@@ -395,13 +443,14 @@ else
 		fi
 		if [ ! -f "${configdirserver}/_default.cfg" ]; then
 			mkdir -p "${configdirserver}"
-			echo -en "copying _default.cfg...\c"
+			echo -en "copying _default.cfg\c"
 			cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-			if [ $? != 0 ]; then
-				echo -e "FAIL"
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
+				echo -e " ... FAIL"
 				exit 1
 			else
-				echo -e "OK"
+				echo -e " ... OK"
 			fi
 		else
 			config_file_diff=$(diff -q "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg")
@@ -409,11 +458,12 @@ else
 				fn_print_warn_nl "_default.cfg has altered. reloading config."
 				echo -en "copying _default.cfg...\c"
 				cp -R "${configdirdefault}/config-lgsm/${gameservername}/_default.cfg" "${configdirserver}/_default.cfg"
-				if [ $? != 0 ]; then
+				exitcode=$?
+				if [ "${exitcode}" -ne 0 ]; then
 					echo -e "FAIL"
 					exit 1
 				else
-					echo -e "OK"
+					echo -e " ... OK"
 				fi
 			fi
 		fi

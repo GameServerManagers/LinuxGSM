@@ -6,19 +6,17 @@
 # Description: Strips sensitive information out of Details output.
 
 commandname="POST-DETAILS"
-commandaction="Posting details"
+commandaction="Post Details"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
-
-posttarget="https://termbin.com"
-
-# source all of the modules defined in the details command.
-info_messages.sh
 
 fn_bad_postdetailslog() {
 	fn_print_fail_nl "Unable to create temporary file ${postdetailslog}."
 	core_exit.sh
 }
+
+# source all of the modules defined in the details command.
+info_messages.sh
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
@@ -68,7 +66,7 @@ pdurl="${link}"
 if [ "${firstcommandname}" == "POST-DETAILS" ]; then
 	echo -e ""
 	echo -e "Please share the following url for support: "
-	echo -e "${pdurl}"
+	echo -e "${italic}${pdurl}${default}"
 fi
 fn_script_log_info "${pdurl}"
 alerturl="${pdurl}"

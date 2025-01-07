@@ -12,7 +12,7 @@ echo -e "${bold}${lightyellow}Enter ${gamename} CD Key${default}"
 fn_messages_separator
 echo -e "To get your server listed on the Master Server list"
 echo -e "you must get a free CD key. Get a key here:"
-echo -e "https://www.epicgames.com/unrealtournament/forums/cdkey.php?2004"
+echo -e "${italic}https://www.epicgames.com/unrealtournament/forums/cdkey.php?2004"
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	echo -e "Once you have the key enter it below"

@@ -673,7 +673,7 @@ fn_info_game_st() {
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
+	worldsave="${worldsave:-"NOT SET"}"
 	worldtype="${worldtype:-"NOT SET"}"
 }
 
@@ -936,6 +936,8 @@ fn_info_game_armar() {
 		fn_info_game_json "queryport" ".a2s.port"
 		fn_info_game_json "servername" ".game.name"
 		fn_info_game_json "serverpassword" ".game.password"
+		fn_info_game_json "rconpassword" ".rcon.password"
+		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
@@ -957,13 +959,14 @@ fn_info_game_bf1942() {
 		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
 		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -980,11 +983,12 @@ fn_info_game_bfv() {
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -1310,7 +1314,7 @@ fn_info_game_fctr() {
 	# get server version if installed.
 	local factoriobin="${executabledir}${executable:1}"
 	if [ -f "${factoriobin}" ]; then
-		serverversion="$(${factoriobin} --version | grep "Version:" | awk '{print $2}')"
+		serverversion="$(${factoriobin} --version | grep -m 1 "Version:" | awk '{print $2}')"
 	fi
 }
 

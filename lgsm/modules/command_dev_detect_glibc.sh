@@ -7,13 +7,11 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-GLIBC"
-commandaction="Developer detect glibc"
+commandaction="Detect Glibc Requirements"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_messages_separator
-echo -e "glibc Requirements Checker"
-fn_messages_separator
+fn_print_header
 
 if [ ! "$(command -v objdump 2> /dev/null)" ]; then
 	fn_print_failure_nl "objdump is missing"
@@ -48,17 +46,17 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 		glibc_check_files=$(find "${glibc_check_dir}" | wc -l)
 		find "${glibc_check_dir}" -type f -print0 \
 			| while IFS= read -r -d $'\0' line; do
-				glibcversion=$(objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1)
+				glibcversion=$(objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" | grep -v GLIBCXX | sort | uniq | sort -r --version-sort | head -n 1 | sed 's/)$//')
 				if [ "${glibcversion}" ]; then
 					echo -e "${glibcversion}: ${line}" >> "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
 				fi
-				objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" >> "${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
+				objdump -T "${line}" 2> /dev/null | grep -oP "GLIBC[^ ]+" | sed 's/)$//' >> "${tmpdir}/detect_glibc_${glibc_check_var}.tmp"
 				echo -n "${i} / ${glibc_check_files}" $'\r'
 				((i++))
 			done
 		echo -e ""
 		echo -e ""
-		echo -e "${glibc_check_name} glibc Requirements"
+		fn_print_nl "${bold}${lightyellow}${glibc_check_name} glibc Requirements"
 		fn_messages_separator
 		if [ -f "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp" ]; then
 			echo -e "Required glibc"
@@ -80,7 +78,7 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 	fi
 done
 echo -e ""
-echo -e "Final glibc Requirement"
+fn_print_nl "${bold}${lightyellow}Final glibc Requirement"
 fn_messages_separator
 if [ -f "${tmpdir}/detect_glibc_highest.tmp" ]; then
 	cat "${tmpdir}/detect_glibc_highest.tmp" | sort | uniq | sort -r --version-sort | head -1

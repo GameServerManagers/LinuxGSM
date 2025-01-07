@@ -6,7 +6,7 @@
 # Description: Runs the server without tmux and directly from the terminal.
 
 commandname="DEBUG"
-commandaction="Debuging"
+commandaction="Debugging"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -24,11 +24,13 @@ fn_lockfile_trap() {
 	core_exit.sh
 }
 
+fn_print_header
+
 check.sh
 fix.sh
 info_distro.sh
 info_game.sh
-fn_print_header
+
 {
 	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
 	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
@@ -121,9 +123,10 @@ else
 	eval "${preexecutable} ${executable} ${startparameters}"
 fi
 
-if [ $? -ne 0 ]; then
-	fn_print_error_nl "Server has stopped: exit code: $?"
-	fn_script_log_error "Server has stopped: exit code: $?"
+exitcode=$?
+if [ "${exitcode}" -ne 0 ]; then
+	fn_print_error_nl "Server has stopped: exit code: ${exitcode}"
+	fn_script_log_error "Server has stopped: exit code: ${exitcode}"
 	fn_print_error_nl "Press ENTER to exit debug mode"
 	read -r
 else
