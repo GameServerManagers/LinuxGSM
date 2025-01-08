@@ -7,33 +7,38 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsoninfo=$(
+json=$(
 	cat << EOF
 {
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alerttitle}",
-	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}\n\nServer Time\n$(date)"
-}
+	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
 EOF
 )
 
-jsonnoinfo=$(
-	cat << EOF
-{
-	"channel_tag": "${channeltag}",
-	"type": "note",
-	"title": "${alerttitle}",
-	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nServer Time\n$(date)"
-}
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+Is my Game Server Online?\nhttps://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}\n\n
 EOF
-)
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
+	)
 fi
+
+if [ -n "${alerturl}" ]; then
+	json+=$(
+		cat << EOF
+More info\n${alerturl}\n\n
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
+Server Time\n$(date)"
+}
+EOF
+)
 
 fn_print_dots "Sending Pushbullet alert"
 pushbulletsend=$(curl --connect-timeout 3 -sSL -H "Access-Token: ${pushbullettoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://api.pushbullet.com/v2/pushes" | grep "error_code")
