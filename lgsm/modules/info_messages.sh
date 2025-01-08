@@ -1858,7 +1858,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_pc
 	elif [ "${shortname}" == "pc2" ]; then
 		fn_info_messages_pc2
-	elif [ "${shortname}" == "ps" ]; then
+	elif [ "${shortname}" == "squad44" ]; then
 		fn_info_messages_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_messages_pvr
