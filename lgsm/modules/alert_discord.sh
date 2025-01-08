@@ -46,12 +46,25 @@ json=$(
                     "name": "Server Time",
                     "value": "$(date)",
                     "inline": true
-                },
+                }
+EOF
+)
+
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+                ,
                 {
                     "name": "Is my Game Server Online?",
                     "value": "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}",
                     "inline": true
                 }
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
             ],
             "footer": {
                 "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
