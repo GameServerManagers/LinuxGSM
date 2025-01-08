@@ -33,7 +33,7 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Get remote build info.
-	apiurl="https://papermc.io/api/v2/projects"
+	apiurl="https://api.papermc.io/v2/projects"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Get list of Minecraft versions for project.
