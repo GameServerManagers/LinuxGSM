@@ -1,11 +1,13 @@
 name: Lock Threads
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 1"
 
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 jobs:
   lock:
