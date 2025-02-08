@@ -5,6 +5,13 @@
 # Website: https://linuxgsm.com
 # Description: Display parsed distro details.
 
+commandname="DEV-PARSE-DISTRO-DETAILS"
+commandaction="Parse Distro Details"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
+
+fn_print_header
+
 check_ip.sh
 check_status.sh
 info_distro.sh

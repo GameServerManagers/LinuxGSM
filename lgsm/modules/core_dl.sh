@@ -20,6 +20,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_dl_steamcmd() {
+	remotelocation="SteamCMD"
 	fn_print_start_nl "${remotelocation}"
 	fn_script_log_info "${commandaction} ${selfname}: ${remotelocation}"
 	if [ -n "${branch}" ]; then
@@ -53,7 +54,7 @@ fn_dl_steamcmd() {
 		rm -f "${steamcmdlog:?}"
 	fi
 	counter=0
-	while [ "${counter}" == "0" ] || [ "${exitcode}" != "0" ]; do
+	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
 		# Select SteamCMD parameters
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
@@ -127,16 +128,19 @@ fn_dl_steamcmd() {
 			elif [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ] || [ -n "$(grep "0x626" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Missing update files"
+			elif [ -n "$(grep "0x6A6" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
-				echo -en "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
+				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
 			fi
-		elif [ "${exitcode}" != 0 ]; then
+		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 		else
-			fn_print_complete_nl "${commandaction} ${selfname}: ${remotelocation}"
+			fn_print_success_nl "${commandaction} ${selfname}: ${remotelocation}"
 			fn_script_log_pass "${commandaction} ${selfname}: ${remotelocation}"
 		fi
 
@@ -150,16 +154,16 @@ fn_dl_steamcmd() {
 
 # Emptys contents of the LinuxGSM tmpdir.
 fn_clear_tmp() {
-	echo -en "clearing LinuxGSM tmp directory..."
+	echo -en "clearing tmp directory [ ${italic}${tmpdir}${default} ]"
 	if [ -d "${tmpdir}" ]; then
 		rm -rf "${tmpdir:?}/"*
-		local exitcode=$?
-		if [ "${exitcode}" != 0 ]; then
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_error_eol_nl
-			fn_script_log_error "clearing LinuxGSM tmp directory"
+			fn_script_log_error "clearing tmp directory ${tmpdir}"
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "clearing LinuxGSM tmp directory"
+			fn_script_log_pass "clearing tmp directory ${tmpdir}"
 		fi
 	fi
 }
@@ -259,8 +263,8 @@ fn_dl_extract() {
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
 		fi
 	fi
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
@@ -277,11 +281,11 @@ fn_dl_extract() {
 # Trap to remove file download if canceled before completed.
 fn_fetch_trap() {
 	echo -e ""
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_canceled_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	rm -f "${local_filedir:?}/${local_filename}"
-	echo -en "downloading ${local_filename}..."
+	echo -en "downloading ${local_filename}"
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
 	core_exit.sh
@@ -313,12 +317,12 @@ fn_check_file() {
 			fileurl_name="${remote_fileurl_backup_name}"
 		fi
 		counter=$((counter + 1))
-		echo -en "checking ${fileurl_name} ${remote_filename}...\c"
+		echo -e "checking ${fileurl_name} ${remote_filename}\c"
 		curlcmd=$(curl --output /dev/null --silent --head --fail "${fileurl}" 2>&1)
-		local exitcode=$?
+		exitcode=$?
 
 		# On first try will error. On second try will fail.
-		if [ "${exitcode}" != 0 ]; then
+		if [ "${exitcode}" -ne 0 ]; then
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
 				if [ -f "${lgsmlog}" ]; then
@@ -379,6 +383,7 @@ fn_fetch_file() {
 			counter=1
 			remote_fileurls_array=(remote_fileurl)
 		fi
+
 		for remote_fileurl_array in "${remote_fileurls_array[@]}"; do
 			if [ "${remote_fileurl_array}" == "remote_fileurl" ]; then
 				fileurl="${remote_fileurl}"
@@ -399,15 +404,15 @@ fn_fetch_file() {
 			local exitcode=""
 			large_files=("bz2" "gz" "zip" "jar" "xz")
 			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
-				echo -en "downloading ${local_filename}..."
+				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
 				fn_sleep_time
-				echo -en "\033[1K"
 				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
+				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
-				echo -en "fetching ${fileurl_name} ${local_filename}...\c"
+				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
 				"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
-				exitcode="$?"
+				exitcode=$?
 			fi
 
 			# Download will fail if downloads a html file.
@@ -419,7 +424,7 @@ fn_fetch_file() {
 			fi
 
 			# On first try will error. On second try will fail.
-			if [ "${exitcode}" != 0 ]; then
+			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					fn_print_fail_eol_nl
 					if [ -f "${lgsmlog}" ]; then

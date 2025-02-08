@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsoninfo=$(
+json=$(
 	cat << EOF
 {
     "username": "LinuxGSM",
@@ -29,103 +29,45 @@ jsoninfo=$(
                 "url": "${alerticon}"
             },
             "fields": [
-				{
-					"name": "Server Name",
-					"value": "${servername}"
-				},
-				{
-					"name": "Information",
-					"value": "${alertmessage}"
-				},
+                {
+                    "name": "Server Name",
+                    "value": "${servername}"
+                },
+                {
+                    "name": "Information",
+                    "value": "${alertmessage}"
+                },
                 {
                     "name": "Game",
                     "value": "${gamename}",
                     "inline": true
                 },
                 {
-                    "name": "Server IP",
-                    "value": "\`${alertip}:${port}\`",
-                    "inline": true
-                },
-                {
-                    "name": "Hostname",
-                    "value": "${HOSTNAME}",
-                    "inline": true
-                },
-				{
-					"name": "More info",
-					"value": "${alerturl}",
-					"inline": true
-				},
-                {
                     "name": "Server Time",
                     "value": "$(date)",
                     "inline": true
                 }
-            ],
-            "footer": {
-				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-                "text": "Sent by LinuxGSM ${version}"
-            }
-        }
-    ]
-}
 EOF
 )
 
-jsonnoinfo=$(
-	cat << EOF
-{
-    "username": "LinuxGSM",
-    "avatar_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-    "file": "content",
-    "embeds": [
-        {
-            "author": {
-                "name": "LinuxGSM Alert",
-                "url": "",
-                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg"
-            },
-            "title": "${alerttitle}",
-            "url": "",
-            "description": "",
-            "color": "${alertcolourdec}",
-            "type": "content",
-            "thumbnail": {
-                "url": "${alerticon}"
-            },
-            "fields": [
-				{
-					"name": "Server Name",
-					"value": "${servername}"
-				},
-				{
-					"name": "Information",
-					"value": "${alertmessage}"
-				},
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+                ,
                 {
-                    "name": "Game",
-                    "value": "${gamename}",
-                    "inline": true
-                },
-                {
-                    "name": "Server IP",
-                    "value": "\`${alertip}:${port}\`",
-                    "inline": true
-                },
-                {
-                    "name": "Hostname",
-                    "value": "${HOSTNAME}",
-                    "inline": true
-                },
-                {
-                    "name": "Server Time",
-                    "value": "$(date)",
+                    "name": "Is my Game Server Online?",
+                    "value": "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}",
                     "inline": true
                 }
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
             ],
             "footer": {
-				"icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
+                "icon_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
                 "text": "Sent by LinuxGSM ${version}"
             }
         }
@@ -135,12 +77,6 @@ EOF
 )
 
 fn_print_dots "Sending Discord alert"
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
-fi
 
 discordsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${discordwebhook}")
 

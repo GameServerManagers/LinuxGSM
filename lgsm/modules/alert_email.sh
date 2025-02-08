@@ -15,7 +15,7 @@ else
 	mail -s "${alerttitle}" "${email}" < "${alertlog}"
 fi
 exitcode=$?
-if [ "${exitcode}" == "0" ]; then
+if [ "${exitcode}" -ne 0 ]; then
 	fn_print_ok_nl "Sending Email alert: ${email}"
 	fn_script_log_pass "Sending Email alert: ${email}"
 else

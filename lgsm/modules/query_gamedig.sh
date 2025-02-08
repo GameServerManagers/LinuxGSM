@@ -42,9 +42,7 @@ if [ "$(command -v "${gamedigbinary}" 2> /dev/null)" ] && [ "$(command -v jq 2> 
 		fi
 
 		# numplayers.
-		if [ "${querytype}" == "minecraft" ]; then
-			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
-		elif [ "${querytype}" == "teamspeak3" ]; then
+		if [ "${querytype}" == "teamspeak3" ]; then
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_clientsonline')
 		else
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')

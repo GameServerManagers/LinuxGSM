@@ -5,33 +5,39 @@
 # Website: https://linuxgsm.com
 # Description: Sends Gotify alert.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsoninfo=$(
+json=$(
 	cat << EOF
 {
 	"title": "${alerttitle}",
-	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}\n\nServer Time\n$(date)",
-	"priority": 5
-}
+	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
 EOF
 )
 
-jsonnoinfo=$(
-	cat << EOF
-{
-	"title": "${alerttitle}",
-	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nServer Time\n$(date)",
-	"priority": 5
-}
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+Is my Game Server Online?\nhttps://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}\n\n
 EOF
-)
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
+	)
 fi
+
+if [ -n "${alerturl}" ]; then
+	json+=$(
+		cat << EOF
+More info\n${alerturl}\n\n
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
+Server Time\n$(date)",
+	"priority": 5
+}
+EOF
+)
 
 fn_print_dots "Sending Gotify alert"
 gotifysend=$(curl --connect-timeout 3 -sSL "${gotifywebhook}/message"?token="${gotifytoken}" -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)")

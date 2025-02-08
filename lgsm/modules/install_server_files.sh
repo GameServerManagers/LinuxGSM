@@ -241,6 +241,10 @@ fn_install_server_files() {
 	fn_clear_tmp
 }
 
+if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
+	install_eula.sh
+fi
+
 echo -e ""
 echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
 fn_messages_separator
@@ -255,12 +259,10 @@ fi
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	install_eula.sh
 	update_mc.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ]; then
-	install_eula.sh
 	update_pmc.sh
 elif [ "${shortname}" == "wmc" ] || [ "${shortname}" == "vpmc" ]; then
 	update_pmc.sh
@@ -287,7 +289,6 @@ fi
 
 if [ -z "${autoinstall}" ]; then
 	echo -e ""
-	fn_messages_separator
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi

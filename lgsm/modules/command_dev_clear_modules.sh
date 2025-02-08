@@ -6,7 +6,7 @@
 # Description: Deletes the contents of the modules dir.
 
 commandname="DEV-CLEAR-MODULES"
-commandaction="Clearing modules"
+commandaction="Clear Modules"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

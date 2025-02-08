@@ -9,7 +9,11 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 info_distro.sh
 
-# RAM requirements in gigabytes for each game or engine.
+if [[ "${arch}" != "x86_64" && "${arch}" != "i386" && "${arch}" != "i686" ]]; then
+	echo -e "${red}Error: Only x86 type architectures are supported. Detected architecture: ${arch}${default}"
+	fn_script_log_error "Only x86 type architectures are supported. Detected architecture: ${arch}"
+	core_exit.sh
+fi
 
 if [ "${shortname}" == "ark" ]; then
 	ramrequirementgb="7"
@@ -35,7 +39,7 @@ elif [ "${shortname}" == "mh" ]; then
 	ramrequirementgb="4"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then
 	ramrequirementgb="1"
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "pvr" ]; then
 	ramrequirementgb="1"
@@ -67,8 +71,9 @@ fi
 if [ "${ramrequirementgb}" ]; then
 	if (($(echo "${physmemtotalgb} < ${ramrequirementgb}" | bc -l))); then
 		fn_print_dots "Checking RAM"
-		fn_print_warn_nl "Checking RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		echo "* ${gamename} server may fail to run or experience poor performance."
+		fn_print_warn_nl "Checking RAM: Minumum RAM requirements not met"
+		fn_print_nl "* ${ramrequirementgb}G is required, but only ${physmemtotal} is available."
+		fn_print_nl "* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time_5
 	fi
 fi

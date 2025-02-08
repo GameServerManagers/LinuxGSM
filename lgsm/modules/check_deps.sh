@@ -78,11 +78,12 @@ fn_install_mono_repo() {
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			if [ $? != 0 ]; then
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
-				fn_print_complete_nl "Installing Mono repository completed."
+				fn_print_success_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
 			fi
 		fi
@@ -113,13 +114,13 @@ fn_deps_email() {
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
 		else
 			if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
@@ -195,9 +196,10 @@ fn_install_missing_deps() {
 			fi
 			autodepinstall="$?"
 
-			# If auto install passes remove steamcmd install failure.
+			# If auto install passes, remove steamcmd install failure and set exit code to 0.
 			if [ "${autodepinstall}" == "0" ]; then
 				unset steamcmdfail
+				exitcode=0
 			fi
 		fi
 
@@ -225,7 +227,7 @@ fn_install_missing_deps() {
 
 	else
 		if [ "${commandname}" == "INSTALL" ]; then
-			fn_print_information_nl "Required dependencies already installed."
+			fn_print_skip2_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
 	fi
@@ -233,7 +235,7 @@ fn_install_missing_deps() {
 
 fn_check_loop() {
 	# Loop though required depenencies checking if they are installed.
-	for deptocheck in ${array_deps_required[*]}; do
+	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
 
@@ -317,7 +319,7 @@ fn_deps_detector() {
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-			for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+			for steamcmddeptocheck in "${array_deps_required_steamcmd[@]}"; do
 				if [ "${deptocheck}" != "steamcmd" ] && [ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
 					steamcmdfail=1
 				fi
@@ -360,7 +362,7 @@ if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid
 	# Check that the distro dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ] && [ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 

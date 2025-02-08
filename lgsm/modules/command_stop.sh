@@ -20,7 +20,7 @@ fn_stop_graceful_ctrlc() {
 	for seconds in {1..30}; do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: CTRL+c: ${seconds}: "
+			fn_print_ok "Graceful: CTRL+c: ${seconds}"
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: CTRL+c: OK: ${seconds} seconds"
 			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
@@ -52,7 +52,7 @@ fn_stop_graceful_cmd() {
 	for ((seconds = 1; seconds <= ${2}; seconds++)); do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: sending \"${1}\": ${seconds}: "
+			fn_print_ok "Graceful: sending \"${1}\": ${seconds}"
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: sending \"${1}\": OK: ${seconds} seconds"
 			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
@@ -85,7 +85,7 @@ fn_stop_graceful_goldsrc() {
 		fn_sleep_time_1
 		fn_print_dots "Graceful: sending \"quit\": ${seconds}"
 	done
-	fn_print_ok "Graceful: sending \"quit\": ${seconds}: "
+	fn_print_ok "Graceful: sending \"quit\": ${seconds}"
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
 	if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
@@ -297,7 +297,7 @@ fn_stop_graceful_avorion() {
 	for seconds in {1..30}; do
 		check_status.sh
 		if [ "${status}" == "0" ]; then
-			fn_print_ok "Graceful: /save /stop: ${seconds}: "
+			fn_print_ok "Graceful: /save /stop: ${seconds}"
 			fn_print_ok_eol_nl
 			fn_script_log_pass "Graceful: /save /stop: OK: ${seconds} seconds"
 			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
@@ -370,7 +370,7 @@ fn_stop_tmux() {
 # Checks if the server is already stopped.
 fn_stop_pre_check() {
 	if [ "${status}" == "0" ]; then
-		fn_print_info_nl "${servername} is already stopped"
+		fn_print_skip_nl "${servername} is already stopped"
 		fn_script_log_info "${servername} is already stopped"
 	else
 		# Select graceful shutdown.

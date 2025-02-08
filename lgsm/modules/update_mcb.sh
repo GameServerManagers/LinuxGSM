@@ -15,8 +15,8 @@ fn_update_dl() {
 	else
 		unzip -oq "${tmpdir}/bedrock_server.${remotebuildversion}.zip" -x "permissions.json" "server.properties" "allowlist.json" -d "${serverfiles}"
 	fi
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
 		if [ -f "${lgsmlog}" ]; then
@@ -27,7 +27,9 @@ fn_update_dl() {
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting ${local_filename}"
+		if [ -f "${lgsmlog}" ]; then
+			fn_script_log_pass "Extracting ${local_filename}"
+		fi
 		fn_clear_tmp
 	fi
 }
@@ -172,6 +174,12 @@ fn_update_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="minecraft.net"
+
+if [ "$(command -v jq 2> /dev/null)" ]; then
+	fn_print_fail_nl "jq is not installed"
+	fn_script_log_fatal "jq is not installed"
+	core_exit.sh
+fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
