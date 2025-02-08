@@ -11,9 +11,9 @@ av
 bb
 bb2,libcurl4-gnutls-dev:i386
 bd
-bf1942,libncurses5:i386
-bfv,libncurses5:i386,libstdc++5:i386
-bmdm,libncurses5:i386
+bf1942
+bfv,libstdc++5:i386
+bmdm
 bo
 bs
 bt,libicu-dev,dos2unix,libxml2-utils
