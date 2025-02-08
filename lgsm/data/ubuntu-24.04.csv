@@ -69,13 +69,13 @@ mc,openjdk-21-jre
 mcb
 mh
 mohaa,libstdc++5:i386
-mta,libncursesw5,libxml2-utils
+mta,libxml2-utils
 nd
 nec
 nmrih
 ns
-ns2,speex,libtbb2
-ns2c,speex:i386,libtbb2
+ns2,speex
+ns2c,speex:i386
 ohd
 onset,libmariadb-dev
 opfor
@@ -127,7 +127,7 @@ ut2k4
 ut3
 ut99
 vh,libc6-dev,libatomic1,libpulse-dev
-vints,aspnetcore-runtime-7.0
+vints,aspnetcore-runtime-8.0
 vpmc,openjdk-21-jre
 vs
 wet
