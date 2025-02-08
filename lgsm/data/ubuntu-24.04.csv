@@ -11,7 +11,7 @@ av
 bb
 bb2,libcurl4-gnutls-dev:i386
 bd
-bf1942,libncurses5:i386,libtinfo5:i386
+bf1942,libncurses5:i386
 bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
@@ -31,7 +31,7 @@ cs
 cs2
 cscz
 csgo
-css,libtinfo5:i386
+css
 ct
 dab
 dayz
@@ -48,7 +48,7 @@ etl
 ets2
 fctr
 fof
-gmod,libtinfo5:i386
+gmod
 hcu
 hl2dm
 hldm
@@ -72,7 +72,7 @@ mohaa,libstdc++5:i386
 mta,libncursesw5,libxml2-utils
 nd
 nec
-nmrih,libtinfo5:i386
+nmrih
 ns
 ns2,speex,libtbb2
 ns2c,speex:i386,libtbb2
@@ -104,7 +104,7 @@ scpsl,mono-complete
 scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
-sfc,libtinfo5:i386
+sfc
 sm,telnet,expect
 sof2
 sol
@@ -135,5 +135,5 @@ wf
 wmc,openjdk-21-jre
 wurm,xvfb
 xnt
-zmr,libtinfo5:i386
-zps,libtinfo5:i386
+zmr
+zps
