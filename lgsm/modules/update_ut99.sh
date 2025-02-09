@@ -153,7 +153,7 @@ fn_update_compare() {
 # The location where the builds are checked and downloaded.
 remotelocation="github.com"
 
-if [ "$(command -v jq 2> /dev/null)" ]; then
+if [ ! "$(command -v jq 2> /dev/null)" ]; then
 	fn_print_fail_nl "jq is not installed"
 	fn_script_log_fail "jq is not installed"
 	core_exit.sh
