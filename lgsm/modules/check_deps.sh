@@ -9,8 +9,8 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_dotnet_repo() {
 	if [ "${distroid}" == "ubuntu" ]; then
-		# if package aspnetcore-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
-		if ! apt-cache show aspnetcore-runtime-7.0 > /dev/null 2>&1; then
+		# if package dotnet-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
+		if ! apt-cache show dotnet-runtime-7.0 > /dev/null 2>&1; then
 			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
 			sudo dpkg -i /tmp/packages-microsoft-prod.deb
 		fi
@@ -282,7 +282,7 @@ fn_deps_detector() {
 			monoinstalled=false
 		fi
 	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
+	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
 		# .NET is not installed.
 		if [ -n "${dotnetversion}" ]; then
 			depstatus=0
