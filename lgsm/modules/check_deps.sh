@@ -284,7 +284,7 @@ fn_deps_detector() {
 	# .NET Core: A .NET Core repo needs to be installed.
 	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
 		# .NET is not installed.
-		if [ -n "${dotnetversion}" ]; then
+		if dotnet --list-runtimes | grep -q "Microsoft.NETCore.App 7.0"; then
 			depstatus=0
 			dotnetinstalled=true
 		else
