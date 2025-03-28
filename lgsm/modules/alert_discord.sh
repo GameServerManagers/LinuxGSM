@@ -46,6 +46,11 @@ json=$(
 					"name": "Server Time",
 					"value": "$(date)",
 					"inline": true
+				},
+				{
+					"name": "More info",
+					"value": "${alerturl}",
+					"inline": true
 				}
 EOF
 )
