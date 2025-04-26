@@ -126,7 +126,7 @@ fn_backup_compression() {
 		core_exit.sh
 	fi
 
-	tar --use-compress-program=pigz -cf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	tar --use-compress-program=pigz -hcf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
