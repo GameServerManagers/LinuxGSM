@@ -68,7 +68,7 @@ EOF
 	)
 fi
 
-if [ -n "{alerturl}" ]; then
+if [ -n "${alerturl}" ]; then
 	json+=$(
 		cat << EOF
 				,
