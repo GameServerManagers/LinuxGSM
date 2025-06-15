@@ -38,7 +38,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
-	localbuild=$(grep Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version: //' | tr -d '\000-\011\013-\037')
+	localbuild=$(grep -h Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version //' | tr -d '\000-\011\013-\037')
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -51,15 +51,20 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Random number for userAgent
-	randomint=$(tr -dc 0-9 < /dev/urandom 2> /dev/null | head -c 4 | xargs)
-	# Get remote build info.
+	apiurl="https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
+	remotebuildresponse=$(curl -s "${apiurl}" | jq '.result.links[]')
 	if [ "${mcversion}" == "latest" ]; then
-		remotebuildversion=$(curl -H "Accept-Encoding: identity" -H "Accept-Language: en" -Ls -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36" "https://www.minecraft.net/en-us/download/server/bedrock/" | grep -o 'https://www.minecraft.net/bedrockdedicatedserver/bin-linux/[^"]*' | sed 's/.*\///' | grep -Eo "[.0-9]+[0-9]")
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl' )
+	elif [ "${mcversion}" == "preview" ]; then
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl' )
 	else
 		remotebuildversion="${mcversion}"
+		remotebuildurl="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${remotebuildversion}.zip"
 	fi
-	remotebuildurl="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${remotebuildversion}.zip"
+	# if no remotebuildversion is present get the version from the url
+	if [ -z "${remotebuildversion}" ]; then
+		remotebuildversion=$(echo "${remotebuildurl}" | grep -Eo "[.0-9]+[0-9]")
+	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
