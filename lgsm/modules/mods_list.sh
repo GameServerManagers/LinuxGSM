@@ -61,7 +61,7 @@ metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
 metamodsourcedownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsourceversion}"
 metamodsourceurl="${metamodsourcedownloadurl}"
 # Sourcemod
-sourcemodversion="1.11"
+sourcemodversion="1.12"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodversion}/sourcemod-latest-linux"
 sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodversion}"
