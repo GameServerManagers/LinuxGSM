@@ -38,7 +38,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
-	localbuild=$(grep -hoP 'Version:\s*\K[\d.]+' "${consolelogdir}"/* | sort -V -r | head -n1)
+	localbuild=$(grep -hoP 'Version:\s*\K[\d.]+' "${consolelogdir}"/* 2> /dev/null | sort -V -r | head -n1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
