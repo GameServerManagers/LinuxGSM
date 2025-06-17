@@ -9,8 +9,8 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_dotnet_repo() {
 	if [ "${distroid}" == "ubuntu" ]; then
-		# if package aspnetcore-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
-		if ! apt-cache show aspnetcore-runtime-7.0 > /dev/null 2>&1; then
+		# if package dotnet-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
+		if ! apt-cache show dotnet-runtime-7.0 > /dev/null 2>&1; then
 			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
 			sudo dpkg -i /tmp/packages-microsoft-prod.deb
 		fi
@@ -251,12 +251,15 @@ fn_deps_detector() {
 	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/libsdl2-2.0-0:i386/}")
 		steamcmdstatus=1
+		return
 	elif [ "${deptocheck}" == "steamcmd" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
+		return
 	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
+		return
 	# Java: Added for users using Oracle JRE to bypass check.
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
@@ -279,9 +282,9 @@ fn_deps_detector() {
 			monoinstalled=false
 		fi
 	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
+	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
 		# .NET is not installed.
-		if [ -n "${dotnetversion}" ]; then
+		if dotnet --list-runtimes | grep -q "Microsoft.NETCore.App 7.0"; then
 			depstatus=0
 			dotnetinstalled=true
 		else

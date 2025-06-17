@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://linux.multitheftauto.com/revision/latest.txt"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename="multitheftauto_linux_x64.tar.gz"

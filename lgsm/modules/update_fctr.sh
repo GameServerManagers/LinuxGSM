@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildversion=$(echo "${remotebuildresponse}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)

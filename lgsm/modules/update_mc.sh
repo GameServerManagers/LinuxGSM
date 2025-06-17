@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://launchermeta.mojang.com/mc/game/version_manifest.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Latest release.
