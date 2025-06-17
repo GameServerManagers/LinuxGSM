@@ -32,7 +32,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://api.papermc.io/v2/projects"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")
