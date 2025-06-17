@@ -38,7 +38,7 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses log file to get local build.
-	localbuild=$(grep -h Version "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*Version //' | tr -d '\000-\011\013-\037')
+	localbuild=$(grep -hoP 'Version:\s*\K[\d.]+' "${consolelogdir}"/* | sort -V -r | head -n1)
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -54,18 +54,15 @@ fn_update_remotebuild() {
 	# Gets remote build info.
 	apiurl="https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
 	remotebuildresponse=$(curl -s "${apiurl}" | jq '.result.links[]')
-	if [ "${mcversion}" == "latest" ]; then
-		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl')
-	elif [ "${mcversion}" == "preview" ]; then
-		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl')
+	# Latest preview.
+	if [ "${mcversion}" == "preview" ]; then
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockPreviewLinux") | .downloadUrl')
+	# Latest release.
 	else
-		remotebuildversion="${mcversion}"
-		remotebuildurl="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${remotebuildversion}.zip"
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl')
 	fi
-	# if no remotebuildversion is present get the version from the url
-	if [ -z "${remotebuildversion}" ]; then
-		remotebuildversion=$(echo "${remotebuildurl}" | grep -Eo "[.0-9]+[0-9]")
-	fi
+	remotebuildversion=$(echo "${remotebuildurl}" | grep -Eo "[.0-9]+[0-9]")
+	remotebuildfilename="bedrock-server-${remotebuildversion}.zip"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
