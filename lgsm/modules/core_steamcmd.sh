@@ -164,7 +164,7 @@ fn_update_steamcmd_localbuild() {
 }
 
 fn_update_steamcmd_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi

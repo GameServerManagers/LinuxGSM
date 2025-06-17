@@ -51,12 +51,13 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	# Gets remote build info.
 	apiurl="https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
 	remotebuildresponse=$(curl -s "${apiurl}" | jq '.result.links[]')
 	if [ "${mcversion}" == "latest" ]; then
-		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl' )
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl')
 	elif [ "${mcversion}" == "preview" ]; then
-		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl' )
+		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockLinux") | .downloadUrl')
 	else
 		remotebuildversion="${mcversion}"
 		remotebuildurl="https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${remotebuildversion}.zip"
