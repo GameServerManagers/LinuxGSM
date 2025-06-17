@@ -5,7 +5,7 @@ ahl
 ahl2
 ark
 arma3
-armar,libcurl4
+armar,libcurl4t64
 ats
 av
 bb
@@ -127,7 +127,7 @@ ut2k4
 ut3
 ut99
 vh,libc6-dev,libatomic1,libpulse-dev
-vints,aspnetcore-runtime-8.0
+vints,dotnet-runtime-7.0
 vpmc,openjdk-21-jre
 vs
 wet

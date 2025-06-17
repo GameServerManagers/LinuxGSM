@@ -36,7 +36,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://api.github.com/repos/xonotic/xonotic/tags"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildtag=$(echo "${remotebuildresponse}" | jq -r '.[0].name')
