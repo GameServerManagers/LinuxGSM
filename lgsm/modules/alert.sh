@@ -24,7 +24,7 @@ fn_alert_log() {
 		fn_info_messages_gameserver_resource
 		fn_info_messages_gameserver
 		fn_info_logs
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${alertlog}" > /dev/null 2>&1
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${alertlog}" >/dev/null 2>&1
 }
 
 fn_alert_test() {
@@ -356,4 +356,15 @@ elif [ -z "${slacktoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Slack token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/slack"
 	fn_script_error "Slack token not set"
+fi
+
+if [ "${ntfyalert}" == "on" ] && [ -n "${ntfytopic}" ]; then
+	alert_ntfy.sh
+elif [ "${ntfyalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "ntfy alerts not enabled"
+	fn_script_log_warn "ntfy alerts not enabled"
+elif [ -z "${ntfytopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "ntfy topic not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/ntfy"
+	fn_script_error "ntfy topic not set"
 fi
