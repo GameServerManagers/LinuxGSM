@@ -94,7 +94,7 @@ fi
 ## Game server exclusive commands.
 
 # FastDL command.
-if [ "${engine}" == "source" ] || [ "${shortname}" == "hldm" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	currentopt+=("${cmd_fastdl[@]}")
 fi
 
