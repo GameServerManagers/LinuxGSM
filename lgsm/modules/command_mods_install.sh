@@ -88,6 +88,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		fn_script_log_warn "${modprettyname} is already installed"
 		echo -e " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
+			exitcode=0
 			core_exit.sh
 		fi
 		fn_script_log_info "User selected to continue"
