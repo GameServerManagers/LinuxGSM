@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM install_mta_resources.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Installs the libmysqlclient for database functions on the server and optionally installs default resources required to run the server.
 

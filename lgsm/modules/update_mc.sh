@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_mc.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Minecraft: Java Edition servers.
 
@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_dl() {
 	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
-	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/minecraft_server.jar"
 	fn_clear_tmp
 }
 
@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://launchermeta.mojang.com/mc/game/version_manifest.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Latest release.
@@ -166,6 +166,12 @@ fn_update_compare() {
 
 # The location where the builds are checked and downloaded.
 remotelocation="mojang.com"
+
+if [ ! "$(command -v jq 2> /dev/null)" ]; then
+	fn_print_fail_nl "jq is not installed"
+	fn_script_log_fail "jq is not installed"
+	core_exit.sh
+fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

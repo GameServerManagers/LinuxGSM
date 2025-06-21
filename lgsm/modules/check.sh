@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Overall module for managing checks.
 # Runs checks that will either halt on or fix an issue.
@@ -31,7 +31,7 @@ if [ "${commandname}" != "INSTALL" ] && [ "${commandname}" != "UPDATE-LGSM" ] &&
 	check_system_dir.sh
 fi
 
-allowed_commands_array=(START DEBUG)
+allowed_commands_array=(DEBUG RESTART START)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_executable.sh
@@ -39,7 +39,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 done
 
 if [ "$(whoami)" != "root" ]; then
-	allowed_commands_array=(DEBUG START INSTALL)
+	allowed_commands_array=(DEBUG RESTART START INSTALL)
 	for allowed_command in "${allowed_commands_array[@]}"; do
 		if [ "${allowed_command}" == "${commandname}" ]; then
 			check_glibc.sh
@@ -54,21 +54,21 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START)
+allowed_commands_array=(BACKUP DEBUG DETAILS RESTART START UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_deps.sh
 	fi
 done
 
-allowed_commands_array=(CONSOLE DEBUG MONITOR START STOP)
+allowed_commands_array=(CONSOLE DEBUG MONITOR RESTART START STOP)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_config.sh
 	fi
 done
 
-allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS START STOP POST-DETAILS)
+allowed_commands_array=(DEBUG DETAILS DEV-QUERY-RAW MONITOR POST_DETAILS RESTART START STOP POST-DETAILS)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ -z "${installflag}" ]; then
@@ -77,7 +77,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG START UPDATE VALIDATE CHECK-UPDATE)
+allowed_commands_array=(DEBUG RESTART START UPDATE VALIDATE CHECK-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ "${appid}" ]; then
@@ -86,16 +86,23 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR START STOP UPDATE VALIDATE POST-DETAILS)
+allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR RESTART START STOP UPDATE VALIDATE POST-DETAILS)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_status.sh
 	fi
 done
 
-allowed_commands_array=(DEBUG START INSTALL)
+allowed_commands_array=(DEBUG RESTART START INSTALL)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_system_requirements.sh
+	fi
+done
+
+allowed_commands_array=(DETAILS MONITOR RESTART START STOP UPDATE VALIDATE POST-DETAILS)
+for allowed_command in "${allowed_commands_array[@]}"; do
+	if [ "${allowed_command}" == "${commandname}" ]; then
+		check_gamedig.sh
 	fi
 done

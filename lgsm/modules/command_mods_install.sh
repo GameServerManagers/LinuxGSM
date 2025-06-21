@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_install.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-INSTALL"
-commandaction="Installing mods"
+commandaction="Installing Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

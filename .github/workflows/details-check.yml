@@ -3,6 +3,8 @@ name: Details Check
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop
 
 concurrency:
   group: details-check-${{ github.ref_name }}
@@ -19,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate matrix with generate-matrix.sh
-        run: chmod +x .github/workflows/detals-check-generate-matrix.sh; .github/workflows/detals-check-generate-matrix.sh
+        run: chmod +x .github/workflows/details-check-generate-matrix.sh; .github/workflows/details-check-generate-matrix.sh
 
       - name: Set Matrix
         id: set-matrix
@@ -66,6 +68,10 @@ jobs:
           else
             curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
           fi
+
+      - name: Pre-load LinuxGSM
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+
       - name: Display config
         run: |
           if [ "${{ steps.sets-servercfgname.outputs.servercfgname }}" == "" ]; then
@@ -81,7 +87,7 @@ jobs:
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
 
       - name: Detect details
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server detect-details
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server parse-game-details
 
       - name: Query Raw
         run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw

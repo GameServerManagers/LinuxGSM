@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_details.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
 commandname="DETAILS"
-commandaction="Viewing details"
+commandaction="Display Details"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

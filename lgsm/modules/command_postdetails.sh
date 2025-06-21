@@ -1,24 +1,22 @@
 #!/bin/bash
 # LinuxGSM command_postdetails.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Strips sensitive information out of Details output.
 
 commandname="POST-DETAILS"
-commandaction="Posting details"
+commandaction="Post Details"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
-
-posttarget="https://termbin.com"
-
-# source all of the modules defined in the details command.
-info_messages.sh
 
 fn_bad_postdetailslog() {
 	fn_print_fail_nl "Unable to create temporary file ${postdetailslog}."
 	core_exit.sh
 }
+
+# source all of the modules defined in the details command.
+info_messages.sh
 
 # Remove any existing postdetails.log file.
 if [ -f "${postdetailslog}" ]; then
@@ -60,18 +58,27 @@ else
 fi
 
 fn_print_dots "termbin.com"
-link=$(cat "${postdetailslog}" | nc termbin.com 9999 | tr -d '\n\0')
-fn_print_ok_nl "termbin.com for 30D"
-fn_script_log_pass "termbin.com for 30D"
-pdurl="${link}"
+link=$(cat "${postdetailslog}" | {
+	nc -w 3 termbin.com 9999
+	echo $? > /tmp/nc_exit_status
+} | tr -d '\n\0')
+nc_exit_status=$(cat /tmp/nc_exit_status)
+if [ "${nc_exit_status}" -ne 0 ]; then
+	fn_print_error_nl "Failed to post to termbin.com"
+	fn_script_log_error "Failed to post to termbin.com"
+else
+	fn_print_ok_nl "termbin.com for 30D"
+	fn_script_log_pass "termbin.com for 30D"
+	pdurl="${link}"
 
-if [ "${firstcommandname}" == "POST-DETAILS" ]; then
-	echo -e ""
-	echo -e "Please share the following url for support: "
-	echo -e "${pdurl}"
+	if [ "${firstcommandname}" == "POST-DETAILS" ]; then
+		echo -e ""
+		echo -e "Please share the following url for support: "
+		echo -e "${italic}${pdurl}${default}"
+	fi
+	fn_script_log_info "${pdurl}"
+	alerturl="${pdurl}"
 fi
-fn_script_log_info "${pdurl}"
-alerturl="${pdurl}"
 
 if [ -z "${exitbypass}" ]; then
 	core_exit.sh

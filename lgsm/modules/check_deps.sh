@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_deps.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks and installs missing dependencies.
 
@@ -9,8 +9,8 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_dotnet_repo() {
 	if [ "${distroid}" == "ubuntu" ]; then
-		# if package aspnetcore-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
-		if ! apt-cache show aspnetcore-runtime-7.0 > /dev/null 2>&1; then
+		# if package dotnet-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
+		if ! apt-cache show dotnet-runtime-7.0 > /dev/null 2>&1; then
 			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
 			sudo dpkg -i /tmp/packages-microsoft-prod.deb
 		fi
@@ -78,11 +78,12 @@ fn_install_mono_repo() {
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			if [ $? != 0 ]; then
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
-				fn_print_complete_nl "Installing Mono repository completed."
+				fn_print_success_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
 			fi
 		fi
@@ -113,13 +114,13 @@ fn_deps_email() {
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
 		else
 			if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
@@ -195,20 +196,21 @@ fn_install_missing_deps() {
 			fi
 			autodepinstall="$?"
 
-			# If auto install passes remove steamcmd install failure.
+			# If auto install passes, remove steamcmd install failure and set exit code to 0.
 			if [ "${autodepinstall}" == "0" ]; then
 				unset steamcmdfail
+				exitcode=0
 			fi
 		fi
 
 		# If automatic dependency install is unavailable.
 		if [ "${autodepinstall}" != "0" ]; then
 			if [ "$(command -v apt 2> /dev/null)" ]; then
-				echo -e "${i386installcommand}sudo apt update; sudo apt install ${array_deps_missing[*]}"
+				echo -e " Run: '${green}${i386installcommand}sudo apt update; sudo apt install ${array_deps_missing[*]}${default}' as root to install missing dependencies."
 			elif [ "$(command -v dnf 2> /dev/null)" ]; then
-				echo -e "sudo dnf install ${array_deps_missing[*]}"
+				echo -e " Run: '${green}sudo dnf install ${array_deps_missing[*]}${default}' as root to install missing dependencies."
 			elif [ "$(command -v yum 2> /dev/null)" ]; then
-				echo -e "sudo yum install ${array_deps_missing[*]}"
+				echo -e " Run: '${green}sudo yum install ${array_deps_missing[*]}${default}' as root to install missing dependencies."
 			fi
 		fi
 
@@ -225,7 +227,7 @@ fn_install_missing_deps() {
 
 	else
 		if [ "${commandname}" == "INSTALL" ]; then
-			fn_print_information_nl "Required dependencies already installed."
+			fn_print_skip2_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
 	fi
@@ -233,7 +235,7 @@ fn_install_missing_deps() {
 
 fn_check_loop() {
 	# Loop though required depenencies checking if they are installed.
-	for deptocheck in ${array_deps_required[*]}; do
+	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
 
@@ -249,12 +251,15 @@ fn_deps_detector() {
 	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/libsdl2-2.0-0:i386/}")
 		steamcmdstatus=1
+		return
 	elif [ "${deptocheck}" == "steamcmd" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
+		return
 	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
+		return
 	# Java: Added for users using Oracle JRE to bypass check.
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
@@ -277,9 +282,9 @@ fn_deps_detector() {
 			monoinstalled=false
 		fi
 	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
+	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
 		# .NET is not installed.
-		if [ -n "${dotnetversion}" ]; then
+		if dotnet --list-runtimes | grep -q "Microsoft.NETCore.App 7.0"; then
 			depstatus=0
 			dotnetinstalled=true
 		else
@@ -317,7 +322,7 @@ fn_deps_detector() {
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-			for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+			for steamcmddeptocheck in "${array_deps_required_steamcmd[@]}"; do
 				if [ "${deptocheck}" != "steamcmd" ] && [ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
 					steamcmdfail=1
 				fi
@@ -360,7 +365,7 @@ if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid
 	# Check that the distro dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ] && [ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 

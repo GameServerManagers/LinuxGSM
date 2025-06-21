@@ -2,7 +2,7 @@
 echo "Checking that all the game servers are listed in all csv files"
 echo "this check will ensure serverlist.csv has the same number of lines (-2 lines) as the other csv files"
 # count the number of lines in the serverlist.csv
-cd "lgsm/data" || exit
+cd "${datadir}" || exit
 serverlistcount="$(tail -n +2 serverlist.csv | wc -l)"
 echo "serverlistcount: $serverlistcount"
 # get list of all csv files starting with ubunutu debian centos
@@ -19,7 +19,7 @@ for csv in $csvlist; do
 	fi
 done
 
-# Compare all game servers listed in serverlist.csv to $shortname-icon.png files in lgsm/data/gameicons
+# Compare all game servers listed in serverlist.csv to $shortname-icon.png files in ${datadir}/gameicons
 # if the game server is listed in serverlist.csv then it will have a $shortname-icon.png file
 
 # loop though shortname in serverlist.csv

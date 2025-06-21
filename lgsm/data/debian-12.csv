@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 steamcmd,lib32gcc-s1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hz
 ins
 inss
 ios
@@ -68,7 +69,6 @@ mc,openjdk-17-jre
 mcb
 mh
 mohaa,libstdc++5:i386
-mom
 mta,libncursesw5,libxml2-utils
 nd
 nec
@@ -82,7 +82,7 @@ opfor
 pc
 pc2
 pmc,openjdk-17-jre
-ps,libgconf-2-4
+squad44
 pvkii
 pvr,libc++1
 pw
@@ -105,6 +105,7 @@ scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386
+sm,telnet,expect
 sof2
 sol
 squad
@@ -125,13 +126,14 @@ ut
 ut2k4
 ut3
 ut99
-vh,libc6-dev
-vints,aspnetcore-runtime-7.0
+vh,libc6-dev,libatomic1,libpulse-dev
+vints,dotnet-runtime-7.0
 vpmc,openjdk-17-jre
 vs
 wet
 wf
 wmc,openjdk-17-jre
 wurm,xvfb
+xnt
 zmr,libtinfo5:i386
 zps,libtinfo5:i386

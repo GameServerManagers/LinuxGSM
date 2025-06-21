@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_root.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if the user tried to run the script as root.
 

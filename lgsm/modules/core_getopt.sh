@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_getopt.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
@@ -50,11 +50,13 @@ cmd_install_squad_license=("li;license" "install_squad_license.sh" "Add your Squ
 cmd_fastdl=("fd;fastdl" "command_fastdl.sh" "Build a FastDL directory.")
 # Dev commands.
 cmd_dev_debug=("dev;developer" "command_dev_debug.sh" "Enable developer Mode.")
-cmd_dev_details=("ddt;detect-details" "command_dev_details.sh" "Display parsed details.")
+cmd_dev_parse_game_details=("pgd;parse-game-details" "command_dev_parse_game_details.sh" "Display parsed gameserver details.")
+cmd_dev_parse_distro_details=("pdd;parse-distro-details" "command_dev_parse_distro_details.sh" "Display parsed distro details.")
 cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect required dependencies.")
 cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
 cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
 cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
+cmd_dev_ui=("ui;ui" "command_dev_ui.sh" "Assist with UI development.")
 cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 
 ### Set specific opt here.
@@ -146,7 +148,7 @@ currentopt+=("${cmd_install[@]}" "${cmd_auto_install[@]}")
 ## Developer commands.
 currentopt+=("${cmd_dev_debug[@]}")
 if [ -f ".dev-debug" ]; then
-	currentopt+=("${cmd_dev_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_modules[@]}")
+	currentopt+=("${cmd_dev_parse_game_details[@]}" "${cmd_dev_parse_distro_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_ui[@]}" "${cmd_dev_clear_modules[@]}")
 fi
 
 ## Sponsor.
@@ -164,19 +166,19 @@ done
 
 # Shows LinuxGSM usage.
 fn_opt_usage() {
-	echo -e "Usage: $0 [option]"
-	echo -e ""
-	echo -e "LinuxGSM - ${gamename} - Version ${version}"
-	echo -e "https://linuxgsm.com/${gameservername}"
-	echo -e ""
-	echo -e "${lightyellow}Commands${default}"
+	fn_print_nl "Usage: $0 [option]"
+	fn_print_nl ""
+	fn_print_nl "LinuxGSM - ${gamename} - Version ${version}"
+	fn_print_nl "https://linuxgsm.com/${gameservername}"
+	fn_print_nl ""
+	fn_print_nl "${bold}${lightyellow}Commands${default}"
 	# Display available commands.
 	index="0"
 	{
 		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
 			# Hide developer commands.
 			if [ "${currentopt[index + 2]}" != "DEVCOMMAND" ]; then
-				echo -e "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
+				fn_print_nl "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
 			fi
 		done
 	} | column -s $'\t' -t

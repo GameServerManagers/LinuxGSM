@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_backup.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Creates a .tar.gz file in the backup directory.
 
 commandname="BACKUP"
-commandaction="Backing up"
+commandaction="Backup"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -115,7 +115,7 @@ fn_backup_compression() {
 	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
 	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress..."
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress ..."
 	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
 	excludedir=$(fn_backup_relpath)
 
@@ -126,9 +126,9 @@ fn_backup_compression() {
 		core_exit.sh
 	fi
 
-	tar -czf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
-	local exitcode=$?
-	if [ "${exitcode}" != 0 ]; then
+	tar --use-compress-program=pigz -hcf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
 		fn_script_log_fail "Backup in progress: FAIL"
 		echo -e "${extractcmd}" | tee -a "${lgsmlog}"
@@ -136,7 +136,7 @@ fn_backup_compression() {
 		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok_nl "Completed: ${italic}${backupname}.tar.gz${default}, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
 		alert="backup"
 		alert.sh

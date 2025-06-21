@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM update_fctr.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Factorio servers.
 
@@ -20,7 +20,7 @@ fn_update_localbuild() {
 	# Uses executable to get local build.
 	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
-		localbuild=$(${executable} --version | grep "Version:" | awk '{print $2}')
+		localbuild=$(${executable} --version | grep -m 1 "Version:" | awk '{print $2}')
 	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://factorio.com/get-download/${branch}/headless/${factorioarch}"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildversion=$(echo "${remotebuildresponse}" | grep -o '[0-9]\.[0-9]\{1,\}\.[0-9]\{1,\}' | head -1)

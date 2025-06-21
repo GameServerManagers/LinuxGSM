@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_uninstall.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-REMOVE"
-commandaction="Removing mods"
+commandaction="Removing Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -71,8 +71,8 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ] || [ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
-		((exitcode = $?))
-		if [ "${exitcode}" != 0 ]; then
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_script_log_fail "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
@@ -88,7 +88,7 @@ done
 # Added logic not to fail since removing game specific mods (amxmodxcs) removes files that will
 # not be found when removing the base (amxmodx) mod
 if [ "${modcommand}" != "amxmodx" ]; then
-	if [ "${exitcode}" != 0 ]; then
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -103,7 +103,7 @@ echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time_1
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 exitcode=$?
-if [ "${exitcode}" != 0 ]; then
+if [ "${exitcode}" -ne 0 ]; then
 	fn_script_log_fail "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -118,7 +118,7 @@ fn_sleep_time_1
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 exitcode=$?
-if [ "${exitcode}" != 0 ]; then
+if [ "${exitcode}" -ne 0 ]; then
 	fn_script_log_fail "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh

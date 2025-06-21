@@ -3,6 +3,8 @@ name: Update Check
 on:
   workflow_dispatch:
   push:
+    branches:
+      - develop
 
 concurrency:
   group: update-check-${{ github.ref_name }}
@@ -11,12 +13,12 @@ concurrency:
 jobs:
   update-check:
     if: github.repository_owner == 'GameServerManagers'
-    continue-on-error: true
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
-        shortname: [css, fctr, jk2, mc, mcb, mta, pmc, ts3, ut99, vints]
+        shortname: [css, fctr, jk2, mc, mcb, mta, pmc, ts3, ut99, vints, xnt]
 
     steps:
       - name: Download linuxgsm.sh
