@@ -112,21 +112,21 @@ fn_backup_create_lockfile() {
 
 fn_select_compression() {
 	if command -v zstd > /dev/null 2>&1; then
-		compress_prog="zstd"
+		compressprog="zstd"
 		compressext="tar.zst"
-		compress_flag="--zstd"
+		compressflag="--zstd"
 	elif command -v pigz > /dev/null 2>&1; then
-		compress_prog="pigz"
+		compressprog="pigz"
 		compressext="tar.gz"
-		compress_flag="--use-compress-program=pigz"
+		compressflag="--use-compress-program=pigz"
 	elif command -v gzip > /dev/null 2>&1; then
-		compress_prog="gzip"
+		compressprog="gzip"
 		compressext="tar.gz"
-		compress_flag="--gzip"
+		compressflag="--gzip"
 	else
-		compress_prog=""
+		compressprog=""
 		compressext="tar"
-		compress_flag=""
+		compressflag=""
 	fi
 }
 
@@ -146,8 +146,8 @@ fn_backup_compression() {
 		core_exit.sh
 	fi
 
-	if [ -n "${compress_flag}" ]; then
-		tar ${compress_flag} -hcf "${backupdir}/${backupname}.${compressext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	if [ -n "${compressflag}" ]; then
+		tar ${compressflag} -hcf "${backupdir}/${backupname}.${compressext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
 	else
 		tar -hcf "${backupdir}/${backupname}.${compressext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
 	fi
