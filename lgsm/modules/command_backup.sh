@@ -110,23 +110,48 @@ fn_backup_create_lockfile() {
 	trap fn_backup_trap INT
 }
 
+fn_select_compression() {
+	if command -v zstd > /dev/null 2>&1; then
+		compress_prog="zstd"
+		compress_ext="tar.zst"
+		compress_flag="--zstd"
+	elif command -v pigz > /dev/null 2>&1; then
+		compress_prog="pigz"
+		compress_ext="tar.gz"
+		compress_flag="--use-compress-program=pigz"
+	elif command -v gzip > /dev/null 2>&1; then
+		compress_prog="gzip"
+		compress_ext="tar.gz"
+		compress_flag="--gzip"
+	else
+		compress_prog=""
+		compress_ext="tar"
+		compress_flag=""
+	fi
+}
+
 # Compressing files.
 fn_backup_compression() {
-	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
+	fn_select_compression
+
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
-	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress ..."
-	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
+	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.${compress_ext}"
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.${compress_ext}, in progress ..."
+	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.${compress_ext}, in progress"
 	excludedir=$(fn_backup_relpath)
 
-	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ]; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fail "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
 
-	tar --use-compress-program=pigz -hcf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	if [ -n "${compress_flag}" ]; then
+		tar ${compress_flag} -hcf "${backupdir}/${backupname}.${compress_ext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	else
+		tar -hcf "${backupdir}/${backupname}.${compress_ext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	fi
+
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
@@ -136,8 +161,8 @@ fn_backup_compression() {
 		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${italic}${backupname}.tar.gz${default}, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
-		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok_nl "Completed: ${italic}${backupname}.${compress_ext}${default}, total size $(du -sh "${backupdir}/${backupname}.${compress_ext}" | awk '{print $1}')"
+		fn_script_log_pass "Backup created: ${backupname}.${compress_ext}, total size $(du -sh "${backupdir}/${backupname}.${compress_ext}" | awk '{print $1}')"
 		alert="backup"
 		alert.sh
 	fi
