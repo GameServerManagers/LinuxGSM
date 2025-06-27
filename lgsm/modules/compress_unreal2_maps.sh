@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Compresses unreal maps.
+# Description: Compresses unreal resources.
 
 commandname="MAP-COMPRESSOR"
 commandaction="Compressing Maps"
@@ -33,13 +33,10 @@ find "${serverfiles}" \( -name "*.ut2.uz2" -o -name "*.rom.uz2" -o -name "*.utx.
 echo -e "Searching for Unreal Engine files to compress..."
 echo -e "Look in game config file for maps"
 
-# mapext=$(awk -F= '/^[[:space:]]*MapExt[[:space:]]*=/ {gsub(/^[ \t"]+|[ \t"]+$/, "", $2); print $2; exit}' "${servercfgfullpath}")
-# echo "Detected map extension: $mapext"
-
 # List of extensions to compress (excluding .ogg)
 exts="ut2 kfm rom u ucl upl ini int utx uax ukx usx"
 
-# Remove old compressed files for these extensions
+# Remove any old compressed files for these extensions
 for ext in $exts; do
 	find "${serverfiles}" -name "*.${ext}.uz2" -type f -exec rm -fv {} \;
 done
