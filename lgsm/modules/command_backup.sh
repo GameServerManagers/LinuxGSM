@@ -13,13 +13,13 @@ fn_firstcommand_set
 # Trap to remove lockfile on quit.
 fn_backup_trap() {
 	echo -e ""
-	echo -en "backup ${backupname}.tar.gz..."
+	echo -en "backup ${backupname}.${compressext}..."
 	fn_print_canceled_eol_nl
-	fn_script_log_info "Backup ${backupname}.tar.gz: CANCELED"
-	rm -f "${backupdir:?}/${backupname}.tar.gz" | tee -a "${lgsmlog}"
-	echo -en "backup ${backupname}.tar.gz..."
+	fn_script_log_info "Backup ${backupname}.${compressext}: CANCELED"
+	rm -f "${backupdir:?}/${backupname}.${compressext}" | tee -a "${lgsmlog}"
+	echo -en "backup ${backupname}.${compressext}..."
 	fn_print_removed_eol_nl
-	fn_script_log_info "Backup ${backupname}.tar.gz: REMOVED"
+	fn_script_log_info "Backup ${backupname}.${compressext}: REMOVED"
 	# Remove backup lockfile.
 	rm -f "${lockdir:?}/backup.lock"
 	fn_backup_start_server
@@ -110,23 +110,47 @@ fn_backup_create_lockfile() {
 	trap fn_backup_trap INT
 }
 
+fn_select_compression() {
+	if command -v zstd > /dev/null 2>&1; then
+		compressprog="zstd"
+		compressext="tar.zst"
+		compressflag="--zstd"
+	elif command -v pigz > /dev/null 2>&1; then
+		compressprog="pigz"
+		compressext="tar.gz"
+		compressflag="--use-compress-program=pigz"
+	elif command -v gzip > /dev/null 2>&1; then
+		compressprog="gzip"
+		compressext="tar.gz"
+		compressflag="--gzip"
+	else
+		compressprog=""
+		compressext="tar"
+		compressflag=""
+	fi
+}
+
 # Compressing files.
 fn_backup_compression() {
-	# Tells how much will be compressed using rootdirduexbackup value from info_distro and prompt for continue.
+
 	fn_print_info "A total of ${rootdirduexbackup} will be compressed."
-	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.tar.gz"
-	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.tar.gz, in progress ..."
-	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.tar.gz, in progress"
+	fn_script_log_info "A total of ${rootdirduexbackup} will be compressed: ${backupdir}/${backupname}.${compressext}"
+	fn_print_dots "Backup (${rootdirduexbackup}) ${backupname}.${compressext}, in progress ..."
+	fn_script_log_info "Backup ${rootdirduexbackup} ${backupname}.${compressext}, in progress"
 	excludedir=$(fn_backup_relpath)
 
-	# Check that excludedir is a valid path.
 	if [ ! -d "${excludedir}" ]; then
 		fn_print_fail_nl "Problem identifying the previous backup directory for exclusion."
 		fn_script_log_fail "Problem identifying the previous backup directory for exclusion"
 		core_exit.sh
 	fi
 
-	tar --use-compress-program=pigz -hcf "${backupdir}/${backupname}.tar.gz" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	if [ -n "${compressflag}" ]; then
+		tar ${compressflag} -hcf "${backupdir}/${backupname}.${compressext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	else
+		tar -hcf "${backupdir}/${backupname}.${compressext}" -C "${rootdir}" --exclude "${excludedir}" --exclude "${lockdir}" --exclude "${tmpdir}" ./.
+	fi
+
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
@@ -136,8 +160,8 @@ fn_backup_compression() {
 		fn_script_log_fail "Starting backup"
 	else
 		fn_print_ok_eol
-		fn_print_ok_nl "Completed: ${italic}${backupname}.tar.gz${default}, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
-		fn_script_log_pass "Backup created: ${backupname}.tar.gz, total size $(du -sh "${backupdir}/${backupname}.tar.gz" | awk '{print $1}')"
+		fn_print_ok "Completed: ${italic}${backupname}.${compressext}${default}, total size $(du -sh "${backupdir}/${backupname}.${compressext}" | awk '{print $1}')"
+		fn_script_log_pass "Backup created: ${backupname}.${compressext}, total size $(du -sh "${backupdir}/${backupname}.${compressext}" | awk '{print $1}')"
 		alert="backup"
 		alert.sh
 	fi
@@ -152,7 +176,7 @@ fn_backup_prune() {
 		# How many backups exceed maxbackups.
 		backupquotadiff=$((backupcount - maxbackups))
 		# How many backups exceed maxbackupdays.
-		backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.gz" -mtime +"${maxbackupdays}" | wc -l)
+		backupsoudatedcount=$(find "${backupdir}"/ -type f -name "*.tar.*" -mtime +"${maxbackupdays}" | wc -l)
 		# If anything can be cleared.
 		if [ "${backupquotadiff}" -gt "0" ] || [ "${backupsoudatedcount}" -gt "0" ]; then
 			fn_print_dots "Pruning"
@@ -167,7 +191,7 @@ fn_backup_prune() {
 				fn_print_dots "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_info "Pruning: Clearing ${backupquotadiff} backup(s)"
 				# Clear backups over quota.
-				find "${backupdir}"/ -type f -name "*.tar.gz" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
+				find "${backupdir}"/ -type f -name "*.tar.*" -printf '%T@ %p\n' | sort -rn | tail -${backupquotadiff} | cut -f2- -d" " | xargs rm
 				fn_print_ok_nl "Pruning: Clearing ${backupquotadiff} backup(s)"
 				fn_script_log_pass "Pruning: Cleared ${backupquotadiff} backup(s)"
 			# If maxbackupdays is used over maxbackups.
@@ -190,7 +214,7 @@ fn_backup_prune() {
 fn_backup_relpath() {
 	# Written by CedarLUG as a "realpath --relative-to" alternative in bash.
 	# Populate an array of tokens initialized from the rootdir components.
-	declare -a rdirtoks=($(readlink -f "${rootdir}" | sed "s/\// /g"))
+	mapfile -t rdirtoks < <(readlink -f "${rootdir}" | sed "s/\//\n/g")
 	if [ ${#rdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing rootdir during relative path assessment"
 		fn_script_log_fail "Problem assessing rootdir during relative path assessment: ${rootdir}"
@@ -198,7 +222,7 @@ fn_backup_relpath() {
 	fi
 
 	# Populate an array of tokens initialized from the backupdir components.
-	declare -a bdirtoks=($(readlink -f "${backupdir}" | sed "s/\// /g"))
+	mapfile -t bdirtoks < <(readlink -f "${backupdir}" | sed "s/\//\n/g")
 	if [ ${#bdirtoks[@]} -eq 0 ]; then
 		fn_print_fail_nl "Problem assessing backupdir during relative path assessment"
 		fn_script_log_fail "Problem assessing backupdir during relative path assessment: ${rootdir}"
@@ -243,7 +267,7 @@ fn_backup_start_server() {
 fn_print_dots ""
 check.sh
 core_logs.sh
-
+fn_select_compression
 fn_backup_check_lockfile
 fn_backup_init
 fn_backup_stop_server
