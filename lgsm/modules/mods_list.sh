@@ -55,13 +55,13 @@ amxxtslatestfile="amxmodx-${amxxtsversion}-${amxxtsmod}-linux.tar.gz"
 amxxtsdownloadurl="https://www.amxmodx.org/release/${amxxtslatestfile}"
 amxxtsurl="${amxxtsdownloadurl}"
 # Metamod:Source
-metamodsourceversion="1.11"
+metamodsourceversion="1.12"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"
 metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
 metamodsourcedownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsourceversion}"
 metamodsourceurl="${metamodsourcedownloadurl}"
 # Sourcemod
-sourcemodversion="1.12"
+sourcemodversion="1.13"
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodversion}/sourcemod-latest-linux"
 sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodversion}"
