@@ -33,10 +33,10 @@ fn_print_nl
 mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 
 # List of extensions to compress
-exts="ut2 kfm rom u ucl upl int utx uax ukx usx unr umx umod uzx"
+exts=(ut2 kfm rom u ucl upl int utx uax ukx usx unr umx umod uzx)
 
 # Remove old compressed files using find
-for ext in ${exts}; do
+for ext in "${exts[@]}"; do
 	mapfile -t oldfiles < <(find "${serverfiles}" -name "*.${ext}.uz2" -type f)
 	if [ ${#oldfiles[@]} -gt 0 ]; then
 		echo -e "found ${#oldfiles[@]} old compressed file(s) to remove for extension: ${ext}"
