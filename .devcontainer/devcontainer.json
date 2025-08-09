@@ -1,21 +1,29 @@
 {
-  "name": "Ubuntu",
+  "name": "BASH Dev Container",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
-    "ghcr.io/devcontainers-extra/features/prettier:1": {},
-    "ghcr.io/devcontainers-extra/features/shellcheck:1": {}
+    "ghcr.io/devcontainers-community/npm-features/prettier:1": {
+      "plugins": "prettier-plugin-sh"
+    },
+    "ghcr.io/devcontainers-extra/features/actionlint:1": {},
+    "ghcr.io/devcontainers-extra/features/checkov:1": {},
+    "ghcr.io/devcontainers-extra/features/markdownlint-cli:1": {},
+    "ghcr.io/devcontainers-extra/features/shellcheck:1": {},
+    "ghcr.io/devcontainers-extra/features/yamllint:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
-        "editorconfig.editorconfig",
-        "esbenp.prettier-vscode",
-        "ms-python.python",
+        "DavidAnson.vscode-markdownlint",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-azureterraform",
         "redhat.vscode-yaml",
         "timonwong.shellcheck",
         "yzhang.markdown-all-in-one"
       ]
     }
-  },
-  "postCreateCommand": "npm install --save-dev prettier-plugin-sh"
+  }
 }
