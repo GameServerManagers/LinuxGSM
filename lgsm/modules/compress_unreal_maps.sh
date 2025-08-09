@@ -55,7 +55,7 @@ done
 cd "${systemdir}" || exit
 
 # Find and compress files, then move .uz2 to compressedmapsdir
-for ext in ${exts}; do
+for ext in "${exts[@]}"; do
 	# Collect all files with the current extension into an array
 	mapfile -t files < <(find "${serverfiles}" -name "*.${ext}" -type f)
 	for file in "${files[@]}"; do
