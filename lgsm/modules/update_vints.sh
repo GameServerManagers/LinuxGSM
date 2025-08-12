@@ -20,6 +20,7 @@ fn_update_localbuild() {
 	# Uses executable to get local build.
 	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
+		# shellcheck disable=SC2086 # Intentional: preexecutable may be empty; unquoted to drop it without producing an empty arg.
 		localbuild="$(${preexecutable} ${executable} --version 2> /dev/null | sed '/^[[:space:]]*$/d')"
 	fi
 	if [ -z "${localbuild}" ]; then
@@ -74,21 +75,21 @@ fn_update_compare() {
 		# Create update lockfile.
 		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}Update${default} available"
+		fn_print_nl "* Local build: ${red}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "Remote build info"
+			fn_print_nl "* apiurl: ${apiurl}"
+			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
+			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuildversion: ${remotebuildversion}"
 		fi
-		echo -en "\n"
+		fn_print "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
@@ -98,7 +99,7 @@ fn_update_compare() {
 		fn_script_log_info "${localbuild} > ${remotebuildversion}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir}/last-updated.lock"
+			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
 			check_status.sh
 			# If server stopped.
@@ -133,14 +134,14 @@ fn_update_compare() {
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}No update${default} available"
+		fn_print_nl "* Local build: ${green}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
-		echo -en "\n"
+		fn_print "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuildversion}"
@@ -148,23 +149,17 @@ fn_update_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "Remote build info"
+			fn_print_nl "* apiurl: ${apiurl}"
+			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
+			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuildversion: ${remotebuildversion}"
 		fi
 	fi
 }
 
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
-
-if [ ! "$(command -v jq 2> /dev/null)" ]; then
-	fn_print_fail_nl "jq is not installed"
-	fn_script_log_fail "jq is not installed"
-	core_exit.sh
-fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
