@@ -54,13 +54,12 @@ fn_update_remotebuild() {
 	remotebuildfilename=$(echo "${remotebuildtag}" | tr -d 'v')
 	remotebuildfilename="${remotebuildfilename}.zip"
 	remotebuildurl="https://dl.xonotic.org/${remotebuildfilename}"
-
-	remotebuildversion="${remotebuildtag}"
+	remotebuild="${remotebuildtag}"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuildversion variable has been set.
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fail "Checking remote build"
 			core_exit.sh
@@ -70,7 +69,7 @@ fn_update_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fail "Unable to get remote build"
 			core_exit.sh
@@ -81,14 +80,14 @@ fn_update_remotebuild() {
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	# Update has been found or force update.
-	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		# Create update lockfile.
 		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
 		fn_print "\n"
 		fn_print_nl "${bold}${underline}Update${default} available"
 		fn_print_nl "* Local build: ${red}${localbuild}${default}"
-		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
 		if [ -n "${branch}" ]; then
 			fn_print_nl "* Branch: ${branch}"
 		fi
@@ -97,16 +96,16 @@ fn_update_compare() {
 			fn_print_nl "* apiurl: ${apiurl}"
 			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
 			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
-			fn_print_nl "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
 		fn_print "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
-		fn_script_log_info "${localbuild} > ${remotebuildversion}"
+		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			date +%s > "${lockdir:?}/last-updated.lock"
@@ -147,14 +146,14 @@ fn_update_compare() {
 		fn_print "\n"
 		fn_print_nl "${bold}${underline}No update${default} available"
 		fn_print_nl "* Local build: ${green}${localbuild}${default}"
-		fn_print_nl "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
 		if [ -n "${branch}" ]; then
 			fn_print_nl "* Branch: ${branch}"
 		fi
 		fn_print "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -163,7 +162,7 @@ fn_update_compare() {
 			fn_print_nl "* apiurl: ${apiurl}"
 			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
 			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
-			fn_print_nl "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
 	fi
 }

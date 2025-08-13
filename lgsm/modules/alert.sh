@@ -97,14 +97,35 @@ fn_alert_monitor_query() {
 
 # Update alerts
 fn_alert_update() {
-	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
+	# If previousbuild is set show transition, else fallback to single version.
+	if [ -n "${previousbuild:-}" ] && [ -n "${localbuild:-}" ]; then
+		fn_script_log_info "Sending alert: ${selfname} updated ${previousbuild} -> ${localbuild}"
+		alertmessage="${selfname} has been updated: ${previousbuild} -> ${localbuild}."
+	else
+		fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
+		alertmessage="${selfname} has received a game server update: ${localbuild}."
+	fi
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${selfname} has received a game server update: ${localbuild}."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
+}
+
+# Update failure alert
+fn_alert_update_failed() {
+	# Expect updatefailureexpected (target version) and updatefailuregot (actual localbuild) if set
+	local expected="${updatefailureexpected:-${remotebuild:-unknown}}"
+	local got="${updatefailuregot:-${localbuild:-unknown}}"
+	fn_script_log_error "Sending alert: ${selfname} update failed expected ${expected} got ${got}"
+	alertaction="Update Failed"
+	alertemoji="❌"
+	alertsound="2"
+	alertmessage="${selfname} update failed. Expected ${expected} but is still ${got}. Manual intervention required."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
 }
 
 fn_alert_update_request() {
@@ -119,11 +140,11 @@ fn_alert_update_request() {
 }
 
 fn_alert_check_update() {
-	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
+	fn_script_log_info "Sending alert: ${gamename} update available: ${localbuild} -> ${remotebuild}"
 	alertaction="Update available"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${gamename} update available: ${remotebuildversion}"
+	alertmessage="${gamename} update available: ${localbuild} -> ${remotebuild}"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -210,6 +231,8 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
+elif [ "${alert}" == "update-failed" ]; then
+	fn_alert_update_failed
 elif [ "${alert}" == "update-request" ]; then
 	fn_alert_update_request
 elif [ "${alert}" == "check-update" ]; then
