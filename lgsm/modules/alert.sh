@@ -10,13 +10,9 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Generates alert log of the details at the time of the alert.
 # Used with email alerts.
 fn_alert_log() {
-	info_distro.sh
-	info_game.sh
-	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
 	fi
-
 	{
 		fn_info_messages_head
 		fn_info_messages_distro
@@ -218,8 +214,9 @@ fn_alert_info() {
 	alertcolourdec="2003199"
 }
 
-# Images
-alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
+info_distro.sh
+info_game.sh
+info_messages.sh
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
@@ -260,6 +257,7 @@ else
 fi
 
 alerttitle="${alertemoji} ${alertaction} - ${servername} ${alertemoji}"
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
 
 # Generate alert log.
 fn_alert_log
