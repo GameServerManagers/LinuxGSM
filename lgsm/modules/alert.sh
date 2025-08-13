@@ -95,11 +95,11 @@ fn_alert_monitor_query() {
 fn_alert_update() {
 	# If previousbuild is set show transition, else fallback to single version.
 	if [ -n "${previousbuild:-}" ] && [ -n "${localbuild:-}" ]; then
-		fn_script_log_info "Sending alert: ${selfname} updated ${previousbuild} -> ${localbuild}"
-		alertmessage="${selfname} has been updated: ${previousbuild} -> ${localbuild}."
+		fn_script_log_info "Sending alert: ${selfname} updated: ${previousbuild} -> ${localbuild}"
+		alertmessage="${selfname} updated: ${previousbuild} -> ${localbuild}."
 	else
-		fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
-		alertmessage="${selfname} has received a game server update: ${localbuild}."
+		fn_script_log_info "Sending alert: ${selfname} updated to ${localbuild}"
+		alertmessage="${selfname} updated to ${localbuild}."
 	fi
 	alertaction="Updated"
 	alertemoji="🎉"
@@ -114,22 +114,22 @@ fn_alert_update_failed() {
 	# Expect updatefailureexpected (target version) and updatefailuregot (actual localbuild) if set
 	local expected="${updatefailureexpected:-${remotebuild:-unknown}}"
 	local got="${updatefailuregot:-${localbuild:-unknown}}"
-	fn_script_log_error "Sending alert: ${selfname} update failed expected ${expected} got ${got}"
+	fn_script_log_error "Sending alert: ${selfname} update failed: expected ${expected}, got ${got}"
 	alertaction="Update Failed"
 	alertemoji="❌"
 	alertsound="2"
-	alertmessage="${selfname} update failed. Expected ${expected} but is still ${got}. Manual intervention required."
+	alertmessage="${selfname} update failed: expected ${expected}, got ${got}. Manual intervention required."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"
 }
 
-fn_alert_update_request() {
-	fn_script_log_info "Sending alert: ${selfname} has requested an update and needs to be restarted."
-	alertaction="Updating"
+fn_alert_update_restart_request() {
+	fn_script_log_info "Sending alert: ${selfname} restart requested"
+	alertaction="Restart Requested"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${selfname} has requested an update and needs to be restarted."
+	alertmessage="${selfname} has requested a restart for an update to be applied. Restarting now."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
@@ -137,7 +137,7 @@ fn_alert_update_request() {
 
 fn_alert_check_update() {
 	fn_script_log_info "Sending alert: ${gamename} update available: ${localbuild} -> ${remotebuild}"
-	alertaction="Update available"
+	alertaction="Update Available"
 	alertemoji="🎉"
 	alertsound="1"
 	alertmessage="${gamename} update available: ${localbuild} -> ${remotebuild}"
@@ -147,7 +147,7 @@ fn_alert_check_update() {
 }
 
 fn_alert_update_linuxgsm() {
-	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	fn_script_log_info "Sending alert: ${selfname} has received a LinuxGSM update"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
@@ -230,8 +230,8 @@ elif [ "${alert}" == "update" ]; then
 	fn_alert_update
 elif [ "${alert}" == "update-failed" ]; then
 	fn_alert_update_failed
-elif [ "${alert}" == "update-request" ]; then
-	fn_alert_update_request
+elif [ "${alert}" == "update-restart-request" ]; then
+	fn_alert_update_restart_request
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
