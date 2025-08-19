@@ -68,6 +68,10 @@ jobs:
           else
             curl -f -o config "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${{ matrix.shortname }}/${{ steps.sets-servercfgname.outputs.servercfgname }}"
           fi
+
+      - name: Pre-load LinuxGSM
+        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+
       - name: Display config
         run: |
           if [ "${{ steps.sets-servercfgname.outputs.servercfgname }}" == "" ]; then
