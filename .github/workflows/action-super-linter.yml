@@ -1,0 +1,49 @@
+---
+name: Super Linter
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "*"
+
+concurrency:
+  group: super-linter-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  build:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Install Prettier plugins (for summary formatting)
+        run: |
+          npm install --no-save prettier prettier-plugin-sh prettier-plugin-jinja-template || true
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v8
+        env:
+          # To report GitHub Actions status checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JSCPD: false
+          VALIDATE_SHELL_SHFMT: false
+          VALIDATE_YAML_PRETTIER: false
+          VALIDATE_JSON_PRETTIER: false
+          VALIDATE_MARKDOWN_PRETTIER: false
+          VALIDATE_NATURAL_LANGUAGE: false

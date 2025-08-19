@@ -1,2 +1,12 @@
-.vscode/settings.json
-/node_modules
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+
+# Node.js
+node_modules
