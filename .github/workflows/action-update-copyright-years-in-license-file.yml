@@ -1,0 +1,27 @@
+name: Update copyright year(s) in license file
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 1 1 *" # 03:00 AM on January 1
+
+permissions:
+  contents: write
+
+jobs:
+  update-license-year:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Action Update License Year
+        uses: FantasticFiasco/action-update-license-year@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: LICENSE.md
+      - name: Merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --merge --delete-branch
