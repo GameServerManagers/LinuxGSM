@@ -90,6 +90,12 @@ fn_messages_separator
 		echo -e "Beacon:"
 	fi
 
+	if [ -n "${reliableport}" ]; then
+		echo -e "ReliableMessaging: \t${reliableport} \t$(ss -tupl | grep -c "${reliableport}") \t$(ss -tupl | grep "${reliableport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${reliableport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "ReliableMessaging:"
+	fi
+
 	if [ -n "${clientport}" ]; then
 		echo -e "Client: \t${clientport} \t$(ss -tupl | grep -c "${clientport}") \t$(ss -tupl | grep "${clientport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${clientport}" | grep udp | awk '{ print $2 }')"
 	else

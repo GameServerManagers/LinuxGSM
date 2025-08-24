@@ -1502,6 +1502,7 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+		fn_port "ReliableMessaging" reliableport tcp
 	} | column -s $'\t' -t
 }
 
