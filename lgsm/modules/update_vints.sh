@@ -39,8 +39,10 @@ fn_update_remotebuild() {
 	remotebuildresponse=$(curl -s "${apiurl}")
 	if [ "${branch}" == "stable" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
-	else
+	elif [ "${branch}" == "unstable" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+	else
+		remotebuildversion="${branch}"
 	fi
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
