@@ -1,9 +1,9 @@
 name: Trigger Docker Build
 on:
+  workflow_dispatch:
   release:
     types:
       - published
-  workflow_dispatch:
 
 jobs:
   trigger_build_docker-linuxgsm:
