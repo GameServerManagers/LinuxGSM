@@ -96,6 +96,7 @@ declare -A server_details=(
 	['RCON Port']="${rconport}"
 	['RCON Web']="${rconweb}"
 	['Reserved Slots']="${reservedslots}"
+	['Reliable Messaging']="${reliableport}"
 	['RMI Port']="${rmiport}"
 	['RMI Reg Port']="${rmiregport}"
 	['Salt']="${salt}"

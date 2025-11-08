@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v25.1.6"
+modulesversion="v25.2.0"
 
 # Core
 
@@ -271,11 +271,6 @@ check_version.sh() {
 # Compress
 
 compress_unreal2_maps.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-compress_ut99_maps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

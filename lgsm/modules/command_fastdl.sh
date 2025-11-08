@@ -21,13 +21,6 @@ luasvautorundir="${systemdir}/lua/autorun/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
-# Check if bzip2 is installed.
-if [ ! "$(command -v bzip2 2> /dev/null)" ]; then
-	fn_print_fail "bzip2 is not installed"
-	fn_script_log_fail "bzip2 is not installed"
-	core_exit.sh
-fi
-
 # Header
 fn_print_header
 fn_print_nl "More info: ${italic}https://docs.linuxgsm.com/commands/fastdl"
@@ -112,13 +105,13 @@ fn_fastdl_dirs() {
 # Using this gist https://gist.github.com/agunnerson-ibm/efca449565a3e7356906
 fn_human_readable_file_size() {
 	local abbrevs=(
-		$((1 << 60)):ZB
-		$((1 << 50)):EB
-		$((1 << 40)):TB
-		$((1 << 30)):GB
-		$((1 << 20)):MB
-		$((1 << 10)):KB
-		$((1)):bytes
+		"1152921504606846976:ZB"
+		"1125899906842624:EB"
+		"1099511627776:TB"
+		"1073741824:GB"
+		"1048576:MB"
+		"1024:KB"
+		"1:bytes"
 	)
 
 	local bytes="${1}"
@@ -225,11 +218,17 @@ fn_fastdl_preview() {
 		fn_script_log_fail "Generating file list."
 		core_exit.sh
 	fi
-	fn_print_nl "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+
+  if [ "${engine}" == "source" ]; then
+		echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+	elif [ "${engine}" == "goldsrc" ]; then
+		echo -e "about to copy ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+	fi
+
 	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
 	rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
 	if ! fn_prompt_yn "Continue?" Y; then
-		fn_script_log "User exited"
+		exitcode=0
 		core_exit.sh
 	fi
 }
@@ -431,7 +430,9 @@ fn_fastdl_preview
 fn_clear_old_fastdl
 fn_fastdl_dirs
 fn_fastdl_build
-fn_fastdl_bzip2
+if [ "${engine}" == "source" ]; then
+	fn_fastdl_bzip2
+fi
 # Finished message.
 fn_print_nl "Fastdl files are located in:"
 fn_print_nl "${fastdldir}"
