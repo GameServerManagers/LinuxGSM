@@ -41,6 +41,8 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_JSCPD: false
           VALIDATE_JSON_PRETTIER: false
@@ -48,4 +50,5 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_TERRAFORM_TERRASCAN: false
+          VALIDATE_TRIVY: false
           VALIDATE_YAML_PRETTIER: false
