@@ -65,7 +65,7 @@ kf
 kf2
 l4d
 l4d2
-mc,openjdk-22-jre
+mc,openjdk-25-jre
 mcb
 mh
 mohaa,libstdc++5:i386
@@ -81,12 +81,12 @@ onset,libmariadb-dev
 opfor
 pc
 pc2
-pmc,openjdk-22-jre
+pmc,openjdk-25-jre
 squad44
 pvkii
 pvr,libc++1
 pw
-pz,openjdk-22-jre,rng-tools5
+pz,openjdk-25-jre,rng-tools5
 q2
 q3
 q4
@@ -96,7 +96,7 @@ ricochet
 ro
 rtcw
 rust,lib32z1
-rw,openjdk-22-jre
+rw,openjdk-25-jre
 samp
 sb
 sbots
