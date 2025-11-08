@@ -18,7 +18,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Generate matrix with generate-matrix.sh
         run: chmod +x .github/workflows/details-check-generate-matrix.sh; .github/workflows/details-check-generate-matrix.sh
