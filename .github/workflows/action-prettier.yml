@@ -1,0 +1,36 @@
+name: Prettier
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "*"
+
+concurrency:
+  group: prettier-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Install Prettier and plugins
+        run: |
+          npm install --no-save prettier prettier-plugin-sh prettier-plugin-jinja-template
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.6
+        with:
+          prettier_plugins: "prettier-plugin-sh prettier-plugin-jinja-template"
+          prettier_options: --write .
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: "chore(prettier): format code"

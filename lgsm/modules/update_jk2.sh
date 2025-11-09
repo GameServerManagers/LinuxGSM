@@ -31,7 +31,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://api.github.com/repos/mvdevs/jk2mv/releases/latest"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("dedicated.zip")) | .name')

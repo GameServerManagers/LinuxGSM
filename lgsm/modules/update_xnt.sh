@@ -1,9 +1,9 @@
 #!/bin/bash
-# LinuxGSM command_ut99.sh module
+# LinuxGSM command_xnt.sh module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Unreal Tournament 99 servers.
+# Description: Handles updating of Xontic servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -17,10 +17,21 @@ fn_update_dl() {
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-
+	check_status.sh
 	# Send version command to Xonotic server.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" "version\r" > /dev/null 2>&1
-	fn_sleep_time_1
+	if [ "${status}" != "0" ]; then
+		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
+		fn_sleep_time_1
+	else
+		exitbypass=1
+		command_start.sh
+		fn_firstcommand_reset
+		exitbypass=1
+		fn_sleep_time_5
+		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
+		command_stop.sh
+		fn_firstcommand_reset
+	fi
 
 	# Uses log file to get local build.
 	localbuild=$(grep "SVQC version: xonotic-v" "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*SVQC version: \(xonotic-v[0-9.]*\).*/\1/' | tr -d '\000-\011\013-\037')
@@ -36,7 +47,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://api.github.com/repos/xonotic/xonotic/tags"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildtag=$(echo "${remotebuildresponse}" | jq -r '.[0].name')

@@ -11,7 +11,7 @@ import socket
 import sys
 
 engine_types = ('protocol-valve', 'protocol-quake2', 'protocol-quake3', 'protocol-gamespy1',
-                'protocol-unreal2', 'ut3', 'minecraft', 'minecraftbe', 'jc2mp', 'mumbleping', 'soldat', 'teeworlds')
+                'protocol-unreal2', 'ut3', 'minecraft', 'minecraftbe', 'jc2m', 'mumbleping', 'soldat', 'teeworlds')
 
 
 class gsquery:
@@ -23,7 +23,7 @@ class gsquery:
     idtech3query = ('protocol-quake3', 'iw3.0', 'ioquake3', 'qfusion')
     minecraftquery = ('minecraft', 'lwjgl2')
     minecraftbequery = ('minecraftbe')
-    jc2mpquery = ('jc2mp')
+    jc2mquery = ('jc2m')
     mumblequery = ('mumbleping')
     soldatquery = ('soldat')
     twquery = ('teeworlds')
@@ -40,7 +40,7 @@ class gsquery:
             self.query_prompt_string = b'\xff\xff\xff\xffstatus\x00'
         elif self.argument.engine in self.idtech3query:
             self.query_prompt_string = b'\xff\xff\xff\xffgetstatus'
-        elif self.argument.engine in self.jc2mpquery:
+        elif self.argument.engine in self.jc2mquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x10\x20\x30\x40'
         elif self.argument.engine in self.minecraftquery:
             self.query_prompt_string = b'\xFE\xFD\x09\x3d\x54\x1f\x93'

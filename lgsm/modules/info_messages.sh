@@ -1502,6 +1502,7 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+		fn_port "ReliableMessaging" reliableport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1658,7 +1659,7 @@ fn_info_messages_tf() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
 		fn_port "Shutdown" shutdownport tcp
 	} | column -s $'\t' -t

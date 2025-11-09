@@ -1993,6 +1993,7 @@ fn_info_game_sf() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
+	reliableport="${reliableport:-"0"}"
 }
 
 # Config Type: Parameters (with an ini)
