@@ -111,7 +111,7 @@ squad
 st,libxml2-utils
 steamcmd,lib32gcc1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 stn
-sven,libssl1.1:i386,zlib1g:i386
+sven,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
