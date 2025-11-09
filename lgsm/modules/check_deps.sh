@@ -361,12 +361,22 @@ if [ -n "${distrosupport}" ]; then
 	fi
 fi
 
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "24.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
-    if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
-        fn_print_failure_nl "${gamename} is not supported on ${distroname}."
-        fn_script_log_fail "${gamename} is not supported on ${distroname}."
-        core_exit.sh
-    fi
+# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
+	if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
+		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
+		fn_script_log_fail "${gamename} is not supported on ${distroname}."
+		core_exit.sh
+	fi
+fi
+
+# These titles are only supported up to Ubuntu 20.04 and Debian 11 (and Debian-like derivatives).
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
+		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
+		fn_script_log_fail "${gamename} is not supported on ${distroname}."
+		core_exit.sh
+	fi
 fi
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
