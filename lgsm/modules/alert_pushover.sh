@@ -22,11 +22,27 @@ else
 	alertpriority="0"
 fi
 
-if [ -z "${alerturl}" ]; then
-	pushoversend=$(curl --connect-timeout 3 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
-else
-	pushoversend=$(curl --connect-timeout 3 -sS -F token="${pushovertoken}" -F user="${pushoveruserkey}" -F html="1" -F sound="${alertsound}" -F priority="${alertpriority}" -F title="${alerttitle}" -F message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br><b>More info</b><br><a href='${alerturl}'>${alerturl}</a><br><br>Server Time<br>$(date)" "https://api.pushover.net/1/messages.json" | grep errors)
+message=" <b>Server name</b><br>${servername}<br><br><b>Information</b><br>${alertmessage}<br><br><b>Game</b><br>${gamename}<br><br><b>Server IP</b><br>${alertip}:${port}<br><br><b>Hostname</b><br>${HOSTNAME}<br><br>"
+
+if [ -n "${querytype}" ]; then
+	message+="<b>Is my Game Server Online?</b><br><a href='https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}'>Check here</a><br><br>"
 fi
+
+if [ -n "${alerturl}" ]; then
+	message+="<b>More info</b><br><a href='${alerturl}'>${alerturl}</a><br><br>"
+fi
+
+message+="Server Time<br>$(date)"
+
+pushoversend=$(curl --connect-timeout 3 -sS \
+	-F token="${pushovertoken}" \
+	-F user="${pushoveruserkey}" \
+	-F html="1" \
+	-F sound="${alertsound}" \
+	-F priority="${alertpriority}" \
+	-F title="${alerttitle}" \
+	-F message="${message}" \
+	"https://api.pushover.net/1/messages.json" | grep errors)
 
 if [ -n "${pushoversend}" ]; then
 	fn_print_fail_nl "Sending Pushover alert: ${pushoversend}"

@@ -34,7 +34,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="https://launchermeta.mojang.com/mc/game/version_manifest.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Latest release.
@@ -167,9 +167,9 @@ fn_update_compare() {
 # The location where the builds are checked and downloaded.
 remotelocation="mojang.com"
 
-if [ "$(command -v jq 2> /dev/null)" ]; then
+if [ ! "$(command -v jq 2> /dev/null)" ]; then
 	fn_print_fail_nl "jq is not installed"
-	fn_script_log_fatal "jq is not installed"
+	fn_script_log_fail "jq is not installed"
 	core_exit.sh
 fi
 

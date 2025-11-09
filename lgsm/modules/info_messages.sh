@@ -7,6 +7,29 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Converts querytype to imgsoquerytype for use with ismygameserver.online urls
+if [ -n "${querytype}" ]; then
+	if [ "${querytype}" == "protocol-valve" ]; then
+		imgsoquerytype="valve"
+	elif [ "${querytype}" == "protocol-gamespy1" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-gamespy2" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-gamespy3" ]; then
+		imgsoquerytype="gamespy"
+	elif [ "${querytype}" == "protocol-quake1" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-quake2" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-quake3" ]; then
+		imgsoquerytype="quake"
+	elif [ "${querytype}" == "protocol-unreal2" ]; then
+		imgsoquerytype="unrealtournament2004"
+	else
+		imgsoquerytype="${querytype}"
+	fi
+fi
+
 # Removes the passwords form all but details.
 fn_info_messages_password_strip() {
 	if [ "${commandname}" != "DETAILS" ]; then
@@ -66,6 +89,11 @@ fn_info_messages_head() {
 	echo -e "Hostname"
 	echo -e "${HOSTNAME}"
 	echo -e ""
+	if [ -n "${querytype}" ]; then
+		echo -e "Is my Game Server Online?"
+		echo -e "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
+		echo -e ""
+	fi
 	echo -e "Server Time"
 	echo -e "$(date)"
 }
@@ -503,6 +531,11 @@ fn_info_messages_gameserver() {
 		else
 			echo -e "${lightblue}Status:\t${green}STARTED${default}"
 		fi
+
+		# ismygameserver.online
+		if [ -n "${querytype}" ]; then
+			echo -e "${lightblue}Query Check:\t${default}https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
+		fi
 	} | column -s $'\t' -t
 	echo -e ""
 }
@@ -565,7 +598,9 @@ fn_info_messages_script() {
 			echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		fi
 		# IFTTT alert
-		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+    if [ "${iftttalert}" == "on" ]; then
+			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
 		# Pushbullet alert
 		if [ "${pushbulletalert}" == "on" ]; then
 			echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
@@ -1469,6 +1504,7 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+		fn_port "ReliableMessaging" reliableport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1625,7 +1661,7 @@ fn_info_messages_tf() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
 		fn_port "Shutdown" shutdownport tcp
 	} | column -s $'\t' -t
@@ -1858,7 +1894,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_pc
 	elif [ "${shortname}" == "pc2" ]; then
 		fn_info_messages_pc2
-	elif [ "${shortname}" == "ps" ]; then
+	elif [ "${shortname}" == "squad44" ]; then
 		fn_info_messages_ps
 	elif [ "${shortname}" == "pvr" ]; then
 		fn_info_messages_pvr

@@ -7,31 +7,37 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-jsoninfo=$(
+json=$(
 	cat << EOF
 {
 	"value1": "${selfname}",
 	"value2": "${alerttitle}",
-	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nMore info\n${alerturl}\n\nServer Time\n$(date)"
-}
+	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
 EOF
 )
 
-jsonnoinfo=$(
-	cat << EOF
-{
-	"value1": "${selfname}",
-	"value2": "${alerttitle}",
-	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\nServer Time\n$(date)"
-}
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+Is my Game Server Online?\nhttps://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}\n\n
 EOF
-)
-
-if [ -z "${alerturl}" ]; then
-	json="${jsonnoinfo}"
-else
-	json="${jsoninfo}"
+	)
 fi
+
+if [ -n "${alerturl}" ]; then
+	json+=$(
+		cat << EOF
+More info\n${alerturl}\n\n
+EOF
+	)
+fi
+
+json+=$(
+	cat << EOF
+Server Time\n$(date)"
+}
+EOF
+)
 
 fn_print_dots "Sending IFTTT alert"
 iftttsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "https://maker.ifttt.com/trigger/${iftttevent}/with/key/${ifttttoken}" | grep "Bad Request")

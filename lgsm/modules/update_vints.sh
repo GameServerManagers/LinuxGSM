@@ -34,13 +34,15 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Get remote build info.
+	# Gets remote build info.
 	apiurl="http://api.vintagestory.at/stable-unstable.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	if [ "${branch}" == "stable" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
-	else
+	elif [ "${branch}" == "unstable" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+	else
+		remotebuildversion="${branch}"
 	fi
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
@@ -160,9 +162,9 @@ fn_update_compare() {
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
 
-if [ "$(command -v jq 2> /dev/null)" ]; then
+if [ ! "$(command -v jq 2> /dev/null)" ]; then
 	fn_print_fail_nl "jq is not installed"
-	fn_script_log_fatal "jq is not installed"
+	fn_script_log_fail "jq is not installed"
 	core_exit.sh
 fi
 

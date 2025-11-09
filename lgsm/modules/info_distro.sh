@@ -252,11 +252,11 @@ if [ -d "${backupdir}" ]; then
 	backupcount=0
 
 	# If there are backups in backup dir.
-	if [ "$(find "${backupdir}" -name "*.tar.gz" | wc -l)" -ne "0" ]; then
+	if [ "$(find "${backupdir}" -name "*.tar.*" | wc -l)" -ne "0" ]; then
 		# number of backups.
-		backupcount="$(find "${backupdir}"/*.tar.gz | wc -l)" # integer
+		backupcount="$(find "${backupdir}"/*.tar.* | wc -l)" # integer
 		# most recent backup.
-		lastbackup="$(ls -1t "${backupdir}"/*.tar.gz | head -1)" # string
+		lastbackup="$(ls -1t "${backupdir}"/*.tar.* | head -1)" # string
 		# date of most recent backup.
 		lastbackupdate="$(date -r "${lastbackup}")" # string
 		# no of days since last backup.

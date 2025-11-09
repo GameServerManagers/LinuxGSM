@@ -90,6 +90,12 @@ fn_messages_separator
 		echo -e "Beacon:"
 	fi
 
+	if [ -n "${reliableport}" ]; then
+		echo -e "ReliableMessaging: \t${reliableport} \t$(ss -tupl | grep -c "${reliableport}") \t$(ss -tupl | grep "${reliableport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${reliableport}" | grep udp | awk '{ print $2 }')"
+	else
+		echo -e "ReliableMessaging:"
+	fi
+
 	if [ -n "${clientport}" ]; then
 		echo -e "Client: \t${clientport} \t$(ss -tupl | grep -c "${clientport}") \t$(ss -tupl | grep "${clientport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${clientport}" | grep udp | awk '{ print $2 }')"
 	else
@@ -207,6 +213,10 @@ fn_messages_separator
 echo -e ""
 echo -e "PORT: ${port}"
 echo -e "QUERY PORT: ${queryport}"
+echo -e ""
+echo -e "${lightgreen}Is My Game Server Online?${default}"
+fn_messages_separator
+echo -e "Game server status: https://ismygameserver.online/${imgsoquerytype}/${queryip}:${queryport}"
 echo -e ""
 echo -e "${lightgreen}Gamedig Raw Output${default}"
 fn_messages_separator
