@@ -59,7 +59,7 @@ fi
 
 fn_print_dots "termbin.com"
 link=$(cat "${postdetailslog}" | {
-	nc -w 3 termbin.com 9999
+	nc -w 10 termbin.com 9999
 	echo $? > /tmp/nc_exit_status
 } | tr -d '\n\0')
 nc_exit_status=$(cat /tmp/nc_exit_status)

@@ -20,6 +20,7 @@ fn_update_localbuild() {
 	# Uses executable to get local build.
 	if [ -d "${executabledir}" ]; then
 		cd "${executabledir}" || exit
+		# shellcheck disable=SC2086 # Intentional: preexecutable may be empty; unquoted to drop it without producing an empty arg.
 		localbuild="$(${preexecutable} ${executable} --version 2> /dev/null | sed '/^[[:space:]]*$/d')"
 	fi
 	if [ -z "${localbuild}" ]; then
@@ -44,14 +45,14 @@ fn_update_remotebuild() {
 	else
 		remotebuildversion="${branch}"
 	fi
-	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.filename')
-	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.urls.cdn')
-	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuildversion "${remotebuildversion}" -r '.[$remotebuildversion].linuxserver.md5')
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuild "${remotebuild}" -r '.[$remotebuild].linuxserver.filename')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuild "${remotebuild}" -r '.[$remotebuild].linuxserver.urls.cdn')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq --arg remotebuild "${remotebuild}" -r '.[$remotebuild].linuxserver.md5')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
-		# Checks if remotebuildversion variable has been set.
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+		# Checks if remotebuild variable has been set.
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fail "Checking remote build"
 			core_exit.sh
@@ -61,7 +62,7 @@ fn_update_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fail "Unable to get remote build"
 			core_exit.sh
@@ -72,35 +73,35 @@ fn_update_remotebuild() {
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	# Update has been found or force update.
-	if [ "${localbuild}" != "${remotebuildversion}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
 		# Create update lockfile.
 		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "Update available"
-		echo -e "* Local build: ${red}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}Update${default} available"
+		fn_print_nl "* Local build: ${red}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "Remote build info"
+			fn_print_nl "* apiurl: ${apiurl}"
+			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
+			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
-		echo -en "\n"
+		fn_print "\n"
 		fn_script_log_info "Update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
-		fn_script_log_info "${localbuild} > ${remotebuildversion}"
+		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir}/last-updated.lock"
+			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
 			check_status.sh
 			# If server stopped.
@@ -135,38 +136,32 @@ fn_update_compare() {
 		alert.sh
 	else
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
-		echo -en "\n"
-		echo -e "No update available"
-		echo -e "* Local build: ${green}${localbuild}${default}"
-		echo -e "* Remote build: ${green}${remotebuildversion}${default}"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}No update${default} available"
+		fn_print_nl "* Local build: ${green}${localbuild}${default}"
+		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
 		if [ -n "${branch}" ]; then
-			echo -e "* Branch: ${branch}"
+			fn_print_nl "* Branch: ${branch}"
 		fi
-		echo -en "\n"
+		fn_print "\n"
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
-		fn_script_log_info "Remote build: ${remotebuildversion}"
+		fn_script_log_info "Remote build: ${remotebuild}"
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -f "${rootdir}/.dev-debug" ]; then
-			echo -e "Remote build info"
-			echo -e "* apiurl: ${apiurl}"
-			echo -e "* remotebuildfilename: ${remotebuildfilename}"
-			echo -e "* remotebuildurl: ${remotebuildurl}"
-			echo -e "* remotebuildversion: ${remotebuildversion}"
+			fn_print_nl "Remote build info"
+			fn_print_nl "* apiurl: ${apiurl}"
+			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
+			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
 	fi
 }
 
 # The location where the builds are checked and downloaded.
 remotelocation="vintagestory.at"
-
-if [ ! "$(command -v jq 2> /dev/null)" ]; then
-	fn_print_fail_nl "jq is not installed"
-	fn_script_log_fail "jq is not installed"
-	core_exit.sh
-fi
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
