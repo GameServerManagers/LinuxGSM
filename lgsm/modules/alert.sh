@@ -112,13 +112,13 @@ fn_alert_update() {
 # Update failure alert
 fn_alert_update_failed() {
 	# Expect updatefailureexpected (target version) and updatefailuregot (actual localbuild) if set
-	local expected="${updatefailureexpected:-${remotebuild:-unknown}}"
-	local got="${updatefailuregot:-${localbuild:-unknown}}"
-	fn_script_log_error "Sending alert: ${selfname} update failed: expected ${expected}, got ${got}"
+	local updateexpected="${updatefailureexpected:-${remotebuild:-unknown}}"
+	local updategot="${updatefailuregot:-${localbuild:-unknown}}"
+	fn_script_log_error "Sending alert: ${selfname} update failed: expected ${updateexpected}, got ${updategot}"
 	alertaction="Update Failed"
 	alertemoji="❌"
 	alertsound="2"
-	alertmessage="${selfname} update failed: expected ${expected}, got ${got}. Manual intervention required."
+	alertmessage="${selfname} update failed: expected ${updateexpected}, got ${updategot}. Manual intervention required."
 	# Red
 	alertcolourhex="#cd0000"
 	alertcolourdec="13434880"

@@ -57,7 +57,6 @@ if [ -n "${querytype}" ]; then
 				{
 					"name": "Is my Game Server Online?",
 					"value": "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}",
-					"inline": true
 				}
 EOF
 	)
