@@ -147,12 +147,12 @@ fn_alert_check_update() {
 }
 
 fn_alert_update_linuxgsm() {
-	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	fn_script_log_info "Sending alert: ${selfname} has received a LinuxGSM update"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
 	alertbody="${gamename} update available"
-	alertmessage="${selfname} has received an LinuxGSM update and been restarted."
+	alertmessage="${selfname} has received a LinuxGSM update and been restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
