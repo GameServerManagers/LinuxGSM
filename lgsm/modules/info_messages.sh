@@ -598,7 +598,9 @@ fn_info_messages_script() {
 			echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		fi
 		# IFTTT alert
-		echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+    if [ "${iftttalert}" == "on" ]; then
+			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
 		# Pushbullet alert
 		if [ "${pushbulletalert}" == "on" ]; then
 			echo -e "${lightblue}Pushbullet alert:\t${default}${pushbulletalert}"
@@ -1502,6 +1504,7 @@ fn_info_messages_sf() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "Beacon" beaconport udp
+		fn_port "ReliableMessaging" reliableport tcp
 	} | column -s $'\t' -t
 }
 

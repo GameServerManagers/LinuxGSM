@@ -39,9 +39,11 @@ fn_update_remotebuild() {
 	apiurl="http://api.vintagestory.at/stable-unstable.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	if [ "${branch}" == "stable" ]; then
-		remotebuild=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -Ev "\-rc|\-pre" | sort -r -V | head -1)
+	elif [ "${branch}" == "unstable" ]; then
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
 	else
-		remotebuild=$(echo "${remotebuildresponse}" | jq -r '[ to_entries[] ] | .[].key' | grep -E "\-rc|\-pre" | sort -r -V | head -1)
+		remotebuildversion="${branch}"
 	fi
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq --arg remotebuild "${remotebuild}" -r '.[$remotebuild].linuxserver.filename')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq --arg remotebuild "${remotebuild}" -r '.[$remotebuild].linuxserver.urls.cdn')
