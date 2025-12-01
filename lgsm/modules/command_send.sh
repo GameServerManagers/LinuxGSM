@@ -27,7 +27,7 @@ if [ "${status}" != "0" ]; then
 	echo ""
 	fn_print_dots "Sending command to console: \"${commandtosend}\""
 	fn_print_ok_nl "Sending command to console: \"${commandtosend}\""
-	tmux -L "${socketname}" send-keys -t "${sessionname}" "${commandtosend}" ENTER
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "${commandtosend}" ENTER
 	fn_script_log_pass "Command \"${commandtosend}\" sent to console"
 else
 	fn_print_error_nl "Unable to send command to console. Server not running"
