@@ -20,7 +20,7 @@ fn_update_localbuild() {
 	check_status.sh
 	# Send version command to Xonotic server.
 	if [ "${status}" != "0" ]; then
-		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
+		TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
 		fn_sleep_time_1
 	else
 		exitbypass=1
@@ -28,7 +28,7 @@ fn_update_localbuild() {
 		fn_firstcommand_reset
 		exitbypass=1
 		fn_sleep_time_5
-		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
+		TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
 		exitbypass=1
 		command_stop.sh
 		unset exitbypass
