@@ -150,7 +150,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="factorio.com"
+remotelocation="github.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
