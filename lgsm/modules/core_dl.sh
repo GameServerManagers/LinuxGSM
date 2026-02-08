@@ -46,6 +46,18 @@ fn_dl_steamcmd() {
 		validate="validate"
 	fi
 
+	# steamcmdcommand can contain multiple arguments; treat it as an argv array.
+	steamcmdcommandarray=()
+	read -r -a steamcmdcommandarray <<< "${steamcmdcommand}"
+	unbuffercommand=()
+	if [ -n "${unbuffer}" ]; then
+		unbuffercommand=("${unbuffer}")
+	fi
+	validateparam=()
+	if [ -n "${validate}" ]; then
+		validateparam=("${validate}")
+	fi
+
 	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
@@ -61,29 +73,29 @@ fn_dl_steamcmd() {
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${steamcmdforcewindows}" == "yes" ]; then
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# All other servers.
 		else
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		fi
 
