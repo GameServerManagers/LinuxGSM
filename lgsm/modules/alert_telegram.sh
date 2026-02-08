@@ -43,7 +43,13 @@ EOF
 )
 
 fn_print_dots "Sending Telegram alert"
-telegramsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" ${curlcustomstring} "https://${telegramapi}/bot${telegramtoken}/sendMessage" | grep "error_code")
+
+curlcustomargs=()
+if [ -n "${curlcustomstring}" ]; then
+	read -r -a curlcustomargs <<< "${curlcustomstring}"
+fi
+
+telegramsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${curlcustomargs[@]}" "https://${telegramapi}/bot${telegramtoken}/sendMessage" | grep "error_code")
 
 if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"
