@@ -49,5 +49,5 @@ jobs:
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_TERRAFORM_TERRASCAN: false
           VALIDATE_YAML_PRETTIER: false
-          BASH_FILE_NAME: ".shellcheckrc"
+
 
