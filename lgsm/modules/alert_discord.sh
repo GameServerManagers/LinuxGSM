@@ -43,8 +43,18 @@ json=$(
 					"inline": true
 				},
 				{
-					"name": "Address:Port",
+					"name": "Server IP",
 					"value": "\`${alertip}:${port}\`",
+					"inline": true
+				},
+				{
+					"name": "Hostname",
+					"value": "${HOSTNAME}",
+					"inline": true
+				},
+				{
+					"name": "Server Time",
+					"value": "$(date)",
 					"inline": true
 				}
 EOF
