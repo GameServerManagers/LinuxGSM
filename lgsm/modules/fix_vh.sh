@@ -21,8 +21,8 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 			rm -rf "${serverfiles}/unstripped_corlib"
 		fi
 		sed -i "s/^dllSearchPathOverride=unstripped_corlib/# &/" "${serverfiles}/doorstop_config.ini"
-		sed -i "s/^export DOORSTOP_CORLIB_OVERRIDE_PATH="$BASEDIR\/unstripped_corlib"/# &/" "${serverfiles}/start_game_bepinex.sh"
-		sed -i "s/^export DOORSTOP_CORLIB_OVERRIDE_PATH="${VALHEIM_PLUS_PATH}\/unstripped_corlib"/# &/" "${serverfiles}/start_server_bepinex.sh"
+		sed -i "s|^export DOORSTOP_CORLIB_OVERRIDE_PATH=\"\\\$BASEDIR/unstripped_corlib\"|# &|" "${serverfiles}/start_game_bepinex.sh"
+		sed -i "s|^export DOORSTOP_CORLIB_OVERRIDE_PATH=\"\\\${VALHEIM_PLUS_PATH}/unstripped_corlib\"|# &|" "${serverfiles}/start_server_bepinex.sh"
 	fi
 	# special exports for BepInEx if installed
 	if grep -qE "^bepinexvh" "${modsinstalledlistfullpath}"; then
