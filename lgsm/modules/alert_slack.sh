@@ -52,10 +52,6 @@ json=$(
 						},
 						{
 							"type": "mrkdwn",
-							"text": "*Hostname*\n${HOSTNAME}"
-						},
-						{
-							"type": "mrkdwn",
 							"text": "*Server Time*\n$(date)"
 						}
 					],

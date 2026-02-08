@@ -41,11 +41,6 @@ json=$(
 					"short": false,
 					"title": "Server IP",
 					"value": "\`${alertip}:${port}\`"
-				},
-				{
-					"short": false,
-					"title": "Hostname",
-					"value": "${HOSTNAME}"
 				}
 EOF
 )

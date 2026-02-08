@@ -48,9 +48,6 @@ ${gamename}
 Server IP
 ${alertip}:${port}
 
-Hostname
-${HOSTNAME}
-
 Server Time
 $(date)"
 

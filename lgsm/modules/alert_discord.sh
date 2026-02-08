@@ -48,11 +48,6 @@ json=$(
 					"inline": true
 				},
 				{
-					"name": "Hostname",
-					"value": "${HOSTNAME}",
-					"inline": true
-				},
-				{
 					"name": "Server Time",
 					"value": "$(date)",
 					"inline": true

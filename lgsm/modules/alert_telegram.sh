@@ -14,7 +14,7 @@ json=$(
 	"message_thread_id": "${telegramthreadid}",
 	"parse_mode": "HTML",
 	"disable_notification": "${telegramdisablenotification}",
-	"text": "<b>${alerttitle}</b>\n\n<b>Server Name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n
+	"text": "<b>${alerttitle}</b>\n\n<b>Server Name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n
 EOF
 )
 
