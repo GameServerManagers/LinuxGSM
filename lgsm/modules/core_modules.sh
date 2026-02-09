@@ -14,7 +14,7 @@ modulesversion="v25.2.0"
 
 core_dl.sh() {
 	modulefile="${FUNCNAME[0]}"
-	if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
 		fn_fetch_core_dl "lgsm/modules" "core_dl.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 	else
 		fn_bootstrap_fetch_file_github "lgsm/modules" "core_dl.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
@@ -43,7 +43,7 @@ core_github.sh() {
 
 core_legacy.sh() {
 	modulefile="${FUNCNAME[0]}"
-	if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
 		fn_fetch_core_dl "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 	else
 		fn_bootstrap_fetch_file_github "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
@@ -52,7 +52,7 @@ core_legacy.sh() {
 
 core_messages.sh() {
 	modulefile="${FUNCNAME[0]}"
-	if [ "$(type fn_fetch_core_dl 2>/dev/null)" ]; then
+	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
 		fn_fetch_core_dl "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 	else
 		fn_bootstrap_fetch_file_github "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"

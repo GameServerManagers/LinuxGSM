@@ -17,21 +17,21 @@ Traditionally game servers are not easy to manage yourself. Admins often have to
 
 100+ game servers supported
 
--   :truck: Installer
--   :mag: Monitor
--   :phone: Alerts
--   :cloud: Updater
--   :blue_book: Server Details
--   :floppy_disk: Backup
--   :computer: Console
+- :truck: Installer
+- :mag: Monitor
+- :phone: Alerts
+- :cloud: Updater
+- :blue_book: Server Details
+- :floppy_disk: Backup
+- :computer: Console
 
 ## :penguin: Compatibility
 
 LinuxGSM will run on popular distros as long as the minimum requirements are met.
 
--   Ubuntu
--   Debian
--   CentOS
+- Ubuntu
+- Debian
+- CentOS
 
 Other distros are likely to work but are not fully tested.
 

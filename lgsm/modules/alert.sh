@@ -20,7 +20,7 @@ fn_alert_log() {
 		fn_info_messages_gameserver_resource
 		fn_info_messages_gameserver
 		fn_info_logs
-	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${alertlog}" >/dev/null 2>&1
+	} | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | tee -a "${alertlog}" > /dev/null 2>&1
 }
 
 fn_alert_test() {
