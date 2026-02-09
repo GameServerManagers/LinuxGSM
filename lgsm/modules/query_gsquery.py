@@ -18,7 +18,7 @@ class gsquery:
     server_response_timeout = 2
     default_buffer_length = 1024
     sourcequery = ('protocol-valve', 'avalanche3.0', 'barotrauma', 'madness', 'quakelive', 'realvirtuality',
-                   'refractor', 'source', 'goldsrc', 'spark', 'starbound', 'unity3d', 'unreal4', 'wurm')
+                    'refractor', 'source', 'goldsrc', 'spark', 'starbound', 'unity3d', 'unreal4', 'wurm')
     idtech2query = ('protocol-quake2', 'idtech2', 'quake', 'iw2.0')
     idtech3query = ('protocol-quake3', 'iw3.0', 'ioquake3', 'qfusion')
     minecraftquery = ('minecraft', 'lwjgl2')
