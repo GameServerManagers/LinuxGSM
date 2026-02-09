@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM fix_rust.sh module
+# LinuxGSM fix_vh.sh module
 # Author: Alasdair Haig
 # Website: https://linuxgsm.com
 # Description: Resolves issues with Valheim.
