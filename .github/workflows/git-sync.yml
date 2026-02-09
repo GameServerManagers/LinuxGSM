@@ -7,6 +7,8 @@ on:
       - master
       - develop
 
+permissions: {}
+
 jobs:
   gitHub-to-bitbucket:
     if: github.repository_owner == 'GameServerManagers'

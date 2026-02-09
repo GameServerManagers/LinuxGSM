@@ -6,6 +6,8 @@ on:
     branches:
       - develop
 
+permissions: {}
+
 concurrency:
   group: update-check-${{ github.ref_name }}
   cancel-in-progress: true
