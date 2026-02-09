@@ -3,7 +3,9 @@
 skip =
 	lgsm/data/*.csv,
 	package-lock.json,
-	node_modules
+	*/package-lock.json,
+	node_modules,
+	*/node_modules/*
 
 # Ignore common identifiers/acronyms and extensions used throughout LinuxGSM
 ignore-words-list = distroname,fof,nd,sav,parms,ThirdParty
