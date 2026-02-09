@@ -29,7 +29,7 @@ PR will not be merged until all steps are complete.
 
 If documentation does need updating either update it by creating a PR (preferred) or request a documentation update.
 
--   User docs: https://github.com/GameServerManagers/LinuxGSM-Docs
--   Dev docs: https://github.com/GameServerManagers/LinuxGSM-Dev-Docs
+-   User docs: <https://github.com/GameServerManagers/LinuxGSM-Docs>
+-   Dev docs: <https://github.com/GameServerManagers/LinuxGSM-Dev-Docs>
 
 **Thank you for your Pull Request!**

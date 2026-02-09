@@ -154,9 +154,8 @@ Notice how this doesn’t work for the other non-imperative forms:
 
 Below is an example of the subject line for a pull request:
 
-**feat(alerts): add slack support to alerts**
-
-**fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround**
+-   feat(alerts): add slack support to alerts
+-   fix(csgoserver): remove SteamCMD auth requirement 32-bit workaround
 
 ### Testing
 
