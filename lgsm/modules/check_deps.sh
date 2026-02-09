@@ -234,7 +234,7 @@ fn_install_missing_deps() {
 }
 
 fn_check_loop() {
-	# Loop though required depenencies checking if they are installed.
+	# Loop though required dependencies checking if they are installed.
 	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done

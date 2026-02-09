@@ -250,7 +250,7 @@ fn_mods_define() {
 }
 
 # Builds list of installed mods.
-# using installed-mods.txt grabing mod info from mods_list.sh.
+# using installed-mods.txt grabbing mod info from mods_list.sh.
 fn_mods_installed_list() {
 	fn_mods_count_installed
 	# Set/reset variables.
@@ -567,7 +567,7 @@ fn_mod_liblist_gam_filenames() {
 	esac
 }
 
-# modifers for liblist.gam to add/remote metamod binaries
+# modifiers for liblist.gam to add/remote metamod binaries
 fn_mod_install_liblist_gam_file() {
 
 	fn_mod_liblist_gam_filenames

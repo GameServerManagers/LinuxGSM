@@ -369,7 +369,7 @@ fn_info_messages_gameserver() {
 			fi
 		fi
 
-		# Reverved Slots
+		# Reserved Slots
 		if [ -n "${statspassword}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi

@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Variables providing useful info on the Operating System such as disk and performace info.
+# Description: Variables providing useful info on the Operating System such as disk and performance info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 # !Note: When adding variables to this script, ensure that they are also added to the command_dev_parse_distro_details.sh script.
 

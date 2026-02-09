@@ -144,9 +144,9 @@ fn_dl_steamcmd() {
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 			else
-				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
-				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 			fi
 		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
@@ -200,8 +200,8 @@ fn_dl_hash() {
 			hashbin="sha512sum"
 			hashtype="SHA512"
 		else
-			fn_script_log_error "hash lengh not known for hash type"
-			fn_print_error_nl "hash lengh not known for hash type"
+			fn_script_log_error "hash length not known for hash type"
+			fn_print_error_nl "hash length not known for hash type"
 			core_exit.sh
 		fi
 		echo -en "verifying ${local_filename} with ${hashtype}..."
