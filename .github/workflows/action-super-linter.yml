@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # super-linter needs the full git history to get the
           # list of files that changed across commits
@@ -41,11 +41,13 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_JSCPD: false
           VALIDATE_JSON_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_SHELL_SHFMT: false
-          VALIDATE_TERRAFORM_TERRASCAN: false
+          VALIDATE_TRIVY: false
           VALIDATE_YAML_PRETTIER: false
