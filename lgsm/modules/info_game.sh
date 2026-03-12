@@ -2387,7 +2387,7 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
-elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "cfmc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_game_mcb

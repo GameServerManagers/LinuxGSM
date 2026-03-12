@@ -35,6 +35,8 @@ elif [ "${shortname}" == "mc" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pmc" ]; then
 	ramrequirementgb="2"
+elif [ "${shortname}" == "cfmc" ]; then
+	ramrequirementgb="4"
 elif [ "${shortname}" == "mh" ]; then
 	ramrequirementgb="4"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then

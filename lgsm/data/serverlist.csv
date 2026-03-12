@@ -18,6 +18,7 @@ bs,bsserver,Blade Symphony,ubuntu-24.04
 bt,btserver,Barotrauma,ubuntu-24.04
 btl,btlserver,BATTALION: Legacy,ubuntu-20.04
 cc,ccserver,Codename CURE,ubuntu-24.04
+cfmc,cfmcserver,CurseForge Minecraft,ubuntu-24.04
 ck,ckserver,Core Keeper,ubuntu-24.04
 cmw,cmwserver,Chivalry: Medieval Warfare,ubuntu-24.04
 cod,codserver,Call of Duty,ubuntu-24.04

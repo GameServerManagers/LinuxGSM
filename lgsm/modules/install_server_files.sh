@@ -241,7 +241,7 @@ fn_install_server_files() {
 	fn_clear_tmp
 }
 
-if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
+if [ "${shortname}" == "mc" ] || [ "${shortname}" == "cfmc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
 	install_eula.sh
 fi
 
@@ -260,6 +260,8 @@ if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
 	update_mc.sh
+elif [ "${shortname}" == "cfmc" ]; then
+	update_cfmc.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ]; then

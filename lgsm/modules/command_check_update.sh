@@ -18,6 +18,8 @@ if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
 	update_mc.sh
+elif [ "${shortname}" == "cfmc" ]; then
+	update_cfmc.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then

@@ -670,6 +670,11 @@ update_mc.sh() {
 	fn_fetch_module
 }
 
+update_cfmc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

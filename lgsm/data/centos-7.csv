@@ -19,6 +19,7 @@ bs
 bt,libicu,dos2unix,libxml2
 btl
 cc
+cfmc,java-21-openjdk
 ck,xorg-x11-server-Xvfb
 cmw
 cod,compat-libstdc++-33.i686

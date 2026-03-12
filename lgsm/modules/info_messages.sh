@@ -754,7 +754,7 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "cfmc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
@@ -1874,7 +1874,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_messages_kf2
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "cfmc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
 		fn_info_messages_mc
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_messages_mcb

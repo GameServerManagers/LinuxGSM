@@ -537,6 +537,8 @@ elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "cfmc" ]; then
+	fn_list_config_locations
 elif [ "${shortname}" == "mcb" ]; then
 	array_configs+=(server.properties)
 	fn_default_config_remote
