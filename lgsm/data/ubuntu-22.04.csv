@@ -111,7 +111,7 @@ sol
 squad
 st,libxml2-utils
 stn
-sven,libssl1.1:i386,zlib1g:i386
+sven,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
