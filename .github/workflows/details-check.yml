@@ -6,6 +6,9 @@ on:
     branches:
       - develop
 
+permissions:
+  contents: read
+
 concurrency:
   group: details-check-${{ github.ref_name }}
   cancel-in-progress: true
@@ -28,7 +31,7 @@ jobs:
         run: |
           shortnamearray=$(cat shortnamearray.json)
           echo "${shortnamearray}"
-          echo -n "matrix=${shortnamearray}" >> $GITHUB_OUTPUT
+          echo -n "matrix=${shortnamearray}" >> "$GITHUB_OUTPUT"
 
   details-check:
     if: github.repository_owner == 'GameServerManagers'
@@ -41,7 +44,7 @@ jobs:
 
     steps:
       - name: Download linuxgsm.sh
-        run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
+        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh"; chmod +x linuxgsm.sh
 
       - name: Install dependencies
         run: sudo apt-get install libxml2-utils jq

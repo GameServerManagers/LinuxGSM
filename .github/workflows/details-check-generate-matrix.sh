@@ -14,10 +14,12 @@ while read -r line; do
 	export gamename
 	distro=$(echo "$line" | awk -F, '{ print $4 }')
 	export distro
-	echo -n "{" >> "shortnamearray.json"
-	echo -n "\"shortname\":" >> "shortnamearray.json"
-	echo -n "\"${shortname}\"" >> "shortnamearray.json"
-	echo -n "}," >> "shortnamearray.json"
+	{
+		echo -n "{";
+		echo -n "\"shortname\":";
+		echo -n "\"${shortname}\"";
+		echo -n "},";
+	} >> "shortnamearray.json"
 done < <(tail -n +2 serverlist.csv)
 sed -i '$ s/.$//' "shortnamearray.json"
 echo -n "]" >> "shortnamearray.json"

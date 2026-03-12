@@ -6,6 +6,8 @@ on:
     types:
       - published
 
+permissions: {}
+
 jobs:
   trigger_build_docker-linuxgsm:
     if: github.repository_owner == 'GameServerManagers'
