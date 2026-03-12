@@ -19,6 +19,7 @@ cmd_details=("dt;details" "command_details.sh" "Display server information.")
 cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
 cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
 cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
+cmd_custom_alert=("ca;custom-alert" "command_custom_alert.sh" "Send a customizable alert.")
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
 cmd_skeleton=("sk;skeleton" "command_skeleton.sh" "Create a skeleton directory.")
@@ -60,7 +61,7 @@ cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete
 
 ### Set specific opt here.
 
-currentopt=("${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}")
+currentopt=("${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monitor[@]}" "${cmd_custom_alert[@]}" "${cmd_test_alert[@]}" "${cmd_details[@]}" "${cmd_postdetails[@]}" "${cmd_skeleton[@]}")
 
 # Update LinuxGSM.
 currentopt+=("${cmd_update_linuxgsm[@]}")
