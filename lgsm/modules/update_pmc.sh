@@ -32,18 +32,19 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	jq_versions_all='.versions | to_entries | map(.value[])'
 	# Gets remote build info.
-	apiurl="https://api.papermc.io/v2/projects"
+	apiurl="https://fill.papermc.io/v3/projects"
 	# Get list of projects.
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Get list of Minecraft versions for project.
 	remotebuildresponseproject=$(curl -s "${apiurl}/${paperproject}")
 	# Get latest Minecraft: Java Edition version or user specified version.
 	if [ "${mcversion}" == "latest" ]; then
-		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r '.versions[-1]')
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r "$jq_versions_all | first")
 	else
 		# Checks if user specified version exists.
-		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg mcversion "${mcversion}" '.versions[]|select(. == $mcversion)')
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg mcversion "${mcversion}" "$jq_versions_all | .[] | select(. == \$mcversion)")
 		if [ -z "${remotebuildmcversion}" ]; then
 			# user passed version does not exist
 			fn_print_error_nl "Version ${mcversion} not available from ${remotelocation}"
@@ -54,12 +55,12 @@ fn_update_remotebuild() {
 	# Get list of paper builds for specific Minecraft: Java Edition version.
 	remotebuildresponsemcversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}")
 	# Get latest paper build for specific Minecraft: Java Edition version.
-	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[-1]')
+	remotebuildpaperversion=$(echo "${remotebuildresponsemcversion}" | jq -r '.builds[0]')
 	# Get various info about the paper build.
 	remotebuildresponseversion=$(curl -s "${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}")
-	remotebuildfilename=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.name')
-	remotebuildhash=$(echo "${remotebuildresponseversion}" | jq -r '.downloads.application.sha256')
-	remotebuildurl="${apiurl}/${paperproject}/versions/${remotebuildmcversion}/builds/${remotebuildpaperversion}/downloads/${remotebuildfilename}"
+	remotebuildfilename=$(echo "${remotebuildresponseversion}" | jq -r '.downloads["server:default"].name')
+	remotebuildhash=$(echo "${remotebuildresponseversion}" | jq -r '.downloads["server:default"].checksums.sha256')
+	remotebuildurl=$(echo "${remotebuildresponseversion}" | jq -r '.downloads["server:default"].url')
 	# Combines Minecraft: Java Edition version and paper build. e.g 1.16.5-456
 	remotebuild="${remotebuildmcversion}-${remotebuildpaperversion}"
 
