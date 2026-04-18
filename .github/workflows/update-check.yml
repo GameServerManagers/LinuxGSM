@@ -6,6 +6,8 @@ on:
     branches:
       - develop
 
+permissions: {}
+
 concurrency:
   group: update-check-${{ github.ref_name }}
   cancel-in-progress: true
@@ -22,7 +24,7 @@ jobs:
 
     steps:
       - name: Download linuxgsm.sh
-        run: wget https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh; chmod +x linuxgsm.sh
+        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh"; chmod +x linuxgsm.sh
 
       - name: Install dependencies
         run: sudo dpkg --add-architecture i386; sudo apt-get update;

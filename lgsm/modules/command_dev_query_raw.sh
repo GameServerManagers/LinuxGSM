@@ -249,9 +249,9 @@ echo -e "${bold}${lightyellow}Query Port (${queryport}) - TCP Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
-	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''${default}"
+	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'\"${queryip}\"'/'\"${queryport}\"''${default}"
 	echo -e ""
-	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${queryport}''
+	timeout 3 bash -c 'exec 3<> /dev/tcp/'"${queryip}"'/'"${queryport}"''
 	querystatus="$?"
 	echo -e ""
 	if [ "${querystatus}" == "0" ]; then
@@ -268,9 +268,9 @@ echo -e "${lightgreen}TCP Raw Output${default}"
 fn_messages_separator
 echo -e ""
 for queryip in "${queryips[@]}"; do
-	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''${default}"
+	echo -e "${italic}bash -c 'exec 3<> /dev/tcp/'\"${queryip}\"'/'\"${port}\"''${default}"
 	echo -e ""
-	timeout 3 bash -c 'exec 3<> /dev/tcp/'${queryip}'/'${port}''
+	timeout 3 bash -c 'exec 3<> /dev/tcp/'"${queryip}"'/'"${port}"''
 	querystatus="$?"
 	echo -e ""
 	if [ "${querystatus}" == "0" ]; then

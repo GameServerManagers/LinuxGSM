@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Querys a gameserver using node-gamedig.
+# Description: Queries a gameserver using node-gamedig.
 # https://github.com/gamedig/node-gamedig
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"

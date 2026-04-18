@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   serverlist-validate:
     if: github.repository_owner == 'GameServerManagers'
