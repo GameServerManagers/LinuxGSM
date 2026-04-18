@@ -2,6 +2,8 @@
 
 cd "${datadir}" || exit
 
+exitcode=0
+
 echo ""
 echo "Checking that all the game servers listed in serverlist.csv have a shortname-icon.png file"
 for shortname in $(tail -n +2 serverlist.csv | cut -d ',' -f1); do
@@ -16,9 +18,11 @@ done
 
 echo ""
 echo "Checking if an unexpected gameicon exists"
-for gameicon in $(ls -1 gameicons); do
+shopt -s nullglob
+for gameiconpath in gameicons/*; do
+	gameicon="$(basename "${gameiconpath}")"
 	# check if $gameicon is in serverlist.csv
-	if ! grep -q "${gameicon%-icon.png}" serverlist.csv; then
+	if ! grep -q -F "${gameicon%-icon.png}" serverlist.csv; then
 		echo "ERROR: gameicon ${gameicon} is not in serverlist.csv"
 		exitcode=1
 	else
@@ -28,7 +32,7 @@ done
 
 echo ""
 echo "Checking that the number of gameicons matches the number of servers in serverlist.csv"
-gameiconcount="$(ls -1 gameicons | wc -l)"
+gameiconcount="$(find gameicons -mindepth 1 -maxdepth 1 -type f | wc -l)"
 serverlistcount="$(tail -n +2 serverlist.csv | wc -l)"
 if [ "${gameiconcount}" -ne "${serverlistcount}" ]; then
 	echo "ERROR: game icons (${gameiconcount}) does not match serverlist.csv ($serverlistcount)"
@@ -37,4 +41,4 @@ else
 	echo "OK: gameiconcount ($gameiconcount) matches serverlistcount ($serverlistcount)"
 fi
 
-exit ${exitcode}
+exit "${exitcode}"

@@ -369,7 +369,7 @@ fn_info_messages_gameserver() {
 			fi
 		fi
 
-		# Reverved Slots
+		# Reserved Slots
 		if [ -n "${statspassword}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
@@ -578,7 +578,7 @@ fn_info_messages_script() {
 				:
 			elif [ -z "${glibc}" ]; then
 				echo -e "${lightblue}glibc required:\t${red}UNKNOWN${default}"
-			elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+			elif [ "$(printf '%s\n' "${glibc}" "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
 				echo -e "${lightblue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 			else
 				echo -e "${lightblue}glibc required:\t${green}${glibc}${default}"
@@ -598,7 +598,7 @@ fn_info_messages_script() {
 			echo -e "${lightblue}Gotify alert:\t${default}${gotifyalert}"
 		fi
 		# IFTTT alert
-    if [ "${iftttalert}" == "on" ]; then
+		if [ "${iftttalert}" == "on" ]; then
 			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
 		fi
 		# Pushbullet alert

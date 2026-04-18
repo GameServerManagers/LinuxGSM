@@ -219,7 +219,7 @@ fn_fastdl_preview() {
 		core_exit.sh
 	fi
 
-  if [ "${engine}" == "source" ]; then
+	if [ "${engine}" == "source" ]; then
 		echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
 	elif [ "${engine}" == "goldsrc" ]; then
 		echo -e "about to copy ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"

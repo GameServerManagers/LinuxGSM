@@ -5,6 +5,8 @@ on:
       - opened
       - labeled
 
+permissions: {}
+
 jobs:
   add-to-project:
     if: github.repository_owner == 'GameServerManagers'

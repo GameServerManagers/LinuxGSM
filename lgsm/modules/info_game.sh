@@ -350,7 +350,7 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesnt respond to any queries, using session only.
+	# queryport doesn't respond to any queries, using session only.
 	queryport=""$((port + 3))""
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -2514,7 +2514,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 	ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query ip-api.com with a 3 second timeout
 	exitcode=$?
 
-	# Check if the first request was successfull
+	# Check if the first request was successful
 	if [ "${exitcode}" -eq 0 ]; then
 		fn_script_log_pass "Queried ${apiurl} for public IP address"
 
@@ -2532,7 +2532,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 		ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query myip.wtf with a 3 second timeout as a backup
 		exitcode=$?
 
-		# Check if the backup request was successfull
+		# Check if the backup request was successful
 		if [ "${exitcode}" -eq 0 ]; then
 			fn_script_log_pass "Queried ${apiurl} for public IP address"
 

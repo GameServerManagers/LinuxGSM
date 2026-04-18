@@ -100,7 +100,7 @@ rw,openjdk-25-jre
 samp
 sb
 sbots
-scpsl,mono-complete
+scpsl,mono-complete,libicu76
 scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf

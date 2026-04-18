@@ -35,23 +35,31 @@ else
 	tags="${alertemoji}"
 fi
 
-# Construct the message body
-message="Server Name: ${servername}
-Information: ${alertmessage}
-Game: ${gamename}
-Server IP: ${alertip}:${port}
-Hostname: ${HOSTNAME}
-Server Time: $(date)"
+# Construct the message body (keep formatting consistent with other plain-text alerts)
+message="Server Name
+${servername}
+
+Information
+${alertmessage}
+
+Game
+${gamename}
+
+Server IP
+${alertip}:${port}
+
+Server Time
+$(date)"
 
 # Add optional links if available
 if [ -n "${querytype}" ]; then
-	message+="\nIs my Game Server Online?: https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
+	message+="\n\nIs my Game Server Online?\nhttps://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
 fi
 
 # Use alerturl for the click action if available
 clickurl=""
 if [ -n "${alerturl}" ]; then
-	message+="\nMore info: ${alerturl}"
+	message+="\n\nMore info\n${alerturl}"
 	clickurl="${alerturl}"
 fi
 

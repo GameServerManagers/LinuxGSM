@@ -164,8 +164,8 @@ fn_monitor_check_update_source() {
 			fn_script_log_info "Checking update: CHECKING"
 			fn_print_ok "Checking update"
 			fn_print_ok_eol_nl
-			fn_script_log_info "Checking update: ${selfname} has requested an update and needs to be restarted"
-			alert="update-request"
+			fn_script_log_info "Checking update: ${selfname} has requested a restart for an update to be applied"
+			alert="update-restart-request"
 			alert.sh
 			command_restart.sh
 			core_exit.sh
