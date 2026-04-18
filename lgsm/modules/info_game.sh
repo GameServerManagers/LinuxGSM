@@ -1442,6 +1442,25 @@ fn_info_game_jk2() {
 	serverversion="${serverversion:-"NOT SET"}"
 }
 
+# Config Type: xml
+# Comment: <!-- -->
+# Example: <name>LinuxGSM</name>
+# Filetype: xml
+fn_info_game_maniaplanet() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "servername" "/dedicated/server_options/name"
+		fn_info_game_xml "maxplayers" "/dedicated/server_options/max_players"
+		fn_info_game_xml "serverpassword" "/dedicated/server_options/password"
+		fn_info_game_xml "port" "/dedicated/system_config/server_port"
+		fn_info_game_xml "queryport" "/dedicated/system_config/xmlrpc_port"
+	fi
+	servername="${servername:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+}
+
 # Config Type: Java properties
 # Comment: # or !
 # Example: motd=SERVERNAME
@@ -2387,6 +2406,8 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
+elif [ "${engine}" == "maniaplanet" ]; then
+	fn_info_game_maniaplanet
 elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
