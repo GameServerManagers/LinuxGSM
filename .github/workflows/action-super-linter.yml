@@ -27,9 +27,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
+          # Shallow clone reduces transient fetch failures (HTTP 500) from GitHub.
+          # We lint the whole codebase instead of relying on git history.
+          fetch-depth: 1
+          fetch-tags: false
           persist-credentials: false
 
       - name: Install Prettier plugins (for summary formatting)
@@ -48,6 +49,7 @@ jobs:
           VALIDATE_JSON_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_NATURAL_LANGUAGE: false
+          VALIDATE_PYTHON_RUFF_FORMAT: false
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_TRIVY: false
           VALIDATE_YAML_PRETTIER: false

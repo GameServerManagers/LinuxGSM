@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Variables providing useful info on the Operating System such as disk and performace info.
+# Description: Variables providing useful info on the Operating System such as disk and performance info.
 # Used for command_details.sh, command_debug.sh and alert.sh.
 # !Note: When adding variables to this script, ensure that they are also added to the command_dev_parse_distro_details.sh script.
 
@@ -13,9 +13,9 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ "${status}" == "1" ]; then
 	gameserverpid="$(tmux -L "${socketname}" list-sessions -F "#{session_name} #{pane_pid}" | grep "^${sessionname} " | awk '{print $NF}')"
 	if [ "${engine}" == "source" ]; then
-		srcdslinuxpid="$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep srcds_linux | awk '{print $2}')"
+		srcdslinuxpid="$(pgrep -P "${gameserverpid}" -x srcds_linux 2> /dev/null | head -n 1)"
 	elif [ "${engine}" == "goldsrc" ]; then
-		hldslinuxpid="$(ps -ef | grep -v grep | grep "${gameserverpid}" | grep hlds_linux | awk '{print $2}')"
+		hldslinuxpid="$(pgrep -P "${gameserverpid}" -x hlds_linux 2> /dev/null | head -n 1)"
 	fi
 fi
 ### Distro information
@@ -252,11 +252,11 @@ if [ -d "${backupdir}" ]; then
 	backupcount=0
 
 	# If there are backups in backup dir.
-	if [ "$(find "${backupdir}" -name "*.tar.*" | wc -l)" -ne "0" ]; then
+	if [ "$(find "${backupdir}" -maxdepth 1 -type f -name "*.tar.*" | wc -l)" -ne "0" ]; then
 		# number of backups.
-		backupcount="$(find "${backupdir}"/*.tar.* | wc -l)" # integer
+		backupcount="$(find "${backupdir}" -maxdepth 1 -type f -name "*.tar.*" | wc -l)" # integer
 		# most recent backup.
-		lastbackup="$(ls -1t "${backupdir}"/*.tar.* | head -1)" # string
+		lastbackup="$(find "${backupdir}" -maxdepth 1 -type f -name "*.tar.*" -printf '%T@ %p\n' 2> /dev/null | sort -nr | head -n 1 | cut -d' ' -f2-)" # string
 		# date of most recent backup.
 		lastbackupdate="$(date -r "${lastbackup}")" # string
 		# no of days since last backup.
@@ -272,7 +272,7 @@ netlink=$(${ethtoolcommand} "${netint}" 2> /dev/null | grep Speed | awk '{print 
 
 # Sets the SteamCMD glibc requirement if the game server requirement is less or not required.
 if [ "${appid}" ]; then
-	if [ "${glibc}" = "null" ] || [ -z "${glibc}" ] || [ "$(printf '%s\n'${glibc}'\n' "2.14" | sort -V | head -n 1)" != "2.14" ]; then
+	if [ "${glibc}" = "null" ] || [ -z "${glibc}" ] || [ "$(printf '%s\n' "${glibc}" "2.14" | sort -V | head -n 1)" != "2.14" ]; then
 		glibc="2.14"
 	fi
 fi

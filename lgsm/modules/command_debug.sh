@@ -49,7 +49,7 @@ if [ -n "${glibc}" ]; then
 		:
 	elif [ -z "${glibc}" ]; then
 		echo -e "${lightblue}glibc required:\t${red}UNKNOWN${default}"
-	elif [ "$(printf '%s\n'${glibc}'\n' ${glibcversion} | sort -V | head -n 1)" != "${glibc}" ]; then
+	elif [ "$(printf '%s\n' "${glibc}" "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
 		echo -e "${lightblue}glibc required:\t${red}${glibc} ${default}(${red}distro glibc ${glibcversion} too old${default})"
 	else
 		echo -e "${lightblue}glibc required:\t${green}${glibc}${default}"

@@ -11,7 +11,7 @@ json=$(
 	cat << EOF
 {
 	"title": "${alerttitle}",
-	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
+	"message": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\n
 EOF
 )
 

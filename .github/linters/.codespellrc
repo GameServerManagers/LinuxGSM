@@ -1,0 +1,11 @@
+[codespell]
+# Skip data tables that contain many short server identifiers (e.g. "fof", "nd")
+skip =
+	lgsm/data/*.csv,
+	package-lock.json,
+	*/package-lock.json,
+	node_modules,
+	*/node_modules/*
+
+# Ignore common identifiers/acronyms and extensions used throughout LinuxGSM
+ignore-words-list = distroname,fof,nd,sav,parms,ThirdParty

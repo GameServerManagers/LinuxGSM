@@ -23,7 +23,7 @@ if [ -z "${seed}" ] || [ "${seed}" == "0" ]; then
 	randomseed=1
 fi
 
-# If Carbon mod is installed, run enviroment.sh
+# If Carbon mod is installed, run environment.sh
 if [ -f "${serverfiles}/carbon/tools/environment.sh" ]; then
 	fn_print_info_nl "Running Carbon environment.sh"
 	fn_script_log_info "Running Carbon environment.sh"

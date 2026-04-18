@@ -75,11 +75,11 @@ fn_install_mono_repo() {
 
 		# Run the mono repo install.
 		eval "${cmd}"
+		monorepoexitcode=$?
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			exitcode=$?
-			if [ "${exitcode}" -ne 0 ]; then
+			if [ "${monorepoexitcode}" -ne 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
@@ -234,7 +234,7 @@ fn_install_missing_deps() {
 }
 
 fn_check_loop() {
-	# Loop though required depenencies checking if they are installed.
+	# Loop though required dependencies checking if they are installed.
 	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
@@ -351,6 +351,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 	fi
 fi
 
+info_distro.sh
+
 # Will warn user if their distro is no longer supported by the vendor.
 if [ -n "${distrosupport}" ]; then
 	if [ "${distrosupport}" == "unsupported" ]; then
@@ -359,7 +361,23 @@ if [ -n "${distrosupport}" ]; then
 	fi
 fi
 
-info_distro.sh
+# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
+	if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
+		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
+		fn_script_log_fail "${gamename} is not supported on ${distroname}."
+		core_exit.sh
+	fi
+fi
+
+# These titles are only supported up to Ubuntu 20.04 and Debian 11 (and Debian-like derivatives).
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
+		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
+		fn_script_log_fail "${gamename} is not supported on ${distroname}."
+		core_exit.sh
+	fi
+fi
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the distro dependency csv file exists.
