@@ -19,8 +19,8 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Try to get build version from etconsole.log.
-	if [ -f "${serverfiles}/legacy/etconsole.log" ]; then
-		localbuild=$(grep "Initializing legacy game" "${serverfiles}/legacy/etconsole.log" | sed -n 's/.*\^2\(v[0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' | tail -1)
+	if [ -f "${gamelogdir}/etconsole.log" ]; then
+		localbuild=$(grep "Initializing legacy game" "${gamelogdir}/etconsole.log" | sed -n 's/.*\^2\(v[0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' | tail -1)
 	fi
 	# Fall back to build.txt if log parse failed or log does not exist.
 	if [ -z "${localbuild}" ]; then
