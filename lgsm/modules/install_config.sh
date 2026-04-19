@@ -34,7 +34,7 @@ fn_default_config_remote() {
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
-			if [ ! -f "${servercfgfullpath}" ]; then
+			if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
 				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
@@ -53,7 +53,7 @@ fn_default_config_remote() {
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
-			if [ ! -f "${networkcfgfullpath}" ]; then
+			if [ ! -e "${networkcfgfullpath}" ] && [ ! -L "${networkcfgfullpath}" ]; then
 				cp "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
@@ -71,7 +71,7 @@ fn_default_config_remote() {
 			fi
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
-			if [ ! -f "${clustercfgfullpath}" ]; then
+			if [ ! -e "${clustercfgfullpath}" ] && [ ! -L "${clustercfgfullpath}" ]; then
 				cp "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
@@ -89,7 +89,7 @@ fn_default_config_remote() {
 			fi
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
-			if [ ! -f "${servercfgdir}/${config}" ]; then
+			if [ ! -e "${servercfgdir}/${config}" ] && [ ! -L "${servercfgdir}/${config}" ]; then
 				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
