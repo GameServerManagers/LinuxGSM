@@ -18,8 +18,14 @@ fn_update_dl() {
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	# Uses build file to get local build.
-	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	# Try to get build version from etconsole.log.
+	if [ -f "${serverfiles}/legacy/etconsole.log" ]; then
+		localbuild=$(grep "Initializing legacy game" "${serverfiles}/legacy/etconsole.log" | sed -n 's/.*\^2\(v[0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' | tail -1)
+	fi
+	# Fall back to build.txt if log parse failed or log does not exist.
+	if [ -z "${localbuild}" ]; then
+		localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
