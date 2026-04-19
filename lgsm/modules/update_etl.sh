@@ -44,7 +44,7 @@ fn_update_remotebuild() {
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.browser_download_url | contains("i386-et-260b")) | .name')
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.browser_download_url | contains("i386-et-260b")) | .browser_download_url')
 	remotebuild=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
-	remotebuildhash=$(echo "${remotebuildresponse}" | jq -r '.body' | grep 'MD5' | awk '{print $NF}')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq -r '.body' | grep 'MD5' | grep -oE '[a-f0-9]{32}')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
