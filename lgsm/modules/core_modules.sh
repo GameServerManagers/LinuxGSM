@@ -660,6 +660,11 @@ fn_update_modules.sh() {
 	fn_fetch_module
 }
 
+update_etl.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_fctr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

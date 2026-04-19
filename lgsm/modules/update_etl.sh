@@ -1,40 +1,31 @@
 #!/bin/bash
-# LinuxGSM command_xnt.sh module
+# LinuxGSM update_etl.sh module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Handles updating of Xontic servers.
+# Description: Handles updating of ET: Legacy servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
-	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}" "Xonotic"
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
+	echo "${remotebuild}" > "${serverfiles}/build.txt"
 	fn_clear_tmp
 }
 
 fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	check_status.sh
-	# Send version command to Xonotic server.
-	if [ "${status}" != "0" ]; then
-		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
-		fn_sleep_time_1
-	else
-		exitbypass=1
-		command_start.sh
-		fn_firstcommand_reset
-		exitbypass=1
-		fn_sleep_time_5
-		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
-		command_stop.sh
-		fn_firstcommand_reset
+	# Try to get build version from etconsole.log.
+	if [ -f "${gamelogdir}/etconsole.log" ]; then
+		localbuild=$(grep "Initializing legacy game" "${gamelogdir}/etconsole.log" | sed -n 's/.*\^2\(v[0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p' | tail -1)
 	fi
-
-	# Uses log file to get local build.
-	localbuild=$(grep "SVQC version: xonotic-v" "${consolelogdir}"/* 2> /dev/null | tail -1 | sed 's/.*SVQC version: \(xonotic-v[0-9.]*\).*/\1/' | tr -d '\000-\011\013-\037')
+	# Fall back to build.txt if log parse failed or log does not exist.
+	if [ -z "${localbuild}" ]; then
+		localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -48,14 +39,12 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
 	# Gets remote build info.
-	apiurl="https://api.github.com/repos/xonotic/xonotic/tags"
+	apiurl="https://api.github.com/repos/GameServerManagers/etlserver-build/releases/latest"
 	remotebuildresponse=$(curl -s "${apiurl}")
-	remotebuildtag=$(echo "${remotebuildresponse}" | jq -r '.[0].name')
-	remotebuildfilename=$(echo "${remotebuildtag}" | tr -d 'v')
-	remotebuildfilename="${remotebuildfilename}.zip"
-	remotebuildurl="https://dl.xonotic.org/${remotebuildfilename}"
-	remotebuild="${remotebuildtag}"
-	remotebuildhash=$(curl -s "https://dl.xonotic.org/${remotebuildfilename%.zip}.sha512" | grep "${remotebuildfilename}$" | grep -oE '[a-f0-9]{128}')
+	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.browser_download_url | contains("i386-et-260b")) | .name')
+	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.browser_download_url | contains("i386-et-260b")) | .browser_download_url')
+	remotebuild=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq -r '.body' | grep 'MD5' | grep -oE '[a-f0-9]{32}')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
