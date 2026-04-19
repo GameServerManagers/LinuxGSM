@@ -80,14 +80,6 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="2c6be1bb66ea631b9b2e7ae6216c6680"
-	elif [ "${shortname}" == "etl" ]; then
-		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/etlegacy-v2.78.1-i386-et-260b.tar.xz"
-		local_filedir="${tmpdir}"
-		local_filename="etlegacy-v2.78.1-i386-et-260b.tar.xz"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="7c08b52cb09b30eadb98ea05ef780fc7"
 	elif [ "${shortname}" == "mohaa" ]; then
 		remote_fileurl="http://linuxgsm.download/MedalofHonorAlliedAssault/moh_revival_v1.12_RC3.5.1.tar.xz"
 		local_filedir="${tmpdir}"
@@ -280,6 +272,8 @@ elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
+elif [ "${shortname}" == "etl" ]; then
+	update_etl.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh

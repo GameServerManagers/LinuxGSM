@@ -204,7 +204,7 @@ fn_dl_hash() {
 			fn_print_error_nl "hash length not known for hash type"
 			core_exit.sh
 		fi
-		echo -en "verifying ${local_filename} with ${hashtype}..."
+		echo -en "verifying ${local_filename} with ${hashtype}"
 		fn_sleep_time
 		hashsumcmd=$(${hashbin} "${local_filedir}/${local_filename}" | awk '{print $1}')
 		if [ "${hashsumcmd}" != "${hash}" ]; then
@@ -267,9 +267,9 @@ fn_dl_extract() {
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			temp_extractdir="${tmpdir}/Xonotic"
+			temp_extractdir="${tmpdir}/${extractsrc}"
 			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}")
-			find "${temp_extractdir}/${extractsrc}" -mindepth 1 -maxdepth 1 -exec mv -t "${extractdest}" {} +
+			cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/"
 			rm -rf "${temp_extractdir}"
 		else
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
