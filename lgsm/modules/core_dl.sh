@@ -204,7 +204,7 @@ fn_dl_hash() {
 			fn_print_error_nl "hash length not known for hash type"
 			core_exit.sh
 		fi
-		echo -en "verifying ${local_filename} with ${hashtype}..."
+		echo -en "verifying ${local_filename} with ${hashtype}"
 		fn_sleep_time
 		hashsumcmd=$(${hashbin} "${local_filedir}/${local_filename}" | awk '{print $1}')
 		if [ "${hashsumcmd}" != "${hash}" ]; then
