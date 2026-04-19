@@ -55,6 +55,7 @@ fn_update_remotebuild() {
 	remotebuildfilename="${remotebuildfilename}.zip"
 	remotebuildurl="https://dl.xonotic.org/${remotebuildfilename}"
 	remotebuild="${remotebuildtag}"
+	remotebuildhash=$(curl -s "https://dl.xonotic.org/${remotebuildtag}.sha512" | grep "${remotebuildfilename}$" | grep -oE '[a-f0-9]{128}')
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
