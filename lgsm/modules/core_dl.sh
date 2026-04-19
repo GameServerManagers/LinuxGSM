@@ -85,6 +85,9 @@ fn_dl_steamcmd() {
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+			elif [ -n "${baseappid}" ]; then
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
@@ -94,6 +97,9 @@ fn_dl_steamcmd() {
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+			elif [ -n "${baseappid}" ]; then
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
