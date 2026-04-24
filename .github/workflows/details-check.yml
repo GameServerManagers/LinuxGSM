@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - develop
+  pull_request:
+    branches:
+      - develop
 
 permissions:
   contents: read
@@ -17,6 +20,8 @@ jobs:
   create-matrix:
     if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
+    env:
+      LGSM_REF: ${{ github.event.pull_request.head.sha || github.ref_name }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -38,13 +43,15 @@ jobs:
     needs: create-matrix
     continue-on-error: true
     runs-on: ${{ matrix.runner }}
+    env:
+      LGSM_REF: ${{ github.event.pull_request.head.sha || github.ref_name }}
 
     strategy:
       matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
 
     steps:
       - name: Download linuxgsm.sh
-        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh"; chmod +x linuxgsm.sh
+        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${LGSM_REF}/linuxgsm.sh"; chmod +x linuxgsm.sh
 
       - name: Install dependencies
         run: sudo apt-get install libxml2-utils jq
@@ -53,10 +60,10 @@ jobs:
         run: mkdir -p serverfiles
 
       - name: Grab server
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./linuxgsm.sh ${{ matrix.shortname }}server
 
       - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server developer
 
       - name: Generate servercfgname
         id: sets-servercfgname
@@ -73,7 +80,7 @@ jobs:
           fi
 
       - name: Pre-load LinuxGSM
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server details
 
       - name: Display config
         run: |
@@ -87,10 +94,10 @@ jobs:
         run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
 
       - name: Details
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server details
 
       - name: Detect details
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server parse-game-details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server parse-game-details
 
       - name: Query Raw
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server query-raw
