@@ -32,16 +32,29 @@ done
 
 echo -e ""
 # Keep prompting as long as the user input doesn't correspond to an available mod.
-while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
+
+while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
 	read -r usermodselect
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh
-	# Supplementary output upon invalid user input.
-	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
+
+	validselection=0
+	for installedmodcommand in "${installedmodslist[@]}"; do
+		if [ "${installedmodcommand}" == "${usermodselect}" ]; then
+			validselection=1
+			break
+		fi
+	done
+
+	if [ "${validselection}" -eq 1 ]; then
+		break
+	fi
+
+	# Supplementary output upon invalid user input.
+	fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 done
 
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."

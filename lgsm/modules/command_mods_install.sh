@@ -47,7 +47,7 @@ while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 	echo -e "${displayedmodname} - ${displayedmoddescription} - ${displayedmodsite}"
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
 	# Increment index from the amount of values we just displayed.
-	let "compatiblemodslistindex+=4"
+	((compatiblemodslistindex += 4))
 	((totalmodsavailable++))
 done
 
@@ -61,16 +61,29 @@ fn_script_log_info "${totalmodsavailable} addons/mods are available for install"
 
 ## User selects a mod.
 echo -e ""
-while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
+
+while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
 	read -r usermodselect
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh
-	# Supplementary output upon invalid user input.
-	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
+
+	validselection=0
+	for availablemodcommand in "${availablemodscommands[@]}"; do
+		if [ "${availablemodcommand}" == "${usermodselect}" ]; then
+			validselection=1
+			break
+		fi
+	done
+
+	if [ "${validselection}" -eq 1 ]; then
+		break
+	fi
+
+	# Supplementary output upon invalid user input.
+	fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 done
 # Get mod info.
 currentmod="${usermodselect}"

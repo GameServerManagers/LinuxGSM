@@ -67,6 +67,7 @@ l4d
 l4d2
 mc,openjdk-25-jre
 mcb
+mcv
 mh
 mohaa,libstdc++5:i386
 mta,libncursesw5,libxml2-utils
@@ -100,7 +101,7 @@ rw,openjdk-25-jre
 samp
 sb
 sbots
-scpsl,mono-complete
+scpsl,mono-complete,libicu76
 scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
@@ -115,6 +116,7 @@ sven,libssl3:i386,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
+tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
 ts

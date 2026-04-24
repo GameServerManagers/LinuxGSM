@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v25.2.0"
+modulesversion="v26.1.0"
 
 # Core
 
@@ -18,24 +18,6 @@ core_dl.sh() {
 		fn_fetch_core_dl "lgsm/modules" "core_dl.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 	else
 		fn_bootstrap_fetch_file_github "lgsm/modules" "core_dl.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
-	fi
-}
-
-core_messages.sh() {
-	modulefile="${FUNCNAME[0]}"
-	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
-		fn_fetch_core_dl "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
-	else
-		fn_bootstrap_fetch_file_github "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
-	fi
-}
-
-core_legacy.sh() {
-	modulefile="${FUNCNAME[0]}"
-	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
-		fn_fetch_core_dl "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
-	else
-		fn_bootstrap_fetch_file_github "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
 	fi
 }
 
@@ -54,9 +36,27 @@ core_getopt.sh() {
 	fn_fetch_module
 }
 
-core_trap.sh() {
+core_github.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
+}
+
+core_legacy.sh() {
+	modulefile="${FUNCNAME[0]}"
+	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
+		fn_fetch_core_dl "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
+	else
+		fn_bootstrap_fetch_file_github "lgsm/modules" "core_legacy.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
+	fi
+}
+
+core_messages.sh() {
+	modulefile="${FUNCNAME[0]}"
+	if [ "$(type fn_fetch_core_dl 2> /dev/null)" ]; then
+		fn_fetch_core_dl "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
+	else
+		fn_bootstrap_fetch_file_github "lgsm/modules" "core_messages.sh" "${modulesdir}" "chmodx" "run" "noforcedl" "nohash"
+	fi
 }
 
 core_steamcmd.sh() {
@@ -64,7 +64,7 @@ core_steamcmd.sh() {
 	fn_fetch_module
 }
 
-core_github.sh() {
+core_trap.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -91,37 +91,7 @@ command_details.sh() {
 	fn_fetch_module
 }
 
-command_sponsor.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_postdetails.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_test_alert.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_monitor.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_start.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_stop.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_validate.sh() {
+command_fastdl.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -136,17 +106,7 @@ command_install_resources_mta.sh() {
 	fn_fetch_module
 }
 
-install_squad_license.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 command_mods_install.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_mods_update.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -156,12 +116,17 @@ command_mods_remove.sh() {
 	fn_fetch_module
 }
 
-command_fastdl.sh() {
+command_mods_update.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-command_ts3_server_pass.sh() {
+command_monitor.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_postdetails.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -171,7 +136,42 @@ command_restart.sh() {
 	fn_fetch_module
 }
 
+command_send.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_skeleton.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_sponsor.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_start.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_stop.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_test_alert.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_ts3_server_pass.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_validate.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -181,7 +181,7 @@ command_wipe.sh() {
 	fn_fetch_module
 }
 
-command_send.sh() {
+install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -277,12 +277,12 @@ compress_unreal2_maps.sh() {
 
 # Mods
 
-mods_list.sh() {
+mods_core.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-mods_core.sh() {
+mods_list.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -295,16 +295,6 @@ command_dev_clear_modules.sh() {
 }
 
 command_dev_debug.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_dev_parse_game_details.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_dev_parse_distro_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -324,12 +314,22 @@ command_dev_detect_ldd.sh() {
 	fn_fetch_module
 }
 
-command_dev_ui.sh() {
+command_dev_parse_distro_details.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_parse_game_details.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
 command_dev_query_raw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+command_dev_ui.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -346,11 +346,6 @@ fix_ark.sh() {
 	fn_fetch_module
 }
 
-fix_av.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_arma3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -361,12 +356,17 @@ fix_armar.sh() {
 	fn_fetch_module
 }
 
-fix_bt.sh() {
+fix_av.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
 fix_bo.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_bt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -446,12 +446,32 @@ fix_rw.sh() {
 	fn_fetch_module
 }
 
+fix_samp.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_sdtd.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_sfc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
 fix_sm.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_sof2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_squad.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -476,42 +496,12 @@ fix_tf2.sh() {
 	fn_fetch_module
 }
 
-fix_ut3.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_rust.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_samp.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_sdtd.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_sof2.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_squad.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_ts3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-fix_ut2k4.sh() {
+fix_unt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -521,7 +511,12 @@ fix_ut.sh() {
 	fn_fetch_module
 }
 
-fix_unt.sh() {
+fix_ut2k4.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_ut3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -585,7 +580,17 @@ alert_email.sh() {
 	fn_fetch_module
 }
 
+alert_gotify.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 alert_ifttt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+alert_ntfy.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -600,16 +605,6 @@ alert_pushover.sh() {
 	fn_fetch_module
 }
 
-alert_gotify.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-alert_telegram.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 alert_rocketchat.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -619,6 +614,12 @@ alert_slack.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
+
+alert_telegram.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 # Logs
 
 core_logs.sh() {
@@ -634,13 +635,7 @@ query_gamedig.sh() {
 }
 
 # Update
-
-command_update_modules.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-command_update_linuxgsm.sh() {
+command_check_update.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -650,32 +645,22 @@ command_update.sh() {
 	fn_fetch_module
 }
 
-command_check_update.sh() {
+command_update_linuxgsm.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_ts3.sh() {
+command_update_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_mc.sh() {
+fn_update_modules.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_mcb.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-update_pmc.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-update_mta.sh() {
+update_etl.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -690,12 +675,32 @@ update_jk2.sh() {
 	fn_fetch_module
 }
 
+update_mc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_mcb.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_mta.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_pmc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_steamcmd.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-update_vints.sh() {
+update_ts3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -705,12 +710,12 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
-update_xnt.sh() {
+update_vints.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-fn_update_modules.sh() {
+update_xnt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -718,6 +723,10 @@ fn_update_modules.sh() {
 #
 ## Installer modules
 #
+check_gamedig.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
 
 fn_autoinstall() {
 	autoinstall=1
@@ -734,12 +743,7 @@ install_config.sh() {
 	fn_fetch_module
 }
 
-install_factorio_save.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-check_gamedig.sh() {
+install_dl_ut2k4.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -754,12 +758,17 @@ install_eula.sh() {
 	fn_fetch_module
 }
 
-install_gsquery.sh() {
+install_factorio_save.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
 install_gslt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+install_gsquery.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -783,6 +792,7 @@ install_server_dir.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
+
 install_server_files.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -809,11 +819,6 @@ install_ts3db.sh() {
 }
 
 install_ut2k4.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-install_dl_ut2k4.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
