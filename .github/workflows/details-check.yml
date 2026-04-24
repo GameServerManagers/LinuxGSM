@@ -37,7 +37,7 @@ jobs:
     if: github.repository_owner == 'GameServerManagers'
     needs: create-matrix
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
