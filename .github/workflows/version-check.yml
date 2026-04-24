@@ -1,6 +1,9 @@
 name: Version Check
 on:
   push:
+  pull_request:
+    branches:
+      - develop
 
 permissions:
   contents: read
