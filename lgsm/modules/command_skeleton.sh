@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Creates an copy of a game servers directories.
+# Description: Creates a copy of a game server directories.
 
 commandname="SKELETON"
 commandaction="Skeleton"

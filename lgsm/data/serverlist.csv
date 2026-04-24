@@ -114,6 +114,7 @@ sven,svenserver,Sven Co-op,ubuntu-24.04
 terraria,terrariaserver,Terraria,ubuntu-24.04
 tf,tfserver,The Front,ubuntu-24.04
 tf2,tf2server,Team Fortress 2,ubuntu-24.04
+tf2c,tf2cserver,Team Fortress 2 Classified,ubuntu-24.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-24.04
 ti,tiserver,The Isle,ubuntu-24.04
 ts,tsserver,The Specialists,ubuntu-24.04

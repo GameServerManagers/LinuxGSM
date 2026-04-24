@@ -60,6 +60,7 @@ json=$(
 						"image_url": "${alerticon}",
 						"alt_text": "LinuxGSM game icon"
 					}
+				}
 EOF
 )
 

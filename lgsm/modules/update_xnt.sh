@@ -29,7 +29,9 @@ fn_update_localbuild() {
 		exitbypass=1
 		fn_sleep_time_5
 		tmux -L "${socketname}" send-keys -t "${sessionname}" "version" C-m > /dev/null 2>&1
+		exitbypass=1
 		command_stop.sh
+		unset exitbypass
 		fn_firstcommand_reset
 	fi
 

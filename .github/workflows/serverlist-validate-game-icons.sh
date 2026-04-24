@@ -22,7 +22,7 @@ shopt -s nullglob
 for gameiconpath in gameicons/*; do
 	gameicon="$(basename "${gameiconpath}")"
 	# check if $gameicon is in serverlist.csv
-	if ! grep -q -F "${gameicon%-icon.png}" serverlist.csv; then
+	if ! grep -q -E "^${gameicon%-icon.png}," serverlist.csv; then
 		echo "ERROR: gameicon ${gameicon} is not in serverlist.csv"
 		exitcode=1
 	else

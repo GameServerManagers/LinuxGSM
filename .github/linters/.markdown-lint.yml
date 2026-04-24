@@ -12,12 +12,9 @@ MD013: false
 # MD033: The main README uses inline HTML for badges.
 MD033: false
 
-# Match existing list formatting in this repo.
+# MD007: Repo uses 2-space indentation for nested lists.
 MD007:
-  indent: 4
+  indent: 2
 
-MD030:
-  ul_single: 3
-  ol_single: 2
-  ul_multi: 3
-  ol_multi: 2
+# MD030: Repo mixes 1-space unordered and 2-space ordered list markers.
+MD030: false

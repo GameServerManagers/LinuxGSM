@@ -27,9 +27,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          # Shallow clone reduces transient fetch failures (HTTP 500) from GitHub.
-          # We lint the whole codebase instead of relying on git history.
-          fetch-depth: 1
+          # Full clone required so super-linter can resolve GITHUB_BEFORE_SHA.
+          fetch-depth: 0
           fetch-tags: false
           persist-credentials: false
 
@@ -42,6 +41,7 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: ${{ github.ref_name }}
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
