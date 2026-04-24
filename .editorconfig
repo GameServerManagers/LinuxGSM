@@ -12,6 +12,21 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # BASH Files
-[*.{.sh}]
+[*.sh]
 indent_size = 4
 indent_style = tab
+
+# JSON Files (Biome formatting)
+[*.json]
+indent_style = tab
+indent_size = 2
+
+# Steam appmanifest files (Valve ACF format)
+[*.acf]
+indent_style = tab
+indent_size = 4
+
+# Python
+[*.py]
+indent_style = space
+indent_size = 4

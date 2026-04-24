@@ -249,7 +249,7 @@ fn_sys_perm_error_process() {
 	fi
 }
 
-## Run permisions checks when not root.
+## Run permissions checks when not root.
 if [ "$(whoami)" != "root" ]; then
 	fn_check_ownership
 	fn_check_permissions

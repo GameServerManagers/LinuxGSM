@@ -65,8 +65,9 @@ kf
 kf2
 l4d
 l4d2
-mc,openjdk-21-jre
+mc,openjdk-25-jre
 mcb
+mcv
 mh
 mohaa,libstdc++5:i386
 mta,libxml2-utils
@@ -82,7 +83,6 @@ opfor
 pc
 pc2
 pmc,openjdk-21-jre
-ps
 pvkii
 pvr,libc++1
 pw
@@ -109,12 +109,14 @@ sm,telnet,expect
 sof2
 sol
 squad
+squad44
 st,libxml2-utils
 stn
-sven,libssl1.1:i386,zlib1g:i386
+sven,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
+tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
 ts

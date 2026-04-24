@@ -24,7 +24,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v25.2.0"
+version="v26.1.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -330,7 +330,8 @@ fn_install_menu() {
 # Gets server info from serverlist.csv and puts in to array.
 fn_server_info() {
 	IFS=","
-	server_info_array=($(grep -aw "${userinput}" "${serverlist}"))
+	server_info_line="$(grep -aw "${userinput}" "${serverlist}" | head -n 1)"
+	read -r -a server_info_array <<< "${server_info_line}"
 	shortname="${server_info_array[0]}"      # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
 	gamename="${server_info_array[2]}"       # Counter Strike: Global Offensive

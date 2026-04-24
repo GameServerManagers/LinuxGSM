@@ -46,6 +46,18 @@ fn_dl_steamcmd() {
 		validate="validate"
 	fi
 
+	# Wrap steamcmdcommand as a single-element array to avoid word-splitting
+	# on paths/commands that should not be tokenised.
+	steamcmdcommandarray=("${steamcmdcommand}")
+	unbuffercommand=()
+	if [ -n "${unbuffer}" ]; then
+		unbuffercommand=("${unbuffer}")
+	fi
+	validateparam=()
+	if [ -n "${validate}" ]; then
+		validateparam=("${validate}")
+	fi
+
 	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
@@ -61,29 +73,55 @@ fn_dl_steamcmd() {
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${steamcmdforcewindows}" == "yes" ]; then
+			# If a base app is required, install it first.
+			if [ -n "${baseappid}" ]; then
+				if [ -z "${supportdir}" ]; then
+					fn_print_failure_nl "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
+					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
+					core_exit.sh
+				fi
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
+				if [ "${exitcode}" -ne 0 ]; then
+					continue
+				fi
+			fi
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		# All other servers.
 		else
+			# If a base app is required, install it first.
+			if [ -n "${baseappid}" ]; then
+				if [ -z "${supportdir}" ]; then
+					fn_print_failure_nl "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
+					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
+					core_exit.sh
+				fi
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
+				if [ "${exitcode}" -ne 0 ]; then
+					continue
+				fi
+			fi
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			elif [ -n "${branch}" ]; then
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			else
-				${unbuffer} ${steamcmdcommand} +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" ${validate} +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 			fi
 		fi
 
@@ -132,9 +170,9 @@ fn_dl_steamcmd() {
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 			else
-				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
-				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occured"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 			fi
 		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
@@ -188,11 +226,11 @@ fn_dl_hash() {
 			hashbin="sha512sum"
 			hashtype="SHA512"
 		else
-			fn_script_log_error "hash lengh not known for hash type"
-			fn_print_error_nl "hash lengh not known for hash type"
+			fn_script_log_error "hash length not known for hash type"
+			fn_print_error_nl "hash length not known for hash type"
 			core_exit.sh
 		fi
-		echo -en "verifying ${local_filename} with ${hashtype}..."
+		echo -en "verifying ${local_filename} with ${hashtype}"
 		fn_sleep_time
 		hashsumcmd=$(${hashbin} "${local_filedir}/${local_filename}" | awk '{print $1}')
 		if [ "${hashsumcmd}" != "${hash}" ]; then
@@ -255,9 +293,9 @@ fn_dl_extract() {
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			temp_extractdir="${tmpdir}/Xonotic"
+			temp_extractdir="${tmpdir}/${extractsrc}"
 			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}")
-			find "${temp_extractdir}/${extractsrc}" -mindepth 1 -maxdepth 1 -exec mv -t "${extractdest}" {} +
+			cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/"
 			rm -rf "${temp_extractdir}"
 		else
 			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")

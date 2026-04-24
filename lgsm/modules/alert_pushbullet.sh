@@ -13,7 +13,7 @@ json=$(
 	"channel_tag": "${channeltag}",
 	"type": "note",
 	"title": "${alerttitle}",
-	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
+	"body": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\n
 EOF
 )
 
