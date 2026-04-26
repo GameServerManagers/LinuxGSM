@@ -517,6 +517,9 @@ elif [ "${shortname}" == "ios" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "jbep3" ]; then
+	fn_default_config_local
+	fn_list_config_locations
 elif [ "${shortname}" == "jc2" ]; then
 	array_configs+=(config.lua)
 	fn_fetch_default_config
