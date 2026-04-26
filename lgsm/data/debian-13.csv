@@ -130,11 +130,11 @@ ut3
 ut99
 vh,libc6-dev,libatomic1,libpulse-dev
 vints,dotnet-runtime-8.0
-vpmc,openjdk-21-jre
+vpmc,openjdk-25-jre
 vs
 wet
 wf
-wmc,openjdk21-jre
+wmc,openjdk-25-jre
 wurm,xvfb
 xnt
 zmr
