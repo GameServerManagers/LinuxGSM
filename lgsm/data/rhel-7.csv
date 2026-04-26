@@ -68,6 +68,7 @@ l4d
 l4d2
 mc,java-11-openjdk
 mcb,libnsl
+mcv
 mh
 mohaa,compat-libstdc++-33.i686
 mta,ncurses-libs,libxml2
@@ -83,7 +84,6 @@ opfor
 pc
 pc2
 pmc,java-11-openjdk
-ps,GConf2
 pvkii
 pvr,libcxx
 pz,java-11-openjdk rng-tools
@@ -109,12 +109,14 @@ sm,telnet,expect
 sof2
 sol
 squad
+squad44
 st,libxml2
 stn
 sven
 terraria
 tf
 tf2,libcurl.i686
+tf2c,libcurl.i686
 tfc
 ti
 ts

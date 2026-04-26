@@ -68,6 +68,7 @@ l4d
 l4d2
 mc,openjdk-8-jre
 mcb
+mcv
 mh
 mohaa,libstdc++5:i386
 mta
@@ -115,6 +116,7 @@ sven,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
+tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
 ts

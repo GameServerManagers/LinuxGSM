@@ -67,6 +67,7 @@ l4d
 l4d2
 mc,openjdk-25-jre
 mcb
+mcv
 mh
 mohaa,libstdc++5:i386
 mta,libncursesw5,libxml2-utils
@@ -115,6 +116,7 @@ sven,libssl3:i386,zlib1g:i386
 terraria
 tf
 tf2,libcurl4-gnutls-dev:i386
+tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
 ts
@@ -128,11 +130,11 @@ ut3
 ut99
 vh,libc6-dev,libatomic1,libpulse-dev
 vints,dotnet-runtime-8.0
-vpmc,openjdk-21-jre
+vpmc,openjdk-25-jre
 vs
 wet
 wf
-wmc,openjdk21-jre
+wmc,openjdk-25-jre
 wurm,xvfb
 xnt
 zmr

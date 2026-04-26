@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Version Check
         run: chmod +x .github/workflows/version-check.sh; .github/workflows/version-check.sh
