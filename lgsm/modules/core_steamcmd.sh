@@ -428,11 +428,11 @@ fn_check_steamcmd_appmanifest() {
 		fi
 	fi
 
-	# appid 90 can occasionally report success while core HL1 files are incomplete.
-	if [ "${appid}" == "90" ]; then
+	# GoldSrc can occasionally report success while core HL1 files are incomplete.
+	if [ "${engine}" == "goldsrc" ]; then
 		if [ ! -f "${serverfiles}/hlds_run" ] || [ ! -f "${serverfiles}/engine_i486.so" ] || [ ! -d "${serverfiles}/valve" ]; then
-			fn_print_error_nl "Core HL1 files missing after appid 90 update"
-			fn_script_log_error "Core HL1 files missing after appid 90 update"
+			fn_print_error_nl "Core HL1 files missing after GoldSrc update"
+			fn_script_log_error "Core HL1 files missing after GoldSrc update"
 			fn_print_info_nl "Forcing update to correct issue"
 			fn_script_log_info "Forcing update to correct issue"
 			fn_dl_steamcmd
