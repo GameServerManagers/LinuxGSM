@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to serverfiles.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	echo "${remotebuild}" > "${serverfiles}/build.txt"
 	fn_clear_tmp
@@ -37,7 +37,11 @@ fn_update_remotebuild() {
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.name | test("linuxserver\\.tar\\.gz$")) | .name' | head -n 1)
 	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.name | test("linuxserver\\.tar\\.gz$")) | .browser_download_url' | head -n 1)
+	remotebuildhash=$(echo "${remotebuildresponse}" | jq -r '.assets[] | select(.name | test("linuxserver\\.tar\\.gz$")) | .digest' | sed 's/^sha256://g' | head -n 1)
 	remotebuild=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+	if [ -z "${remotebuildhash}" ] || [ "${remotebuildhash}" == "null" ]; then
+		remotebuildhash="nohash"
+	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -79,6 +83,7 @@ fn_update_compare() {
 			fn_print_nl "* apiurl: ${apiurl}"
 			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
 			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuildhash: ${remotebuildhash}"
 			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
 		fn_print "\n"
@@ -145,6 +150,7 @@ fn_update_compare() {
 			fn_print_nl "* apiurl: ${apiurl}"
 			fn_print_nl "* remotebuildfilename: ${remotebuildfilename}"
 			fn_print_nl "* remotebuildurl: ${remotebuildurl}"
+			fn_print_nl "* remotebuildhash: ${remotebuildhash}"
 			fn_print_nl "* remotebuild: ${remotebuild}"
 		fi
 	fi
@@ -157,6 +163,9 @@ if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild
 	fn_update_dl
 else
+	# BrainBread requires both Steam app updates and GitHub package updates.
+	update_steamcmd.sh
+
 	fn_print_dots "Checking for update"
 	fn_print_dots "Checking for update: ${remotelocation}"
 	fn_script_log_info "Checking for update: ${remotelocation}"
