@@ -1,10 +1,12 @@
 {
   "recommendations": [
-    "ms-python.python",
+    "DavidAnson.vscode-markdownlint",
     "editorconfig.editorconfig",
-    "yzhang.markdown-all-in-one",
     "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
+    "GitHub.vscode-pull-request-github",
+    "redhat.vscode-yaml",
     "timonwong.shellcheck",
-    "redhat.vscode-yaml"
+    "yzhang.markdown-all-in-one"
   ]
 }

@@ -11,18 +11,18 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_validate() {
-	fn_print_warn "Validate might overwrite some customised files"
+	fn_print_warn ": SteamCMD: Validate might overwrite some customised files"
 	fn_script_log_warn "${commandaction} server: Validate might overwrite some customised files"
 	totalseconds=3
 	for seconds in {3..1}; do
-		fn_print_warn "Validate might overwrite some customised files: ${totalseconds}"
+		fn_print_warn ": SteamCMD: Validate might overwrite some customised files: ${totalseconds}"
 		totalseconds=$((totalseconds - 1))
 		fn_sleep_time_1
 		if [ "${seconds}" == "0" ]; then
 			break
 		fi
 	done
-	fn_print_warn_nl "Validate might overwrite some customised files"
+	fn_print_warn_nl ": SteamCMD: Validate might overwrite some customised files"
 	date '+%s' > "${lockdir:?}/update.lock"
 	fn_dl_steamcmd
 }

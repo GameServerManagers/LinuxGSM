@@ -7,13 +7,11 @@
 # Can check a file or directory recursively.
 
 commandname="DEV-DETECT-LDD"
-commandaction="Developer detect ldd"
+commandaction="Shared Object Dependencies Checker"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-fn_messages_separator
-echo -e "Shared Object dependencies Checker"
-fn_messages_separator
+fn_print_header
 
 if [ -z "${serverfiles}" ]; then
 	dir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
@@ -46,12 +44,12 @@ find "${serverfiles}" -type f -print0 \
 	done
 echo -e ""
 echo -e ""
-echo -e "All"
+fn_print_nl "${bold}${lightyellow}All${default}"
 fn_messages_separator
 cat "${tmpdir}/detect_ldd.tmp"
 
 echo -e ""
-echo -e "Not Found"
+fn_print_nl "${bold}${lightyellow}Not Found${default}"
 fn_messages_separator
 cat "${tmpdir}/detect_ldd_not_found.tmp"
 

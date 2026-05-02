@@ -32,14 +32,7 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="e3b4962cdd9d41e23c6fed65101bccde"
-	elif [ "${shortname}" == "bb" ]; then
-		remote_fileurl="http://linuxgsm.download/BrainBread/brainbread-v1.2-linuxserver.tar.xz"
-		local_filedir="${tmpdir}"
-		local_filename="brainbread-v1.2-linuxserver.tar.xz"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="55f227183b736397806d5b6db6143f15"
+
 	elif [ "${shortname}" == "cod" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty/cod-lnxded-1.5b-full.tar.xz"
 		local_filedir="${tmpdir}"
@@ -80,14 +73,6 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="2c6be1bb66ea631b9b2e7ae6216c6680"
-	elif [ "${shortname}" == "etl" ]; then
-		remote_fileurl="http://linuxgsm.download/WolfensteinEnemyTerritory/etlegacy-v2.78.1-i386-et-260b.tar.xz"
-		local_filedir="${tmpdir}"
-		local_filename="etlegacy-v2.78.1-i386-et-260b.tar.xz"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="7c08b52cb09b30eadb98ea05ef780fc7"
 	elif [ "${shortname}" == "mohaa" ]; then
 		remote_fileurl="http://linuxgsm.download/MedalofHonorAlliedAssault/moh_revival_v1.12_RC3.5.1.tar.xz"
 		local_filedir="${tmpdir}"
@@ -241,6 +226,10 @@ fn_install_server_files() {
 	fn_clear_tmp
 }
 
+if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
+	install_eula.sh
+fi
+
 echo -e ""
 echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
 fn_messages_separator
@@ -255,12 +244,10 @@ fi
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then
-	install_eula.sh
 	update_mc.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ]; then
-	install_eula.sh
 	update_pmc.sh
 elif [ "${shortname}" == "wmc" ] || [ "${shortname}" == "vpmc" ]; then
 	update_pmc.sh
@@ -273,12 +260,16 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bb" ]; then
+	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
-elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
+elif [ "${shortname}" == "etl" ]; then
+	update_etl.sh
+elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi
@@ -287,7 +278,6 @@ fi
 
 if [ -z "${autoinstall}" ]; then
 	echo -e ""
-	fn_messages_separator
 	if ! fn_prompt_yn "Was the install successful?" Y; then
 		install_retry.sh
 	fi

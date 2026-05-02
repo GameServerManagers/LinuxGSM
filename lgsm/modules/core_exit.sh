@@ -13,8 +13,8 @@ fn_exit_dev_debug() {
 		echo -e "${moduleselfname} exiting with code: ${exitcode}"
 		if [ -f "${rootdir}/dev-debug.log" ]; then
 			grep -a "modulefile=" "${rootdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
-		elif [ -f "${lgsmlogdir}/dev-debug.log" ]; then
-			grep -a "modulefile=" "${lgsmlogdir}/dev-debug.log" | sed 's/modulefile=//g' > "${rootdir}/dev-debug-module-order.log"
+		elif [ -f "${logdir}/dev-debug.log" ]; then
+			grep -a "modulefile=" "${logdir}/dev-debug.log" | sed 's/modulefile=//g' > "${logdir}/dev-debug-module-order.log"
 		fi
 	fi
 }
@@ -27,14 +27,14 @@ fi
 
 if [ "${exitbypass}" ]; then
 	unset exitbypass
-elif [ "${exitcode}" != "0" ]; then
+elif [ "${exitcode}" -ne 0 ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
-	if [ "${exitcode}" == "1" ]; then
+	if [ "${exitcode}" -eq 1 ]; then
 		fn_script_log_fail "${moduleselfname} exiting with code: ${exitcode}"
-	elif [ "${exitcode}" == "2" ]; then
+	elif [ "${exitcode}" -eq 2 ]; then
 		fn_script_log_error "${moduleselfname} exiting with code: ${exitcode}"
-	elif [ "${exitcode}" == "3" ]; then
+	elif [ "${exitcode}" -eq 3 ]; then
 		fn_script_log_warn "${moduleselfname} exiting with code: ${exitcode}"
 	else
 		# if exit code is not set assume error.
@@ -45,7 +45,7 @@ elif [ "${exitcode}" != "0" ]; then
 	# remove trap.
 	trap - INT
 	exit "${exitcode}"
-elif [ "${exitcode}" ] && [ "${exitcode}" == "0" ]; then
+elif [ "${exitcode}" ] && [ "${exitcode}" -eq 0 ]; then
 	# List LinuxGSM version in logs
 	fn_script_log_info "LinuxGSM version: ${version}"
 	fn_script_log_pass "${moduleselfname} exiting with code: ${exitcode}"

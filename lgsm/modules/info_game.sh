@@ -350,7 +350,7 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesnt respond to any queries, using session only.
+	# queryport doesn't respond to any queries, using session only.
 	queryport=""$((port + 3))""
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -673,7 +673,7 @@ fn_info_game_st() {
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
+	worldsave="${worldsave:-"NOT SET"}"
 	worldtype="${worldtype:-"NOT SET"}"
 }
 
@@ -936,6 +936,8 @@ fn_info_game_armar() {
 		fn_info_game_json "queryport" ".a2s.port"
 		fn_info_game_json "servername" ".game.name"
 		fn_info_game_json "serverpassword" ".game.password"
+		fn_info_game_json "rconpassword" ".rcon.password"
+		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
@@ -957,13 +959,14 @@ fn_info_game_bf1942() {
 		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
 		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -980,11 +983,12 @@ fn_info_game_bfv() {
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -1989,6 +1993,7 @@ fn_info_game_sf() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
+	reliableport="${reliableport:-"0"}"
 }
 
 # Config Type: Parameters (with an ini)
@@ -2402,7 +2407,7 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
 	fn_info_game_pc2
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
@@ -2509,7 +2514,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 	ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query ip-api.com with a 3 second timeout
 	exitcode=$?
 
-	# Check if the first request was successfull
+	# Check if the first request was successful
 	if [ "${exitcode}" -eq 0 ]; then
 		fn_script_log_pass "Queried ${apiurl} for public IP address"
 
@@ -2527,7 +2532,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 		ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query myip.wtf with a 3 second timeout as a backup
 		exitcode=$?
 
-		# Check if the backup request was successfull
+		# Check if the backup request was successful
 		if [ "${exitcode}" -eq 0 ]; then
 			fn_script_log_pass "Queried ${apiurl} for public IP address"
 

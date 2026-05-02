@@ -10,8 +10,8 @@ av,avserver,Avorion,ubuntu-24.04
 bb,bbserver,BrainBread,ubuntu-24.04
 bb2,bb2server,BrainBread 2,ubuntu-24.04
 bd,bdserver,Base Defense,ubuntu-24.04
-bf1942,bf1942server,Battlefield 1942,ubuntu-24.04
-bfv,bfvserver,Battlefield: Vietnam,ubuntu-24.04
+bf1942,bf1942server,Battlefield 1942,ubuntu-22.04
+bfv,bfvserver,Battlefield: Vietnam,ubuntu-22.04
 bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-24.04
 bo,boserver,Ballistic Overkill,ubuntu-24.04
 bs,bsserver,Blade Symphony,ubuntu-24.04
@@ -67,6 +67,7 @@ l4d,l4dserver,Left 4 Dead,ubuntu-24.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-24.04
 mc,mcserver,Minecraft,ubuntu-24.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-24.04
+mcv,mcvserver,Military Conflict: Vietnam,ubuntu-24.04
 mh,mhserver,MORDHAU,ubuntu-24.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-24.04
 mta,mtaserver,Multi Theft Auto,ubuntu-24.04
@@ -82,7 +83,6 @@ opfor,opforserver,Opposing Force,ubuntu-24.04
 pc,pcserver,Project Cars,ubuntu-24.04
 pc2,pc2server,Project Cars 2,ubuntu-24.04
 pmc,pmcserver,PaperMC,ubuntu-24.04
-ps,psserver,Post Scriptum,ubuntu-24.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-24.04
 pvr,pvrserver,Pavlov VR,ubuntu-24.04
 pw,pwserver,Palworld,ubuntu-24.04
@@ -109,12 +109,14 @@ sm,smserver,Soulmask,ubuntu-24.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-24.04
 sol,solserver,Soldat,ubuntu-24.04
 squad,squadserver,Squad,ubuntu-24.04
+squad44,squad44server,Squad 44,ubuntu-24.04
 st,stserver,Stationeers,ubuntu-24.04
 stn,stnserver,Survive the Nights,ubuntu-24.04
-sven,svenserver,Sven Co-op,ubuntu-20.04
+sven,svenserver,Sven Co-op,ubuntu-24.04
 terraria,terrariaserver,Terraria,ubuntu-24.04
 tf,tfserver,The Front,ubuntu-24.04
 tf2,tf2server,Team Fortress 2,ubuntu-24.04
+tf2c,tf2cserver,Team Fortress 2 Classified,ubuntu-24.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-24.04
 ti,tiserver,The Isle,ubuntu-24.04
 ts,tsserver,The Specialists,ubuntu-24.04

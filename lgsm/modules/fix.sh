@@ -22,7 +22,8 @@ fn_fix_msg_start_nl() {
 }
 
 fn_fix_msg_end() {
-	if [ $? != 0 ]; then
+	exirtcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_error_nl "Applying ${fixname} fix: ${gamename}"
 		fn_script_log_error "Applying ${fixname} fix: ${gamename}"
 	else
@@ -79,7 +80,7 @@ fi
 if [ "${commandname}" == "INSTALL" ]; then
 	if grep -qEe "(^|\s)${shortname}(\s|$)" <<< "${apply_post_install_fix[@]}"; then
 		echo -e ""
-		echo -e "${lightyellow}Applying Post-Install Fixes${default}"
+		echo -e "${bold}${lightyellow}Applying Post-Install Fixes${default}"
 		fn_messages_separator
 		postinstall=1
 		fn_apply_fix "post install" "${shortname}"

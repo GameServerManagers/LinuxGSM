@@ -13,6 +13,7 @@ fn_messages_separator
 echo -e "Assist LinuxGSM development by sending anonymous stats to developers."
 echo -e "Collected data is publicly available: ${italic}https://linuxgsm.com/data/usage${default}"
 echo -e "More info: ${italic}https://docs.linuxgsm.com/configuration/linuxgsm-stats${default}"
+echo -e ""
 echo -e "The following info will be sent: "
 echo -e "* game server"
 echo -e "* distro"
@@ -24,5 +25,6 @@ if [ -z "${autoinstall}" ]; then
 		fn_print_information_nl "Stats setting is now enabled in common.cfg."
 	fi
 else
-	fn_print_information_nl "auto-install leaves stats off by default. Stats can be enabled in common.cfg"
+	echo -e ""
+	echo -e "auto-install leaves stats off by default. Stats can be enabled in ${italic}common.cfg${default}"
 fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM fix_rust.sh module
+# LinuxGSM fix_st.sh module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com

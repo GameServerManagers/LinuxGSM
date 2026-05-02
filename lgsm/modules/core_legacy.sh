@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Code for backwards compatability with older versions of LinuxGSM.
+# Description: Code for backwards compatibility with older versions of LinuxGSM.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -33,6 +33,12 @@ fi
 
 if [ -n "${autosaveinterval}" ]; then
 	saveinterval="${autosaveinterval}"
+fi
+
+if [ "${shortname}" == "st" ]; then
+	if [ -n "${worldname}" ]; then
+		worldsave="${worldname}"
+	fi
 fi
 
 # Added as part of migrating functions dir to modules dir.

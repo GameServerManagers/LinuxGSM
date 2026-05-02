@@ -5,7 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Resolves issues with Barotrauma.
 
-module_selfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Fixes: Missing user data directory error.
 if [ ! -d "${XDG_DATA_HOME:="${HOME}/.local/share"}/Daedalic Entertainment GmbH/Barotrauma" ]; then

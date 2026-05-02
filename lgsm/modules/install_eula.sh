@@ -19,11 +19,11 @@ echo -e ""
 echo -e "${bold}${lightyellow}Accept ${gamename} EULA${default}"
 fn_messages_separator
 echo -e "You are required to accept the EULA:"
-echo -e "${eulaurl}"
+echo -e ""
+echo -e "${italic}${eulaurl}${default}"
 echo -e ""
 if [ -z "${autoinstall}" ]; then
 	echo -e "By continuing you are indicating your agreement to the EULA."
-	echo -e ""
 	if ! fn_prompt_yn "Continue?" Y; then
 		exitcode=0
 		core_exit.sh

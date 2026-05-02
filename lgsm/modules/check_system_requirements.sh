@@ -39,7 +39,7 @@ elif [ "${shortname}" == "mh" ]; then
 	ramrequirementgb="4"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then
 	ramrequirementgb="1"
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "pvr" ]; then
 	ramrequirementgb="1"
@@ -71,8 +71,9 @@ fi
 if [ "${ramrequirementgb}" ]; then
 	if (($(echo "${physmemtotalgb} < ${ramrequirementgb}" | bc -l))); then
 		fn_print_dots "Checking RAM"
-		fn_print_warn_nl "Checking RAM: ${ramrequirementgb}G required, ${physmemtotal} available"
-		echo "* ${gamename} server may fail to run or experience poor performance."
+		fn_print_warn_nl "Checking RAM: Minimum RAM requirements not met"
+		fn_print_nl "* ${ramrequirementgb}G is required, but only ${physmemtotal} is available."
+		fn_print_nl "* ${gamename} server may fail to run or experience poor performance."
 		fn_sleep_time_5
 	fi
 fi

@@ -11,7 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 fn_print_ascii_logo
-echo -e "${lightyellow}Support LinuxGSM${default}"
+echo -e "${bold}${lightyellow}Support LinuxGSM${default}"
 fn_messages_separator
 echo -e ""
 echo -e "Been using LinuxGSM?"
