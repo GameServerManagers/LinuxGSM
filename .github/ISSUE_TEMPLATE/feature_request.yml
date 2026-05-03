@@ -8,6 +8,17 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this feature request!
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - "priority: low"
+        - "priority: medium"
+        - "priority: high"
+    validations:
+      required: true
   - type: input
     id: user-story
     attributes:
@@ -65,11 +76,40 @@ body:
         - "command: wipe"
         - "command: send"
     validations:
+      required: false
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem statement
+      description: What is painful today, and why is this needed?
+      placeholder: Describe the current limitation or pain point.
+    validations:
+      required: true
+  - type: dropdown
+    id: scope-impact
+    attributes:
+      label: Scope and impact
+      description: Which area would this change impact?
+      options:
+        - "scope: single game"
+        - "scope: multiple games"
+        - "scope: all servers"
+        - "scope: documentation only"
+        - "scope: ci/cd or automation"
+        - "scope: other"
+    validations:
       required: true
   - type: textarea
     id: further-info
     attributes:
       label: Further information
-      description: A clear description of what the feature is and any ideas on how to achieve this.
+      description: A clear description of the proposed solution and any implementation ideas.
     validations:
       required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe alternatives or workarounds you considered.
+    validations:
+      required: false

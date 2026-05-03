@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Generate matrix with generate-matrix.sh
-        run: chmod +x .github/workflows/details-check-generate-matrix.sh; .github/workflows/details-check-generate-matrix.sh
+        run: .github/scripts/details-check-generate-matrix.sh
 
       - name: Set Matrix
         id: set-matrix
