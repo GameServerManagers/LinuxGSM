@@ -1,0 +1,229 @@
+name: AI Issue Triage
+on:
+  issues:
+    types:
+      - opened
+      - edited
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  ai-triage:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Triage issue with GitHub Models
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const title  = context.payload.issue.title  || '';
+            const body   = context.payload.issue.body   || '';
+            const number = context.payload.issue.number;
+            const owner  = context.repo.owner;
+            const repo   = context.repo.repo;
+            const AI_MARKER = '<!-- ai-triage -->';
+
+            function parseTriageResponse(raw) {
+              const input = (raw || '').trim();
+              if (!input) return {};
+
+              const candidates = [input];
+              const fenced = input.match(/```(?:json)?\s*([\s\S]*?)```/i);
+              if (fenced?.[1]) candidates.push(fenced[1].trim());
+
+              const firstBrace = input.indexOf('{');
+              const lastBrace = input.lastIndexOf('}');
+              if (firstBrace !== -1 && lastBrace > firstBrace) {
+                candidates.push(input.slice(firstBrace, lastBrace + 1));
+              }
+
+              for (const candidate of candidates) {
+                try {
+                  return JSON.parse(candidate);
+                } catch (_err) {
+                  // Continue trying fallbacks.
+                }
+              }
+
+              return {};
+            }
+
+            // For short bodies, apply "needs: more info" label directly.
+            // Skip the AI call but still label the issue.
+            const isShortBody = body.trim().length < 80;
+            if (isShortBody) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner, repo, issue_number: number,
+                  labels: ['needs: more info'],
+                });
+              } catch (err) {
+                console.log('Could not apply label for short body:', err.message);
+              }
+              return;
+            }
+
+            // ── Call GitHub Models ────────────────────────────────────────
+            let triage;
+            try {
+              const res = await fetch(
+                'https://models.inference.ai.azure.com/chat/completions',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    temperature: 0.1,
+                    max_tokens: 400,
+                    messages: [
+                      {
+                        role: 'system',
+                        content:
+                          'You are a triage assistant for LinuxGSM, an open-source ' +
+                          'Linux game server manager. Your role is to:\n' +
+                          '1. Analyze issue quality (completeness, clarity)\n' +
+                          '2. Extract game names mentioned in the issue, even if misspelled or abbreviated\n' +
+                          '3. Suggest corrections for likely typos using fuzzy matching\n' +
+                          '4. Respond ONLY with a valid JSON object — no markdown fences.\n\n' +
+                          'Common game name variations and typos you should recognize:\n' +
+                          '- "Valhiem" → "Valheim"\n' +
+                          '- "Rrust" → "Rust"\n' +
+                          '- "Conterstrike" / "CS" / "CSGO" → "Counter-Strike: Global Offensive"\n' +
+                          '- "Garrys" / "GMod" → "Garrys Mod"\n' +
+                          '- "ARK" / "Ark" → "ARK: Survival Evolved"\n' +
+                          '- "DayZ" / "Dayz" → "DayZ"\n' +
+                          '- "Insurgency Sandstorm" / "Insurgency 2" → "Insurgency: Sandstorm"',
+                      },
+                      {
+                        role: 'user',
+                        content:
+                          `Title: ${title}\n\nBody:\n${body.slice(0, 3000)}\n\n` +
+                          'Respond with this JSON schema:\n' +
+                          '{\n' +
+                          '  "quality": "good" | "ok" | "poor",\n' +
+                          '  "missing_info": ["list of specific missing fields"],\n' +
+                          '  "detected_game": "canonical game name if one is mentioned, or null",\n' +
+                          '  "game_confidence": "high" | "medium" | "low" | null,\n' +
+                          '  "game_note": "correction suggestion if the user misspelled a game name, or empty string",\n' +
+                          '  "comment": "one or two sentence note to the reporter, or empty string"\n' +
+                          '}',
+                      },
+                    ],
+                  }),
+                }
+              );
+
+              if (!res.ok) {
+                console.log(`GitHub Models returned ${res.status} — skipping AI triage.`);
+                return;
+              }
+
+              const data = await res.json();
+              const raw  = data.choices?.[0]?.message?.content || '{}';
+              triage = parseTriageResponse(raw);
+            } catch (err) {
+              // Never fail the workflow if the AI call errors — it's advisory only.
+              console.log('AI triage skipped:', err.message);
+              return;
+            }
+
+            if (!triage || typeof triage !== 'object') {
+              triage = {};
+            }
+
+            // ── Act on the result ────────────────────────────────────────
+            const isPoor    = triage.quality === 'poor';
+            const missing   = Array.isArray(triage.missing_info) ? triage.missing_info : [];
+            const hasIssues = isPoor || missing.length > 0;
+
+            // Prepare labels to apply
+            const labelsToApply = [];
+
+            // Check if a game was detected with high confidence
+            const detectedGame = triage.detected_game;
+            const gameConfidence = triage.game_confidence;
+
+            if (detectedGame && gameConfidence === 'high') {
+              labelsToApply.push(`game: ${detectedGame}`);
+            }
+
+            // Apply "needs: more info" label if quality issues detected
+            if (hasIssues) {
+              labelsToApply.push('needs: more info');
+            }
+
+            // Apply labels one-by-one so a single failure does not block all labels.
+            const uniqueLabels = [...new Set(labelsToApply)];
+            for (const label of uniqueLabels) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: number,
+                  labels: [label],
+                });
+              } catch (err) {
+                console.log(`Could not apply label "${label}":`, err.message);
+              }
+            }
+
+            // Post a comment only when there is something specific to say
+            const gameNote = triage.game_note || '';
+            const reporterComment = triage.comment || '';
+
+            if (!hasIssues && !gameNote) return;
+
+            const missingBlock = missing.length > 0
+              ? `\n\n**Missing information:**\n${missing.map(m => `- ${m}`).join('\n')}`
+              : '';
+
+            const gameBlock = gameNote
+              ? `\n\n**Game name note:** ${gameNote}`
+              : '';
+
+            const triageCommentBody =
+              `${AI_MARKER}\n` +
+              `Thanks for opening this issue! 👋\n\n` +
+              `${reporterComment}` +
+              `${missingBlock}` +
+              `${gameBlock}\n\n` +
+              `_This note was generated automatically by AI triage and may not be perfect. ` +
+              `A maintainer will review shortly._`;
+
+            try {
+              const comments = await github.rest.issues.listComments({
+                owner,
+                repo,
+                issue_number: number,
+                per_page: 100,
+              });
+
+              const existingAiComment = comments.data.find(
+                (comment) => comment.user?.type === 'Bot' && comment.body?.includes(AI_MARKER)
+              );
+
+              if (existingAiComment) {
+                await github.rest.issues.updateComment({
+                  owner,
+                  repo,
+                  comment_id: existingAiComment.id,
+                  body: triageCommentBody,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: number,
+                  body: triageCommentBody,
+                });
+              }
+            } catch (err) {
+              console.log('Could not post comment:', err.message);
+            }
