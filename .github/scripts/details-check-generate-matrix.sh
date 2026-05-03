@@ -15,10 +15,10 @@ while read -r line; do
 	distro=$(echo "$line" | awk -F, '{ print $4 }')
 	export distro
 	{
-		echo -n "{";
-		echo -n "\"shortname\":";
-		echo -n "\"${shortname}\"";
-		echo -n "},";
+		echo -n "{"
+		echo -n "\"shortname\":"
+		echo -n "\"${shortname}\""
+		echo -n "},"
 	} >> "shortnamearray.json"
 done < <(tail -n +2 serverlist.csv)
 sed -i '$ s/.$//' "shortnamearray.json"

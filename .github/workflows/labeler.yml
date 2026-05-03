@@ -1,17 +1,43 @@
-name: Issue Labeler
+name: Unified Labeling
 on:
   issues:
     types:
       - opened
       - edited
+      - reopened
+      - labeled
+      - unlabeled
+      - assigned
+      - unassigned
+      - milestoned
+      - demilestoned
+      - transferred
+      - pinned
+      - unpinned
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
 
 permissions:
   issues: write
+  pull-requests: write
   contents: read
+  models: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
-  issue-labeler:
-    if: github.repository_owner == 'GameServerManagers'
+  issue-regex-labeler:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'edited')
     runs-on: ubuntu-latest
     steps:
       - name: Issue Labeler
@@ -21,9 +47,753 @@ jobs:
           configuration-path: .github/labeler.yml
           enable-versioned-regex: 0
           include-title: 1
+          sync-labels: 0
+
+  issue-ai-maintenance:
+    if: github.repository_owner == 'GameServerManagers' && (github.event_name == 'issues' || github.event_name == 'issue_comment')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reconcile issue labels and AI triage
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const eventName = context.eventName;
+            const action = context.payload.action;
+            const issueNumber = context.payload.issue?.number;
+            const AI_MARKER = '<!-- ai-triage -->';
+
+            if (!issueNumber) {
+              console.log('No issue number found in payload.');
+              return;
+            }
+
+            // Avoid bot-to-bot relabel loops on label events.
+            if (
+              eventName === 'issues' &&
+              ['labeled', 'unlabeled'].includes(action) &&
+              context.actor === 'github-actions[bot]'
+            ) {
+              console.log('Skipping self-triggered label event.');
+              return;
+            }
+
+            const issueResp = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber,
+            });
+            const issue = issueResp.data;
+            const title = issue.title || '';
+            const body = issue.body || '';
+            const existingLabels = new Set((issue.labels || []).map((l) => l.name).filter(Boolean));
+
+            function parseTriageResponse(raw) {
+              const input = (raw || '').trim();
+              if (!input) return {};
+
+              const candidates = [input];
+              const fenced = input.match(/```(?:json)?\s*([\s\S]*?)```/i);
+              if (fenced?.[1]) candidates.push(fenced[1].trim());
+
+              const firstBrace = input.indexOf('{');
+              const lastBrace = input.lastIndexOf('}');
+              if (firstBrace !== -1 && lastBrace > firstBrace) {
+                candidates.push(input.slice(firstBrace, lastBrace + 1));
+              }
+
+              for (const candidate of candidates) {
+                try {
+                  return JSON.parse(candidate);
+                } catch (_err) {
+                  // Continue trying fallbacks.
+                }
+              }
+
+              return {};
+            }
+
+            function extractSection(sectionName) {
+              const escaped = sectionName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const re = new RegExp(`### ${escaped}\\n\\n([\\s\\S]*?)(\\n### |$)`, 'i');
+              return (body.match(re)?.[1] || '').trim();
+            }
+
+            function normalizeName(value) {
+              return (value || '')
+                .toLowerCase()
+                .replace(/[’'`]/g, '')
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+            }
+
+            function parseGameCandidates(gameField) {
+              if (!gameField || /^_?no response_?$/i.test(gameField)) {
+                return [];
+              }
+              return gameField
+                .replace(/\(.*?\)/g, ' ')
+                .split(/\n|,|\s+&\s+|\s+and\s+|\//i)
+                .map((v) => v.trim())
+                .filter(Boolean);
+            }
+
+            function parseServerlistCsv(csvText) {
+              const rows = [];
+              const lines = (csvText || '').split(/\r?\n/);
+              for (let i = 1; i < lines.length; i += 1) {
+                const line = lines[i]?.trim();
+                if (!line) continue;
+                const parts = line.split(',');
+                if (parts.length < 3) continue;
+                rows.push({
+                  shortname: parts[0].trim(),
+                  gameservername: parts[1].trim(),
+                  gamename: parts[2].trim(),
+                });
+              }
+              return rows;
+            }
+            function inferTypeFromTitle(issueTitle) {
+              if (/^\[bug\]/i.test(issueTitle)) return 'type: bug';
+              if (/^\[feature\]/i.test(issueTitle)) return 'type: feature';
+              if (/^\[server request\]/i.test(issueTitle)) return 'type: game server request';
+              if (/^\[docs?\]/i.test(issueTitle)) return 'type: docs';
+              return null;
+            }
+
+            function parseCommandSelections(sectionValue) {
+              const selected = new Set();
+              const re = /command:\s*([a-z-]+)/gi;
+              let m;
+              while ((m = re.exec(sectionValue || '')) !== null) {
+                let value = m[1].toLowerCase();
+                if (value.startsWith('mods-')) value = 'mods';
+                if (value === 'auto-update') value = 'update';
+                selected.add(`command: ${value}`);
+              }
+              return selected;
+            }
+
+            function parseDistroSelections(sectionValue) {
+              const text = sectionValue || '';
+              const selected = new Set();
+              if (/\bUbuntu\b/i.test(text)) selected.add('distro: Ubuntu');
+              if (/\bDebian\b/i.test(text)) selected.add('distro: Debian');
+              if (/\bAlmaLinux\b/i.test(text)) selected.add('distro: AlmaLinux');
+              if (/\bRocky\b/i.test(text)) selected.add('distro: Rocky Linux');
+              if (/\bCentOS\b/i.test(text)) selected.add('distro: CentOS');
+              if (/\bFedora\b/i.test(text)) selected.add('distro: Fedora');
+              if (/\bopenSUSE\b/i.test(text)) selected.add('distro: openSUSE');
+              if (/\bArch Linux\b/i.test(text)) selected.add('distro: Arch Linux');
+              if (/\bSlackware\b/i.test(text)) selected.add('distro: Slackware');
+              return selected;
+            }
+
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner,
+              repo,
+              per_page: 100,
+            });
+
+            const gameLabelByNormalized = new Map();
+            for (const label of repoLabels) {
+              if (!label.name.startsWith('game: ')) continue;
+              gameLabelByNormalized.set(normalizeName(label.name.slice(6)), label.name);
+            }
+            const existingEngineLabels = new Set(
+              repoLabels.map((label) => label.name).filter((name) => name.startsWith('engine: '))
+            );
+
+            const gameAliasToLabel = new Map();
+            const gameAliasToScript = new Map();
+            const engineByScript = new Map();
+            for (const [normalizedGameName, label] of gameLabelByNormalized.entries()) {
+              gameAliasToLabel.set(normalizedGameName, label);
+            }
+
+            try {
+              const serverlistContent = await github.rest.repos.getContent({
+                owner,
+                repo,
+                path: 'lgsm/data/serverlist.csv',
+              });
+              const encoded = serverlistContent.data?.content || '';
+              const csvText = Buffer.from(encoded, 'base64').toString('utf8');
+              const serverRows = parseServerlistCsv(csvText);
+
+              for (const row of serverRows) {
+                const canonicalLabel = gameLabelByNormalized.get(normalizeName(row.gamename));
+                if (!canonicalLabel) continue;
+
+                for (const alias of [row.shortname, row.gameservername, row.gamename]) {
+                  const key = normalizeName(alias);
+                  if (!key) continue;
+                  gameAliasToLabel.set(key, canonicalLabel);
+                  gameAliasToScript.set(key, row.gameservername);
+                }
+              }
+            } catch (err) {
+              console.log(`Could not load serverlist aliases: ${err.message}`);
+            }
+
+            async function ensureEngineLabel(engineLabel) {
+              if (existingEngineLabels.has(engineLabel)) return;
+              try {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: engineLabel,
+                  color: '000000',
+                  description: `Issues related to ${engineLabel.slice(8)} engine`,
+                });
+                existingEngineLabels.add(engineLabel);
+              } catch (err) {
+                if (err.status === 422) {
+                  existingEngineLabels.add(engineLabel);
+                  return;
+                }
+                console.log(`Could not create engine label "${engineLabel}": ${err.message}`);
+              }
+            }
+
+            async function getEngineForScript(scriptName) {
+              if (!scriptName) return null;
+              if (engineByScript.has(scriptName)) {
+                return engineByScript.get(scriptName);
+              }
+              try {
+                const cfgContent = await github.rest.repos.getContent({
+                  owner,
+                  repo,
+                  path: `lgsm/config-default/config-lgsm/${scriptName}/_default.cfg`,
+                });
+                const encoded = cfgContent.data?.content || '';
+                const cfgText = Buffer.from(encoded, 'base64').toString('utf8');
+                const engine = cfgText.match(/^engine="([^"]+)"/m)?.[1] || null;
+                engineByScript.set(scriptName, engine);
+                return engine;
+              } catch (err) {
+                console.log(`Could not detect engine for ${scriptName}: ${err.message}`);
+                engineByScript.set(scriptName, null);
+                return null;
+              }
+            }
+            const labelsToAdd = new Set();
+            const labelsToRemove = new Set();
+
+            // Deterministic reconciliation on every interaction.
+            const desiredType = inferTypeFromTitle(title);
+            if (desiredType) {
+              labelsToAdd.add(desiredType);
+              for (const label of existingLabels) {
+                if (label.startsWith('type: ') && label !== desiredType) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            const commandSection = extractSection('Command');
+            const desiredCommands = parseCommandSelections(commandSection);
+            if (desiredCommands.size > 0) {
+              for (const label of desiredCommands) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('command: ') && !desiredCommands.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            const distroSection = extractSection('Linux distro');
+            const desiredDistros = parseDistroSelections(distroSection);
+            if (desiredDistros.size > 0) {
+              for (const label of desiredDistros) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('distro: ') && !desiredDistros.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            const tmuxContextPattern = /\b(tmuxception|check_tmuxception)\b/i;
+            if (existingLabels.has('info: tmux') && !tmuxContextPattern.test(`${title}\n${body}`)) {
+              labelsToRemove.add('info: tmux');
+            }
+
+            const desiredGames = new Set();
+            const desiredServerScripts = new Set();
+            const gameField = extractSection('Game');
+            for (const candidate of parseGameCandidates(gameField)) {
+              const normalizedCandidate = normalizeName(candidate);
+              const mapped = gameAliasToLabel.get(normalizedCandidate) || gameLabelByNormalized.get(normalizedCandidate);
+              if (mapped) desiredGames.add(mapped);
+              const mappedScript = gameAliasToScript.get(normalizedCandidate);
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            // AI advisory is only needed on issue opened/edited.
+            let triage = {};
+            let ranAi = false;
+            const shouldRunAi = eventName === 'issues' && ['opened', 'edited'].includes(action);
+            if (shouldRunAi) {
+              ranAi = true;
+
+              const isShortBody = body.trim().length < 80;
+              if (isShortBody) {
+                labelsToAdd.add('needs: more info');
+              } else {
+                try {
+                  const res = await fetch(
+                    `https://models.github.ai/orgs/${owner}/inference/chat/completions`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        Accept: 'application/vnd.github+json',
+                        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                        'X-GitHub-Api-Version': '2026-03-10',
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        model: 'openai/gpt-4.1-mini',
+                        temperature: 0.1,
+                        max_tokens: 400,
+                        messages: [
+                          {
+                            role: 'system',
+                            content:
+                              'You are a triage assistant for LinuxGSM, an open-source Linux game server manager. ' +
+                              'Return only JSON. Analyze issue quality, suggest missing info, detect game names, and suggest contextual labels ' +
+                              'only when highly certain. Never set type: docs just because docs links are mentioned.',
+                          },
+                          {
+                            role: 'user',
+                            content:
+                              `Title: ${title}\n\nBody:\n${body.slice(0, 3000)}\n\n` +
+                              'Return JSON schema:\n' +
+                              '{\n' +
+                              '  "quality": "good" | "ok" | "poor",\n' +
+                              '  "missing_info": ["list of specific missing fields"],\n' +
+                              '  "detected_game": "canonical game name if one is mentioned, or null",\n' +
+                              '  "game_confidence": "high" | "medium" | "low" | null,\n' +
+                              '  "context_labels": ["labels"],\n' +
+                              '  "context_confidence": "high" | "medium" | "low" | null,\n' +
+                              '  "game_note": "string",\n' +
+                              '  "comment": "string"\n' +
+                              '}',
+                          },
+                        ],
+                      }),
+                    }
+                  );
+
+                  if (res.ok) {
+                    const data = await res.json();
+                    const raw = data.choices?.[0]?.message?.content || '{}';
+                    triage = parseTriageResponse(raw);
+                  } else {
+                    console.log(`GitHub Models returned ${res.status} - skipping AI triage.`);
+                  }
+                } catch (err) {
+                  console.log('AI triage skipped:', err.message);
+                }
+              }
+            }
+
+            const allowedContextLabels = new Set([
+              'type: docs',
+              'info: docs',
+              'info: dependency',
+              'info: docker',
+              'info: email',
+              'info: query',
+              'info: steamcmd',
+              'info: systemd',
+              'info: website',
+              'info: alerts',
+            ]);
+
+            const isPoor = triage?.quality === 'poor';
+            const missing = Array.isArray(triage?.missing_info) ? triage.missing_info : [];
+            const hasIssues = isPoor || missing.length > 0;
+
+            // Fallback to AI-detected game only if explicit form mapping was unavailable.
+            const detectedGame = triage?.detected_game;
+            const gameConfidence = triage?.game_confidence;
+            if (desiredGames.size === 0 && detectedGame && gameConfidence === 'high') {
+              const normalizedDetectedGame = normalizeName(detectedGame);
+              const mapped = gameLabelByNormalized.get(normalizedDetectedGame);
+              if (mapped) {
+                desiredGames.add(mapped);
+              }
+              const mappedScript = gameAliasToScript.get(normalizedDetectedGame);
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            // Resolve server scripts from canonical game labels when only labels were mapped.
+            for (const gameLabel of desiredGames) {
+              const gameName = gameLabel.slice(6);
+              const mappedScript = gameAliasToScript.get(normalizeName(gameName));
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            const desiredEngineLabels = new Set();
+            for (const scriptName of desiredServerScripts) {
+              const engine = await getEngineForScript(scriptName);
+              if (!engine) continue;
+              const engineLabel = `engine: ${engine}`;
+              await ensureEngineLabel(engineLabel);
+              desiredEngineLabels.add(engineLabel);
+            }
+
+            if (desiredEngineLabels.size > 0) {
+              for (const label of desiredEngineLabels) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('engine: ') && !desiredEngineLabels.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            if (desiredGames.size > 0) {
+              for (const label of desiredGames) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('game: ') && !desiredGames.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            if (triage?.context_confidence === 'high') {
+              const contextLabels = Array.isArray(triage.context_labels) ? triage.context_labels : [];
+              for (const label of contextLabels) {
+                if (!allowedContextLabels.has(label)) continue;
+                if (
+                  label === 'type: docs' &&
+                  (existingLabels.has('type: game server request') || desiredType === 'type: game server request')
+                ) {
+                  continue;
+                }
+                labelsToAdd.add(label);
+              }
+            }
+
+            if (ranAi && hasIssues) {
+              labelsToAdd.add('needs: more info');
+            }
+
+            if (ranAi && !hasIssues && existingLabels.has('needs: more info')) {
+              labelsToRemove.add('needs: more info');
+            }
+
+            // Avoid pointless API calls.
+            const finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
+            const finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+
+            for (const label of finalRemoves) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  name: label,
+                });
+                console.log(`Removed label: ${label}`);
+              } catch (err) {
+                console.log(`Could not remove label "${label}": ${err.message}`);
+              }
+            }
+
+            for (const label of finalAdds) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  labels: [label],
+                });
+                console.log(`Added label: ${label}`);
+              } catch (err) {
+                console.log(`Could not add label "${label}": ${err.message}`);
+              }
+            }
+
+            // Post AI comment only for opened/edited issues when useful.
+            if (ranAi) {
+              const gameNote = triage?.game_note || '';
+              const reporterComment = triage?.comment || '';
+
+              if (hasIssues || gameNote) {
+                const missingBlock = missing.length > 0
+                  ? `\n\n**Missing information:**\n${missing.map((m) => `- ${m}`).join('\n')}`
+                  : '';
+                const gameBlock = gameNote ? `\n\n**Game name note:** ${gameNote}` : '';
+
+                const triageCommentBody =
+                  `${AI_MARKER}\n` +
+                  `Thanks for opening this issue!\n\n` +
+                  `${reporterComment}` +
+                  `${missingBlock}` +
+                  `${gameBlock}\n\n` +
+                  `_This note was generated automatically by AI triage and may not be perfect. ` +
+                  `A maintainer will review shortly._`;
+
+                try {
+                  const comments = await github.paginate(github.rest.issues.listComments, {
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    per_page: 100,
+                  });
+
+                  const existingAiComment = [...comments].reverse().find(
+                    (comment) => comment.user?.type === 'Bot' && comment.body?.includes(AI_MARKER)
+                  );
+
+                  if (existingAiComment) {
+                    await github.rest.issues.updateComment({
+                      owner,
+                      repo,
+                      comment_id: existingAiComment.id,
+                      body: triageCommentBody,
+                    });
+                  } else {
+                    await github.rest.issues.createComment({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      body: triageCommentBody,
+                    });
+                  }
+                } catch (err) {
+                  console.log('Could not post comment:', err.message);
+                }
+              }
+            }
+
+  issue-potential-duplicates:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'edited' || github.event.action == 'reopened')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect potential duplicates
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issueNumber = context.payload.issue?.number;
+            const DUPLICATE_LABEL = 'potential-duplicate';
+            const DUPLICATE_MARKER = '<!-- potential-duplicate-check -->';
+            const MAX_CANDIDATES = 5;
+            const THRESHOLD = 0.45;
+
+            if (!issueNumber) {
+              console.log('No issue number found in payload.');
+              return;
+            }
+
+            const issueResp = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber,
+            });
+
+            const issue = issueResp.data;
+            if (issue.pull_request) {
+              console.log('Skipping pull request payload.');
+              return;
+            }
+
+            function normalizeText(value) {
+              return (value || '')
+                .toLowerCase()
+                .replace(/[`'"’]/g, '')
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            }
+
+            function tokenize(value) {
+              const stopwords = new Set([
+                'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how', 'i', 'in', 'is', 'it', 'its',
+                'of', 'on', 'or', 'that', 'the', 'this', 'to', 'when', 'with', 'wont', 'cannot', 'cant', 'fails', 'fail',
+                'issue', 'bug', 'request', 'server', 'command', 'linuxgsm'
+              ]);
+              return new Set(
+                normalizeText(value)
+                  .split(' ')
+                  .filter((token) => token.length > 2 && !stopwords.has(token))
+              );
+            }
+
+            function jaccard(aSet, bSet) {
+              if (aSet.size === 0 || bSet.size === 0) return 0;
+              let intersection = 0;
+              for (const v of aSet) {
+                if (bSet.has(v)) intersection += 1;
+              }
+              const union = new Set([...aSet, ...bSet]).size;
+              return union === 0 ? 0 : intersection / union;
+            }
+
+            function bodySignature(text) {
+              return normalizeText(text).split(' ').slice(0, 200).join(' ');
+            }
+
+            const currentTitleTokens = tokenize(issue.title || '');
+            const currentBodyTokens = tokenize(bodySignature(issue.body || ''));
+
+            const recentIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'all',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 100,
+            });
+
+            const ranked = [];
+            for (const candidate of recentIssues) {
+              if (!candidate || candidate.number === issueNumber || candidate.pull_request) continue;
+
+              const candidateTitleTokens = tokenize(candidate.title || '');
+              const candidateBodyTokens = tokenize(bodySignature(candidate.body || ''));
+              const titleScore = jaccard(currentTitleTokens, candidateTitleTokens);
+              const bodyScore = jaccard(currentBodyTokens, candidateBodyTokens);
+              const score = titleScore * 0.8 + bodyScore * 0.2;
+
+              if (score < THRESHOLD) continue;
+
+              ranked.push({
+                number: candidate.number,
+                title: candidate.title,
+                state: candidate.state,
+                html_url: candidate.html_url,
+                score,
+              });
+            }
+
+            ranked.sort((a, b) => b.score - a.score);
+            const topMatches = ranked.slice(0, MAX_CANDIDATES);
+
+            async function ensurePotentialDuplicateLabel() {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name: DUPLICATE_LABEL });
+              } catch (err) {
+                if (err.status !== 404) throw err;
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: DUPLICATE_LABEL,
+                  color: 'd4c5f9',
+                  description: 'Potentially duplicates another existing issue',
+                });
+              }
+            }
+
+            const existingLabelNames = new Set((issue.labels || []).map((l) => l.name));
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existingComment = [...comments]
+              .reverse()
+              .find((comment) => comment.user?.type === 'Bot' && comment.body?.includes(DUPLICATE_MARKER));
+
+            if (topMatches.length === 0) {
+              if (existingLabelNames.has(DUPLICATE_LABEL)) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    name: DUPLICATE_LABEL,
+                  });
+                } catch (err) {
+                  console.log(`Could not remove ${DUPLICATE_LABEL}: ${err.message}`);
+                }
+              }
+
+              if (existingComment) {
+                try {
+                  await github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: existingComment.id,
+                    body:
+                      `${DUPLICATE_MARKER}\n` +
+                      `Potential duplicate scan did not find strong matches at this time.\n\n` +
+                      `_This note is maintained automatically._`,
+                  });
+                } catch (err) {
+                  console.log(`Could not update duplicate comment: ${err.message}`);
+                }
+              }
+
+              return;
+            }
+
+            await ensurePotentialDuplicateLabel();
+
+            if (!existingLabelNames.has(DUPLICATE_LABEL)) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  labels: [DUPLICATE_LABEL],
+                });
+              } catch (err) {
+                console.log(`Could not add ${DUPLICATE_LABEL}: ${err.message}`);
+              }
+            }
+
+            const lines = topMatches
+              .map((m) => `- #${m.number} (${Math.round(m.score * 100)}%) ${m.title}`)
+              .join('\n');
+
+            const commentBody =
+              `${DUPLICATE_MARKER}\n` +
+              `Potential duplicates:\n${lines}\n\n` +
+              `_This note is generated automatically using repository issue similarity and may include false positives._`;
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existingComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body: commentBody,
+              });
+            }
+
+  pr-labeler:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+          include-body: 0
+          sync-labels: 1
 
   is-sponsor-label:
-    if: github.repository_owner == 'GameServerManagers'
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && github.event.action == 'opened'
     runs-on: ubuntu-latest
     steps:
       - name: Is Sponsor Label

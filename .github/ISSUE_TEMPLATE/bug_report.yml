@@ -8,12 +8,65 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: Triage metadata used for prioritization.
+      options:
+        - "severity: low"
+        - "severity: medium"
+        - "severity: high"
+        - "severity: critical"
+    validations:
+      required: true
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproducibility
+      description: Triage metadata used for prioritization.
+      options:
+        - "reproducible: always"
+        - "reproducible: sometimes"
+        - "reproducible: unable"
+    validations:
+      required: true
+  - type: dropdown
+    id: regression
+    attributes:
+      label: Regression
+      description: Triage metadata used for prioritization.
+      options:
+        - "regression: yes"
+        - "regression: no"
+        - "regression: unknown"
+    validations:
+      required: true
+  - type: dropdown
+    id: affects-latest
+    attributes:
+      label: Affects latest release
+      description: Triage metadata used for prioritization.
+      options:
+        - "latest-release: yes"
+        - "latest-release: no"
+        - "latest-release: unknown"
+    validations:
+      required: true
   - type: input
     id: user-story
     attributes:
       label: User story
       description: As a [user description], I want [desired action] so that [desired outcome].
       placeholder: As a [user description], I want [desired action] so that [desired outcome].
+    validations:
+      required: true
+  - type: input
+    id: script-name
+    attributes:
+      label: Script name
+      description: LinuxGSM script name in use.
+      placeholder: vhserver
     validations:
       required: true
   - type: input
@@ -67,6 +120,22 @@ body:
     validations:
       required: true
   - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What should happen?
+      placeholder: Describe the expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: What actually happens?
+      placeholder: Describe the observed result.
+    validations:
+      required: true
+  - type: textarea
     id: further-info
     attributes:
       label: Further information
@@ -74,11 +143,19 @@ body:
       placeholder: Tell us what you see!
     validations:
       required: true
+  - type: checkboxes
+    id: prechecks
+    attributes:
+      label: Pre-checks
+      description: Confirm standard troubleshooting has been completed.
+      options:
+        - label: I ran update and validate before reporting this issue.
+          required: true
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: Include the exact command used and the full related output (debug/details if available). This will be automatically formatted into code.
       render: shell
   - type: textarea
     id: steps
@@ -90,3 +167,5 @@ body:
         2. Click on '....'
         3. Scroll down to '....'
         4. See error
+    validations:
+      required: true
