@@ -4,14 +4,24 @@ on:
     types:
       - opened
       - edited
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
 
 permissions:
   issues: write
+  pull-requests: write
   contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   issue-labeler:
-    if: github.repository_owner == 'GameServerManagers'
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
       - name: Issue Labeler
@@ -21,12 +31,28 @@ jobs:
           configuration-path: .github/labeler.yml
           enable-versioned-regex: 0
           include-title: 1
+          sync-labels: 1
+
+  pr-labeler:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+          include-body: 0
+          sync-labels: 1
 
   is-sponsor-label:
-    if: github.repository_owner == 'GameServerManagers'
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues'
     runs-on: ubuntu-latest
     steps:
       - name: Is Sponsor Label
-        uses: JasonEtco/is-sponsor-label-action@v2
+        if: github.event.action == 'opened'
+        uses: JasonEtco/is-sponsor-label-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
