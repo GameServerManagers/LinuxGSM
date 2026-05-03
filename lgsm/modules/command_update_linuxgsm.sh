@@ -188,7 +188,7 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 		fn_print_update_eol_nl
 		fn_script_log "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
 		rm -f "${datadir:?}/${distroid}-${distroversioncsv}.csv"
-		fn_fetch_file_github "${datadir}" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "nochmodx" "norun" "noforce" "nohash"
 	else
 		fn_print_skip_eol_nl
 		fn_script_log_pass "Checking ${remotereponame} ${distroid}-${distroversioncsv}.csv"
