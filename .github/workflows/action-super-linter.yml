@@ -27,9 +27,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          # Full clone required so super-linter can resolve GITHUB_BEFORE_SHA.
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
           fetch-depth: 0
-          fetch-tags: false
           persist-credentials: false
 
       - name: Install Prettier plugins (for summary formatting)
@@ -41,7 +41,6 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BRANCH: ${{ github.ref_name }}
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
@@ -49,7 +48,6 @@ jobs:
           VALIDATE_JSON_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_NATURAL_LANGUAGE: false
-          VALIDATE_PYTHON_RUFF_FORMAT: false
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_TRIVY: false
           VALIDATE_YAML_PRETTIER: false
