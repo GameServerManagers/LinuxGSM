@@ -30,11 +30,18 @@ body:
       label: Linux distro
       multiple: true
       options:
+        - Ubuntu 26.04
         - Ubuntu 24.04
         - Ubuntu 22.04
         - Ubuntu 20.04
+        - Debian 13
         - Debian 12
         - Debian 11
+        - AlmaLinux 9
+        - AlmaLinux 8
+        - Rocky 10
+        - Rocky 9
+        - Rocky 8
         - RedHat 9
         - RedHat 8
         - Other

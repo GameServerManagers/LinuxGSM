@@ -16,7 +16,7 @@ bfv,libncurses5:i386,libstdc++5:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2-utils
+bt,libicu-dev,dos2unix,libxml2
 btl
 cc
 ck,xvfb,libxi6
@@ -71,7 +71,7 @@ mcb
 mcv
 mh
 mohaa,libstdc++5:i386
-mta,libncursesw5,libxml2-utils
+mta,libncursesw6,libxml2
 nd
 nec
 nmrih
@@ -104,14 +104,14 @@ sb
 sbots
 scpsl,mono-complete,libicu76
 scpslsm,mono-complete
-sdtd,telnet,expect,libxml2-utils
+sdtd,telnet,expect,libxml2
 sf
 sfc
 sm,telnet,expect
 sof2
 sol
 squad
-st,libxml2-utils
+st,libxml2
 stn
 sven,libssl3:i386,zlib1g:i386
 terraria
