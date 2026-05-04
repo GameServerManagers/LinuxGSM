@@ -1,4 +1,4 @@
-name: Unified Labeling
+name: Issue Triage & Automation
 on:
   workflow_dispatch:
     inputs:
@@ -49,6 +49,12 @@ on:
       - edited
       - synchronize
       - reopened
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - "lgsm/data/serverlist.csv"
 
 permissions:
   issues: write
@@ -2282,3 +2288,17 @@ jobs:
         uses: JasonEtco/is-sponsor-label-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sync-game-labels:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'push' && contains(github.event.head_commit.modified, 'lgsm/data/serverlist.csv')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Sync game labels from serverlist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/sync-game-labels.sh
+          .github/scripts/sync-game-labels.sh
