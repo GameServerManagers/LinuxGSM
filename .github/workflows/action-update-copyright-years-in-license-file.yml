@@ -1,4 +1,5 @@
 name: Update copyright year(s) in license file
+
 on:
   workflow_dispatch:
   schedule:
@@ -6,17 +7,16 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   update-license-year:
-    if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Action Update License Year
         uses: FantasticFiasco/action-update-license-year@v3
         with:
