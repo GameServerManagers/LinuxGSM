@@ -1412,6 +1412,13 @@ fn_info_messages_ro() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_rsdw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_rtcw() {
 	{
 		fn_port "header"
@@ -1914,6 +1921,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_qw
 	elif [ "${shortname}" == "ro" ]; then
 		fn_info_messages_ro
+	elif [ "${shortname}" == "rsdw" ]; then
+		fn_info_messages_rsdw
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_messages_rtcw
 	elif [ "${shortname}" == "samp" ]; then

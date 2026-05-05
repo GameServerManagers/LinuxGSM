@@ -45,6 +45,8 @@ elif [ "${shortname}" == "pvr" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pz" ]; then
 	ramrequirementgb="3"
+elif [ "${shortname}" == "rsdw" ]; then
+	ramrequirementgb="2"
 elif [ "${shortname}" == "rust" ]; then
 	ramrequirementgb="9"
 elif [ "${shortname}" == "sdtd" ]; then
