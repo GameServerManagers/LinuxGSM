@@ -256,6 +256,8 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
 	install_factorio_save.sh
+elif [ "${shortname}" == "hyt" ]; then
+	update_hyt.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then

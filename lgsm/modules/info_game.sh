@@ -1350,6 +1350,19 @@ fn_info_game_hz() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: true
+# Comment:
+# Example: "ServerName": "SERVERNAME"
+# Filetype: json
+fn_info_game_hyt() {
+	configtype="json"
+	configip="${ip:-"0.0.0.0"}"
+	port="${port:-"5520"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: parameters
 # Parameters: true
 # Comment:
@@ -2375,6 +2388,8 @@ elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
 	fn_info_game_hz
+elif [ "${shortname}" == "hyt" ]; then
+	fn_info_game_hyt
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss
 elif [ "${shortname}" == "jc2" ]; then
