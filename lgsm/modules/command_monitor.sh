@@ -145,7 +145,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "/bin/bash ./${selfname} fu")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} force-update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} fu")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update-restart")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ur")" != "0" ]]; then
 		fn_print_dots "Checking update"
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server"
