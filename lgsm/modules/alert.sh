@@ -389,3 +389,14 @@ elif [ -z "${ntfytopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	echo -e "* https://docs.linuxgsm.com/alerts/ntfy"
 	fn_script_error "ntfy topic not set"
 fi
+
+if [ "${flowtriqalert}" == "on" ] && [ -n "${flowtriqwebhook}" ]; then
+	alert_flowtriq.sh
+elif [ "${flowtriqalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "Flowtriq alerts not enabled"
+	fn_script_log_warn "Flowtriq alerts not enabled"
+elif [ -z "${flowtriqwebhook}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Flowtriq webhook not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/flowtriq"
+	fn_script_error "Flowtriq webhook not set"
+fi
