@@ -122,6 +122,23 @@ if [ "${modcommand}" == "amxmodxcs" ] \
 	fn_mod_exist "amxmodx"
 fi
 
+# CS2 dependency checks.
+if [ "${modcommand}" == "cssharp" ]; then
+	fn_mod_exist "metamodsource2"
+fi
+
+if [ "${modcommand}" == "simpleadmin" ] \
+	|| [ "${modcommand}" == "matchzy" ] \
+	|| [ "${modcommand}" == "weaponpaints" ]; then
+	fn_mod_exist "metamodsource2"
+	fn_mod_exist "cssharp"
+fi
+
+if [ "${modcommand}" == "weaponpaints" ]; then
+	fn_print_warning_nl "WeaponPaints also requires PlayerSettingsCS2, AnyBaseLibCS2, MenuManagerCS2, and MySQL configuration."
+	fn_print_information_nl "Install those dependencies before starting the server, or WeaponPaints may fail to load."
+fi
+
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
 fn_mods_create_tmp_dir
