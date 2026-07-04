@@ -105,7 +105,9 @@ movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
 movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
 
 # CS2 Mods
-simpleadminlatestlink=$(curl --connect-timeout 10 -sL https://api.github.com/repos/daffyyyy/CS2-SimpleAdmin/releases/latest | jq -r '.assets[].browser_download_url')
+simpleadminlastbuild=$(curl --connect-timeout 10 -sL https://api.github.com/repos/daffyyyy/CS2-SimpleAdmin/releases/latest | jq '.assets[] | select(.name | test("^CS2-SimpleAdmin-.*\\.zip$"))')
+simpleadminlatestfile=$(echo "${simpleadminlastbuild}" | jq -r '.name')
+simpleadminlatestlink=$(echo "${simpleadminlastbuild}" | jq -r '.browser_download_url') 
 matchzylatestversion=$(curl --connect-timeout 10 -s https://api.github.com/repos/xe1os/MatchZy/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
 matchzylatestfile="MatchZy-${matchzylatestversion}.zip"
 matchzylatestlink="https://github.com/xe1os/MatchZy/releases/download/${matchzylatestversion}/${matchzylatestfile}"
@@ -189,7 +191,7 @@ mod_info_cleaner=(MOD "cleaner" "cleaner" "https://github.com/e54385991/console-
 # CS2 Mods
 mod_info_metamodsource2=(MOD "metamodsource2" "Metamod: Source 2 (dev build)" "${metamodsource2url}" "${metamodsource2latestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "source2;" "GAMES" "NOTGAMES" "https://www.metamodsource.net" "Plugins Framework ported to Source 2")
 mod_info_cssharp=(MOD "cssharp" "Counter Strike Sharp" "${cssharplatestlink}" "${cssharplatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/counterstrikesharp/configs;" "source2;" "GAMES" "NOTGAMES" "https://docs.cssharp.dev/" "Plugins/mod framework (Requires Metamod: Source 2)")
-mod_info_simpleadmin=(MOD "simpleadmin" "CS2-SimpleAdmin" "${simpleadminlatestlink}" "CS2-SimpleAdmin.zip" "0" "LowercaseOff" "${systemdir}/addons" "addons/counterstrikesharp/configs/plugins/CS2-SimpleAdmin;" "source2;" "GAMES" "NOTGAMES" "https://cs2-simpleadmin.daffyy.love/" "Manage your Counter-Strike 2 server by simple commands")
+mod_info_simpleadmin=(MOD "simpleadmin" "CS2-SimpleAdmin" "${simpleadminlatestlink}" "${simpleadminlatestfile}" "0" "LowercaseOff" "${systemdir}/addons" "counterstrikesharp/configs/plugins/CS2-SimpleAdmin;" "source2;" "GAMES" "NOTGAMES" "https://cs2-simpleadmin.daffyy.love/" "Manage your Counter-Strike 2 server by simple commands")
 mod_info_matchzy=(MOD "matchzy" "MatchZy" "${matchzylatestlink}" "${matchzylatestfile}"  "0" "LowercaseOff" "${systemdir}" "cfg/MatchZy;" "source2;" "GAMES" "NOTGAMES" "https://shobhit-pathak.github.io/MatchZy/" "Plugin for running and managing practice/pugs/scrims/matches")
 mod_info_weaponpaints=(MOD "weaponpaints" "CS2 WeaponPaints" "${weaponpaintslatestlink}" "${weaponpaintslatestfile}" "0" "LowercaseOff" "${systemdir}/addons/counterstrikesharp" "configs/plugins/WeaponPaints;" "source2;" "GAMES" "NOTGAMES" "https://github.com/Nereziel/cs2-WeaponPaints" "Weapon/knife/glove/agent paint plugin for CS2. Requires CounterStrikeSharp runtime, PlayerSettingsCS2, AnyBaseLibCS2, MenuManagerCS2, and MySQL")
 
