@@ -753,14 +753,23 @@ fn_mod_remove_amxmodx_file() {
 
 fn_mod_install_gameinfo_gi_file() {
 	if [ -f "${modinstalldir}/gameinfo.gi" ]; then
-		# modify the liblist.gam file to initialize Metamod
+		logentry="line (Game csgo/addons/metamod) added to ${modinstalldir}/gameinfo.gi"
 		echo -en "modifying gameinfo.gi..."
+		fn_sleep_time
+
+		if grep -Eq "^[[:space:]]*Game[[:space:]]+csgo/addons/metamod" "${modinstalldir}/gameinfo.gi"; then
+			fn_script_log_info "Metamod Source 2 gameinfo.gi entry already exists"
+			fn_print_ok_eol_nl
+			return
+		fi
+
 		sed -i "/Game_LowViolence/a \ \ \ \ \ \ \ \ \ \ \ Game\ \ \ \ csgo/addons/metamod" "${modinstalldir}/gameinfo.gi"
 		exitcode=$?
-		# if replacement back didn't happen, error out.
-		if [ "${exitcode}" != 0 ]; then
+
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_script_log_fail "${logentry}"
 			fn_print_fail_eol_nl
+			core_exit.sh
 		else
 			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
