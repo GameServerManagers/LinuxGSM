@@ -197,6 +197,33 @@ fn_mod_tidy_files_list() {
 	if [ "${modcommand}" == "metamodsource2" ]; then
 		sed -i "/^addons\/gameinfo.gi$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
+
+	# CounterStrikeSharp / Source2 shared directory protection.
+# Prevent uninstalling one CS2 plugin from deleting the whole CSS plugins/configs tree.
+
+    if [ "${modcommand}" == "simpleadmin" ]; then
+	     sed -i "/^counterstrikesharp$/d" "${modsdir}/${modcommand}-files.txt"
+	     sed -i "/^counterstrikesharp\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	     sed -i "/^counterstrikesharp\/configs$/d" "${modsdir}/${modcommand}-files.txt"
+	     sed -i "/^counterstrikesharp\/configs\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	     sed -i "/^counterstrikesharp\/shared$/d" "${modsdir}/${modcommand}-files.txt"
+    fi
+
+    if [ "${modcommand}" == "matchzy" ]; then
+	    sed -i "/^addons\/counterstrikesharp$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^addons\/counterstrikesharp\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^addons\/counterstrikesharp\/configs$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^addons\/counterstrikesharp\/configs\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^cfg$/d" "${modsdir}/${modcommand}-files.txt"
+    fi
+
+    if [ "${modcommand}" == "weaponpaints" ]; then
+	    sed -i "/^plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^configs$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^configs\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	    sed -i "/^gamedata$/d" "${modsdir}/${modcommand}-files.txt"
+    fi
+	
 }
 
 ## Information Gathering.
