@@ -102,6 +102,10 @@ fn_mod_copy_destination() {
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Copying ${modprettyname} to ${modinstalldir}"
 	fi
+	
+	if [ "${modcommand}" == "weaponpaints" ]; then
+		fn_mod_install_weaponpaints_files
+	fi
 }
 
 # Add the mod to the installed-mods.txt.
@@ -779,6 +783,35 @@ fn_mod_remove_gameinfo_gi_file() {
 			fn_script_log_pass "${logentry}"
 			fn_print_ok_eol_nl
 		fi
+	fi
+}
+
+fn_mod_install_weaponpaints_files() {
+	if [ -d "${modinstalldir}/WeaponPaints" ]; then
+		echo -en "moving WeaponPaints plugin to plugins directory..."
+		fn_sleep_time
+
+		mkdir -p "${modinstalldir}/plugins"
+		rm -rf "${modinstalldir}/plugins/WeaponPaints"
+		mv "${modinstalldir}/WeaponPaints" "${modinstalldir}/plugins/WeaponPaints"
+		exitcode=$?
+
+		if [ "${exitcode}" -ne 0 ]; then
+			fn_print_fail_eol_nl
+			fn_script_log_fail "Moving WeaponPaints to ${modinstalldir}/plugins/WeaponPaints"
+			core_exit.sh
+		else
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Moving WeaponPaints to ${modinstalldir}/plugins/WeaponPaints"
+		fi
+
+		# Update uninstall/update file list after moving plugin folder.
+		sed -i "s#^WeaponPaints#plugins/WeaponPaints#g" "${modsdir}/${modcommand}-files.txt"
+	fi
+
+	# Do not let uninstall remove the shared CounterStrikeSharp gamedata directory itself.
+	if [ -f "${modsdir}/${modcommand}-files.txt" ]; then
+		sed -i "/^gamedata$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 
