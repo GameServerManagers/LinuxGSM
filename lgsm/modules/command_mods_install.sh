@@ -148,6 +148,18 @@ if [ "${modcommand}" == "amxmodx" ]; then
 	fn_mod_install_amxmodx_file
 fi
 
+# CS2 dependency checks.
+if [ "${modcommand}" == "cssharp" ]; then
+	fn_mod_exist "metamodsource2"
+fi
+
+if [ "${modcommand}" == "simpleadmin" ] \
+	|| [ "${modcommand}" == "matchzy" ] \
+	|| [ "${modcommand}" == "weaponpaints" ]; then
+	fn_mod_exist "metamodsource2"
+	fn_mod_exist "cssharp"
+fi
+
 # Prevent WeaponPaints install without CounterStrikeSharp.
 if [ "${modcommand}" == "weaponpaints" ]; then
 	fn_mod_exist "cssharp"
