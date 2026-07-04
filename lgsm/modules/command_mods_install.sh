@@ -148,6 +148,11 @@ if [ "${modcommand}" == "amxmodx" ]; then
 	fn_mod_install_amxmodx_file
 fi
 
+# Prevent WeaponPaints install without CounterStrikeSharp.
+if [ "${modcommand}" == "weaponpaints" ]; then
+	fn_mod_exist "cssharp"
+fi
+
 echo -e "${modprettyname} installed"
 fn_script_log_pass "${modprettyname} installed."
 
