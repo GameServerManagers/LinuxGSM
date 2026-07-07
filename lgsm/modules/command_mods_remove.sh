@@ -162,7 +162,7 @@ if [ "${modcommand}" == "amxmodx" ]; then
 fi
 
 # Remove metamod line from gameinfo.gi when uninstalling Metamod: Source 2
-if [ "${modcommand}" == "metamodsource2" ]; then
+if [ "${modcommand}" == "mmsource2" ]; then
 	fn_mod_remove_gameinfo_gi_file
 fi
 

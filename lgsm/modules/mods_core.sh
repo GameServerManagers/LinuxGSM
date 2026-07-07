@@ -194,7 +194,7 @@ fn_mod_tidy_files_list() {
 	fi
 
 	# Remove specific mod paths from deletion list
-	if [ "${modcommand}" == "metamodsource2" ]; then
+	if [ "${modcommand}" == "mmsource2" ]; then
 		sed -i "/^addons\/gameinfo.gi$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 

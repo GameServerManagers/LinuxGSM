@@ -124,13 +124,13 @@ fi
 
 # CS2 dependency checks.
 if [ "${modcommand}" == "cssharp" ]; then
-	fn_mod_exist "metamodsource2"
+	fn_mod_exist "mmsource2"
 fi
 
 if [ "${modcommand}" == "simpleadmin" ] \
 	|| [ "${modcommand}" == "matchzy" ] \
 	|| [ "${modcommand}" == "weaponpaints" ]; then
-	fn_mod_exist "metamodsource2"
+	fn_mod_exist "mmsource2"
 	fn_mod_exist "cssharp"
 fi
 
@@ -156,7 +156,7 @@ if [ "${modcommand}" == "metamod" ]; then
 fi
 
 # Create/modify existing gameinfo.gi file for Metamod:Source 2
-if [ "${modcommand}" == "metamodsource2" ]; then
+if [ "${modcommand}" == "mmsource2" ]; then
 	fn_mod_install_gameinfo_gi_file
 fi
 
@@ -167,13 +167,13 @@ fi
 
 # CS2 dependency checks.
 if [ "${modcommand}" == "cssharp" ]; then
-	fn_mod_exist "metamodsource2"
+	fn_mod_exist "mmsource2"
 fi
 
 if [ "${modcommand}" == "simpleadmin" ] \
 	|| [ "${modcommand}" == "matchzy" ] \
 	|| [ "${modcommand}" == "weaponpaints" ]; then
-	fn_mod_exist "metamodsource2"
+	fn_mod_exist "mmsource2"
 	fn_mod_exist "cssharp"
 fi
 
