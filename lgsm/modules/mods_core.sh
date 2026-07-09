@@ -35,7 +35,6 @@ fn_mod_install_files() {
 # This compares the resolved download URL + filename.
 fn_mod_latest_version_marker() {
 	modversionfile="${modsdir}/${modcommand}-version.txt"
-	modlatesturlfile="${modsdir}/${modcommand}-latest-url.txt"
 
 	if [ -z "${modurl}" ] || [ "${modurl}" == "null" ]; then
 		fn_print_fail_nl "${modprettyname}: missing download URL"
@@ -51,14 +50,9 @@ fn_mod_latest_version_marker() {
 		core_exit.sh
 	fi
 
-	# Resolve redirects when possible. Useful for GitHub latest/download links.
-	modlatesturl="$(curl -fsIL -o /dev/null -w '%{url_effective}' "${modurl}" 2>/dev/null || true)"
-
-	if [ -z "${modlatesturl}" ]; then
-		modlatesturl="${modurl}"
-	fi
-
-	modlatestversion="${modlatesturl}|${modfilename}"
+	# Do NOT resolve redirects here.
+	# GitHub asset redirects contain expiring signed URLs and will change every run.
+	modlatestversion="${modurl}|${modfilename}"
 }
 
 # Save currently installed mod version marker.
