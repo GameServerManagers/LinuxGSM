@@ -31,6 +31,65 @@ fn_mod_install_files() {
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
 }
 
+# Create a simple latest-version marker for a mod.
+# This compares the resolved download URL + filename.
+fn_mod_latest_version_marker() {
+	modversionfile="${modsdir}/${modcommand}-version.txt"
+	modlatesturlfile="${modsdir}/${modcommand}-latest-url.txt"
+
+	if [ -z "${modurl}" ] || [ "${modurl}" == "null" ]; then
+		fn_print_fail_nl "${modprettyname}: missing download URL"
+		fn_script_log_fail "${modprettyname}: missing download URL"
+		exitcode="1"
+		core_exit.sh
+	fi
+
+	if [ -z "${modfilename}" ] || [ "${modfilename}" == "null" ]; then
+		fn_print_fail_nl "${modprettyname}: missing download filename"
+		fn_script_log_fail "${modprettyname}: missing download filename"
+		exitcode="1"
+		core_exit.sh
+	fi
+
+	# Resolve redirects when possible. Useful for GitHub latest/download links.
+	modlatesturl="$(curl -fsIL -o /dev/null -w '%{url_effective}' "${modurl}" 2>/dev/null || true)"
+
+	if [ -z "${modlatesturl}" ]; then
+		modlatesturl="${modurl}"
+	fi
+
+	modlatestversion="${modlatesturl}|${modfilename}"
+}
+
+# Save currently installed mod version marker.
+fn_mod_save_version_marker() {
+	fn_mod_latest_version_marker
+
+	echo -e "${modlatestversion}" > "${modversionfile}"
+	echo -e "${modlatesturl}" > "${modlatesturlfile}"
+
+	fn_script_log_info "${modprettyname} version marker saved: ${modlatestversion}"
+}
+
+# Returns:
+# 0 = mod is already latest
+# 1 = mod needs update
+fn_mod_is_latest() {
+	fn_mod_latest_version_marker
+
+	if [ -f "${modversionfile}" ]; then
+		modinstalledversion="$(cat "${modversionfile}")"
+	else
+		modinstalledversion=""
+	fi
+
+	if [ "${modinstalledversion}" == "${modlatestversion}" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 # Convert mod files to lowercase if needed.
 fn_mod_lowercase() {
 	# Checking lowercase settings from mods array definition
