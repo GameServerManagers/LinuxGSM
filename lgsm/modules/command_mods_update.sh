@@ -80,20 +80,36 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 			fn_print_info "${modprettyname} will not be updated to preserve custom files"
 			fn_script_log_info "${modprettyname} will not be updated to preserve custom files"
 		else
-			echo -e ""
-			echo -e "==> Updating ${modprettyname}"
-			fn_create_mods_dir
-			fn_mods_clear_tmp_dir
-			fn_mods_create_tmp_dir
-			fn_mod_install_files
-			fn_mod_lowercase
-			fn_remove_cfg_files
-			fn_mod_create_filelist
-			fn_mod_copy_destination
-			fn_mod_add_list
-			fn_mod_tidy_files_list
-			fn_mods_clear_tmp_dir
-		fi
+	echo -e ""
+	echo -e "==> Checking ${modprettyname}"
+
+	fn_create_mods_dir
+
+	if fn_mod_is_latest; then
+		fn_print_ok_nl "${modprettyname} already updated with latest release"
+		fn_script_log_info "${modprettyname} already updated with latest release: ${modlatestversion}"
+	else
+		echo -e " * Installed: ${modinstalledversion:-unknown}"
+		echo -e " * Latest:    ${modlatestversion}"
+		echo -e ""
+		echo -e "==> Updating ${modprettyname}"
+
+		fn_mods_clear_tmp_dir
+		fn_mods_create_tmp_dir
+		fn_mod_install_files
+		fn_mod_lowercase
+		fn_remove_cfg_files
+		fn_mod_create_filelist
+		fn_mod_copy_destination
+		fn_mod_add_list
+		fn_mod_tidy_files_list
+		fn_mod_save_version_marker
+		fn_mods_clear_tmp_dir
+
+		fn_print_ok_nl "${modprettyname} updated to latest release"
+		fn_script_log_pass "${modprettyname} updated to latest release: ${modlatestversion}"
+	fi
+fi
 		((installedmodsline++))
 	else
 		fn_print_fail "No mod was selected"
