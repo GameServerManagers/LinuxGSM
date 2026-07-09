@@ -148,6 +148,7 @@ fn_mod_create_filelist
 fn_mod_copy_destination
 fn_mod_add_list
 fn_mod_tidy_files_list
+fn_mod_save_version_marker
 fn_mods_clear_tmp_dir
 
 # Create/modify existing liblist.gam file for Metamod
