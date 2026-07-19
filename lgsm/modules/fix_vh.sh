@@ -33,7 +33,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		export DOORSTOP_TARGET_ASSEMBLY=./BepInEx/core/BepInEx.Preloader.dll
 
 		export LD_LIBRARY_PATH="./doorstop_libs:${LD_LIBRARY_PATH}"
-		export LD_PRELOAD="libdoorstop_x64.so:${LD_PRELOAD}"
+		preexecutable="LD_PRELOAD=\"libdoorstop_x64.so:${LD_PRELOAD}\" ${preexecutable}"
 
 		export SteamAppId=892970
 	fi
