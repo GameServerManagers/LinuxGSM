@@ -10,13 +10,9 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Generates alert log of the details at the time of the alert.
 # Used with email alerts.
 fn_alert_log() {
-	info_distro.sh
-	info_game.sh
-	info_messages.sh
 	if [ -f "${alertlog}" ]; then
 		rm -f "${alertlog:?}"
 	fi
-
 	{
 		fn_info_messages_head
 		fn_info_messages_distro
@@ -97,45 +93,66 @@ fn_alert_monitor_query() {
 
 # Update alerts
 fn_alert_update() {
-	fn_script_log_info "Sending alert: ${selfname} has received a game server update: ${localbuild}"
+	# If previousbuild is set show transition, else fallback to single version.
+	if [ -n "${previousbuild:-}" ] && [ -n "${localbuild:-}" ]; then
+		fn_script_log_info "Sending alert: ${selfname} updated: ${previousbuild} -> ${localbuild}"
+		alertmessage="${selfname} updated: ${previousbuild} -> ${localbuild}."
+	else
+		fn_script_log_info "Sending alert: ${selfname} updated to ${localbuild}"
+		alertmessage="${selfname} updated to ${localbuild}."
+	fi
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${selfname} has received a game server update: ${localbuild}."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
 }
 
-fn_alert_update_request() {
-	fn_script_log_info "Sending alert: ${selfname} has requested an update and needs to be restarted."
-	alertaction="Updating"
+# Update failure alert
+fn_alert_update_failed() {
+	# Expect updatefailureexpected (target version) and updatefailuregot (actual localbuild) if set
+	local updateexpected="${updatefailureexpected:-${remotebuild:-unknown}}"
+	local updategot="${updatefailuregot:-${localbuild:-unknown}}"
+	fn_script_log_error "Sending alert: ${selfname} update failed: expected ${updateexpected}, got ${updategot}"
+	alertaction="Update Failed"
+	alertemoji="❌"
+	alertsound="2"
+	alertmessage="${selfname} update failed: expected ${updateexpected}, got ${updategot}. Manual intervention required."
+	# Red
+	alertcolourhex="#cd0000"
+	alertcolourdec="13434880"
+}
+
+fn_alert_update_restart_request() {
+	fn_script_log_info "Sending alert: ${selfname} restart requested"
+	alertaction="Restart Requested"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${selfname} has requested an update and needs to be restarted."
+	alertmessage="${selfname} has requested a restart for an update to be applied. Restarting now."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
 }
 
 fn_alert_check_update() {
-	fn_script_log_info "Sending alert: ${gamename} update available: ${remotebuildversion}"
-	alertaction="Update available"
+	fn_script_log_info "Sending alert: ${gamename} update available: ${localbuild} -> ${remotebuild}"
+	alertaction="Update Available"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${gamename} update available: ${remotebuildversion}"
+	alertmessage="${gamename} update available: ${localbuild} -> ${remotebuild}"
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"
 }
 
 fn_alert_update_linuxgsm() {
-	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	fn_script_log_info "Sending alert: ${selfname} has received a LinuxGSM update"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
 	alertbody="${gamename} update available"
-	alertmessage="${selfname} has received an LinuxGSM update and been restarted."
+	alertmessage="${selfname} has received a LinuxGSM update and been restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -197,8 +214,9 @@ fn_alert_info() {
 	alertcolourdec="2003199"
 }
 
-# Images
-alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
+info_distro.sh
+info_game.sh
+info_messages.sh
 
 if [ "${alert}" == "permissions" ]; then
 	fn_alert_permissions
@@ -210,8 +228,10 @@ elif [ "${alert}" == "test" ]; then
 	fn_alert_test
 elif [ "${alert}" == "update" ]; then
 	fn_alert_update
-elif [ "${alert}" == "update-request" ]; then
-	fn_alert_update_request
+elif [ "${alert}" == "update-failed" ]; then
+	fn_alert_update_failed
+elif [ "${alert}" == "update-restart-request" ]; then
+	fn_alert_update_restart_request
 elif [ "${alert}" == "check-update" ]; then
 	fn_alert_check_update
 elif [ "${alert}" == "config" ]; then
@@ -237,6 +257,7 @@ else
 fi
 
 alerttitle="${alertemoji} ${alertaction} - ${servername} ${alertemoji}"
+alerticon="https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/gameicons/${shortname}-icon.png"
 
 # Generate alert log.
 fn_alert_log
@@ -356,4 +377,15 @@ elif [ -z "${slacktoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Slack token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/slack"
 	fn_script_error "Slack token not set"
+fi
+
+if [ "${ntfyalert}" == "on" ] && [ -n "${ntfytopic}" ]; then
+	alert_ntfy.sh
+elif [ "${ntfyalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "ntfy alerts not enabled"
+	fn_script_log_warn "ntfy alerts not enabled"
+elif [ -z "${ntfytopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "ntfy topic not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/ntfy"
+	fn_script_error "ntfy topic not set"
 fi

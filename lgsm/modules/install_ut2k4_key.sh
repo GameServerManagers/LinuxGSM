@@ -18,7 +18,7 @@ if [ -z "${autoinstall}" ]; then
 	echo -e "Once you have the key enter it below"
 	echo -n "KEY: "
 	read -r CODE
-	echo -e ""\""CDKey"\""="\""${CODE}"\""" > "${systemdir}/cdkey"
+	printf '"CDKey"="%s"\n' "${CODE}" > "${systemdir}/cdkey"
 	if [ -f "${systemdir}/cdkey" ]; then
 		fn_script_log_info "UT2K4 Server CD Key created"
 	fi
@@ -27,3 +27,4 @@ else
 	echo -e "./${selfname} server-cd-key"
 fi
 echo -e ""
+core_exit.sh

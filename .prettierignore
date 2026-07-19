@@ -1,0 +1,3 @@
+# Prettier auto-commit runs with GITHUB_TOKEN (GitHub App).
+# GitHub blocks that token from creating/updating anything under .github/workflows.
+.github/workflows/**

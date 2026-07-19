@@ -14,7 +14,7 @@ json=$(
 	"message_thread_id": "${telegramthreadid}",
 	"parse_mode": "HTML",
 	"disable_notification": "${telegramdisablenotification}",
-	"text": "<b>${alerttitle}</b>\n\n<b>Server name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n<b>Hostname</b>\n${HOSTNAME}\n\n
+	"text": "<b>${alerttitle}</b>\n\n<b>Server Name</b>\n${servername}\n\n<b>Information</b>\n${alertmessage}\n\n<b>Game</b>\n${gamename}\n\n<b>Server IP</b>\n${alertip}:${port}\n\n
 EOF
 )
 
@@ -43,7 +43,13 @@ EOF
 )
 
 fn_print_dots "Sending Telegram alert"
-telegramsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" ${curlcustomstring} "https://${telegramapi}/bot${telegramtoken}/sendMessage" | grep "error_code")
+
+curlcustomargs=()
+if [ -n "${curlcustomstring}" ]; then
+	read -r -a curlcustomargs <<< "${curlcustomstring}"
+fi
+
+telegramsend=$(curl --connect-timeout 3 -sSL -H "Content-Type: application/json" -X POST -d "$(echo -n "${json}" | jq -c .)" "${curlcustomargs[@]}" "https://${telegramapi}/bot${telegramtoken}/sendMessage" | grep "error_code")
 
 if [ -n "${telegramsend}" ]; then
 	fn_print_fail_nl "Sending Telegram alert: ${telegramsend}"

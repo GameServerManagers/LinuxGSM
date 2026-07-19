@@ -57,6 +57,7 @@ hz,hzserver,Humanitz,ubuntu-24.04
 ins,insserver,Insurgency,ubuntu-24.04
 inss,inssserver,Insurgency: Sandstorm,ubuntu-24.04
 ios,iosserver,IOSoccer,ubuntu-24.04
+jbep3,jbep3server,Jabroni Brawl: Episode 3,ubuntu-24.04
 jc2,jc2server,Just Cause 2,ubuntu-24.04
 jc3,jc3server,Just Cause 3,ubuntu-24.04
 jk2,jk2server,Jedi Knight II: Jedi Outcast,ubuntu-24.04
@@ -66,6 +67,7 @@ l4d,l4dserver,Left 4 Dead,ubuntu-24.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-24.04
 mc,mcserver,Minecraft,ubuntu-24.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-24.04
+mcv,mcvserver,Military Conflict: Vietnam,ubuntu-24.04
 mh,mhserver,MORDHAU,ubuntu-24.04
 mohaa,mohaaserver,Medal of Honor: Allied Assault,ubuntu-24.04
 mta,mtaserver,Multi Theft Auto,ubuntu-24.04
@@ -110,10 +112,11 @@ squad,squadserver,Squad,ubuntu-24.04
 squad44,squad44server,Squad 44,ubuntu-24.04
 st,stserver,Stationeers,ubuntu-24.04
 stn,stnserver,Survive the Nights,ubuntu-24.04
-sven,svenserver,Sven Co-op,ubuntu-20.04
+sven,svenserver,Sven Co-op,ubuntu-24.04
 terraria,terrariaserver,Terraria,ubuntu-24.04
 tf,tfserver,The Front,ubuntu-24.04
 tf2,tf2server,Team Fortress 2,ubuntu-24.04
+tf2c,tf2cserver,Team Fortress 2 Classified,ubuntu-24.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-24.04
 ti,tiserver,The Isle,ubuntu-24.04
 ts,tsserver,The Specialists,ubuntu-24.04
@@ -126,7 +129,7 @@ ut2k4,ut2k4server,Unreal Tournament 2004,ubuntu-24.04
 ut3,ut3server,Unreal Tournament 3,ubuntu-24.04
 ut99,ut99server,Unreal Tournament 99,ubuntu-24.04
 vh,vhserver,Valheim,ubuntu-24.04
-vints,vintsserver,Vintage Story,ubuntu-22.04
+vints,vintsserver,Vintage Story,ubuntu-24.04
 vpmc,vpmcserver,Velocity Proxy MC,ubuntu-24.04
 vs,vsserver,Vampire Slayer,ubuntu-24.04
 wet,wetserver,Wolfenstein: Enemy Territory,ubuntu-24.04

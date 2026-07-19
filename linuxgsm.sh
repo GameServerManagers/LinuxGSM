@@ -24,7 +24,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v25.1.5"
+version="v26.1.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -32,7 +32,8 @@ rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 lgsmdir="${rootdir}/lgsm"
 [ -n "${LGSM_LOGDIR}" ] && logdir="${LGSM_LOGDIR}" || logdir="${rootdir}/log"
-lgsmlogdir="${logdir}/lgsm"
+lgsmlogdir="${logdir}/script"
+lgsmlog="${lgsmlogdir}/${selfname}-script.log"
 steamcmddir="${HOME}/.steam/steamcmd"
 [ -n "${LGSM_SERVERFILES}" ] && serverfiles="${LGSM_SERVERFILES}" || serverfiles="${rootdir}/serverfiles"
 modulesdir="${lgsmdir}/modules"
@@ -329,7 +330,8 @@ fn_install_menu() {
 # Gets server info from serverlist.csv and puts in to array.
 fn_server_info() {
 	IFS=","
-	server_info_array=($(grep -aw "${userinput}" "${serverlist}"))
+	server_info_line="$(grep -aw "${userinput}" "${serverlist}" | head -n 1)"
+	read -r -a server_info_array <<< "${server_info_line}"
 	shortname="${server_info_array[0]}"      # csgo
 	gameservername="${server_info_array[1]}" # csgoserver
 	gamename="${server_info_array[2]}"       # Counter Strike: Global Offensive

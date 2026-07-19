@@ -43,6 +43,11 @@ json=$(
 					"inline": true
 				},
 				{
+					"name": "Server IP",
+					"value": "\`${alertip}:${port}\`",
+					"inline": true
+				},
+				{
 					"name": "Server Time",
 					"value": "$(date)",
 					"inline": true
@@ -50,20 +55,7 @@ json=$(
 EOF
 )
 
-if [ -n "${querytype}" ]; then
-	json+=$(
-		cat << EOF
-				,
-				{
-					"name": "Is my Game Server Online?",
-					"value": "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}",
-					"inline": true
-				}
-EOF
-	)
-fi
-
-if [ -n "{alerturl}" ]; then
+if [ -n "${alerturl}" ]; then
 	json+=$(
 		cat << EOF
 				,
@@ -71,6 +63,18 @@ if [ -n "{alerturl}" ]; then
 					"name": "More info",
 					"value": "${alerturl}",
 					"inline": true
+				}
+EOF
+	)
+fi
+
+if [ -n "${querytype}" ]; then
+	json+=$(
+		cat << EOF
+				,
+				{
+					"name": "Is my Game Server Online?",
+					"value": "https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
 				}
 EOF
 	)
