@@ -27,6 +27,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          # Full history so the base branch ref is available for the
+          # `git diff origin/<base>...HEAD` comparison below (a shallow
+          # checkout has no origin/<base> and the diff fails).
+          fetch-depth: 0
 
       - name: Detect targeted servers (PR only)
         id: targeted
