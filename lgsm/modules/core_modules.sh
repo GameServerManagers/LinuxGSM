@@ -233,6 +233,11 @@ check_permissions.sh() {
 	fn_fetch_module
 }
 
+check_players_online.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 check_root.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
