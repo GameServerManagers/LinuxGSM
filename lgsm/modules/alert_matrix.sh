@@ -60,7 +60,7 @@ matrixsend=$(curl --connect-timeout 10 -sSL -X PUT \
 	"${matrixurl}")
 exitcode=$?
 
-matrixeventid="$(echo "${matrixsend}" | jq -r '.event_id // empty' 2>/dev/null)"
+matrixeventid="$(echo "${matrixsend}" | jq -r '.event_id // empty' 2> /dev/null)"
 if [ "${exitcode}" -eq 0 ] && [ -n "${matrixeventid}" ]; then
 	fn_print_ok_nl "Sending Matrix alert"
 	fn_script_log_pass "Sending Matrix alert"
