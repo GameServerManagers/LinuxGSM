@@ -29,6 +29,15 @@ fn_mod_install_files() {
 		mkdir -p "${extractdest}"
 	fi
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
+	# If modsubdirs names a specific subfolder, use its contents as the install root.
+	if [ "${modsubdirs}" != "0" ] && [ -d "${extractdest}/${modsubdirs}" ]; then
+		local tmpsubdir
+		tmpsubdir=$(mktemp -d)
+		mv "${extractdest}/${modsubdirs}" "${tmpsubdir}/"
+		rm -rf "${extractdest}"
+		mv "${tmpsubdir}/${modsubdirs}" "${extractdest}"
+		rm -rf "${tmpsubdir}"
+	fi
 }
 
 # Convert mod files to lowercase if needed.
@@ -197,14 +206,15 @@ fn_mod_get_info() {
 	# Variable to know when job is done.
 	modinfocommand="0"
 	# Find entry in global array.
-	for ((index = 0; index <= ${#mods_global_array[@]}; index++)); do
+	for ((index = 0; index < ${#mods_global_array[@]}; index++)); do
 		# When entry is found.
 		if [ "${mods_global_array[index]}" == "${currentmod}" ]; then
 			# Go back to the previous "MOD" separator.
-			for ((index = index; index <= ${#mods_global_array[@]}; index--)); do
+			for ((index_search = index; index_search >= 0; index_search--)); do
 				# When "MOD" is found.
-				if [ "${mods_global_array[index]}" == "MOD" ]; then
+				if [ "${mods_global_array[index_search]}" == "MOD" ]; then
 					# Get info.
+					index=${index_search}
 					fn_mods_define
 					modinfocommand="1"
 					break
@@ -249,7 +259,7 @@ fn_mods_define() {
 }
 
 # Builds list of installed mods.
-# using installed-mods.txt grabing mod info from mods_list.sh.
+# using installed-mods.txt grabbing mod info from mods_list.sh.
 fn_mods_installed_list() {
 	fn_mods_count_installed
 	# Set/reset variables.
@@ -331,7 +341,7 @@ fn_compatible_mod_engines() {
 		# How many engines we need to test.
 		enginesamount=$(echo -e "${modengines}" | awk -F ';' '{ print NF }')
 		# Test all subvalue of "modengines" using the ";" separator.
-		for ((gamevarindex = 1; gamevarindex < ${enginesamount}; gamevarindex++)); do
+		for ((gamevarindex = 1; gamevarindex < enginesamount; gamevarindex++)); do
 			# Put current engine name into modtest variable.
 			enginemodtest=$(echo -e "${modengines}" | awk -F ';' -v x=${gamevarindex} '{ print $x }')
 			# If engine name matches.
@@ -472,7 +482,7 @@ fn_mods_check_installed() {
 	# Count installed mods.
 	fn_mods_count_installed
 	# If no mods are found.
-	if [ ${installedmodscount} -eq 0 ]; then
+	if [ "${installedmodscount}" -eq 0 ]; then
 		echo -e ""
 		fn_print_failure_nl "No installed mods or addons were found"
 		echo -e " * Install mods using LinuxGSM first with: ./${selfname} mods-install"
@@ -566,7 +576,7 @@ fn_mod_liblist_gam_filenames() {
 	esac
 }
 
-# modifers for liblist.gam to add/remote metamod binaries
+# modifiers for liblist.gam to add/remote metamod binaries
 fn_mod_install_liblist_gam_file() {
 
 	fn_mod_liblist_gam_filenames
@@ -689,13 +699,9 @@ fn_mod_install_amxmodx_file() {
 		# since it does exist, is the entry already in plugins.ini
 		logentry="line (linux addons/amxmodx/dlls/amxmodx_mm_i386.so) inserted into ${modinstalldir}/addons/metamod/plugins.ini"
 		echo -en "adding amxmodx_mm_i386.so in plugins.ini..."
-		grep -q "amxmodx_mm_i386.so" "${modinstalldir}/addons/metamod/plugins.ini"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if ! grep -q "amxmodx_mm_i386.so" "${modinstalldir}/addons/metamod/plugins.ini"; then
 			# file exists but the entry does not, let's add it
-			echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" >> "${modinstalldir}/addons/metamod/plugins.ini"
-			exitcode=$?
-			if [ "${exitcode}" -ne 0 ]; then
+			if ! echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" >> "${modinstalldir}/addons/metamod/plugins.ini"; then
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
@@ -705,9 +711,7 @@ fn_mod_install_amxmodx_file() {
 		fi
 	else
 		# create new file and add the mod to it
-		echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > "${modinstalldir}/addons/metamod/plugins.ini"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+		if ! echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > "${modinstalldir}/addons/metamod/plugins.ini"; then
 			fn_script_log_fail "${logentry}"
 			fn_print_fail_eol_nl
 			core_exit.sh
@@ -723,10 +727,8 @@ fn_mod_remove_amxmodx_file() {
 		# since it does exist, is the entry already in plugins.ini
 		logentry="line (linux addons/amxmodx/dlls/amxmodx_mm_i386.so) removed from ${modinstalldir}/addons/metamod/plugins.ini"
 		echo -en "removing amxmodx_mm_i386.so in plugins.ini..."
-		grep -q "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" "${modinstalldir}/addons/metamod/plugins.ini"
-		# iIs it found? If so remove it and clean up
-		exitcode=$?
-		if [ "${exitcode}" -eq 0 ]; then
+		# is it found? If so remove it and clean up
+		if grep -q "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" "${modinstalldir}/addons/metamod/plugins.ini"; then
 			# delete the line we inserted
 			sed -i '/linux addons\/amxmodx\/dlls\/amxmodx_mm_i386.so/d' "${modinstalldir}/addons/metamod/plugins.ini"
 			# remove empty lines

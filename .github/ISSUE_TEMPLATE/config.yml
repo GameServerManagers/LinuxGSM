@@ -6,3 +6,6 @@ contact_links:
   - name: Discord Server
     about: Join the LinuxGSM Discord community server. Discuss your LinuxGSM setup, get help and advice
     url: https://linuxgsm.com/discord
+  - name: Report a security vulnerability
+    about: Please report security vulnerabilities privately, not in public issues.
+    url: https://github.com/GameServerManagers/LinuxGSM/security/advisories/new

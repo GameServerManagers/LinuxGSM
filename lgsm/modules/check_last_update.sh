@@ -11,6 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ -f "${lockdir}/${selfname}-last-started.lock" ]; then
 	laststart=$(cat "${lockdir}/${selfname}-last-started.lock")
 fi
+
 if [ -f "${lockdir}/last-updated.lock" ]; then
 	lastupdate=$(cat "${lockdir}/last-updated.lock")
 fi

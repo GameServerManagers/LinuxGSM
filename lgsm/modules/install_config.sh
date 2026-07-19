@@ -16,7 +16,7 @@ fn_check_cfgdir() {
 	fi
 }
 
-# Copys default configs from Game-Server-Configs repo to server config location.
+# Copies default configs from Game-Server-Configs repo to server config location.
 fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
@@ -34,8 +34,13 @@ fn_default_config_remote() {
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
-			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}")
-			exitcode=$?
+			if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
+				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+				exitcode=$?
+				[ "${exitcode}" -eq 0 ] && changes="copied"
+			else
+				exitcode=0
+			fi
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fail "copying config file ${servercfgfullpath}"
@@ -48,7 +53,13 @@ fn_default_config_remote() {
 		elif [ "${shortname}" == "arma3" ] && [ "${config}" == "${networkcfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
-			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}")
+			if [ ! -e "${networkcfgfullpath}" ] && [ ! -L "${networkcfgfullpath}" ]; then
+				cp "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+				exitcode=$?
+				[ "${exitcode}" -eq 0 ] && changes="copied"
+			else
+				exitcode=0
+			fi
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fail "copying config file ${networkcfgdefault}"
@@ -60,7 +71,13 @@ fn_default_config_remote() {
 			fi
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
-			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}")
+			if [ ! -e "${clustercfgfullpath}" ] && [ ! -L "${clustercfgfullpath}" ]; then
+				cp "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+				exitcode=$?
+				[ "${exitcode}" -eq 0 ] && changes="copied"
+			else
+				exitcode=0
+			fi
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fail "copying config file ${clustercfgfullpath}"
@@ -72,7 +89,13 @@ fn_default_config_remote() {
 			fi
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
-			changes+=$(cp -nv "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}")
+			if [ ! -e "${servercfgdir}/${config}" ] && [ ! -L "${servercfgdir}/${config}" ]; then
+				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+				exitcode=$?
+				[ "${exitcode}" -eq 0 ] && changes="copied"
+			else
+				exitcode=0
+			fi
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
 				fn_script_log_fail "copying config file ${servercfgdir}/${config}"
@@ -88,7 +111,7 @@ fn_default_config_remote() {
 	done
 }
 
-# Copys local default config to server config location.
+# Copies local default config to server config location.
 fn_default_config_local() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
@@ -507,6 +530,9 @@ elif [ "${shortname}" == "ios" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "jbep3" ]; then
+	fn_default_config_local
+	fn_list_config_locations
 elif [ "${shortname}" == "jc2" ]; then
 	array_configs+=(config.lua)
 	fn_default_config_remote
@@ -539,6 +565,11 @@ elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "mcb" ]; then
 	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "mcv" ]; then
+	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -697,6 +728,11 @@ elif [ "${shortname}" == "sven" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "tf2" ]; then
+	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "tf2c" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars

@@ -12,7 +12,7 @@ json=$(
 {
 	"value1": "${selfname}",
 	"value2": "${alerttitle}",
-	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\nHostname\n${HOSTNAME}\n\n
+	"value3": "Server Name\n${servername}\n\nInformation\n${alertmessage}\n\nGame\n${gamename}\n\nServer IP\n${alertip}:${port}\n\n
 EOF
 )
 

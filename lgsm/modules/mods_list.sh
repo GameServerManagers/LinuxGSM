@@ -19,40 +19,40 @@ metamodlatestfile="metamod-${metamodversion}.zip"
 metamoddownloadurl="https://www.amxmodx.org/release/${metamodlatestfile}"
 metamodurl="${metamoddownloadurl}"
 # AMX Mod X: Base
-amxxbaseversion="1.8.2"
+amxxbaseversion="1.9.0-git5303"
 amxxbasemod="base"
 amxxbaselatestfile="amxmodx-${amxxbaseversion}-${amxxbasemod}-linux.tar.gz"
-amxxbasedownloadurl="https://www.amxmodx.org/release/${amxxbaselatestfile}"
+amxxbasedownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxbaselatestfile}"
 amxxbaseurl="${amxxbasedownloadurl}"
 # AMX Mod X: Counter-Strike
-amxxcsversion="1.8.2"
+amxxcsversion="1.9.0-git5303"
 amxxcsmod="cstrike"
 amxxcslatestfile="amxmodx-${amxxbaseversion}-${amxxcsmod}-linux.tar.gz"
-amxxcsdownloadurl="https://www.amxmodx.org/release/${amxxcslatestfile}"
+amxxcsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxcslatestfile}"
 amxxcsurl="${amxxcsdownloadurl}"
 # AMX Mod X: Day of Defeat
-amxxdodversion="1.8.2"
+amxxdodversion="1.9.0-git5303"
 amxxdodmod="dod"
 amxxdodlatestfile="amxmodx-${amxxdodversion}-${amxxdodmod}-linux.tar.gz"
-amxxdoddownloadurl="https://www.amxmodx.org/release/${amxxdodlatestfile}"
+amxxdoddownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxdodlatestfile}"
 amxxdodurl="${amxxdoddownloadurl}"
 # AMX Mod X: Team Fortress Classic
-amxxtfcversion="1.8.2"
+amxxtfcversion="1.9.0-git5303"
 amxxtfcmod="tfc"
 amxxtfclatestfile="amxmodx-${amxxtfcversion}-${amxxtfcmod}-linux.tar.gz"
-amxxtfcdownloadurl="https://www.amxmodx.org/release/${amxxtfclatestfile}"
+amxxtfcdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtfclatestfile}"
 amxxtfcurl="${amxxtfcdownloadurl}"
 # AMX Mod X: Natural Selection
-amxxnsversion="1.8.2"
+amxxnsversion="1.9.0-git5303"
 amxxnsmod="ns"
 amxxnslatestfile="amxmodx-${amxxnsversion}-${amxxnsmod}-linux.tar.gz"
-amxxnsdownloadurl="https://www.amxmodx.org/release/${amxxnslatestfile}"
+amxxnsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxnslatestfile}"
 amxxnsurl="${amxxnsdownloadurl}"
 # AMX Mod X: The Specialists
-amxxtsversion="1.8.2"
+amxxtsversion="1.9.0-git5303"
 amxxtsmod="ts"
 amxxtslatestfile="amxmodx-${amxxtsversion}-${amxxtsmod}-linux.tar.gz"
-amxxtsdownloadurl="https://www.amxmodx.org/release/${amxxtslatestfile}"
+amxxtsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtslatestfile}"
 amxxtsurl="${amxxtsdownloadurl}"
 # Metamod:Source
 metamodsourceversion="1.12"
@@ -122,14 +122,14 @@ modseparator="MOD"
 # [2] 	| "Pretty Name": the common name people use to call the mod that will be displayed to the user
 # [3] 	| "URL": link to the mod archive file; can be a variable previously defined while scraping a URL
 # [4] 	| "filename": the output filename
-# [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
+# [5]	| "modsubdirs": name of a subfolder within the archive to extract as the install root (use "0" to extract all contents)
 # [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
 # [7] 	| "modinstalldir": the directory in which to install the mode (use LGSM dir variables such as ${systemdir})
 # [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating; for files to keep upon uninstall, see fn_mod_tidy_files_list from mods_core.sh
 # [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
 # [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value
 # [11]	| "Unsupported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use NOTGAMES to ignore the value (useful to exclude a game when using Supported Engines)
-# [12]	| "AUTHOR_URL" is the author's website, displayed to the user when chosing mods to install
+# [12]	| "AUTHOR_URL" is the author's website, displayed to the user when choosing mods to install
 # [13]	| "Short Description" a description showed to the user upon installation/removal
 
 # Half-life 1 Engine Mods
@@ -172,7 +172,7 @@ mod_info_ulib=(MOD "ulib" "ULib" "https://codeload.github.com/TeamUlysses/ulib/z
 mod_info_ulx=(MOD "ulx" "ULX" "https://codeload.github.com/TeamUlysses/ulx/zip/master" "ulx-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Admin Panel (requires ULib)")
 mod_info_utime=(MOD "utime" "UTime" "https://github.com/TeamUlysses/utime/archive/master.zip" "utime-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "Keep track of players play time")
 mod_info_uclip=(MOD "uclip" "UClip" "https://github.com/TeamUlysses/uclip/archive/master.zip" "uclip-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://ulyssesmod.net" "An alternative to noclip")
-mod_info_acf=(MOD "acf" "Armoured Combat Framework" "https://github.com/nrlulz/ACF/archive/master.zip" "acf-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "acf-master/lua/acf/shared/guns;" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/nrlulz/ACF" "Realistic Wepons & Engines")
+mod_info_acf=(MOD "acf" "Armoured Combat Framework" "https://github.com/nrlulz/ACF/archive/master.zip" "acf-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "acf-master/lua/acf/shared/guns;" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/nrlulz/ACF" "Realistic Weapons & Engines")
 mod_info_acf_missiles=(MOD "acfmissiles" "ACF Missiles" "https://github.com/Bubbus/ACF-Missiles/archive/master.zip" "acf-missiles-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Bubbus/ACF-Missiles" "More missiles for ACF")
 mod_info_advdupe2=(MOD "advdupe2" "Advanced Duplicator 2" "https://github.com/wiremod/advdupe2/archive/master.zip" "advdupe2-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://www.wiremod.com" "Save your constructions. Second version")
 mod_info_pac3=(MOD "pac3" "PAC3" "https://github.com/CapsAdmin/pac3/archive/master.zip" "pac3-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/CapsAdmin/pac3" "Advanced player model customization")
@@ -191,7 +191,7 @@ mod_info_magneticdipole=(MOD "magneticdipole" "Magnetic Dipole" "https://github.
 mod_info_environmentorganizer=(MOD "environmentorganizer" "Environment Organizer" "https://github.com/dvdvideo1234/environmentorganizer/archive/master.zip" "environmentorganizer-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/dvdvideo1234/EnvironmentOrganizer" "Installs routines designed for server settings adjustment")
 mod_info_improved_stacker=(MOD "improved-stacker" "Improved Stacker" "https://github.com/Mista-Tea/improved-stacker/archive/master.zip" "improved-stacker-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Mista-Tea/improved-stacker" "Stacks entities in the direction chosen")
 mod_info_improved_weight=(MOD "improved-weight" "Improved Weight" "https://github.com/Mista-Tea/improved-weight/archive/master.zip" "improved-weight-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Mista-Tea/improved-weight" "Weight tool but with more features")
-mod_info_improved_antinoclip=(MOD "improved-antinoclip" "Improved Antinoclip" "https://github.com/Mista-Tea/improved-antinoclip/archive/master.zip" "improved-antinoclip-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Mista-Tea/improved-antinoclip" "Controls clipping trough an object")
+mod_info_improved_antinoclip=(MOD "improved-antinoclip" "Improved Antinoclip" "https://github.com/Mista-Tea/improved-antinoclip/archive/master.zip" "improved-antinoclip-master.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/Mista-Tea/improved-antinoclip" "Controls clipping through an object")
 mod_info_darkrp=(MOD "darkrp" "DarkRP" "https://github.com/FPtje/DarkRP/archive/master.zip" "darkrp-master.zip" "0" "LowercaseOn" "${systemdir}/gamemodes" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Most popular gamemode")
 mod_info_darkrpmodification=(MOD "darkrpmodification" "DarkRP Modification" "https://github.com/FPtje/darkrpmodification/archive/master.zip" "darkrpmodification-master.zip" "0" "LowercaseOff" "${systemdir}/addons" "NOUPDATE" "ENGINES" "Garry's Mod;" "NOTGAMES" "http://darkrp.com" "Customize DarkRP settings")
 mod_info_laserstool=(MOD "laserstool" "Laser STool" "https://github.com/dvdvideo1234/laserstool/archive/main.zip" "laserstool-main.zip" "0" "LowercaseOn" "${systemdir}/addons" "OVERWRITE" "ENGINES" "Garry's Mod;" "NOTGAMES" "https://github.com/dvdvideo1234/LaserSTool" "Scripted tool that spawns laser entities, simulates light rays and even kill players")
@@ -208,7 +208,7 @@ mod_info_sdtdoxide=(MOD "sdtdoxide" "Oxide for 7 Days To Die" "${oxidesdtdlatest
 mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}" "ValheimPlus.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://github.com/Grantapher/ValheimPlus.git" "Mod to improve Valheim gameplay")
 
 # BepInEx Valheim
-mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
+mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "BepInExPack_Valheim" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
 mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")

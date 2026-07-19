@@ -17,7 +17,7 @@ elif [ -z "${glibc}" ]; then
 	fn_print_error_nl "Checking glibc: requirement unknown"
 	fn_script_log_error "Checking glibc: requirement unknown"
 	fn_sleep_time_5
-elif [ "$(printf '%s\n'${glibc}'\n' "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
+elif [ "$(printf '%s\n' "${glibc}" "${glibcversion}" | sort -V | head -n 1)" != "${glibc}" ]; then
 	fn_print_dots "Checking glibc"
 	fn_print_error_nl "Checking glibc: requirements not met"
 	fn_script_log_error "Checking glibc: requirements not met"
