@@ -15,7 +15,7 @@ fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends CTRL+c.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefully.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -47,7 +47,7 @@ fn_stop_graceful_cmd() {
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux -L "${socketname}" send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds = 1; seconds <= ${2}; seconds++)); do
 		check_status.sh
@@ -79,7 +79,7 @@ fn_stop_graceful_goldsrc() {
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux -L "${socketname}" send -t "${sessionname}" quit ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send -t "${sessionname}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		fn_sleep_time_1
@@ -289,10 +289,10 @@ fn_stop_graceful_avorion() {
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
 	fn_sleep_time_5
 	# Sends /quit.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefully.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -351,7 +351,7 @@ fn_stop_tmux() {
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
 	# Kill tmux session.
-	tmux -L "${socketname}" kill-session -t "${sessionname}" > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" kill-session -t "${sessionname}" > /dev/null 2>&1
 	fn_sleep_time_1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
