@@ -379,7 +379,7 @@ elif [ -z "${slacktoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_script_error "Slack token not set"
 fi
 
-if [ "${matrixalert}" == "on" ] && [ -n "${matrixtoken}" ] && [ -n "${matrixroom}" ]; then
+if [ "${matrixalert}" == "on" ] && [ -n "${matrixhomeserver}" ] && [ -n "${matrixtoken}" ] && [ -n "${matrixroom}" ]; then
 	alert_matrix.sh
 elif [ "${matrixalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_warn_nl "Matrix alerts not enabled"

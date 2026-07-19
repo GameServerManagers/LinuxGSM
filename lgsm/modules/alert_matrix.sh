@@ -53,7 +53,7 @@ json="$(jq -cn --arg body "${message}" '{msgtype: "m.notice", body: $body}')"
 
 fn_print_dots "Sending Matrix alert"
 
-matrixsend=$(curl --connect-timeout 10 -sS -X PUT \
+matrixsend=$(curl --connect-timeout 10 -sSL -X PUT \
 	-H "Authorization: Bearer ${matrixtoken}" \
 	-H "Content-Type: application/json" \
 	-d "${json}" \
