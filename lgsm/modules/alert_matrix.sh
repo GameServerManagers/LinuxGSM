@@ -13,6 +13,7 @@ if [[ "${matrixbase}" != http://* ]] && [[ "${matrixbase}" != https://* ]]; then
 fi
 matrixbase="${matrixbase%/}"
 
+# matrixroom must be the internal room ID (e.g. !abc123:matrix.org), not the room alias (#room:matrix.org).
 matrixroomencoded="$(jq -rn --arg room "${matrixroom}" '$room|@uri')"
 matrixtxnid="$(date +%s%N)"
 matrixurl="${matrixbase}/_matrix/client/v3/rooms/${matrixroomencoded}/send/m.room.message/${matrixtxnid}"
@@ -52,7 +53,7 @@ json="$(jq -cn --arg body "${message}" '{msgtype: "m.notice", body: $body}')"
 
 fn_print_dots "Sending Matrix alert"
 
-matrixsend=$(curl --connect-timeout 10 -sS -X POST \
+matrixsend=$(curl --connect-timeout 10 -sS -X PUT \
 	-H "Authorization: Bearer ${matrixtoken}" \
 	-H "Content-Type: application/json" \
 	-d "${json}" \
