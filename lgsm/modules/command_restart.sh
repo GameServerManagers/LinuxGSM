@@ -20,6 +20,9 @@ if [ -n "${playersonline}" ]; then
 	date '+%s' > "${lockdir:?}/${selfname}-restart-request.lock"
 	core_exit.sh
 fi
+# Clear any pending restart request now that the restart is actually proceeding,
+# so a stale lock doesn't trigger a repeat restart on the next monitor run.
+rm -f "${lockdir:?}/${selfname}-restart-request.lock"
 exitbypass=1
 command_stop.sh
 command_start.sh
