@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_ip.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".

@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_uninstall.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Uninstall mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-REMOVE"
-commandaction="Removing mods"
+commandaction="Removing Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -32,21 +32,35 @@ done
 
 echo -e ""
 # Keep prompting as long as the user input doesn't correspond to an available mod.
-while [[ ! " ${installedmodslist[@]} " =~ " ${usermodselect} " ]]; do
+
+while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
 	read -r usermodselect
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh
-	# Supplementary output upon invalid user input.
-	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
+
+	validselection=0
+	for installedmodcommand in "${installedmodslist[@]}"; do
+		if [ "${installedmodcommand}" == "${usermodselect}" ]; then
+			validselection=1
+			break
+		fi
+	done
+
+	if [ "${validselection}" -eq 1 ]; then
+		break
+	fi
+
+	# Supplementary output upon invalid user input.
+	fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 done
 
 fn_print_warning_nl "You are about to remove ${cyan}${usermodselect}${default}."
 echo -e " * Any custom files/configuration will be removed."
 if ! fn_prompt_yn "Continue?" Y; then
+	exitcode=0
 	core_exit.sh
 fi
 
@@ -70,8 +84,8 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 
 	if [ -f "${modinstalldir}/${currentfileremove}" ] || [ -d "${modinstalldir}/${currentfileremove}" ]; then
 		rm -rf "${modinstalldir:?}/${currentfileremove:?}"
-		((exitcode = $?))
-		if [ "${exitcode}" != 0 ]; then
+		exitcode=$?
+		if [ "${exitcode}" -ne 0 ]; then
 			fn_script_log_fail "Removing ${modinstalldir}/${currentfileremove}"
 			break
 		else
@@ -87,7 +101,7 @@ done
 # Added logic not to fail since removing game specific mods (amxmodxcs) removes files that will
 # not be found when removing the base (amxmodx) mod
 if [ "${modcommand}" != "amxmodx" ]; then
-	if [ "${exitcode}" != 0 ]; then
+	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		core_exit.sh
 	else
@@ -102,7 +116,7 @@ echo -en "removing ${modcommand}-files.txt..."
 fn_sleep_time_1
 rm -rf "${modsdir:?}/${modcommand}-files.txt"
 exitcode=$?
-if [ "${exitcode}" != 0 ]; then
+if [ "${exitcode}" -ne 0 ]; then
 	fn_script_log_fail "Removing ${modsdir}/${modcommand}-files.txt"
 	fn_print_fail_eol_nl
 	core_exit.sh
@@ -117,7 +131,7 @@ fn_sleep_time_1
 
 sed -i "/^${modcommand}$/d" "${modsinstalledlistfullpath}"
 exitcode=$?
-if [ "${exitcode}" != 0 ]; then
+if [ "${exitcode}" -ne 0 ]; then
 	fn_script_log_fail "Removing ${modcommand} from ${modsinstalledlist}"
 	fn_print_fail_eol_nl
 	core_exit.sh

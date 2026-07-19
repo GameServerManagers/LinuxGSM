@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_update.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-UPDATE"
-commandaction="Updating mods"
+commandaction="Updating Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

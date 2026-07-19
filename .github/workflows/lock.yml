@@ -1,11 +1,13 @@
 name: Lock Threads
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 1"
 
 permissions:
   issues: write
   pull-requests: write
+  discussions: write
 
 jobs:
   lock:
@@ -13,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Lock Threads
-        uses: dessant/lock-threads@v5
+        uses: dessant/lock-threads@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-comment: >

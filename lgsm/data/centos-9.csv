@@ -58,6 +58,7 @@ hz
 ins
 inss
 ios
+jbep3
 jc2
 jc3
 jk2
@@ -67,6 +68,7 @@ l4d
 l4d2
 mc,java-17-openjdk
 mcb,libnsl
+mcv
 mh
 mohaa,compat-libstdc++-33.i686
 mta,ncurses-compat-libs,libxml2
@@ -82,7 +84,6 @@ opfor
 pc
 pc2
 pmc,java-17-openjdk
-ps,GConf2
 pvkii
 pvr,libcxx
 pw
@@ -105,15 +106,18 @@ scpslsm
 sdtd,telnet,expect,libxml2
 sf
 sfc,ncurses-libs.i686
+sm,telnet,expect
 sof2
 sol
 squad
+squad44
 st,libxml2
 stn
 sven
 terraria
 tf
 tf2,libcurl.i686
+tf2c,libcurl.i686
 tfc
 ti
 ts
@@ -126,12 +130,13 @@ ut2k4
 ut3
 ut99
 vh,glibc-devel,libatomic,pulseaudio-libs-devel
-vints,aspnetcore-runtime-7.0
+vints,dotnet-runtime-8.0
 vpmc,java-17-openjdk
 vs
 wet
 wf
 wmc,java-17-openjdk
 wurm,xorg-x11-server-Xvfb
+xnt
 zmr,ncurses-libs.i686
 zps,ncurses-libs.i686

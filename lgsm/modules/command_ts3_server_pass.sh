@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_ts3_server_pass.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Changes TS3 serveradmin password.
 
 commandname="CHANGE-PASSWORD"
-commandaction="Changing password"
+commandaction="Changing Password"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 

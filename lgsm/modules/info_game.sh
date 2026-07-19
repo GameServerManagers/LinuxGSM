@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM info_game.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Gathers various game server information.
 # !Note: When adding variables to this script, ensure that they are also added to the command_dev_parse_game_details.sh script.
@@ -350,7 +350,7 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesnt respond to any queries, using session only.
+	# queryport doesn't respond to any queries, using session only.
 	queryport=""$((port + 3))""
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -496,12 +496,13 @@ fn_info_game_kf() {
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "queryportgs" "QueryPort"
+		fn_info_game_ini "gamespyqueryport" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
+	gamespyqueryport="${gamespyqueryport:-"0"}" # Gamespy Query Port
 	httpenabled="${httpenabled:-"NOT SET"}"
 	httppassword="${adminpassword}"
 	httpport="${httpport:-"0"}"
@@ -509,12 +510,11 @@ fn_info_game_kf() {
 	lanport="${lanport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
-	queryportgs="${queryportgs:-"0"}"
+	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="28852"
-	steamworksport="20560"
+	steamport="20610"
+	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 
 # Config Type: ini
@@ -673,7 +673,7 @@ fn_info_game_st() {
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	worldname="${worldname:-"NOT SET"}"
+	worldsave="${worldsave:-"NOT SET"}"
 	worldtype="${worldtype:-"NOT SET"}"
 }
 
@@ -754,19 +754,19 @@ fn_info_game_ts3() {
 		fn_info_game_ini "dbplugin" "dbplugin"
 		fn_info_game_ini "fileport" "filetransfer_port"
 		fn_info_game_ini "port" "default_voice_port"
-		fn_info_game_ini "queryhttpport" "query_http_port"
-		fn_info_game_ini "queryhttpsport" "query_https_port"
+		fn_info_game_ini "httpqueryport" "query_http_port"
+		fn_info_game_ini "httpsqueryport" "query_https_port"
 		fn_info_game_ini "queryport" "query_port"
-		fn_info_game_ini "querysshport" "query_ssh_port"
+		fn_info_game_ini "sshqueryport" "query_ssh_port"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	dbplugin="${dbplugin:-"NOT SET"}"
 	fileport="${fileport:-"0"}"
 	port="${port:-"0"}"
-	queryhttpport="${queryhttpport:-"0"}"
-	queryhttpsport="${queryhttpsport:-"0"}"
+	httpqueryport="${httpqueryport:-"0"}"
+	httpsqueryport="${httpsqueryport:-"0"}"
 	queryport="${queryport:-"0"}"
-	querysshport="${querysshport:-"0"}"
+	sshqueryport="${sshqueryport:-"0"}"
 	telnetport="${queryport}"
 }
 
@@ -797,7 +797,7 @@ fn_info_game_ut99() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "beaconport" "ServerBeaconPort"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
+		fn_info_game_ini "gamespyqueryport" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
@@ -811,7 +811,7 @@ fn_info_game_ut99() {
 	httpport="${httpport:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
-	queryportgs="${queryportgs:-"0"}"
+	gamespyqueryport="${gamespyqueryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
@@ -857,7 +857,7 @@ fn_info_game_unreal2() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
+		fn_info_game_ini "gamespyqueryport" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
@@ -868,7 +868,7 @@ fn_info_game_unreal2() {
 	httpport="${httpport:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
-	queryportgs="${queryportgs:-"0"}"
+	gamespyqueryport="${gamespyqueryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
@@ -902,7 +902,7 @@ fn_info_game_ut2k4() {
 		fn_info_game_ini "httpport" "ListenPort"
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "queryportgs" "OldQueryPortNumber"
+		fn_info_game_ini "gamespyqueryport" "OldQueryPortNumber"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 		fn_info_game_ini "httpenabled" "bEnabled"
@@ -914,7 +914,7 @@ fn_info_game_ut2k4() {
 	lanport="${lanport:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
-	queryportgs="${queryportgs:-"0"}"
+	gamespyqueryport="${gamespyqueryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	httpenabled="${httpenabled:-"0"}"
@@ -936,6 +936,8 @@ fn_info_game_armar() {
 		fn_info_game_json "queryport" ".a2s.port"
 		fn_info_game_json "servername" ".game.name"
 		fn_info_game_json "serverpassword" ".game.password"
+		fn_info_game_json "rconpassword" ".rcon.password"
+		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
@@ -957,13 +959,14 @@ fn_info_game_bf1942() {
 		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
 		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -980,11 +983,12 @@ fn_info_game_bfv() {
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
+		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="22000"
+	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -1160,7 +1164,7 @@ fn_info_game_col() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
-	rcpassword="${rconpassword:-"NOT SET"}"
+	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steamport="${steamport:-"0"}"
@@ -1174,11 +1178,11 @@ fn_info_game_cs2() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "defaultmap" "map"
-		fn_info_game_valve_keyvalues "password" "sv_password"
+		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
-	password="${password:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1310,7 +1314,7 @@ fn_info_game_fctr() {
 	# get server version if installed.
 	local factoriobin="${executabledir}${executable:1}"
 	if [ -f "${factoriobin}" ]; then
-		serverversion="$(${factoriobin} --version | grep "Version:" | awk '{print $2}')"
+		serverversion="$(${factoriobin} --version | grep -m 1 "Version:" | awk '{print $2}')"
 	fi
 }
 
@@ -1761,6 +1765,11 @@ fn_info_game_qw() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
 fn_info_game_ro() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
@@ -1771,7 +1780,6 @@ fn_info_game_ro() {
 		fn_info_game_ini "lanport" "LANServerPort"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "Port"
-		fn_info_game_ini "queryportgs" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
 	fi
@@ -1784,12 +1792,11 @@ fn_info_game_ro() {
 	lanport="${lanport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
-	queryportgs="${queryportgs:-"0"}"
+	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="28902"
-	steamworksport="20610"
+	steamport="20610"
+	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 
 # Config Type: QuakeC
@@ -1970,7 +1977,7 @@ fn_info_game_sdtd() {
 	telnetenabled="${telnetenabled:-"NOT SET"}"
 	# Telnet IP will be localhost if no password is set
 	# check_ip will set the IP first. This will overwrite it.
-	if [ -z "${telnetpass}" ]; then
+	if [ -z "${telnetpassword}" ]; then
 		telnetip="127.0.0.1"
 	fi
 	telnetpass="${telnetpass:-"NOT SET"}"
@@ -1986,6 +1993,20 @@ fn_info_game_sf() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
+	reliableport="${reliableport:-"0"}"
+}
+
+# Config Type: Parameters (with an ini)
+fn_info_game_sm() {
+	servername="${servername:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	# telnet config
+	telnetenabled=true
+	telnetip="127.0.0.1"
+	telnetport="${telnetport:-"0"}"
 }
 
 # Config Type: QuakeC
@@ -2229,6 +2250,23 @@ fn_info_game_wf() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: QuakeC
+# Comment: //
+# Filetype: cfg
+fn_info_game_xnt() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_space "maxplayers" "maxplayers"
+		fn_info_game_keyvalue_pairs_space "port" "port"
+		fn_info_game_keyvalue_pairs_space "rconpassword" "rcon_password"
+		fn_info_game_keyvalue_pairs_space "servername" "hostname"
+	fi
+	maxplayers="${maxplayers:-"8"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 fn_info_game_wmc() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
@@ -2369,7 +2407,7 @@ elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
 	fn_info_game_pc2
-elif [ "${shortname}" == "ps" ]; then
+elif [ "${shortname}" == "squad44" ]; then
 	fn_info_game_ps
 elif [ "${shortname}" == "pvr" ]; then
 	fn_info_game_pvr
@@ -2407,6 +2445,8 @@ elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd
 elif [ "${shortname}" == "sf" ]; then
 	fn_info_game_sf
+elif [ "${shortname}" == "sm" ]; then
+	fn_info_game_sm
 elif [ "${shortname}" == "sof2" ]; then
 	fn_info_game_sof2
 elif [ "${shortname}" == "sol" ]; then
@@ -2461,6 +2501,8 @@ elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	fn_info_game_source
 elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
+elif [ "${shortname}" == "xnt" ]; then
+	fn_info_game_xnt
 fi
 
 # Public IP address
@@ -2472,7 +2514,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 	ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query ip-api.com with a 3 second timeout
 	exitcode=$?
 
-	# Check if the first request was successfull
+	# Check if the first request was successful
 	if [ "${exitcode}" -eq 0 ]; then
 		fn_script_log_pass "Queried ${apiurl} for public IP address"
 
@@ -2490,7 +2532,7 @@ if [ ! -f "${tmpdir}/publicip.json" ] || [ "$(find "${tmpdir}/publicip.json" -mm
 		ipresponse=$(curl -s --max-time 3 "${apiurl}") # Attempt to query myip.wtf with a 3 second timeout as a backup
 		exitcode=$?
 
-		# Check if the backup request was successfull
+		# Check if the backup request was successful
 		if [ "${exitcode}" -eq 0 ]; then
 			fn_script_log_pass "Queried ${apiurl} for public IP address"
 

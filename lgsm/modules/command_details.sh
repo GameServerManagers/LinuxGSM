@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_details.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Displays server information.
 
 commandname="DETAILS"
-commandaction="Viewing details"
+commandaction="Display Details"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -29,7 +29,7 @@ fn_info_messages_gameserver_resource
 fn_info_messages_gameserver
 fn_info_messages_script
 fn_info_messages_backup
-# Some game servers do not have parms.
+# Some game servers do not have params.
 if [ "${shortname}" != "jc2" ] && [ "${shortname}" != "dst" ] && [ "${shortname}" != "pz" ] && [ "${engine}" != "renderware" ]; then
 	fn_info_messages_commandlineparms
 fi

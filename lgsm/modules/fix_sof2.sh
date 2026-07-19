@@ -1,7 +1,7 @@
 #!/bin/bash
-# LinuxGSM fix_rust.sh module
+# LinuxGSM fix_sof2.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves issues with Soldier of Fortune 2.
 

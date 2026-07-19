@@ -1,13 +1,13 @@
 #!/bin/bash
 # LinuxGSM fix_ark.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Resolves issues with ARK: Survival Evolved.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# removes mulitple appworkshop_346110.acf if found.
+# removes multiple appworkshop_346110.acf if found.
 steamappsfilewc="$(find "${HOME}" -name appworkshop_346110.acf | wc -l)"
 if [ "${steamappsfilewc}" -gt "1" ]; then
 	fixname="multiple appworkshop acf files"
@@ -15,7 +15,7 @@ if [ "${steamappsfilewc}" -gt "1" ]; then
 	find "${HOME}" -name appworkshop_346110.acf -exec rm -f {} \;
 	fn_fix_msg_end
 elif [ "${steamappsfilewc}" -eq "1" ]; then
-	# Steam mods directory selecter
+	# Steam mods directory selector
 	# This allows LinxuGSM to select either ~/.steam or ~/Steam. depending on what is being used
 	steamappsfile=$(find "${HOME}" -name appworkshop_346110.acf)
 	steamappsdir=$(dirname "${steamappsfile}")

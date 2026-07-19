@@ -1,9 +1,9 @@
 #!/bin/bash
 # LinuxGSM query_gamedig.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Querys a gameserver using node-gamedig.
+# Description: Queries a gameserver using node-gamedig.
 # https://github.com/gamedig/node-gamedig
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -42,9 +42,7 @@ if [ "$(command -v "${gamedigbinary}" 2> /dev/null)" ] && [ "$(command -v jq 2> 
 		fi
 
 		# numplayers.
-		if [ "${querytype}" == "minecraft" ]; then
-			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length-1')
-		elif [ "${querytype}" == "teamspeak3" ]; then
+		if [ "${querytype}" == "teamspeak3" ]; then
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.raw.virtualserver_clientsonline')
 		else
 			gdplayers=$(echo "${gamedigraw}" | jq -re '.players | length')

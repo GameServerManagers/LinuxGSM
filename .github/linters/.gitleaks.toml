@@ -1,0 +1,9 @@
+title = "LinuxGSM Gitleaks Config"
+
+[allowlist]
+  description = "Known false positives"
+  regexes = [
+    # Google Analytics 4 Measurement Protocol API secret - not a sensitive credential,
+    # it is intentionally embedded in client-side code and is safe to be public.
+    '''apisecret="[A-Za-z0-9_\-]+"''',
+  ]

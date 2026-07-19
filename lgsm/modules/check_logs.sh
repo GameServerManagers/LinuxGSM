@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_logs.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks if log files exist.
 
@@ -10,7 +10,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_check_logs() {
 	fn_print_dots "Checking for log files"
 	fn_print_info_nl "Checking for log files: Creating log files"
-	checklogs=1
+	checklogs=true
 	install_logs.sh
 }
 
