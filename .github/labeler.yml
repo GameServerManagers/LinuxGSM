@@ -87,7 +87,7 @@
 "type: feature":
   - "/(feature request|new feature|^feat(\\(.+\\))?:|\\[x\\] New feature)/im"
 "type: docs":
-  - "/(^docs(\\(.+\\))?:|\\[x\\] Comment update)/im"
+  - "/(^docs(\\(.+\\))?:|documentation|\\[x\\] Comment update)/im"
 "type: refactor":
   - "/(^refactor(\\(.+\\))?:|\\[x\\] Refactor)/im"
 "type: chore":

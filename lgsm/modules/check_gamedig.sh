@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Installs nodejs and gamedig
+# Description: Installs Node.js and gamedig
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -18,4 +18,6 @@ elif [ "$(command -v node)" ] && [ "$(command -v npm)" ] && [ "$(node -v | cut -
 	cd "${lgsmdir}" || exit
 	curl -s -L -o package.json "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/package.json"
 	npm update > /dev/null 2>&1
+else
+	fn_script_log_info "Install Node.js and NPM to enable Gamedig"
 fi

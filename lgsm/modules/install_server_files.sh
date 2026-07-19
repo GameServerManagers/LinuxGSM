@@ -32,14 +32,7 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="e3b4962cdd9d41e23c6fed65101bccde"
-	elif [ "${shortname}" == "bb" ]; then
-		remote_fileurl="http://linuxgsm.download/BrainBread/brainbread-v1.2-linuxserver.tar.xz"
-		local_filedir="${tmpdir}"
-		local_filename="brainbread-v1.2-linuxserver.tar.xz"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="55f227183b736397806d5b6db6143f15"
+
 	elif [ "${shortname}" == "cod" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty/cod-lnxded-1.5b-full.tar.xz"
 		local_filedir="${tmpdir}"
@@ -267,6 +260,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bb" ]; then
+	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
@@ -274,7 +269,7 @@ elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
 elif [ "${shortname}" == "etl" ]; then
 	update_etl.sh
-elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "bb" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
+elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then
 	if [ "${shortname}" == "ut" ]; then
 		install_eula.sh
 	fi

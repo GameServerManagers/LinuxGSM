@@ -139,6 +139,12 @@ fn_dl_steamcmd() {
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
+			# Invalid platform for app/update request.
+			elif [ -n "$(grep -i "Invalid platform" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform for AppID ${appid}"
+				fn_print_nl "Check steamcmdforcewindows setting and system architecture (x86_64 required for most servers)"
+				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Invalid platform for AppID ${appid}"
+				core_exit.sh
 			# Need tp purchase game.
 			elif [ -n "$(grep "No subscription" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Steam account does not have a license for the required game"

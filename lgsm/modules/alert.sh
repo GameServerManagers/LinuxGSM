@@ -379,6 +379,25 @@ elif [ -z "${slacktoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_script_error "Slack token not set"
 fi
 
+if [ "${matrixalert}" == "on" ] && [ -n "${matrixhomeserver}" ] && [ -n "${matrixtoken}" ] && [ -n "${matrixroom}" ]; then
+	alert_matrix.sh
+elif [ "${matrixalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "Matrix alerts not enabled"
+	fn_script_log_warn "Matrix alerts not enabled"
+elif [ -z "${matrixhomeserver}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Matrix homeserver not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
+	fn_script_error "Matrix homeserver not set"
+elif [ -z "${matrixtoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Matrix token not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
+	fn_script_error "Matrix token not set"
+elif [ -z "${matrixroom}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "Matrix room not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
+	fn_script_error "Matrix room not set"
+fi
+
 if [ "${ntfyalert}" == "on" ] && [ -n "${ntfytopic}" ]; then
 	alert_ntfy.sh
 elif [ "${ntfyalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
