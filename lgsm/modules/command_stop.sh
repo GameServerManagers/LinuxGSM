@@ -10,21 +10,18 @@ commandaction="Stopping"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
-# Only stop the server if there are no players on the server
+# Only stop the server if there are no players online.
+# An explicit stop or restart always respects players when the feature is on.
+# Other commands that stop the server as a side effect (e.g. update) only respect
+# players when stoponlyifnoplayersallcommands is on.
 fn_stop_players_online() {
-	if [ "${stoponlyifnoplayers}" == "on" ]; then
-		if [ "${querymode}" == "2" ] || [ "${querymode}" == "3" ]; then
-			for queryip in "${queryips[@]}"; do
-				query_gamedig.sh
-				if [ "${querystatus}" == "0" ]; then
-					if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
-						fn_print_info_nl "${gdplayers} players are on the server: stop prevented"
-						fn_script_log_info "${gdplayers} players are on the server: stop prevented"
-						echo "${gdplayers}" > "${lockdir:?}/${selfname}-player-numbers.lock"
-						core_exit.sh
-					fi
-				fi
-			done
+	if [ "${firstcommandname}" == "STOP" ] || [ "${firstcommandname}" == "RESTART" ] || [ "${stoponlyifnoplayersallcommands}" == "on" ]; then
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: stop prevented"
+			fn_script_log_info "${playersonline} players are on the server: stop prevented"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			core_exit.sh
 		fi
 	fi
 }
