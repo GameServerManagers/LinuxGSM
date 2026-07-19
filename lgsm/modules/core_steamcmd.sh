@@ -427,4 +427,21 @@ fn_check_steamcmd_appmanifest() {
 			fn_dl_steamcmd
 		fi
 	fi
+
+	# GoldSrc can occasionally report success while core HL1 files are incomplete.
+	if [ "${engine}" == "goldsrc" ]; then
+		if [ ! -f "${serverfiles}/hlds_run" ] || [ ! -f "${serverfiles}/engine_i486.so" ] || [ ! -d "${serverfiles}/valve" ]; then
+			fn_print_error_nl "Core HL1 files missing after GoldSrc update"
+			fn_script_log_error "Core HL1 files missing after GoldSrc update"
+			fn_print_info_nl "Forcing update to correct issue"
+			fn_script_log_info "Forcing update to correct issue"
+			fn_dl_steamcmd
+
+			if [ ! -f "${serverfiles}/hlds_run" ] || [ ! -f "${serverfiles}/engine_i486.so" ] || [ ! -d "${serverfiles}/valve" ]; then
+				fn_print_fail_nl "Core HL1 files are still missing after retry"
+				fn_script_log_fail "Core HL1 files are still missing after retry"
+				core_exit.sh
+			fi
+		fi
+	fi
 }

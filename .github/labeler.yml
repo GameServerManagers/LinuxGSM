@@ -69,7 +69,7 @@
 "game: Ballistic Overkill":
   - "/(Ballistic Overkill)/i"
 "game: BATTALION: Legacy":
-  - "/(BATTALION: Legacy)/i"
+  - "/(BATTALION: Legacy|Battalion 1944)/i"
 "game: Barotrauma":
   - "/(Barotrauma)/i"
 "game: Counter-Strike: Global Offensive":
@@ -77,21 +77,27 @@
 "game: Counter-Strike 2":
   - "/(Counter-Strike 2|CS2)/i"
 "game: Counter-Strike: Source":
-  - "/(Counter-Strike: Source|CS:S)/i"
+  - "/(Counter-Strike: Source|Counter Strike: Source|CS:S)/i"
 "game: Counter-Strike 1.6":
   - "/(Counter-Strike 1.6|Counter Strike 1.6|CS 1.6|cs1.6)/i"
-"game: Dayz":
-  - "/(Dayz)/i"
+"game: DayZ":
+  - "/(DayZ|Dayz)/i"
+"game: Deathmatch Classic":
+  - "/(Deathmatch Classic|Death Match Classic|DMC)/i"
 "game: Don't Starve Together":
   - "/(Don't Starve Together|Dont Starve Together|DST)/i"
 "game: Eco":
   - "/(^Eco$)/i"
 "game: Factorio":
   - "/(Factorio)/i"
-"game: Garry's Mod":
+"game: Garrys Mod":
   - "/(Garry's Mod|Garrys Mod|GMod)/i"
+"game: Hurtworld":
+  - "/(Hurtworld|Hurtword)/i"
+"game: Insurgency":
+  - "/(^Insurgency$|Insurgecy)/i"
 "game: Insurgency: Sandstorm":
-  - "/(Insurgency: Sandstorm|Insurgency)/i"
+  - "/(Insurgency: Sandstorm)/i"
 "game: Killing Floor 2":
   - "/(Killing Floor 2|KF2)/i"
 "game: Left 4 Dead 2":
@@ -100,18 +106,20 @@
   - "/(Minecraft)((?!bedrock).)*$/i"
 "game: Minecraft Bedrock":
   - "/(Bedrock)/i"
-"game: Mumble":
-  - "/(Mumble)/i"
 "game: Project Zomboid":
   - "/(Project Zomboid|PZ)/i"
-"game: Quake 3":
-  - "/(Quake 3|Q3A|q3)/i"
+"game: Quake 3: Arena":
+  - "/(Quake 3: Arena|Quake 3|Q3A|q3)/i"
+"game: Quake World":
+  - "/(Quake World|QuakeWorld)/i"
 "game: Rising World":
   - "/(Rising World)/i"
 "game: Satisfactory":
   - "/(Satisfactory)/i"
 "game: Squad":
   - "/(Squad)/i"
+"game: Squad 44":
+  - "/(Squad 44|Post Scriptum)/i"
 "game: Starbound":
   - "/(Starbound)/i"
 "game: Stationeers":
@@ -120,6 +128,8 @@
   - "/(Teamspeak 3|ts3)/i"
 "game: Rust":
   - "/(Rust)/i"
+"game: Soldier Of Fortune 2: Gold Edition":
+  - "/(Soldier Of Fortune 2: Gold Edition|Soldier of Fortune 2)/i"
 "game: Unturned":
   - "/(Unturned)/i"
 "game: Unreal Tournament 99":
@@ -130,6 +140,8 @@
   - "/(Unreal Tournament 3|ut3)/i"
 "game: Valheim":
   - "/(Valheim)/i"
+"game: Zombie Master: Reborn":
+  - "/(Zombie Master: Reborn|Zombie Master Reborn)/i"
 
 # Info
 "info: alerts":
@@ -157,6 +169,54 @@
 "type: game server request":
   - "/(Server Request)/i"
 "type: bug":
-  - "/(bug)/i"
-"type: feature request":
-  - "/(feature)/i"
+  - "/(\\[bug\\]|bug report|type: bug)/i"
+"type: bugfix":
+  - "/(^fix(\\(.+\\))?:|\\[x\\] Bug fix)/im"
+"type: feature":
+  - "/(feature request|new feature|^feat(\\(.+\\))?:|\\[x\\] New feature)/im"
+"type: docs":
+  - "/(^docs(\\(.+\\))?:|documentation|\\[x\\] Comment update)/im"
+"type: refactor":
+  - "/(^refactor(\\(.+\\))?:|\\[x\\] Refactor)/im"
+"type: chore":
+  - "/(^chore(\\(.+\\))?:|^ci(\\(.+\\))?:)/im"
+
+# Severity (bug reports)
+"severity: low":
+  - "/(severity: low)/i"
+"severity: medium":
+  - "/(severity: medium)/i"
+"severity: high":
+  - "/(severity: high)/i"
+"severity: critical":
+  - "/(severity: critical)/i"
+
+# Reproducibility (bug reports)
+"reproducible: always":
+  - "/(reproducible: always)/i"
+"reproducible: sometimes":
+  - "/(reproducible: sometimes)/i"
+"reproducible: unable":
+  - "/(reproducible: unable)/i"
+
+# Regression (bug reports)
+"regression: yes":
+  - "/(regression: yes)/i"
+
+# Priority (feature requests)
+"priority: low":
+  - "/(priority: low)/i"
+"priority: medium":
+  - "/(priority: medium)/i"
+"priority: high":
+  - "/(priority: high)/i"
+
+# Scope (feature requests)
+"scope: single game":
+  - "/(scope: single game)/i"
+"scope: multiple games":
+  - "/(scope: multiple games)/i"
+"scope: all servers":
+  - "/(scope: all servers)/i"
+"scope: documentation":
+  - "/(scope: documentation)/i"
