@@ -30,10 +30,14 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bb" ]; then
+	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
+elif [ "${shortname}" == "etl" ]; then
+	update_etl.sh
 else
 	update_steamcmd.sh
 fi

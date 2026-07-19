@@ -8,15 +8,28 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_dotnet_repo() {
+	local dotnetpackage
+	dotnetpackage="dotnet-runtime-7.0"
+
+	for dep in "${array_deps_missing[@]}"; do
+		if [[ "${dep}" == dotnet-runtime-* ]]; then
+			dotnetpackage="${dep}"
+			break
+		fi
+	done
+
 	if [ "${distroid}" == "ubuntu" ]; then
-		# if package dotnet-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
-		if ! apt-cache show dotnet-runtime-7.0 > /dev/null 2>&1; then
+		# If the required .NET package is unavailable in Ubuntu repos, add the Microsoft repo.
+		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
 			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
 			sudo dpkg -i /tmp/packages-microsoft-prod.deb
 		fi
 	elif [ "${distroid}" == "debian" ]; then
-		fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-		sudo dpkg -i /tmp/packages-microsoft-prod.deb
+		# If the required .NET package is unavailable in Debian repos, add the Microsoft repo.
+		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
+			fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
+			sudo dpkg -i /tmp/packages-microsoft-prod.deb
+		fi
 	fi
 }
 
@@ -75,11 +88,11 @@ fn_install_mono_repo() {
 
 		# Run the mono repo install.
 		eval "${cmd}"
+		monorepoexitcode=$?
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			exitcode=$?
-			if [ "${exitcode}" -ne 0 ]; then
+			if [ "${monorepoexitcode}" -ne 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
@@ -237,7 +250,7 @@ fn_install_missing_deps() {
 }
 
 fn_check_loop() {
-	# Loop though required depenencies checking if they are installed.
+	# Loop though required dependencies checking if they are installed.
 	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
@@ -284,10 +297,10 @@ fn_deps_detector() {
 			depstatus=1
 			monoinstalled=false
 		fi
-	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "dotnet-runtime-7.0" ]; then
-		# .NET is not installed.
-		if dotnet --list-runtimes | grep -q "Microsoft.NETCore.App 7.0"; then
+	# .NET runtime: check installed runtime version for any dotnet-runtime-X.Y package.
+	elif [[ "${deptocheck}" =~ ^dotnet-runtime-([0-9]+\.[0-9]+)$ ]]; then
+		dotnetrequired="${BASH_REMATCH[1]}"
+		if [ "$(command -v dotnet 2> /dev/null)" ] && dotnet --list-runtimes | grep -q "Microsoft.NETCore.App ${dotnetrequired}"; then
 			depstatus=0
 			dotnetinstalled=true
 		else
@@ -365,7 +378,7 @@ if [ -n "${distrosupport}" ]; then
 fi
 
 # These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
 	if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
 		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
 		fn_script_log_fail "${gamename} is not supported on ${distroname}."
@@ -373,12 +386,21 @@ if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}"
 	fi
 fi
 
-# These titles are only supported up to Ubuntu 20.04 and Debian 11 (and Debian-like derivatives).
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroidlike}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+# These titles are only supported up to Ubuntu 20.04 and Debian 11.
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
 	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
 		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
 		fn_script_log_fail "${gamename} is not supported on ${distroname}."
 		core_exit.sh
+	fi
+fi
+
+# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
+if [ "${shortname}" == "vints" ]; then
+	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
+		fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
+		echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
+		fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
 	fi
 fi
 

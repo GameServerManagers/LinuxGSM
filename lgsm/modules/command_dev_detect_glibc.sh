@@ -63,7 +63,7 @@ for glibc_check_var in "${glibc_check_dir_array[@]}"; do
 			cat "${tmpdir}/detect_glibc_${glibc_check_var}.tmp" | sort | uniq | sort -r --version-sort | head -1 | tee -a "${tmpdir}/detect_glibc_highest.tmp"
 			echo -e ""
 			echo -e "Files requiring GLIBC"
-			echo -e "Highest verion required: filename"
+			echo -e "Highest version required: filename"
 			cat "${tmpdir}/detect_glibc_files_${glibc_check_var}.tmp"
 			echo -e ""
 			echo -e "All required GLIBC versions"

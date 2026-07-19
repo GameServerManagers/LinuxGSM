@@ -560,7 +560,7 @@ fn_print_restart_warning() {
 }
 
 # Functions below are used to ensure that logs and UI correctly reflect the command it is actually running.
-# Useful when a command has to call upon another command causing the other command to overrite commandname variables
+# Useful when a command has to call upon another command causing the other command to overwrite commandname variables
 
 # Used to remember the command that ran first.
 fn_firstcommand_set() {

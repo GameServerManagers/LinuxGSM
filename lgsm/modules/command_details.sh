@@ -29,7 +29,7 @@ fn_info_messages_gameserver_resource
 fn_info_messages_gameserver
 fn_info_messages_script
 fn_info_messages_backup
-# Some game servers do not have parms.
+# Some game servers do not have params.
 if [ "${shortname}" != "jc2" ] && [ "${shortname}" != "dst" ] && [ "${shortname}" != "pz" ] && [ "${engine}" != "renderware" ]; then
 	fn_info_messages_commandlineparms
 fi
