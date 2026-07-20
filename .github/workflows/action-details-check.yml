@@ -100,7 +100,7 @@ jobs:
         run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${LGSM_REF}/linuxgsm.sh"; chmod +x linuxgsm.sh
 
       - name: Cache apt packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /var/cache/apt/archives
           key: apt-${{ runner.os }}-libxml2-utils-jq
