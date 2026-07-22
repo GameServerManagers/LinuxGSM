@@ -280,9 +280,14 @@ fn_deps_detector() {
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass check.
-			depstatus=0
-			deptocheck="${javaversion}"
+			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
+				depstatus=1
+			else
+				# Added for users using Oracle JRE to bypass check.
+				depstatus=0
+				deptocheck="${javaversion}"
+			fi
 		else
 			depstatus=1
 		fi
