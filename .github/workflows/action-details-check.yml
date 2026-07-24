@@ -26,7 +26,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Full history so the base branch ref is available for the
           # `git diff origin/<base>...HEAD` comparison below (a shallow
