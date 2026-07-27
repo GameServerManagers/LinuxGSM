@@ -193,6 +193,13 @@ fn_monitor_check_update_source() {
 	fi
 }
 
+fn_pre_restart() {
+	if [ -f "pre_restart" ]; then
+		fn_script_log_info "Running script pre_restart"
+		bash pre_restart
+	fi
+}
+
 fn_monitor_check_session() {
 	fn_print_dots "Checking session"
 	fn_print_checking_eol
@@ -208,6 +215,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: There are PIDS with identical tmux sessions running"
 		fn_script_log_error "Checking session: Killing all tmux sessions with the socketname name ${socketname} and session name ${sessionname}"
 		pkill -f "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		fn_pre_restart
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
@@ -218,6 +226,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
 		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		fn_pre_restart
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
@@ -228,6 +237,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
 		pkill -f "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		fn_pre_restart
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
@@ -245,6 +255,7 @@ fn_monitor_check_session() {
 		alert="monitor-session"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
+		fn_pre_restart
 		command_restart.sh
 		core_exit.sh
 	fi
