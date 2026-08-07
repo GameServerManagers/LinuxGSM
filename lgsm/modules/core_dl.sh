@@ -175,6 +175,15 @@ fn_dl_steamcmd() {
 			elif [ -n "$(grep "0x6A6" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Corrupt update files"
+			# Steam backend/app metadata issue.
+			elif [ -n "$(grep -i "Missing configuration" "${steamcmdlog}" | tail -1)" ]; then
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Steam app metadata missing configuration for AppID ${appid}"
+				fn_print_nl "This is usually temporary on Steam's side. Retry in 15-30 minutes and then again later."
+				fn_print_nl "If the issue persists, run:"
+				fn_print_nl "steamcmd +login anonymous +app_info_update 1 +app_info_print ${appid} +quit"
+				fn_print_nl "and provide: ~/.local/share/Steam/logs/content_log.txt"
+				fn_print_nl "Submit the log to LinuxGSM developers: https://linuxgsm.com/steamcmd-error"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Steam app metadata missing configuration for AppID ${appid}"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
