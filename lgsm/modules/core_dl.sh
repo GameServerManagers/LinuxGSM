@@ -182,6 +182,7 @@ fn_dl_steamcmd() {
 				fn_print_nl "If the issue persists, run:"
 				fn_print_nl "steamcmd +login anonymous +app_info_update 1 +app_info_print ${appid} +quit"
 				fn_print_nl "and provide: ~/.local/share/Steam/logs/content_log.txt"
+				fn_print_nl "Submit the log to LinuxGSM developers: https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Steam app metadata missing configuration for AppID ${appid}"
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
