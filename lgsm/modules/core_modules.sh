@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.1.0"
+modulesversion="v26.2.0"
 
 # Core
 
@@ -229,6 +229,11 @@ check_logs.sh() {
 }
 
 check_permissions.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+check_players_online.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -586,6 +591,11 @@ alert_gotify.sh() {
 }
 
 alert_ifttt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+alert_matrix.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

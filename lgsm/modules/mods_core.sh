@@ -29,6 +29,15 @@ fn_mod_install_files() {
 		mkdir -p "${extractdest}"
 	fi
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
+	# If modsubdirs names a specific subfolder, use its contents as the install root.
+	if [ "${modsubdirs}" != "0" ] && [ -d "${extractdest}/${modsubdirs}" ]; then
+		local tmpsubdir
+		tmpsubdir=$(mktemp -d)
+		mv "${extractdest}/${modsubdirs}" "${tmpsubdir}/"
+		rm -rf "${extractdest}"
+		mv "${tmpsubdir}/${modsubdirs}" "${extractdest}"
+		rm -rf "${tmpsubdir}"
+	fi
 }
 
 # Convert mod files to lowercase if needed.

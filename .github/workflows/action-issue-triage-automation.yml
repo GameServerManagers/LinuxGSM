@@ -1,0 +1,2304 @@
+name: Issue Triage & Automation
+on:
+  workflow_dispatch:
+    inputs:
+      issue_state:
+        description: Issue state to backfill
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - open
+          - closed
+      limit:
+        description: Max issues to process (0 = all)
+        required: true
+        default: "0"
+        type: string
+      ai_game_fallback:
+        description: Use AI only when deterministic game mapping finds no game
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+      - labeled
+      - unlabeled
+      - assigned
+      - unassigned
+      - milestoned
+      - demilestoned
+      - transferred
+      - pinned
+      - unpinned
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - "lgsm/data/serverlist.csv"
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+  models: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  issue-regex-labeler:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'edited')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Issue Labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+          sync-labels: 0
+
+  issue-ai-maintenance:
+    if: github.repository_owner == 'GameServerManagers' && (github.event_name == 'issues' || github.event_name == 'issue_comment')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reconcile issue labels and AI triage
+        uses: actions/github-script@v9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const { execFileSync } = require('node:child_process');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const eventName = context.eventName;
+            const action = context.payload.action;
+            const issueNumber = context.payload.issue?.number;
+            const AI_MARKER = '<!-- ai-triage -->';
+
+            if (!issueNumber) {
+              console.log('No issue number found in payload.');
+              return;
+            }
+
+            // Avoid bot-to-bot relabel loops on label events.
+            if (
+              eventName === 'issues' &&
+              ['labeled', 'unlabeled'].includes(action) &&
+              context.actor === 'github-actions[bot]'
+            ) {
+              console.log('Skipping self-triggered label event.');
+              return;
+            }
+
+            const issueResp = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber,
+            });
+            const issue = issueResp.data;
+            const title = issue.title || '';
+            const body = issue.body || '';
+            const existingLabels = new Set((issue.labels || []).map((l) => l.name).filter(Boolean));
+
+            function parseTriageResponse(raw) {
+              const input = (raw || '').trim();
+              if (!input) return {};
+
+              const candidates = [input];
+              const fenced = input.match(/```(?:json)?\s*([\s\S]*?)```/i);
+              if (fenced?.[1]) candidates.push(fenced[1].trim());
+
+              const firstBrace = input.indexOf('{');
+              const lastBrace = input.lastIndexOf('}');
+              if (firstBrace !== -1 && lastBrace > firstBrace) {
+                candidates.push(input.slice(firstBrace, lastBrace + 1));
+              }
+
+              for (const candidate of candidates) {
+                try {
+                  return JSON.parse(candidate);
+                } catch (_err) {
+                  // Continue trying fallbacks.
+                }
+              }
+
+              return {};
+            }
+
+            function extractSection(sectionName) {
+              const escaped = sectionName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const re = new RegExp(`### ${escaped}\\n\\n([\\s\\S]*?)(\\n### |$)`, 'i');
+              return (body.match(re)?.[1] || '').trim();
+            }
+
+            function normalizeName(value) {
+              return (value || '')
+                .toLowerCase()
+                .replace(/[’'`]/g, '')
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+            }
+
+            function parseGameCandidates(gameField) {
+              if (!gameField || /^_?no response_?$/i.test(gameField)) {
+                return [];
+              }
+              return gameField
+                .replace(/\(.*?\)/g, ' ')
+                .split(/\n|,|\s+&\s+|\s+and\s+|\//i)
+                .map((v) => v.trim())
+                .filter(Boolean);
+            }
+
+            function findGamesFromText(text, gameAliasToLabel, gameAliasToScript) {
+              const labels = new Set();
+              const scripts = new Set();
+              const normalizedText = normalizeName(text);
+              if (!normalizedText) return { labels, scripts };
+
+              const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const aliases = [];
+              for (const [alias, label] of gameAliasToLabel.entries()) {
+                if (alias.length < 3) continue;
+                aliases.push({ alias, label, script: gameAliasToScript.get(alias) || null });
+              }
+
+              // Prefer longer aliases first so "killing floor 2" does not also match "killing floor".
+              aliases.sort((a, b) => b.alias.length - a.alias.length);
+
+              const usedRanges = [];
+              const isOverlapping = (start, end) =>
+                usedRanges.some((range) => start < range.end && end > range.start);
+
+              for (const entry of aliases) {
+                const pattern = new RegExp(`\\b${escapeRegex(entry.alias).replace(/\\ /g, '\\s+')}\\b`, 'g');
+                let match;
+                while ((match = pattern.exec(normalizedText)) !== null) {
+                  const start = match.index;
+                  const end = start + match[0].length;
+                  if (isOverlapping(start, end)) continue;
+
+                  labels.add(entry.label);
+                  if (entry.script) scripts.add(entry.script);
+                  usedRanges.push({ start, end });
+                }
+              }
+
+              return { labels, scripts };
+            }
+
+            function hasAliasHitForLabel(text, targetLabel, gameAliasToLabel) {
+              const normalizedText = normalizeName(text);
+              if (!normalizedText || !targetLabel) return false;
+
+              const paddedText = ` ${normalizedText} `;
+              for (const [alias, label] of gameAliasToLabel.entries()) {
+                if (label !== targetLabel) continue;
+                if (alias.length < 3) continue;
+                if (paddedText.includes(` ${alias} `)) return true;
+
+                // Allow obvious joined-word variants for multi-token aliases
+                // (e.g., "counter strike 1 6" matching "counterstrike 1.6").
+                const aliasTokens = alias.split(/\s+/).filter(Boolean);
+                if (aliasTokens.length > 1) {
+                  const escapedTokens = aliasTokens.map((token) =>
+                    token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+                  );
+                  const flexibleAliasPattern = new RegExp(`\\b${escapedTokens.join('\\s*')}\\b`);
+                  if (flexibleAliasPattern.test(normalizedText)) return true;
+                }
+              }
+
+              return false;
+            }
+
+            function runSteamCmdLinuxCheck(appId) {
+              if (!appId) {
+                return { status: 'skipped', reason: 'No Steam AppID provided.' };
+              }
+
+              const image = 'gameservermanagers/steamcmd:latest';
+              const args = [
+                'run',
+                '--rm',
+                '-e',
+                'PUID=1001',
+                '-e',
+                'PGID=1001',
+                image,
+                '+@ShutdownOnFailedCommand',
+                '1',
+                '+@NoPromptForPassword',
+                '1',
+                '+login',
+                'anonymous',
+                '+app_info_update',
+                '1',
+                '+app_info_print',
+                String(appId),
+                '+quit',
+              ];
+
+              try {
+                const output = execFileSync('docker', args, {
+                  encoding: 'utf8',
+                  stdio: ['ignore', 'pipe', 'pipe'],
+                  timeout: 120000,
+                  maxBuffer: 10 * 1024 * 1024,
+                });
+
+                const normalized = output.toLowerCase();
+                const linuxSignals = [
+                  /"oslist"\s+"linux"/i,
+                  /"oslist"\s+"linux,windows"/i,
+                  /"oslist"\s+"windows,linux"/i,
+                  /"platforms"[\s\S]*?"linux"\s+"1"/i,
+                  /linux32/i,
+                  /linux64/i,
+                ];
+                const windowsOnlySignals = [
+                  /"oslist"\s+"windows"/i,
+                  /"platforms"[\s\S]*?"windows"\s+"1"/i,
+                ];
+
+                const hasLinuxSignal = linuxSignals.some((re) => re.test(normalized));
+                const hasWindowsOnlySignal =
+                  !hasLinuxSignal && windowsOnlySignals.some((re) => re.test(normalized));
+
+                if (hasLinuxSignal) {
+                  return {
+                    status: 'linux',
+                    reason: `SteamCMD app_info contains Linux platform/depot metadata for AppID ${appId}.`,
+                  };
+                }
+
+                if (hasWindowsOnlySignal) {
+                  return {
+                    status: 'windows-only',
+                    reason: `SteamCMD app_info contains Windows-only platform metadata for AppID ${appId}.`,
+                  };
+                }
+
+                return {
+                  status: 'unknown',
+                  reason: `SteamCMD app_info returned no clear Linux server metadata for AppID ${appId}.`,
+                };
+              } catch (err) {
+                const stderr = err.stderr ? String(err.stderr).trim() : '';
+                const stdout = err.stdout ? String(err.stdout).trim() : '';
+                const message = stderr || stdout || err.message;
+                return {
+                  status: 'error',
+                  reason: `SteamCMD lookup failed: ${message}`,
+                };
+              }
+            }
+
+            function parseServerlistCsv(csvText) {
+              const rows = [];
+              const lines = (csvText || '').split(/\r?\n/);
+              for (let i = 1; i < lines.length; i += 1) {
+                const line = lines[i]?.trim();
+                if (!line) continue;
+                const parts = line.split(',');
+                if (parts.length < 3) continue;
+                rows.push({
+                  shortname: parts[0].trim(),
+                  gameservername: parts[1].trim(),
+                  gamename: parts[2].trim(),
+                });
+              }
+              return rows;
+            }
+            function inferTypeFromTitle(issueTitle) {
+              if (/^\[bug\]/i.test(issueTitle)) return 'type: bug';
+              if (/\bserver\s+request\b/i.test(issueTitle)) return 'type: game server request';
+              const hasBracketPrefix = /^\[[^\]]+\]/.test(issueTitle || '');
+              const isServerCreation =
+                /\bserver\s+creation\b/i.test(issueTitle) ||
+                (hasBracketPrefix && /\bcreation\b/i.test(issueTitle));
+              const isServerSupportRequest =
+                /\bserver\s+support\b/i.test(issueTitle) ||
+                (/\bsupport\s+for\b/i.test(issueTitle) && /\bserver\b/i.test(issueTitle));
+              if (isServerCreation || isServerSupportRequest) return 'type: game server request';
+              if (/^\[feature\]/i.test(issueTitle)) return 'type: feature';
+              if (/^\[server request\]/i.test(issueTitle)) return 'type: game server request';
+              if (/^\[docs?\]/i.test(issueTitle)) return 'type: docs';
+              return null;
+            }
+
+            function inferDesiredType(issueTitle, labelNames) {
+              const titleType = inferTypeFromTitle(issueTitle);
+              if (titleType) return titleType;
+
+              // Prefer server requests over generic feature when both labels exist.
+              if (labelNames.has('type: game server request')) return 'type: game server request';
+
+              for (const label of [
+                'type: bug',
+                'type: feature',
+                'type: game server request',
+                'type: docs',
+              ]) {
+                if (labelNames.has(label)) return label;
+              }
+
+              return null;
+            }
+
+            function inferIssueTypeNameFromDesiredType(typeLabel) {
+              if (typeLabel === 'type: bug') return 'Bug';
+              if (typeLabel === 'type: feature') return 'Feature';
+              if (typeLabel === 'type: game server request') return 'Server Request';
+              if (typeLabel === 'type: docs') return 'Task';
+              return null;
+            }
+
+            function parseCommandSelections(sectionValue) {
+              const selected = new Set();
+              const re = /command:\s*([a-z-]+)/gi;
+              let m;
+              while ((m = re.exec(sectionValue || '')) !== null) {
+                let value = m[1].toLowerCase();
+                if (value.startsWith('mods-')) value = 'mods';
+                if (value === 'auto-update') value = 'update';
+                selected.add(`command: ${value}`);
+              }
+              return selected;
+            }
+
+            function parseDistroSelections(sectionValue) {
+              const text = sectionValue || '';
+              const selected = new Set();
+              if (/\bUbuntu\b/i.test(text)) selected.add('distro: Ubuntu');
+              if (/\bDebian\b/i.test(text)) selected.add('distro: Debian');
+              if (/\bAlmaLinux\b/i.test(text)) selected.add('distro: AlmaLinux');
+              if (/\bRocky\b/i.test(text)) selected.add('distro: Rocky Linux');
+              if (/\bCentOS\b/i.test(text)) selected.add('distro: CentOS');
+              if (/\bFedora\b/i.test(text)) selected.add('distro: Fedora');
+              if (/\bopenSUSE\b/i.test(text)) selected.add('distro: openSUSE');
+              if (/\bArch Linux\b/i.test(text)) selected.add('distro: Arch Linux');
+              if (/\bSlackware\b/i.test(text)) selected.add('distro: Slackware');
+              return selected;
+            }
+
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner,
+              repo,
+              per_page: 100,
+            });
+
+            const gameLabelByNormalized = new Map();
+            for (const label of repoLabels) {
+              if (!label.name.startsWith('game: ')) continue;
+              gameLabelByNormalized.set(normalizeName(label.name.slice(6)), label.name);
+            }
+            const existingEngineLabels = new Set(
+              repoLabels.map((label) => label.name).filter((name) => name.startsWith('engine: '))
+            );
+
+            const gameAliasToLabel = new Map();
+            const gameAliasToScript = new Map();
+            const engineByScript = new Map();
+            for (const [normalizedGameName, label] of gameLabelByNormalized.entries()) {
+              gameAliasToLabel.set(normalizedGameName, label);
+            }
+
+            try {
+              const serverlistContent = await github.rest.repos.getContent({
+                owner,
+                repo,
+                path: 'lgsm/data/serverlist.csv',
+              });
+              const encoded = serverlistContent.data?.content || '';
+              const csvText = Buffer.from(encoded, 'base64').toString('utf8');
+              const serverRows = parseServerlistCsv(csvText);
+
+              for (const row of serverRows) {
+                const canonicalLabel = gameLabelByNormalized.get(normalizeName(row.gamename));
+                if (!canonicalLabel) continue;
+
+                for (const alias of [row.shortname, row.gameservername, row.gamename]) {
+                  const key = normalizeName(alias);
+                  if (!key) continue;
+                  gameAliasToLabel.set(key, canonicalLabel);
+                  gameAliasToScript.set(key, row.gameservername);
+                }
+              }
+            } catch (err) {
+              console.log(`Could not load serverlist aliases: ${err.message}`);
+            }
+
+            async function ensureEngineLabel(engineLabel) {
+              if (existingEngineLabels.has(engineLabel)) return;
+              try {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: engineLabel,
+                  color: '000000',
+                  description: `Issues related to ${engineLabel.slice(8)} engine`,
+                });
+                existingEngineLabels.add(engineLabel);
+              } catch (err) {
+                if (err.status === 422) {
+                  existingEngineLabels.add(engineLabel);
+                  return;
+                }
+                console.log(`Could not create engine label "${engineLabel}": ${err.message}`);
+              }
+            }
+
+            async function getEngineForScript(scriptName) {
+              if (!scriptName) return null;
+              if (engineByScript.has(scriptName)) {
+                return engineByScript.get(scriptName);
+              }
+              try {
+                const cfgContent = await github.rest.repos.getContent({
+                  owner,
+                  repo,
+                  path: `lgsm/config-default/config-lgsm/${scriptName}/_default.cfg`,
+                });
+                const encoded = cfgContent.data?.content || '';
+                const cfgText = Buffer.from(encoded, 'base64').toString('utf8');
+                const engine = cfgText.match(/^engine="([^"]+)"/m)?.[1] || null;
+                engineByScript.set(scriptName, engine);
+                return engine;
+              } catch (err) {
+                console.log(`Could not detect engine for ${scriptName}: ${err.message}`);
+                engineByScript.set(scriptName, null);
+                return null;
+              }
+            }
+            const labelsToAdd = new Set();
+            const labelsToRemove = new Set();
+
+            // Deterministic reconciliation on every interaction.
+            const desiredType = inferDesiredType(title, existingLabels);
+            if (desiredType) {
+              labelsToAdd.add(desiredType);
+              for (const label of existingLabels) {
+                if (label.startsWith('type: ') && label !== desiredType) {
+                  labelsToRemove.add(label);
+                }
+              }
+
+              const desiredIssueTypeName = inferIssueTypeNameFromDesiredType(desiredType);
+              if (desiredIssueTypeName) {
+                try {
+                  const issueTypeData = await github.graphql(
+                    `query($owner:String!,$repo:String!,$number:Int!){
+                      repository(owner:$owner,name:$repo){
+                        issueTypes(first:20){ nodes { id name } }
+                        issue(number:$number){ id issueType { id name } }
+                      }
+                    }`,
+                    { owner, repo, number: issueNumber }
+                  );
+
+                  const issueNode = issueTypeData.repository?.issue;
+                  const issueTypes = issueTypeData.repository?.issueTypes?.nodes || [];
+                  const desiredIssueType = issueTypes.find((t) => t.name === desiredIssueTypeName);
+
+                  if (issueNode?.id && desiredIssueType?.id && issueNode.issueType?.id !== desiredIssueType.id) {
+                    await github.graphql(
+                      `mutation($id:ID!,$issueTypeId:ID!){
+                        updateIssue(input:{id:$id,issueTypeId:$issueTypeId}){
+                          issue { id number issueType { id name } }
+                        }
+                      }`,
+                      { id: issueNode.id, issueTypeId: desiredIssueType.id }
+                    );
+                  }
+                } catch (err) {
+                  console.log(`Could not sync Issue Type: ${err.message}`);
+                }
+              }
+            }
+
+            const commandSection = extractSection('Command');
+            const desiredCommands = parseCommandSelections(commandSection);
+            if (desiredCommands.size > 0) {
+              for (const label of desiredCommands) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('command: ') && !desiredCommands.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            const distroSection = extractSection('Linux distro');
+            const desiredDistros = parseDistroSelections(distroSection);
+            if (desiredDistros.size > 0) {
+              for (const label of desiredDistros) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('distro: ') && !desiredDistros.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            const tmuxContextPattern = /\b(tmuxception|check_tmuxception)\b/i;
+            if (existingLabels.has('info: tmux') && !tmuxContextPattern.test(`${title}\n${body}`)) {
+              labelsToRemove.add('info: tmux');
+            }
+
+            const desiredGames = new Set();
+            const desiredServerScripts = new Set();
+            // 'Game server' is the section name in server_request.yml; 'Game' is used in bug_report.yml.
+            const gameField = extractSection('Game server') || extractSection('Game');
+            const gameCandidates = parseGameCandidates(gameField);
+            const hasStructuredGameSelection = gameCandidates.length > 0;
+            for (const candidate of gameCandidates) {
+              const normalizedCandidate = normalizeName(candidate);
+              const mapped = gameAliasToLabel.get(normalizedCandidate) || gameLabelByNormalized.get(normalizedCandidate);
+              if (mapped) desiredGames.add(mapped);
+              const mappedScript = gameAliasToScript.get(normalizedCandidate);
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            // Legacy issues often have no form section; fall back to deterministic text matching.
+            // If a structured Game field exists but does not map, do not guess from free text.
+            if (desiredGames.size === 0 && !hasStructuredGameSelection) {
+              const fromText = findGamesFromText(`${title}\n${body}`, gameAliasToLabel, gameAliasToScript);
+              for (const label of fromText.labels) desiredGames.add(label);
+              for (const scriptName of fromText.scripts) desiredServerScripts.add(scriptName);
+            }
+
+            // AI advisory is only needed on issue opened/edited.
+            let triage = {};
+            let ranAi = false;
+            const shouldRunAi = eventName === 'issues' && ['opened', 'edited'].includes(action);
+            const shouldRunLinuxSupportCheck =
+              eventName === 'issues' &&
+              ['opened', 'edited', 'reopened', 'labeled', 'unlabeled'].includes(action);
+            if (shouldRunAi) {
+              ranAi = true;
+
+              const isShortBody = body.trim().length < 80;
+              if (isShortBody) {
+                labelsToAdd.add('needs: more info');
+              } else {
+                try {
+                  const res = await fetch(
+                    `https://models.github.ai/orgs/${owner}/inference/chat/completions`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        Accept: 'application/vnd.github+json',
+                        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                        'X-GitHub-Api-Version': '2026-03-10',
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        model: 'openai/gpt-4.1-mini',
+                        temperature: 0.1,
+                        max_tokens: 400,
+                        messages: [
+                          {
+                            role: 'system',
+                            content:
+                              'You are a triage assistant for LinuxGSM, an open-source Linux game server manager. ' +
+                              'Return only JSON. Analyze issue quality, suggest missing info, detect game names, and suggest contextual labels ' +
+                              'only when highly certain. Never set type: docs just because docs links are mentioned.',
+                          },
+                          {
+                            role: 'user',
+                            content:
+                              `Title: ${title}\n\nBody:\n${body.slice(0, 3000)}\n\n` +
+                              'Return JSON schema:\n' +
+                              '{\n' +
+                              '  "quality": "good" | "ok" | "poor",\n' +
+                              '  "missing_info": ["list of specific missing fields"],\n' +
+                              '  "detected_game": "canonical game name if one is mentioned, or null",\n' +
+                              '  "game_confidence": "high" | "medium" | "low" | null,\n' +
+                              '  "context_labels": ["labels"],\n' +
+                              '  "context_confidence": "high" | "medium" | "low" | null,\n' +
+                              '  "game_note": "string",\n' +
+                              '  "comment": "string"\n' +
+                              '}',
+                          },
+                        ],
+                      }),
+                    }
+                  );
+
+                  if (res.ok) {
+                    const data = await res.json();
+                    const raw = data.choices?.[0]?.message?.content || '{}';
+                    triage = parseTriageResponse(raw);
+                  } else {
+                    console.log(`GitHub Models returned ${res.status} - skipping AI triage.`);
+                  }
+                } catch (err) {
+                  console.log('AI triage skipped:', err.message);
+                }
+              }
+            }
+
+            const allowedContextLabels = new Set([
+              'type: docs',
+              'info: docs',
+              'info: dependency',
+              'info: docker',
+              'info: email',
+              'info: query',
+              'info: steamcmd',
+              'info: systemd',
+              'info: website',
+              'info: alerts',
+            ]);
+
+            const isPoor = triage?.quality === 'poor';
+            const missing = Array.isArray(triage?.missing_info) ? triage.missing_info : [];
+            const hasIssues = isPoor || missing.length > 0;
+
+            // Fallback to AI-detected game only when no structured Game field exists.
+            const detectedGame = triage?.detected_game;
+            const gameConfidence = triage?.game_confidence;
+            if (desiredGames.size === 0 && !hasStructuredGameSelection && detectedGame && gameConfidence === 'high') {
+              const normalizedDetectedGame = normalizeName(detectedGame);
+              const mapped = gameLabelByNormalized.get(normalizedDetectedGame);
+              if (mapped) {
+                desiredGames.add(mapped);
+              }
+              const mappedScript = gameAliasToScript.get(normalizedDetectedGame);
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            // Resolve server scripts from canonical game labels when only labels were mapped.
+            for (const gameLabel of desiredGames) {
+              const gameName = gameLabel.slice(6);
+              const mappedScript = gameAliasToScript.get(normalizeName(gameName));
+              if (mappedScript) desiredServerScripts.add(mappedScript);
+            }
+
+            const desiredEngineLabels = new Set();
+            for (const scriptName of desiredServerScripts) {
+              const engine = await getEngineForScript(scriptName);
+              if (!engine) continue;
+              const engineLabel = `engine: ${engine}`;
+              await ensureEngineLabel(engineLabel);
+              desiredEngineLabels.add(engineLabel);
+            }
+
+            if (desiredEngineLabels.size > 0) {
+              for (const label of desiredEngineLabels) labelsToAdd.add(label);
+              for (const label of existingLabels) {
+                if (label.startsWith('engine: ') && !desiredEngineLabels.has(label)) {
+                  labelsToRemove.add(label);
+                }
+              }
+            }
+
+            if (desiredGames.size > 0) {
+              for (const label of desiredGames) labelsToAdd.add(label);
+              if (hasStructuredGameSelection) {
+                for (const label of existingLabels) {
+                  if (label.startsWith('game: ') && !desiredGames.has(label)) {
+                    labelsToRemove.add(label);
+                  }
+                }
+              } else {
+                // For legacy issues without structured game selection, only prune stale
+                // broader labels when a more specific inferred game label exists.
+                const desiredGameNamesNormalized = new Set(
+                  [...desiredGames].map((label) => normalizeName(label.slice(6)))
+                );
+                for (const label of existingLabels) {
+                  if (!label.startsWith('game: ') || desiredGames.has(label)) continue;
+                  const existingGameName = normalizeName(label.slice(6));
+                  const isBroaderOverlap = [...desiredGameNamesNormalized].some(
+                    (desiredName) => desiredName !== existingGameName && desiredName.startsWith(`${existingGameName} `)
+                  );
+                  if (isBroaderOverlap) {
+                    labelsToRemove.add(label);
+                  }
+                }
+              }
+            }
+
+            if (triage?.context_confidence === 'high') {
+              const contextLabels = Array.isArray(triage.context_labels) ? triage.context_labels : [];
+              for (const label of contextLabels) {
+                if (!allowedContextLabels.has(label)) continue;
+                if (
+                  label === 'type: docs' &&
+                  (existingLabels.has('type: game server request') || desiredType === 'type: game server request')
+                ) {
+                  continue;
+                }
+                labelsToAdd.add(label);
+              }
+            }
+
+            if (ranAi && hasIssues) {
+              labelsToAdd.add('needs: more info');
+            }
+
+            if (ranAi && !hasIssues && existingLabels.has('needs: more info')) {
+              labelsToRemove.add('needs: more info');
+            }
+
+            // Avoid pointless API calls.
+            const finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
+            const finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+
+            for (const label of finalRemoves) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  name: label,
+                });
+                console.log(`Removed label: ${label}`);
+              } catch (err) {
+                console.log(`Could not remove label "${label}": ${err.message}`);
+              }
+            }
+
+            for (const label of finalAdds) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  labels: [label],
+                });
+                console.log(`Added label: ${label}`);
+              } catch (err) {
+                console.log(`Could not add label "${label}": ${err.message}`);
+              }
+            }
+
+            // Post AI comment only for opened/edited issues when useful.
+            if (ranAi) {
+              const gameNote = triage?.game_note || '';
+              const reporterComment = triage?.comment || '';
+
+              if (hasIssues || gameNote) {
+                const missingBlock = missing.length > 0
+                  ? `\n\n**Missing information:**\n${missing.map((m) => `- ${m}`).join('\n')}`
+                  : '';
+                const gameBlock = gameNote ? `\n\n**Game name note:** ${gameNote}` : '';
+
+                const triageCommentBody =
+                  `${AI_MARKER}\n` +
+                  `Thanks for opening this issue!\n\n` +
+                  `${reporterComment}` +
+                  `${missingBlock}` +
+                  `${gameBlock}\n\n` +
+                  `_This note was generated automatically by AI triage and may not be perfect. ` +
+                  `A maintainer will review shortly._`;
+
+                try {
+                  const comments = await github.paginate(github.rest.issues.listComments, {
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    per_page: 100,
+                  });
+
+                  const existingAiComment = [...comments].reverse().find(
+                    (comment) => comment.user?.type === 'Bot' && comment.body?.includes(AI_MARKER)
+                  );
+
+                  if (existingAiComment) {
+                    await github.rest.issues.updateComment({
+                      owner,
+                      repo,
+                      comment_id: existingAiComment.id,
+                      body: triageCommentBody,
+                    });
+                  } else {
+                    await github.rest.issues.createComment({
+                      owner,
+                      repo,
+                      issue_number: issueNumber,
+                      body: triageCommentBody,
+                    });
+                  }
+                } catch (err) {
+                  console.log('Could not post comment:', err.message);
+                }
+              }
+            }
+
+            // === Linux support verification for server request issues ===
+            // Runs only on opened/edited events to avoid reprocessing every label change.
+            const isServerRequest =
+              desiredType === 'type: game server request' ||
+              existingLabels.has('type: game server request') ||
+              /\[server request\]/i.test(title);
+
+            if (isServerRequest && shouldRunLinuxSupportCheck) {
+              const officialDocsSection = extractSection('Official dedicated server documentation');
+              const linuxBinaryProofSection = extractSection('Linux binary proof');
+              const guidesSection = extractSection('Guides');
+              const steamSection = extractSection('Steam').trim();
+              const isSteamNo = /^no$/i.test(steamSection);
+              const isSteamYes = /^yes$/i.test(steamSection);
+              const steamAppIdRaw = extractSection('Steam appid').trim();
+              const steamAppId = /^\d+$/.test(steamAppIdRaw) ? steamAppIdRaw : null;
+
+              const supportEvidenceText = [officialDocsSection, linuxBinaryProofSection, guidesSection]
+                .join('\n')
+                .trim();
+
+              // Deterministic textual checks to avoid trusting checkbox-only reports.
+              const windowsOnlyPatterns = [
+                /\bwindows\s+only\b/i,
+                /\bonly\s+windows\b/i,
+                /\bno\s+linux\s+support\b/i,
+                /\blinux\s+not\s+supported\b/i,
+                /\bdoes\s+not\s+support\s+linux\b/i,
+              ];
+              const wineRequiredPatterns = [
+                /\brequires?\s+wine\b/i,
+                /\buse\s+wine\b/i,
+                /\brun\s+with\s+wine\b/i,
+                /\bvia\s+wine\b/i,
+                /\bproton\b/i,
+              ];
+              const linuxEvidencePatterns = [
+                /\blinux\b/i,
+                /\bubuntu\b/i,
+                /\bdebian\b/i,
+                /\blinuxgsm\b/i,
+                /\bsteamcmd\s*\+app_update\b/i,
+              ];
+              const windowsBinaryHint = /\b\.exe\b/i.test(supportEvidenceText);
+              const deterministicWindowsOnly = windowsOnlyPatterns.some((re) => re.test(supportEvidenceText));
+              const deterministicWineRequired = wineRequiredPatterns.some((re) => re.test(supportEvidenceText));
+              const hasLinuxEvidence = linuxEvidencePatterns.some((re) => re.test(supportEvidenceText));
+
+              // Steam store API is client-app metadata only. It is kept for comment context,
+              // but it is NOT used to determine dedicated server Linux support.
+              let steamLinuxSupport = null; // true=yes, false=no, null=unknown/informational-only
+              let steamAppIsServerTool = false; // success:false from store API = likely server-tool AppID
+              let steamCmdAssessment = null;
+              if (steamAppId) {
+                try {
+                  const steamRes = await fetch(
+                    `https://store.steampowered.com/api/appdetails?appids=${steamAppId}&filters=platforms`,
+                    { signal: AbortSignal.timeout(8000) }
+                  );
+                  if (steamRes.ok) {
+                    const steamData = await steamRes.json();
+                    const appData = steamData[steamAppId];
+                    if (appData?.success && appData?.data?.platforms) {
+                      steamLinuxSupport = appData.data.platforms.linux === true;
+                      console.log(`Steam AppID ${steamAppId} linux=${steamLinuxSupport}`);
+                    } else if (appData?.success === false) {
+                      // Dedicated server tool AppIDs have no store page — inconclusive, not negative.
+                      steamAppIsServerTool = true;
+                      console.log(`Steam AppID ${steamAppId} has no store page (likely a server-tool AppID)`);
+                    }
+                  }
+                } catch (err) {
+                  console.log(`Steam API check failed: ${err.message}`);
+                }
+
+                steamCmdAssessment = runSteamCmdLinuxCheck(steamAppId);
+                console.log(`SteamCMD assessment: ${JSON.stringify(steamCmdAssessment)}`);
+              }
+
+              // AI analysis of official docs/guides for Linux evidence.
+              let aiLinuxAssessment = null;
+              if (supportEvidenceText.length > 10) {
+                try {
+                  const linuxAiRes = await fetch(
+                    `https://models.github.ai/orgs/${owner}/inference/chat/completions`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        Accept: 'application/vnd.github+json',
+                        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                        'X-GitHub-Api-Version': '2026-03-10',
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        model: 'openai/gpt-4.1-mini',
+                        temperature: 0.1,
+                        max_tokens: 200,
+                        messages: [
+                          {
+                            role: 'system',
+                            content:
+                              'You analyze game server documentation to determine Linux support. ' +
+                              'Return only JSON. Be conservative: only say "no" if evidence clearly shows Windows-only.',
+                          },
+                          {
+                            role: 'user',
+                            content:
+                              `Analyze for native Linux dedicated server support:\n\nOfficial docs: ${officialDocsSection.slice(0, 400)}\nLinux binary proof: ${linuxBinaryProofSection.slice(0, 500)}\nGuides: ${guidesSection.slice(0, 800)}\n\n` +
+                              'Return JSON: {"linux_support": "yes"|"no"|"unknown", "confidence": "high"|"medium"|"low", "reason": "one sentence"}',
+                          },
+                        ],
+                      }),
+                    }
+                  );
+                  if (linuxAiRes.ok) {
+                    const linuxAiData = await linuxAiRes.json();
+                    const raw = linuxAiData.choices?.[0]?.message?.content || '{}';
+                    aiLinuxAssessment = parseTriageResponse(raw);
+                    console.log(`AI linux assessment: ${JSON.stringify(aiLinuxAssessment)}`);
+                  }
+                } catch (err) {
+                  console.log(`Linux AI check failed: ${err.message}`);
+                }
+              }
+
+              // Linux checkbox — used as soft positive evidence only when no negative signals exist.
+              // We don't fully trust it (users tick it without checking) but it matters when
+              // server-specific evidence is still inconclusive and no negative patterns were found.
+              const linuxCheckboxChecked = /\[x\]/i.test(extractSection('Linux support'));
+
+              // Determine verdict: confirmed = deterministic evidence; suggested = AI advisory.
+              const noLinuxFromDeterministicText =
+                deterministicWindowsOnly ||
+                (deterministicWineRequired && !hasLinuxEvidence) ||
+                (windowsBinaryHint && !hasLinuxEvidence);
+              const noLinuxFromSteamCmd = steamCmdAssessment?.status === 'windows-only';
+              const noLinuxFromAi =
+                aiLinuxAssessment?.linux_support === 'no' &&
+                (aiLinuxAssessment?.confidence === 'high' || aiLinuxAssessment?.confidence === 'medium');
+
+              const confirmedNoLinux = noLinuxFromDeterministicText || noLinuxFromSteamCmd;
+              const suggestsNoLinux = noLinuxFromAi && !confirmedNoLinux;
+              const confirmedLinuxFromSteamCmd = steamCmdAssessment?.status === 'linux';
+              const linuxYesFromAi =
+                aiLinuxAssessment?.linux_support === 'yes' &&
+                (aiLinuxAssessment?.confidence === 'high' || aiLinuxAssessment?.confidence === 'medium');
+              const confirmedLinuxSupport =
+                confirmedLinuxFromSteamCmd || linuxYesFromAi;
+              // Soft positive: checkbox checked with no negative signals and no definitive server evidence.
+              const likelySupportedByCheckbox =
+                linuxCheckboxChecked &&
+                !confirmedNoLinux &&
+                !suggestsNoLinux &&
+                !confirmedLinuxFromSteamCmd &&
+                !linuxYesFromAi;
+
+              const NO_LINUX_LABEL = 'status: no linux support';
+              const CONFIRMED_LINUX_LABEL = 'status: linux support confirmed';
+              const LINUX_MARKER = '<!-- linux-support-check -->';
+              const steamDbLink = steamAppId ? `https://steamdb.info/app/${steamAppId}/` : null;
+              const shouldApplyNoLinuxLabel = confirmedNoLinux || suggestsNoLinux;
+              const shouldApplyConfirmedLinuxLabel = confirmedLinuxSupport && !confirmedNoLinux && !suggestsNoLinux;
+
+              if (shouldApplyNoLinuxLabel) {
+                // Auto-create the label if it does not exist yet.
+                try {
+                  await github.rest.issues.getLabel({ owner, repo, name: NO_LINUX_LABEL });
+                } catch (err) {
+                  if (err.status === 404) {
+                    try {
+                      await github.rest.issues.createLabel({
+                        owner,
+                        repo,
+                        name: NO_LINUX_LABEL,
+                        color: 'd73a4a',
+                        description: 'Game server does not have confirmed native Linux support',
+                      });
+                    } catch (createErr) {
+                      console.log(`Could not create label "${NO_LINUX_LABEL}": ${createErr.message}`);
+                    }
+                  }
+                }
+                if (!existingLabels.has(NO_LINUX_LABEL)) {
+                  try {
+                    await github.rest.issues.addLabels({ owner, repo, issue_number: issueNumber, labels: [NO_LINUX_LABEL] });
+                    console.log(`Added label: ${NO_LINUX_LABEL}`);
+                  } catch (err) {
+                    console.log(`Could not add label "${NO_LINUX_LABEL}": ${err.message}`);
+                  }
+                }
+                if (existingLabels.has(CONFIRMED_LINUX_LABEL)) {
+                  try {
+                    await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: CONFIRMED_LINUX_LABEL });
+                    console.log(`Removed label: ${CONFIRMED_LINUX_LABEL}`);
+                  } catch (err) {
+                    console.log(`Could not remove label "${CONFIRMED_LINUX_LABEL}": ${err.message}`);
+                  }
+                }
+              } else if (existingLabels.has(NO_LINUX_LABEL)) {
+                try {
+                  await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: NO_LINUX_LABEL });
+                  console.log(`Removed label: ${NO_LINUX_LABEL}`);
+                } catch (err) {
+                  console.log(`Could not remove label "${NO_LINUX_LABEL}": ${err.message}`);
+                }
+              }
+
+              if (shouldApplyConfirmedLinuxLabel) {
+                try {
+                  await github.rest.issues.getLabel({ owner, repo, name: CONFIRMED_LINUX_LABEL });
+                } catch (err) {
+                  if (err.status === 404) {
+                    try {
+                      await github.rest.issues.createLabel({
+                        owner,
+                        repo,
+                        name: CONFIRMED_LINUX_LABEL,
+                        color: '0e8a16',
+                        description: 'Game server has confirmed native Linux support',
+                      });
+                    } catch (createErr) {
+                      console.log(`Could not create label "${CONFIRMED_LINUX_LABEL}": ${createErr.message}`);
+                    }
+                  }
+                }
+                if (!existingLabels.has(CONFIRMED_LINUX_LABEL)) {
+                  try {
+                    await github.rest.issues.addLabels({ owner, repo, issue_number: issueNumber, labels: [CONFIRMED_LINUX_LABEL] });
+                    console.log(`Added label: ${CONFIRMED_LINUX_LABEL}`);
+                  } catch (err) {
+                    console.log(`Could not add label "${CONFIRMED_LINUX_LABEL}": ${err.message}`);
+                  }
+                }
+              } else if (existingLabels.has(CONFIRMED_LINUX_LABEL)) {
+                try {
+                  await github.rest.issues.removeLabel({ owner, repo, issue_number: issueNumber, name: CONFIRMED_LINUX_LABEL });
+                  console.log(`Removed label: ${CONFIRMED_LINUX_LABEL}`);
+                } catch (err) {
+                  console.log(`Could not remove label "${CONFIRMED_LINUX_LABEL}": ${err.message}`);
+                }
+              }
+
+              const reasons = [];
+              if (deterministicWindowsOnly) reasons.push('the provided docs/guides explicitly indicate Windows-only or no Linux support');
+              if (deterministicWineRequired && !hasLinuxEvidence) reasons.push('the provided docs/guides indicate a Wine/Proton requirement rather than native Linux binaries');
+              if (windowsBinaryHint && !hasLinuxEvidence) reasons.push('the provided evidence appears to reference Windows binaries (.exe) without clear Linux server evidence');
+              if (isSteamNo) reasons.push('request is marked as non-Steam, so Steam platform checks were intentionally skipped');
+              if (steamAppIsServerTool) reasons.push(`AppID ${steamAppId} has no Steam store page (typical for dedicated server tool AppIDs)`);
+              if (noLinuxFromSteamCmd && steamCmdAssessment?.reason) reasons.push(steamCmdAssessment.reason);
+              if (confirmedLinuxFromSteamCmd && steamCmdAssessment?.reason) reasons.push(steamCmdAssessment.reason);
+              if (steamCmdAssessment?.status === 'unknown' && steamCmdAssessment?.reason) reasons.push(steamCmdAssessment.reason);
+              if (steamCmdAssessment?.status === 'error' && steamCmdAssessment?.reason) reasons.push(steamCmdAssessment.reason);
+              if (noLinuxFromAi && aiLinuxAssessment?.reason) reasons.push(`AI analysis of provided documentation: ${aiLinuxAssessment.reason}`);
+              if (linuxYesFromAi && aiLinuxAssessment?.reason) reasons.push(`AI analysis indicates Linux support: ${aiLinuxAssessment.reason}`);
+              if (likelySupportedByCheckbox) reasons.push('requester confirmed Linux support via the form checkbox; no contradicting evidence found');
+
+              let verdictLine = 'Linux support could not be confirmed automatically from the submitted details.';
+              if (confirmedNoLinux) {
+                verdictLine = 'This server request does **not** appear to have native Linux support, which is required for LinuxGSM.';
+              } else if (suggestsNoLinux) {
+                verdictLine = 'This server request **may not** have native Linux support based on submitted evidence.';
+              } else if (confirmedLinuxFromSteamCmd) {
+                verdictLine = 'SteamCMD metadata indicates this server has Linux platform/depot support.';
+              } else if (linuxYesFromAi) {
+                verdictLine = 'Submitted documentation appears to indicate Linux server support.';
+              } else if (likelySupportedByCheckbox) {
+                verdictLine = 'Linux support is **likely** — the requester confirmed it and no contradicting evidence was found. A maintainer should verify before accepting.';
+              }
+
+              const steamApiStatus = isSteamNo
+                ? 'Not applicable'
+                : steamLinuxSupport === true
+                  ? 'Client app marked Linux-supported (informational only)'
+                  : steamLinuxSupport === false
+                    ? 'Client app marked Linux-unsupported (informational only)'
+                    : steamAppIsServerTool
+                      ? 'No store page for this AppID (informational only)'
+                      : 'No definitive platform response';
+
+              const steamCmdStatus = isSteamNo
+                ? 'Not applicable'
+                : !steamAppId
+                  ? 'Skipped until valid AppID is provided'
+                  : steamCmdAssessment?.status === 'linux'
+                    ? 'Linux platform/depot metadata found'
+                    : steamCmdAssessment?.status === 'windows-only'
+                      ? 'Windows-only platform metadata found'
+                      : steamCmdAssessment?.status === 'unknown'
+                        ? 'No clear Linux server metadata found'
+                        : steamCmdAssessment?.status === 'error'
+                          ? 'Lookup failed'
+                          : 'Not run';
+
+              const steamBlock = isSteamNo
+                ? '**Steam:** No (non-Steam request)\n**Steam Store API:** Not applicable\n\n'
+                : steamAppId
+                  ? `**Steam:** ${isSteamYes ? 'Yes' : 'Unspecified'}\n` +
+                    `**Steam AppID:** ${steamAppId}\n` +
+                    `**Steam Store API:** ${steamApiStatus}\n` +
+                    `**SteamCMD:** ${steamCmdStatus}\n` +
+                    `**SteamDB:** ${steamDbLink}\n\n`
+                  : `**Steam:** ${isSteamYes ? 'Yes' : 'Unspecified'}\n` +
+                    '**Steam AppID:** Not provided in the issue form.\n' +
+                    (isSteamYes ? '**Steam Store API:** Skipped until valid AppID is provided.\n**SteamCMD:** Skipped until valid AppID is provided.\n\n' : '\n');
+
+              const linuxCommentHeader = shouldApplyConfirmedLinuxLabel
+                ? '**Linux Support Check** :rocket:'
+                : '**Linux Support Check**';
+              const confirmedLinuxLabelBlock = shouldApplyConfirmedLinuxLabel
+                ? `**Label applied:** ${CONFIRMED_LINUX_LABEL}\n\n`
+                : '';
+
+              const linuxCommentBody =
+                `${LINUX_MARKER}\n` +
+                `${linuxCommentHeader}\n\n` +
+                `${verdictLine}\n\n` +
+                `${confirmedLinuxLabelBlock}` +
+                `${steamBlock}` +
+                (reasons.length > 0
+                  ? `**Evidence:**\n${reasons.map((r) => `- ${r}`).join('\n')}\n\n`
+                  : '') +
+                `LinuxGSM only supports **native Linux dedicated servers**. Wine and Windows-only servers are not supported.\n\n` +
+                `If support is unclear, please provide:\n` +
+                `- Official Linux dedicated server documentation\n` +
+                `- Linux server binaries or release notes\n` +
+                `- Linux startup instructions or commands\n\n` +
+                `_This check was performed automatically using SteamCMD, submitted issue details, and AI assistance for document interpretation. Steam store data is shown only as client-app context and is not used to determine server support._`;
+
+              try {
+                const allComments = await github.paginate(github.rest.issues.listComments, {
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  per_page: 100,
+                });
+                const existingLinuxComment = [...allComments].reverse().find(
+                  (c) => c.user?.type === 'Bot' && c.body?.includes(LINUX_MARKER)
+                );
+
+                if (existingLinuxComment) {
+                  await github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: existingLinuxComment.id,
+                    body: linuxCommentBody,
+                  });
+                } else {
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    body: linuxCommentBody,
+                  });
+                }
+              } catch (err) {
+                console.log(`Could not post Linux support comment: ${err.message}`);
+              }
+            }
+
+  issue-potential-duplicates:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'edited' || github.event.action == 'reopened')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect potential duplicates
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issueNumber = context.payload.issue?.number;
+            const DUPLICATE_LABEL = 'potential-duplicate';
+            const DUPLICATE_MARKER = '<!-- potential-duplicate-check -->';
+            const MAX_CANDIDATES = 5;
+            const THRESHOLD = 0.45;
+
+            if (!issueNumber) {
+              console.log('No issue number found in payload.');
+              return;
+            }
+
+            const issueResp = await github.rest.issues.get({
+              owner,
+              repo,
+              issue_number: issueNumber,
+            });
+
+            const issue = issueResp.data;
+            if (issue.pull_request) {
+              console.log('Skipping pull request payload.');
+              return;
+            }
+
+            function normalizeText(value) {
+              return (value || '')
+                .toLowerCase()
+                .replace(/[`'"’]/g, '')
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            }
+
+            function tokenize(value) {
+              const stopwords = new Set([
+                'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how', 'i', 'in', 'is', 'it', 'its',
+                'of', 'on', 'or', 'that', 'the', 'this', 'to', 'when', 'with', 'wont', 'cannot', 'cant', 'fails', 'fail',
+                'issue', 'bug', 'request', 'server', 'command', 'linuxgsm'
+              ]);
+              return new Set(
+                normalizeText(value)
+                  .split(' ')
+                  .filter((token) => token.length > 2 && !stopwords.has(token))
+              );
+            }
+
+            function jaccard(aSet, bSet) {
+              if (aSet.size === 0 || bSet.size === 0) return 0;
+              let intersection = 0;
+              for (const v of aSet) {
+                if (bSet.has(v)) intersection += 1;
+              }
+              const union = new Set([...aSet, ...bSet]).size;
+              return union === 0 ? 0 : intersection / union;
+            }
+
+            function bodySignature(text) {
+              return normalizeText(text).split(' ').slice(0, 200).join(' ');
+            }
+
+            const currentTitleTokens = tokenize(issue.title || '');
+            const currentBodyTokens = tokenize(bodySignature(issue.body || ''));
+
+            const recentIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'all',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 100,
+            });
+
+            const ranked = [];
+            for (const candidate of recentIssues) {
+              if (!candidate || candidate.number === issueNumber || candidate.pull_request) continue;
+
+              const candidateTitleTokens = tokenize(candidate.title || '');
+              const candidateBodyTokens = tokenize(bodySignature(candidate.body || ''));
+              const titleScore = jaccard(currentTitleTokens, candidateTitleTokens);
+              const bodyScore = jaccard(currentBodyTokens, candidateBodyTokens);
+              const score = titleScore * 0.8 + bodyScore * 0.2;
+
+              if (score < THRESHOLD) continue;
+
+              ranked.push({
+                number: candidate.number,
+                title: candidate.title,
+                state: candidate.state,
+                html_url: candidate.html_url,
+                score,
+              });
+            }
+
+            ranked.sort((a, b) => b.score - a.score);
+            const topMatches = ranked.slice(0, MAX_CANDIDATES);
+
+            async function ensurePotentialDuplicateLabel() {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name: DUPLICATE_LABEL });
+              } catch (err) {
+                if (err.status !== 404) throw err;
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: DUPLICATE_LABEL,
+                  color: 'd4c5f9',
+                  description: 'Potentially duplicates another existing issue',
+                });
+              }
+            }
+
+            const existingLabelNames = new Set((issue.labels || []).map((l) => l.name));
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existingComment = [...comments]
+              .reverse()
+              .find((comment) => comment.user?.type === 'Bot' && comment.body?.includes(DUPLICATE_MARKER));
+
+            if (topMatches.length === 0) {
+              if (existingLabelNames.has(DUPLICATE_LABEL)) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    name: DUPLICATE_LABEL,
+                  });
+                } catch (err) {
+                  console.log(`Could not remove ${DUPLICATE_LABEL}: ${err.message}`);
+                }
+              }
+
+              if (existingComment) {
+                try {
+                  await github.rest.issues.updateComment({
+                    owner,
+                    repo,
+                    comment_id: existingComment.id,
+                    body:
+                      `${DUPLICATE_MARKER}\n` +
+                      `Potential duplicate scan did not find strong matches at this time.\n\n` +
+                      `_This note is maintained automatically._`,
+                  });
+                } catch (err) {
+                  console.log(`Could not update duplicate comment: ${err.message}`);
+                }
+              }
+
+              return;
+            }
+
+            await ensurePotentialDuplicateLabel();
+
+            if (!existingLabelNames.has(DUPLICATE_LABEL)) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  labels: [DUPLICATE_LABEL],
+                });
+              } catch (err) {
+                console.log(`Could not add ${DUPLICATE_LABEL}: ${err.message}`);
+              }
+            }
+
+            const lines = topMatches
+              .map((m) => `- #${m.number} (${Math.round(m.score * 100)}%) ${m.title}`)
+              .join('\n');
+
+            const commentBody =
+              `${DUPLICATE_MARKER}\n` +
+              `Potential duplicates:\n${lines}\n\n` +
+              `_This note is generated automatically using repository issue similarity and may include false positives._`;
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existingComment.id,
+                body: commentBody,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body: commentBody,
+              });
+            }
+
+  backfill-relabel:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_STATE: ${{ inputs.issue_state }}
+      ISSUE_LIMIT: ${{ inputs.limit }}
+      AI_GAME_FALLBACK: ${{ inputs.ai_game_fallback }}
+    steps:
+      - name: Trigger relabel backfill
+        uses: actions/github-script@v9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const state = process.env.ISSUE_STATE || 'all';
+            const rawLimit = Number.parseInt(process.env.ISSUE_LIMIT || '0', 10);
+            const limit = Number.isFinite(rawLimit) && rawLimit > 0 ? rawLimit : 0;
+            const useAiGameFallback = String(process.env.AI_GAME_FALLBACK || 'false').toLowerCase() === 'true';
+            const processedIssues = [];
+            const failedIssues = [];
+            let aiGameAttempts = 0;
+            let aiGameMatches = 0;
+            let aiGameRateLimited = 0;
+            let aiFallbackDisabledReason = '';
+            let stoppedForApiRateLimit = false;
+            let apiRateLimitStopReason = '';
+
+            // === Helpers (mirrored from issue-ai-maintenance) ===
+
+            function normalizeName(value) {
+              return (value || '')
+                .toLowerCase()
+                .replace(/[''`]/g, '')
+                .replace(/[^a-z0-9]+/g, ' ')
+                .trim();
+            }
+
+            function parseGameCandidates(gameField) {
+              if (!gameField || /^_?no response_?$/i.test(gameField)) return [];
+              return gameField
+                .replace(/\(.*?\)/g, ' ')
+                .split(/\n|,|\s+&\s+|\s+and\s+|\//i)
+                .map((v) => v.trim())
+                .filter(Boolean);
+            }
+
+            function findGamesFromText(text, gameAliasToLabel, gameAliasToScript) {
+              const labels = new Set();
+              const scripts = new Set();
+              const normalizedText = normalizeName(text);
+              if (!normalizedText) return { labels, scripts };
+
+              const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const aliases = [];
+              for (const [alias, label] of gameAliasToLabel.entries()) {
+                if (alias.length < 3) continue;
+                aliases.push({ alias, label, script: gameAliasToScript.get(alias) || null });
+              }
+
+              // Prefer longer aliases first so "killing floor 2" does not also match "killing floor".
+              aliases.sort((a, b) => b.alias.length - a.alias.length);
+
+              const usedRanges = [];
+              const isOverlapping = (start, end) =>
+                usedRanges.some((range) => start < range.end && end > range.start);
+
+              for (const entry of aliases) {
+                const pattern = new RegExp(`\\b${escapeRegex(entry.alias).replace(/\\ /g, '\\s+')}\\b`, 'g');
+                let match;
+                while ((match = pattern.exec(normalizedText)) !== null) {
+                  const start = match.index;
+                  const end = start + match[0].length;
+                  if (isOverlapping(start, end)) continue;
+
+                  labels.add(entry.label);
+                  if (entry.script) scripts.add(entry.script);
+                  usedRanges.push({ start, end });
+                }
+              }
+
+              return { labels, scripts };
+            }
+
+            function parseAiGameResponse(raw) {
+              const input = (raw || '').trim();
+              if (!input) return {};
+
+              const candidates = [input];
+              const fenced = input.match(/```(?:json)?\s*([\s\S]*?)```/i);
+              if (fenced?.[1]) candidates.push(fenced[1].trim());
+
+              const firstBrace = input.indexOf('{');
+              const lastBrace = input.lastIndexOf('}');
+              if (firstBrace !== -1 && lastBrace > firstBrace) {
+                candidates.push(input.slice(firstBrace, lastBrace + 1));
+              }
+
+              for (const candidate of candidates) {
+                try {
+                  return JSON.parse(candidate);
+                } catch (_err) {
+                  // Continue trying fallbacks.
+                }
+              }
+
+              return {};
+            }
+
+            function isGenericNonGameDetection(value) {
+              const normalized = normalizeName(value);
+              if (!normalized) return false;
+
+              return [
+                'srcds',
+                'source dedicated server',
+                'dedicated server',
+                'source engine',
+                'goldsrc',
+                'steamcmd',
+                'linuxgsm',
+                'lgsm',
+              ].some((term) => normalized.includes(term));
+            }
+
+            function parseAiRateLimitInfo(response) {
+              const retryAfter = response.headers.get('retry-after') || response.headers.get('Retry-After') || '';
+              const limit = response.headers.get('x-ratelimit-limit') || '';
+              const remaining = response.headers.get('x-ratelimit-remaining') || '';
+              const resetEpoch = response.headers.get('x-ratelimit-reset') || '';
+              const requestId = response.headers.get('x-github-request-id') || '';
+
+              let resetIso = '';
+              const parsedReset = Number.parseInt(resetEpoch, 10);
+              if (Number.isFinite(parsedReset) && parsedReset > 0) {
+                resetIso = new Date(parsedReset * 1000).toISOString();
+              }
+
+              return {
+                retryAfter,
+                limit,
+                remaining,
+                resetEpoch,
+                resetIso,
+                requestId,
+              };
+            }
+
+            function formatAiRateLimitInfo(info) {
+              const parts = [];
+              if (info.retryAfter) parts.push(`retry-after=${info.retryAfter}s`);
+              if (info.limit) parts.push(`limit=${info.limit}`);
+              if (info.remaining) parts.push(`remaining=${info.remaining}`);
+              if (info.resetEpoch) parts.push(`reset=${info.resetEpoch}${info.resetIso ? ` (${info.resetIso})` : ''}`);
+              if (info.requestId) parts.push(`request-id=${info.requestId}`);
+              return parts.length > 0 ? parts.join(', ') : 'no rate-limit headers returned';
+            }
+
+            function isApiRateLimitError(err) {
+              const message = String(err?.message || '').toLowerCase();
+              return (
+                err?.status === 429 ||
+                message.includes('api rate limit exceeded') ||
+                message.includes('secondary rate limit') ||
+                (message.includes('rate limit') && err?.status === 403)
+              );
+            }
+
+            function formatApiRateLimitError(err) {
+              const headers = err?.response?.headers || err?.headers || {};
+              const limit = headers['x-ratelimit-limit'] || '';
+              const remaining = headers['x-ratelimit-remaining'] || '';
+              const resetEpoch = headers['x-ratelimit-reset'] || '';
+              const requestId = headers['x-github-request-id'] || '';
+
+              let resetIso = '';
+              const parsedReset = Number.parseInt(resetEpoch || '', 10);
+              if (Number.isFinite(parsedReset) && parsedReset > 0) {
+                resetIso = new Date(parsedReset * 1000).toISOString();
+              }
+
+              const parts = [];
+              if (limit) parts.push(`limit=${limit}`);
+              if (remaining) parts.push(`remaining=${remaining}`);
+              if (resetEpoch) parts.push(`reset=${resetEpoch}${resetIso ? ` (${resetIso})` : ''}`);
+              if (requestId) parts.push(`request-id=${requestId}`);
+              return parts.length > 0 ? parts.join(', ') : 'no rate-limit headers returned';
+            }
+
+            function hasAliasHitForLabel(text, targetLabel, gameAliasToLabel) {
+              const normalizedText = normalizeName(text);
+              if (!normalizedText || !targetLabel) return false;
+
+              const paddedText = ` ${normalizedText} `;
+              for (const [alias, label] of gameAliasToLabel.entries()) {
+                if (label !== targetLabel) continue;
+                if (alias.length < 3) continue;
+                if (paddedText.includes(` ${alias} `)) return true;
+
+                // Allow obvious joined-word variants for multi-token aliases
+                // (e.g., "counter strike 1 6" matching "counterstrike 1.6").
+                const aliasTokens = alias.split(/\s+/).filter(Boolean);
+                if (aliasTokens.length > 1) {
+                  const escapedTokens = aliasTokens.map((token) =>
+                    token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+                  );
+                  const flexibleAliasPattern = new RegExp(`\\b${escapedTokens.join('\\s*')}\\b`);
+                  if (flexibleAliasPattern.test(normalizedText)) return true;
+                }
+              }
+
+              return false;
+            }
+
+            function parseServerlistCsv(csvText) {
+              const rows = [];
+              const lines = (csvText || '').split(/\r?\n/);
+              for (let i = 1; i < lines.length; i += 1) {
+                const line = lines[i]?.trim();
+                if (!line) continue;
+                const parts = line.split(',');
+                if (parts.length < 3) continue;
+                rows.push({
+                  shortname: parts[0].trim(),
+                  gameservername: parts[1].trim(),
+                  gamename: parts[2].trim(),
+                });
+              }
+              return rows;
+            }
+
+            function inferTypeFromTitle(issueTitle) {
+              if (/^\[bug\]/i.test(issueTitle)) return 'type: bug';
+              if (/\bserver\s+request\b/i.test(issueTitle)) return 'type: game server request';
+              const hasBracketPrefix = /^\[[^\]]+\]/.test(issueTitle || '');
+              const isServerCreation =
+                /\bserver\s+creation\b/i.test(issueTitle) ||
+                (hasBracketPrefix && /\bcreation\b/i.test(issueTitle));
+              const isServerSupportRequest =
+                /\bserver\s+support\b/i.test(issueTitle) ||
+                (/\bsupport\s+for\b/i.test(issueTitle) && /\bserver\b/i.test(issueTitle));
+              if (isServerCreation || isServerSupportRequest) return 'type: game server request';
+              if (/^\[feature\]/i.test(issueTitle)) return 'type: feature';
+              if (/^\[server request\]/i.test(issueTitle)) return 'type: game server request';
+              if (/^\[docs?\]/i.test(issueTitle)) return 'type: docs';
+              return null;
+            }
+
+            function inferDesiredType(issueTitle, labelNames) {
+              const titleType = inferTypeFromTitle(issueTitle);
+              if (titleType) return titleType;
+
+              // Prefer server requests over generic feature when both labels exist.
+              if (labelNames.has('type: game server request')) return 'type: game server request';
+
+              for (const label of [
+                'type: bug',
+                'type: feature',
+                'type: game server request',
+                'type: docs',
+              ]) {
+                if (labelNames.has(label)) return label;
+              }
+              return null;
+            }
+
+            function inferIssueTypeNameFromDesiredType(typeLabel) {
+              if (typeLabel === 'type: bug') return 'Bug';
+              if (typeLabel === 'type: feature') return 'Feature';
+              if (typeLabel === 'type: game server request') return 'Server Request';
+              if (typeLabel === 'type: docs') return 'Task';
+              return null;
+            }
+
+            function parseCommandSelections(sectionValue) {
+              const selected = new Set();
+              const re = /command:\s*([a-z-]+)/gi;
+              let m;
+              while ((m = re.exec(sectionValue || '')) !== null) {
+                let value = m[1].toLowerCase();
+                if (value.startsWith('mods-')) value = 'mods';
+                if (value === 'auto-update') value = 'update';
+                selected.add(`command: ${value}`);
+              }
+              return selected;
+            }
+
+            function parseDistroSelections(sectionValue) {
+              const text = sectionValue || '';
+              const selected = new Set();
+              if (/\bUbuntu\b/i.test(text)) selected.add('distro: Ubuntu');
+              if (/\bDebian\b/i.test(text)) selected.add('distro: Debian');
+              if (/\bAlmaLinux\b/i.test(text)) selected.add('distro: AlmaLinux');
+              if (/\bRocky\b/i.test(text)) selected.add('distro: Rocky Linux');
+              if (/\bCentOS\b/i.test(text)) selected.add('distro: CentOS');
+              if (/\bFedora\b/i.test(text)) selected.add('distro: Fedora');
+              if (/\bopenSUSE\b/i.test(text)) selected.add('distro: openSUSE');
+              if (/\bArch Linux\b/i.test(text)) selected.add('distro: Arch Linux');
+              if (/\bSlackware\b/i.test(text)) selected.add('distro: Slackware');
+              return selected;
+            }
+
+            function extractSection(body, sectionName) {
+              const escaped = sectionName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const re = new RegExp(`### ${escaped}\\n\\n([\\s\\S]*?)(\\n### |$)`, 'i');
+              return (body.match(re)?.[1] || '').trim();
+            }
+
+            // === Load shared data once ===
+
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner,
+              repo,
+              per_page: 100,
+            });
+
+            const gameLabelByNormalized = new Map();
+            for (const label of repoLabels) {
+              if (!label.name.startsWith('game: ')) continue;
+              gameLabelByNormalized.set(normalizeName(label.name.slice(6)), label.name);
+            }
+
+            const existingEngineLabels = new Set(
+              repoLabels.map((l) => l.name).filter((name) => name.startsWith('engine: '))
+            );
+
+            const gameAliasToLabel = new Map();
+            const gameAliasToScript = new Map();
+            const engineByScript = new Map();
+
+            for (const [normalizedGameName, label] of gameLabelByNormalized.entries()) {
+              gameAliasToLabel.set(normalizedGameName, label);
+            }
+
+            try {
+              const serverlistContent = await github.rest.repos.getContent({
+                owner,
+                repo,
+                path: 'lgsm/data/serverlist.csv',
+              });
+              const csvText = Buffer.from(serverlistContent.data?.content || '', 'base64').toString('utf8');
+              const serverRows = parseServerlistCsv(csvText);
+              for (const row of serverRows) {
+                const canonicalLabel = gameLabelByNormalized.get(normalizeName(row.gamename));
+                if (!canonicalLabel) continue;
+                for (const alias of [row.shortname, row.gameservername, row.gamename]) {
+                  const key = normalizeName(alias);
+                  if (!key) continue;
+                  gameAliasToLabel.set(key, canonicalLabel);
+                  gameAliasToScript.set(key, row.gameservername);
+                }
+              }
+            } catch (err) {
+              console.log(`Could not load serverlist aliases: ${err.message}`);
+            }
+
+            async function ensureEngineLabel(engineLabel) {
+              if (existingEngineLabels.has(engineLabel)) return;
+              try {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: engineLabel,
+                  color: '000000',
+                  description: `Issues related to ${engineLabel.slice(8)} engine`,
+                });
+                existingEngineLabels.add(engineLabel);
+              } catch (err) {
+                if (err.status === 422) {
+                  existingEngineLabels.add(engineLabel);
+                  return;
+                }
+                console.log(`Could not create engine label "${engineLabel}": ${err.message}`);
+              }
+            }
+
+            async function getEngineForScript(scriptName) {
+              if (!scriptName) return null;
+              if (engineByScript.has(scriptName)) return engineByScript.get(scriptName);
+              try {
+                const cfgContent = await github.rest.repos.getContent({
+                  owner,
+                  repo,
+                  path: `lgsm/config-default/config-lgsm/${scriptName}/_default.cfg`,
+                });
+                const cfgText = Buffer.from(cfgContent.data?.content || '', 'base64').toString('utf8');
+                const engine = cfgText.match(/^engine="([^"]+)"/m)?.[1] || null;
+                engineByScript.set(scriptName, engine);
+                return engine;
+              } catch (_err) {
+                engineByScript.set(scriptName, null);
+                return null;
+              }
+            }
+
+            // === Process issues ===
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state,
+              sort: 'created',
+              direction: 'asc',
+              per_page: 100,
+            });
+
+            const targets = issues.filter((issue) => !issue.pull_request);
+            const selectedTargets = limit > 0 ? targets.slice(0, limit) : targets;
+
+            console.log(
+              `Starting relabel backfill for ${selectedTargets.length} issue(s) ` +
+                `(state=${state}, limit=${limit === 0 ? 'all' : limit}).`
+            );
+
+            let processed = 0;
+            for (const rawIssue of selectedTargets) {
+              if (stoppedForApiRateLimit) break;
+              console.log(`Processing issue #${rawIssue.number}: ${rawIssue.title}`);
+              try {
+                const issueResp = await github.rest.issues.get({
+                  owner,
+                  repo,
+                  issue_number: rawIssue.number,
+                });
+                const issue = issueResp.data;
+                const title = issue.title || '';
+                const body = issue.body || '';
+                const existingLabels = new Set((issue.labels || []).map((l) => l.name).filter(Boolean));
+                const labelsToAdd = new Set();
+                const labelsToRemove = new Set();
+                const isLocked = issue.locked === true;
+                let issueTypeSet = null;
+
+                // Type reconciliation
+                const desiredType = inferDesiredType(title, existingLabels);
+                if (desiredType) {
+                  labelsToAdd.add(desiredType);
+                  for (const label of existingLabels) {
+                    if (label.startsWith('type: ') && label !== desiredType) labelsToRemove.add(label);
+                  }
+
+                  const desiredIssueTypeName = inferIssueTypeNameFromDesiredType(desiredType);
+                  if (desiredIssueTypeName) {
+                    try {
+                      const issueTypeData = await github.graphql(
+                        `query($owner:String!,$repo:String!,$number:Int!){
+                          repository(owner:$owner,name:$repo){
+                            issueTypes(first:20){ nodes { id name } }
+                            issue(number:$number){ id issueType { id name } }
+                          }
+                        }`,
+                        { owner, repo, number: rawIssue.number }
+                      );
+                      const issueNode = issueTypeData.repository?.issue;
+                      const issueTypes = issueTypeData.repository?.issueTypes?.nodes || [];
+                      const desiredIssueType = issueTypes.find((t) => t.name === desiredIssueTypeName);
+                      if (
+                        issueNode?.id &&
+                        desiredIssueType?.id &&
+                        issueNode.issueType?.id !== desiredIssueType.id
+                      ) {
+                        await github.graphql(
+                          `mutation($id:ID!,$issueTypeId:ID!){
+                            updateIssue(input:{id:$id,issueTypeId:$issueTypeId}){
+                              issue { id number issueType { id name } }
+                            }
+                          }`,
+                          { id: issueNode.id, issueTypeId: desiredIssueType.id }
+                        );
+                        issueTypeSet = desiredIssueTypeName;
+                        console.log(`#${rawIssue.number}: set Issue Type to ${desiredIssueTypeName}`);
+                      }
+                    } catch (err) {
+                      if (isApiRateLimitError(err)) throw err;
+                      console.log(`#${rawIssue.number}: could not sync Issue Type: ${err.message}`);
+                    }
+                  }
+                }
+
+                // Commands
+                const commandSection = extractSection(body, 'Command');
+                const desiredCommands = parseCommandSelections(commandSection);
+                if (desiredCommands.size > 0) {
+                  for (const label of desiredCommands) labelsToAdd.add(label);
+                  for (const label of existingLabels) {
+                    if (label.startsWith('command: ') && !desiredCommands.has(label)) labelsToRemove.add(label);
+                  }
+                }
+
+                // Distros
+                const distroSection = extractSection(body, 'Linux distro');
+                const desiredDistros = parseDistroSelections(distroSection);
+                if (desiredDistros.size > 0) {
+                  for (const label of desiredDistros) labelsToAdd.add(label);
+                  for (const label of existingLabels) {
+                    if (label.startsWith('distro: ') && !desiredDistros.has(label)) labelsToRemove.add(label);
+                  }
+                }
+
+                // Tmux false positive cleanup
+                if (
+                  existingLabels.has('info: tmux') &&
+                  !/\b(tmuxception|check_tmuxception)\b/i.test(`${title}\n${body}`)
+                ) {
+                  labelsToRemove.add('info: tmux');
+                }
+
+                // Games and engines
+                const desiredGames = new Set();
+                const gameLabelSource = new Map(); // label → 'form-field' | 'text-match' | 'ai-fallback'
+                const desiredServerScripts = new Set();
+                // 'Game server' is the section name in server_request.yml; 'Game' is used in bug_report.yml.
+                const gameField = extractSection(body, 'Game server') || extractSection(body, 'Game');
+                const gameCandidates = parseGameCandidates(gameField);
+                const hasStructuredGameSelection = gameCandidates.length > 0;
+                for (const candidate of gameCandidates) {
+                  const normalizedCandidate = normalizeName(candidate);
+                  const mapped =
+                    gameAliasToLabel.get(normalizedCandidate) || gameLabelByNormalized.get(normalizedCandidate);
+                  if (mapped) {
+                    desiredGames.add(mapped);
+                    gameLabelSource.set(mapped, 'form-field');
+                  }
+                  const mappedScript = gameAliasToScript.get(normalizedCandidate);
+                  if (mappedScript) desiredServerScripts.add(mappedScript);
+                }
+
+                // Legacy issues often have no form section; fall back to deterministic text matching.
+                if (desiredGames.size === 0) {
+                  const fromText = findGamesFromText(`${title}\n${body}`, gameAliasToLabel, gameAliasToScript);
+                  for (const label of fromText.labels) {
+                    desiredGames.add(label);
+                    gameLabelSource.set(label, 'text-match');
+                  }
+                  for (const scriptName of fromText.scripts) desiredServerScripts.add(scriptName);
+                }
+
+                // Optional AI fallback for legacy issues where deterministic matching finds nothing.
+                if (useAiGameFallback && desiredGames.size === 0) {
+                  if (aiFallbackDisabledReason) {
+                    console.log(`#${rawIssue.number}: AI fallback skipped (${aiFallbackDisabledReason})`);
+                  } else {
+                  aiGameAttempts += 1;
+                  const aiPayload = {
+                    model: 'openai/gpt-4.1-mini',
+                    temperature: 0.1,
+                    max_tokens: 120,
+                    messages: [
+                      {
+                        role: 'system',
+                        content:
+                          'Return JSON only. Identify the specific game referenced in this LinuxGSM issue with high precision. ' +
+                          'If only generic platform/engine terms are present (e.g. srcds, source dedicated server, steamcmd), return detected_game as null.',
+                      },
+                      {
+                        role: 'user',
+                        content:
+                          `Title: ${title}\n\nBody:\n${body.slice(0, 2500)}\n\n` +
+                          'Return JSON: {"detected_game":"string or null","game_confidence":"high|medium|low|null"}',
+                      },
+                    ],
+                  };
+                  const aiUrl = `https://models.github.ai/orgs/${owner}/inference/chat/completions`;
+                  const aiHeaders = {
+                    Accept: 'application/vnd.github+json',
+                    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                    'X-GitHub-Api-Version': '2026-03-10',
+                    'Content-Type': 'application/json',
+                  };
+                  try {
+                    let res = await fetch(aiUrl, { method: 'POST', headers: aiHeaders, body: JSON.stringify(aiPayload) });
+
+                    // On 429 honour Retry-After (capped at 60 s) then retry once.
+                    if (res.status === 429) {
+                      aiGameRateLimited += 1;
+                      const rateInfo = parseAiRateLimitInfo(res);
+                      const rawRetryAfter = Number.parseInt(rateInfo.retryAfter || '10', 10);
+                      const retryAfter = Math.min(Number.isFinite(rawRetryAfter) ? rawRetryAfter : 10, 60);
+                      if (Number.isFinite(rawRetryAfter) && rawRetryAfter > 300) {
+                        aiFallbackDisabledReason = `global cooldown active (retry-after=${rawRetryAfter}s)`;
+                        console.log(
+                          `#${rawIssue.number}: AI fallback disabled for remaining run (${aiFallbackDisabledReason}; ${formatAiRateLimitInfo(rateInfo)})`
+                        );
+                      } else {
+                        console.log(
+                          `#${rawIssue.number}: AI fallback rate-limited - waiting ${retryAfter}s then retrying (${formatAiRateLimitInfo(rateInfo)})`
+                        );
+                        await new Promise((r) => setTimeout(r, retryAfter * 1000));
+                        res = await fetch(aiUrl, { method: 'POST', headers: aiHeaders, body: JSON.stringify(aiPayload) });
+                      }
+                    }
+
+                    if (res.ok) {
+                      const data = await res.json();
+                      const raw = data.choices?.[0]?.message?.content || '{}';
+                      const parsed = parseAiGameResponse(raw);
+                      const detectedGame = normalizeName(parsed?.detected_game || '');
+                      const confidence = (parsed?.game_confidence || '').toLowerCase();
+                      if (detectedGame && confidence === 'high') {
+                        const mappedLabel =
+                          gameAliasToLabel.get(detectedGame) || gameLabelByNormalized.get(detectedGame);
+                        if (mappedLabel) {
+                          const hasAliasEvidence = hasAliasHitForLabel(
+                            `${title}\n${body}`,
+                            mappedLabel,
+                            gameAliasToLabel
+                          );
+                          if (hasAliasEvidence) {
+                            desiredGames.add(mappedLabel);
+                            gameLabelSource.set(mappedLabel, 'ai-fallback');
+                            const mappedScript = gameAliasToScript.get(detectedGame);
+                            if (mappedScript) desiredServerScripts.add(mappedScript);
+                            aiGameMatches += 1;
+                            console.log(
+                              `#${rawIssue.number}: AI fallback accepted game "${mappedLabel}" from "${parsed?.detected_game}"`
+                            );
+                          } else {
+                            console.log(
+                              `#${rawIssue.number}: AI fallback rejected game "${mappedLabel}" (no literal alias evidence in issue text)`
+                            );
+                          }
+                        } else {
+                          if (isGenericNonGameDetection(parsed?.detected_game || '')) {
+                            console.log(
+                              `#${rawIssue.number}: AI fallback skipped generic non-game detection "${parsed?.detected_game}"`
+                            );
+                          } else {
+                            console.log(
+                              `#${rawIssue.number}: AI fallback returned unmapped game "${parsed?.detected_game}"`
+                            );
+                          }
+                        }
+                      }
+                    } else {
+                      if (res.status === 429) {
+                        const rateInfo = parseAiRateLimitInfo(res);
+                        console.log(
+                          `#${rawIssue.number}: AI fallback skipped (HTTP 429, ${formatAiRateLimitInfo(rateInfo)})`
+                        );
+                      } else {
+                        console.log(`#${rawIssue.number}: AI fallback skipped (HTTP ${res.status})`);
+                      }
+                    }
+                  } catch (err) {
+                    console.log(`#${rawIssue.number}: AI fallback error: ${err.message}`);
+                  }
+                  }
+                }
+
+                for (const gameLabel of desiredGames) {
+                  const mappedScript = gameAliasToScript.get(normalizeName(gameLabel.slice(6)));
+                  if (mappedScript) desiredServerScripts.add(mappedScript);
+                }
+
+                const desiredEngineLabels = new Set();
+                for (const scriptName of desiredServerScripts) {
+                  const engine = await getEngineForScript(scriptName);
+                  if (!engine) continue;
+                  const engineLabel = `engine: ${engine}`;
+                  await ensureEngineLabel(engineLabel);
+                  desiredEngineLabels.add(engineLabel);
+                }
+
+                if (desiredEngineLabels.size > 0) {
+                  for (const label of desiredEngineLabels) labelsToAdd.add(label);
+                  for (const label of existingLabels) {
+                    if (label.startsWith('engine: ') && !desiredEngineLabels.has(label)) labelsToRemove.add(label);
+                  }
+                }
+
+                if (desiredGames.size > 0) {
+                  for (const label of desiredGames) labelsToAdd.add(label);
+                  if (hasStructuredGameSelection) {
+                    for (const label of existingLabels) {
+                      if (label.startsWith('game: ') && !desiredGames.has(label)) labelsToRemove.add(label);
+                    }
+                  } else {
+                    // For legacy issues without structured game selection, only prune stale
+                    // broader labels when a more specific inferred game label exists.
+                    const desiredGameNamesNormalized = new Set(
+                      [...desiredGames].map((label) => normalizeName(label.slice(6)))
+                    );
+                    for (const label of existingLabels) {
+                      if (!label.startsWith('game: ') || desiredGames.has(label)) continue;
+                      const existingGameName = normalizeName(label.slice(6));
+                      const isBroaderOverlap = [...desiredGameNamesNormalized].some(
+                        (desiredName) => desiredName !== existingGameName && desiredName.startsWith(`${existingGameName} `)
+                      );
+                      if (isBroaderOverlap) labelsToRemove.add(label);
+                    }
+                  }
+                }
+
+                // Apply changes
+                const finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
+                const finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+
+                let labelAdded = 0;
+                let labelRemoved = 0;
+
+                for (const label of finalRemoves) {
+                  try {
+                    await github.rest.issues.removeLabel({
+                      owner,
+                      repo,
+                      issue_number: rawIssue.number,
+                      name: label,
+                    });
+                    labelRemoved += 1;
+                    console.log(`#${rawIssue.number}: removed "${label}"`);
+                  } catch (err) {
+                    if (isApiRateLimitError(err)) throw err;
+                    console.log(`#${rawIssue.number}: could not remove "${label}": ${err.message}`);
+                  }
+                }
+
+                for (const label of finalAdds) {
+                  try {
+                    await github.rest.issues.addLabels({
+                      owner,
+                      repo,
+                      issue_number: rawIssue.number,
+                      labels: [label],
+                    });
+                    labelAdded += 1;
+                    const gameSource = gameLabelSource.get(label);
+                    console.log(`#${rawIssue.number}: added "${label}"${gameSource ? ` (${gameSource})` : ''}`);
+                  } catch (err) {
+                    if (isApiRateLimitError(err)) throw err;
+                    console.log(`#${rawIssue.number}: could not add "${label}": ${err.message}`);
+                  }
+                }
+
+                processed += 1;
+                processedIssues.push({
+                  number: rawIssue.number,
+                  title: rawIssue.title,
+                  adds: labelAdded,
+                  removes: labelRemoved,
+                  issueTypeSet,
+                  locked: isLocked,
+                });
+                console.log(
+                  `#${rawIssue.number}: done (+${labelAdded} added, -${labelRemoved} removed${
+                    issueTypeSet ? `, type→${issueTypeSet}` : ''
+                  }${isLocked ? ', locked' : ''})`
+                );
+              } catch (err) {
+                if (isApiRateLimitError(err)) {
+                  stoppedForApiRateLimit = true;
+                  apiRateLimitStopReason = formatApiRateLimitError(err);
+                  console.log(
+                    `Stopping backfill due to API rate limit at #${rawIssue.number} (${apiRateLimitStopReason})`
+                  );
+                  failedIssues.push({
+                    number: rawIssue.number,
+                    title: rawIssue.title,
+                    stage: 'rate-limit',
+                    error: err.message,
+                  });
+                  break;
+                } else {
+                  console.log(`Error processing #${rawIssue.number}: ${err.message}`);
+                  failedIssues.push({
+                    number: rawIssue.number,
+                    title: rawIssue.title,
+                    stage: 'process',
+                    error: err.message,
+                  });
+                }
+              }
+            }
+
+            console.log(
+              `Relabel backfill complete: ${processed} processed, ${failedIssues.length} failed${
+                stoppedForApiRateLimit ? `, stopped early (${apiRateLimitStopReason})` : ''
+              }.`
+            );
+
+            await core.summary
+              .addHeading('Relabel Backfill Summary')
+              .addTable([
+                [
+                  { data: 'Requested state', header: true },
+                  { data: 'Limit', header: true },
+                  { data: 'AI fallback', header: true },
+                  { data: 'AI attempts', header: true },
+                  { data: 'AI matches', header: true },
+                  { data: 'AI 429s', header: true },
+                  { data: 'AI disabled reason', header: true },
+                  { data: 'Stopped early', header: true },
+                  { data: 'Target issues', header: true },
+                  { data: 'Processed', header: true },
+                  { data: 'Failures', header: true },
+                ],
+                [
+                  state,
+                  limit === 0 ? 'all' : String(limit),
+                  useAiGameFallback ? 'enabled' : 'disabled',
+                  String(aiGameAttempts),
+                  String(aiGameMatches),
+                  String(aiGameRateLimited),
+                  aiFallbackDisabledReason || '—',
+                  stoppedForApiRateLimit ? apiRateLimitStopReason : 'no',
+                  String(selectedTargets.length),
+                  String(processed),
+                  String(failedIssues.length),
+                ],
+              ])
+              .write();
+
+            if (processedIssues.length > 0) {
+              const processedRows = processedIssues.slice(0, 50).map((issue) => [
+                `#${issue.number}${issue.locked ? ' 🔒' : ''}`,
+                `[${issue.title}](https://github.com/${owner}/${repo}/issues/${issue.number})`,
+                `+${issue.adds} / -${issue.removes}`,
+                issue.issueTypeSet || '—',
+              ]);
+
+              await core.summary
+                .addHeading('Processed Issues')
+                .addTable([
+                  [
+                    { data: 'Issue', header: true },
+                    { data: 'Title', header: true },
+                    { data: 'Label changes', header: true },
+                    { data: 'Issue Type set', header: true },
+                  ],
+                  ...processedRows,
+                ])
+                .write();
+            }
+
+            if (failedIssues.length > 0) {
+              const failureRows = failedIssues.slice(0, 50).map((issue) => [
+                `#${issue.number}`,
+                issue.stage,
+                issue.error,
+              ]);
+
+              await core.summary
+                .addHeading('Failures')
+                .addTable([
+                  [
+                    { data: 'Issue', header: true },
+                    { data: 'Stage', header: true },
+                    { data: 'Error', header: true },
+                  ],
+                  ...failureRows,
+                ])
+                .write();
+            }
+
+  pr-labeler:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR Labeler
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/labeler.yml
+          enable-versioned-regex: 0
+          include-title: 1
+          include-body: 0
+          sync-labels: 1
+
+  is-sponsor-label:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is Sponsor Label
+        uses: JasonEtco/is-sponsor-label-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sync-game-labels:
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'push' && contains(github.event.head_commit.modified, 'lgsm/data/serverlist.csv')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Sync game labels from serverlist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/sync-game-labels.sh
+          .github/scripts/sync-game-labels.sh

@@ -126,6 +126,9 @@ fn_deps_email() {
 				array_deps_required+=(exim4)
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
+			elif [ "$(command -v apt 2> /dev/null)" ] && [ -d /etc/nullmailer ]; then
+				# 'mailutils' provides the 'mail' binary, 'nullmailer' is the MTA
+				array_deps_required+=(mailutils nullmailer)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
 				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then

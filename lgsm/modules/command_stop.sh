@@ -10,12 +10,28 @@ commandaction="Stopping"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# Only stop the server if there are no players online.
+# An explicit stop or restart always respects players when the feature is on.
+# Other commands that stop the server as a side effect (e.g. update) only respect
+# players when stoponlyifnoplayersallcommands is on.
+fn_stop_players_online() {
+	if [ "${firstcommandname}" == "STOP" ] || [ "${firstcommandname}" == "RESTART" ] || [ "${stoponlyifnoplayersallcommands}" == "on" ]; then
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: stop prevented"
+			fn_script_log_info "${playersonline} players are on the server: stop prevented"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			core_exit.sh
+		fi
+	fi
+}
+
 # Attempts graceful shutdown by sending 'CTRL+c'.
 fn_stop_graceful_ctrlc() {
 	fn_print_dots "Graceful: CTRL+c"
 	fn_script_log_info "Graceful: CTRL+c"
 	# Sends CTRL+c.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefully.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -47,7 +63,7 @@ fn_stop_graceful_cmd() {
 	fn_print_dots "Graceful: sending \"${1}\""
 	fn_script_log_info "Graceful: sending \"${1}\""
 	# Sends specific stop command.
-	tmux -L "${socketname}" send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send -t "${sessionname}" ENTER "${1}" ENTER > /dev/null 2>&1
 	# Waits up to ${seconds} seconds giving the server time to shutdown gracefully.
 	for ((seconds = 1; seconds <= ${2}; seconds++)); do
 		check_status.sh
@@ -79,7 +95,7 @@ fn_stop_graceful_goldsrc() {
 	fn_print_dots "Graceful: sending \"quit\""
 	fn_script_log_info "Graceful: sending \"quit\""
 	# sends quit
-	tmux -L "${socketname}" send -t "${sessionname}" quit ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send -t "${sessionname}" quit ENTER > /dev/null 2>&1
 	# Waits 3 seconds as goldsrc servers restart with the quit command.
 	for seconds in {1..3}; do
 		fn_sleep_time_1
@@ -289,10 +305,10 @@ fn_stop_graceful_avorion() {
 	fn_print_dots "Graceful: /save /stop"
 	fn_script_log_info "Graceful: /save /stop"
 	# Sends /save.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" /save ENTER > /dev/null 2>&1
 	fn_sleep_time_5
 	# Sends /quit.
-	tmux -L "${socketname}" send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" /stop ENTER > /dev/null 2>&1
 	# Waits up to 30 seconds giving the server time to shutdown gracefully.
 	for seconds in {1..30}; do
 		check_status.sh
@@ -351,7 +367,7 @@ fn_stop_tmux() {
 	fn_print_dots "${servername}"
 	fn_script_log_info "tmux kill-session: ${sessionname}: ${servername}"
 	# Kill tmux session.
-	tmux -L "${socketname}" kill-session -t "${sessionname}" > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" kill-session -t "${sessionname}" > /dev/null 2>&1
 	fn_sleep_time_1
 	check_status.sh
 	if [ "${status}" == "0" ]; then
@@ -373,6 +389,7 @@ fn_stop_pre_check() {
 		fn_print_skip_nl "${servername} is already stopped"
 		fn_script_log_info "${servername} is already stopped"
 	else
+		fn_stop_players_online
 		# Select graceful shutdown.
 		fn_stop_graceful_select
 		# Check status again, a kill tmux session if graceful shutdown failed.

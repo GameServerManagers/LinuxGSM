@@ -15,7 +15,7 @@ fn_firstcommand_set
 # Used to allow update to detect JK2MV server version.
 fn_start_jk2() {
 	fn_start_tmux
-	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
+	TERM=screen tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
 fn_start_tmux() {
@@ -67,7 +67,7 @@ fn_start_tmux() {
 		cd "${executabledir}" || exit
 	fi
 
-	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
+	TERM=screen tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
 	# Create logfile.
 	touch "${consolelog}"
@@ -82,9 +82,9 @@ fn_start_tmux() {
 	if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 		# timestamp will break mcb update check.
 		if [ "${logtimestamp}" == "on" ] && [ "${shortname}" != "mcb" ]; then
-			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
 		else
-			tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
+			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
 	else
 		echo -e "Console logging disabled in settings" >> "${consolelog}"

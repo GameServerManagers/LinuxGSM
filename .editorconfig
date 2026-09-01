@@ -16,9 +16,9 @@ trim_trailing_whitespace = true
 indent_size = 4
 indent_style = tab
 
-# JSON Files (Biome formatting)
+# JSON Files
 [*.json]
-indent_style = tab
+indent_style = space
 indent_size = 2
 
 # Steam appmanifest files (Valve ACF format)

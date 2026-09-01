@@ -24,7 +24,7 @@ fn_check_ownership() {
 		fi
 	fi
 	if [ -d "${serverfiles}" ]; then
-		if [ "$(find "${serverfiles}" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
+		if [ "$(find "${serverfiles}" -not -path "*/steamapps/compatdata/*" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
 			filesownissue=1
 		fi
 	fi
@@ -42,7 +42,7 @@ fn_check_ownership() {
 				find "${lgsmdir}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 			if [ "${filesownissue}" == "1" ]; then
-				find "${serverfiles}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
+				find "${serverfiles}" -not -path "*/steamapps/compatdata/*" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
 			fi
 
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
