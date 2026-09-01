@@ -719,7 +719,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rsdw" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -1412,6 +1412,20 @@ fn_info_messages_ro() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_rsdw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Game Settings${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}World name:\t${default}${worldname}"
+		echo -e "${lightblue}Owner ID:\t${default}${ownerid}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_rtcw() {
 	{
 		fn_port "header"
@@ -1914,6 +1928,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_qw
 	elif [ "${shortname}" == "ro" ]; then
 		fn_info_messages_ro
+	elif [ "${shortname}" == "rsdw" ]; then
+		fn_info_messages_rsdw
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_messages_rtcw
 	elif [ "${shortname}" == "samp" ]; then
