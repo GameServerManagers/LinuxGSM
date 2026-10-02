@@ -7,11 +7,30 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Server files are downloaded using App ID 740, but the runtime App ID (runtimeappid) decides which client can connect:
+# 4465480 for the standalone CS:GO client, 730 for the CS2 csgo_legacy branch client.
+# SteamCMD update/validate can revert these files, so this runs before every start.
+
 # Fixes: server not always creating steam_appid.txt file.
-if [ ! -f "${serverfiles}/steam_appid.txt" ]; then
-	fixname="730 steam_appid.txt"
+# The server writes steam_appid.txt with a trailing null byte, which is removed before comparing.
+if [ -n "${runtimeappid}" ] && { [ ! -f "${serverfiles}/steam_appid.txt" ] || [ "$(tr -d '\0' < "${serverfiles}/steam_appid.txt")" != "${runtimeappid}" ]; }; then
+	fixname="${runtimeappid} steam_appid.txt"
 	fn_fix_msg_start
-	echo -n "730" >> "${serverfiles}/steam_appid.txt"
+	if echo -n "${runtimeappid}" > "${serverfiles}/steam_appid.txt"; then
+		exitcode=0
+	else
+		exitcode=1
+	fi
+	fn_fix_msg_end
+fi
+
+# Fixes: steam.inf not using the runtime App ID.
+# steam.inf uses CRLF line endings, the whole value is replaced while keeping the line ending.
+if [ -n "${runtimeappid}" ] && [ -f "${systemdir}/steam.inf" ] && grep -q "^appID=" "${systemdir}/steam.inf" && ! grep -qE "^appID=${runtimeappid}[[:cntrl:]]?$" "${systemdir}/steam.inf"; then
+	fixname="${runtimeappid} steam.inf"
+	fn_fix_msg_start
+	sed -i "s/^appID=[^[:cntrl:]]*/appID=${runtimeappid}/" "${systemdir}/steam.inf"
+	exitcode=$?
 	fn_fix_msg_end
 fi
 

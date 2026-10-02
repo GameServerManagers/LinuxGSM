@@ -122,11 +122,20 @@ if [ "${modcommand}" == "amxmodxcs" ] \
 	fn_mod_exist "amxmodx"
 fi
 
+# If nolobbyreservation check if sourcemod exists first as it is compiled using the SourceMod compiler
+if [ "${modcommand}" == "nolobbyreservation" ]; then
+	fn_mod_exist "sourcemod"
+fi
+
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
 fn_mods_create_tmp_dir
 fn_mod_install_files
 fn_mod_lowercase
+# NoLobbyReservation is only distributed as source
+if [ "${modcommand}" == "nolobbyreservation" ]; then
+	fn_mod_compile_sourcemod_plugin "nolobbyreservation"
+fi
 fn_mod_create_filelist
 fn_mod_copy_destination
 fn_mod_add_list
