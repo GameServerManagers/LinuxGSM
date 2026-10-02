@@ -7,13 +7,14 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-license-year:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -22,8 +23,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: LICENSE.md
-      - name: Merge pull request
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr merge --merge --delete-branch
