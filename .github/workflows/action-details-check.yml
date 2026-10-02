@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - develop
+  pull_request:
+    branches:
+      - develop
 
 permissions:
   contents: read
@@ -17,46 +20,102 @@ jobs:
   create-matrix:
     if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
+    env:
+      LGSM_REF: ${{ github.event.pull_request.head.sha || github.ref_name }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          # Full history so the base branch ref is available for the
+          # `git diff origin/<base>...HEAD` comparison below (a shallow
+          # checkout has no origin/<base> and the diff fails).
+          fetch-depth: 0
+
+      - name: Detect targeted servers (PR only)
+        id: targeted
+        if: github.event_name == 'pull_request'
+        run: |
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "Changed files:"
+          echo "$changed"
+
+          # Only these modules directly affect what 'details', 'parse-game-details'
+          # and 'query-raw' output. Everything else (install, fix, update, check_*,
+          # data CSVs, game icons, etc.) is irrelevant to this check.
+          details_core='^(linuxgsm\.sh|lgsm/modules/(info_game|info_messages|command_details|command_dev_parse_game_details|command_dev_query_raw|core_modules)\.sh)$'
+          if echo "$changed" | grep -qE "${details_core}"; then
+            echo "Details-relevant core file changed — using full matrix."
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+          else
+            # Extract shortnames from changed config-lgsm paths
+            shortnames=$(echo "$changed" \
+              | grep -oE 'lgsm/config-default/config-lgsm/[a-z0-9]+server' \
+              | sed 's|lgsm/config-default/config-lgsm/||;s|server$||' \
+              | sort -u)
+            if [ -z "$shortnames" ]; then
+              echo "No server configs or core files changed — skipping matrix."
+              echo "mode=skip" >> "$GITHUB_OUTPUT"
+            else
+              echo "Targeted servers: $shortnames"
+              echo "mode=targeted" >> "$GITHUB_OUTPUT"
+              printf '%s\n' $shortnames > targeted_shortnames.txt
+            fi
+          fi
 
       - name: Generate matrix with generate-matrix.sh
-        run: .github/scripts/details-check-generate-matrix.sh
+        if: github.event_name != 'pull_request' || steps.targeted.outputs.mode != 'skip'
+        run: |
+          if [ -f targeted_shortnames.txt ]; then
+            TARGETED_SHORTNAMES=$(cat targeted_shortnames.txt) .github/scripts/details-check-generate-matrix.sh
+          else
+            .github/scripts/details-check-generate-matrix.sh
+          fi
 
       - name: Set Matrix
         id: set-matrix
         run: |
-          shortnamearray=$(cat shortnamearray.json)
-          echo "${shortnamearray}"
-          echo -n "matrix=${shortnamearray}" >> "$GITHUB_OUTPUT"
+          if [ ! -f shortnamearray.json ]; then
+            echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
+          else
+            shortnamearray=$(cat shortnamearray.json)
+            echo "${shortnamearray}"
+            echo -n "matrix=${shortnamearray}" >> "$GITHUB_OUTPUT"
+          fi
 
   details-check:
     if: github.repository_owner == 'GameServerManagers'
     needs: create-matrix
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    env:
+      LGSM_REF: ${{ github.event.pull_request.head.sha || github.ref_name }}
 
     strategy:
       matrix: ${{ fromJSON(needs.create-matrix.outputs.matrix) }}
 
     steps:
       - name: Download linuxgsm.sh
-        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${GITHUB_REF#refs/heads/}/linuxgsm.sh"; chmod +x linuxgsm.sh
+        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${LGSM_REF}/linuxgsm.sh"; chmod +x linuxgsm.sh
+
+      - name: Cache apt packages
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-libxml2-utils-jq
 
       - name: Install dependencies
-        run: sudo apt-get install libxml2-utils jq
+        run: sudo apt-get install -y --no-install-recommends libxml2-utils jq
 
       - name: Create serverfiles directory
         run: mkdir -p serverfiles
 
       - name: Grab server
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./linuxgsm.sh ${{ matrix.shortname }}server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./linuxgsm.sh ${{ matrix.shortname }}server
 
       - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server developer
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server developer
 
       - name: Generate servercfgname
         id: sets-servercfgname
@@ -73,7 +132,7 @@ jobs:
           fi
 
       - name: Pre-load LinuxGSM
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server details
 
       - name: Display config
         run: |
@@ -87,10 +146,36 @@ jobs:
         run: grep "startparameters" lgsm/config-default/config-lgsm/${{ matrix.shortname }}server/_default.cfg
 
       - name: Details
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server details
+        id: details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server details
 
       - name: Detect details
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server parse-game-details
+        id: detect-details
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server parse-game-details
 
       - name: Query Raw
-        run: LGSM_GITHUBBRANCH="${GITHUB_REF#refs/heads/}" ./${{ matrix.shortname }}server query-raw
+        id: query-raw
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server query-raw
+
+      - name: Write job summary
+        if: always()
+        run: |
+          status_icon() {
+            case "$1" in
+              success)  echo "✅" ;;
+              failure)  echo "❌" ;;
+              skipped)  echo "⏭️" ;;
+              *)         echo "⚠️" ;;
+            esac
+          }
+          details_icon=$(status_icon "${{ steps.details.outcome }}")
+          parse_icon=$(status_icon "${{ steps.detect-details.outcome }}")
+          query_icon=$(status_icon "${{ steps.query-raw.outcome }}")
+          {
+            echo "## ${{ matrix.shortname }}server"
+            echo "| Step | Result |"
+            echo "|------|--------|"
+            echo "| Details | ${details_icon} ${{ steps.details.outcome }} |"
+            echo "| Parse game details | ${parse_icon} ${{ steps.detect-details.outcome }} |"
+            echo "| Query raw | ${query_icon} ${{ steps.query-raw.outcome }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

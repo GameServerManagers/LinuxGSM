@@ -113,6 +113,31 @@ if [ ! -f "${steamclientsdk32}" ]; then
 	fn_fix_msg_end
 fi
 
+# Helps fix: WARNING: Failed to load 32-bit libtinfo.so.5 or libncurses.so.5.
+# On distros that ship libtinfo.so.6 (e.g. Ubuntu 22.04+, Debian 12+) but not
+# libtinfo.so.5, SteamCMD prints this warning and loses readline support.
+# Creating a symlink from .so.5 -> .so.6 resolves the warning without root.
+for libtinfo32dir in "${HOME}/.steam/steamcmd" "${steamcmddir}" "${HOME}/.local/share/Steam/steamcmd"; do
+	if [ -d "${libtinfo32dir}" ]; then
+		libtinfo32so="${libtinfo32dir}/libtinfo.so.5"
+		# Also repair broken symlinks (! -e catches missing target, -L catches dangling link)
+		if [ ! -e "${libtinfo32so}" ]; then
+			# Find the .so.6 in the system 32-bit lib paths
+			for libtinfo32so6 in /lib/i386-linux-gnu/libtinfo.so.6 /usr/lib/i386-linux-gnu/libtinfo.so.6 /lib32/libtinfo.so.6; do
+				if [ -f "${libtinfo32so6}" ]; then
+					fixname="libtinfo.so.5 32-bit symlink"
+					fn_fix_msg_start
+					mkdir -p "${libtinfo32dir}"
+					ln -sf "${libtinfo32so6}" "${libtinfo32so}"
+					exitcode=$?
+					fn_fix_msg_end
+					break
+				fi
+			done
+		fi
+	fi
+done
+
 # steamclient.so fixes
 if [ "${shortname}" == "bo" ]; then
 	fn_fix_steamclient_so "32" "${serverfiles}/BODS_Data/Plugins/x86"

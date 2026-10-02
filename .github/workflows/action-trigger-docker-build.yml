@@ -15,12 +15,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Workflow and Wait (linuxgsm)
-        uses: convictional/trigger-workflow-and-wait@v1.6.5
-        with:
-          owner: GameServerManagers
-          repo: docker-linuxgsm
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          workflow_file_name: action-docker-publish.yml
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          before=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run action-docker-publish.yml --repo GameServerManagers/docker-linuxgsm
+          sleep 10
+          run_id=$(gh run list \
+            --workflow action-docker-publish.yml \
+            --repo GameServerManagers/docker-linuxgsm \
+            --created ">=${before}" \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          gh run watch "${run_id}" \
+            --repo GameServerManagers/docker-linuxgsm \
+            --exit-status
 
   trigger_build_docker-gameserver:
     if: github.repository_owner == 'GameServerManagers'
@@ -29,9 +39,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Workflow and Wait (gameserver)
-        uses: convictional/trigger-workflow-and-wait@v1.6.5
-        with:
-          owner: GameServerManagers
-          repo: docker-gameserver
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          workflow_file_name: action-docker-publish.yml
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          before=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run action-docker-publish.yml --repo GameServerManagers/docker-gameserver
+          sleep 10
+          run_id=$(gh run list \
+            --workflow action-docker-publish.yml \
+            --repo GameServerManagers/docker-gameserver \
+            --created ">=${before}" \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          gh run watch "${run_id}" \
+            --repo GameServerManagers/docker-gameserver \
+            --exit-status
