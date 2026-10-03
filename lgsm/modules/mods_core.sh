@@ -45,7 +45,11 @@ fn_mod_install_files() {
 fn_mod_compile_sourcemod_plugin() {
 	local pluginname="${1}"
 	local spcompdir="${modinstalldir}/addons/sourcemod/scripting"
-	local spcomp="${spcompdir}/spcomp"
+	# Prefer the 64-bit compiler; the 32-bit spcomp needs i386 libraries.
+	local spcomp="${spcompdir}/spcomp64"
+	if [ ! -x "${spcomp}" ]; then
+		spcomp="${spcompdir}/spcomp"
+	fi
 	echo -en "compiling ${pluginname}.sp..."
 	fn_sleep_time
 	if [ ! -x "${spcomp}" ]; then

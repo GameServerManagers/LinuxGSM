@@ -17,9 +17,9 @@ else
 	echo -e "GSLT is an optional feature for ${gamename} server."
 	fn_script_log_info "GSLT is an optional feature for ${gamename} server"
 fi
-if [ "${shortname}" == "csgo" ] && [ -n "${runtimeappid}" ]; then
-	echo -e "The GSLT must be created using the App ID set in runtimeappid (${runtimeappid})."
-	fn_script_log_info "The GSLT must be created using the App ID set in runtimeappid (${runtimeappid})"
+if [ "${shortname}" == "csgo" ] && [ -n "${clientappid}" ]; then
+	echo -e "The GSLT must be created using the App ID set in clientappid (${clientappid})."
+	fn_script_log_info "The GSLT must be created using the App ID set in clientappid (${clientappid})"
 fi
 
 echo -e ""

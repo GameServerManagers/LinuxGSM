@@ -7,16 +7,16 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Server files are downloaded using App ID 740, but the runtime App ID (runtimeappid) decides which client can connect:
-# 4465480 for the standalone CS:GO client, 730 for the CS2 csgo_legacy branch client.
+# Server files are downloaded using App ID 740 (appid), but the App ID written to steam_appid.txt and steam.inf
+# (clientappid) decides which client can connect: 4465480 for standalone CS:GO, 730 for the CS2 csgo_legacy branch.
 # SteamCMD update/validate can revert these files, so this runs before every start.
 
 # Fixes: server not always creating steam_appid.txt file.
 # The server writes steam_appid.txt with a trailing null byte, which is removed before comparing.
-if [ -n "${runtimeappid}" ] && { [ ! -f "${serverfiles}/steam_appid.txt" ] || [ "$(tr -d '\0' < "${serverfiles}/steam_appid.txt")" != "${runtimeappid}" ]; }; then
-	fixname="${runtimeappid} steam_appid.txt"
+if [ -n "${clientappid}" ] && { [ ! -f "${serverfiles}/steam_appid.txt" ] || [ "$(tr -d '\0' < "${serverfiles}/steam_appid.txt")" != "${clientappid}" ]; }; then
+	fixname="${clientappid} steam_appid.txt"
 	fn_fix_msg_start
-	if echo -n "${runtimeappid}" > "${serverfiles}/steam_appid.txt"; then
+	if echo -n "${clientappid}" > "${serverfiles}/steam_appid.txt"; then
 		exitcode=0
 	else
 		exitcode=1
@@ -24,12 +24,12 @@ if [ -n "${runtimeappid}" ] && { [ ! -f "${serverfiles}/steam_appid.txt" ] || [ 
 	fn_fix_msg_end
 fi
 
-# Fixes: steam.inf not using the runtime App ID.
+# Fixes: steam.inf not using the client App ID.
 # steam.inf uses CRLF line endings, the whole value is replaced while keeping the line ending.
-if [ -n "${runtimeappid}" ] && [ -f "${systemdir}/steam.inf" ] && grep -q "^appID=" "${systemdir}/steam.inf" && ! grep -qE "^appID=${runtimeappid}[[:cntrl:]]?$" "${systemdir}/steam.inf"; then
-	fixname="${runtimeappid} steam.inf"
+if [ -n "${clientappid}" ] && [ -f "${systemdir}/steam.inf" ] && grep -q "^appID=" "${systemdir}/steam.inf" && ! grep -qE "^appID=${clientappid}[[:cntrl:]]?$" "${systemdir}/steam.inf"; then
+	fixname="${clientappid} steam.inf"
 	fn_fix_msg_start
-	sed -i "s/^appID=[^[:cntrl:]]*/appID=${runtimeappid}/" "${systemdir}/steam.inf"
+	sed -i "s/^appID=[^[:cntrl:]]*/appID=${clientappid}/" "${systemdir}/steam.inf"
 	exitcode=$?
 	fn_fix_msg_end
 fi
