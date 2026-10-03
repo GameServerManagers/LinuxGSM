@@ -43,7 +43,9 @@ on:
       - created
       - edited
       - deleted
-  pull_request:
+  # pull_request_target so pr-labeler can label PRs from forks (pull_request gets a read-only token for forks).
+  # Safe here: no job checks out or runs PR code on this event.
+  pull_request_target:
     types:
       - opened
       - edited
@@ -2267,8 +2269,12 @@ jobs:
             }
 
   pr-labeler:
-    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'pull_request'
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
     steps:
       - name: PR Labeler
         uses: github/issue-labeler@v3.4
