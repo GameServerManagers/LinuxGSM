@@ -88,6 +88,10 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 			fn_mod_install_files
 			fn_mod_lowercase
 			fn_remove_cfg_files
+			# NoLobbyReservation is only distributed as source
+			if [ "${modcommand}" == "nolobbyreservation" ]; then
+				fn_mod_compile_sourcemod_plugin "nolobbyreservation"
+			fi
 			fn_mod_create_filelist
 			fn_mod_copy_destination
 			fn_mod_add_list

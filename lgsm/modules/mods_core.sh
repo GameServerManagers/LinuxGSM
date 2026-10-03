@@ -29,14 +29,51 @@ fn_mod_install_files() {
 		mkdir -p "${extractdest}"
 	fi
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
-	# If modsubdirs names a specific subfolder, use its contents as the install root.
+	# If modsubdirs names a specific subfolder (or path to one), use its contents as the install root.
 	if [ "${modsubdirs}" != "0" ] && [ -d "${extractdest}/${modsubdirs}" ]; then
 		local tmpsubdir
 		tmpsubdir=$(mktemp -d)
 		mv "${extractdest}/${modsubdirs}" "${tmpsubdir}/"
 		rm -rf "${extractdest}"
-		mv "${tmpsubdir}/${modsubdirs}" "${extractdest}"
+		mv "${tmpsubdir}/$(basename "${modsubdirs}")" "${extractdest}"
 		rm -rf "${tmpsubdir}"
+	fi
+}
+
+# Compile a SourceMod plugin that is only distributed as source, using the installed SourceMod compiler.
+# The compiled plugin is added to the extracted mod files so it is installed, updated and removed with the mod.
+fn_mod_compile_sourcemod_plugin() {
+	local pluginname="${1}"
+	local spcompdir="${modinstalldir}/addons/sourcemod/scripting"
+	# Prefer the 64-bit compiler; the 32-bit spcomp needs i386 libraries.
+	local spcomp="${spcompdir}/spcomp64"
+	if [ ! -x "${spcomp}" ]; then
+		spcomp="${spcompdir}/spcomp"
+	fi
+	echo -en "compiling ${pluginname}.sp..."
+	fn_sleep_time
+	if [ ! -x "${spcomp}" ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Compiling ${pluginname}.sp: SourceMod compiler not found in ${spcompdir}"
+		echo -e "* SourceMod compiler not found in ${spcompdir}"
+		exitcode=1
+		core_exit.sh
+	fi
+	mkdir -p "${extractdest}/addons/sourcemod/plugins"
+	spcompoutput=$("${spcomp}" -i"${spcompdir}/include" "${extractdest}/addons/sourcemod/scripting/${pluginname}.sp" -o"${extractdest}/addons/sourcemod/plugins/${pluginname}.smx" 2>&1)
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ] || [ ! -s "${extractdest}/addons/sourcemod/plugins/${pluginname}.smx" ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Compiling ${pluginname}.sp"
+		if [ -f "${lgsmlog}" ]; then
+			echo -e "${spcompoutput}" >> "${lgsmlog}"
+		fi
+		echo -e "${spcompoutput}"
+		exitcode=1
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Compiling ${pluginname}.sp"
 	fi
 }
 
@@ -164,7 +201,7 @@ fn_mod_tidy_files_list() {
 	fi
 
 	# Remove common paths from deletion list (Add your sourcemod mod here)
-	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ]; then
+	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ] || [ "${modcommand}" == "nolobbyreservation" ]; then
 		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/configs$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/extensions$/d" "${modsdir}/${modcommand}-files.txt"
@@ -201,6 +238,9 @@ fn_mod_tidy_files_list() {
 		sed -i "/^addons\/sourcemod\/scripting\/include\/movement.inc$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/scripting\/include\/dhooks.inc$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/scripting\/include\/updater.inc$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+	if [ "${modcommand}" == "nolobbyreservation" ]; then
+		sed -i "/^addons\/sourcemod\/gamedata$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 
