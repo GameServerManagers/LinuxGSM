@@ -97,6 +97,10 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 			fn_mod_add_list
 			fn_mod_tidy_files_list
 			fn_mods_clear_tmp_dir
+			# Restore the Metamod:Source search path if a CS2 update removed it.
+			if [ "${modcommand}" == "metamodsource2" ]; then
+				fn_mod_install_gameinfo_gi_file
+			fi
 		fi
 		((installedmodsline++))
 	else

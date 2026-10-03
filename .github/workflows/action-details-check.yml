@@ -26,7 +26,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Full history so the base branch ref is available for the
           # `git diff origin/<base>...HEAD` comparison below (a shallow
@@ -85,7 +85,8 @@ jobs:
           fi
 
   details-check:
-    if: github.repository_owner == 'GameServerManagers'
+    # Skip (rather than fail the run) when create-matrix found nothing to check.
+    if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.matrix != '{"include":[]}'
     needs: create-matrix
     continue-on-error: true
     runs-on: ${{ matrix.runner }}
@@ -100,7 +101,7 @@ jobs:
         run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${LGSM_REF}/linuxgsm.sh"; chmod +x linuxgsm.sh
 
       - name: Cache apt packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: /var/cache/apt/archives
           key: apt-${{ runner.os }}-libxml2-utils-jq
