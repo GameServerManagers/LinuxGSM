@@ -243,13 +243,17 @@ fn_bootstrap_fetch_file_github() {
 # Installer menu.
 
 fn_print_center() {
-	columns=$(tput cols)
+	# Fall back to 80 columns when there is no terminal.
+	columns="${COLUMNS:-$(tput cols 2> /dev/null)}"
+	columns="${columns:-80}"
 	line="$*"
 	printf "%*s\n" $(((${#line} + columns) / 2)) "${line}"
 }
 
 fn_print_horizontal() {
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "="
+	# Fall back to 80 columns when there is no terminal; bash 5.3+ rejects an empty printf width.
+	local columns="${COLUMNS:-$(tput cols 2> /dev/null)}"
+	printf '%*s\n' "${columns:-80}" '' | tr ' ' "="
 }
 
 # Bash menu.
