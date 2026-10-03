@@ -126,6 +126,9 @@ fn_deps_email() {
 				array_deps_required+=(exim4)
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
+			elif [ "$(command -v apt 2> /dev/null)" ] && [ -d /etc/nullmailer ]; then
+				# 'mailutils' provides the 'mail' binary, 'nullmailer' is the MTA
+				array_deps_required+=(mailutils nullmailer)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
 				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
@@ -269,7 +272,8 @@ fn_deps_detector() {
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return
-	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
+	# Checks classic and deb822 sources for an uncommented non-free component (non-free-firmware does not count).
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '^[[:space:]]*[^#[:space:]].*[[:space:]]non-free([[:space:]]|$)' /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources 2> /dev/null; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return

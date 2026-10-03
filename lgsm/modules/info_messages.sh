@@ -730,7 +730,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -1419,6 +1419,20 @@ fn_info_messages_ro() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_rsdw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Game Settings${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}World name:\t${default}${worldname}"
+		echo -e "${lightblue}Owner ID:\t${default}${ownerid}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_rtcw() {
 	{
 		fn_port "header"
@@ -1923,6 +1937,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_qw
 	elif [ "${shortname}" == "ro" ]; then
 		fn_info_messages_ro
+	elif [ "${shortname}" == "rsdw" ]; then
+		fn_info_messages_rsdw
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_messages_rtcw
 	elif [ "${shortname}" == "samp" ]; then
