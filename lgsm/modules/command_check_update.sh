@@ -24,6 +24,8 @@ elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortna
 	update_pmc.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
+elif [ "${shortname}" == "hyt" ]; then
+	update_hyt.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then

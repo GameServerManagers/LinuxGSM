@@ -520,6 +520,9 @@ elif [ "${shortname}" == "hl2dm" ]; then
 elif [ "${shortname}" == "hz" ]; then
 	# Config is generated on first run
 	:
+elif [ "${shortname}" == "hyt" ]; then
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "ins" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
