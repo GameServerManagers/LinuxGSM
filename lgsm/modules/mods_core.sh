@@ -29,14 +29,51 @@ fn_mod_install_files() {
 		mkdir -p "${extractdest}"
 	fi
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
-	# If modsubdirs names a specific subfolder, use its contents as the install root.
+	# If modsubdirs names a specific subfolder (or path to one), use its contents as the install root.
 	if [ "${modsubdirs}" != "0" ] && [ -d "${extractdest}/${modsubdirs}" ]; then
 		local tmpsubdir
 		tmpsubdir=$(mktemp -d)
 		mv "${extractdest}/${modsubdirs}" "${tmpsubdir}/"
 		rm -rf "${extractdest}"
-		mv "${tmpsubdir}/${modsubdirs}" "${extractdest}"
+		mv "${tmpsubdir}/$(basename "${modsubdirs}")" "${extractdest}"
 		rm -rf "${tmpsubdir}"
+	fi
+}
+
+# Compile a SourceMod plugin that is only distributed as source, using the installed SourceMod compiler.
+# The compiled plugin is added to the extracted mod files so it is installed, updated and removed with the mod.
+fn_mod_compile_sourcemod_plugin() {
+	local pluginname="${1}"
+	local spcompdir="${modinstalldir}/addons/sourcemod/scripting"
+	# Prefer the 64-bit compiler; the 32-bit spcomp needs i386 libraries.
+	local spcomp="${spcompdir}/spcomp64"
+	if [ ! -x "${spcomp}" ]; then
+		spcomp="${spcompdir}/spcomp"
+	fi
+	echo -en "compiling ${pluginname}.sp..."
+	fn_sleep_time
+	if [ ! -x "${spcomp}" ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Compiling ${pluginname}.sp: SourceMod compiler not found in ${spcompdir}"
+		echo -e "* SourceMod compiler not found in ${spcompdir}"
+		exitcode=1
+		core_exit.sh
+	fi
+	mkdir -p "${extractdest}/addons/sourcemod/plugins"
+	spcompoutput=$("${spcomp}" -i"${spcompdir}/include" "${extractdest}/addons/sourcemod/scripting/${pluginname}.sp" -o"${extractdest}/addons/sourcemod/plugins/${pluginname}.smx" 2>&1)
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ] || [ ! -s "${extractdest}/addons/sourcemod/plugins/${pluginname}.smx" ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Compiling ${pluginname}.sp"
+		if [ -f "${lgsmlog}" ]; then
+			echo -e "${spcompoutput}" >> "${lgsmlog}"
+		fi
+		echo -e "${spcompoutput}"
+		exitcode=1
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Compiling ${pluginname}.sp"
 	fi
 }
 
@@ -158,8 +195,13 @@ fn_mod_tidy_files_list() {
 		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 
+	# Keep Metamod:Source when removing CounterStrikeSharp, but remove its own VDF.
+	if [ "${modcommand}" == "counterstrikesharp" ]; then
+		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+
 	# Remove common paths from deletion list (Add your sourcemod mod here)
-	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ]; then
+	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ] || [ "${modcommand}" == "nolobbyreservation" ]; then
 		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/configs$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/extensions$/d" "${modsdir}/${modcommand}-files.txt"
@@ -196,6 +238,9 @@ fn_mod_tidy_files_list() {
 		sed -i "/^addons\/sourcemod\/scripting\/include\/movement.inc$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/scripting\/include\/dhooks.inc$/d" "${modsdir}/${modcommand}-files.txt"
 		sed -i "/^addons\/sourcemod\/scripting\/include\/updater.inc$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+	if [ "${modcommand}" == "nolobbyreservation" ]; then
+		sed -i "/^addons\/sourcemod\/gamedata$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 }
 
@@ -683,6 +728,66 @@ fn_mod_remove_liblist_gam_file() {
 			# if replacement back didn't happen, error out.
 			exitcode=$?
 			if [ "${exitcode}" -ne 0 ]; then
+				fn_script_log_fail "${logentry}"
+				fn_print_fail_eol_nl
+			else
+				fn_script_log_pass "${logentry}"
+				fn_print_ok_eol_nl
+			fi
+		fi
+	fi
+}
+
+# modifiers for gameinfo.gi to add/remove the Metamod:Source search path
+# Counter-Strike 2 only: the csgo paths below are specific to that game.
+fn_mod_install_gameinfo_gi_file() {
+	local gameinfofile="${modinstalldir}/gameinfo.gi"
+	local metamodpattern='^[[:space:]]*"?Game"?[[:space:]]+"?csgo/addons/metamod"?[[:space:]]*(//.*)?$'
+	local lowviolencepattern='^[[:space:]]*"?Game_LowViolence"?[[:space:]]+"?csgo_lv"?[[:space:]]*(//.*)?$'
+
+	if [ -f "${gameinfofile}" ]; then
+		# the search path survives a mod update, only add it when it is missing
+		if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
+			fn_script_log_info "Metamod:Source search path already set in ${gameinfofile}"
+		else
+			# insert the search path below Game_LowViolence as documented by Metamod:Source
+			logentry="line (Game csgo/addons/metamod) inserted into ${gameinfofile}"
+			echo -en "adding Metamod:Source search path in gameinfo.gi..."
+			sed -i -E "\\@${lowviolencepattern}@a\\\\t\\t\\tGame\\tcsgo/addons/metamod" "${gameinfofile}"
+			grep -Eq "${metamodpattern}" "${gameinfofile}"
+			exitcode=$?
+			# if the insert didn't happen, error out
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_script_log_fail "${logentry}"
+				fn_print_fail_eol_nl
+				core_exit.sh
+			else
+				fn_script_log_pass "${logentry}"
+				fn_print_ok_eol_nl
+			fi
+		fi
+	else
+		fn_script_log_fail "Unable to find ${gameinfofile}"
+		fn_print_fail_nl "Unable to find ${gameinfofile}"
+		core_exit.sh
+	fi
+}
+
+# Unlike the install counterpart this does not call core_exit.sh on failure:
+# command_mods_remove.sh ends with fn_script_log, which leaves exitcode alone,
+# while command_mods_install.sh ends with fn_script_log_pass, which resets it to 0.
+fn_mod_remove_gameinfo_gi_file() {
+	local gameinfofile="${modinstalldir}/gameinfo.gi"
+	local metamodpattern='^[[:space:]]*"?Game"?[[:space:]]+"?csgo/addons/metamod"?[[:space:]]*(//.*)?$'
+
+	if [ -f "${gameinfofile}" ]; then
+		# is the search path found? If so remove it and keep the rest of the file
+		if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
+			logentry="line (Game csgo/addons/metamod) removed from ${gameinfofile}"
+			echo -en "removing Metamod:Source search path in gameinfo.gi..."
+			# delete the line we inserted
+			sed -i -E "\\@${metamodpattern}@d" "${gameinfofile}"
+			if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
