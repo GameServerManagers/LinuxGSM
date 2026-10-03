@@ -77,6 +77,7 @@ declare -A server_details=(
 	['Max Players']="${maxplayers}"
 	['Mod Server Port']="${modserverport}"
 	['OldQueryPortNumber']="${oldqueryportnumber}"
+	['Owner ID']="${ownerid}"
 	['Port 401']="${port401}"
 	['Port IPv6']="${portipv6}"
 	['Port']="${port}"
