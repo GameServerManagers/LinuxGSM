@@ -1960,7 +1960,7 @@ fn_info_game_sdtd() {
 		fn_info_game_xml "serverpassword" "/ServerSettings/property[@name='ServerPassword']/@value"
 		fn_info_game_xml "port" "/ServerSettings/property[@name='ServerPort']/@value"
 		fn_info_game_xml "telnetenabled" "/ServerSettings/property[@name='TelnetEnabled']/@value"
-		fn_info_game_xml "telnetpass" "/ServerSettings/property[@name='TelnetPassword']/@value"
+		fn_info_game_xml "telnetpassword" "/ServerSettings/property[@name='TelnetPassword']/@value"
 		fn_info_game_xml "telnetport" "/ServerSettings/property[@name='TelnetPort']/@value"
 		fn_info_game_xml "worldname" "/ServerSettings/property[@name='GameWorld']/@value"
 	fi
@@ -1980,7 +1980,7 @@ fn_info_game_sdtd() {
 	if [ -z "${telnetpassword}" ]; then
 		telnetip="127.0.0.1"
 	fi
-	telnetpass="${telnetpass:-"NOT SET"}"
+	telnetpassword="${telnetpassword:-"NOT SET"}"
 	telnetport="${telnetport:-"0"}"
 	worldname="${worldname:-"NOT SET"}"
 
