@@ -180,6 +180,18 @@ fn_dl_steamcmd() {
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Missing configuration - Steam app metadata unavailable for AppID ${appid}"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Missing configuration - Steam app metadata unavailable for AppID ${appid}"
+			# Invalid platform: SteamCMD bug affecting some apps on Linux (e.g. Left 4 Dead 2, appid 222860).
+			# https://github.com/ValveSoftware/steam-for-linux/issues/11522
+			# Workaround: download the Windows depot once, then retry the Linux update with validate.
+			elif [ -n "$(grep -i "Invalid platform" "${steamcmdlog}" | tail -1)" ] && [ "${steamcmdforcewindows}" != "yes" ] && [ -z "${invalidplatformworkaround}" ]; then
+				invalidplatformworkaround="1"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				validateparam=("validate")
+				# Start the Linux retry with a clean SteamCMD log so earlier errors are not counted again.
+				rm -f "${steamcmdlog:?}"
+				counter=0
 			else
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Unknown error occurred"
 				fn_print_nl "Please provide content log to LinuxGSM developers https://linuxgsm.com/steamcmd-error"
