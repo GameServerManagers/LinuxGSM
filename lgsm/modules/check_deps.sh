@@ -272,7 +272,8 @@ fn_deps_detector() {
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return
-	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
+	# Checks classic and deb822 sources for an uncommented non-free component (non-free-firmware does not count).
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '^[[:space:]]*[^#[:space:]].*[[:space:]]non-free([[:space:]]|$)' /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources 2> /dev/null; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return
