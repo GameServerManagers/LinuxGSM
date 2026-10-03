@@ -158,6 +158,11 @@ fn_mod_tidy_files_list() {
 		sed -i "/^addons\/metamod\/sourcemod.vdf$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 
+	# Keep Metamod:Source when removing CounterStrikeSharp, but remove its own VDF.
+	if [ "${modcommand}" == "counterstrikesharp" ]; then
+		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+
 	# Remove common paths from deletion list (Add your sourcemod mod here)
 	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ]; then
 		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"
@@ -683,6 +688,66 @@ fn_mod_remove_liblist_gam_file() {
 			# if replacement back didn't happen, error out.
 			exitcode=$?
 			if [ "${exitcode}" -ne 0 ]; then
+				fn_script_log_fail "${logentry}"
+				fn_print_fail_eol_nl
+			else
+				fn_script_log_pass "${logentry}"
+				fn_print_ok_eol_nl
+			fi
+		fi
+	fi
+}
+
+# modifiers for gameinfo.gi to add/remove the Metamod:Source search path
+# Counter-Strike 2 only: the csgo paths below are specific to that game.
+fn_mod_install_gameinfo_gi_file() {
+	local gameinfofile="${modinstalldir}/gameinfo.gi"
+	local metamodpattern='^[[:space:]]*"?Game"?[[:space:]]+"?csgo/addons/metamod"?[[:space:]]*(//.*)?$'
+	local lowviolencepattern='^[[:space:]]*"?Game_LowViolence"?[[:space:]]+"?csgo_lv"?[[:space:]]*(//.*)?$'
+
+	if [ -f "${gameinfofile}" ]; then
+		# the search path survives a mod update, only add it when it is missing
+		if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
+			fn_script_log_info "Metamod:Source search path already set in ${gameinfofile}"
+		else
+			# insert the search path below Game_LowViolence as documented by Metamod:Source
+			logentry="line (Game csgo/addons/metamod) inserted into ${gameinfofile}"
+			echo -en "adding Metamod:Source search path in gameinfo.gi..."
+			sed -i -E "\\@${lowviolencepattern}@a\\\\t\\t\\tGame\\tcsgo/addons/metamod" "${gameinfofile}"
+			grep -Eq "${metamodpattern}" "${gameinfofile}"
+			exitcode=$?
+			# if the insert didn't happen, error out
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_script_log_fail "${logentry}"
+				fn_print_fail_eol_nl
+				core_exit.sh
+			else
+				fn_script_log_pass "${logentry}"
+				fn_print_ok_eol_nl
+			fi
+		fi
+	else
+		fn_script_log_fail "Unable to find ${gameinfofile}"
+		fn_print_fail_nl "Unable to find ${gameinfofile}"
+		core_exit.sh
+	fi
+}
+
+# Unlike the install counterpart this does not call core_exit.sh on failure:
+# command_mods_remove.sh ends with fn_script_log, which leaves exitcode alone,
+# while command_mods_install.sh ends with fn_script_log_pass, which resets it to 0.
+fn_mod_remove_gameinfo_gi_file() {
+	local gameinfofile="${modinstalldir}/gameinfo.gi"
+	local metamodpattern='^[[:space:]]*"?Game"?[[:space:]]+"?csgo/addons/metamod"?[[:space:]]*(//.*)?$'
+
+	if [ -f "${gameinfofile}" ]; then
+		# is the search path found? If so remove it and keep the rest of the file
+		if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
+			logentry="line (Game csgo/addons/metamod) removed from ${gameinfofile}"
+			echo -en "removing Metamod:Source search path in gameinfo.gi..."
+			# delete the line we inserted
+			sed -i -E "\\@${metamodpattern}@d" "${gameinfofile}"
+			if grep -Eq "${metamodpattern}" "${gameinfofile}"; then
 				fn_script_log_fail "${logentry}"
 				fn_print_fail_eol_nl
 			else
