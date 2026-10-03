@@ -53,6 +53,42 @@ fn_update_hyt_patchline_args() {
 	fi
 }
 
+# The downloader needs a Hytale account login (OAuth device code) the first time it runs, and again
+# if the saved credentials stop working. It waits for the login with no time limit, so it must
+# never run unattended without credentials, otherwise cron jobs hang.
+fn_update_hyt_auth() {
+	hytalecredentials="${serverfiles}/.hytale-downloader-credentials.json"
+	if [ -t 0 ] && [ -t 1 ]; then
+		hytaledownloadertimeout="900"
+		if [ ! -f "${hytalecredentials}" ]; then
+			echo -e ""
+			echo -e "${bold}${lightyellow}Hytale account login required${default}"
+			echo -e "The Hytale downloader needs you to log in with a Hytale account that owns the game."
+			echo -e "Open the URL shown below in a browser and approve the code. This is only needed once."
+			echo -e ""
+			fn_script_log_info "Hytale downloader login required"
+		fi
+	else
+		hytaledownloadertimeout="300"
+		if [ ! -f "${hytalecredentials}" ]; then
+			fn_print_failure_nl "Hytale downloader is not logged in"
+			echo -e "* Run ./${selfname} update in a terminal and approve the Hytale account login once."
+			fn_script_log_fail "Hytale downloader is not logged in: ${hytalecredentials} not found"
+			core_exit.sh
+		fi
+	fi
+}
+
+# Report a downloader timeout, which usually means it was waiting for a login.
+fn_update_hyt_timeout_check() {
+	if [ "${exitcode}" -eq 124 ]; then
+		fn_print_failure_nl "Hytale downloader timed out, it is probably waiting for a Hytale account login"
+		echo -e "* The saved credentials may have expired. Run ./${selfname} update in a terminal to log in again."
+		fn_script_log_fail "Hytale downloader timed out after ${hytaledownloadertimeout}s"
+		core_exit.sh
+	fi
+}
+
 fn_update_extract() {
 	extractdir="${tmpdir}/hytale-game"
 	rm -rf "${extractdir:?}"
@@ -116,8 +152,10 @@ fn_update_dl() {
 	echo -e "downloading file [ ${italic}${remotebuildfilename}${default} ]"
 	fn_sleep_time
 	cd "${serverfiles}" || exit
-	"${hytaledownloader}" -download-path "${tmpdir}/${remotebuildfilename}" "${hytalepatchlineargs[@]}" -skip-update-check
+	fn_update_hyt_auth
+	timeout --foreground "${hytaledownloadertimeout}" "${hytaledownloader}" -download-path "${tmpdir}/${remotebuildfilename}" "${hytalepatchlineargs[@]}" -skip-update-check
 	exitcode=$?
+	fn_update_hyt_timeout_check
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_failure_nl "Downloading ${remotebuildfilename}"
 		fn_script_log_fail "Downloading ${remotebuildfilename}"
@@ -162,8 +200,10 @@ fn_update_remotebuild() {
 	cd "${serverfiles}" || exit
 	remotebuildresponsefile="${tmpdir}/hytale-print-version-response.txt"
 	rm -f "${remotebuildresponsefile}"
-	"${hytaledownloader}" -print-version "${hytalepatchlineargs[@]}" -skip-update-check 2>&1 | tee "${remotebuildresponsefile}"
+	fn_update_hyt_auth
+	timeout --foreground "${hytaledownloadertimeout}" "${hytaledownloader}" -print-version "${hytalepatchlineargs[@]}" -skip-update-check 2>&1 | tee "${remotebuildresponsefile}"
 	exitcode=${PIPESTATUS[0]}
+	fn_update_hyt_timeout_check
 	remotebuildresponse="$(cat "${remotebuildresponsefile}")"
 	if [ -f "${lgsmlog}" ]; then
 		cat "${remotebuildresponsefile}" >> "${lgsmlog}"
