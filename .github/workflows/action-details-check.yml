@@ -85,7 +85,8 @@ jobs:
           fi
 
   details-check:
-    if: github.repository_owner == 'GameServerManagers'
+    # Skip (rather than fail the run) when create-matrix found nothing to check.
+    if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.matrix != '{"include":[]}'
     needs: create-matrix
     continue-on-error: true
     runs-on: ${{ matrix.runner }}
