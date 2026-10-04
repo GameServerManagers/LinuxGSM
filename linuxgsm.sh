@@ -175,14 +175,15 @@ fn_bootstrap_fetch_file() {
 			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e " ... FAIL"
-					if [ -f "${lgsmlog}" ]; then
+					# Logging functions come from core_messages.sh, which may not be loaded yet during bootstrap.
+					if [ -f "${lgsmlog}" ] && type fn_script_log_fail > /dev/null 2>&1; then
 						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
 					fi
 					core_exit.sh
 				else
 					echo -e " ... ERROR"
-					if [ -f "${lgsmlog}" ]; then
+					if [ -f "${lgsmlog}" ] && type fn_script_log_error > /dev/null 2>&1; then
 						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
@@ -191,7 +192,7 @@ fn_bootstrap_fetch_file() {
 				echo -en " ... OK"
 				sleep "0.1"
 				echo -e "\033\\r"
-				if [ -f "${lgsmlog}" ]; then
+				if [ -f "${lgsmlog}" ] && type fn_script_log_pass > /dev/null 2>&1; then
 					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 
