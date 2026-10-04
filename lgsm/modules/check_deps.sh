@@ -285,9 +285,22 @@ fn_deps_detector() {
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass check.
-			depstatus=0
-			deptocheck="${javaversion}"
+			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
+				# Java 25 installed but not the active java: installing it again would not change that.
+				if compgen -G "/usr/lib/jvm/*25*/bin/java" > /dev/null; then
+					depstatus=0
+					deptocheck="${javaversion}"
+					fn_print_warn_nl "Java 25 is installed but the active java is version ${javamajorversion:-unknown}. Select Java 25 with: sudo update-alternatives --config java"
+					fn_script_log_warn "Java 25 is installed but the active java is version ${javamajorversion:-unknown}"
+				else
+					depstatus=1
+				fi
+			else
+				# Added for users using Oracle JRE to bypass check.
+				depstatus=0
+				deptocheck="${javaversion}"
+			fi
 		else
 			depstatus=1
 		fi
