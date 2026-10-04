@@ -156,13 +156,17 @@ fn_install_missing_deps() {
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 
-		# Attempt automatic dependency installation
-		if [ "${autoinstall}" == "1" ]; then
-			sudo -n true > /dev/null 2>&1
+		# Attempt automatic dependency installation.
+		# Check for passwordless sudo first: sudo-rs (default sudo from Ubuntu 25.10) always asks
+		# for a password for sudo -v, even when the user has NOPASSWD.
+		if sudo -n true > /dev/null 2>&1; then
+			autodepinstall="0"
+		elif [ "${autoinstall}" == "1" ]; then
+			autodepinstall="1"
 		else
 			sudo -v > /dev/null 2>&1
+			autodepinstall="$?"
 		fi
-		autodepinstall="$?"
 
 		if [ "${monoinstalled}" == "false" ]; then
 			fn_install_mono_repo
