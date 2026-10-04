@@ -668,6 +668,11 @@ elif [ "${shortname}" == "ricochet" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "rsdw" ]; then
+	array_configs+=(DedicatedServer.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "rtcw" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
