@@ -56,15 +56,18 @@ fn_update_hyt_patchline_args() {
 # The downloader needs a Hytale account login (OAuth device code) the first time it runs, and again
 # if the saved credentials stop working. It waits for the login with no time limit, so it must
 # never run unattended without credentials, otherwise cron jobs hang.
+# Install always shows the login and waits: someone is watching, either in a terminal or in the
+# container logs (e.g. docker logs) during the first install.
 fn_update_hyt_auth() {
 	hytalecredentials="${serverfiles}/.hytale-downloader-credentials.json"
-	if [ -t 0 ] && [ -t 1 ]; then
+	if [ "${firstcommandname}" == "INSTALL" ] || { [ -t 0 ] && [ -t 1 ]; }; then
 		hytaledownloadertimeout="900"
 		if [ ! -f "${hytalecredentials}" ]; then
 			echo -e ""
 			echo -e "${bold}${lightyellow}Hytale account login required${default}"
 			echo -e "The Hytale downloader needs you to log in with a Hytale account that owns the game."
-			echo -e "Open the URL shown below in a browser and approve the code. This is only needed once."
+			echo -e "Open the URL shown below in a browser and approve the code within 15 minutes. This is only needed once."
+			echo -e "Running in Docker? The URL is also shown in the container logs (docker logs)."
 			echo -e ""
 			fn_script_log_info "Hytale downloader login required"
 		fi

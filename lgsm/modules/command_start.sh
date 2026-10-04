@@ -18,6 +18,33 @@ fn_start_jk2() {
 	TERM=screen tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
+# Hytale: show the server login URL that the server prints in the console after booting,
+# and send it as an alert, so the login can be approved without opening the console.
+fn_start_hyt_login() {
+	hytloginurl=""
+	for _ in {1..90}; do
+		hytloginurl=$(grep -a -oE "https://[^ ]*device/verify\?user_code=[A-Za-z0-9]+" "${consolelog}" 2> /dev/null | tail -1)
+		if [ -n "${hytloginurl}" ]; then
+			break
+		fi
+		sleep 1
+	done
+	echo -e ""
+	if [ -n "${hytloginurl}" ]; then
+		echo -e "${bold}${lightyellow}Hytale server login required${default}"
+		echo -e "Open the URL below in a browser and log in with a Hytale account that owns the game."
+		echo -e "The code expires in 10 minutes. This is only needed once; the server saves the login."
+		echo -e "${hytloginurl}"
+		fn_script_log_info "Hytale server login required: ${hytloginurl}"
+		alert="hytale-login"
+		alert.sh
+	else
+		fn_print_warn_nl "Hytale server login required, but no login URL was found in the console yet"
+		echo -e "* Run ./${selfname} send \"/auth login device\" and approve the code shown in the console."
+		fn_script_log_warn "Hytale server login required, but no login URL was found in the console"
+	fi
+}
+
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -47,6 +74,12 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
+
+	# Hytale: with no saved server login yet, have the server start its login (OAuth device code) on boot.
+	if [ "${shortname}" == "hyt" ] && [ ! -f "${systemdir}/auth.enc" ]; then
+		startparameters="${startparameters} --boot-command 'auth login device'"
+		hytloginpending="1"
+	fi
 
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
@@ -159,6 +192,9 @@ fn_start_tmux() {
 		elif [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "RESTART" ]; then
 			alert="restarted"
 			alert.sh
+		fi
+		if [ "${hytloginpending}" == "1" ]; then
+			fn_start_hyt_login
 		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
