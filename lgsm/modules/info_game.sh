@@ -1356,11 +1356,19 @@ fn_info_game_hz() {
 # Example: "ServerName": "SERVERNAME"
 # Filetype: json
 fn_info_game_hyt() {
+	# config.json is created by the server on first start.
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".MaxPlayers // empty"
+		fn_info_game_json "servername" ".ServerName // empty"
+		fn_info_game_json "serverpassword" ".Password // empty"
+	fi
 	configtype="json"
 	configip="${ip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"5520"}"
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: parameters
