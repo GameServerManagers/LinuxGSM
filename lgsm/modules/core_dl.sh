@@ -65,6 +65,7 @@ fn_dl_steamcmd() {
 	if [ -f "${steamcmdlog}" ]; then
 		rm -f "${steamcmdlog:?}"
 	fi
+	local invalidplatformworkaround=""
 	counter=0
 	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
@@ -139,7 +140,16 @@ fn_dl_steamcmd() {
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
-			# Invalid platform for app/update request.
+			# Invalid platform (SteamCMD bug, e.g. Left 4 Dead 2): retry once after a Windows platform download.
+			elif [ -n "$(grep -i "Invalid platform" "${steamcmdlog}" | tail -1)" ] && [ "${steamcmdforcewindows}" != "yes" ] && [ -z "${invalidplatformworkaround}" ]; then
+				invalidplatformworkaround="1"
+				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
+				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				validateparam=("validate")
+				rm -f "${steamcmdlog:?}"
+				counter=0
+			# Invalid platform for app/update request (after the workaround, or when forcing Windows).
 			elif [ -n "$(grep -i "Invalid platform" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform for AppID ${appid}"
 				fn_print_nl "Check steamcmdforcewindows setting and system architecture (x86_64 required for most servers)"
