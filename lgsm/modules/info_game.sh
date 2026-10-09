@@ -2013,7 +2013,6 @@ fn_info_game_sf() {
 	# Parameters
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
-	# Satisfactory 1.0+ has no separate query or beacon port.
 	queryport="${port}"
 	reliableport="${reliableport:-"0"}"
 }
