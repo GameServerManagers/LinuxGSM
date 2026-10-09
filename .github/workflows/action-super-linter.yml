@@ -37,7 +37,7 @@ jobs:
           npm install --no-save prettier prettier-plugin-sh prettier-plugin-jinja-template || true
 
       - name: Super-linter
-        uses: super-linter/super-linter@v8
+        uses: super-linter/super-linter@v9
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
