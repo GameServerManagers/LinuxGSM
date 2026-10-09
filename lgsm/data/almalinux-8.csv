@@ -6,7 +6,7 @@ ahl2
 ark
 arma3
 armar,libcurl,openssl-libs
-ats
+ats,libatomic
 av
 bb
 bb2,libcurl.i686
@@ -45,7 +45,7 @@ dys
 eco,libgdiplus
 em
 etl
-ets2
+ets2,libatomic
 fctr
 fof
 gmod,ncurses-libs.i686
@@ -54,6 +54,7 @@ hl2dm
 hldm
 hldms
 hw,zlib-devel
+hyt,java-25-openjdk
 hz
 ins
 inss
