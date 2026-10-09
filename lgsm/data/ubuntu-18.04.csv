@@ -6,7 +6,7 @@ ahl2
 ark
 arma3
 armar,libcurl4
-ats
+ats,libatomic1
 av
 pw
 bb
@@ -46,7 +46,7 @@ dys
 eco,libgdiplus
 em
 etl
-ets2
+ets2,libatomic1
 fctr
 fof
 gmod,libtinfo5:i386
@@ -55,6 +55,7 @@ hl2dm
 hldm
 hldms
 hw,lib32z1
+hyt,openjdk-25-jre
 hz
 ins
 inss
