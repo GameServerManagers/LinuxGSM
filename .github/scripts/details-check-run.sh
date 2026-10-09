@@ -32,7 +32,7 @@ for shortname in "$@"; do
 
 	servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" "lgsm/config-lgsm/${gameserver}/_default.cfg")
 	if [ -n "${servercfg}" ]; then
-		curl -fsS -o "config-${shortname}" "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${shortname}/${servercfg##*/}"
+		curl -fsS -o "config-${shortname}" "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${shortname}/${servercfg#\${*}/}"
 		config=$?
 		[ "${config}" -eq 0 ] && cat "config-${shortname}"
 		configresult=$(result "${config}")
