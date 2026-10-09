@@ -757,8 +757,12 @@ fn_info_game_ts3() {
 		fn_info_game_ini "httpqueryport" "query_http_port"
 		fn_info_game_ini "httpsqueryport" "query_https_port"
 		fn_info_game_ini "queryport" "query_port"
+		fn_info_game_ini "configqueryip" "query_ip"
 		fn_info_game_ini "sshqueryport" "query_ssh_port"
 	fi
+	# query_ip can list several addresses (e.g. "0.0.0.0, ::"), use the first.
+	configqueryip="${configqueryip%%,*}"
+	configqueryip="${configqueryip// /}"
 	configip="${configip:-"0.0.0.0"}"
 	dbplugin="${dbplugin:-"NOT SET"}"
 	fileport="${fileport:-"0"}"
@@ -1348,6 +1352,27 @@ fn_info_game_hz() {
 	queryport="${queryport:-"0"}"
 	rconport="$((port + 2))"
 	servername="${servername:-"NOT SET"}"
+}
+
+# Config Type: json
+# Parameters: true
+# Comment:
+# Example: "ServerName": "SERVERNAME"
+# Filetype: json
+fn_info_game_hyt() {
+	# config.json is created by the server on first start.
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".MaxPlayers // empty"
+		fn_info_game_json "servername" ".ServerName // empty"
+		fn_info_game_json "serverpassword" ".Password // empty"
+	fi
+	configtype="json"
+	configip="${ip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"5520"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: parameters
@@ -2396,6 +2421,8 @@ elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
 	fn_info_game_hz
+elif [ "${shortname}" == "hyt" ]; then
+	fn_info_game_hyt
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss
 elif [ "${shortname}" == "jc2" ]; then

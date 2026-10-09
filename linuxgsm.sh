@@ -70,17 +70,32 @@ core_modules.sh() {
 }
 
 # Bootstrap
+# Exits during bootstrap. core_exit.sh is only usable once core_modules.sh (which defines it)
+# and core_dl.sh (fn_fetch_module, which it uses) are loaded, so fall back to a plain exit.
+fn_bootstrap_exit() {
+	if type core_exit.sh > /dev/null 2>&1 && type fn_fetch_module > /dev/null 2>&1; then
+		core_exit.sh
+	else
+		exit "${1:-1}"
+	fi
+}
+
 # Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_trap() {
 	echo -e ""
-	echo -en "downloading ${local_filename}"
-	fn_print_canceled_eol_nl
-	fn_script_log_info "Downloading ${local_filename}...CANCELED"
 	rm -f "${local_filedir:?}/${local_filename}"
-	echo -en "downloading ${local_filename}"
-	fn_print_removed_eol_nl
-	fn_script_log_info "Downloading ${local_filename}...REMOVED"
-	core_exit.sh
+	# Message and logging functions come from core_messages.sh, which may not be loaded yet.
+	if type fn_print_canceled_eol_nl > /dev/null 2>&1; then
+		echo -en "downloading ${local_filename}"
+		fn_print_canceled_eol_nl
+		echo -en "downloading ${local_filename}"
+		fn_print_removed_eol_nl
+		fn_script_log_info "Downloading ${local_filename}...CANCELED"
+		fn_script_log_info "Downloading ${local_filename}...REMOVED"
+	else
+		echo -e "downloading ${local_filename} ... CANCELED (removed)"
+	fi
+	fn_bootstrap_exit 130
 }
 
 # Fetches modules from the Git repo during first download.
@@ -175,14 +190,15 @@ fn_bootstrap_fetch_file() {
 			if [ "${exitcode}" -ne 0 ]; then
 				if [ ${counter} -ge 2 ]; then
 					echo -e " ... FAIL"
-					if [ -f "${lgsmlog}" ]; then
+					# Logging functions come from core_messages.sh, which may not be loaded yet during bootstrap.
+					if [ -f "${lgsmlog}" ] && type fn_script_log_fail > /dev/null 2>&1; then
 						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
 					fi
-					core_exit.sh
+					fn_bootstrap_exit 1
 				else
 					echo -e " ... ERROR"
-					if [ -f "${lgsmlog}" ]; then
+					if [ -f "${lgsmlog}" ] && type fn_script_log_error > /dev/null 2>&1; then
 						fn_script_log_error "Downloading ${local_filename}..."
 						fn_script_log_error "${fileurl}"
 					fi
@@ -191,7 +207,7 @@ fn_bootstrap_fetch_file() {
 				echo -en " ... OK"
 				sleep "0.1"
 				echo -e "\033\\r"
-				if [ -f "${lgsmlog}" ]; then
+				if [ -f "${lgsmlog}" ] && type fn_script_log_pass > /dev/null 2>&1; then
 					fn_script_log_pass "Downloading ${local_filename}..."
 				fi
 

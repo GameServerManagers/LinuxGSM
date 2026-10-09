@@ -1,50 +1,50 @@
 #!/bin/bash
+# Splits the servers to check into shards (one job each) and a list of legacy servers.
+# Legacy servers need an older glibc than the hosted runners have, so they run in an ubuntu:20.04 container.
+# Writes shards.json (matrix) and legacy.txt (space-separated shortnames).
 
 ref="${LGSM_REF:-${GITHUB_REF#refs/heads/}}"
-curl "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${ref}/lgsm/data/serverlist.csv" | grep -v '^[[:blank:]]*$' > serverlist.csv
+maxshards="${DETAILS_CHECK_SHARDS:-12}"
+legacyservers="bfv bf1942 btl onset"
 
-echo -n "{" > "shortnamearray.json"
-echo -n "\"include\":[" >> "shortnamearray.json"
+if [ -f lgsm/data/serverlist.csv ]; then
+	serverlist="lgsm/data/serverlist.csv"
+else
+	curl -fsS "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${ref}/lgsm/data/serverlist.csv" -o serverlist.csv
+	serverlist="serverlist.csv"
+fi
 
-while read -r line; do
-	shortname=$(echo "$line" | awk -F, '{ print $1 }')
-	# If TARGETED_SHORTNAMES is set, skip servers not in the list
-	if [ -n "${TARGETED_SHORTNAMES:-}" ]; then
-		if ! echo "${TARGETED_SHORTNAMES}" | grep -qw "${shortname}"; then
-			continue
-		fi
+shortnames=()
+legacy=()
+while IFS=, read -r shortname _; do
+	[ -z "${shortname}" ] && continue
+	if [ -n "${TARGETED_SHORTNAMES:-}" ] && ! echo "${TARGETED_SHORTNAMES}" | grep -qw "${shortname}"; then
+		continue
 	fi
-	export shortname
-	servername=$(echo "$line" | awk -F, '{ print $2 }')
-	export servername
-	gamename=$(echo "$line" | awk -F, '{ print $3 }')
-	export gamename
-	distro=$(echo "$line" | awk -F, '{ print $4 }')
-	export distro
-	# Legacy servers that require older Ubuntu/Debian versions due to glibc compatibility
-	case "${shortname}" in
-		bfv | bf1942)
-			# Requires Ubuntu <= 22.04 or Debian <= 12 (glibc 2.31 compatible)
-			runner="ubuntu-22.04"
-			;;
-		btl | onset)
-			# Requires Ubuntu <= 20.04 or Debian <= 11 (glibc 2.31 compatible)
-			runner="ubuntu-20.04"
-			;;
-		*)
-			runner="ubuntu-latest"
-			;;
-	esac
-	{
-		echo -n "{"
-		echo -n "\"shortname\":"
-		echo -n "\"${shortname}\""
-		echo -n ",\"runner\":"
-		echo -n "\"${runner}\""
-		echo -n "},"
-	} >> "shortnamearray.json"
-done < <(tail -n +2 serverlist.csv)
-sed -i '$ s/.$//' "shortnamearray.json"
-echo -n "]" >> "shortnamearray.json"
-echo -n "}" >> "shortnamearray.json"
-rm serverlist.csv
+	if echo "${legacyservers}" | grep -qw "${shortname}"; then
+		legacy+=("${shortname}")
+	else
+		shortnames+=("${shortname}")
+	fi
+done < <(tail -n +2 "${serverlist}" | grep -v '^[[:blank:]]*$')
+
+count="${#shortnames[@]}"
+shards=$((count < maxshards ? count : maxshards))
+declare -a shard
+for i in "${!shortnames[@]}"; do
+	shard[i % shards]+="${shortnames[i]} "
+done
+
+{
+	echo -n '{"include":['
+	for ((i = 0; i < shards; i++)); do
+		[ "${i}" -gt 0 ] && echo -n ','
+		echo -n "{\"shard\":\"$((i + 1))/${shards}\",\"shortnames\":\"${shard[i]% }\"}"
+	done
+	echo -n ']}'
+} > shards.json
+
+echo -n "${legacy[*]}" > legacy.txt
+[ "${serverlist}" == "serverlist.csv" ] && rm serverlist.csv
+
+echo "Servers: ${count} in ${shards} shard(s), legacy: ${legacy[*]:-none}"
