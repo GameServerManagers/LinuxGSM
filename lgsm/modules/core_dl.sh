@@ -65,6 +65,7 @@ fn_dl_steamcmd() {
 	if [ -f "${steamcmdlog}" ]; then
 		rm -f "${steamcmdlog:?}"
 	fi
+	local invalidplatformworkaround=""
 	counter=0
 	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
@@ -139,16 +140,13 @@ fn_dl_steamcmd() {
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
 				core_exit.sh
-			# Invalid platform: SteamCMD bug affecting some apps on Linux (e.g. Left 4 Dead 2, appid 222860).
-			# https://github.com/ValveSoftware/steam-for-linux/issues/11522
-			# Workaround: download the Windows depot once, then retry the Linux update with validate.
+			# Invalid platform (SteamCMD bug, e.g. Left 4 Dead 2): retry once after a Windows platform download.
 			elif [ -n "$(grep -i "Invalid platform" "${steamcmdlog}" | tail -1)" ] && [ "${steamcmdforcewindows}" != "yes" ] && [ -z "${invalidplatformworkaround}" ]; then
 				invalidplatformworkaround="1"
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
 				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
 				validateparam=("validate")
-				# Start the Linux retry with a clean SteamCMD log so earlier errors are not counted again.
 				rm -f "${steamcmdlog:?}"
 				counter=0
 			# Invalid platform for app/update request (after the workaround, or when forcing Windows).
