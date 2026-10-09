@@ -32,7 +32,9 @@ for shortname in "$@"; do
 
 	servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" "lgsm/config-lgsm/${gameserver}/_default.cfg")
 	if [ -n "${servercfg}" ]; then
-		curl -fsS -o "config-${shortname}" "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${shortname}/${servercfg#\${*}/}"
+		cfgpath="${servercfg}"
+		[[ "${cfgpath}" == \$\{*\}/* ]] && cfgpath="${cfgpath#*\}/}"
+		curl -fsS -o "config-${shortname}" "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${shortname}/${cfgpath}"
 		config=$?
 		[ "${config}" -eq 0 ] && cat "config-${shortname}"
 		configresult=$(result "${config}")
