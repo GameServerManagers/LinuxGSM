@@ -13,10 +13,6 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # Get a proper URL for mods that don't provide a good one (optional)
 fn_script_log_info "Retrieving latest mods URLs"
 
-# Each lookup below costs a network request, and the GitHub API ones are charged
-# against a rate limit of only 60 requests per hour per IP address. Only look up
-# the mods that can actually be installed on this server.
-
 # Metamod (Half-life 1 Classic Engine)
 metamodversion="1.21.1-am"
 metamodlatestfile="metamod-${metamodversion}.zip"
@@ -69,7 +65,7 @@ metamodsourceurl="${metamodsourcedownloadurl}"
 # Metamod:Source 2.0
 metamodsource2version="2.0"
 metamodsource2scrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsource2version}/mmsource-latest-linux"
-if [ "${gamename}" == "Counter-Strike 2" ]; then
+if [ "${shortname}" == "cs2" ]; then
 	metamodsource2latestfile=$(wget "${metamodsource2scrapeurl}" -q -O -)
 fi
 metamodsource2downloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsource2version}"
@@ -89,7 +85,7 @@ sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${so
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-if [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
+if [ "${shortname}" == "csgo" ]; then
 	steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 fi
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
@@ -101,7 +97,7 @@ stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperla
 stripperurl="${stripperdownloadurl}"
 
 # CS2 Mods
-if [ "${gamename}" == "Counter-Strike 2" ]; then
+if [ "${shortname}" == "cs2" ]; then
 	counterstrikesharprelease=$(curl --connect-timeout 3 -sL https://api.github.com/repos/roflmuffin/CounterStrikeSharp/releases/latest)
 	counterstrikesharplastbuild=$(printf '%s\n' "${counterstrikesharprelease}" | jq '.assets[]? | select(.name | startswith("counterstrikesharp-with-runtime-linux-") and endswith(".zip"))' 2> /dev/null)
 	counterstrikesharplatestfile=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.name')
@@ -109,7 +105,7 @@ if [ "${gamename}" == "Counter-Strike 2" ]; then
 fi
 
 # CS:GO Mods
-if [ "${gamename}" == "Counter-Strike: Global Offensive" ]; then
+if [ "${shortname}" == "csgo" ]; then
 	get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
 	get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
 	get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
@@ -129,20 +125,20 @@ fi
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-if [ "${gamename}" == "Rust" ]; then
+if [ "${shortname}" == "rust" ]; then
 	carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 fi
 
 # Oxide
-if [ "${gamename}" == "Rust" ]; then
+if [ "${shortname}" == "rust" ]; then
 	oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-elif [ "${gamename}" == "Hurtworld" ]; then
+elif [ "${shortname}" == "hw" ]; then
 	oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-elif [ "${gamename}" == "7 Days To Die" ]; then
+elif [ "${shortname}" == "sdtd" ]; then
 	oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 fi
 
-if [ "${gamename}" == "Valheim" ]; then
+if [ "${shortname}" == "vh" ]; then
 	# Valheim Plus
 	valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 	# Valheim BepInEx
