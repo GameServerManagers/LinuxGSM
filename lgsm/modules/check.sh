@@ -47,14 +47,14 @@ if [ "$(whoami)" != "root" ]; then
 	done
 fi
 
-allowed_commands_array=(BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE)
+allowed_commands_array=(BACKUP CONSOLE DEBUG DETAILS MAP-COMPRESSOR FASTDL MODS-INSTALL MODS-REMOVE MODS-UPDATE MONITOR POST-DETAILS RESTART START STOP TEST-ALERT CHANGE-PASSWORD UPDATE UPDATE-LGSM VALIDATE WIPE WORKSHOP-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_logs.sh
 	fi
 done
 
-allowed_commands_array=(BACKUP DEBUG DETAILS RESTART START UPDATE)
+allowed_commands_array=(BACKUP DEBUG DETAILS RESTART START UPDATE WORKSHOP-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_deps.sh
@@ -77,7 +77,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(DEBUG RESTART START UPDATE VALIDATE CHECK-UPDATE)
+allowed_commands_array=(DEBUG RESTART START UPDATE VALIDATE CHECK-UPDATE WORKSHOP-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		if [ "${appid}" ]; then
@@ -86,7 +86,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR RESTART START STOP UPDATE VALIDATE POST-DETAILS)
+allowed_commands_array=(CHANGE-PASSWORD DETAILS MONITOR RESTART START STOP UPDATE VALIDATE POST-DETAILS WORKSHOP-UPDATE)
 for allowed_command in "${allowed_commands_array[@]}"; do
 	if [ "${allowed_command}" == "${commandname}" ]; then
 		check_status.sh
@@ -106,3 +106,13 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 		check_gamedig.sh
 	fi
 done
+
+if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ]; then
+	allowed_commands_array=(DEBUG DETAILS POST-DETAILS RESTART START)
+	for allowed_command in "${allowed_commands_array[@]}"; do
+		if [ "${allowed_command}" == "${commandname}" ] && { [ -n "${workshopmods}" ] || [ -d "${serverfiles}/workshop" ]; }; then
+			workshop_core.sh
+			fn_workshop_mods_startparameters
+		fi
+	done
+fi

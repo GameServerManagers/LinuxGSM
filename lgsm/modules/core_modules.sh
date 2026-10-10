@@ -181,6 +181,11 @@ command_wipe.sh() {
 	fn_fetch_module
 }
 
+command_workshop_update.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -288,6 +293,13 @@ mods_core.sh() {
 }
 
 mods_list.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+# Workshop
+
+workshop_core.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
