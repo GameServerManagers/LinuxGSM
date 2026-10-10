@@ -31,6 +31,8 @@ elif [ "${shortname}" == "dodr" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "hw" ]; then
 	ramrequirementgb="3"
+elif [ "${shortname}" == "hyt" ]; then
+	ramrequirementgb="4"
 elif [ "${shortname}" == "mc" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "pmc" ]; then

@@ -18,6 +18,55 @@ fn_start_jk2() {
 	TERM=screen tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
+# Hytale: after the server boots, check whether it logged in. If it didn't (no saved login, or one that
+# can't be decrypted, e.g. created on another machine or container), start the login, then show the
+# login URL and send it as an alert, so it can be approved without opening the console.
+# Prints the server console: the console log, or the tmux pane when console logging is off.
+fn_start_hyt_console() {
+	if [ "${consolelogging}" == "off" ]; then
+		TERM=screen tmux -L "${socketname}" capture-pane -p -J -S - -t "${sessionname}" 2> /dev/null
+	else
+		cat "${consolelog}" 2> /dev/null
+	fi
+}
+
+fn_start_hyt_login() {
+	hytloginurl=""
+	local hytloginsent="${hytloginpending}"
+	for _ in {1..120}; do
+		hytloginurl=$(fn_start_hyt_console | grep -a -oE "https://[^ ]*device/verify\?user_code=[A-Za-z0-9]+" | tail -1)
+		if [ -n "${hytloginurl}" ]; then
+			break
+		fi
+		# Logged in with the saved server login: nothing to do.
+		if fn_start_hyt_console | grep -a -q "Authentication successful"; then
+			fn_script_log_info "Hytale server login restored from saved credentials"
+			return
+		fi
+		# Booted without a usable login: ask the server to start one.
+		if [ "${hytloginsent}" != "1" ] && fn_start_hyt_console | grep -a -q "Hytale Server Booted" && fn_start_hyt_console | grep -a -q "No server tokens configured"; then
+			fn_script_log_info "Hytale server has no usable saved login, starting login"
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "auth login device" ENTER
+			hytloginsent="1"
+		fi
+		sleep 1
+	done
+	echo -e ""
+	if [ -n "${hytloginurl}" ]; then
+		echo -e "${bold}${lightyellow}Hytale server login required${default}"
+		echo -e "Open the URL below in a browser and log in with a Hytale account that owns the game."
+		echo -e "The code expires in 10 minutes. This is only needed once; the server saves the login."
+		echo -e "${hytloginurl}"
+		fn_script_log_info "Hytale server login required: ${hytloginurl}"
+		alert="hytale-login"
+		alert.sh
+	else
+		fn_print_warn_nl "Hytale server login required, but no login URL was found in the console yet"
+		echo -e "* Run ./${selfname} send \"/auth login device\" and approve the code shown in the console."
+		fn_script_log_warn "Hytale server login required, but no login URL was found in the console"
+	fi
+}
+
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -47,6 +96,13 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
+
+	# Hytale: with no saved server login file, have the server start its login (OAuth device code) on boot.
+	# A saved login that can't be used is handled after boot by fn_start_hyt_login.
+	if [ "${shortname}" == "hyt" ] && [ ! -f "${systemdir}/auth.enc" ]; then
+		startparameters="${startparameters} --boot-command 'auth login device'"
+		hytloginpending="1"
+	fi
 
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
@@ -159,6 +215,9 @@ fn_start_tmux() {
 		elif [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "RESTART" ]; then
 			alert="restarted"
 			alert.sh
+		fi
+		if [ "${shortname}" == "hyt" ]; then
+			fn_start_hyt_login
 		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null

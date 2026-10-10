@@ -680,6 +680,11 @@ update_fctr.sh() {
 	fn_fetch_module
 }
 
+update_hyt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_jk2.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

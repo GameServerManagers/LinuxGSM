@@ -165,7 +165,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "/bin/bash ./${selfname} fu")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} force-update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} fu")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update-restart")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ur")" != "0" ]]; then
 		fn_print_dots "Checking update"
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server"
@@ -211,23 +211,23 @@ fn_monitor_check_session() {
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
-		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with old type tmux session are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
-		pkill -f "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
