@@ -365,6 +365,10 @@ fn_workshop_apply() {
 
 # Saves the resolved mod order so start can build the mod list without querying Steam.
 fn_workshop_save_list() {
+	if [ "${#workshopitems[@]}" -eq 0 ]; then
+		rm -f "${workshopmodlist}"
+		return
+	fi
 	{
 		echo "# workshopmods=${workshopmods}"
 		printf '%s\n' "${workshopitems[@]}"
@@ -391,11 +395,7 @@ fn_workshop_update() {
 		fn_print "\n"
 		fn_script_log_info "No update available: ${remotelocation}"
 		if [ "${commandname}" != "CHECK-UPDATE" ]; then
-			if [ "${#workshopitems[@]}" -eq 0 ]; then
-				rm -f "${workshopmodlist}"
-			else
-				fn_workshop_save_list
-			fi
+			fn_workshop_save_list
 		fi
 		return
 	fi
