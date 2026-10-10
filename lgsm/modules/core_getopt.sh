@@ -18,6 +18,7 @@ cmd_restart=("r;restart" "command_restart.sh" "Restart the server.")
 cmd_details=("dt;details" "command_details.sh" "Display server information.")
 cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
 cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
+cmd_toggle_cronjobs=("tc;toggle-cronjobs" "command_toggle_cronjobs.sh" "Install and Uninstall cronjobs automatically.")
 cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
@@ -83,6 +84,9 @@ fi
 
 # Backup.
 currentopt+=("${cmd_backup[@]}")
+
+# Install Cronjobs
+currentopt+=("${cmd_toggle_cronjobs[@]}")
 
 # Console & Debug.
 currentopt+=("${cmd_console[@]}" "${cmd_debug[@]}")
