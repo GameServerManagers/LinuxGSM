@@ -1,0 +1,11 @@
+# Store the cache in a temporary location
+cache-dir = "/tmp/.ruff_cache"
+
+# Same as Black
+line-length = 88
+
+# Oldest Python on supported distros (Ubuntu 20.04)
+target-version = "py38"
+
+[lint]
+ignore = ["E203"]
