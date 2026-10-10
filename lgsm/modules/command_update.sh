@@ -45,6 +45,11 @@ else
 	update_steamcmd.sh
 fi
 
+if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ]; } && { [ -n "${workshopmods}" ] || [ -d "${serverfiles}/workshop" ]; }; then
+	workshop_core.sh
+	fn_workshop_update
+fi
+
 # remove update lockfile.
 rm -f "${lockdir:?}/update.lock"
 
