@@ -211,23 +211,23 @@ fn_monitor_check_session() {
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
-		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with old type tmux session are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
-		pkill -f "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
