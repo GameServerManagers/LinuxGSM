@@ -322,18 +322,12 @@ fn_workshop_remove() {
 	fn_script_log_pass "Removing ${title} (${item})"
 }
 
+# Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
 fn_workshop_apply() {
-	date '+%s' > "${lockdir:?}/update.lock"
 	local item
-	if [ "${#workshopupdates[@]}" -gt 0 ]; then
-		fn_print_start_nl "${remotelocation}"
-		fn_workshop_download "${workshopupdates[@]}"
-		for item in "${workshopupdates[@]}"; do
-			if [[ " ${workshopfailed[*]} " != *" ${item} "* ]]; then
-				fn_workshop_install "${item}"
-			fi
-		done
-	fi
+	for item in "${workshopinstalls[@]}"; do
+		fn_workshop_install "${item}"
+	done
 	for item in "${workshopremovals[@]}"; do
 		fn_workshop_remove "${item}"
 	done
@@ -394,6 +388,23 @@ fn_workshop_update() {
 	fi
 
 	fn_workshop_save_list
+	date '+%s' > "${lockdir:?}/update.lock"
+	workshopinstalls=()
+	workshopfailed=()
+	if [ "${#workshopupdates[@]}" -gt 0 ]; then
+		fn_print_start_nl "${remotelocation}"
+		fn_workshop_download "${workshopupdates[@]}"
+		for item in "${workshopupdates[@]}"; do
+			if [[ " ${workshopfailed[*]} " != *" ${item} "* ]]; then
+				workshopinstalls+=("${item}")
+			fi
+		done
+	fi
+	if [ "${#workshopinstalls[@]}" -eq 0 ] && [ "${#workshopremovals[@]}" -eq 0 ]; then
+		rm -rf "${workshopdldir:?}"
+		return
+	fi
+
 	check_status.sh
 	if [ "${status}" == "0" ]; then
 		fn_workshop_apply
