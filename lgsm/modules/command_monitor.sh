@@ -291,9 +291,9 @@ fn_monitor_query() {
 			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 			# querydelay
 			if [ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-				fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}"
+				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 				fn_print_delay_eol_nl
-				fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+				fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
 				fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
 				fn_script_log_info "Server started: $(date -d "@$(head -n 1 "${lockdir}/${selfname}-started.lock")")"
 				fn_script_log_info "Current time: $(date)"
@@ -364,7 +364,7 @@ fn_monitor_query() {
 		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}"
+			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 			fn_print_wait_eol
 			fn_sleep_time_1
 			totalseconds=$((totalseconds + 1))
