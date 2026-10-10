@@ -63,7 +63,7 @@ jobs:
             else
               echo "Targeted servers: $shortnames"
               echo "mode=targeted" >> "$GITHUB_OUTPUT"
-              printf '%s\n' $shortnames > targeted_shortnames.txt
+              echo "$shortnames" > targeted_shortnames.txt
             fi
           fi
 

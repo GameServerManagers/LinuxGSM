@@ -30,3 +30,7 @@ indent_size = 4
 [*.py]
 indent_style = space
 indent_size = 4
+
+# Markdown Files
+[*.md]
+indent_size = unset
