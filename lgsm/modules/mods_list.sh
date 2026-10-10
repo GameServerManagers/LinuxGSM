@@ -57,18 +57,37 @@ amxxtsurl="${amxxtsdownloadurl}"
 # Metamod:Source
 metamodsourceversion="1.12"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"
-metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
+if [ "${engine}" == "source" ]; then
+	metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
+fi
 metamodsourcedownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsourceversion}"
 metamodsourceurl="${metamodsourcedownloadurl}"
+# Metamod:Source 2.0
+metamodsource2version="2.0"
+metamodsource2scrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsource2version}/mmsource-latest-linux"
+if [ "${shortname}" == "cs2" ]; then
+	metamodsource2latestfile=$(wget "${metamodsource2scrapeurl}" -q -O -)
+fi
+metamodsource2downloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsource2version}"
+metamodsource2url="${metamodsource2downloadurl}"
 # Sourcemod
-sourcemodversion="1.13"
+# Use the compatible stable SourceMod branch for Counter-Strike: Global Offensive.
+if [ "${shortname}" == "csgo" ]; then
+	sourcemodversion="1.12"
+else
+	sourcemodversion="1.13"
+fi
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodversion}/sourcemod-latest-linux"
-sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
+if [ "${engine}" == "source" ]; then
+	sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
+fi
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodversion}"
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+if [ "${shortname}" == "csgo" ]; then
+	steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+fi
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # Stripper:Source
@@ -77,35 +96,54 @@ stripperlatestfile="stripper-${stripperversion}-linux.tar.gz"
 stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperlatestfile}"
 stripperurl="${stripperdownloadurl}"
 
+# CS2 Mods
+if [ "${shortname}" == "cs2" ]; then
+	counterstrikesharprelease=$(curl --connect-timeout 3 -sL https://api.github.com/repos/roflmuffin/CounterStrikeSharp/releases/latest)
+	counterstrikesharplastbuild=$(printf '%s\n' "${counterstrikesharprelease}" | jq '.assets[]? | select(.name | startswith("counterstrikesharp-with-runtime-linux-") and endswith(".zip"))' 2> /dev/null)
+	counterstrikesharplatestfile=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.name')
+	counterstrikesharplatestlink=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.browser_download_url')
+fi
+
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
-get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
-get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
-csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
-csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
-csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
-csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
-csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
-csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
-gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
-gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
-gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
-movementapilatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
-movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
-movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+if [ "${shortname}" == "csgo" ]; then
+	get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+	get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
+	get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
+	csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
+	csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
+	csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
+	csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+	csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
+	csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
+	gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+	gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
+	gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
+	movementapilatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+	movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
+	movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+fi
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+if [ "${shortname}" == "rust" ]; then
+	carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+fi
 
 # Oxide
-oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-# Valheim Plus
-valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
-# Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+if [ "${shortname}" == "rust" ]; then
+	oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+elif [ "${shortname}" == "hw" ]; then
+	oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+elif [ "${shortname}" == "sdtd" ]; then
+	oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+fi
+
+if [ "${shortname}" == "vh" ]; then
+	# Valheim Plus
+	valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+	# Valheim BepInEx
+	bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+fi
 
 # Define mods information (required)
 
@@ -122,7 +160,7 @@ modseparator="MOD"
 # [2] 	| "Pretty Name": the common name people use to call the mod that will be displayed to the user
 # [3] 	| "URL": link to the mod archive file; can be a variable previously defined while scraping a URL
 # [4] 	| "filename": the output filename
-# [5]	| "modsubdirs": name of a subfolder within the archive to extract as the install root (use "0" to extract all contents)
+# [5]	| "modsubdirs": name of (or path to) a subfolder within the archive to extract as the install root (use "0" to extract all contents)
 # [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
 # [7] 	| "modinstalldir": the directory in which to install the mode (use LGSM dir variables such as ${systemdir})
 # [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating; for files to keep upon uninstall, see fn_mod_tidy_files_list from mods_core.sh
@@ -157,7 +195,14 @@ mod_info_sourcemod=(MOD "sourcemod" "SourceMod" "${sourcemodurl}" "${sourcemodla
 mod_info_steamworks=(MOD "steamworks" "SteamWorks" "${steamworksurl}" "${steamworkslatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KyleSanderson/SteamWorks" "Exposing SteamWorks functions to SourcePawn")
 mod_info_stripper=(MOD "stripper" "Stripper Source" "${stripperurl}" "${stripperlatestfile}" "0" "LowercaseOff" "${systemdir}" "addons/stripper/maps;" "ENGINES" "Counter-Strike: Global Offensive;Counter-Strike: Source;Day of Defeat: Source;Half Life: Deathmatch;Half Life 2: Deathmatch;Insurgency;Left 4 Dead;Left 4 Dead 2;Nuclear Dawn;Team Fortress 2;" "NOTGAMES" "http://www.bailopan.net/stripper/" "Add or remove objects from map (requires MetaMod)")
 
+# CS2 Mods
+mod_info_metamodsource2=(MOD "metamodsource2" "Metamod:Source 2.0" "${metamodsource2url}" "${metamodsource2latestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "ENGINES" "Counter-Strike 2;" "NOTGAMES" "https://www.metamodsource.net" "Plugins Framework (Dev Build)")
+mod_info_counterstrikesharp=(MOD "counterstrikesharp" "CounterStrikeSharp" "${counterstrikesharplatestlink}" "${counterstrikesharplatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike 2;" "NOTGAMES" "https://docs.cssharp.dev/" "Write server plugins in C# (requires Metamod:Source 2.0)")
+
 # CS:GO Mods
+# NoLobbyReservation is pinned to a reviewed commit: it has no releases and is compiled from source on install.
+nolobbyreservationcommit="003ab19fcf5e6eb67d21794218a4dc387d2923ca"
+mod_info_nolobbyreservation=(MOD "nolobbyreservation" "NoLobbyReservation" "https://github.com/eldoradoel/NoLobbyReservation/archive/${nolobbyreservationcommit}.zip" "NoLobbyReservation-${nolobbyreservationcommit}.zip" "NoLobbyReservation-${nolobbyreservationcommit}/csgo" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/eldoradoel/NoLobbyReservation" "Allows players to connect without a Steam lobby reservation - Required for standalone CS:GO clients to connect (requires SourceMod and MetaMod)")
 mod_info_gokz=(MOD "gokz" "GOKZ" "${gokzlatestlink}" "${gokzlatestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/KZGlobalTeam/gokz" "GOKZ ${gokzlatestversion} - Implements the KZ game mode (requires SourceMod and MetaMod)")
 mod_info_ttt=(MOD "ttt" "Trouble in Terrorist Town" "https://csgottt.com/downloads/ttt-latest-dev-${sourcemodversion}.zip" "ttt-latest.zip" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/Bara/TroubleinTerroristTown" "Implements the TTT game mode (requires SourceMod and MetaMod)")
 mod_info_get5=(MOD "get5" "Get 5" "${get5latestfilelink}" "${get5latestfile}" "0" "LowercaseOff" "${systemdir}" "cfg;addons/sourcemod/configs;" "ENGINES" "Counter-Strike: Global Offensive;" "NOTGAMES" "https://github.com/splewis/get5" "Plugin for competitive matches/scrims (requires SourceMod and MetaMod)")
@@ -211,4 +256,4 @@ mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "BepInExPack_Valheim" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")
+mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_metamodsource2[@]}" "${mod_info_counterstrikesharp[@]}" "${mod_info_sourcemod[@]}" "${mod_info_nolobbyreservation[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")

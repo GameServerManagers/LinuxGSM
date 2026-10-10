@@ -730,7 +730,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "iw3.0" "ioquake3" "pw" "qfusion" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -754,7 +754,7 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "hyt" ] || [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
@@ -1131,6 +1131,13 @@ fn_info_messages_hz() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_hyt() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ins() {
 	{
 		fn_port "header"
@@ -1412,6 +1419,20 @@ fn_info_messages_ro() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_rsdw() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Game Settings${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}World name:\t${default}${worldname}"
+		echo -e "${lightblue}Owner ID:\t${default}${ownerid}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_rtcw() {
 	{
 		fn_port "header"
@@ -1502,8 +1523,7 @@ fn_info_messages_sf() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "Beacon" beaconport udp
+		fn_port "Server API" port tcp
 		fn_port "ReliableMessaging" reliableport tcp
 	} | column -s $'\t' -t
 }
@@ -1860,6 +1880,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_hw
 	elif [ "${shortname}" == "hz" ]; then
 		fn_info_messages_hz
+	elif [ "${shortname}" == "hyt" ]; then
+		fn_info_messages_hyt
 	elif [ "${shortname}" == "ins" ]; then
 		fn_info_messages_ins
 	elif [ "${shortname}" == "inss" ]; then
@@ -1914,6 +1936,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_qw
 	elif [ "${shortname}" == "ro" ]; then
 		fn_info_messages_ro
+	elif [ "${shortname}" == "rsdw" ]; then
+		fn_info_messages_rsdw
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_messages_rtcw
 	elif [ "${shortname}" == "samp" ]; then

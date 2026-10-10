@@ -757,8 +757,12 @@ fn_info_game_ts3() {
 		fn_info_game_ini "httpqueryport" "query_http_port"
 		fn_info_game_ini "httpsqueryport" "query_https_port"
 		fn_info_game_ini "queryport" "query_port"
+		fn_info_game_ini "configqueryip" "query_ip"
 		fn_info_game_ini "sshqueryport" "query_ssh_port"
 	fi
+	# query_ip can list several addresses (e.g. "0.0.0.0, ::"), use the first.
+	configqueryip="${configqueryip%%,*}"
+	configqueryip="${configqueryip// /}"
 	configip="${configip:-"0.0.0.0"}"
 	dbplugin="${dbplugin:-"NOT SET"}"
 	fileport="${fileport:-"0"}"
@@ -1350,6 +1354,27 @@ fn_info_game_hz() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: true
+# Comment:
+# Example: "ServerName": "SERVERNAME"
+# Filetype: json
+fn_info_game_hyt() {
+	# config.json is created by the server on first start.
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "maxplayers" ".MaxPlayers // empty"
+		fn_info_game_json "servername" ".ServerName // empty"
+		fn_info_game_json "serverpassword" ".Password // empty"
+	fi
+	configtype="json"
+	configip="${ip:-"0.0.0.0"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"5520"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: parameters
 # Parameters: true
 # Comment:
@@ -1799,6 +1824,28 @@ fn_info_game_ro() {
 	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_rsdw() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "ownerid" "OwnerId"
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "serverpassword" "WorldPassword"
+		fn_info_game_ini "worldname" "DefaultWorldName"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	ownerid="${ownerid:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	worldname="${worldname:-"NOT SET"}"
+}
+
 # Config Type: QuakeC
 # Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
@@ -1960,7 +2007,7 @@ fn_info_game_sdtd() {
 		fn_info_game_xml "serverpassword" "/ServerSettings/property[@name='ServerPassword']/@value"
 		fn_info_game_xml "port" "/ServerSettings/property[@name='ServerPort']/@value"
 		fn_info_game_xml "telnetenabled" "/ServerSettings/property[@name='TelnetEnabled']/@value"
-		fn_info_game_xml "telnetpass" "/ServerSettings/property[@name='TelnetPassword']/@value"
+		fn_info_game_xml "telnetpassword" "/ServerSettings/property[@name='TelnetPassword']/@value"
 		fn_info_game_xml "telnetport" "/ServerSettings/property[@name='TelnetPort']/@value"
 		fn_info_game_xml "worldname" "/ServerSettings/property[@name='GameWorld']/@value"
 	fi
@@ -1980,7 +2027,7 @@ fn_info_game_sdtd() {
 	if [ -z "${telnetpassword}" ]; then
 		telnetip="127.0.0.1"
 	fi
-	telnetpass="${telnetpass:-"NOT SET"}"
+	telnetpassword="${telnetpassword:-"NOT SET"}"
 	telnetport="${telnetport:-"0"}"
 	worldname="${worldname:-"NOT SET"}"
 
@@ -1991,8 +2038,7 @@ fn_info_game_sf() {
 	# Parameters
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	beaconport="${beaconport:-"0"}"
+	queryport="${port}"
 	reliableport="${reliableport:-"0"}"
 }
 
@@ -2375,6 +2421,8 @@ elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
 	fn_info_game_hz
+elif [ "${shortname}" == "hyt" ]; then
+	fn_info_game_hyt
 elif [ "${shortname}" == "inss" ]; then
 	fn_info_game_inss
 elif [ "${shortname}" == "jc2" ]; then
@@ -2427,6 +2475,8 @@ elif [ "${shortname}" == "qw" ]; then
 	fn_info_game_qw
 elif [ "${shortname}" == "ro" ]; then
 	fn_info_game_ro
+elif [ "${shortname}" == "rsdw" ]; then
+	fn_info_game_rsdw
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_game_rtcw
 elif [ "${shortname}" == "rust" ]; then

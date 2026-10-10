@@ -220,6 +220,7 @@ fn_install_server_files() {
 	else
 		fn_print_fail_nl "Installing ${gamename} Server failed, missing default configuration"
 		fn_script_log_fail "Installing ${gamename} Server failed, missing default configuration"
+		core_exit.sh
 	fi
 	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
@@ -256,6 +257,8 @@ elif [ "${shortname}" == "mta" ]; then
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
 	install_factorio_save.sh
+elif [ "${shortname}" == "hyt" ]; then
+	update_hyt.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "vints" ]; then

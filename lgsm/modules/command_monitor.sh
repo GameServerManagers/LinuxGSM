@@ -76,7 +76,7 @@ fn_monitor_check_starting() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} start")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} start")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} st")" != "0" ]]; then
 		fn_print_dots "Checking start"
 		fn_print_checking_eol
 		fn_print_info "Checking start: LinuxGSM is starting"
@@ -99,7 +99,7 @@ fn_monitor_check_stopping() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} stop")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} stop")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} sp")" != "0" ]]; then
 		fn_print_dots "Checking stop"
 		fn_print_checking_eol
 		fn_print_info "Checking stop: LinuxGSM is stopping"
@@ -165,7 +165,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "/bin/bash ./${selfname} fu")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} u")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} force-update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} fu")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update-restart")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ur")" != "0" ]]; then
 		fn_print_dots "Checking update"
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server"
@@ -211,23 +211,23 @@ fn_monitor_check_session() {
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
-		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with old type tmux session are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
-		pkill -f "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
@@ -291,9 +291,9 @@ fn_monitor_query() {
 			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 			# querydelay
 			if [ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-				fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}"
+				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 				fn_print_delay_eol_nl
-				fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+				fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
 				fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
 				fn_script_log_info "Server started: $(date -d "@$(head -n 1 "${lockdir}/${selfname}-started.lock")")"
 				fn_script_log_info "Current time: $(date)"
@@ -364,7 +364,7 @@ fn_monitor_query() {
 		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}"
+			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 			fn_print_wait_eol
 			fn_sleep_time_1
 			totalseconds=$((totalseconds + 1))

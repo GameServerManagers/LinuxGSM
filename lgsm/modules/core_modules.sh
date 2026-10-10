@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.2.0"
+modulesversion="v26.3.0"
 
 # Core
 
@@ -676,6 +676,11 @@ update_etl.sh() {
 }
 
 update_fctr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_hyt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

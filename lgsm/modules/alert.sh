@@ -169,6 +169,17 @@ fn_alert_backup() {
 	alertcolourdec="52480"
 }
 
+fn_alert_hytale_login() {
+	fn_script_log_info "Sending alert: ${selfname} needs a Hytale server login"
+	alertaction="Login Required"
+	alertemoji="🔑"
+	alertsound="2"
+	alertmessage="${selfname} needs a Hytale server login. Open ${hytloginurl} and log in with a Hytale account that owns the game. The code expires in 10 minutes."
+	# Blue
+	alertcolourhex="#1e90ff"
+	alertcolourdec="2003199"
+}
+
 fn_alert_permissions() {
 	fn_script_log_info "Sending alert: ${selfname} has permissions issues"
 	alertaction="Checked Permissions"
@@ -250,6 +261,8 @@ elif [ "${alert}" == "update-linuxgsm" ]; then
 	fn_alert_update_linuxgsm
 elif [ "${alert}" == "backup" ]; then
 	fn_alert_backup
+elif [ "${alert}" == "hytale-login" ]; then
+	fn_alert_hytale_login
 else
 	fn_print_fail_nl "Missing alert type"
 	fn_script_log_fail "Missing alert type"

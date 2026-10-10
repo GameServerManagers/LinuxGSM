@@ -151,6 +151,11 @@ if [ "${engine}" == "unity3d" ] && [[ "${modprettyname}" == *"Oxide"* ]]; then
 	unset exitbypass
 fi
 
+# Remove the Metamod:Source search path for CS2.
+if [ "${modcommand}" == "metamodsource2" ]; then
+	fn_mod_remove_gameinfo_gi_file
+fi
+
 # Remove/modify existing liblist.gam file for Metamod
 if [ "${modcommand}" == "metamod" ]; then
 	fn_mod_remove_liblist_gam_file

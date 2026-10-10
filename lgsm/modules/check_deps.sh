@@ -156,13 +156,17 @@ fn_install_missing_deps() {
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 
-		# Attempt automatic dependency installation
-		if [ "${autoinstall}" == "1" ]; then
-			sudo -n true > /dev/null 2>&1
+		# Attempt automatic dependency installation.
+		# Check for passwordless sudo first: sudo-rs (default sudo from Ubuntu 25.10) always asks
+		# for a password for sudo -v, even when the user has NOPASSWD.
+		if sudo -n true > /dev/null 2>&1; then
+			autodepinstall="0"
+		elif [ "${autoinstall}" == "1" ]; then
+			autodepinstall="1"
 		else
 			sudo -v > /dev/null 2>&1
+			autodepinstall="$?"
 		fi
-		autodepinstall="$?"
 
 		if [ "${monoinstalled}" == "false" ]; then
 			fn_install_mono_repo
@@ -272,7 +276,8 @@ fn_deps_detector() {
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return
-	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
+	# Checks classic and deb822 sources for an uncommented non-free component (non-free-firmware does not count).
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '^[[:space:]]*[^#[:space:]].*[[:space:]]non-free([[:space:]]|$)' /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources 2> /dev/null; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
 		return
@@ -280,9 +285,22 @@ fn_deps_detector() {
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass check.
-			depstatus=0
-			deptocheck="${javaversion}"
+			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
+				# Java 25 installed but not the active java: installing it again would not change that.
+				if compgen -G "/usr/lib/jvm/*25*/bin/java" > /dev/null; then
+					depstatus=0
+					deptocheck="${javaversion}"
+					fn_print_warn_nl "Java 25 is installed but the active java is version ${javamajorversion:-unknown}. Select Java 25 with: sudo update-alternatives --config java"
+					fn_script_log_warn "Java 25 is installed but the active java is version ${javamajorversion:-unknown}"
+				else
+					depstatus=1
+				fi
+			else
+				# Added for users using Oracle JRE to bypass check.
+				depstatus=0
+				deptocheck="${javaversion}"
+			fi
 		else
 			depstatus=1
 		fi

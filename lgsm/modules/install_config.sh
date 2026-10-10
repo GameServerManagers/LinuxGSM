@@ -520,6 +520,9 @@ elif [ "${shortname}" == "hl2dm" ]; then
 elif [ "${shortname}" == "hz" ]; then
 	# Config is generated on first run
 	:
+elif [ "${shortname}" == "hyt" ]; then
+	# Config is generated on first run
+	:
 elif [ "${shortname}" == "ins" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
@@ -665,6 +668,11 @@ elif [ "${shortname}" == "qw" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ricochet" ]; then
 	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "rsdw" ]; then
+	array_configs+=(DedicatedServer.ini)
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
