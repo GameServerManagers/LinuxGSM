@@ -57,13 +57,17 @@ amxxtsurl="${amxxtsdownloadurl}"
 # Metamod:Source
 metamodsourceversion="1.12"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"
-metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
+if [ "${engine}" == "source" ]; then
+	metamodsourcelatestfile=$(wget "${metamodsourcescrapeurl}" -q -O -)
+fi
 metamodsourcedownloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsourceversion}"
 metamodsourceurl="${metamodsourcedownloadurl}"
 # Metamod:Source 2.0
 metamodsource2version="2.0"
 metamodsource2scrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsource2version}/mmsource-latest-linux"
-metamodsource2latestfile=$(wget "${metamodsource2scrapeurl}" -q -O -)
+if [ "${shortname}" == "cs2" ]; then
+	metamodsource2latestfile=$(wget "${metamodsource2scrapeurl}" -q -O -)
+fi
 metamodsource2downloadurl="https://www.metamodsource.net/latest.php?os=linux&version=${metamodsource2version}"
 metamodsource2url="${metamodsource2downloadurl}"
 # Sourcemod
@@ -74,12 +78,16 @@ else
 	sourcemodversion="1.13"
 fi
 sourcemodscrapeurl="https://sm.alliedmods.net/smdrop/${sourcemodversion}/sourcemod-latest-linux"
-sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
+if [ "${engine}" == "source" ]; then
+	sourcemodlatestfile=$(wget "${sourcemodscrapeurl}" -q -O -)
+fi
 sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${sourcemodversion}"
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+if [ "${shortname}" == "csgo" ]; then
+	steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+fi
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # Stripper:Source
@@ -89,40 +97,53 @@ stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperla
 stripperurl="${stripperdownloadurl}"
 
 # CS2 Mods
-counterstrikesharprelease=$(curl --connect-timeout 3 -sL https://api.github.com/repos/roflmuffin/CounterStrikeSharp/releases/latest)
-counterstrikesharplastbuild=$(printf '%s\n' "${counterstrikesharprelease}" | jq '.assets[]? | select(.name | startswith("counterstrikesharp-with-runtime-linux-") and endswith(".zip"))' 2> /dev/null)
-counterstrikesharplatestfile=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.name')
-counterstrikesharplatestlink=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.browser_download_url')
+if [ "${shortname}" == "cs2" ]; then
+	counterstrikesharprelease=$(curl --connect-timeout 3 -sL https://api.github.com/repos/roflmuffin/CounterStrikeSharp/releases/latest)
+	counterstrikesharplastbuild=$(printf '%s\n' "${counterstrikesharprelease}" | jq '.assets[]? | select(.name | startswith("counterstrikesharp-with-runtime-linux-") and endswith(".zip"))' 2> /dev/null)
+	counterstrikesharplatestfile=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.name')
+	counterstrikesharplatestlink=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.browser_download_url')
+fi
 
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
-get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
-get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
-csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
-csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
-csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
-csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
-csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
-csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
-gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
-gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
-gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
-movementapilatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
-movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
-movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+if [ "${shortname}" == "csgo" ]; then
+	get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+	get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
+	get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
+	csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
+	csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
+	csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
+	csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+	csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
+	csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
+	gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+	gokzlatestfile="GOKZ-v${gokzlatestversion}.zip"
+	gokzlatestlink="https://github.com/KZGlobalTeam/gokz/releases/download/${gokzlatestversion}/${gokzlatestfile}"
+	movementapilatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/danzayau/MovementAPI/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
+	movementapilatestfile="MovementAPI-v${movementapilatestversion}.zip"
+	movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download/${movementapilatestversion}/${movementapilatestfile}"
+fi
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+if [ "${shortname}" == "rust" ]; then
+	carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+fi
 
 # Oxide
-oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-# Valheim Plus
-valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
-# Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+if [ "${shortname}" == "rust" ]; then
+	oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+elif [ "${shortname}" == "hw" ]; then
+	oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+elif [ "${shortname}" == "sdtd" ]; then
+	oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+fi
+
+if [ "${shortname}" == "vh" ]; then
+	# Valheim Plus
+	valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+	# Valheim BepInEx
+	bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+fi
 
 # Define mods information (required)
 
