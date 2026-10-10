@@ -1,5 +1,4 @@
 #! /usr/bin/env python3
-# -*- coding: utf-8 -*-
 # LinuxGSM query_gsquery.py module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
@@ -65,7 +64,6 @@ class GSQuery:
         """Create a query instance from parsed CLI args."""
 
         self.argument = arguments
-        #
         if self.argument.engine in self.sourcequery:
             self.query_prompt_string = b"\xff\xff\xff\xffTSource Engine Query\0"
         elif self.argument.engine in self.idtech2query:
@@ -135,7 +133,7 @@ class GSQuery:
         # Receive.
         try:
             self.response = connection.recv(self.default_buffer_length)
-        except socket.error:
+        except OSError:
             self.fatal_error("Unable to receive", 2)
         connection.close()
         # Response.
