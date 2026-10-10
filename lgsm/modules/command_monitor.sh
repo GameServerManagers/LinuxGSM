@@ -211,7 +211,6 @@ fn_monitor_check_session() {
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
-	# Patterns are anchored so they do not match other instances (e.g. vhserver vs vhserver-2) or their concurrent pgrep processes.
 	elif [ "$(pgrep -fc -u "${USER}" "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
 		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_print_error_eol_nl
