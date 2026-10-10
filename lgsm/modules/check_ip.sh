@@ -61,3 +61,9 @@ else
 	httpip=("${ip}")
 	telnetip=("${ip}")
 fi
+
+# If the game config binds its query interface to a specific IPv4 address (e.g. TeamSpeak 3 query_ip),
+# query that address first. This also covers a query interface bound to localhost.
+if grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' <<< "${configqueryip}" && [ "${configqueryip}" != "0.0.0.0" ] && [[ " ${queryips[*]} " != *" ${configqueryip} "* ]]; then
+	queryips=("${configqueryip}" "${queryips[@]}")
+fi

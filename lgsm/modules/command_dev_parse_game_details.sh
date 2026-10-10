@@ -84,6 +84,7 @@ declare -A server_details=(
 	['Query Enabled']="${queryenabled}"
 	['Query HTTP Port']="${httpqueryport}"
 	['Query HTTPS Port']="${httpsqueryport}"
+	['Query IP']="${configqueryip}"
 	['Query Mode']="${querymode}"
 	['Query Port GS']="${gamespyqueryport}"
 	['Query Port']="${queryport}"

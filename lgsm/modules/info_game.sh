@@ -757,8 +757,12 @@ fn_info_game_ts3() {
 		fn_info_game_ini "httpqueryport" "query_http_port"
 		fn_info_game_ini "httpsqueryport" "query_https_port"
 		fn_info_game_ini "queryport" "query_port"
+		fn_info_game_ini "configqueryip" "query_ip"
 		fn_info_game_ini "sshqueryport" "query_ssh_port"
 	fi
+	# query_ip can list several addresses (e.g. "0.0.0.0, ::"), use the first.
+	configqueryip="${configqueryip%%,*}"
+	configqueryip="${configqueryip// /}"
 	configip="${configip:-"0.0.0.0"}"
 	dbplugin="${dbplugin:-"NOT SET"}"
 	fileport="${fileport:-"0"}"
@@ -2034,8 +2038,7 @@ fn_info_game_sf() {
 	# Parameters
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	beaconport="${beaconport:-"0"}"
+	queryport="${port}"
 	reliableport="${reliableport:-"0"}"
 }
 
