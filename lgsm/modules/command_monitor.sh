@@ -81,7 +81,7 @@ fn_monitor_check_starting() {
 		fn_print_checking_eol
 		fn_print_info "Checking start: LinuxGSM is starting"
 		fn_print_info_eol_nl
-		fn_script_log_info "Checking backup: LinuxGSM is starting"
+		fn_script_log_info "Checking start: LinuxGSM is starting"
 		core_exit.sh
 	fi
 }
@@ -104,7 +104,7 @@ fn_monitor_check_stopping() {
 		fn_print_checking_eol
 		fn_print_info "Checking stop: LinuxGSM is stopping"
 		fn_print_info_eol_nl
-		fn_script_log_info "Checking backup: LinuxGSM is stopping"
+		fn_script_log_info "Checking stop: LinuxGSM is stopping"
 		core_exit.sh
 	fi
 }
