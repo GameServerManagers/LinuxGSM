@@ -37,6 +37,8 @@ if [ "${shortname}" == "sb" ]; then
 	workshoplinkdir="${serverfiles}/mods"
 elif [ "${shortname}" == "l4d2" ]; then
 	workshoplinkdir="${serverfiles}/left4dead2/addons"
+elif [ "${shortname}" == "sol" ]; then
+	workshoplinkdir="${serverfiles}"
 fi
 workshopdldir="${tmpdir}/workshop"
 workshopmodlist="${datadir}/${selfname}-workshop.txt"
@@ -337,9 +339,11 @@ fn_workshop_remove_keys() {
 # Removes the links a mod added to the game's mod directory.
 fn_workshop_remove_links() {
 	local link
-	for link in $(fn_workshop_state "$1" links); do
-		rm -f "${workshoplinkdir:?}/${link}"
-	done
+	while IFS= read -r link; do
+		if [ -n "${link}" ]; then
+			rm -f "${workshoplinkdir:?}/${link}"
+		fi
+	done < <(fn_workshop_state "$1" link)
 }
 
 # Moves a downloaded item into the game's mod directory and prepares it for the game.
@@ -350,7 +354,7 @@ fn_workshop_install() {
 	local installed
 	local keys=()
 	local links=()
-	local key pak
+	local key pak file rel
 	fn_print_dots "Installing ${workshoptitle[${item}]} (${item})"
 	installed="$(fn_workshop_moddir "${item}")"
 	if [ -n "${installed}" ]; then
@@ -403,6 +407,21 @@ fn_workshop_install() {
 			ln -srfn "${pak}" "${workshoplinkdir}/${item}.vpk"
 			links+=("${item}.vpk")
 		fi
+	elif [ "${shortname}" == "sol" ]; then
+		# Soldat items mirror the server's maps, textures and scenery-gfx directories. The server only finds lowercase .pms maps.
+		while IFS= read -r -d '' file; do
+			rel="${file#"${dst}/"}"
+			if [[ "${rel,,}" == maps/*.pms ]]; then
+				rel="${rel%.*}.pms"
+			fi
+			if [ -e "${workshoplinkdir}/${rel}" ] || [ -L "${workshoplinkdir}/${rel}" ]; then
+				fn_script_log_warn "Not linking ${rel} from ${workshoptitle[${item}]} (${item}): file already exists"
+				continue
+			fi
+			mkdir -p "${workshoplinkdir}/${rel%/*}"
+			ln -sr "${file}" "${workshoplinkdir}/${rel}"
+			links+=("${rel}")
+		done < <(find "${dst}" -mindepth 2 -type f -print0)
 	fi
 	local modname=""
 	if [ "${shortname}" == "col" ] && [ -f "${dst}/modInfo.json" ]; then
@@ -414,7 +433,9 @@ fn_workshop_install() {
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
-		echo "links=${links[*]}"
+		if [ "${#links[@]}" -gt 0 ]; then
+			printf 'link=%s\n' "${links[@]}"
+		fi
 	} > "${dst}/.lgsm-workshop"
 	fn_print_ok_nl "Installing ${workshoptitle[${item}]} (${item})"
 	fn_script_log_pass "Installing ${workshoptitle[${item}]} (${item})"
