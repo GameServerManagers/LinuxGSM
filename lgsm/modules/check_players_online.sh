@@ -3,11 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Queries the server with gamedig and sets ${playersonline} to the
-#              current player count when players are connected (empty otherwise).
-#              Sets ${playerscounted} to 1 when the query succeeded.
-#              Used by the stoponlyifnoplayers feature to postpone stop/restart,
-#              and by warnplayerstimer (via ${playercheckforce}) to skip warnings.
+# Description: Checks if players are on the server.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
