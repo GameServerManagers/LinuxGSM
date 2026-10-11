@@ -1444,6 +1444,7 @@ fn_info_messages_rwr() {
 	echo -e "${bold}${lightgreen}${gamename} Game Settings${default}"
 	fn_messages_separator
 	{
+		echo -e "${lightblue}Start package:\t${default}${startpackage}"
 		echo -e "${lightblue}Start script:\t${default}${startscript}"
 		echo -e "${lightblue}Game mode:\t${default}${gamemode}"
 	} | column -s $'\t' -t

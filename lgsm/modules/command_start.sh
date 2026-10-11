@@ -34,11 +34,11 @@ fn_start_hyt_console() {
 fn_start_rwr_script() {
 	for _ in {1..120}; do
 		if fn_start_hyt_console | grep -a -q "Game loaded"; then
-			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "start_script ${startscript}" ENTER
-			fn_script_log_info "Sent start_script ${startscript}"
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "start_script ${startscript} ${startpackage}" ENTER
+			fn_script_log_info "Sent start_script ${startscript} ${startpackage}"
 			sleep 5
 			if fn_start_hyt_console | grep -a -q "script build failed"; then
-				fn_print_warn_nl "Running With Rifles could not start ${startscript}. Check startscript in ${configdirserver}"
+				fn_print_warn_nl "Running With Rifles could not start ${startpackage}/scripts/${startscript}. Check startpackage and startscript in ${configdirserver}"
 				fn_script_log_warn "Running With Rifles could not start ${startscript}"
 			fi
 			return

@@ -1851,11 +1851,15 @@ fn_info_game_rsdw() {
 # Example: server_name='SERVERNAME'
 # Filetype: as
 fn_info_game_rwr() {
-	if [ -f "${servercfgfullpath}" ]; then
-		servername="$(sed -n "s/.*server_name='\([^']*\)'.*/\1/p" "${servercfgfullpath}" | head -1)"
-		port="$(sed -n "s/.*server_port='\([0-9]*\)'.*/\1/p" "${servercfgfullpath}" | head -1)"
-		maxplayers="$(sed -n "s/.*max_players='\([0-9]*\)'.*/\1/p" "${servercfgfullpath}" | head -1)"
-		gamemode="$(sed -n "s/.*mode='\([^']*\)'.*/\1/p" "${servercfgfullpath}" | head -1)"
+	local startscriptfile="${serverfiles}/${startpackage:-media/packages/vanilla}/scripts/${startscript}"
+	if [ ! -f "${startscriptfile}" ]; then
+		startscriptfile="${servercfgfullpath}"
+	fi
+	if [ -f "${startscriptfile}" ]; then
+		servername="$(sed -n "s/.*server_name='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		port="$(sed -n "s/.*server_port='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		maxplayers="$(sed -n "s/.*max_players='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		gamemode="$(sed -n "s/.*mode='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
 	fi
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
