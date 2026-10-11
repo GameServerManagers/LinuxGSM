@@ -1846,6 +1846,27 @@ fn_info_game_rsdw() {
 	worldname="${worldname:-"NOT SET"}"
 }
 
+# Config Type: AngelScript (start_server command)
+# Comment: //
+# Example: server_name='SERVERNAME'
+# Filetype: as
+fn_info_game_rwr() {
+	local startscriptfile="${serverfiles}/${startpackage:-media/packages/vanilla}/scripts/${startscript}"
+	if [ ! -f "${startscriptfile}" ]; then
+		startscriptfile="${servercfgfullpath}"
+	fi
+	if [ -f "${startscriptfile}" ]; then
+		servername="$(sed -n "s/.*server_name='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		port="$(sed -n "s/.*server_port='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		maxplayers="$(sed -n "s/.*max_players='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		gamemode="$(sed -n "s/.*mode='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+	fi
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	maxplayers="${maxplayers:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+}
 # Config Type: QuakeC
 # Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
@@ -2479,6 +2500,8 @@ elif [ "${shortname}" == "rsdw" ]; then
 	fn_info_game_rsdw
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_game_rtcw
+elif [ "${shortname}" == "rwr" ]; then
+	fn_info_game_rwr
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_game_rust
 elif [ "${shortname}" == "rw" ]; then

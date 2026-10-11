@@ -30,6 +30,25 @@ fn_start_hyt_console() {
 	fi
 }
 
+# Running With Rifles: the server starts in a lobby and runs a game mode once its start script is sent to the console.
+fn_start_rwr_script() {
+	for _ in {1..120}; do
+		if fn_start_hyt_console | grep -a -q "Game loaded"; then
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "start_script ${startscript} ${startpackage}" ENTER
+			fn_script_log_info "Sent start_script ${startscript} ${startpackage}"
+			sleep 5
+			if fn_start_hyt_console | grep -a -q "script build failed"; then
+				fn_print_warn_nl "Running With Rifles could not start ${startpackage}/scripts/${startscript}. Check startpackage and startscript in ${configdirserver}"
+				fn_script_log_warn "Running With Rifles could not start ${startscript}"
+			fi
+			return
+		fi
+		sleep 1
+	done
+	fn_print_warn_nl "Running With Rifles did not finish loading, the game mode was not started"
+	fn_script_log_warn "Running With Rifles did not finish loading, start_script ${startscript} was not sent"
+}
+
 fn_start_hyt_login() {
 	hytloginurl=""
 	local hytloginsent="${hytloginpending}"
@@ -218,6 +237,8 @@ fn_start_tmux() {
 		fi
 		if [ "${shortname}" == "hyt" ]; then
 			fn_start_hyt_login
+		elif [ "${shortname}" == "rwr" ]; then
+			fn_start_rwr_script
 		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
