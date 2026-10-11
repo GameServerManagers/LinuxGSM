@@ -7,7 +7,14 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-workshopdir="${serverfiles}/workshop"
+# Installed mods are named ${workshopprefix}<id> in the directory the game loads them from.
+if [ "${shortname}" == "squad" ]; then
+	workshopdir="${systemdir}/Plugins/Mods"
+	workshopprefix=""
+else
+	workshopdir="${serverfiles}/workshop"
+	workshopprefix="@"
+fi
 workshopdldir="${tmpdir}/workshop"
 workshopmodlist="${datadir}/${selfname}-workshop.txt"
 workshopapi="https://api.steampowered.com/ISteamRemoteStorage"
@@ -154,7 +161,7 @@ fn_workshop_get_details() {
 
 # Reads a value from an installed mod's state file. Usage: fn_workshop_state <id> <key>
 fn_workshop_state() {
-	local statefile="${workshopdir}/@${1}/.lgsm-workshop"
+	local statefile="${workshopdir}/${workshopprefix}${1}/.lgsm-workshop"
 	if [ -f "${statefile}" ]; then
 		sed -n "s/^${2}=//p" "${statefile}"
 	fi
@@ -179,11 +186,15 @@ fn_workshop_compare() {
 				inuse+="$(grep -v '^#' "${listfile}" | tr '\n' ' ') "
 			fi
 		done
-		local moddir
-		for moddir in "${workshopdir}"/@*; do
-			item="${moddir##*/@}"
-			if [ -d "${moddir}" ] && [[ "${inuse}" != *" ${item} "* ]]; then
-				workshopremovals+=("${item}")
+		local statefile moddir
+		for statefile in "${workshopdir}"/*/.lgsm-workshop; do
+			if [ -f "${statefile}" ]; then
+				moddir="${statefile%/*}"
+				moddir="${moddir##*/}"
+				item="${moddir#"${workshopprefix}"}"
+				if [[ "${inuse}" != *" ${item} "* ]]; then
+					workshopremovals+=("${item}")
+				fi
 			fi
 		done
 	fi
@@ -261,11 +272,11 @@ fn_workshop_lowercase() {
 # Removes the BattlEye keys a mod installed, unless another installed mod also uses them.
 fn_workshop_remove_keys() {
 	local item="$1"
-	local key moddir
+	local key statefile
 	for key in $(fn_workshop_state "${item}" keys); do
 		local shared=""
-		for moddir in "${workshopdir}"/@*; do
-			if [ "${moddir}" != "${workshopdir}/@${item}" ] && [[ " $(fn_workshop_state "${moddir##*/@}" keys) " == *" ${key} "* ]]; then
+		for statefile in "${workshopdir}"/*/.lgsm-workshop; do
+			if [ "${statefile}" != "${workshopdir}/${workshopprefix}${item}/.lgsm-workshop" ] && [[ " $(sed -n 's/^keys=//p' "${statefile}" 2> /dev/null) " == *" ${key} "* ]]; then
 				shared=1
 			fi
 		done
@@ -275,16 +286,26 @@ fn_workshop_remove_keys() {
 	done
 }
 
-# Moves a downloaded item into serverfiles/workshop/@<id> and prepares it for the game.
+# Removes the links a mod added to the Starbound mods directory.
+fn_workshop_remove_links() {
+	local link
+	for link in $(fn_workshop_state "$1" links); do
+		rm -f "${serverfiles:?}/mods/${link}"
+	done
+}
+
+# Moves a downloaded item into the game's mod directory and prepares it for the game.
 fn_workshop_install() {
 	local item="$1"
 	local src="${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
-	local dst="${workshopdir}/@${item}"
+	local dst="${workshopdir}/${workshopprefix}${item}"
 	local keys=()
-	local key
+	local links=()
+	local key pak
 	fn_print_dots "Installing ${workshoptitle[${item}]} (${item})"
 	if [ -d "${dst}" ]; then
 		fn_workshop_remove_keys "${item}"
+		fn_workshop_remove_links "${item}"
 		rm -rf "${dst:?}"
 	fi
 	mkdir -p "${workshopdir}"
@@ -300,11 +321,18 @@ fn_workshop_install() {
 			cp -f "${key}" "${serverfiles}/keys/"
 			keys+=("${key##*/}")
 		done < <(find "${dst}" -type f -name '*.bikey' -print0)
+	elif [ "${shortname}" == "sb" ]; then
+		mkdir -p "${serverfiles}/mods"
+		while IFS= read -r -d '' pak; do
+			ln -sfn "../workshop/${workshopprefix}${item}/${pak##*/}" "${serverfiles}/mods/workshop-${item}-${pak##*/}"
+			links+=("workshop-${item}-${pak##*/}")
+		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
 	fi
 	{
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
+		echo "links=${links[*]}"
 	} > "${dst}/.lgsm-workshop"
 	fn_print_ok_nl "Installing ${workshoptitle[${item}]} (${item})"
 	fn_script_log_pass "Installing ${workshoptitle[${item}]} (${item})"
@@ -317,7 +345,8 @@ fn_workshop_remove() {
 	title="$(fn_workshop_state "${item}" title)"
 	fn_print_dots "Removing ${title} (${item})"
 	fn_workshop_remove_keys "${item}"
-	rm -rf "${workshopdir:?}/@${item}"
+	fn_workshop_remove_links "${item}"
+	rm -rf "${workshopdir:?}/${workshopprefix}${item}"
 	fn_print_ok_nl "Removing ${title} (${item})"
 	fn_script_log_pass "Removing ${title} (${item})"
 }
@@ -336,6 +365,10 @@ fn_workshop_apply() {
 
 # Saves the resolved mod order so start can build the mod list without querying Steam.
 fn_workshop_save_list() {
+	if [ "${#workshopitems[@]}" -eq 0 ]; then
+		rm -f "${workshopmodlist}"
+		return
+	fi
 	{
 		echo "# workshopmods=${workshopmods}"
 		printf '%s\n' "${workshopitems[@]}"
@@ -370,7 +403,7 @@ fn_workshop_update() {
 	fn_print "\n"
 	fn_print_nl "${bold}${underline}Update${default} available"
 	for item in "${workshopupdates[@]}"; do
-		if [ -d "${workshopdir}/@${item}" ]; then
+		if [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
 			fn_print_nl "* Update: ${workshoptitle[${item}]} (${item})"
 		else
 			fn_print_nl "* Install: ${workshoptitle[${item}]} (${item})"
@@ -442,8 +475,8 @@ fn_workshop_mods_startparameters() {
 	local missing=0
 	local item
 	for item in "${items[@]}"; do
-		if [ -d "${workshopdir}/@${item}" ]; then
-			workshopmodsparam+="${workshopmodsparam:+\\;}workshop/@${item}"
+		if [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
+			workshopmodsparam+="${workshopmodsparam:+\\;}workshop/${workshopprefix}${item}"
 		else
 			missing=$((missing + 1))
 		fi

@@ -14,7 +14,7 @@ fn_print_dots ""
 check.sh
 core_logs.sh
 
-if [ -z "${workshopmods}" ] && [ ! -d "${serverfiles}/workshop" ]; then
+if [ -z "${workshopmods}" ] && [ ! -f "${datadir}/${selfname}-workshop.txt" ]; then
 	fn_print_info_nl "No Workshop mods set. Add Workshop IDs to workshopmods in ${configdirserver}"
 	fn_script_log_info "No Workshop mods set"
 	core_exit.sh
