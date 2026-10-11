@@ -428,6 +428,7 @@ for item in managed:
     text = re.sub(r'\s*<package\b[^>]*?path="LocalMods/' + re.escape(item) + r'/filelist\.xml"[^>]*/>', "", text)
 entries = "".join('\n      <package\n        path="LocalMods/' + item + '/filelist.xml" />' for item in enabled)
 text = re.sub(r"(\s*)</regularpackages>", entries + r"\1</regularpackages>", text, count=1)
+text = re.sub(r"<regularpackages>\s*</regularpackages>", "<regularpackages />", text)
 with open(config, "w", encoding="utf-8", newline="") as f:
     f.write(text)
 PYEOF
