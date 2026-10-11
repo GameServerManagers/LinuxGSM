@@ -24,9 +24,13 @@ fn_stop_players_online() {
 			# Monitor runs the update once the server is empty.
 			if [ "${firstcommandname}" == "UPDATE" ]; then
 				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
+				# The update was not applied, so the server does not need a restart for it.
+				rm -f "${lockdir:?}/last-updated.lock"
 				fn_print_info_nl "Update postponed until the server is empty"
 				fn_script_log_info "Update postponed until the server is empty"
 			fi
+			# Exit the whole command, including when called by another command (e.g. update) with exitbypass.
+			unset exitbypass
 			core_exit.sh
 		fi
 	fi
@@ -43,7 +47,6 @@ fn_stop_warn_players_send() {
 		message="Server ${1} cancelled"
 	fi
 	local warnmessage="${warncommand//%s/${message}}"
-	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" C-u > /dev/null 2>&1
 	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" -l "${warnmessage}" > /dev/null 2>&1
 	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" ENTER > /dev/null 2>&1
 }
@@ -129,7 +132,15 @@ fn_stop_warn_players() {
 		fn_print_info_nl "Warning players: ${action} in ${steps[i]} minute(s)"
 		fn_script_log_info "Warning players: ${action} in ${steps[i]} minute(s)"
 		next="${steps[i + 1]:-0}"
-		sleep $(((steps[i] - next) * 60))
+		local waitseconds=$(((steps[i] - next) * 60))
+		while [ "${waitseconds}" -gt 0 ]; do
+			sleep 10
+			waitseconds=$((waitseconds - 10))
+			check_status.sh
+			if [ "${status}" == "0" ]; then
+				break 2
+			fi
+		done
 	done
 	unset warnplayersaction
 	rm -f "${lockdir:?}/${selfname}-warning.lock"
