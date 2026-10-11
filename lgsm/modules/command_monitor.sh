@@ -11,6 +11,12 @@ commandaction="Monitoring"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# Checks if this instance is running one of the given commands, e.g. "update|u".
+# Matches the script run as ./gameserver, /path/to/gameserver or bash gameserver.
+fn_monitor_command_running() {
+	[ "$(pgrep -fc -u "${USER}" "^([^ ]*/)?bash ([^ ]*/)?${selfname} ($1)( |$)")" != "0" ]
+}
+
 fn_monitor_check_monitoring() {
 	if [ -f "${lockdir}/${selfname}.lock" ]; then
 		# Part of migration to v23.5.0. #4296
@@ -30,7 +36,7 @@ fn_monitor_check_monitoring() {
 }
 
 fn_monitor_check_install() {
-	if [ "$(pgrep -fc -u "${USER}" "/bin/bash ./${selfname} install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} i")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} auto-install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ai")" != "0" ]; then
+	if fn_monitor_command_running "install|i|auto-install|ai"; then
 		fn_print_dots "Checking installer"
 		fn_print_checking_eol
 		fn_script_log_info "Checking installer: CHECKING"
@@ -42,7 +48,7 @@ fn_monitor_check_install() {
 }
 
 fn_monitor_check_debug() {
-	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} debug")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} d")" != "0" ]; then
+	if fn_monitor_command_running "debug|d"; then
 		fn_print_dots "Checking debug"
 		fn_print_checking_eol
 		fn_print_info "Checking debug: Debug is running"
@@ -53,7 +59,7 @@ fn_monitor_check_debug() {
 }
 
 fn_monitor_check_details() {
-	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} details")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} dt")" != "0" ]; then
+	if fn_monitor_command_running "details|dt"; then
 		fn_print_dots "Checking details"
 		fn_print_checking_eol
 		fn_print_info "Checking details: Details is running"
@@ -76,7 +82,7 @@ fn_monitor_check_starting() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} start")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} st")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-starting.lock" ] && fn_monitor_command_running "start|st"; then
 		fn_print_dots "Checking start"
 		fn_print_checking_eol
 		fn_print_info "Checking start: LinuxGSM is starting"
@@ -99,7 +105,7 @@ fn_monitor_check_stopping() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} stop")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} sp")" != "0" ]]; then
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && fn_monitor_command_running "stop|sp"; then
 		fn_print_dots "Checking stop"
 		fn_print_checking_eol
 		fn_print_info "Checking stop: LinuxGSM is stopping"
@@ -142,7 +148,7 @@ fn_monitor_check_backup() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} backup")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} b")" != "0" ]]; then
+	if [ -f "${lockdir}/backup.lock" ] && fn_monitor_command_running "backup|b"; then
 		fn_print_dots "Checking backup"
 		fn_print_checking_eol
 		fn_print_info "Checking backup: Backup is running"
@@ -165,7 +171,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} u")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} force-update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} fu")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update-restart")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ur")" != "0" ]]; then
+	if [ -f "${lockdir}/update.lock" ] && fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur"; then
 		fn_print_dots "Checking update"
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server"
