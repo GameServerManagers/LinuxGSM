@@ -113,6 +113,7 @@ fn_stop_warn_players() {
 	done
 
 	echo "$$" > "${lockdir:?}/${selfname}-warning.lock"
+	# shellcheck disable=SC2034 # Used by core_trap.sh.
 	warnplayersaction="${action}"
 	local i next
 	for i in "${!steps[@]}"; do
@@ -120,6 +121,7 @@ fn_stop_warn_players() {
 		if [ "${status}" == "0" ]; then
 			break
 		fi
+		# shellcheck disable=SC2034 # Used by check_players_online.sh.
 		playercheckforce=1
 		check_players_online.sh
 		unset playercheckforce

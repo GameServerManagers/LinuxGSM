@@ -20,6 +20,7 @@ if [ "${stoponlyifnoplayers}" == "on" ] || [ "${playercheckforce}" == "1" ]; the
 			query_gamedig.sh
 			if [ "${querystatus}" == "0" ]; then
 				querysucceeded="1"
+				# shellcheck disable=SC2034 # Used by command_stop.sh.
 				playerscounted="1"
 				if [ -n "${gdplayers}" ] && [ "${gdplayers}" -ne 0 ]; then
 					playersonline="${gdplayers}"
