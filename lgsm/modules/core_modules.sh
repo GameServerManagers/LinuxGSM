@@ -413,6 +413,11 @@ fix_ins.sh() {
 	fn_fetch_module
 }
 
+fix_ios.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_kf.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
