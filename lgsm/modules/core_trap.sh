@@ -17,6 +17,11 @@ fn_exit_trap() {
 	if [ -z "${exitcode}" ]; then
 		exitcode=0
 	fi
+	# Tell players if a warning countdown was cancelled.
+	if [ -n "${warnplayersaction}" ]; then
+		fn_stop_warn_players_send "${warnplayersaction}" "0"
+		rm -f "${lockdir:?}/${selfname}-warning.lock"
+	fi
 	core_exit.sh
 }
 

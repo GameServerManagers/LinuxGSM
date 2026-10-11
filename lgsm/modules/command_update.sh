@@ -15,6 +15,9 @@ check.sh
 core_logs.sh
 check_last_update.sh
 
+# A postponed update is requested again if players are still online.
+rm -f "${lockdir:?}/${selfname}-update-request.lock"
+
 if [ "${shortname}" == "ts3" ]; then
 	update_ts3.sh
 elif [ "${shortname}" == "mc" ]; then

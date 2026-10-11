@@ -135,6 +135,27 @@ fn_monitor_check_restart_request() {
 	fi
 }
 
+# An update postponed because players were online runs once the server is empty.
+# It runs as its own update command so other monitor runs see the update in progress.
+fn_monitor_check_update_request() {
+	if [ -f "${lockdir}/${selfname}-update-request.lock" ]; then
+		fn_print_dots "Checking update: "
+		fn_print_checking_eol
+		fn_print_info "Checking update: Update requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking update: Update requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: update postponed"
+			fn_script_log_info "${playersonline} players are on the server: update postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+		else
+			fn_script_log_info "Checking update: Running requested update"
+			exec "${rootdir}/${selfname}" update
+		fi
+	fi
+}
+
 fn_monitor_check_backup() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/backup.lock" ]; then
@@ -432,6 +453,7 @@ fn_monitor_check_starting
 fn_monitor_check_stopping
 fn_monitor_check_session
 fn_monitor_check_restart_request
+fn_monitor_check_update_request
 
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
