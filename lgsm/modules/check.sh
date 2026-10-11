@@ -107,7 +107,7 @@ for allowed_command in "${allowed_commands_array[@]}"; do
 	fi
 done
 
-if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ]; then
+if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "hw" ]; then
 	allowed_commands_array=(DEBUG DETAILS POST-DETAILS RESTART START)
 	for allowed_command in "${allowed_commands_array[@]}"; do
 		if [ "${allowed_command}" == "${commandname}" ] && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
