@@ -15,6 +15,12 @@ elif [ "${shortname}" == "ohd" ]; then
 	workshopdir="${systemdir}/Mods"
 	workshopprefix=""
 	workshopflatten=1
+elif [ "${shortname}" == "bt" ]; then
+	workshopdir="${serverfiles}/LocalMods"
+	workshopprefix=""
+elif [ "${shortname}" == "st" ]; then
+	workshopdir="${serverfiles}/mods"
+	workshopprefix=""
 else
 	workshopdir="${serverfiles}/workshop"
 	workshopprefix="@"
@@ -395,6 +401,38 @@ fn_workshop_remove() {
 	fn_script_log_pass "Removing ${title} (${item})"
 }
 
+# Barotrauma only loads mods listed in config_player.xml. Replaces LinuxGSM's entries with the installed mods, in order.
+fn_workshop_bt_packages() {
+	local config="${serverfiles}/config_player.xml"
+	local item managed=() enabled=()
+	if [ ! -f "${config}" ]; then
+		fn_print_warn_nl "${config} not found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
+		fn_script_log_warn "${config} not found, Workshop mods not enabled"
+		return
+	fi
+	managed=("${workshopremovals[@]}" "${workshopitems[@]}")
+	for item in "${workshopitems[@]}"; do
+		if [ -f "${workshopdir}/${item}/filelist.xml" ]; then
+			enabled+=("${item}")
+		fi
+	done
+	python3 - "${config}" "${managed[*]}" "${enabled[*]}" << 'PYEOF'
+import re
+import sys
+
+config, managed, enabled = sys.argv[1], sys.argv[2].split(), sys.argv[3].split()
+with open(config, encoding="utf-8-sig", newline="") as f:
+    text = f.read()
+text = text.replace("<regularpackages />", "<regularpackages>\n    </regularpackages>")
+for item in managed:
+    text = re.sub(r'\s*<package\b[^>]*?path="LocalMods/' + re.escape(item) + r'/filelist\.xml"[^>]*/>', "", text)
+entries = "".join('\n      <package\n        path="LocalMods/' + item + '/filelist.xml" />' for item in enabled)
+text = re.sub(r"(\s*)</regularpackages>", entries + r"\1</regularpackages>", text, count=1)
+with open(config, "w", encoding="utf-8", newline="") as f:
+    f.write(text)
+PYEOF
+}
+
 # Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
 fn_workshop_apply() {
 	local item
@@ -404,6 +442,9 @@ fn_workshop_apply() {
 	for item in "${workshopremovals[@]}"; do
 		fn_workshop_remove "${item}"
 	done
+	if [ "${shortname}" == "bt" ]; then
+		fn_workshop_bt_packages
+	fi
 	rm -rf "${workshopdldir:?}"
 }
 
