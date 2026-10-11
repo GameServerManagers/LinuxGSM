@@ -45,7 +45,7 @@ else
 	update_steamcmd.sh
 fi
 
-if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "bt" ] || [ "${shortname}" == "col" ] || [ "${shortname}" == "l4d2" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ] || [ "${shortname}" == "sol" ] || [ "${shortname}" == "st" ]; } && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
+if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "bt" ] || [ "${shortname}" == "col" ] || [ "${shortname}" == "hw" ] || [ "${shortname}" == "l4d2" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ] || [ "${shortname}" == "sol" ] || [ "${shortname}" == "st" ]; } && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
 	workshop_core.sh
 	fn_workshop_update
 fi

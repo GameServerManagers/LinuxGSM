@@ -18,6 +18,10 @@ elif [ "${shortname}" == "ohd" ]; then
 elif [ "${shortname}" == "bt" ]; then
 	workshopdir="${serverfiles}/LocalMods"
 	workshopprefix=""
+elif [ "${shortname}" == "hw" ]; then
+	workshopdir="${serverfiles}/steamapps/workshop/content/393420"
+	workshopprefix=""
+	workshopinplace=1
 elif [ "${shortname}" == "col" ]; then
 	workshopdir="${serverfiles}/gamedata/mods"
 	workshopprefix=""
@@ -246,8 +250,13 @@ fn_workshop_download() {
 	local attempt=0
 	local item params
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
-	rm -rf "${workshopdldir:?}"
-	mkdir -p "${workshopdldir}"
+	if [ -n "${workshopinplace}" ]; then
+		workshopdlroot="${serverfiles}"
+	else
+		workshopdlroot="${workshopdldir}"
+		rm -rf "${workshopdldir:?}"
+		mkdir -p "${workshopdldir}"
+	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
@@ -257,7 +266,7 @@ fn_workshop_download() {
 	fi
 	while [ "${#pending[@]}" -gt 0 ] && [ "${attempt}" -lt "${workshopretries}" ]; do
 		attempt=$((attempt + 1))
-		params=(+force_install_dir "${workshopdldir}" +login "${steamuser}" "${steampass}")
+		params=(+force_install_dir "${workshopdlroot}" +login "${steamuser}" "${steampass}")
 		for item in "${pending[@]}"; do
 			params+=(+workshop_download_item "${workshopappid[${item}]}" "${item}")
 		done
@@ -274,7 +283,7 @@ fn_workshop_download() {
 
 		local failed=()
 		for item in "${pending[@]}"; do
-			if [ -z "$(find "${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}" -mindepth 1 -print -quit 2> /dev/null)" ]; then
+			if [ -z "$(find "${workshopdlroot}/steamapps/workshop/content/${workshopappid[${item}]}/${item}" -mindepth 1 -print -quit 2> /dev/null)" ]; then
 				failed+=("${item}")
 			fi
 		done
@@ -340,7 +349,7 @@ fn_workshop_remove_links() {
 # Moves a downloaded item into the game's mod directory and prepares it for the game.
 fn_workshop_install() {
 	local item="$1"
-	local src="${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
+	local src="${workshopdlroot}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
 	local dst="${workshopdir}/${workshopprefix}${item}"
 	local installed
 	local keys=()
@@ -351,7 +360,9 @@ fn_workshop_install() {
 	if [ -n "${installed}" ]; then
 		fn_workshop_remove_keys "${item}"
 		fn_workshop_remove_links "${item}"
-		rm -rf "${installed:?}"
+		if [ "${installed}" != "${src}" ]; then
+			rm -rf "${installed:?}"
+		fi
 	fi
 	# A mod that is a single plugin folder is installed as that folder, for games that load mods by folder name.
 	if [ -n "${workshopflatten}" ]; then
@@ -362,16 +373,18 @@ fn_workshop_install() {
 			src="${subdirs[0]}"
 		fi
 	fi
-	if [ -e "${dst}" ]; then
-		fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
-		fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
-		return
-	fi
-	mkdir -p "${workshopdir}"
-	if ! mv "${src}" "${dst}"; then
-		fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item})"
-		fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item})"
-		core_exit.sh
+	if [ "${src}" != "${dst}" ]; then
+		if [ -e "${dst}" ]; then
+			fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+			fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+			return
+		fi
+		mkdir -p "${workshopdir}"
+		if ! mv "${src}" "${dst}"; then
+			fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item})"
+			fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item})"
+			core_exit.sh
+		fi
 	fi
 	if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ]; then
 		fn_workshop_lowercase "${dst}"
@@ -611,7 +624,7 @@ fn_workshop_update() {
 	unset exitbypass
 }
 
-# Adds installed Workshop mods to the mods start parameter, in workshopmods order.
+# Adds installed Workshop mods to the start parameters, in workshopmods order: -mod= for Arma 3 and DayZ, loadmod for Hurtworld.
 fn_workshop_mods_startparameters() {
 	if [ -n "${workshopmodsadded}" ]; then
 		return
@@ -632,7 +645,9 @@ fn_workshop_mods_startparameters() {
 	local missing=0
 	local item
 	for item in "${items[@]}"; do
-		if [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
+		if [ -d "${workshopdir}/${workshopprefix}${item}" ] && [ "${shortname}" == "hw" ]; then
+			workshoploadmods+=";loadmod ${item}"
+		elif [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
 			workshopmodsparam+="${workshopmodsparam:+\\;}workshop/${workshopprefix}${item}"
 		else
 			missing=$((missing + 1))
