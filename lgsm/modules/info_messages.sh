@@ -754,6 +754,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
+	elif [ "${shortname}" == "rwr" ]; then
+		portcommand="ss -tuplwn | grep rwr_server"
 	elif [ "${shortname}" == "hyt" ] || [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
