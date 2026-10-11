@@ -8,8 +8,11 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Installed mods are named ${workshopprefix}<id> in the directory the game loads them from.
-if [ "${shortname}" == "squad" ]; then
+if [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ]; then
 	workshopdir="${systemdir}/Plugins/Mods"
+	workshopprefix=""
+elif [ "${shortname}" == "ohd" ]; then
+	workshopdir="${systemdir}/Mods"
 	workshopprefix=""
 else
 	workshopdir="${serverfiles}/workshop"
