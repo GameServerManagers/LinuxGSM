@@ -18,6 +18,9 @@ elif [ "${shortname}" == "ohd" ]; then
 elif [ "${shortname}" == "bt" ]; then
 	workshopdir="${serverfiles}/LocalMods"
 	workshopprefix=""
+elif [ "${shortname}" == "col" ]; then
+	workshopdir="${serverfiles}/gamedata/mods"
+	workshopprefix=""
 elif [ "${shortname}" == "st" ]; then
 	workshopdir="${serverfiles}/mods"
 	workshopprefix=""
@@ -374,8 +377,13 @@ fn_workshop_install() {
 			links+=("workshop-${item}-${pak##*/}")
 		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
 	fi
+	local modname=""
+	if [ "${shortname}" == "col" ] && [ -f "${dst}/modInfo.json" ]; then
+		modname="$(jq -r 'if type == "array" then .[0].name else .name end // empty' "${dst}/modInfo.json" 2> /dev/null)"
+	fi
 	{
 		echo "id=${item}"
+		echo "modname=${modname}"
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
@@ -391,6 +399,7 @@ fn_workshop_remove() {
 	local title moddir
 	title="$(fn_workshop_state "${item}" title)"
 	moddir="$(fn_workshop_moddir "${item}")"
+	workshopremovednames+=("$(fn_workshop_state "${item}" modname)")
 	fn_print_dots "Removing ${title} (${item})"
 	fn_workshop_remove_keys "${item}"
 	fn_workshop_remove_links "${item}"
@@ -434,9 +443,50 @@ with open(config, "w", encoding="utf-8", newline="") as f:
 PYEOF
 }
 
+# Colony Survival only loads mods enabled in each world's worldconfig.json. Replaces LinuxGSM's entries with the installed mods, in order.
+fn_workshop_col_worlds() {
+	local item name worldconfig
+	local managed=("${workshopremovednames[@]}")
+	local enabled=()
+	for item in "${workshopitems[@]}"; do
+		name="$(fn_workshop_state "${item}" modname)"
+		if [ -n "${name}" ]; then
+			managed+=("${name}")
+			enabled+=("${name}")
+		fi
+	done
+	for worldconfig in "${serverfiles}"/gamedata/savegames/*/worldconfig.json; do
+		if [ ! -f "${worldconfig}" ]; then
+			fn_print_warn_nl "No Colony Survival world found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
+			fn_script_log_warn "No Colony Survival world found, Workshop mods not enabled"
+			return
+		fi
+		python3 - "${worldconfig}" "${managed[@]}" "--" "${enabled[@]}" << 'PYEOF'
+import json
+import sys
+
+args = sys.argv[2:]
+split = args.index("--")
+managed, enabled = set(args[:split]), args[split + 1:]
+with open(sys.argv[1], encoding="utf-8-sig") as f:
+    config = json.load(f)
+existing = {e.get("ModName"): e for e in config.get("ModConfigEntries", [])}
+entries = [e for e in config.get("ModConfigEntries", []) if e.get("ModName") not in managed]
+for name in enabled:
+    entry = existing.get(name, {"ModName": name, "ModVersionLastKnown": "---"})
+    entry["Enabled"] = True
+    entries.append(entry)
+config["ModConfigEntries"] = entries
+with open(sys.argv[1], "w", encoding="utf-8") as f:
+    json.dump(config, f, separators=(",", ":"))
+PYEOF
+	done
+}
+
 # Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
 fn_workshop_apply() {
 	local item
+	workshopremovednames=()
 	for item in "${workshopinstalls[@]}"; do
 		fn_workshop_install "${item}"
 	done
@@ -445,6 +495,8 @@ fn_workshop_apply() {
 	done
 	if [ "${shortname}" == "bt" ]; then
 		fn_workshop_bt_packages
+	elif [ "${shortname}" == "col" ]; then
+		fn_workshop_col_worlds
 	fi
 	rm -rf "${workshopdldir:?}"
 }
