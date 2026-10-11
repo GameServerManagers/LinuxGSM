@@ -28,6 +28,12 @@ else
 	workshopdir="${serverfiles}/workshop"
 	workshopprefix="@"
 fi
+# Games that load mod files from their own directory get links to the installed files there.
+if [ "${shortname}" == "sb" ]; then
+	workshoplinkdir="${serverfiles}/mods"
+elif [ "${shortname}" == "l4d2" ]; then
+	workshoplinkdir="${serverfiles}/left4dead2/addons"
+fi
 workshopdldir="${tmpdir}/workshop"
 workshopmodlist="${datadir}/${selfname}-workshop.txt"
 workshopapi="https://api.steampowered.com/ISteamRemoteStorage"
@@ -319,11 +325,11 @@ fn_workshop_remove_keys() {
 	done
 }
 
-# Removes the links a mod added to the Starbound mods directory.
+# Removes the links a mod added to the game's mod directory.
 fn_workshop_remove_links() {
 	local link
 	for link in $(fn_workshop_state "$1" links); do
-		rm -f "${serverfiles:?}/mods/${link}"
+		rm -f "${workshoplinkdir:?}/${link}"
 	done
 }
 
@@ -371,11 +377,19 @@ fn_workshop_install() {
 			keys+=("${key##*/}")
 		done < <(find "${dst}" -type f -name '*.bikey' -print0)
 	elif [ "${shortname}" == "sb" ]; then
-		mkdir -p "${serverfiles}/mods"
+		mkdir -p "${workshoplinkdir}"
 		while IFS= read -r -d '' pak; do
-			ln -sfn "../workshop/${workshopprefix}${item}/${pak##*/}" "${serverfiles}/mods/workshop-${item}-${pak##*/}"
+			ln -srfn "${pak}" "${workshoplinkdir}/workshop-${item}-${pak##*/}"
 			links+=("workshop-${item}-${pak##*/}")
 		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
+	elif [ "${shortname}" == "l4d2" ]; then
+		# Legacy Workshop items download as <hash>_legacy.bin, which is the addon's .vpk.
+		pak="$(find "${dst}" -maxdepth 1 -type f \( -name '*.vpk' -o -name '*_legacy.bin' \) -print -quit)"
+		if [ -n "${pak}" ]; then
+			mkdir -p "${workshoplinkdir}"
+			ln -srfn "${pak}" "${workshoplinkdir}/${item}.vpk"
+			links+=("${item}.vpk")
+		fi
 	fi
 	local modname=""
 	if [ "${shortname}" == "col" ] && [ -f "${dst}/modInfo.json" ]; then
