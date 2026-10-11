@@ -18,12 +18,27 @@ elif [ "${shortname}" == "ohd" ]; then
 elif [ "${shortname}" == "bt" ]; then
 	workshopdir="${serverfiles}/LocalMods"
 	workshopprefix=""
+elif [ "${shortname}" == "hw" ]; then
+	workshopdir="${serverfiles}/steamapps/workshop/content/393420"
+	workshopprefix=""
+	workshopinplace=1
+elif [ "${shortname}" == "col" ]; then
+	workshopdir="${serverfiles}/gamedata/mods"
+	workshopprefix=""
 elif [ "${shortname}" == "st" ]; then
 	workshopdir="${serverfiles}/mods"
 	workshopprefix=""
 else
 	workshopdir="${serverfiles}/workshop"
 	workshopprefix="@"
+fi
+# Games that load mod files from their own directory get links to the installed files there.
+if [ "${shortname}" == "sb" ]; then
+	workshoplinkdir="${serverfiles}/mods"
+elif [ "${shortname}" == "l4d2" ]; then
+	workshoplinkdir="${serverfiles}/left4dead2/addons"
+elif [ "${shortname}" == "sol" ]; then
+	workshoplinkdir="${serverfiles}"
 fi
 workshopdldir="${tmpdir}/workshop"
 workshopmodlist="${datadir}/${selfname}-workshop.txt"
@@ -235,8 +250,13 @@ fn_workshop_download() {
 	local attempt=0
 	local item params
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
-	rm -rf "${workshopdldir:?}"
-	mkdir -p "${workshopdldir}"
+	if [ -n "${workshopinplace}" ]; then
+		workshopdlroot="${serverfiles}"
+	else
+		workshopdlroot="${workshopdldir}"
+		rm -rf "${workshopdldir:?}"
+		mkdir -p "${workshopdldir}"
+	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
 	fi
@@ -246,7 +266,7 @@ fn_workshop_download() {
 	fi
 	while [ "${#pending[@]}" -gt 0 ] && [ "${attempt}" -lt "${workshopretries}" ]; do
 		attempt=$((attempt + 1))
-		params=(+force_install_dir "${workshopdldir}" +login "${steamuser}" "${steampass}")
+		params=(+force_install_dir "${workshopdlroot}" +login "${steamuser}" "${steampass}")
 		for item in "${pending[@]}"; do
 			params+=(+workshop_download_item "${workshopappid[${item}]}" "${item}")
 		done
@@ -263,7 +283,7 @@ fn_workshop_download() {
 
 		local failed=()
 		for item in "${pending[@]}"; do
-			if [ -z "$(find "${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}" -mindepth 1 -print -quit 2> /dev/null)" ]; then
+			if [ -z "$(find "${workshopdlroot}/steamapps/workshop/content/${workshopappid[${item}]}/${item}" -mindepth 1 -print -quit 2> /dev/null)" ]; then
 				failed+=("${item}")
 			fi
 		done
@@ -316,29 +336,33 @@ fn_workshop_remove_keys() {
 	done
 }
 
-# Removes the links a mod added to the Starbound mods directory.
+# Removes the links a mod added to the game's mod directory.
 fn_workshop_remove_links() {
 	local link
-	for link in $(fn_workshop_state "$1" links); do
-		rm -f "${serverfiles:?}/mods/${link}"
-	done
+	while IFS= read -r link; do
+		if [ -n "${link}" ]; then
+			rm -f "${workshoplinkdir:?}/${link}"
+		fi
+	done < <(fn_workshop_state "$1" link)
 }
 
 # Moves a downloaded item into the game's mod directory and prepares it for the game.
 fn_workshop_install() {
 	local item="$1"
-	local src="${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
+	local src="${workshopdlroot}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
 	local dst="${workshopdir}/${workshopprefix}${item}"
 	local installed
 	local keys=()
 	local links=()
-	local key pak
+	local key pak file rel
 	fn_print_dots "Installing ${workshoptitle[${item}]} (${item})"
 	installed="$(fn_workshop_moddir "${item}")"
 	if [ -n "${installed}" ]; then
 		fn_workshop_remove_keys "${item}"
 		fn_workshop_remove_links "${item}"
-		rm -rf "${installed:?}"
+		if [ "${installed}" != "${src}" ]; then
+			rm -rf "${installed:?}"
+		fi
 	fi
 	# A mod that is a single plugin folder is installed as that folder, for games that load mods by folder name.
 	if [ -n "${workshopflatten}" ]; then
@@ -349,16 +373,18 @@ fn_workshop_install() {
 			src="${subdirs[0]}"
 		fi
 	fi
-	if [ -e "${dst}" ]; then
-		fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
-		fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
-		return
-	fi
-	mkdir -p "${workshopdir}"
-	if ! mv "${src}" "${dst}"; then
-		fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item})"
-		fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item})"
-		core_exit.sh
+	if [ "${src}" != "${dst}" ]; then
+		if [ -e "${dst}" ]; then
+			fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+			fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+			return
+		fi
+		mkdir -p "${workshopdir}"
+		if ! mv "${src}" "${dst}"; then
+			fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item})"
+			fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item})"
+			core_exit.sh
+		fi
 	fi
 	if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ]; then
 		fn_workshop_lowercase "${dst}"
@@ -368,18 +394,48 @@ fn_workshop_install() {
 			keys+=("${key##*/}")
 		done < <(find "${dst}" -type f -name '*.bikey' -print0)
 	elif [ "${shortname}" == "sb" ]; then
-		mkdir -p "${serverfiles}/mods"
+		mkdir -p "${workshoplinkdir}"
 		while IFS= read -r -d '' pak; do
-			ln -sfn "../workshop/${workshopprefix}${item}/${pak##*/}" "${serverfiles}/mods/workshop-${item}-${pak##*/}"
+			ln -srfn "${pak}" "${workshoplinkdir}/workshop-${item}-${pak##*/}"
 			links+=("workshop-${item}-${pak##*/}")
 		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
+	elif [ "${shortname}" == "l4d2" ]; then
+		# Legacy Workshop items download as <hash>_legacy.bin, which is the addon's .vpk.
+		pak="$(find "${dst}" -maxdepth 1 -type f \( -name '*.vpk' -o -name '*_legacy.bin' \) -print -quit)"
+		if [ -n "${pak}" ]; then
+			mkdir -p "${workshoplinkdir}"
+			ln -srfn "${pak}" "${workshoplinkdir}/${item}.vpk"
+			links+=("${item}.vpk")
+		fi
+	elif [ "${shortname}" == "sol" ]; then
+		# Soldat items mirror the server's maps, textures and scenery-gfx directories. The server only finds lowercase .pms maps.
+		while IFS= read -r -d '' file; do
+			rel="${file#"${dst}/"}"
+			if [[ "${rel,,}" == maps/*.pms ]]; then
+				rel="${rel%.*}.pms"
+			fi
+			if [ -e "${workshoplinkdir}/${rel}" ] || [ -L "${workshoplinkdir}/${rel}" ]; then
+				fn_script_log_warn "Not linking ${rel} from ${workshoptitle[${item}]} (${item}): file already exists"
+				continue
+			fi
+			mkdir -p "${workshoplinkdir}/${rel%/*}"
+			ln -sr "${file}" "${workshoplinkdir}/${rel}"
+			links+=("${rel}")
+		done < <(find "${dst}" -mindepth 2 -type f -print0)
+	fi
+	local modname=""
+	if [ "${shortname}" == "col" ] && [ -f "${dst}/modInfo.json" ]; then
+		modname="$(jq -r 'if type == "array" then .[0].name else .name end // empty' "${dst}/modInfo.json" 2> /dev/null)"
 	fi
 	{
 		echo "id=${item}"
+		echo "modname=${modname}"
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
-		echo "links=${links[*]}"
+		if [ "${#links[@]}" -gt 0 ]; then
+			printf 'link=%s\n' "${links[@]}"
+		fi
 	} > "${dst}/.lgsm-workshop"
 	fn_print_ok_nl "Installing ${workshoptitle[${item}]} (${item})"
 	fn_script_log_pass "Installing ${workshoptitle[${item}]} (${item})"
@@ -391,6 +447,7 @@ fn_workshop_remove() {
 	local title moddir
 	title="$(fn_workshop_state "${item}" title)"
 	moddir="$(fn_workshop_moddir "${item}")"
+	workshopremovednames+=("$(fn_workshop_state "${item}" modname)")
 	fn_print_dots "Removing ${title} (${item})"
 	fn_workshop_remove_keys "${item}"
 	fn_workshop_remove_links "${item}"
@@ -404,39 +461,64 @@ fn_workshop_remove() {
 # Barotrauma only loads mods listed in config_player.xml. Replaces LinuxGSM's entries with the installed mods, in order.
 fn_workshop_bt_packages() {
 	local config="${serverfiles}/config_player.xml"
-	local item managed=() enabled=()
+	local item entries=""
 	if [ ! -f "${config}" ]; then
 		fn_print_warn_nl "${config} not found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
 		fn_script_log_warn "${config} not found, Workshop mods not enabled"
 		return
 	fi
-	managed=("${workshopremovals[@]}" "${workshopitems[@]}")
+	sed -z -i 's#<regularpackages />#<regularpackages>\n    </regularpackages>#' "${config}"
+	for item in "${workshopremovals[@]}" "${workshopitems[@]}"; do
+		sed -z -i -E "s#[[:space:]]*<package[[:space:]]+path=\"LocalMods/${item}/filelist\\.xml\"[[:space:]]*/>##g" "${config}"
+	done
 	for item in "${workshopitems[@]}"; do
 		if [ -f "${workshopdir}/${item}/filelist.xml" ]; then
-			enabled+=("${item}")
+			entries+="\\n      <package\\n        path=\"LocalMods/${item}/filelist.xml\" />"
 		fi
 	done
-	python3 - "${config}" "${managed[*]}" "${enabled[*]}" << 'PYEOF'
-import re
-import sys
+	sed -z -i -E "s#([[:space:]]*)</regularpackages>#${entries}\\1</regularpackages>#" "${config}"
+	sed -z -i -E 's#<regularpackages>[[:space:]]*</regularpackages>#<regularpackages />#' "${config}"
+}
 
-config, managed, enabled = sys.argv[1], sys.argv[2].split(), sys.argv[3].split()
-with open(config, encoding="utf-8-sig", newline="") as f:
-    text = f.read()
-text = text.replace("<regularpackages />", "<regularpackages>\n    </regularpackages>")
-for item in managed:
-    text = re.sub(r'\s*<package\b[^>]*?path="LocalMods/' + re.escape(item) + r'/filelist\.xml"[^>]*/>', "", text)
-entries = "".join('\n      <package\n        path="LocalMods/' + item + '/filelist.xml" />' for item in enabled)
-text = re.sub(r"(\s*)</regularpackages>", entries + r"\1</regularpackages>", text, count=1)
-text = re.sub(r"<regularpackages>\s*</regularpackages>", "<regularpackages />", text)
-with open(config, "w", encoding="utf-8", newline="") as f:
-    f.write(text)
-PYEOF
+# Colony Survival only loads mods enabled in each world's worldconfig.json. Replaces LinuxGSM's entries with the installed mods, in order.
+fn_workshop_col_worlds() {
+	local item name worldconfig managedjson enabledjson
+	local managed=("${workshopremovednames[@]}")
+	local enabled=()
+	for item in "${workshopitems[@]}"; do
+		name="$(fn_workshop_state "${item}" modname)"
+		if [ -n "${name}" ]; then
+			managed+=("${name}")
+			enabled+=("${name}")
+		fi
+	done
+	managedjson="$(jq -cn '$ARGS.positional' --args "${managed[@]}")"
+	enabledjson="$(jq -cn '$ARGS.positional' --args "${enabled[@]}")"
+	for worldconfig in "${serverfiles}"/gamedata/savegames/*/worldconfig.json; do
+		if [ ! -f "${worldconfig}" ]; then
+			fn_print_warn_nl "No Colony Survival world found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
+			fn_script_log_warn "No Colony Survival world found, Workshop mods not enabled"
+			return
+		fi
+		if jq -c --argjson managed "${managedjson}" --argjson enabled "${enabledjson}" '
+			(.ModConfigEntries // []) as $old
+			| ($old | map({key: .ModName, value: .}) | from_entries) as $existing
+			| .ModConfigEntries = [$old[] | select(.ModName as $n | any($managed[]; . == $n) | not)]
+				+ [$enabled[] | . as $n | ($existing[$n] // {ModName: $n, ModVersionLastKnown: "---"}) | .Enabled = true]
+		' "${worldconfig}" > "${worldconfig}.tmp" 2> /dev/null; then
+			mv "${worldconfig}.tmp" "${worldconfig}"
+		else
+			rm -f "${worldconfig}.tmp"
+			fn_print_warn_nl "Unable to update ${worldconfig}"
+			fn_script_log_warn "Unable to update ${worldconfig}"
+		fi
+	done
 }
 
 # Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
 fn_workshop_apply() {
 	local item
+	workshopremovednames=()
 	for item in "${workshopinstalls[@]}"; do
 		fn_workshop_install "${item}"
 	done
@@ -445,6 +527,8 @@ fn_workshop_apply() {
 	done
 	if [ "${shortname}" == "bt" ]; then
 		fn_workshop_bt_packages
+	elif [ "${shortname}" == "col" ]; then
+		fn_workshop_col_worlds
 	fi
 	rm -rf "${workshopdldir:?}"
 }
@@ -540,7 +624,7 @@ fn_workshop_update() {
 	unset exitbypass
 }
 
-# Adds installed Workshop mods to the mods start parameter, in workshopmods order.
+# Adds installed Workshop mods to the start parameters, in workshopmods order: -mod= for Arma 3 and DayZ, loadmod for Hurtworld.
 fn_workshop_mods_startparameters() {
 	if [ -n "${workshopmodsadded}" ]; then
 		return
@@ -561,7 +645,9 @@ fn_workshop_mods_startparameters() {
 	local missing=0
 	local item
 	for item in "${items[@]}"; do
-		if [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
+		if [ -d "${workshopdir}/${workshopprefix}${item}" ] && [ "${shortname}" == "hw" ]; then
+			workshoploadmods+=";loadmod ${item}"
+		elif [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
 			workshopmodsparam+="${workshopmodsparam:+\\;}workshop/${workshopprefix}${item}"
 		else
 			missing=$((missing + 1))
