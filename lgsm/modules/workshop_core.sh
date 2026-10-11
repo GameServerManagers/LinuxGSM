@@ -445,7 +445,7 @@ PYEOF
 
 # Colony Survival only loads mods enabled in each world's worldconfig.json. Replaces LinuxGSM's entries with the installed mods, in order.
 fn_workshop_col_worlds() {
-	local item name worldconfig
+	local item name worldconfig managedjson enabledjson
 	local managed=("${workshopremovednames[@]}")
 	local enabled=()
 	for item in "${workshopitems[@]}"; do
@@ -455,31 +455,26 @@ fn_workshop_col_worlds() {
 			enabled+=("${name}")
 		fi
 	done
+	managedjson="$(jq -cn '$ARGS.positional' --args "${managed[@]}")"
+	enabledjson="$(jq -cn '$ARGS.positional' --args "${enabled[@]}")"
 	for worldconfig in "${serverfiles}"/gamedata/savegames/*/worldconfig.json; do
 		if [ ! -f "${worldconfig}" ]; then
 			fn_print_warn_nl "No Colony Survival world found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
 			fn_script_log_warn "No Colony Survival world found, Workshop mods not enabled"
 			return
 		fi
-		python3 - "${worldconfig}" "${managed[@]}" "--" "${enabled[@]}" << 'PYEOF'
-import json
-import sys
-
-args = sys.argv[2:]
-split = args.index("--")
-managed, enabled = set(args[:split]), args[split + 1:]
-with open(sys.argv[1], encoding="utf-8-sig") as f:
-    config = json.load(f)
-existing = {e.get("ModName"): e for e in config.get("ModConfigEntries", [])}
-entries = [e for e in config.get("ModConfigEntries", []) if e.get("ModName") not in managed]
-for name in enabled:
-    entry = existing.get(name, {"ModName": name, "ModVersionLastKnown": "---"})
-    entry["Enabled"] = True
-    entries.append(entry)
-config["ModConfigEntries"] = entries
-with open(sys.argv[1], "w", encoding="utf-8") as f:
-    json.dump(config, f, separators=(",", ":"))
-PYEOF
+		if jq -c --argjson managed "${managedjson}" --argjson enabled "${enabledjson}" '
+			(.ModConfigEntries // []) as $old
+			| ($old | map({key: .ModName, value: .}) | from_entries) as $existing
+			| .ModConfigEntries = [$old[] | select(.ModName as $n | any($managed[]; . == $n) | not)]
+				+ [$enabled[] | . as $n | ($existing[$n] // {ModName: $n, ModVersionLastKnown: "---"}) | .Enabled = true]
+		' "${worldconfig}" > "${worldconfig}.tmp" 2> /dev/null; then
+			mv "${worldconfig}.tmp" "${worldconfig}"
+		else
+			rm -f "${worldconfig}.tmp"
+			fn_print_warn_nl "Unable to update ${worldconfig}"
+			fn_script_log_warn "Unable to update ${worldconfig}"
+		fi
 	done
 }
 
