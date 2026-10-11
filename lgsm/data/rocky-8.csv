@@ -100,7 +100,7 @@ rsdw
 rtcw
 rust,zlib-devel
 rw,java-21-openjdk
-rwr,libX11.i686,libXext.i686,zlib.i686
+rwr,libgpg-error.i686,libX11.i686,libXext.i686,zlib.i686
 samp
 sb
 sbots

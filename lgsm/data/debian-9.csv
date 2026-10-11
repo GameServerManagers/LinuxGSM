@@ -101,7 +101,7 @@ rsdw
 rtcw
 rust,lib32z1
 rw,openjdk-8-jre
-rwr,libx11-6:i386,libxext6:i386,zlib1g:i386
+rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386
 samp
 sb
 sbots
