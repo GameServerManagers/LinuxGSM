@@ -144,7 +144,7 @@ if [ "${engine}" == "source" ] || [ "${shortname}" == "cs2" ] || [ "${shortname}
 fi
 
 ## Workshop commands.
-if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ]; then
+if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ]; then
 	currentopt+=("${cmd_workshop_update[@]}")
 fi
 

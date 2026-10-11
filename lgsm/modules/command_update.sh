@@ -45,7 +45,7 @@ else
 	update_steamcmd.sh
 fi
 
-if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ]; } && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
+if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ]; } && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
 	workshop_core.sh
 	fn_workshop_update
 fi
