@@ -333,6 +333,16 @@ fn_stop_graceful_avorion() {
 	fi
 }
 
+fn_stop_graceful_rwr() {
+	fn_print_dots "Graceful: save_profiles stop_server"
+	fn_script_log_info "Graceful: save_profiles stop_server"
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" save_profiles ENTER > /dev/null 2>&1
+	fn_sleep_time_5
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" stop_server ENTER > /dev/null 2>&1
+	fn_sleep_time_5
+	fn_stop_graceful_ctrlc
+}
+
 fn_stop_graceful_select() {
 	if [ "${stopmode}" == "1" ]; then
 		fn_stop_tmux
@@ -360,6 +370,8 @@ fn_stop_graceful_select() {
 		fn_stop_graceful_cmd "shutdown" 30
 	elif [ "${stopmode}" == "13" ]; then
 		fn_stop_graceful_sm
+	elif [ "${stopmode}" == "14" ]; then
+		fn_stop_graceful_rwr
 	fi
 }
 

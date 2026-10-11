@@ -101,6 +101,7 @@ rsdw
 rtcw
 rust,lib32z1
 rw,openjdk-25-jre
+rwr,libx11-6:i386,libxext6:i386,zlib1g:i386
 samp
 sb
 sbots
