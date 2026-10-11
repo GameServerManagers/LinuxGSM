@@ -14,6 +14,7 @@ if [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ]; then
 elif [ "${shortname}" == "ohd" ]; then
 	workshopdir="${systemdir}/Mods"
 	workshopprefix=""
+	workshopflatten=1
 else
 	workshopdir="${serverfiles}/workshop"
 	workshopprefix="@"
@@ -162,11 +163,27 @@ fn_workshop_get_details() {
 	workshopitems=("${validitems[@]}")
 }
 
+# Prints the directory a Workshop item is installed in, if it is installed.
+fn_workshop_moddir() {
+	local statefile
+	if [ -f "${workshopdir}/${workshopprefix}${1}/.lgsm-workshop" ]; then
+		echo "${workshopdir}/${workshopprefix}${1}"
+		return
+	fi
+	for statefile in "${workshopdir}"/*/.lgsm-workshop; do
+		if [ -f "${statefile}" ] && grep -qx "id=${1}" "${statefile}"; then
+			echo "${statefile%/.lgsm-workshop}"
+			return
+		fi
+	done
+}
+
 # Reads a value from an installed mod's state file. Usage: fn_workshop_state <id> <key>
 fn_workshop_state() {
-	local statefile="${workshopdir}/${workshopprefix}${1}/.lgsm-workshop"
-	if [ -f "${statefile}" ]; then
-		sed -n "s/^${2}=//p" "${statefile}"
+	local moddir
+	moddir="$(fn_workshop_moddir "${1}")"
+	if [ -n "${moddir}" ]; then
+		sed -n "s/^${2}=//p" "${moddir}/.lgsm-workshop"
 	fi
 }
 
@@ -192,9 +209,12 @@ fn_workshop_compare() {
 		local statefile moddir
 		for statefile in "${workshopdir}"/*/.lgsm-workshop; do
 			if [ -f "${statefile}" ]; then
-				moddir="${statefile%/*}"
-				moddir="${moddir##*/}"
-				item="${moddir#"${workshopprefix}"}"
+				item="$(sed -n 's/^id=//p' "${statefile}")"
+				if [ -z "${item}" ]; then
+					moddir="${statefile%/*}"
+					moddir="${moddir##*/}"
+					item="${moddir#"${workshopprefix}"}"
+				fi
 				if [[ "${inuse}" != *" ${item} "* ]]; then
 					workshopremovals+=("${item}")
 				fi
@@ -275,11 +295,12 @@ fn_workshop_lowercase() {
 # Removes the BattlEye keys a mod installed, unless another installed mod also uses them.
 fn_workshop_remove_keys() {
 	local item="$1"
-	local key statefile
+	local key statefile moddir
+	moddir="$(fn_workshop_moddir "${item}")"
 	for key in $(fn_workshop_state "${item}" keys); do
 		local shared=""
 		for statefile in "${workshopdir}"/*/.lgsm-workshop; do
-			if [ "${statefile}" != "${workshopdir}/${workshopprefix}${item}/.lgsm-workshop" ] && [[ " $(sed -n 's/^keys=//p' "${statefile}" 2> /dev/null) " == *" ${key} "* ]]; then
+			if [ "${statefile}" != "${moddir}/.lgsm-workshop" ] && [[ " $(sed -n 's/^keys=//p' "${statefile}" 2> /dev/null) " == *" ${key} "* ]]; then
 				shared=1
 			fi
 		done
@@ -302,14 +323,30 @@ fn_workshop_install() {
 	local item="$1"
 	local src="${workshopdldir}/steamapps/workshop/content/${workshopappid[${item}]}/${item}"
 	local dst="${workshopdir}/${workshopprefix}${item}"
+	local installed
 	local keys=()
 	local links=()
 	local key pak
 	fn_print_dots "Installing ${workshoptitle[${item}]} (${item})"
-	if [ -d "${dst}" ]; then
+	installed="$(fn_workshop_moddir "${item}")"
+	if [ -n "${installed}" ]; then
 		fn_workshop_remove_keys "${item}"
 		fn_workshop_remove_links "${item}"
-		rm -rf "${dst:?}"
+		rm -rf "${installed:?}"
+	fi
+	# A mod that is a single plugin folder is installed as that folder, for games that load mods by folder name.
+	if [ -n "${workshopflatten}" ]; then
+		local subdirs=()
+		mapfile -t subdirs < <(find "${src}" -mindepth 1 -maxdepth 1 -type d)
+		if [ "${#subdirs[@]}" -eq 1 ] && [ -z "$(find "${src}" -mindepth 1 -maxdepth 1 -type f -print -quit)" ]; then
+			dst="${workshopdir}/${subdirs[0]##*/}"
+			src="${subdirs[0]}"
+		fi
+	fi
+	if [ -e "${dst}" ]; then
+		fn_print_fail_nl "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+		fn_script_log_fail "Installing ${workshoptitle[${item}]} (${item}): ${dst} already exists"
+		return
 	fi
 	mkdir -p "${workshopdir}"
 	if ! mv "${src}" "${dst}"; then
@@ -332,6 +369,7 @@ fn_workshop_install() {
 		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
 	fi
 	{
+		echo "id=${item}"
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
@@ -344,12 +382,15 @@ fn_workshop_install() {
 # Removes an installed mod that is no longer in workshopmods.
 fn_workshop_remove() {
 	local item="$1"
-	local title
+	local title moddir
 	title="$(fn_workshop_state "${item}" title)"
+	moddir="$(fn_workshop_moddir "${item}")"
 	fn_print_dots "Removing ${title} (${item})"
 	fn_workshop_remove_keys "${item}"
 	fn_workshop_remove_links "${item}"
-	rm -rf "${workshopdir:?}/${workshopprefix}${item}"
+	if [ -n "${moddir}" ]; then
+		rm -rf "${moddir:?}"
+	fi
 	fn_print_ok_nl "Removing ${title} (${item})"
 	fn_script_log_pass "Removing ${title} (${item})"
 }
@@ -406,7 +447,7 @@ fn_workshop_update() {
 	fn_print "\n"
 	fn_print_nl "${bold}${underline}Update${default} available"
 	for item in "${workshopupdates[@]}"; do
-		if [ -d "${workshopdir}/${workshopprefix}${item}" ]; then
+		if [ -n "$(fn_workshop_moddir "${item}")" ]; then
 			fn_print_nl "* Update: ${workshoptitle[${item}]} (${item})"
 		else
 			fn_print_nl "* Install: ${workshoptitle[${item}]} (${item})"
