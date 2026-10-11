@@ -18,6 +18,9 @@ elif [ "${shortname}" == "ohd" ]; then
 elif [ "${shortname}" == "bt" ]; then
 	workshopdir="${serverfiles}/LocalMods"
 	workshopprefix=""
+elif [ "${shortname}" == "col" ]; then
+	workshopdir="${serverfiles}/gamedata/mods"
+	workshopprefix=""
 elif [ "${shortname}" == "st" ]; then
 	workshopdir="${serverfiles}/mods"
 	workshopprefix=""
@@ -374,8 +377,13 @@ fn_workshop_install() {
 			links+=("workshop-${item}-${pak##*/}")
 		done < <(find "${dst}" -maxdepth 1 -type f -name '*.pak' -print0)
 	fi
+	local modname=""
+	if [ "${shortname}" == "col" ] && [ -f "${dst}/modInfo.json" ]; then
+		modname="$(jq -r 'if type == "array" then .[0].name else .name end // empty' "${dst}/modInfo.json" 2> /dev/null)"
+	fi
 	{
 		echo "id=${item}"
+		echo "modname=${modname}"
 		echo "title=${workshoptitle[${item}]}"
 		echo "timeupdated=${workshoptimeupdated[${item}]}"
 		echo "keys=${keys[*]}"
@@ -391,6 +399,7 @@ fn_workshop_remove() {
 	local title moddir
 	title="$(fn_workshop_state "${item}" title)"
 	moddir="$(fn_workshop_moddir "${item}")"
+	workshopremovednames+=("$(fn_workshop_state "${item}" modname)")
 	fn_print_dots "Removing ${title} (${item})"
 	fn_workshop_remove_keys "${item}"
 	fn_workshop_remove_links "${item}"
@@ -423,9 +432,45 @@ fn_workshop_bt_packages() {
 	sed -z -i -E 's#<regularpackages>[[:space:]]*</regularpackages>#<regularpackages />#' "${config}"
 }
 
+# Colony Survival only loads mods enabled in each world's worldconfig.json. Replaces LinuxGSM's entries with the installed mods, in order.
+fn_workshop_col_worlds() {
+	local item name worldconfig managedjson enabledjson
+	local managed=("${workshopremovednames[@]}")
+	local enabled=()
+	for item in "${workshopitems[@]}"; do
+		name="$(fn_workshop_state "${item}" modname)"
+		if [ -n "${name}" ]; then
+			managed+=("${name}")
+			enabled+=("${name}")
+		fi
+	done
+	managedjson="$(jq -cn '$ARGS.positional' --args "${managed[@]}")"
+	enabledjson="$(jq -cn '$ARGS.positional' --args "${enabled[@]}")"
+	for worldconfig in "${serverfiles}"/gamedata/savegames/*/worldconfig.json; do
+		if [ ! -f "${worldconfig}" ]; then
+			fn_print_warn_nl "No Colony Survival world found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
+			fn_script_log_warn "No Colony Survival world found, Workshop mods not enabled"
+			return
+		fi
+		if jq -c --argjson managed "${managedjson}" --argjson enabled "${enabledjson}" '
+			(.ModConfigEntries // []) as $old
+			| ($old | map({key: .ModName, value: .}) | from_entries) as $existing
+			| .ModConfigEntries = [$old[] | select(.ModName as $n | any($managed[]; . == $n) | not)]
+				+ [$enabled[] | . as $n | ($existing[$n] // {ModName: $n, ModVersionLastKnown: "---"}) | .Enabled = true]
+		' "${worldconfig}" > "${worldconfig}.tmp" 2> /dev/null; then
+			mv "${worldconfig}.tmp" "${worldconfig}"
+		else
+			rm -f "${worldconfig}.tmp"
+			fn_print_warn_nl "Unable to update ${worldconfig}"
+			fn_script_log_warn "Unable to update ${worldconfig}"
+		fi
+	done
+}
+
 # Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
 fn_workshop_apply() {
 	local item
+	workshopremovednames=()
 	for item in "${workshopinstalls[@]}"; do
 		fn_workshop_install "${item}"
 	done
@@ -434,6 +479,8 @@ fn_workshop_apply() {
 	done
 	if [ "${shortname}" == "bt" ]; then
 		fn_workshop_bt_packages
+	elif [ "${shortname}" == "col" ]; then
+		fn_workshop_col_worlds
 	fi
 	rm -rf "${workshopdldir:?}"
 }
