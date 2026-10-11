@@ -404,34 +404,23 @@ fn_workshop_remove() {
 # Barotrauma only loads mods listed in config_player.xml. Replaces LinuxGSM's entries with the installed mods, in order.
 fn_workshop_bt_packages() {
 	local config="${serverfiles}/config_player.xml"
-	local item managed=() enabled=()
+	local item entries=""
 	if [ ! -f "${config}" ]; then
 		fn_print_warn_nl "${config} not found. Start the server once, then run ./${selfname} workshop-update to enable Workshop mods"
 		fn_script_log_warn "${config} not found, Workshop mods not enabled"
 		return
 	fi
-	managed=("${workshopremovals[@]}" "${workshopitems[@]}")
+	sed -z -i 's#<regularpackages />#<regularpackages>\n    </regularpackages>#' "${config}"
+	for item in "${workshopremovals[@]}" "${workshopitems[@]}"; do
+		sed -z -i -E "s#[[:space:]]*<package[[:space:]]+path=\"LocalMods/${item}/filelist\\.xml\"[[:space:]]*/>##g" "${config}"
+	done
 	for item in "${workshopitems[@]}"; do
 		if [ -f "${workshopdir}/${item}/filelist.xml" ]; then
-			enabled+=("${item}")
+			entries+="\\n      <package\\n        path=\"LocalMods/${item}/filelist.xml\" />"
 		fi
 	done
-	python3 - "${config}" "${managed[*]}" "${enabled[*]}" << 'PYEOF'
-import re
-import sys
-
-config, managed, enabled = sys.argv[1], sys.argv[2].split(), sys.argv[3].split()
-with open(config, encoding="utf-8-sig", newline="") as f:
-    text = f.read()
-text = text.replace("<regularpackages />", "<regularpackages>\n    </regularpackages>")
-for item in managed:
-    text = re.sub(r'\s*<package\b[^>]*?path="LocalMods/' + re.escape(item) + r'/filelist\.xml"[^>]*/>', "", text)
-entries = "".join('\n      <package\n        path="LocalMods/' + item + '/filelist.xml" />' for item in enabled)
-text = re.sub(r"(\s*)</regularpackages>", entries + r"\1</regularpackages>", text, count=1)
-text = re.sub(r"<regularpackages>\s*</regularpackages>", "<regularpackages />", text)
-with open(config, "w", encoding="utf-8", newline="") as f:
-    f.write(text)
-PYEOF
+	sed -z -i -E "s#([[:space:]]*)</regularpackages>#${entries}\\1</regularpackages>#" "${config}"
+	sed -z -i -E 's#<regularpackages>[[:space:]]*</regularpackages>#<regularpackages />#' "${config}"
 }
 
 # Installs downloaded items and removes unused ones. Downloads happen first, so the server only stops for this step.
