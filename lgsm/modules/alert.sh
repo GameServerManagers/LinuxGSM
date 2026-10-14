@@ -169,6 +169,17 @@ fn_alert_backup() {
 	alertcolourdec="52480"
 }
 
+fn_alert_backup_postponed() {
+	fn_script_log_warn "Sending alert: ${selfname} backup postponed for over 24 hours"
+	alertaction="Backup Postponed"
+	alertemoji="⏳"
+	alertsound="1"
+	alertmessage="${selfname} has not been backed up for over 24 hours as players are online. The backup will run once the server is empty."
+	# Amber
+	alertcolourhex="#cd8b00"
+	alertcolourdec="13470464"
+}
+
 fn_alert_hytale_login() {
 	fn_script_log_info "Sending alert: ${selfname} needs a Hytale server login"
 	alertaction="Login Required"
@@ -261,6 +272,8 @@ elif [ "${alert}" == "update-linuxgsm" ]; then
 	fn_alert_update_linuxgsm
 elif [ "${alert}" == "backup" ]; then
 	fn_alert_backup
+elif [ "${alert}" == "backup-postponed" ]; then
+	fn_alert_backup_postponed
 elif [ "${alert}" == "hytale-login" ]; then
 	fn_alert_hytale_login
 else
