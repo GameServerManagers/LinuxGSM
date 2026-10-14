@@ -159,6 +159,7 @@ fn_monitor_check_update_request() {
 			fn_print_info_nl "Checking update: Running requested update"
 			fn_script_log_info "Checking update: Running requested update"
 			forceupdate="${requestforce}" setsid "${rootdir}/${selfname}" update > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
 			exitcode=0
 			core_exit.sh
 		fi
