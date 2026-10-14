@@ -32,8 +32,10 @@ fn_backup_trap() {
 
 # Check if a backup is pending or has been aborted using backup.lock.
 fn_backup_check_lockfile() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/backup.lock" ]; then
+	# Remove stale lockfile, unless a long backup is still running.
+	local backupsrunning
+	backupsrunning="$(pgrep -fc -u "$(id -u)" "^([^ ]*/)?bash ([^ ]*/)?${selfname} (backup|b)( |$)")"
+	if [ -f "${lockdir}/backup.lock" ] && [ "${backupsrunning:-0}" -le 1 ]; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
 			fn_print_dots "Lockfile found: "
 			fn_print_checking_eol
@@ -167,6 +169,8 @@ fn_backup_compression() {
 		fn_script_log_pass "Backup created: ${backupname}.${compressext}, total size $(du -sh "${backupdir}/${backupname}.${compressext}" | awk '{print $1}')"
 		alert="backup"
 		alert.sh
+		# A postponed backup is complete.
+		rm -f "${lockdir:?}/${selfname}-backup-request.lock"
 	fi
 }
 

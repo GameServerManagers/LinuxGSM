@@ -26,6 +26,12 @@ fn_stop_players_online() {
 				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
 				fn_print_info_nl "Update postponed until the server is empty"
 				fn_script_log_info "Update postponed until the server is empty"
+			elif [ "${firstcommandname}" == "BACKUP" ]; then
+				if [ ! -f "${lockdir}/${selfname}-backup-request.lock" ]; then
+					date '+%s' > "${lockdir:?}/${selfname}-backup-request.lock"
+				fi
+				fn_print_info_nl "Backup postponed until the server is empty"
+				fn_script_log_info "Backup postponed until the server is empty"
 			fi
 			fn_stop_cancel_locks
 			# Exit the whole command, including when called by another command (e.g. update) with exitbypass.

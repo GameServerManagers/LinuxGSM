@@ -156,9 +156,38 @@ fn_monitor_check_update_request() {
 	fi
 }
 
+# A backup postponed because players were online runs once the server is empty.
+# An alert is sent once if it has been postponed for over 24 hours.
+fn_monitor_check_backup_request() {
+	local backuprequest="${lockdir}/${selfname}-backup-request.lock"
+	if [ -f "${backuprequest}" ]; then
+		fn_print_dots "Checking backup: "
+		fn_print_checking_eol
+		fn_print_info "Checking backup: Backup requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking backup: Backup requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: backup postponed"
+			fn_script_log_info "${playersonline} players are on the server: backup postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			local requested
+			requested="$(head -n 1 "${backuprequest}")"
+			if [[ "${requested}" =~ ^[0-9]+$ ]] && [ "$(($(date '+%s') - requested))" -gt 86400 ] && ! grep -q "alerted" "${backuprequest}"; then
+				alert="backup-postponed"
+				alert.sh
+				echo "alerted" >> "${backuprequest}"
+			fi
+		else
+			fn_script_log_info "Checking backup: Running requested backup"
+			exec "${rootdir}/${selfname}" backup
+		fi
+	fi
+}
+
 fn_monitor_check_backup() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/backup.lock" ]; then
+	# Remove stale lockfile, unless a long backup is still running.
+	if [ -f "${lockdir}/backup.lock" ] && ! fn_monitor_command_running "backup|b"; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
 			fn_print_dots "Checking backup"
 			fn_print_checking_eol
@@ -454,6 +483,7 @@ fn_monitor_check_stopping
 fn_monitor_check_session
 fn_monitor_check_restart_request
 fn_monitor_check_update_request
+fn_monitor_check_backup_request
 
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
