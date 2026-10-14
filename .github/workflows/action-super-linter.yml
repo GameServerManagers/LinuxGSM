@@ -66,6 +66,6 @@ jobs:
         run: |
           bash -n lgsm/modules/install_config.sh
           bash -n .github/scripts/install-config-test.sh
-          find lgsm/config-default/config-lgsm -name _default.cfg -exec bash -n {} ;
+          find lgsm/config-default/config-lgsm -name _default.cfg -exec bash -n {} \;
       - name: Test default config source directories
         run: bash .github/scripts/install-config-test.sh
