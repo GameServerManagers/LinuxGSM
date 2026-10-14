@@ -77,12 +77,14 @@ fn_stop_warn_players_command() {
 		warncommand="/announce %s"
 	elif [ "${shortname}" == "wmc" ]; then
 		warncommand="alert %s"
+	elif [ "${shortname}" == "av" ]; then
+		warncommand="/say %s"
 	elif [ "${shortname}" == "fctr" ]; then
 		warncommand="%s"
 	elif [ "${engine}" == "source" ] || [ "${engine}" == "source2" ] || [ "${engine}" == "goldsrc" ]; then
 		warncommand="say %s"
 	else
-		local saygames=(bt cod cod2 cod4 coduo codwaw etl hyt jk2 mc mcb mohaa pmc q2 q3 q4 ql qw rtcw sof2 terraria unt wet wf xnt)
+		local saygames=(bt cod cod2 cod4 coduo codwaw ct etl hyt jk2 mc mcb mohaa mta nec pmc q2 q3 q4 ql qw rtcw rw sof2 terraria unt wet wf xnt)
 		local game
 		for game in "${saygames[@]}"; do
 			if [ "${shortname}" == "${game}" ]; then
@@ -523,6 +525,40 @@ fn_stop_graceful_rwr() {
 	fn_stop_graceful_ctrlc
 }
 
+# Attempts graceful shutdown of Rising World using 'shutdown'.
+# Its console can miss input, so the command is sent again every 10 seconds until the server stops.
+fn_stop_graceful_rw() {
+	fn_print_dots "Graceful: sending \"shutdown\""
+	fn_script_log_info "Graceful: sending \"shutdown\""
+	for ((seconds = 1; seconds <= 120; seconds++)); do
+		if [ $((seconds % 10)) -eq 1 ]; then
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" ENTER > /dev/null 2>&1
+			sleep 1
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" -l "shutdown" > /dev/null 2>&1
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" ENTER > /dev/null 2>&1
+		fi
+		check_status.sh
+		if [ "${status}" == "0" ]; then
+			fn_print_ok "Graceful: sending \"shutdown\": ${seconds}"
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Graceful: sending \"shutdown\": OK: ${seconds} seconds"
+			if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+				alert="stopped"
+				alert.sh
+			fi
+			break
+		fi
+		fn_sleep_time_1
+		fn_print_dots "Graceful: sending \"shutdown\": ${seconds}"
+	done
+	check_status.sh
+	if [ "${status}" != "0" ]; then
+		fn_print_error "Graceful: sending \"shutdown\": "
+		fn_print_fail_eol_nl
+		fn_script_log_error "Graceful: sending \"shutdown\": FAIL"
+	fi
+}
+
 fn_stop_graceful_select() {
 	if [ "${stopmode}" == "1" ]; then
 		fn_stop_tmux
@@ -552,6 +588,8 @@ fn_stop_graceful_select() {
 		fn_stop_graceful_sm
 	elif [ "${stopmode}" == "14" ]; then
 		fn_stop_graceful_rwr
+	elif [ "${stopmode}" == "15" ]; then
+		fn_stop_graceful_rw
 	fi
 }
 
