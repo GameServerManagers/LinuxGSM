@@ -31,9 +31,9 @@ cs2,cs2server,Counter-Strike 2,ubuntu-26.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-26.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-26.04
 css,cssserver,Counter-Strike: Source,ubuntu-26.04
-ct,ctserver,Craftopia,ubuntu-24.04
+ct,ctserver,Craftopia,ubuntu-26.04
 dab,dabserver,Double Action: Boogaloo,ubuntu-26.04
-dayz,dayzserver,DayZ,ubuntu-24.04
+dayz,dayzserver,DayZ,ubuntu-26.04
 dmc,dmcserver,Deathmatch Classic,ubuntu-26.04
 dod,dodserver,Day of Defeat,ubuntu-26.04
 dodr,dodrserver,Day of Dragons,ubuntu-26.04
@@ -111,7 +111,7 @@ sfc,sfcserver,SourceForts Classic,ubuntu-26.04
 sm,smserver,Soulmask,ubuntu-26.04
 sof2,sof2server,Soldier Of Fortune 2: Gold Edition,ubuntu-26.04
 sol,solserver,Soldat,ubuntu-26.04
-squad,squadserver,Squad,ubuntu-24.04
+squad,squadserver,Squad,ubuntu-26.04
 squad44,squad44server,Squad 44,ubuntu-26.04
 st,stserver,Stationeers,ubuntu-26.04
 stn,stnserver,Survive the Nights,ubuntu-26.04
@@ -124,7 +124,7 @@ tfc,tfcserver,Team Fortress Classic,ubuntu-26.04
 ti,tiserver,The Isle,ubuntu-26.04
 ts,tsserver,The Specialists,ubuntu-26.04
 ts3,ts3server,Teamspeak 3,ubuntu-26.04
-tu,tuserver,Tower Unite,ubuntu-24.04
+tu,tuserver,Tower Unite,ubuntu-26.04
 tw,twserver,Teeworlds,ubuntu-26.04
 unt,untserver,Unturned,ubuntu-26.04
 ut,utserver,Unreal Tournament,ubuntu-26.04
