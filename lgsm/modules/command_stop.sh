@@ -173,6 +173,10 @@ fn_stop_warn_players() {
 			fn_script_log_info "Warning players: no players on the server"
 			break
 		fi
+		if [ "${i}" == "0" ] && [ -n "${playercountunavailable}" ]; then
+			fn_print_info_nl "Warning players: unable to check for players (${playercountunavailable}): warning anyway"
+			fn_script_log_info "Warning players: unable to check for players (${playercountunavailable}): warning anyway"
+		fi
 		fn_stop_warn_players_send "${warnplayersaction}" "${steps[i]}"
 		fn_print_info_nl "Warning players: ${warnplayersaction} in ${steps[i]} minute(s)"
 		fn_script_log_info "Warning players: ${warnplayersaction} in ${steps[i]} minute(s)"
