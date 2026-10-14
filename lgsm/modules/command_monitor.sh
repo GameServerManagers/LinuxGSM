@@ -165,8 +165,8 @@ fn_monitor_check_update_request() {
 	fi
 }
 
-# A backup postponed because players were online runs once the server is empty.
-# An alert is sent once if it has been postponed for over 24 hours.
+# A backup postponed because players were online runs once the server is empty, in the background
+# like a requested update. An alert is sent once if it has been postponed for over 24 hours.
 fn_monitor_check_backup_request() {
 	local backuprequest="${lockdir}/${selfname}-backup-request.lock"
 	if [ -f "${backuprequest}" ]; then
@@ -188,8 +188,11 @@ fn_monitor_check_backup_request() {
 				echo "alerted" >> "${backuprequest}"
 			fi
 		else
+			fn_print_info_nl "Checking backup: Running requested backup"
 			fn_script_log_info "Checking backup: Running requested backup"
-			exec "${rootdir}/${selfname}" backup
+			setsid "${rootdir}/${selfname}" backup > /dev/null 2>&1 < /dev/null &
+			exitcode=0
+			core_exit.sh
 		fi
 	fi
 }
