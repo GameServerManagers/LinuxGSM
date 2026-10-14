@@ -24,6 +24,9 @@ fn_stop_players_online() {
 			# Monitor runs the update once the server is empty.
 			if [ "${firstcommandname}" == "UPDATE" ]; then
 				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
+				if [ "${forceupdate}" == "1" ]; then
+					echo "force" >> "${lockdir:?}/${selfname}-update-request.lock"
+				fi
 				fn_print_info_nl "Update postponed until the server is empty"
 				fn_script_log_info "Update postponed until the server is empty"
 			elif [ "${firstcommandname}" == "BACKUP" ]; then
@@ -45,6 +48,8 @@ fn_stop_players_online() {
 fn_stop_cancel_locks() {
 	if [ "${firstcommandname}" == "UPDATE" ] || [ "${firstcommandname}" == "WORKSHOP-UPDATE" ]; then
 		rm -f "${lockdir:?}/update.lock" "${lockdir:?}/last-updated.lock"
+	elif [ "${firstcommandname}" == "VALIDATE" ]; then
+		rm -f "${lockdir:?}/update.lock"
 	elif [ "${firstcommandname}" == "BACKUP" ]; then
 		rm -f "${lockdir:?}/backup.lock"
 	fi
