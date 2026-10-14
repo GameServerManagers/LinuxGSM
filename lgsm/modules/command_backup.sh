@@ -12,6 +12,9 @@ fn_firstcommand_set
 
 # Trap to remove lockfile on quit.
 fn_backup_trap() {
+	if [ "$(type -t fn_stop_warn_players_cancel)" == "function" ]; then
+		fn_stop_warn_players_cancel
+	fi
 	echo -e ""
 	echo -en "backup ${backupname}.${compressext}..."
 	fn_print_canceled_eol_nl
