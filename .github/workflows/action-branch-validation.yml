@@ -3,7 +3,7 @@ name: Branch validation tests
 on:
   push:
     branches:
-      - "*"
+      - "**"
     paths:
       - linuxgsm.sh
       - lgsm/modules/core_dl.sh
