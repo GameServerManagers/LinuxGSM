@@ -24,18 +24,18 @@ fn_default_config_remote() {
 	echo -e "Downloading default configs from: ${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time_1
-	mkdir -p "${lgsmdir}/config-default/config-game"
+	mkdir -p "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}"
 	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
-		# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
-		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
+		# Downloads default configs to the configured template source directory.
+		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}" "${config}" "nochmodx" "norun" "forcedl" "nohash"
 
 		# Every config is copied.
 		if [ "${config}" == "${servercfgdefault}" ]; then
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${servercfgfullpath}${default} ]"
 			if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
-				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgfullpath}"
+				cp "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${config}" "${servercfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
 			else
@@ -54,7 +54,7 @@ fn_default_config_remote() {
 			mkdir -p "${servercfgdir}"
 			echo -en "copying config file [ ${italic}${networkcfgfullpath}${default} ]"
 			if [ ! -e "${networkcfgfullpath}" ] && [ ! -L "${networkcfgfullpath}" ]; then
-				cp "${lgsmdir}/config-default/config-game/${config}" "${networkcfgfullpath}"
+				cp "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${config}" "${networkcfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
 			else
@@ -72,7 +72,7 @@ fn_default_config_remote() {
 		elif [ "${shortname}" == "dst" ] && [ "${config}" == "${clustercfgdefault}" ]; then
 			echo -en "copying config file [ ${italic}${clustercfgfullpath}${default} ]"
 			if [ ! -e "${clustercfgfullpath}" ] && [ ! -L "${clustercfgfullpath}" ]; then
-				cp "${lgsmdir}/config-default/config-game/${clustercfgdefault}" "${clustercfgfullpath}"
+				cp "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${clustercfgdefault}" "${clustercfgfullpath}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
 			else
@@ -90,7 +90,7 @@ fn_default_config_remote() {
 		else
 			echo -en "copying config file [ ${italic}${servercfgdir}/${config}${default} ]"
 			if [ ! -e "${servercfgdir}/${config}" ] && [ ! -L "${servercfgdir}/${config}" ]; then
-				cp "${lgsmdir}/config-default/config-game/${config}" "${servercfgdir}/${config}"
+				cp "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${config}" "${servercfgdir}/${config}"
 				exitcode=$?
 				[ "${exitcode}" -eq 0 ] && changes="copied"
 			else
@@ -111,7 +111,7 @@ fn_default_config_remote() {
 	done
 }
 
-# Copies local default config to server config location.
+# Copies local default config from its source directory to the server config location.
 fn_default_config_local() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Copying ${gamename} Configs${default}"
@@ -125,7 +125,7 @@ fn_default_config_local() {
 	fi
 
 	echo -en "copying config file [ ${italic}${servercfgdefault}${default} ]: "
-	cp --update=none "${servercfgdir}/${servercfgdefault}" "${servercfgfullpath}"
+	cp --update=none "${servercfgdirdefault:-${servercfgdir}}/${servercfgdefault}" "${servercfgfullpath}"
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol
@@ -148,9 +148,9 @@ fn_set_config_vars() {
 		fn_script_log_info "setting hostname"
 		fn_sleep_time
 		# prevents var from being overwritten with the servername.
-		if grep -q "SERVERNAME=SERVERNAME" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
+		if grep -q "SERVERNAME=SERVERNAME" "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${config}" 2> /dev/null; then
 			changes+=$(sed -i "s/SERVERNAME=SERVERNAME/SERVERNAME=${servername}/g w /dev/stdout" "${servercfgfullpath}")
-		elif grep -q "SERVERNAME=\"SERVERNAME\"" "${lgsmdir}/config-default/config-game/${config}" 2> /dev/null; then
+		elif grep -q "SERVERNAME=\"SERVERNAME\"" "${servercfgdirdefault:-${lgsmdir}/config-default/config-game}/${config}" 2> /dev/null; then
 			changes+=$(sed -i "s/SERVERNAME=\"SERVERNAME\"/SERVERNAME=\"${servername}\"/g w /dev/stdout" "${servercfgfullpath}")
 		else
 			changes+=$(sed -i "s/SERVERNAME/${servername}/g w /dev/stdout" "${servercfgfullpath}")
