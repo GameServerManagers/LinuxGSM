@@ -192,6 +192,7 @@ fn_monitor_check_backup_request() {
 			fn_print_info_nl "Checking backup: Running requested backup"
 			fn_script_log_info "Checking backup: Running requested backup"
 			setsid "${rootdir}/${selfname}" backup > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
 			exitcode=0
 			core_exit.sh
 		fi
