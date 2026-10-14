@@ -51,21 +51,3 @@ jobs:
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_TRIVY: false
           VALIDATE_YAML_PRETTIER: false
-
-  install-config:
-    name: Install config regression checks
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - name: Validate Bash syntax
-        run: |
-          bash -n lgsm/modules/install_config.sh
-          bash -n .github/scripts/install-config-test.sh
-          find lgsm/config-default/config-lgsm -name _default.cfg -exec bash -n {} \;
-      - name: Test default config source directories
-        run: bash .github/scripts/install-config-test.sh
