@@ -24,15 +24,60 @@ fn_stop_players_online() {
 			# Monitor runs the update once the server is empty.
 			if [ "${firstcommandname}" == "UPDATE" ]; then
 				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
-				# The update was not applied, so the server does not need a restart for it.
-				rm -f "${lockdir:?}/last-updated.lock"
 				fn_print_info_nl "Update postponed until the server is empty"
 				fn_script_log_info "Update postponed until the server is empty"
 			fi
+			fn_stop_cancel_locks
 			# Exit the whole command, including when called by another command (e.g. update) with exitbypass.
 			unset exitbypass
 			core_exit.sh
 		fi
+	fi
+}
+
+# Removes the lockfiles of the command that called stop when it ends without stopping the server.
+fn_stop_cancel_locks() {
+	if [ "${firstcommandname}" == "UPDATE" ] || [ "${firstcommandname}" == "WORKSHOP-UPDATE" ]; then
+		rm -f "${lockdir:?}/update.lock" "${lockdir:?}/last-updated.lock"
+	elif [ "${firstcommandname}" == "BACKUP" ]; then
+		rm -f "${lockdir:?}/backup.lock"
+	fi
+}
+
+# Tells players a warning countdown was cancelled, used when CTRL-C is pressed.
+fn_stop_warn_players_cancel() {
+	if [ "$(cat "${lockdir}/${selfname}-warning.lock" 2> /dev/null)" == "$$" ]; then
+		fn_stop_warn_players_send "${warnplayersaction}" "0"
+		rm -f "${lockdir:?}/${selfname}-warning.lock"
+		fn_stop_cancel_locks
+	fi
+}
+
+# Sets the game's chat command used to warn players, %s is replaced by the message.
+fn_stop_warn_players_command() {
+	warncommand=""
+	if [ "${shortname}" == "pz" ]; then
+		warncommand='servermsg "%s"'
+	elif [ "${shortname}" == "dst" ]; then
+		warncommand='c_announce("%s")'
+	elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+		warncommand="/bc 10 %s"
+	elif [ "${shortname}" == "vints" ]; then
+		warncommand="/announce %s"
+	elif [ "${shortname}" == "wmc" ]; then
+		warncommand="alert %s"
+	elif [ "${shortname}" == "fctr" ]; then
+		warncommand="%s"
+	elif [ "${engine}" == "source" ] || [ "${engine}" == "source2" ] || [ "${engine}" == "goldsrc" ]; then
+		warncommand="say %s"
+	else
+		local saygames=(bt cod cod2 cod4 coduo codwaw etl hyt jk2 mc mcb mohaa pmc q2 q3 q4 ql qw rtcw sof2 terraria unt wet wf xnt)
+		local game
+		for game in "${saygames[@]}"; do
+			if [ "${shortname}" == "${game}" ]; then
+				warncommand="say %s"
+			fi
+		done
 	fi
 }
 
@@ -70,13 +115,12 @@ fn_stop_warn_players_wait() {
 # Counts down to the stop with in-game warnings, e.g. warnplayerstimer="15" warns at 15, 10, 5, 3 and 1 minutes.
 # Skipped when the server is empty, and ends early if the server empties during the countdown.
 fn_stop_warn_players() {
-	local action
 	if [ "${firstcommandname}" == "STOP" ]; then
-		action="stopping"
+		warnplayersaction="stopping"
 	elif [ "${firstcommandname}" == "RESTART" ] || [ "${firstcommandname}" == "BACKUP" ]; then
-		action="restarting"
+		warnplayersaction="restarting"
 	elif [ "${firstcommandname}" == "UPDATE" ] || [ "${firstcommandname}" == "WORKSHOP-UPDATE" ]; then
-		action="updating"
+		warnplayersaction="updating"
 	else
 		return
 	fi
@@ -92,6 +136,7 @@ fn_stop_warn_players() {
 	if [ "${timer}" -eq 0 ]; then
 		return
 	fi
+	fn_stop_warn_players_command
 	if [ "${consoleinteract}" != "yes" ] || [ -z "${warncommand}" ]; then
 		fn_print_info_nl "Warning players: not supported by ${gamename}: skipped"
 		fn_script_log_info "Warning players: not supported by ${gamename}: skipped"
@@ -113,8 +158,6 @@ fn_stop_warn_players() {
 	done
 
 	echo "$$" > "${lockdir:?}/${selfname}-warning.lock"
-	# shellcheck disable=SC2034 # Used by core_trap.sh.
-	warnplayersaction="${action}"
 	local i next
 	for i in "${!steps[@]}"; do
 		check_status.sh
@@ -130,9 +173,9 @@ fn_stop_warn_players() {
 			fn_script_log_info "Warning players: no players on the server"
 			break
 		fi
-		fn_stop_warn_players_send "${action}" "${steps[i]}"
-		fn_print_info_nl "Warning players: ${action} in ${steps[i]} minute(s)"
-		fn_script_log_info "Warning players: ${action} in ${steps[i]} minute(s)"
+		fn_stop_warn_players_send "${warnplayersaction}" "${steps[i]}"
+		fn_print_info_nl "Warning players: ${warnplayersaction} in ${steps[i]} minute(s)"
+		fn_script_log_info "Warning players: ${warnplayersaction} in ${steps[i]} minute(s)"
 		next="${steps[i + 1]:-0}"
 		local waitseconds=$(((steps[i] - next) * 60))
 		while [ "${waitseconds}" -gt 0 ]; do

@@ -17,11 +17,11 @@ fn_exit_trap() {
 	if [ -z "${exitcode}" ]; then
 		exitcode=0
 	fi
-	# Tell players if a warning countdown was cancelled.
-	if [ -n "${warnplayersaction}" ]; then
-		fn_stop_warn_players_send "${warnplayersaction}" "0"
-		rm -f "${lockdir:?}/${selfname}-warning.lock"
+	if [ "$(type -t fn_stop_warn_players_cancel)" == "function" ]; then
+		fn_stop_warn_players_cancel
 	fi
+	# CTRL-C exits LinuxGSM, including while one command is running another (e.g. restart running stop).
+	unset exitbypass
 	core_exit.sh
 }
 
