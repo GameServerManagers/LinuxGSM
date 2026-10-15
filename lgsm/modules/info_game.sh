@@ -2512,7 +2512,7 @@ elif [ "${shortname}" == "sb" ]; then
 	fn_info_game_sb
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_game_sbots
-elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+elif [ "${shortname}" == "scpsl" ]; then
 	fn_info_game_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd

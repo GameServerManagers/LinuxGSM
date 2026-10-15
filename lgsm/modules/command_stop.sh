@@ -71,7 +71,7 @@ fn_stop_warn_players_command() {
 		warncommand='servermsg "%s"'
 	elif [ "${shortname}" == "dst" ]; then
 		warncommand='c_announce("%s")'
-	elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+	elif [ "${shortname}" == "scpsl" ]; then
 		warncommand="/bc 10 %s"
 	elif [ "${shortname}" == "vints" ]; then
 		warncommand="/announce %s"
