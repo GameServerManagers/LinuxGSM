@@ -317,13 +317,11 @@ elif [ "${shortname}" == "btl" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "bf1942" ]; then
 	array_configs+=(serversettings.con)
-	rm -f "${servercfgfullpath}"
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "bfv" ]; then
 	array_configs+=(serversettings.con)
-	rm -f "${servercfgfullpath}"
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
