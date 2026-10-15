@@ -730,7 +730,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -1965,7 +1965,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_sb
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_messages_sbots
-	elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+	elif [ "${shortname}" == "scpsl" ]; then
 		fn_info_messages_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_messages_sdtd

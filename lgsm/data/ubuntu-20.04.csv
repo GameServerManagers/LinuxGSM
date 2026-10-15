@@ -106,7 +106,6 @@ samp
 sb
 sbots
 scpsl,mono-complete
-scpslsm,mono-complete
 sdtd,telnet,expect,libxml2-utils
 sf
 sfc,libtinfo5:i386

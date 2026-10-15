@@ -227,7 +227,7 @@ fn_install_server_files() {
 	fn_clear_tmp
 }
 
-if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ] || [ "${shortname}" == "ut" ]; then
+if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "ut" ]; then
 	install_eula.sh
 fi
 
