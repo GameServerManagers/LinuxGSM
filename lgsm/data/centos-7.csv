@@ -12,7 +12,7 @@ bb
 bb2,libcurl.i686
 bd
 bf1942,ncurses-libs.i686
-bfv,compat-libstdc++-33.i686,glibc.i686
+bfv,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs

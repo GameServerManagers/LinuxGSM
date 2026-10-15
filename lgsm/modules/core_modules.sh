@@ -378,6 +378,16 @@ fix_av.sh() {
 	fn_fetch_module
 }
 
+fix_bf1942.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_bfv.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_bo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
