@@ -1486,7 +1486,6 @@ fn_info_game_jk3() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	serverversion="${serverversion:-"NOT SET"}"
 }
 
 # Config Type: Java properties
