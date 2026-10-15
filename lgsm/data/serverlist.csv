@@ -62,7 +62,7 @@ jbep3,jbep3server,Jabroni Brawl: Episode 3,ubuntu-26.04
 jc2,jc2server,Just Cause 2,ubuntu-26.04
 jc3,jc3server,Just Cause 3,ubuntu-26.04
 jk2,jk2server,Jedi Knight II: Jedi Outcast,ubuntu-26.04
-kf,kfserver,Killing Floor,ubuntu-24.04
+kf,kfserver,Killing Floor,ubuntu-26.04
 kf2,kf2server,Killing Floor 2,ubuntu-26.04
 l4d,l4dserver,Left 4 Dead,ubuntu-26.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-26.04
@@ -90,11 +90,11 @@ pw,pwserver,Palworld,ubuntu-26.04
 pz,pzserver,Project Zomboid,ubuntu-26.04
 q2,q2server,Quake 2,ubuntu-26.04
 q3,q3server,Quake 3: Arena,ubuntu-26.04
-q4,q4server,Quake 4,ubuntu-24.04
+q4,q4server,Quake 4,ubuntu-26.04
 ql,qlserver,Quake Live,ubuntu-26.04
 qw,qwserver,Quake World,ubuntu-26.04
 ricochet,ricochetserver,Ricochet,ubuntu-26.04
-ro,roserver,Red Orchestra: Ostfront 41-45,ubuntu-24.04
+ro,roserver,Red Orchestra: Ostfront 41-45,ubuntu-26.04
 rsdw,rsdwserver,RuneScape: Dragonwilds,ubuntu-26.04
 rtcw,rtcwserver,Return to Castle Wolfenstein,ubuntu-26.04
 rust,rustserver,Rust,ubuntu-26.04
