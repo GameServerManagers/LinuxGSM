@@ -132,6 +132,27 @@ fn_human_readable_file_size() {
 	fi
 }
 
+# Sets the GoldSrc file types to include for the current directory.
+fn_fastdl_goldsrc_extensions() {
+	fastdl_find_maxdepth=()
+	if [ "${directory}" == "." ]; then
+		allowed_extentions_array=("*.wad")
+		fastdl_find_maxdepth=("-maxdepth" "1")
+	elif [ "${directory}" == "maps" ]; then
+		allowed_extentions_array=("*.bsp" "*.res" "*.txt")
+	elif [ "${directory}" == "models" ]; then
+		allowed_extentions_array=("*.mdl")
+	elif [ "${directory}" == "sound" ]; then
+		allowed_extentions_array=("*.wav")
+	elif [ "${directory}" == "sprites" ]; then
+		allowed_extentions_array=("*.spr" "*.txt")
+	elif [ "${directory}" == "gfx" ]; then
+		allowed_extentions_array=("*.tga" "*.bmp")
+	elif [ "${directory}" == "overviews" ]; then
+		allowed_extentions_array=("*.bmp" "*.tga" "*.txt")
+	fi
+}
+
 # Provides info about the fastdl directory content and prompts for confirmation.
 fn_fastdl_preview() {
 	# Remove any file list.
@@ -160,12 +181,18 @@ fn_fastdl_preview() {
 				fn_print_skip_eol_nl
 			fi
 		done
-	# Source engine
+	# Source and GoldSrc engines
 	else
-		fastdl_directories_array=("maps" "materials" "models" "particles" "sound" "resource")
+		if [ "${engine}" == "goldsrc" ]; then
+			fastdl_directories_array=("." "maps" "models" "sound" "sprites" "gfx" "overviews")
+		else
+			fastdl_directories_array=("maps" "materials" "models" "particles" "sound" "resource")
+		fi
 		for directory in "${fastdl_directories_array[@]}"; do
 			if [ -d "${systemdir}/${directory}" ]; then
-				if [ "${directory}" == "maps" ]; then
+				if [ "${engine}" == "goldsrc" ]; then
+					fn_fastdl_goldsrc_extensions
+				elif [ "${directory}" == "maps" ]; then
 					local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
 				elif [ "${directory}" == "materials" ]; then
 					local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
@@ -187,7 +214,7 @@ fn_fastdl_preview() {
 						tput el
 						fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
 						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-					done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
+					done < <(find "${systemdir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}")
 					tput rc
 					tput el
 					fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
@@ -315,7 +342,9 @@ fn_fastdl_gmod() {
 fn_fastdl_source() {
 	for directory in "${fastdl_directories_array[@]}"; do
 		if [ -d "${systemdir}/${directory}" ]; then
-			if [ "${directory}" == "maps" ]; then
+			if [ "${engine}" == "goldsrc" ]; then
+				fn_fastdl_goldsrc_extensions
+			elif [ "${directory}" == "maps" ]; then
 				local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
 			elif [ "${directory}" == "materials" ]; then
 				local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
@@ -353,7 +382,7 @@ fn_fastdl_source() {
 					else
 						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
 					fi
-				done < <(find "${systemdir}/${directory}" -type f -iname "${allowed_extention}")
+				done < <(find "${systemdir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}")
 				if [ ${fileswc} != 0 ]; then
 					fn_print_ok_eol_nl
 				fi
