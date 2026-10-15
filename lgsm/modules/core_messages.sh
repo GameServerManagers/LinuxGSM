@@ -324,6 +324,7 @@ fn_prompt_yn() {
 			echo -e ""
 			fn_print_error_nl "Unable to read an answer: no input available"
 			fn_script_log_error "Unable to read an answer to \"${1}\": no input available"
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
 			exitcode=2
 			core_exit.sh
 		fi
