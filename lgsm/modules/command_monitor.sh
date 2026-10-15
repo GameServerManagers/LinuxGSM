@@ -135,9 +135,73 @@ fn_monitor_check_restart_request() {
 	fi
 }
 
+# An update postponed because players were online runs once the server is empty.
+# It runs in the background as its own update command, so monitor returns straight away
+# (e.g. a healthcheck timeout can't stop it) and other monitor runs see the update in progress.
+fn_monitor_check_update_request() {
+	local updaterequest="${lockdir}/${selfname}-update-request.lock"
+	if [ -f "${updaterequest}" ]; then
+		fn_print_dots "Checking update: "
+		fn_print_checking_eol
+		fn_print_info "Checking update: Update requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking update: Update requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: update postponed"
+			fn_script_log_info "${playersonline} players are on the server: update postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+		else
+			local requestforce=""
+			if grep -qx "force" "${updaterequest}"; then
+				requestforce="1"
+			fi
+			fn_print_info_nl "Checking update: Running requested update"
+			fn_script_log_info "Checking update: Running requested update"
+			forceupdate="${requestforce}" setsid "${rootdir}/${selfname}" update > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
+			exitcode=0
+			core_exit.sh
+		fi
+	fi
+}
+
+# A backup postponed because players were online runs once the server is empty, in the background
+# like a requested update. An alert is sent once if it has been postponed for over 24 hours.
+fn_monitor_check_backup_request() {
+	local backuprequest="${lockdir}/${selfname}-backup-request.lock"
+	if [ -f "${backuprequest}" ]; then
+		fn_print_dots "Checking backup: "
+		fn_print_checking_eol
+		fn_print_info "Checking backup: Backup requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking backup: Backup requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: backup postponed"
+			fn_script_log_info "${playersonline} players are on the server: backup postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			local requested
+			requested="$(head -n 1 "${backuprequest}")"
+			if [[ "${requested}" =~ ^[0-9]+$ ]] && [ "$(($(date '+%s') - requested))" -gt 86400 ] && ! grep -q "alerted" "${backuprequest}"; then
+				alert="backup-postponed"
+				alert.sh
+				echo "alerted" >> "${backuprequest}"
+			fi
+		else
+			fn_print_info_nl "Checking backup: Running requested backup"
+			fn_script_log_info "Checking backup: Running requested backup"
+			setsid "${rootdir}/${selfname}" backup > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
+			exitcode=0
+			core_exit.sh
+		fi
+	fi
+}
+
 fn_monitor_check_backup() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/backup.lock" ]; then
+	# Remove stale lockfile, unless a long backup is still running.
+	if [ -f "${lockdir}/backup.lock" ] && ! fn_monitor_command_running "backup|b"; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
 			fn_print_dots "Checking backup"
 			fn_print_checking_eol
@@ -159,8 +223,8 @@ fn_monitor_check_backup() {
 }
 
 fn_monitor_check_update() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/update.lock" ]; then
+	# Remove stale lockfile, unless a long update is still running.
+	if [ -f "${lockdir}/update.lock" ] && ! fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur|workshop-update|wu"; then
 		if [ "$(find "${lockdir}/update.lock" -mmin +15)" ]; then
 			fn_print_dots "Checking update"
 			fn_print_checking_eol
@@ -171,7 +235,7 @@ fn_monitor_check_update() {
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur"; then
+	if [ -f "${lockdir}/update.lock" ] && fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur|workshop-update|wu"; then
 		fn_print_dots "Checking update"
 		fn_print_checking_eol
 		fn_print_info "Checking update: LinuxGSM is updating the game server"
@@ -432,6 +496,8 @@ fn_monitor_check_starting
 fn_monitor_check_stopping
 fn_monitor_check_session
 fn_monitor_check_restart_request
+fn_monitor_check_update_request
+fn_monitor_check_backup_request
 
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
