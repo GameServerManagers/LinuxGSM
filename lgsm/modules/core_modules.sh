@@ -722,6 +722,11 @@ update_jk2.sh() {
 	fn_fetch_module
 }
 
+update_jk3.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_mc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
