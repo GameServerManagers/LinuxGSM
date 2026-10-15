@@ -99,7 +99,7 @@ rsdw,rsdwserver,RuneScape: Dragonwilds,ubuntu-26.04
 rtcw,rtcwserver,Return to Castle Wolfenstein,ubuntu-26.04
 rust,rustserver,Rust,ubuntu-26.04
 rw,rwserver,Rising World,ubuntu-26.04
-rwr,rwrserver,Running With Rifles,ubuntu-24.04
+rwr,rwrserver,Running With Rifles,ubuntu-26.04
 samp,sampserver,San Andreas Multiplayer,ubuntu-26.04
 sb,sbserver,Starbound,ubuntu-26.04
 sbots,sbotsserver,StickyBots,ubuntu-26.04
@@ -130,7 +130,7 @@ unt,untserver,Unturned,ubuntu-26.04
 ut,utserver,Unreal Tournament,ubuntu-26.04
 ut2k4,ut2k4server,Unreal Tournament 2004,ubuntu-26.04
 ut3,ut3server,Unreal Tournament 3,ubuntu-26.04
-ut99,ut99server,Unreal Tournament 99,ubuntu-24.04
+ut99,ut99server,Unreal Tournament 99,ubuntu-26.04
 vh,vhserver,Valheim,ubuntu-26.04
 vints,vintsserver,Vintage Story,ubuntu-26.04
 vpmc,vpmcserver,Velocity Proxy MC,ubuntu-26.04
