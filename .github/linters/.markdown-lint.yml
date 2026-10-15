@@ -1,0 +1,20 @@
+# Configuration for markdownlint (used by Super Linter)
+
+# MD041: README starts with HTML badges in this repo.
+MD041: false
+
+# MD051: GitHub heading anchor generation can differ (emoji, punctuation).
+MD051: false
+
+# MD013: The project documentation frequently contains long URLs/commands.
+MD013: false
+
+# MD033: The main README uses inline HTML for badges.
+MD033: false
+
+# MD007: Repo uses 2-space indentation for nested lists.
+MD007:
+  indent: 2
+
+# MD030: Repo mixes 1-space unordered and 2-space ordered list markers.
+MD030: false

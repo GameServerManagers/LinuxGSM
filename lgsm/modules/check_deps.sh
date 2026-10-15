@@ -1,22 +1,35 @@
 #!/bin/bash
 # LinuxGSM check_deps.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks and installs missing dependencies.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_install_dotnet_repo() {
+	local dotnetpackage
+	dotnetpackage="dotnet-runtime-7.0"
+
+	for dep in "${array_deps_missing[@]}"; do
+		if [[ "${dep}" == dotnet-runtime-* ]]; then
+			dotnetpackage="${dep}"
+			break
+		fi
+	done
+
 	if [ "${distroid}" == "ubuntu" ]; then
-		# if package aspnetcore-runtime-7.0 is unavailable in ubuntu repos, add the microsoft repo.
-		if ! apt-cache show aspnetcore-runtime-7.0 > /dev/null 2>&1; then
+		# If the required .NET package is unavailable in Ubuntu repos, add the Microsoft repo.
+		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
 			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
 			sudo dpkg -i /tmp/packages-microsoft-prod.deb
 		fi
 	elif [ "${distroid}" == "debian" ]; then
-		fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-		sudo dpkg -i /tmp/packages-microsoft-prod.deb
+		# If the required .NET package is unavailable in Debian repos, add the Microsoft repo.
+		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
+			fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
+			sudo dpkg -i /tmp/packages-microsoft-prod.deb
+		fi
 	fi
 }
 
@@ -75,14 +88,15 @@ fn_install_mono_repo() {
 
 		# Run the mono repo install.
 		eval "${cmd}"
+		monorepoexitcode=$?
 
 		# Did Mono repo install correctly?
 		if [ "${monoautoinstall}" != "1" ]; then
-			if [ $? != 0 ]; then
+			if [ "${monorepoexitcode}" -ne 0 ]; then
 				fn_print_failure_nl "Unable to install Mono repository."
 				fn_script_log_fail "Unable to install Mono repository."
 			else
-				fn_print_complete_nl "Installing Mono repository completed."
+				fn_print_success_nl "Installing Mono repository completed."
 				fn_script_log_pass "Installing Mono repository completed."
 			fi
 		fi
@@ -112,14 +126,17 @@ fn_deps_email() {
 				array_deps_required+=(exim4)
 			elif [ -d /etc/sendmail ]; then
 				array_deps_required+=(sendmail)
+			elif [ "$(command -v apt 2> /dev/null)" ] && [ -d /etc/nullmailer ]; then
+				# 'mailutils' provides the 'mail' binary, 'nullmailer' is the MTA
+				array_deps_required+=(mailutils nullmailer)
 			elif [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
 		else
 			if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
-				array_deps_required+=(mailx postfix)
+				array_deps_required+=(s-nail postfix)
 			elif [ "$(command -v apt 2> /dev/null)" ]; then
 				array_deps_required+=(mailutils postfix)
 			fi
@@ -139,13 +156,17 @@ fn_install_missing_deps() {
 			fn_script_log_warn "Missing dependencies: ${array_deps_missing[*]}"
 		fi
 
-		# Attempt automatic dependency installation
-		if [ "${autoinstall}" == "1" ]; then
-			sudo -n true > /dev/null 2>&1
+		# Attempt automatic dependency installation.
+		# Check for passwordless sudo first: sudo-rs (default sudo from Ubuntu 25.10) always asks
+		# for a password for sudo -v, even when the user has NOPASSWD.
+		if sudo -n true > /dev/null 2>&1; then
+			autodepinstall="0"
+		elif [ "${autoinstall}" == "1" ]; then
+			autodepinstall="1"
 		else
 			sudo -v > /dev/null 2>&1
+			autodepinstall="$?"
 		fi
-		autodepinstall="$?"
 
 		if [ "${monoinstalled}" == "false" ]; then
 			fn_install_mono_repo
@@ -195,9 +216,10 @@ fn_install_missing_deps() {
 			fi
 			autodepinstall="$?"
 
-			# If auto install passes remove steamcmd install failure.
+			# If auto install passes, remove steamcmd install failure and set exit code to 0.
 			if [ "${autodepinstall}" == "0" ]; then
 				unset steamcmdfail
+				exitcode=0
 			fi
 		fi
 
@@ -225,15 +247,15 @@ fn_install_missing_deps() {
 
 	else
 		if [ "${commandname}" == "INSTALL" ]; then
-			fn_print_information_nl "Required dependencies already installed."
+			fn_print_skip2_nl "Required dependencies already installed."
 			fn_script_log_info "Required dependencies already installed."
 		fi
 	fi
 }
 
 fn_check_loop() {
-	# Loop though required depenencies checking if they are installed.
-	for deptocheck in ${array_deps_required[*]}; do
+	# Loop though required dependencies checking if they are installed.
+	for deptocheck in "${array_deps_required[@]}"; do
 		fn_deps_detector
 	done
 
@@ -249,19 +271,36 @@ fn_deps_detector() {
 	if [ "${deptocheck}" == "libsdl2-2.0-0:i386" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/libsdl2-2.0-0:i386/}")
 		steamcmdstatus=1
+		return
 	elif [ "${deptocheck}" == "steamcmd" ] && [ -z "${appid}" ]; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
-	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '[^deb]+non-free([^-]|$)' /etc/apt/sources.list; then
+		return
+	# Checks classic and deb822 sources for an uncommented non-free component (non-free-firmware does not count).
+	elif [ "${deptocheck}" == "steamcmd" ] && [ "${distroid}" == "debian" ] && ! grep -qE '^[[:space:]]*[^#[:space:]].*[[:space:]]non-free([[:space:]]|$)' /etc/apt/sources.list /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources 2> /dev/null; then
 		array_deps_required=("${array_deps_required[@]/steamcmd/}")
 		steamcmdstatus=1
+		return
 	# Java: Added for users using Oracle JRE to bypass check.
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
-			# Added for users using Oracle JRE to bypass check.
-			depstatus=0
-			deptocheck="${javaversion}"
+			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
+				# Java 25 installed but not the active java: installing it again would not change that.
+				if compgen -G "/usr/lib/jvm/*25*/bin/java" > /dev/null; then
+					depstatus=0
+					deptocheck="${javaversion}"
+					fn_print_warn_nl "Java 25 is installed but the active java is version ${javamajorversion:-unknown}. Select Java 25 with: sudo update-alternatives --config java"
+					fn_script_log_warn "Java 25 is installed but the active java is version ${javamajorversion:-unknown}"
+				else
+					depstatus=1
+				fi
+			else
+				# Added for users using Oracle JRE to bypass check.
+				depstatus=0
+				deptocheck="${javaversion}"
+			fi
 		else
 			depstatus=1
 		fi
@@ -276,10 +315,10 @@ fn_deps_detector() {
 			depstatus=1
 			monoinstalled=false
 		fi
-	# .NET Core: A .NET Core repo needs to be installed.
-	elif [ "${deptocheck}" == "aspnetcore-runtime-7.0" ]; then
-		# .NET is not installed.
-		if [ -n "${dotnetversion}" ]; then
+	# .NET runtime: check installed runtime version for any dotnet-runtime-X.Y package.
+	elif [[ "${deptocheck}" =~ ^dotnet-runtime-([0-9]+\.[0-9]+)$ ]]; then
+		dotnetrequired="${BASH_REMATCH[1]}"
+		if [ "$(command -v dotnet 2> /dev/null)" ] && dotnet --list-runtimes | grep -q "Microsoft.NETCore.App ${dotnetrequired}"; then
 			depstatus=0
 			dotnetinstalled=true
 		else
@@ -317,7 +356,7 @@ fn_deps_detector() {
 		fi
 		# If SteamCMD requirements are not met install will fail.
 		if [ -n "${appid}" ]; then
-			for steamcmddeptocheck in ${array_deps_required_steamcmd[*]}; do
+			for steamcmddeptocheck in "${array_deps_required_steamcmd[@]}"; do
 				if [ "${deptocheck}" != "steamcmd" ] && [ "${deptocheck}" == "${steamcmddeptocheck}" ]; then
 					steamcmdfail=1
 				fi
@@ -346,6 +385,8 @@ if [ "${commandname}" == "INSTALL" ]; then
 	fi
 fi
 
+info_distro.sh
+
 # Will warn user if their distro is no longer supported by the vendor.
 if [ -n "${distrosupport}" ]; then
 	if [ "${distrosupport}" == "unsupported" ]; then
@@ -354,13 +395,29 @@ if [ -n "${distrosupport}" ]; then
 	fi
 fi
 
-info_distro.sh
+# These titles are only supported up to Ubuntu 20.04 and Debian 11.
+if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
+		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
+		fn_script_log_fail "${gamename} is not supported on ${distroname}."
+		core_exit.sh
+	fi
+fi
+
+# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
+if [ "${shortname}" == "vints" ]; then
+	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
+		fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
+		echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
+		fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
+	fi
+fi
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	# Check that the distro dependency csv file exists.
 	fn_check_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv"
 	if [ -n "${checkflag}" ] && [ "${checkflag}" == "0" ]; then
-		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "lgsm/data" "chmodx" "norun" "noforce" "nohash"
+		fn_fetch_file_github "lgsm/data" "${distroid}-${distroversioncsv}.csv" "${datadir}" "chmodx" "norun" "noforce" "nohash"
 	fi
 fi
 

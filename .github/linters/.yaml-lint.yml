@@ -1,0 +1,25 @@
+extends: default
+
+rules:
+  document-start: disable
+  truthy: disable
+
+  line-length:
+    max: 200
+    level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+    min-spaces-inside-empty: 0
+    max-spaces-inside-empty: 0
+
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 0
+
+  comments:
+    min-spaces-from-content: 1

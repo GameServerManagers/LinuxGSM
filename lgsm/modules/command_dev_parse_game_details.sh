@@ -1,9 +1,16 @@
 #!/bin/bash
 # LinuxGSM command_dev_parse_game_details.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Display parsed gameserver details.
+
+commandname="DEV-PARSE-GAME-DETAILS"
+commandaction="Parse Game Details"
+moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
+fn_firstcommand_set
+
+fn_print_header
 
 if [ -f "config" ]; then
 	servercfgfullpath="config"
@@ -70,27 +77,28 @@ declare -A server_details=(
 	['Max Players']="${maxplayers}"
 	['Mod Server Port']="${modserverport}"
 	['OldQueryPortNumber']="${oldqueryportnumber}"
-	['Password']="${password}"
+	['Owner ID']="${ownerid}"
 	['Port 401']="${port401}"
 	['Port IPv6']="${portipv6}"
 	['Port']="${port}"
 	['Query Enabled']="${queryenabled}"
-	['Query HTTP Port']="${queryhttpport}"
-	['Query HTTPS Port']="${queryhttpsport}"
+	['Query HTTP Port']="${httpqueryport}"
+	['Query HTTPS Port']="${httpsqueryport}"
+	['Query IP']="${configqueryip}"
 	['Query Mode']="${querymode}"
-	['Query Port GS']="${queryportgs}"
+	['Query Port GS']="${gamespyqueryport}"
 	['Query Port']="${queryport}"
-	['Query SSH Port']="${querysshport}"
+	['Query SSH Port']="${sshqueryport}"
 	['Queue Enabled']="${queueenabled}"
 	['Queue Port']="${queueport}"
 	['Random Map']="${randommap}"
 	['Raw Port']="${rawport}"
-	['RC Password']="${rcpassword}"
 	['RCON Enabled']="${rconenabled}"
 	['RCON Password']="${rconpassword}"
 	['RCON Port']="${rconport}"
 	['RCON Web']="${rconweb}"
 	['Reserved Slots']="${reservedslots}"
+	['Reliable Messaging']="${reliableport}"
 	['RMI Port']="${rmiport}"
 	['RMI Reg Port']="${rmiregport}"
 	['Salt']="${salt}"
@@ -114,7 +122,6 @@ declare -A server_details=(
 	['Steamworks Port']="${steamworksport}"
 	['Telnet Enabled']="${telnetenabled}"
 	['Telnet IP']="${telnetip}"
-	['Telnet Password']="${telnetpass}"
 	['Telnet Password']="${telnetpassword}"
 	['Telnet Port']="${telnetport}"
 	['Tickrate']="${tickrate}"
@@ -133,7 +140,7 @@ missing_details=""
 
 # Loop through the server details and store them.
 for key in "${!server_details[@]}"; do
-    value=${server_details[$key]}
+	value=${server_details[$key]}
 	if [ -n "$value" ]; then
 		available_details+="${lightblue}${key}: ${default}${value}\n"
 	else
@@ -144,9 +151,9 @@ done
 # Sort and output the available distro details.
 if [ -n "$available_details" ]; then
 	echo -e ""
-    echo -e "${bold}${lightgreen}Available Gameserver Details${default}"
-    fn_messages_separator
-    echo -e "${available_details}" | sort
+	echo -e "${bold}${lightgreen}Available Gameserver Details${default}"
+	fn_messages_separator
+	echo -e "${available_details}" | sort
 fi
 
 # Output the missing server details if there are any.

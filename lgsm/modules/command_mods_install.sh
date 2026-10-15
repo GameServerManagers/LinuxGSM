@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_install.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: List and installs available mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-INSTALL"
-commandaction="Installing mods"
+commandaction="Installing Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -47,7 +47,7 @@ while [ "${compatiblemodslistindex}" -lt "${#compatiblemodslist[@]}" ]; do
 	echo -e "${displayedmodname} - ${displayedmoddescription} - ${displayedmodsite}"
 	echo -e " * ${cyan}${displayedmodcommand}${default}"
 	# Increment index from the amount of values we just displayed.
-	let "compatiblemodslistindex+=4"
+	((compatiblemodslistindex += 4))
 	((totalmodsavailable++))
 done
 
@@ -61,16 +61,35 @@ fn_script_log_info "${totalmodsavailable} addons/mods are available for install"
 
 ## User selects a mod.
 echo -e ""
-while [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; do
+
+while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${green}install${default} (or exit to abort): "
-	read -r usermodselect
+	if ! read -r usermodselect && [ -z "${usermodselect}" ]; then
+		echo -e ""
+		fn_print_error_nl "Unable to read an addon/mod: no input available"
+		fn_script_log_error "Unable to read an addon/mod: no input available"
+		exitcode=2
+		core_exit.sh
+	fi
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh
-	# Supplementary output upon invalid user input.
-	elif [[ ! " ${availablemodscommands[@]} " =~ " ${usermodselect} " ]]; then
-		fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 	fi
+
+	validselection=0
+	for availablemodcommand in "${availablemodscommands[@]}"; do
+		if [ "${availablemodcommand}" == "${usermodselect}" ]; then
+			validselection=1
+			break
+		fi
+	done
+
+	if [ "${validselection}" -eq 1 ]; then
+		break
+	fi
+
+	# Supplementary output upon invalid user input.
+	fn_print_error2_nl "${usermodselect} is not a valid addon/mod."
 done
 # Get mod info.
 currentmod="${usermodselect}"
@@ -88,6 +107,7 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 		fn_script_log_warn "${modprettyname} is already installed"
 		echo -e " * Any configs may be overwritten."
 		if ! fn_prompt_yn "Continue?" Y; then
+			exitcode=0
 			core_exit.sh
 		fi
 		fn_script_log_info "User selected to continue"
@@ -95,6 +115,11 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 fi
 
 ## Installation.
+# CounterStrikeSharp requires Metamod:Source 2.0.
+if [ "${modcommand}" == "counterstrikesharp" ]; then
+	fn_mod_exist "metamodsource2"
+fi
+
 # If amxmodx check if metamod exists first
 if [ "${modcommand}" == "amxmodx" ]; then
 	fn_mod_exist "metamod"
@@ -108,16 +133,30 @@ if [ "${modcommand}" == "amxmodxcs" ] \
 	fn_mod_exist "amxmodx"
 fi
 
+# If nolobbyreservation check if sourcemod exists first as it is compiled using the SourceMod compiler
+if [ "${modcommand}" == "nolobbyreservation" ]; then
+	fn_mod_exist "sourcemod"
+fi
+
 fn_create_mods_dir
 fn_mods_clear_tmp_dir
 fn_mods_create_tmp_dir
 fn_mod_install_files
 fn_mod_lowercase
+# NoLobbyReservation is only distributed as source
+if [ "${modcommand}" == "nolobbyreservation" ]; then
+	fn_mod_compile_sourcemod_plugin "nolobbyreservation"
+fi
 fn_mod_create_filelist
 fn_mod_copy_destination
 fn_mod_add_list
 fn_mod_tidy_files_list
 fn_mods_clear_tmp_dir
+
+# Install the Metamod:Source search path for CS2.
+if [ "${modcommand}" == "metamodsource2" ]; then
+	fn_mod_install_gameinfo_gi_file
+fi
 
 # Create/modify existing liblist.gam file for Metamod
 if [ "${modcommand}" == "metamod" ]; then

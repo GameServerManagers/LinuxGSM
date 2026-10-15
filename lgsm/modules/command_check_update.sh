@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_check_update.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of servers.
 
@@ -24,6 +24,8 @@ elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortna
 	update_pmc.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
+elif [ "${shortname}" == "hyt" ]; then
+	update_hyt.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then
@@ -32,10 +34,21 @@ elif [ "${shortname}" == "jk3" ]; then
 	update_jk3.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bb" ]; then
+	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
+elif [ "${shortname}" == "xnt" ]; then
+	update_xnt.sh
+elif [ "${shortname}" == "etl" ]; then
+	update_etl.sh
 else
 	update_steamcmd.sh
+fi
+
+if { [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "bt" ] || [ "${shortname}" == "col" ] || [ "${shortname}" == "hw" ] || [ "${shortname}" == "l4d2" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ] || [ "${shortname}" == "sol" ] || [ "${shortname}" == "st" ]; } && { [ -n "${workshopmods}" ] || [ -f "${datadir}/${selfname}-workshop.txt" ]; }; then
+	workshop_core.sh
+	fn_workshop_update
 fi
 
 core_exit.sh

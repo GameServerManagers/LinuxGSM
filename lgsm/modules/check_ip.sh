@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_ip.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Automatically identifies the server interface IP.
 # If multiple interfaces are detected the user will need to manually set using ip="0.0.0.0".
@@ -60,4 +60,10 @@ else
 	ip="0.0.0.0"
 	httpip=("${ip}")
 	telnetip=("${ip}")
+fi
+
+# If the game config binds its query interface to a specific IPv4 address (e.g. TeamSpeak 3 query_ip),
+# query that address first. This also covers a query interface bound to localhost.
+if grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' <<< "${configqueryip}" && [ "${configqueryip}" != "0.0.0.0" ] && [[ " ${queryips[*]} " != *" ${configqueryip} "* ]]; then
+	queryips=("${configqueryip}" "${queryips[@]}")
 fi

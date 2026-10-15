@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this game server!
+        Thanks for taking the time to fill out this game server request!
   - type: input
     id: game-server
     attributes:
@@ -16,10 +16,18 @@ body:
     validations:
       required: true
   - type: checkboxes
+    id: dedicated-server
+    attributes:
+      label: Dedicated server
+      description: Confirm this is a dedicated server request and not client hosting.
+      options:
+        - label: "Yes, this is a dedicated server (not client hosting)."
+          required: true
+  - type: checkboxes
     id: on-linux
     attributes:
       label: Linux support
-      description: Does this game server have Linux support? (not wine)
+      description: Does this game server have native Linux server support? (not wine)
       options:
         - label: "Yes"
     validations:
@@ -38,20 +46,40 @@ body:
     id: steam-id
     attributes:
       label: Steam appid
-      description: What is the Steam appid of the game server? Use SteamDB to get the appid. (https://steamdb.info).
+      description: What is the Steam appid of the dedicated server? Required when Steam is Yes. Use SteamDB to get the appid (https://steamdb.info).
       placeholder: "892970"
     validations:
       required: false
   - type: textarea
+    id: official-docs
+    attributes:
+      label: Official dedicated server documentation
+      description: Provide official documentation links for installing/running the dedicated server.
+      placeholder: |
+        https://example.com/docs/server-setup
+        https://example.com/docs/dedicated-server
+    validations:
+      required: true
+  - type: textarea
+    id: linux-binary-proof
+    attributes:
+      label: Linux binary proof
+      description: Provide evidence that Linux server binaries are available (official docs/download links/version notes).
+      placeholder: |
+        https://example.com/downloads/linux-dedicated-server
+        https://example.com/release-notes/linux-server
+    validations:
+      required: true
+  - type: textarea
     id: guides
     attributes:
       label: Guides
-      description: Links to guides on how to install the game server
+      description: Links to community or third-party guides on how to install the game server.
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/GameServerManagers/LinuxGSM/blob/master/CODE_OF_CONDUCT.md)
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true

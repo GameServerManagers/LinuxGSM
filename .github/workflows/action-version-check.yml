@@ -1,0 +1,17 @@
+name: Version Check
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  version-Check:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Version Check
+        run: .github/scripts/version-check.sh

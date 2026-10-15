@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM check_last_update.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Checks Lockfile to see when last update happened.
 # Will reboot server if instance not rebooted since update.
@@ -11,6 +11,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 if [ -f "${lockdir}/${selfname}-last-started.lock" ]; then
 	laststart=$(cat "${lockdir}/${selfname}-last-started.lock")
 fi
+
 if [ -f "${lockdir}/last-updated.lock" ]; then
 	lastupdate=$(cat "${lockdir}/last-updated.lock")
 fi

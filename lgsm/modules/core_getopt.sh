@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM core_getopt.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: getopt arguments.
 
@@ -37,13 +37,14 @@ cmd_validate=("v;validate" "command_validate.sh" "Validate server files with Ste
 cmd_mods_install=("mi;mods-install" "command_mods_install.sh" "View and install available mods/addons.")
 cmd_mods_remove=("mr;mods-remove" "command_mods_remove.sh" "View and remove an installed mod/addon.")
 cmd_mods_update=("mu;mods-update" "command_mods_update.sh" "Update installed mods/addons.")
+# Server with Steam Workshop downloads.
+cmd_workshop_update=("wu;workshop-update" "command_workshop_update.sh" "Install and update Steam Workshop mods.")
 # Server specific.
 cmd_change_password=("pw;change-password" "command_ts3_server_pass.sh" "Change TS3 serveradmin password.")
 cmd_install_default_resources=("ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
 cmd_fullwipe=("fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data.")
 cmd_mapwipe=("mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data.")
-cmd_map_compressor_u99=("mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps.")
-cmd_map_compressor_u2=("mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps.")
+cmd_map_compressor_unreal=("mc;map-compressor" "compress_unreal_maps.sh" "Compresses all ${gamename} server maps.")
 cmd_install_cdkey=("cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key.")
 cmd_install_dst_token=("ct;cluster-token" "install_dst_token.sh" "Configure cluster token.")
 cmd_install_squad_license=("li;license" "install_squad_license.sh" "Add your Squad server license.")
@@ -56,6 +57,7 @@ cmd_dev_detect_deps=("dd;detect-deps" "command_dev_detect_deps.sh" "Detect requi
 cmd_dev_detect_glibc=("dg;detect-glibc" "command_dev_detect_glibc.sh" "Detect required glibc.")
 cmd_dev_detect_ldd=("dl;detect-ldd" "command_dev_detect_ldd.sh" "Detect required dynamic dependencies.")
 cmd_dev_query_raw=("qr;query-raw" "command_dev_query_raw.sh" "The raw output of gamedig and gsquery.")
+cmd_dev_ui=("ui;ui" "command_dev_ui.sh" "Assist with UI development.")
 cmd_dev_clear_modules=("cm;clear-modules" "command_dev_clear_modules.sh" "Delete the contents of the modules dir.")
 
 ### Set specific opt here.
@@ -66,11 +68,11 @@ currentopt=("${cmd_start[@]}" "${cmd_stop[@]}" "${cmd_restart[@]}" "${cmd_monito
 currentopt+=("${cmd_update_linuxgsm[@]}")
 
 # Exclude noupdate games here.
-if [ "${shortname}" == "jk2" ] || [ "${shortname}" == "jk3" ] || [ "${engine}" != "idtech3" ]; then
+if [ "${shortname}" == "jk2" ] || [ "${shortname}" == "jk3" ] || [ "${shortname}" == "etl" ] || [ "${engine}" != "idtech3" ]; then
 	if [ "${shortname}" != "bf1942" ] && [ "${shortname}" != "bfv" ] && [ "${engine}" != "idtech2" ] && [ "${engine}" != "iw2.0" ] && [ "${engine}" != "iw3.0" ] && [ "${engine}" != "quake" ] && [ "${shortname}" != "samp" ] && [ "${shortname}" != "ut2k4" ]; then
 		currentopt+=("${cmd_update[@]}" "${cmd_check_update[@]}")
-		# force update for SteamCMD or Multi Theft Auto only.
-		if [ "${appid}" ] || [ "${shortname}" == "mta" ]; then
+		# force update for SteamCMD, Multi Theft Auto or Hytale only.
+		if [ "${appid}" ] || [ "${shortname}" == "mta" ] || [ "${shortname}" == "hyt" ]; then
 			currentopt+=("${cmd_force_update[@]}")
 		fi
 	fi
@@ -95,7 +97,7 @@ fi
 ## Game server exclusive commands.
 
 # FastDL command.
-if [ "${engine}" == "source" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	currentopt+=("${cmd_fastdl[@]}")
 fi
 
@@ -112,13 +114,13 @@ fi
 # Unreal exclusive.
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${shortname}" == "ut2k4" ]; then
-		currentopt+=("${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}")
+		currentopt+=("${cmd_install_cdkey[@]}" "${cmd_map_compressor_unreal[@]}")
 	else
-		currentopt+=("${cmd_map_compressor_u2[@]}")
+		currentopt+=("${cmd_map_compressor_unreal[@]}")
 	fi
 fi
 if [ "${engine}" == "unreal" ]; then
-	currentopt+=("${cmd_map_compressor_u99[@]}")
+	currentopt+=("${cmd_map_compressor_unreal[@]}")
 fi
 
 # DST exclusive.
@@ -137,8 +139,13 @@ if [ "${shortname}" == "squad" ]; then
 fi
 
 ## Mods commands.
-if [ "${engine}" == "source" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ]; then
+if [ "${engine}" == "source" ] || [ "${shortname}" == "cs2" ] || [ "${shortname}" == "rust" ] || [ "${shortname}" == "hq" ] || [ "${shortname}" == "sdtd" ] || [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ] || [ "${shortname}" == "vh" ]; then
 	currentopt+=("${cmd_mods_install[@]}" "${cmd_mods_remove[@]}" "${cmd_mods_update[@]}")
+fi
+
+## Workshop commands.
+if [ "${shortname}" == "arma3" ] || [ "${shortname}" == "dayz" ] || [ "${shortname}" == "bt" ] || [ "${shortname}" == "col" ] || [ "${shortname}" == "hw" ] || [ "${shortname}" == "l4d2" ] || [ "${shortname}" == "ohd" ] || [ "${shortname}" == "sb" ] || [ "${shortname}" == "squad" ] || [ "${shortname}" == "squad44" ] || [ "${shortname}" == "sol" ] || [ "${shortname}" == "st" ]; then
+	currentopt+=("${cmd_workshop_update[@]}")
 fi
 
 ## Installer.
@@ -147,7 +154,7 @@ currentopt+=("${cmd_install[@]}" "${cmd_auto_install[@]}")
 ## Developer commands.
 currentopt+=("${cmd_dev_debug[@]}")
 if [ -f ".dev-debug" ]; then
-	currentopt+=("${cmd_dev_parse_game_details[@]}" "${cmd_dev_parse_distro_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_clear_modules[@]}")
+	currentopt+=("${cmd_dev_parse_game_details[@]}" "${cmd_dev_parse_distro_details[@]}" "${cmd_dev_detect_deps[@]}" "${cmd_dev_detect_glibc[@]}" "${cmd_dev_detect_ldd[@]}" "${cmd_dev_query_raw[@]}" "${cmd_dev_ui[@]}" "${cmd_dev_clear_modules[@]}")
 fi
 
 ## Sponsor.
@@ -165,19 +172,19 @@ done
 
 # Shows LinuxGSM usage.
 fn_opt_usage() {
-	echo -e "Usage: $0 [option]"
-	echo -e ""
-	echo -e "LinuxGSM - ${gamename} - Version ${version}"
-	echo -e "https://linuxgsm.com/${gameservername}"
-	echo -e ""
-	echo -e "${lightyellow}Commands${default}"
+	fn_print_nl "Usage: $0 [option]"
+	fn_print_nl ""
+	fn_print_nl "LinuxGSM - ${gamename} - Version ${version}"
+	fn_print_nl "https://linuxgsm.com/${gameservername}"
+	fn_print_nl ""
+	fn_print_nl "${bold}${lightyellow}Commands${default}"
 	# Display available commands.
 	index="0"
 	{
 		for ((index = "0"; index < ${#currentopt[@]}; index += 3)); do
 			# Hide developer commands.
 			if [ "${currentopt[index + 2]}" != "DEVCOMMAND" ]; then
-				echo -e "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
+				fn_print_nl "${cyan}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $2 }')\t${default}$(echo -e "${currentopt[index]}" | awk -F ';' '{ print $1 }')\t| ${currentopt[index + 2]}"
 			fi
 		done
 	} | column -s $'\t' -t

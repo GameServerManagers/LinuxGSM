@@ -1,0 +1,57 @@
+name: Trigger Docker Build
+
+on:
+  workflow_dispatch:
+  release:
+    types:
+      - published
+
+permissions: {}
+
+jobs:
+  trigger_build_docker-linuxgsm:
+    if: github.repository_owner == 'GameServerManagers'
+    name: Trigger Build Docker LinuxGSM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow and Wait (linuxgsm)
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          before=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run action-docker-publish.yml --repo GameServerManagers/docker-linuxgsm
+          sleep 10
+          run_id=$(gh run list \
+            --workflow action-docker-publish.yml \
+            --repo GameServerManagers/docker-linuxgsm \
+            --created ">=${before}" \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          gh run watch "${run_id}" \
+            --repo GameServerManagers/docker-linuxgsm \
+            --exit-status
+
+  trigger_build_docker-gameserver:
+    if: github.repository_owner == 'GameServerManagers'
+    name: Trigger Build Docker GameServer
+    needs: trigger_build_docker-linuxgsm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow and Wait (gameserver)
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          before=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run action-docker-publish.yml --repo GameServerManagers/docker-gameserver
+          sleep 10
+          run_id=$(gh run list \
+            --workflow action-docker-publish.yml \
+            --repo GameServerManagers/docker-gameserver \
+            --created ">=${before}" \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+          gh run watch "${run_id}" \
+            --repo GameServerManagers/docker-gameserver \
+            --exit-status

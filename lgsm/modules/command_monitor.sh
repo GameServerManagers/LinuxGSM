@@ -1,7 +1,7 @@
 #!/bin/bash
 # LinuxGSM command_monitor.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Monitors server by checking for running processes
 # then passes to gamedig and gsquery.
@@ -11,6 +11,12 @@ commandaction="Monitoring"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# Checks if this instance is running one of the given commands, e.g. "update|u".
+# Matches the script run as ./gameserver, /path/to/gameserver or bash gameserver.
+fn_monitor_command_running() {
+	[ "$(pgrep -fc -u "${USER}" "^([^ ]*/)?bash ([^ ]*/)?${selfname} ($1)( |$)")" != "0" ]
+}
+
 fn_monitor_check_monitoring() {
 	if [ -f "${lockdir}/${selfname}.lock" ]; then
 		# Part of migration to v23.5.0. #4296
@@ -18,10 +24,10 @@ fn_monitor_check_monitoring() {
 		date '+%s' > "${lockdir:?}/${selfname}-monitoring.lock"
 	elif [ ! -f "${lockdir}/${selfname}-monitoring.lock" ]; then
 		# Monitor does not run if lockfile is not found.
-		fn_print_dots "Checking lockfile: "
+		fn_print_dots "Checking lockfile"
 		fn_print_checking_eol
 		fn_script_log_info "Checking lockfile: CHECKING"
-		fn_print_error "Checking lockfile: No lockfile found: "
+		fn_print_error "Checking lockfile: No lockfile found"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking lockfile: No lockfile found: ERROR"
 		echo -e "* Start ${selfname} to run monitor."
@@ -30,11 +36,11 @@ fn_monitor_check_monitoring() {
 }
 
 fn_monitor_check_install() {
-	if [ "$(pgrep -fc -u "${USER}" "/bin/bash ./${selfname} install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} i")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} auto-install")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} ai")" != "0" ]; then
-		fn_print_dots "Checking installer: "
+	if fn_monitor_command_running "install|i|auto-install|ai"; then
+		fn_print_dots "Checking installer"
 		fn_print_checking_eol
 		fn_script_log_info "Checking installer: CHECKING"
-		fn_print_info "Checking installer: LinuxGSM is installing: "
+		fn_print_info "Checking installer: LinuxGSM is installing"
 		fn_print_info_eol_nl
 		fn_script_log_pass "Checking installer: LinuxGSM is installing"
 		core_exit.sh
@@ -42,10 +48,10 @@ fn_monitor_check_install() {
 }
 
 fn_monitor_check_debug() {
-	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} debug")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} d")" != "0" ]; then
-		fn_print_dots "Checking debug: "
+	if fn_monitor_command_running "debug|d"; then
+		fn_print_dots "Checking debug"
 		fn_print_checking_eol
-		fn_print_info "Checking debug: Debug is running: "
+		fn_print_info "Checking debug: Debug is running"
 		fn_print_info_eol_nl
 		fn_script_log_pass "Checking debug: Debug is running"
 		core_exit.sh
@@ -53,10 +59,10 @@ fn_monitor_check_debug() {
 }
 
 fn_monitor_check_details() {
-	if [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} details")" != "0" ] || [ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} dt")" != "0" ]; then
-		fn_print_dots "Checking details: "
+	if fn_monitor_command_running "details|dt"; then
+		fn_print_dots "Checking details"
 		fn_print_checking_eol
-		fn_print_info "Checking details: Details is running: "
+		fn_print_info "Checking details: Details is running"
 		fn_print_info_eol_nl
 		fn_script_log_pass "Checking details: Details is running"
 		core_exit.sh
@@ -67,21 +73,21 @@ fn_monitor_check_starting() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-starting.lock" ]; then
 		if [ "$(find "${lockdir}/${selfname}-starting.lock" -mmin +5)" ]; then
-			fn_print_dots "Checking start: "
+			fn_print_dots "Checking start"
 			fn_print_checking_eol
-			fn_print_warn "Checking start: Removing stale lockfile: "
+			fn_print_warn "Checking start: Removing stale lockfile"
 			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking start: Removing stale lockfile"
 			rm -f "${lockdir:?}/${selfname}-starting.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-starting.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} start")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
-		fn_print_dots "Checking start: "
+	if [ -f "${lockdir}/${selfname}-starting.lock" ] && fn_monitor_command_running "start|st"; then
+		fn_print_dots "Checking start"
 		fn_print_checking_eol
-		fn_print_info "Checking start: LinuxGSM is starting: "
+		fn_print_info "Checking start: LinuxGSM is starting"
 		fn_print_info_eol_nl
-		fn_script_log_info "Checking backup: LinuxGSM is starting"
+		fn_script_log_info "Checking start: LinuxGSM is starting"
 		core_exit.sh
 	fi
 }
@@ -90,42 +96,126 @@ fn_monitor_check_stopping() {
 	# Remove stale lockfile.
 	if [ -f "${lockdir}/${selfname}-stopping.lock" ]; then
 		if [ "$(find "${lockdir}/${selfname}-stopping.lock" -mmin +5)" ]; then
-			fn_print_dots "Checking stop: "
+			fn_print_dots "Checking stop"
 			fn_print_checking_eol
-			fn_print_warn "Checking stop: Removing stale lockfile: "
+			fn_print_warn "Checking stop: Removing stale lockfile"
 			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking stop: Removing stale lockfile"
 			rm -f "${lockdir:?}/${selfname}-stopping.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} stop")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} s")" != "0" ]]; then
-		fn_print_dots "Checking stop: "
+	if [ -f "${lockdir}/${selfname}-stopping.lock" ] && fn_monitor_command_running "stop|sp"; then
+		fn_print_dots "Checking stop"
 		fn_print_checking_eol
-		fn_print_info "Checking stop: LinuxGSM is stopping: "
+		fn_print_info "Checking stop: LinuxGSM is stopping"
 		fn_print_info_eol_nl
-		fn_script_log_info "Checking backup: LinuxGSM is stopping"
+		fn_script_log_info "Checking stop: LinuxGSM is stopping"
 		core_exit.sh
 	fi
 }
 
+fn_monitor_check_restart_request() {
+	if [ -f "${lockdir}/${selfname}-restart-request.lock" ]; then
+		fn_print_dots "Checking restart: "
+		fn_print_checking_eol
+		fn_print_info "Checking restart: Restart requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking restart: Restart requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: restart postponed"
+			fn_script_log_info "${playersonline} players are on the server: restart postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			date '+%s' > "${lockdir:?}/${selfname}-restart-request.lock"
+			core_exit.sh
+		fi
+		command_restart.sh
+		core_exit.sh
+	fi
+}
+
+# An update postponed because players were online runs once the server is empty.
+# It runs in the background as its own update command, so monitor returns straight away
+# (e.g. a healthcheck timeout can't stop it) and other monitor runs see the update in progress.
+fn_monitor_check_update_request() {
+	local updaterequest="${lockdir}/${selfname}-update-request.lock"
+	if [ -f "${updaterequest}" ]; then
+		fn_print_dots "Checking update: "
+		fn_print_checking_eol
+		fn_print_info "Checking update: Update requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking update: Update requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: update postponed"
+			fn_script_log_info "${playersonline} players are on the server: update postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+		else
+			local requestforce=""
+			if grep -qx "force" "${updaterequest}"; then
+				requestforce="1"
+			fi
+			fn_print_info_nl "Checking update: Running requested update"
+			fn_script_log_info "Checking update: Running requested update"
+			forceupdate="${requestforce}" setsid "${rootdir}/${selfname}" update > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
+			exitcode=0
+			core_exit.sh
+		fi
+	fi
+}
+
+# A backup postponed because players were online runs once the server is empty, in the background
+# like a requested update. An alert is sent once if it has been postponed for over 24 hours.
+fn_monitor_check_backup_request() {
+	local backuprequest="${lockdir}/${selfname}-backup-request.lock"
+	if [ -f "${backuprequest}" ]; then
+		fn_print_dots "Checking backup: "
+		fn_print_checking_eol
+		fn_print_info "Checking backup: Backup requested: "
+		fn_print_info_eol_nl
+		fn_script_log_info "Checking backup: Backup requested"
+		check_players_online.sh
+		if [ -n "${playersonline}" ]; then
+			fn_print_info_nl "${playersonline} players are on the server: backup postponed"
+			fn_script_log_info "${playersonline} players are on the server: backup postponed"
+			echo "${playersonline}" > "${lockdir:?}/${selfname}-player-numbers.lock"
+			local requested
+			requested="$(head -n 1 "${backuprequest}")"
+			if [[ "${requested}" =~ ^[0-9]+$ ]] && [ "$(($(date '+%s') - requested))" -gt 86400 ] && ! grep -q "alerted" "${backuprequest}"; then
+				alert="backup-postponed"
+				alert.sh
+				echo "alerted" >> "${backuprequest}"
+			fi
+		else
+			fn_print_info_nl "Checking backup: Running requested backup"
+			fn_script_log_info "Checking backup: Running requested backup"
+			setsid "${rootdir}/${selfname}" backup > /dev/null 2>&1 < /dev/null &
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
+			exitcode=0
+			core_exit.sh
+		fi
+	fi
+}
+
 fn_monitor_check_backup() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/backup.lock" ]; then
+	# Remove stale lockfile, unless a long backup is still running.
+	if [ -f "${lockdir}/backup.lock" ] && ! fn_monitor_command_running "backup|b"; then
 		if [ "$(find "${lockdir}/backup.lock" -mmin +60)" ]; then
-			fn_print_dots "Checking backup: "
+			fn_print_dots "Checking backup"
 			fn_print_checking_eol
-			fn_print_warn "Checking backup: Removing stale lockfile: "
+			fn_print_warn "Checking backup: Removing stale lockfile"
 			fn_print_warn_eol
 			fn_script_log_warn "Checking backup: Removing stale lockfile"
 			rm -f "${lockdir:?}/backup.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/backup.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} backup")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} b")" != "0" ]]; then
-		fn_print_dots "Checking backup: "
+	if [ -f "${lockdir}/backup.lock" ] && fn_monitor_command_running "backup|b"; then
+		fn_print_dots "Checking backup"
 		fn_print_checking_eol
-		fn_print_info "Checking backup: Backup is running: "
+		fn_print_info "Checking backup: Backup is running"
 		fn_print_info_eol_nl
 		fn_script_log_info "Checking backup: Backup is running"
 		core_exit.sh
@@ -133,22 +223,22 @@ fn_monitor_check_backup() {
 }
 
 fn_monitor_check_update() {
-	# Remove stale lockfile.
-	if [ -f "${lockdir}/update.lock" ]; then
+	# Remove stale lockfile, unless a long update is still running.
+	if [ -f "${lockdir}/update.lock" ] && ! fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur|workshop-update|wu"; then
 		if [ "$(find "${lockdir}/update.lock" -mmin +15)" ]; then
-			fn_print_dots "Checking update: "
+			fn_print_dots "Checking update"
 			fn_print_checking_eol
-			fn_print_warn "Checking update: Removing stale lockfile: "
+			fn_print_warn "Checking update: Removing stale lockfile"
 			fn_print_warn_eol_nl
 			fn_script_log_warn "Checking update: Removing stale lockfile"
 			rm -f "${lockdir:?}/update.lock"
 		fi
 	fi
 
-	if [ -f "${lockdir}/update.lock" ] && [[ "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} update")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} validate")" != "0" || "$(pgrep -fcx -u "${USER}" "/bin/bash ./${selfname} v")" != "0" || "$(pgrep -fc force-update "${USER}" "/bin/bash ./${selfname} fu")" != "0" ]]; then
-		fn_print_dots "Checking update: "
+	if [ -f "${lockdir}/update.lock" ] && fn_monitor_command_running "update|u|validate|v|force-update|fu|update-restart|ur|workshop-update|wu"; then
+		fn_print_dots "Checking update"
 		fn_print_checking_eol
-		fn_print_info "Checking update: LinuxGSM is updating the game server: "
+		fn_print_info "Checking update: LinuxGSM is updating the game server"
 		fn_print_info_eol_nl
 		fn_script_log_pass "Checking update: LinuxGSM is updating the game server"
 		core_exit.sh
@@ -159,22 +249,22 @@ fn_monitor_check_update() {
 fn_monitor_check_update_source() {
 	if [ -f "${consolelogdir}/${selfname}-console.log" ] && [ "${engine}" == "source" ]; then
 		if grep -q "Your server needs to be restarted in order to receive the latest update." "${consolelogdir}/${selfname}-console.log"; then
-			fn_print_dots "Checking update: "
+			fn_print_dots "Checking update"
 			fn_print_checking_eol
 			fn_script_log_info "Checking update: CHECKING"
-			fn_print_ok "Checking update: "
+			fn_print_ok "Checking update"
 			fn_print_ok_eol_nl
-			fn_script_log_info "Checking update: ${selfname} has requested an update and needs to be restarted"
-			alert="update-request"
+			fn_script_log_info "Checking update: ${selfname} has requested a restart for an update to be applied"
+			alert="update-restart-request"
 			alert.sh
-			command_update.sh
+			command_restart.sh
 			core_exit.sh
 		fi
 	fi
 }
 
 fn_monitor_check_session() {
-	fn_print_dots "Checking session: "
+	fn_print_dots "Checking session"
 	fn_print_checking_eol
 	fn_script_log_info "Checking session: CHECKING"
 	# Tmux session width and height needs to be reviewed as may no longer be required.
@@ -182,7 +272,7 @@ fn_monitor_check_session() {
 	sessionheight="23"
 	# Check for PIDS with identical tmux sessions running.
 	if [ "$(pgrep -fcx "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" -ge "2" ]; then
-		fn_print_error "Checking session: There are PIDS with identical tmux sessions running: "
+		fn_print_error "Checking session: There are PIDS with identical tmux sessions running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: There are PIDS with identical tmux sessions running"
@@ -191,27 +281,27 @@ fn_monitor_check_session() {
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
-		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running: "
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
+		fn_print_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
-		pkill -f "tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
-	elif [ "$(pgrep -fc -u "${USER}" "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}")" != "0" ]; then
-		fn_print_error "Checking session: PIDS with old type tmux session are running: "
+	elif [ "$(pgrep -fc -u "${USER}" "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)")" != "0" ]; then
+		fn_print_error "Checking session: PIDS with old type tmux session are running"
 		fn_print_error_eol_nl
 		fn_script_log_error "Checking session: ERROR"
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
-		pkill -f "tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		pkill -f "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
-		fn_print_ok "Checking session: "
+		fn_print_ok "Checking session"
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Checking session: OK"
 		# send LinuxGSM stats if monitor is OK.
@@ -219,7 +309,7 @@ fn_monitor_check_session() {
 			info_stats.sh
 		fi
 	else
-		fn_print_error "Checking session: "
+		fn_print_error "Checking session"
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Checking session: FAIL"
 		alert="monitor-session"
@@ -233,7 +323,7 @@ fn_monitor_check_session() {
 # Monitor will check queryport is set before continuing.
 fn_monitor_check_queryport() {
 	if [ -z "${queryport}" ] || [ "${queryport}" == "0" ]; then
-		fn_print_dots "Checking port: "
+		fn_print_dots "Checking port"
 		fn_print_checking_eol
 		fn_script_log_info "Checking port: CHECKING"
 		if [ -n "${rconenabled}" ] && [ "${rconenabled}" != "true" ] && [ "${shortname}" == "av" ]; then
@@ -266,14 +356,14 @@ fn_monitor_query() {
 	totalseconds=0
 	for queryattempt in {1..5}; do
 		for queryip in "${queryips[@]}"; do
-			fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+			fn_print_dots "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 			fn_print_querying_eol
 			fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : QUERYING"
 			# querydelay
 			if [ "$(head -n 1 "${lockdir}/${selfname}-started.lock")" -gt "$(date "+%s" -d "${querydelay} mins ago")" ]; then
-				fn_print_ok "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt}: "
+				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 				fn_print_delay_eol_nl
-				fn_script_log_info "Querying port: ${querymethod}: ${ip}:${queryport} : ${queryattempt} : DELAY"
+				fn_script_log_info "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : DELAY"
 				fn_script_log_info "Query bypassed: ${gameservername} started less than ${querydelay} minutes ago"
 				fn_script_log_info "Server started: $(date -d "@$(head -n 1 "${lockdir}/${selfname}-started.lock")")"
 				fn_script_log_info "Current time: $(date)"
@@ -293,7 +383,7 @@ fn_monitor_query() {
 
 			if [ "${querystatus}" == "0" ]; then
 				# Server query OK.
-				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+				fn_print_ok "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 				fn_print_ok_eol_nl
 				fn_script_log_pass "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : OK"
 				monitorpass=1
@@ -323,14 +413,14 @@ fn_monitor_query() {
 				core_exit.sh
 			else
 				# Server query FAIL.
-				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+				fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 				fn_print_fail_eol
 				fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 				# Monitor will try gamedig (if supported) for first 30s then gsquery before restarting.
 				# gsquery will fail if longer than 60s
 				if [ "${totalseconds}" -ge "59" ]; then
 					# Monitor will FAIL if over 60s and trigger gane server reboot.
-					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}: "
+					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 					fn_print_fail_eol_nl
 					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
 					# Send alert if enabled.
@@ -344,7 +434,8 @@ fn_monitor_query() {
 		done
 		# Second counter will wait for 15s before breaking loop.
 		for seconds in {1..15}; do
-			fn_print_fail "Querying port: ${querymethod}: ${ip}:${queryport} : ${totalseconds}/${queryattempt} : ${cyan}WAIT${default}"
+			fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
+			fn_print_wait_eol
 			fn_sleep_time_1
 			totalseconds=$((totalseconds + 1))
 			if [ "${seconds}" == "15" ]; then
@@ -404,6 +495,9 @@ fn_monitor_check_monitoring
 fn_monitor_check_starting
 fn_monitor_check_stopping
 fn_monitor_check_session
+fn_monitor_check_restart_request
+fn_monitor_check_update_request
+fn_monitor_check_backup_request
 
 # Monitor will not continue if session only check.
 if [ "${querymode}" != "1" ]; then
@@ -416,4 +510,5 @@ if [ "${querymode}" != "1" ]; then
 
 	fn_monitor_loop
 fi
+
 core_exit.sh

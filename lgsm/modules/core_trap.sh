@@ -1,20 +1,27 @@
 #!/bin/bash
 # LinuxGSM core_trap.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles CTRL-C trap to give an exit code.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_exit_trap() {
-	if [ -z "${exitcode}" ]; then
-		exitcode=$?
-	fi
+	local saved_exit_status=$?
 	echo -e ""
+	if [ -z "${exitcode}" ]; then
+		exitcode=${saved_exit_status}
+	fi
+
 	if [ -z "${exitcode}" ]; then
 		exitcode=0
 	fi
+	if [ "$(type -t fn_stop_warn_players_cancel)" == "function" ]; then
+		fn_stop_warn_players_cancel
+	fi
+	# CTRL-C exits LinuxGSM, including while one command is running another (e.g. restart running stop).
+	unset exitbypass
 	core_exit.sh
 }
 

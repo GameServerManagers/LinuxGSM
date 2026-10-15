@@ -1,0 +1,55 @@
+name: Update Check
+# This action will check that LinuxGSM is picking up game server config and parameter variables.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+
+permissions: {}
+
+concurrency:
+  group: update-check-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  update-check:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    env:
+      LGSM_REF: ${{ github.event.pull_request.head.sha || github.ref_name }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shortname: [css, fctr, jk2, mc, mcb, mta, pmc, ts3, ut99, vints, xnt]
+
+    steps:
+      - name: Download linuxgsm.sh
+        run: wget "https://raw.githubusercontent.com/GameServerManagers/LinuxGSM/${LGSM_REF}/linuxgsm.sh"; chmod +x linuxgsm.sh
+
+      - name: Install dependencies
+        run: sudo dpkg --add-architecture i386; sudo apt-get update;
+
+      - name: Grab server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./linuxgsm.sh ${{ matrix.shortname }}server
+
+      - name: Enable developer mode
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server developer
+
+      - name: Insert steamuser
+        if: matrix.shortname == 'jk2'
+        run: echo -e "steamuser=\"${{ secrets.STEAMCMD_USER }}\"\nsteampass='${{ secrets.STEAMCMD_PASS }}'" > lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
+
+      - name: Install server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server auto-install
+
+      - name: Check Update server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server check-update
+
+      - name: Update server
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server update
+
+      - name: Force Update server
+        if: matrix.shortname == 'css'
+        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server force-update

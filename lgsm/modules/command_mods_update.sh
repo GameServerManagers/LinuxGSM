@@ -1,12 +1,12 @@
 #!/bin/bash
 # LinuxGSM command_mods_update.sh module
 # Author: Daniel Gibbs
-# Contributors: http://linuxgsm.com/contrib
+# Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Updates installed mods along with mods_list.sh and mods_core.sh.
 
 commandname="MODS-UPDATE"
-commandaction="Updating mods"
+commandaction="Updating Mods"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -88,11 +88,19 @@ while [ "${installedmodsline}" -le "${installedmodscount}" ]; do
 			fn_mod_install_files
 			fn_mod_lowercase
 			fn_remove_cfg_files
+			# NoLobbyReservation is only distributed as source
+			if [ "${modcommand}" == "nolobbyreservation" ]; then
+				fn_mod_compile_sourcemod_plugin "nolobbyreservation"
+			fi
 			fn_mod_create_filelist
 			fn_mod_copy_destination
 			fn_mod_add_list
 			fn_mod_tidy_files_list
 			fn_mods_clear_tmp_dir
+			# Restore the Metamod:Source search path if a CS2 update removed it.
+			if [ "${modcommand}" == "metamodsource2" ]; then
+				fn_mod_install_gameinfo_gi_file
+			fi
 		fi
 		((installedmodsline++))
 	else
