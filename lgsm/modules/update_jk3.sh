@@ -9,16 +9,8 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "forcedl" "nohash"
-	if [ -n "${remotebuildhash}" ]; then
-		if ! echo "${remotebuildhash}  ${tmpdir}/${remotebuildfilename}" | sha256sum --check --status; then
-			fn_print_fail_nl "OpenJK download checksum does not match"
-			fn_script_log_fail "OpenJK download checksum does not match"
-			# shellcheck disable=SC2034 # Used by core_exit.sh.
-			exitcode=1
-			core_exit.sh
-		fi
-	fi
+	# Download and extract files to GameData.
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "forcedl" "${remotebuildhash:-nohash}"
 	# OpenJK archives already have the executable and base/ at their root.
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${systemdir}"
 	if [ ! -x "${executabledir}/openjkded.x86_64" ] || [ ! -f "${systemdir}/base/jampgamex86_64.so" ]; then
@@ -55,26 +47,36 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	# Gets remote build info.
 	apiurl="https://api.github.com/repos/JACoders/OpenJK/releases/latest"
 	remotebuildfilename="OpenJK-linux-x86_64.tar.gz"
-	if ! remotebuildresponse=$(curl --connect-timeout 10 --max-time 30 --retry 2 --fail --silent --show-error --location "${apiurl}"); then
-		fn_print_fail_nl "Unable to get the OpenJK release"
-		fn_script_log_fail "Unable to get the OpenJK release"
-		# shellcheck disable=SC2034 # Used by core_exit.sh.
-		exitcode=1
-		core_exit.sh
-	fi
-	if ! remotebuildasset=$(echo "${remotebuildresponse}" | jq -er --arg filename "${remotebuildfilename}" '[.assets[]? | select(.name == $filename)] | select(length == 1) | .[0] | select((.id | type) == "number" and (.browser_download_url | type) == "string")'); then
-		fn_print_fail_nl "Unable to find the OpenJK Linux x86_64 release asset"
-		fn_script_log_fail "Unable to find the OpenJK Linux x86_64 release asset"
-		# shellcheck disable=SC2034 # Used by core_exit.sh.
-		exitcode=1
-		core_exit.sh
-	fi
+	remotebuildresponse=$(curl --connect-timeout 10 --max-time 30 --retry 2 --fail --silent --show-error --location "${apiurl}") || remotebuildresponse=""
+	# Select exactly one dedicated Linux x86_64 asset.
+	remotebuildasset=$(echo "${remotebuildresponse}" | jq -er --arg filename "${remotebuildfilename}" '[.assets[]? | select(.name == $filename)] | select(length == 1) | .[0] | select((.id | type) == "number" and (.browser_download_url | type) == "string")') || remotebuildasset=""
 	remotebuildurl=$(echo "${remotebuildasset}" | jq -r '.browser_download_url')
 	# The rolling latest tag is reused; replacing its asset changes the asset ID.
 	remotebuild=$(echo "${remotebuildasset}" | jq -r '.id')
 	remotebuildhash=$(echo "${remotebuildasset}" | jq -r '.digest // empty' | sed -n 's/^sha256://p')
+
+	if [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_dots "Checking remote build: ${remotelocation}"
+	fi
+	# Checks if the remote build and download URL have been set.
+	if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ] || [ -z "${remotebuildurl}" ] || [ "${remotebuildurl}" == "null" ]; then
+		if [ "${firstcommandname}" != "INSTALL" ]; then
+			fn_print_fail "Checking remote build: ${remotelocation}"
+			fn_script_log_fail "Checking remote build"
+		else
+			fn_print_fail_nl "Unable to get remote build"
+			fn_script_log_fail "Unable to get remote build"
+		fi
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
+		exitcode=1
+		core_exit.sh
+	elif [ "${firstcommandname}" != "INSTALL" ]; then
+		fn_print_ok "Checking remote build: ${remotelocation}"
+		fn_script_log_pass "Checking remote build"
+	fi
 }
 
 fn_update_compare() {
