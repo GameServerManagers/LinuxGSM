@@ -5,6 +5,7 @@
 # Website: https://linuxgsm.com
 # Description: Handles updating of Jedi Academy OpenJK servers.
 
+# shellcheck disable=SC2034 # Used by the module loader.
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
@@ -13,6 +14,7 @@ fn_update_dl() {
 		if ! echo "${remotebuildhash}  ${tmpdir}/${remotebuildfilename}" | sha256sum --check --status; then
 			fn_print_fail_nl "OpenJK download checksum does not match"
 			fn_script_log_fail "OpenJK download checksum does not match"
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
 			exitcode=1
 			core_exit.sh
 		fi
@@ -22,12 +24,14 @@ fn_update_dl() {
 	if [ ! -x "${executabledir}/openjkded.x86_64" ] || [ ! -f "${systemdir}/base/jampgamex86_64.so" ]; then
 		fn_print_fail_nl "OpenJK server files are missing after extraction"
 		fn_script_log_fail "OpenJK server files are missing after extraction"
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
 		exitcode=1
 		core_exit.sh
 	fi
 	if ! echo "${remotebuild}" > "${systemdir}/openjk-build.txt"; then
 		fn_print_fail_nl "Unable to save the OpenJK build ID"
 		fn_script_log_fail "Unable to save the OpenJK build ID"
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
 		exitcode=1
 		core_exit.sh
 	fi
@@ -53,15 +57,17 @@ fn_update_localbuild() {
 fn_update_remotebuild() {
 	apiurl="https://api.github.com/repos/JACoders/OpenJK/releases/latest"
 	remotebuildfilename="OpenJK-linux-x86_64.tar.gz"
-	if ! remotebuildresponse=$(curl --fail --silent --show-error --location "${apiurl}"); then
+	if ! remotebuildresponse=$(curl --connect-timeout 10 --max-time 30 --retry 2 --fail --silent --show-error --location "${apiurl}"); then
 		fn_print_fail_nl "Unable to get the OpenJK release"
 		fn_script_log_fail "Unable to get the OpenJK release"
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
 		exitcode=1
 		core_exit.sh
 	fi
 	if ! remotebuildasset=$(echo "${remotebuildresponse}" | jq -er --arg filename "${remotebuildfilename}" '[.assets[]? | select(.name == $filename)] | select(length == 1) | .[0] | select((.id | type) == "number" and (.browser_download_url | type) == "string")'); then
 		fn_print_fail_nl "Unable to find the OpenJK Linux x86_64 release asset"
 		fn_script_log_fail "Unable to find the OpenJK Linux x86_64 release asset"
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
 		exitcode=1
 		core_exit.sh
 	fi
