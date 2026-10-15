@@ -438,6 +438,11 @@ fix_mta.sh() {
 	fn_fetch_module
 }
 
+fix_nd.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_nmrih.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
