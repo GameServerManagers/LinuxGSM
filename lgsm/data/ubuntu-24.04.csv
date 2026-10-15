@@ -11,8 +11,8 @@ av
 bb
 bb2,libcurl4-gnutls-dev:i386
 bd
-bf1942
-bfv,libstdc++5:i386
+bf1942,libc6:i386
+bfv,libc6:i386
 bmdm
 bo
 bs
