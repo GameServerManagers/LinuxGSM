@@ -1191,6 +1191,13 @@ fn_info_messages_jk2() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_jk3() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_kf() {
 	{
 		fn_port "header"
@@ -1915,6 +1922,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_jc3
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_messages_jk2
+	elif [ "${shortname}" == "jk3" ]; then
+		fn_info_messages_jk3
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then

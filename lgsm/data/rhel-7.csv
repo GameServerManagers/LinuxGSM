@@ -13,7 +13,7 @@ pw
 bb2,libcurl.i686
 bd
 bf1942,ncurses-libs.i686
-bfv,compat-libstdc++-33.i686,glibc.i686
+bfv,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
@@ -64,6 +64,7 @@ jbep3
 jc2
 jc3
 jk2
+jk3,libstdc++,zlib
 kf
 kf2
 l4d

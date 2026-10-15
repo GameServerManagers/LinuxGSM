@@ -35,7 +35,13 @@ echo -e ""
 
 while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
-	read -r usermodselect
+	if ! read -r usermodselect && [ -z "${usermodselect}" ]; then
+		echo -e ""
+		fn_print_error_nl "Unable to read an addon/mod: no input available"
+		fn_script_log_error "Unable to read an addon/mod: no input available"
+		exitcode=2
+		core_exit.sh
+	fi
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh

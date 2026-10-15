@@ -12,8 +12,8 @@ bb
 pw
 bb2,libcurl4-gnutls-dev:i386
 bd
-bf1942,libncurses5:i386,libtinfo5:i386
-bfv,libncurses5:i386,libstdc++5:i386
+bf1942,libc6:i386
+bfv,libc6:i386
 bmdm,libncurses5:i386
 bo
 bs
@@ -64,6 +64,7 @@ jbep3
 jc2
 jc3
 jk2
+jk3,libstdc++6,zlib1g
 kf
 kf2
 l4d

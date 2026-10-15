@@ -834,9 +834,9 @@ fn_info_game_ut3() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/UTWeb.ini"
 		fn_info_game_ini "httppassword" "AdminPassword"
-		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/UTWeb.ini"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1465,6 +1465,27 @@ fn_info_game_jk2() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	serverversion="${serverversion:-"NOT SET"}"
+}
+
+# Config Type: QuakeC
+# Parameters: true
+# Comment: // or /* */
+# Example: set sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_jk3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "rconpassword"
+		fn_info_game_quakec "servername" "sv_hostname"
+		fn_info_game_quakec "serverpassword" "g_password"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: Java properties
@@ -2452,6 +2473,8 @@ elif [ "${shortname}" == "jc3" ]; then
 	fn_info_game_jc3
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_game_jk2
+elif [ "${shortname}" == "jk3" ]; then
+	fn_info_game_jk3
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then

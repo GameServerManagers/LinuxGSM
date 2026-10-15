@@ -402,15 +402,6 @@ if [ "${depcheckonly}" != "1" ]; then
 		fi
 	fi
 
-	# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
-	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
-		if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
-			fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
-			fn_script_log_fail "${gamename} is not supported on ${distroname}."
-			core_exit.sh
-		fi
-	fi
-
 	# These titles are only supported up to Ubuntu 20.04 and Debian 11.
 	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
 		if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
@@ -455,6 +446,7 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 
 	fn_check_loop
 elif [ "${depcheckonly}" == "1" ]; then
+	# shellcheck disable=SC2034 # Used by info_messages.sh.
 	depcheckunavailable="1"
 # Warn the user that dependency checking is unavailable for their distro.
 elif [ "${commandname}" == "INSTALL" ] || [ -n "${checkflag}" ] && [ "${checkflag}" != "0" ]; then

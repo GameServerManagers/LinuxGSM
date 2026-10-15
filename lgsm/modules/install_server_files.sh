@@ -17,21 +17,21 @@ fn_install_server_files() {
 		force="noforce"
 		md5="61d7b79fd714888b6d65944fdaafa94a"
 	elif [ "${shortname}" == "bf1942" ]; then
-		remote_fileurl="http://linuxgsm.download/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full.tar.xz"
+		remote_fileurl="http://linuxgsm.download/BattleField1942/bf1942_lnxded-1.61-hacked-to-1.612.full-linuxgsm.tar.xz"
 		local_filedir="${tmpdir}"
-		local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full.tar.xz"
+		local_filename="bf1942_lnxded-1.61-hacked-to-1.612.full-linuxgsm.tar.xz"
 		chmodx="nochmodx"
 		run="norun"
 		force="noforce"
-		md5="4223bf4ed85f5162c24b2cba51249b9e"
+		md5="d58016b3c45f86a71bb56c39749ce941"
 	elif [ "${shortname}" == "bfv" ]; then
-		remote_fileurl="http://linuxgsm.download/BattlefieldVietnam/bfv_linded-v1.21-20041207_patch.tar.xz"
+		remote_fileurl="http://linuxgsm.download/BattlefieldVietnam/bfv_linded-v1.21-20041207_patch-linuxgsm.tar.xz"
 		local_filedir="${tmpdir}"
-		local_filename="bfv_linded-v1.21-20041207_patch.tar.xz"
+		local_filename="bfv_linded-v1.21-20041207_patch-linuxgsm.tar.xz"
 		chmodx="nochmodx"
 		run="norun"
 		force="noforce"
-		md5="e3b4962cdd9d41e23c6fed65101bccde"
+		md5="9a8117732b8abd99cc59f1f0fa92adfa"
 
 	elif [ "${shortname}" == "cod" ]; then
 		remote_fileurl="http://linuxgsm.download/CallOfDuty/cod-lnxded-1.5b-full.tar.xz"
@@ -261,6 +261,8 @@ elif [ "${shortname}" == "hyt" ]; then
 	update_hyt.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
+elif [ "${shortname}" == "jk3" ]; then
+	update_jk3.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
 elif [ "${shortname}" == "bb" ]; then

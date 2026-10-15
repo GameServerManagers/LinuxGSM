@@ -10,8 +10,8 @@ av,avserver,Avorion,ubuntu-26.04
 bb,bbserver,BrainBread,ubuntu-26.04
 bb2,bb2server,BrainBread 2,ubuntu-26.04
 bd,bdserver,Base Defense,ubuntu-26.04
-bf1942,bf1942server,Battlefield 1942,ubuntu-22.04
-bfv,bfvserver,Battlefield: Vietnam,ubuntu-22.04
+bf1942,bf1942server,Battlefield 1942,ubuntu-26.04
+bfv,bfvserver,Battlefield: Vietnam,ubuntu-26.04
 bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-26.04
 bo,boserver,Ballistic Overkill,ubuntu-26.04
 bs,bsserver,Blade Symphony,ubuntu-26.04
@@ -62,6 +62,7 @@ jbep3,jbep3server,Jabroni Brawl: Episode 3,ubuntu-26.04
 jc2,jc2server,Just Cause 2,ubuntu-26.04
 jc3,jc3server,Just Cause 3,ubuntu-26.04
 jk2,jk2server,Jedi Knight II: Jedi Outcast,ubuntu-26.04
+jk3,jk3server,Jedi Knight: Jedi Academy,ubuntu-26.04
 kf,kfserver,Killing Floor,ubuntu-26.04
 kf2,kf2server,Killing Floor 2,ubuntu-26.04
 l4d,l4dserver,Left 4 Dead,ubuntu-26.04
