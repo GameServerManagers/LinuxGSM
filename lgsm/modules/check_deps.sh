@@ -260,7 +260,9 @@ fn_check_loop() {
 	done
 
 	# user will be informed of any missing dependencies.
-	fn_install_missing_deps
+	if [ "${depcheckonly}" != "1" ]; then
+		fn_install_missing_deps
+	fi
 }
 
 # Checks if dependency is installed or not.
@@ -371,6 +373,10 @@ fn_deps_detector() {
 	fi
 }
 
+if [ "${commandname}" == "DETAILS" ] || [ "${commandname}" == "POST-DETAILS" ]; then
+	depcheckonly="1"
+fi
+
 if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
@@ -387,38 +393,40 @@ fi
 
 info_distro.sh
 
-# Will warn user if their distro is no longer supported by the vendor.
-if [ -n "${distrosupport}" ]; then
-	if [ "${distrosupport}" == "unsupported" ]; then
-		fn_print_warning_nl "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
-		fn_script_log_warn "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+if [ "${depcheckonly}" != "1" ]; then
+	# Will warn user if their distro is no longer supported by the vendor.
+	if [ -n "${distrosupport}" ]; then
+		if [ "${distrosupport}" == "unsupported" ]; then
+			fn_print_warning_nl "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+			fn_script_log_warn "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+		fi
 	fi
-fi
 
-# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
-	if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
-		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
-		fn_script_log_fail "${gamename} is not supported on ${distroname}."
-		core_exit.sh
+	# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
+	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
+		if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
+			fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
+			fn_script_log_fail "${gamename} is not supported on ${distroname}."
+			core_exit.sh
+		fi
 	fi
-fi
 
-# These titles are only supported up to Ubuntu 20.04 and Debian 11.
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
-	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
-		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
-		fn_script_log_fail "${gamename} is not supported on ${distroname}."
-		core_exit.sh
+	# These titles are only supported up to Ubuntu 20.04 and Debian 11.
+	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+		if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
+			fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
+			fn_script_log_fail "${gamename} is not supported on ${distroname}."
+			core_exit.sh
+		fi
 	fi
-fi
 
-# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
-if [ "${shortname}" == "vints" ]; then
-	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
-		fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
-		echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
-		fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
+	# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
+	if [ "${shortname}" == "vints" ]; then
+		if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
+			fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
+			echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
+			fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
+		fi
 	fi
 fi
 
@@ -446,6 +454,8 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	IFS=" " read -r -a array_deps_required <<< "$(echo "${array_deps_required[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 
 	fn_check_loop
+elif [ "${depcheckonly}" == "1" ]; then
+	depcheckunavailable="1"
 # Warn the user that dependency checking is unavailable for their distro.
 elif [ "${commandname}" == "INSTALL" ] || [ -n "${checkflag}" ] && [ "${checkflag}" != "0" ]; then
 	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."
