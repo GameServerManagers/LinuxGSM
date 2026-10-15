@@ -22,7 +22,14 @@ if [ "${status}" != "0" ]; then
 		commandtosend="${userinput2}"
 	else
 		echo ""
-		commandtosend=$(fn_prompt_message "send: ")
+		if ! commandtosend=$(fn_prompt_message "send: "); then
+			echo -e ""
+			fn_print_error_nl "Unable to read a command to send: no input available"
+			fn_script_log_error "Unable to read a command to send: no input available"
+			# shellcheck disable=SC2034 # Used by core_exit.sh.
+			exitcode=2
+			core_exit.sh
+		fi
 	fi
 	echo ""
 	fn_print_dots "Sending command to console: \"${commandtosend}\""
