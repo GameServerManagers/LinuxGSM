@@ -834,9 +834,9 @@ fn_info_game_ut3() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/UTWeb.ini"
 		fn_info_game_ini "httppassword" "AdminPassword"
-		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/UTWeb.ini"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
