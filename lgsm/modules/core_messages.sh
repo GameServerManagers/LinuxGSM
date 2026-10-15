@@ -320,7 +320,13 @@ fn_prompt_yn() {
 	fi
 
 	while true; do
-		read -e -i "${initial}" -p "${prompt}" -r yn
+		if ! read -e -i "${initial}" -p "${prompt}" -r yn && [ -z "${yn}" ]; then
+			echo -e ""
+			fn_print_error_nl "Unable to read an answer: no input available"
+			fn_script_log_error "Unable to read an answer to \"${1}\": no input available"
+			exitcode=2
+			core_exit.sh
+		fi
 		case "${yn}" in
 			[Yy] | [Yy][Ee][Ss]) return 0 ;;
 			[Nn] | [Nn][Oo]) return 1 ;;
@@ -334,7 +340,9 @@ fn_prompt_message() {
 	while true; do
 		unset prompt
 		local prompt="$1"
-		read -e -p "${prompt}" -r answer
+		if ! read -e -p "${prompt}" -r answer && [ -z "${answer}" ]; then
+			return 1
+		fi
 		if fn_prompt_yn "Continue" Y; then
 			break
 		fi
