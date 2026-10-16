@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to tmpdir.
-	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
+	fn_fetch_file "https://linux.multitheftauto.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${serverfiles}" "multitheftauto_linux_x64"
 	fn_clear_tmp
 }
@@ -38,7 +38,7 @@ fn_update_remotebuild() {
 	apiurl="https://linux.multitheftauto.com/revision/latest.txt"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename="multitheftauto_linux_x64.tar.gz"
-	remotebuildurl="http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz"
+	remotebuildurl="https://linux.multitheftauto.com/dl/multitheftauto_linux_x64.tar.gz"
 	remotebuild="${remotebuildresponse}"
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
