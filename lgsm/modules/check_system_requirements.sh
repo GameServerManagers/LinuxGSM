@@ -25,6 +25,8 @@ elif [ "${shortname}" == "bt" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "cc" ]; then
 	ramrequirementgb="1"
+elif [ "${shortname}" == "ce" ]; then
+	ramrequirementgb="8"
 elif [ "${shortname}" == "dayz" ]; then
 	ramrequirementgb="5"
 elif [ "${shortname}" == "dodr" ]; then
