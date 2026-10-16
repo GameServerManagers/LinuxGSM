@@ -9,7 +9,39 @@ commandname="UPDATE"
 commandaction="Updating"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
-updateexitbypass="${exitbypass}"
+
+fn_update_apply() {
+	check_status.sh
+	updatestatus="${status}"
+	if [ "${updatestatus}" != "0" ]; then
+		fn_print_restart_warning
+		exitbypass=1
+		command_stop.sh
+		fn_firstcommand_reset
+	fi
+	(
+		unset exitbypass
+		"$@"
+		exit 0
+	)
+	updateexitcode=$?
+	if [ "${updateexitcode}" -eq 0 ]; then
+		date +%s > "${lockdir:?}/last-updated.lock"
+	fi
+	if [ "${updatestatus}" != "0" ]; then
+		exitbypass=1
+		command_start.sh
+		fn_firstcommand_reset
+	fi
+	unset exitbypass
+	if [ "${updateexitcode}" -ne 0 ]; then
+		rm -f "${lockdir:?}/update.lock"
+		alert="update-failed"
+		alert.sh
+		exitcode="${updateexitcode}"
+		core_exit.sh
+	fi
+}
 
 fn_print_dots ""
 check.sh
@@ -60,5 +92,4 @@ fi
 # remove update lockfile.
 rm -f "${lockdir:?}/update.lock"
 
-exitbypass="${updateexitbypass}"
 core_exit.sh
