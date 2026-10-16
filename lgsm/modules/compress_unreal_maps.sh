@@ -122,6 +122,7 @@ echo -e ""
 if [ "${#failedfiles[@]}" -gt 0 ]; then
 	fn_print_warn_nl "Failed to compress ${#failedfiles[@]} file(s): ${failedfiles[*]}"
 	fn_script_log_warn "Failed to compress: ${failedfiles[*]}"
+	# shellcheck disable=SC2034 # Used by core_exit.sh.
 	exitcode=3
 else
 	fn_print_ok_nl "Compression complete: compressed files saved to: ${compressedmapsdir}"
