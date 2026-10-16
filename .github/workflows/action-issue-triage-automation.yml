@@ -1188,7 +1188,11 @@ jobs:
               if (likelySupportedByCheckbox) reasons.push('requester confirmed Linux support via the form checkbox; no contradicting evidence found');
 
               let verdictLine = 'Linux support could not be confirmed automatically from the submitted details.';
-              if (confirmedNoLinux) {
+              if (linuxLabelOverrideBy && shouldApplyNoLinuxLabel) {
+                verdictLine = 'A maintainer has confirmed this server has no native Linux support.';
+              } else if (linuxLabelOverrideBy && shouldApplyConfirmedLinuxLabel) {
+                verdictLine = 'A maintainer has confirmed native Linux support.';
+              } else if (confirmedNoLinux) {
                 verdictLine = 'This server request does **not** appear to have native Linux support, which is required for LinuxGSM.';
               } else if (suggestsNoLinux) {
                 verdictLine = 'This server request **may not** have native Linux support based on submitted evidence.';
