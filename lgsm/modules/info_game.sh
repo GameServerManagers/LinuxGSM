@@ -2149,10 +2149,10 @@ fn_info_game_source() {
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
-	# Steamport can be between 26901-26910 and is normally automatically set.
-	# Some servers might support -steamport parameter to set
-	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
-		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	# Detect the optional Steam port from this server's UDP sockets in the 269xx range.
+	# Keep an explicitly configured port, including ports outside the default range.
+	if { [ -z "${steamport}" ] || [ "${steamport}" == "0" ]; } && [ -n "${srcdslinuxpid}" ]; then
+		steamport="$(echo "${ssinfo}" | awk -v pid="${srcdslinuxpid}" '$1 == "udp" && $0 ~ ("pid=" pid ",") { port = $5; sub(/^.*:/, "", port); if (port ~ /^269[0-9][0-9]$/) { print port; exit } }')"
 	fi
 	clientport="${clientport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
