@@ -61,7 +61,7 @@ inss
 ios
 jbep3
 jc2
-jc3
+jc3,libatomic
 jk2
 jk3,libstdc++,zlib
 kf
