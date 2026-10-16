@@ -797,6 +797,11 @@ elif [ "${shortname}" == "ut2k4" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ut3" ]; then
+	array_configs+=(UTGame.ini UTWeb.ini UTEngine.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "ut99" ]; then
 	array_configs+=(Default.ini)
 	fn_default_config_remote
