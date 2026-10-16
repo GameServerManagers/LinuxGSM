@@ -271,10 +271,14 @@ core_logs.sh
 
 # Will check for updates if updateonstart is yes.
 if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
-	exitbypass=1
 	unset updateonstart
-	command_update.sh
-	fn_firstcommand_reset
+	if ! (
+		unset exitbypass
+		command_update.sh
+	); then
+		fn_print_warn_nl "Update failed, starting ${servername} anyway"
+		fn_script_log_warn "Update failed, starting ${servername} anyway"
+	fi
 fi
 
 fn_print_dots "${servername}"
