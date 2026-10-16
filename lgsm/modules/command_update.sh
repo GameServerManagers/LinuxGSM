@@ -9,6 +9,7 @@ commandname="UPDATE"
 commandaction="Updating"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
+updateexitbypass="${exitbypass}"
 
 fn_print_dots ""
 check.sh
@@ -59,4 +60,5 @@ fi
 # remove update lockfile.
 rm -f "${lockdir:?}/update.lock"
 
+exitbypass="${updateexitbypass}"
 core_exit.sh
