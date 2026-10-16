@@ -111,7 +111,7 @@ fn_info_messages_distro() {
 	# Uptime:    16d, 5h, 18m
 	# tmux:      tmux 3.0a
 	# glibc:     2.31
-	# Missing deps: lib32gcc-s1 steamcmd
+	# Dependencies: lib32gcc-s1 steamcmd
 
 	echo -e ""
 	echo -e "${bold}${lightyellow}Distro Details${default}"
@@ -130,9 +130,9 @@ fn_info_messages_distro() {
 			echo -e "${lightblue}Java:\t${default}${javaversion}"
 		fi
 		if [ "${#array_deps_missing[@]}" != "0" ]; then
-			echo -e "${lightblue}Missing deps:\t${red}${array_deps_missing[*]}${default}"
+			echo -e "${lightblue}Dependencies:\t${red}${array_deps_missing[*]}${default}"
 		elif [ "${depcheckunavailable}" == "1" ]; then
-			echo -e "${lightblue}Missing deps:\t${default}dependency checking unavailable for ${distroname}"
+			echo -e "${lightblue}Dependencies:\t${default}dependency checking unavailable for ${distroname}"
 		fi
 	} | column -s $'\t' -t
 }
