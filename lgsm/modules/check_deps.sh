@@ -18,17 +18,19 @@ fn_install_dotnet_repo() {
 		fi
 	done
 
-	if [ "${distroid}" == "ubuntu" ]; then
-		# If the required .NET package is unavailable in Ubuntu repos, add the Microsoft repo.
+	if [ "${distroid}" == "ubuntu" ] || [ "${distroid}" == "debian" ]; then
+		# If the required .NET package is unavailable in Ubuntu/Debian repos, add the Microsoft repo.
 		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
-		fi
-	elif [ "${distroid}" == "debian" ]; then
-		# If the required .NET package is unavailable in Debian repos, add the Microsoft repo.
-		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			if [ "${autodepinstall}" == "0" ]; then
+				fn_fetch_file "https://packages.microsoft.com/config/${distroid}/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
+				sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			else
+				fn_print_information_nl "Installing Microsoft repository."
+				fn_print_warning_nl "${nosudomessage}"
+				echo -e "Follow instructions on Microsoft website to install."
+				echo -e "https://learn.microsoft.com/en-us/dotnet/core/install/linux"
+				fn_script_log_warn "Unable to install Microsoft repository. ${nosudomessage}"
+			fi
 		fi
 	fi
 }
