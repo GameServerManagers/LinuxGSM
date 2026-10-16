@@ -29,6 +29,7 @@ fn_update_apply() {
 		date +%s > "${lockdir:?}/last-updated.lock"
 	fi
 	if [ "${updatestatus}" != "0" ]; then
+		# shellcheck disable=SC2034 # Used by command_start.sh.
 		exitbypass=1
 		command_start.sh
 		fn_firstcommand_reset
@@ -36,8 +37,10 @@ fn_update_apply() {
 	unset exitbypass
 	if [ "${updateexitcode}" -ne 0 ]; then
 		rm -f "${lockdir:?}/update.lock"
+		# shellcheck disable=SC2034 # Used by alert.sh.
 		alert="update-failed"
 		alert.sh
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
 		exitcode="${updateexitcode}"
 		core_exit.sh
 	fi
