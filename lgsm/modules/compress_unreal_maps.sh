@@ -14,8 +14,10 @@ check.sh
 
 if [ "${engine}" == "unreal" ]; then
 	compressext="uz"
+	compressargs=()
 else
 	compressext="uz2"
+	compressargs=(--nohomedir)
 fi
 
 # Package types clients can download from a redirect server.
@@ -84,7 +86,8 @@ for file in "${files[@]}"; do
 		continue
 	fi
 	echo -en "compressing file [ ${italic}${filename} -> ${filename}.${compressext}${default} ]\c"
-	if "${executable}" compress "${file}" --nohomedir > /dev/null 2>&1 && [ -f "${file}.${compressext}" ] && mv -f "${file}.${compressext}" "${compressedfile}"; then
+	uccoutput="$("${executable}" compress "${file}" "${compressargs[@]}" 2>&1)"
+	if grep -qF "Compressed ${file} -> ${file}.${compressext}" <<< "${uccoutput}" && [ -f "${file}.${compressext}" ] && mv -f "${file}.${compressext}" "${compressedfile}"; then
 		fn_print_ok_eol_nl
 		compressedcount=$((compressedcount + 1))
 	else
