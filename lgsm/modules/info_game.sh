@@ -31,7 +31,7 @@ fn_info_game_ini() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="ini"
 }
 
@@ -56,7 +56,7 @@ fn_info_game_keyvalue_pairs_equals() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -81,7 +81,7 @@ fn_info_game_keyvalue_pairs_space() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -106,7 +106,7 @@ fn_info_game_quakec() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -118,7 +118,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(jq -r "${2}" "${servercfgparse}")"
 	configtype="json"
 }
 
@@ -144,7 +144,7 @@ fn_info_game_sqf() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="sqf"
 }
 
@@ -156,7 +156,7 @@ fn_info_game_xml() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(xmllint --xpath "string(${2})" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(xmllint --xpath "string(${2})" "${servercfgparse}")"
 	configtype="xml"
 }
 
@@ -182,7 +182,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="valve_keyvalues"
 }
 
@@ -207,7 +207,7 @@ fn_info_game_java_properties() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="java"
 }
 
@@ -230,7 +230,7 @@ fn_info_game_lua() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="lua"
 }
 
@@ -255,7 +255,7 @@ fn_info_game_pc_config() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="pc_config"
 }
 
@@ -2149,10 +2149,10 @@ fn_info_game_source() {
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
-	# Steamport can be between 26901-26910 and is normally automatically set.
-	# Some servers might support -steamport parameter to set
-	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
-		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	# Detect the optional Steam port from this server's UDP sockets in the 269xx range.
+	# Keep an explicitly configured port, including ports outside the default range.
+	if { [ -z "${steamport}" ] || [ "${steamport}" == "0" ]; } && [ -n "${srcdslinuxpid}" ]; then
+		steamport="$(echo "${ssinfo}" | awk -v pid="${srcdslinuxpid}" '$1 == "udp" && $0 ~ ("pid=" pid ",") { port = $5; sub(/^.*:/, "", port); if (port ~ /^269[0-9][0-9]$/) { print port; exit } }')"
 	fi
 	clientport="${clientport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"

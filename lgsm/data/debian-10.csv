@@ -60,7 +60,7 @@ inss
 ios
 jbep3
 jc2
-jc3
+jc3,libatomic1
 jk2
 jk3,libstdc++6,zlib1g
 kf
@@ -106,10 +106,10 @@ samp
 sb
 sbots
 scpsl,mono-complete
-sdtd,telnet,expect,libxml2-utils
+sdtd,libxml2-utils
 sf
 sfc,libtinfo5:i386
-sm,telnet,expect
+sm
 sof2
 sol
 squad

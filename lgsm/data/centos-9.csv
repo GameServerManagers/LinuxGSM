@@ -61,7 +61,7 @@ inss
 ios
 jbep3
 jc2
-jc3
+jc3,libatomic
 jk2
 jk3,libstdc++,zlib
 kf
@@ -106,10 +106,10 @@ samp
 sb
 sbots
 scpsl
-sdtd,telnet,expect,libxml2
+sdtd,libxml2
 sf
 sfc,ncurses-libs.i686
-sm,telnet,expect
+sm
 sof2
 sol
 squad

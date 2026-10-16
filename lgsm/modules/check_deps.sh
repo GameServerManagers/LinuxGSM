@@ -18,17 +18,19 @@ fn_install_dotnet_repo() {
 		fi
 	done
 
-	if [ "${distroid}" == "ubuntu" ]; then
-		# If the required .NET package is unavailable in Ubuntu repos, add the Microsoft repo.
+	if [ "${distroid}" == "ubuntu" ] || [ "${distroid}" == "debian" ]; then
+		# If the required .NET package is unavailable in Ubuntu/Debian repos, add the Microsoft repo.
 		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
-		fi
-	elif [ "${distroid}" == "debian" ]; then
-		# If the required .NET package is unavailable in Debian repos, add the Microsoft repo.
-		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			if [ "${autodepinstall}" == "0" ]; then
+				fn_fetch_file "https://packages.microsoft.com/config/${distroid}/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
+				sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			else
+				fn_print_information_nl "Installing Microsoft repository."
+				fn_print_warning_nl "${nosudomessage}"
+				echo -e "Follow instructions on Microsoft website to install."
+				echo -e "https://learn.microsoft.com/en-us/dotnet/core/install/linux"
+				fn_script_log_warn "Unable to install Microsoft repository. ${nosudomessage}"
+			fi
 		fi
 	fi
 }
@@ -111,10 +113,10 @@ fn_install_mono_repo() {
 
 	else
 		fn_print_information_nl "Installing Mono repository."
-		fn_print_warning_nl "$(whoami) does not have sudo access."
+		fn_print_warning_nl "${nosudomessage}"
 		echo -e "Follow instructions on Mono website to install."
 		echo -e "https://www.mono-project.com/download/stable/#download-lin"
-		fn_script_log_warn "Unable to install Mono repository. $(whoami) does not have sudo access."
+		fn_script_log_warn "Unable to install Mono repository. ${nosudomessage}"
 	fi
 }
 
@@ -163,9 +165,11 @@ fn_install_missing_deps() {
 			autodepinstall="0"
 		elif [ "${autoinstall}" == "1" ]; then
 			autodepinstall="1"
+			nosudomessage="sudo cannot run without a password during auto-install."
 		else
 			sudo -v > /dev/null 2>&1
 			autodepinstall="$?"
+			nosudomessage="$(whoami) does not have sudo access."
 		fi
 
 		if [ "${monoinstalled}" == "false" ]; then
@@ -181,8 +185,8 @@ fn_install_missing_deps() {
 				fn_print_information_nl "$(whoami) has sudo access."
 				fn_script_log_info "$(whoami) has sudo access."
 			else
-				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
-				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
+				fn_print_warning_nl "${nosudomessage} Manually install dependencies or run ./${selfname} install as root."
+				fn_script_log_warn "${nosudomessage} Manually install dependencies or run ./${selfname} install as root."
 			fi
 		fi
 
