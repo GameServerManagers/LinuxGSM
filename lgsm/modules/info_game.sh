@@ -31,7 +31,7 @@ fn_info_game_ini() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="ini"
 }
 
@@ -56,7 +56,7 @@ fn_info_game_keyvalue_pairs_equals() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -81,7 +81,7 @@ fn_info_game_keyvalue_pairs_space() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -106,7 +106,7 @@ fn_info_game_quakec() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -118,7 +118,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(jq -r "${2}" "${servercfgparse}")"
 	configtype="json"
 }
 
@@ -144,7 +144,7 @@ fn_info_game_sqf() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="sqf"
 }
 
@@ -156,7 +156,7 @@ fn_info_game_xml() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(xmllint --xpath "string(${2})" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(xmllint --xpath "string(${2})" "${servercfgparse}")"
 	configtype="xml"
 }
 
@@ -182,7 +182,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="valve_keyvalues"
 }
 
@@ -207,7 +207,7 @@ fn_info_game_java_properties() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="java"
 }
 
@@ -230,7 +230,7 @@ fn_info_game_lua() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="lua"
 }
 
@@ -255,7 +255,7 @@ fn_info_game_pc_config() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="pc_config"
 }
 
