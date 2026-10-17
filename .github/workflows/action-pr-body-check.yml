@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   pr-body-check:
-    if: github.repository_owner == 'GameServerManagers' && github.event.pull_request.user.type != 'Bot'
+    if: github.repository_owner == 'GameServerManagers' && github.event.pull_request.user.type != 'Bot' && !startsWith(github.event.pull_request.head.ref, 'repo-sync/')
     runs-on: ubuntu-latest
     steps:
       - name: Check pull request body follows the template
