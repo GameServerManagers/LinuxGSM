@@ -270,6 +270,10 @@ fn_check_loop() {
 }
 
 # Checks if dependency is installed or not.
+fn_deps_version_ge() {
+	[ "$(printf '%s\n' "$1" "$2" | sort -V | head -1)" == "$2" ]
+}
+
 fn_deps_detector() {
 	## Check.
 	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
@@ -292,6 +296,28 @@ fn_deps_detector() {
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			javarequiredmajor="$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+				if [ "${mcversion}" == "latest" ]; then
+					javarequiredmajor="25"
+				elif [[ "${mcversion}" =~ ^[0-9]+\.[0-9]+([.][0-9]+)?$ ]]; then
+					if fn_deps_version_ge "${mcversion}" "26.1"; then
+						javarequiredmajor="25"
+					elif [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; then
+						javarequiredmajor="21"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; then
+						javarequiredmajor="21"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.17" && fn_deps_version_ge "1.19" "${mcversion}"; then
+						javarequiredmajor="17"
+					elif [ "${shortname}" == "pmc" ] && [ "${mcversion}" == "1.16.5" ]; then
+						javarequiredmajor="16"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.12" && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+						javarequiredmajor="11"
+					elif [ "${shortname}" == "pmc" ] && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+						javarequiredmajor="8"
+					fi
+				fi
+			fi
 			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
 				# Java 25 installed but not the active java: installing it again would not change that.
 				if compgen -G "/usr/lib/jvm/*25*/bin/java" > /dev/null; then
@@ -302,13 +328,42 @@ fn_deps_detector() {
 				else
 					depstatus=1
 				fi
+			elif [ -n "${javamajorversion}" ] && [ "${javamajorversion}" -lt "${javarequiredmajor}" ]; then
+				if [ "${depcheckonly}" == "1" ]; then
+					depstatus=1
+				elif [ "${javarequiredmajor}" -gt "$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)" ]; then
+					fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide that version as a package."
+					echo -e "Install Java ${javarequiredmajor} manually or upgrade to Debian 13 or Ubuntu 24.04+."
+					fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide it as a package."
+					core_exit.sh
+				else
+					fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; active Java is ${javamajorversion}."
+					echo -e "Select a compatible Java runtime with: sudo update-alternatives --config java"
+					fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; active Java is ${javamajorversion}."
+					core_exit.sh
+				fi
 			else
 				# Added for users using Oracle JRE to bypass check.
 				depstatus=0
 				deptocheck="${javaversion}"
 			fi
 		else
-			depstatus=1
+			javarequiredmajor="$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+				if [ "${mcversion}" == "latest" ] || fn_deps_version_ge "${mcversion}" "26.1"; then
+					javarequiredmajor="25"
+				elif { [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; } || { [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; }; then
+					javarequiredmajor="21"
+				fi
+			fi
+			if [ "${javarequiredmajor}" -gt "$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)" ] && [ "${depcheckonly}" != "1" ]; then
+				fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide that version as a package."
+				echo -e "Install Java ${javarequiredmajor} manually or upgrade to Debian 13 or Ubuntu 24.04+."
+				fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide it as a package."
+				core_exit.sh
+			else
+				depstatus=1
+			fi
 		fi
 	# Mono: A Mono repo needs to be installed.
 	elif [ "${deptocheck}" == "mono-complete" ]; then
