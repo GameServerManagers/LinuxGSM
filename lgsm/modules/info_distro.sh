@@ -191,6 +191,7 @@ read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" 
 	END { if (count) { printf "%.2f %.2f-%.2fMHz", sum/count, min, max } else printf "0.00 unavailable" }
 	')
 cpufreqency="${cpufreqency:-0}"
+export cpuphysicalcoresdisplay cpufrequencydisplay
 cpufrequencyaveragedisplay="${cpufreqency}"
 if [ "${cpufrequencydisplay}" = "unavailable" ]; then
 	cpufrequencyaveragedisplay="unavailable"
