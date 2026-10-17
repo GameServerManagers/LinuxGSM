@@ -22,10 +22,10 @@ cc
 ce
 ck,xvfb,libxi6
 cmw
-cod,libstdc++5:i386
-cod2,libstdc++5:i386
+cod,libc6:i386
+cod2,libc6:i386
 cod4
-coduo,libstdc++5:i386
+coduo,libc6:i386
 codwaw
 col
 cs
@@ -73,7 +73,7 @@ mc,openjdk-25-jre
 mcb
 mcv
 mh
-mohaa,libstdc++5:i386
+mohaa,libc6:i386
 mta,libxml2-utils
 nd
 nec

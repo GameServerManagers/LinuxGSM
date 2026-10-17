@@ -69,7 +69,7 @@ kf
 kf2
 l4d
 l4d2
-mc,openjdk-21-jre
+mc,openjdk-25-jre
 mcb
 mcv
 mh
@@ -86,7 +86,7 @@ onset,libmariadb-dev
 opfor
 pc
 pc2
-pmc,openjdk-21-jre
+pmc,openjdk-25-jre
 squad44
 pvkii
 pvr,libc++1

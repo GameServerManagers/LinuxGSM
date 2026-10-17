@@ -7,44 +7,31 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Lists files the current user neither owns nor can access.
+fn_find_ownership_issues() {
+	find "$@" -not -user "$(whoami)" \( -not -readable -o -not -writable -o \( -type d -not -executable \) \) -printf "%u\t%g\t%M\t%p\n"
+}
+
 fn_check_ownership() {
-	if [ -f "${rootdir}/${selfname}" ]; then
-		if [ "$(find "${rootdir}/${selfname}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
-			selfownissue=1
+	ownershipissues="$(
+		if [ -f "${rootdir}/${selfname}" ]; then
+			fn_find_ownership_issues "${rootdir}/${selfname}"
 		fi
-	fi
-	if [ -d "${lgsmdir}" ]; then
-		if [ "$(find "${lgsmdir}" -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
-			lgsmownissue=1
+		if [ -d "${lgsmdir}" ]; then
+			fn_find_ownership_issues "${lgsmdir}" -not -name '*.swp'
 		fi
-	fi
-	if [ -d "${modulesdir}" ]; then
-		if [ "$(find "${modulesdir}" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
-			funcownissue=1
+		if [ -d "${serverfiles}" ]; then
+			fn_find_ownership_issues "${serverfiles}" -not -path "*/steamapps/compatdata/*" -not -name '*.swp'
 		fi
-	fi
-	if [ -d "${serverfiles}" ]; then
-		if [ "$(find "${serverfiles}" -not -path "*/steamapps/compatdata/*" -not -name '*.swp' -not -user "$(whoami)" | wc -l)" -ne "0" ]; then
-			filesownissue=1
-		fi
-	fi
-	if [ "${selfownissue}" == "1" ] || [ "${lgsmownissue}" == "1" ] || [ "${filesownissue}" == "1" ]; then
+	)"
+	if [ -n "${ownershipissues}" ]; then
 		fn_print_fail_nl "Ownership issues found"
 		fn_script_log_fail "Ownership issues found"
-		fn_print_information_nl "The current user ($(whoami)) does not have ownership of the following files:"
-		fn_script_log_info "The current user ($(whoami)) does not have ownership of the following files:"
+		fn_print_information_nl "The current user ($(whoami)) does not own and cannot access the following files:"
+		fn_script_log_info "The current user ($(whoami)) does not own and cannot access the following files:"
 		{
-			echo -en "User\tGroup\tFile:"
-			if [ "${selfownissue}" == "1" ]; then
-				find "${rootdir}/${selfname}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
-			fi
-			if [ "${lgsmownissue}" == "1" ]; then
-				find "${lgsmdir}" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
-			fi
-			if [ "${filesownissue}" == "1" ]; then
-				find "${serverfiles}" -not -path "*/steamapps/compatdata/*" -not -user "$(whoami)" -printf "%u\t%g\t%p\n"
-			fi
-
+			echo -e "User\tGroup\tMode\tFile"
+			echo "${ownershipissues}"
 		} | column -s $'\t' -t | tee -a "${lgsmlog}"
 		echo -e ""
 		fn_print_information_nl "please see https://docs.linuxgsm.com/support/faq#fail-starting-game-server-permission-issues-found"
@@ -102,7 +89,7 @@ fn_check_permissions() {
 		# Grab the first and second digit for user and group permission.
 		userrootdirperm="${rootdirperm:0:1}"
 		grouprootdirperm="${rootdirperm:1:1}"
-		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ]; then
+		if [ "${userrootdirperm}" != "7" ] && [ "${grouprootdirperm}" != "7" ] && { [ ! -r "${rootdir}" ] || [ ! -w "${rootdir}" ] || [ ! -x "${rootdir}" ]; }; then
 			fn_print_fail_nl "Permissions issues found"
 			fn_script_log_fail "Permissions issues found"
 			fn_print_information_nl "The following directory does not have the correct permissions:"
@@ -120,7 +107,7 @@ fn_check_permissions() {
 	# Check if executable is executable and attempt to fix it.
 	# First get executable name.
 	execname=$(basename "${executable}")
-	if [ -f "${executabledir}/${execname}" ]; then
+	if [ -f "${executabledir}/${execname}" ] && [ ! -x "${executabledir}/${execname}" ]; then
 		# Get permission numbers on file under the form 775.
 		execperm=$(stat -c %a "${executabledir}/${execname}")
 		# Grab the first and second digit for user and group permission.
