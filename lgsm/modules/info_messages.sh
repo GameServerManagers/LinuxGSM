@@ -168,8 +168,9 @@ fn_info_messages_server_resource() {
 	{
 		echo -e "${bold}${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
-		echo -e "${lightblue}Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
+		echo -e "${lightblue}Cores (system topology):\t${default}${cpuphysicalcoresdisplay}"
+		echo -e "${lightblue}Logical CPUs (system view):\t${default}${cpulogicalcores}"
+		echo -e "${lightblue}Frequency range:\t${default}${cpufrequencydisplay} per logical CPU"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
