@@ -456,6 +456,9 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	array_deps_required=("${depall} ${depsteamcmd} ${depshortname}")
 	array_deps_required_steamcmd=("${depsteamcmd}")
 	fn_deps_email
+	if [ "${logtimestamp}" == "on" ]; then
+		array_deps_required+=(gawk)
+	fi
 	# Unique sort dependency array.
 	IFS=" " read -r -a array_deps_required <<< "$(echo "${array_deps_required[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 
