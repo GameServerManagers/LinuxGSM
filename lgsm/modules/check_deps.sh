@@ -479,12 +479,12 @@ if [ "${depcheckonly}" != "1" ]; then
 		fi
 	fi
 
-	# Hytale needs Java 25, which Ubuntu before 22.04 and Debian before 13 do not package.
+	# Hytale needs Java 25, which Ubuntu before 22.04, Debian before 13 and RHEL before 9 do not package.
 	if [ "${shortname}" == "hyt" ]; then
-		if { [ "${distroid}" == "ubuntu" ] && [ "${distroversion}" != "22.04" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "13"; }; then
+		if { [ "${distroid}" == "ubuntu" ] && [ "${distroversion}" != "22.04" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "13"; } || { [ -n "${distroversionrh}" ] && [ "${distroversionrh}" -lt "9" ]; }; then
 			if ! echo "${javaversion}" | grep -Eq 'version "(2[5-9]|[3-9][0-9])'; then
 				fn_print_warning_nl "${gamename} requires Java 25, which ${distroname} does not provide."
-				echo -e "Install Java 25 manually or upgrade to Ubuntu 22.04+ or Debian 13+."
+				echo -e "Install Java 25 manually or upgrade to Ubuntu 22.04+, Debian 13+ or a RHEL 9 based distro."
 				fn_script_log_warn "${gamename} requires Java 25, which ${distroname} does not provide."
 			fi
 		fi

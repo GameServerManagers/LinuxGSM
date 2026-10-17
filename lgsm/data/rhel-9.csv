@@ -68,7 +68,7 @@ kf
 kf2
 l4d
 l4d2
-mc,java-21-openjdk
+mc,java-25-openjdk
 mcb,libnsl
 mcv
 mh
@@ -85,7 +85,7 @@ onset,mariadb-connector-c
 opfor
 pc
 pc2
-pmc,java-21-openjdk
+pmc,java-25-openjdk
 pvkii
 pvr,libcxx
 pw
