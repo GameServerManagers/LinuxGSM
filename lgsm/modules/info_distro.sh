@@ -139,8 +139,62 @@ load="$(uptime | awk -F 'load average: ' '{ print $2 }')" # e.g 0.01, 0.05, 0.11
 
 ## CPU information
 cpumodel="$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')" # e.g Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
-cpucores="$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)"
-cpufreqency="$(awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')" # e.g 2394.503
+cpulogicalcores="$(find /sys/devices/system/cpu -maxdepth 1 -type d -name 'cpu[0-9]*' 2> /dev/null | while IFS= read -r cpu; do
+	if [ ! -f "${cpu}/online" ] || [ "$(< "${cpu}/online")" = "1" ]; then
+		echo "${cpu##*cpu}"
+	fi
+done | wc -l | tr -d ' ')"
+if [ -z "${cpumodel}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+	cpumodel="$(lscpu 2> /dev/null | sed -n 's/^Model name:[[:space:]]*//p')"
+fi
+if [ "${cpulogicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+	cpulogicalcores="$(lscpu --parse=CPU 2> /dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+$/ { count++ } END { print count+0 }')"
+fi
+if [ "${cpulogicalcores:-0}" -eq 0 ]; then
+	cpulogicalcores="$(awk -F: '/^[[:space:]]*processor[[:space:]]*:/ { count++ } END { print count+0 }' /proc/cpuinfo)"
+fi
+cpuphysicalcores="$(for cpu in /sys/devices/system/cpu/cpu[0-9]*; do
+	[ -d "${cpu}" ] || continue
+	[ ! -f "${cpu}/online" ] || [ "$(< "${cpu}/online")" = "1" ] || continue
+	if [ -r "${cpu}/topology/physical_package_id" ] && [ -r "${cpu}/topology/core_id" ]; then
+		printf '%s:%s\n' "$(< "${cpu}/topology/physical_package_id")" "$(< "${cpu}/topology/core_id")"
+	fi
+done | sort -u | wc -l | tr -d ' ')"
+if [ "${cpuphysicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+	cpuphysicalcores="$(lscpu --parse=CORE,SOCKET 2> /dev/null | awk -F, '!/^#/ && NF >= 2 && $1 != "" && $2 != "" { cores[$1 ":" $2]=1 } END { for (core in cores) count++; print count+0 }')"
+fi
+if [ "${cpuphysicalcores:-0}" -eq 0 ]; then
+	cpuphysicalcores="$(awk -F: '
+	BEGIN { package="0" }
+	/^[[:space:]]*physical id[[:space:]]*:/ { package=$2; gsub(/[[:space:]]/, "", package) }
+	/^[[:space:]]*core id[[:space:]]*:/ { core=$2; gsub(/[[:space:]]/, "", core); cores[package ":" core]=1; has_core=1 }
+	/^[[:space:]]*cpu cores[[:space:]]*:/ { package_cores=$2; gsub(/[[:space:]]/, "", package_cores); cores_per_package[package]=package_cores }
+	/^[[:space:]]*$/ { package="0" }
+	END {
+		if (has_core) { for (core in cores) total++; print total+0 }
+		else { for (package in cores_per_package) total+=cores_per_package[package]; print total+0 }
+	}
+	' /proc/cpuinfo)"
+fi
+cpucores="${cpuphysicalcores}"
+cpuphysicalcoresdisplay="${cpucores}"
+if [ "${cpucores:-0}" -eq 0 ]; then
+	cpuphysicalcoresdisplay="unavailable"
+fi
+cpufrequencydata="$(awk -F: '/^[[:space:]]*cpu MHz[[:space:]]*:/ { value=$2; gsub(/[[:space:]]/, "", value); if (value ~ /^[0-9]+([.][0-9]+)?$/) print value }' /proc/cpuinfo)"
+if [ -z "${cpufrequencydata}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+	cpufrequencydata="$(lscpu --parse=MHZ 2> /dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+([.][0-9]+)?$/ { print $1 }')"
+fi
+read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" | awk '
+	NF && $1 ~ /^[0-9]+([.][0-9]+)?$/ { value=$1; if (!count || value < min) min=value; if (!count || value > max) max=value; sum+=value; count++ }
+	END { if (!count) printf "0.00 unavailable"; else if (min == max) printf "%.2f %.2fMHz", sum/count, min; else printf "%.2f %.2f-%.2fMHz", sum/count, min, max }
+	')
+cpufreqency="${cpufreqency:-0}"
+export cpuphysicalcoresdisplay cpufrequencydisplay
+export cpufrequencyaveragedisplay="${cpufreqency}"
+if [ "${cpufrequencydisplay}" = "unavailable" ]; then
+	cpufrequencyaveragedisplay="unavailable"
+fi
 # CPU usage of the game server pid
 if [ -n "${gameserverpid}" ]; then
 	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')" # integer
@@ -169,8 +223,8 @@ if [ "$(command -v numfmt 2> /dev/null)" ]; then
 	fi
 
 	# Available RAM and swap.
-	physmemtotalmb="$(((physmemtotalkb + 512) / 1024))"                                                                                                       # integer                                                                                                     # integer
-	physmemtotalgb="$(((physmemtotalmb + 512) / 1024))"                                                                                                       # integer                                                                                                   # integer
+	physmemtotalmb="$(((physmemtotalkb + 512) / 1024))"                                                                                                       # integer
+	physmemtotalgb="$(((physmemtotalmb + 512) / 1024))"                                                                                                       # integer
 	physmemtotal="$(numfmt --to=iec --from=iec --suffix=B "${physmemtotalkb}K")"                                                                              # string
 	physmemfree="$(numfmt --to=iec --from=iec --suffix=B "${physmemactualfreekb}K")"                                                                          # string
 	physmemused="$(numfmt --to=iec --from=iec --suffix=B "$((physmemtotalkb - physmemfreekb - physmembufferskb - physmemcachedkb - physmemreclaimablekb))K")" # string
