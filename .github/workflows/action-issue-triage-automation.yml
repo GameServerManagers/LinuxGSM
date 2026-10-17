@@ -236,6 +236,38 @@ jobs:
               return false;
             }
 
+            function parseVdf(text) {
+              const root = {};
+              const stack = [root];
+              let pendingKey = null;
+              const tokenPattern = /"((?:[^"\\]|\\.)*)"|([{}])/g;
+              let match;
+              while ((match = tokenPattern.exec(text)) !== null) {
+                const current = stack[stack.length - 1];
+                if (match[2] === '{') {
+                  const child = {};
+                  if (pendingKey !== null) current[pendingKey] = child;
+                  stack.push(child);
+                  pendingKey = null;
+                } else if (match[2] === '}') {
+                  if (stack.length > 1) stack.pop();
+                  pendingKey = null;
+                } else if (pendingKey === null) {
+                  pendingKey = match[1];
+                } else {
+                  current[pendingKey] = match[1];
+                  pendingKey = null;
+                }
+              }
+              return root;
+            }
+
+            function parseSteamAppInfo(output, appId) {
+              const start = output.search(new RegExp(`^"${appId}"\\s*$`, 'm'));
+              if (start === -1) return null;
+              return parseVdf(output.slice(start))[String(appId)] ?? null;
+            }
+
             function runSteamCmdLinuxCheck(appId) {
               if (!appId) {
                 return { status: 'skipped', reason: 'No Steam AppID provided.' };
@@ -271,23 +303,44 @@ jobs:
                   maxBuffer: 10 * 1024 * 1024,
                 });
 
-                const normalized = output.toLowerCase();
-                const linuxSignals = [
-                  /"oslist"\s+"linux"/i,
-                  /"oslist"\s+"linux,windows"/i,
-                  /"oslist"\s+"windows,linux"/i,
-                  /"platforms"[\s\S]*?"linux"\s+"1"/i,
-                  /linux32/i,
-                  /linux64/i,
-                ];
-                const windowsOnlySignals = [
-                  /"oslist"\s+"windows"/i,
-                  /"platforms"[\s\S]*?"windows"\s+"1"/i,
-                ];
+                const appInfo = parseSteamAppInfo(output, appId);
+                if (!appInfo) {
+                  return {
+                    status: 'unknown',
+                    reason: `SteamCMD app_info returned no data for AppID ${appId}.`,
+                  };
+                }
 
-                const hasLinuxSignal = linuxSignals.some((re) => re.test(normalized));
+                const osListOf = (node) => String(node?.config?.oslist ?? '').toLowerCase();
+                const isObject = (value) => value && typeof value === 'object';
+                const commonOsList = String(appInfo.common?.oslist ?? '').toLowerCase();
+                const launches = Object.values(appInfo.config?.launch ?? {}).filter(isObject);
+                const serverDepots = Object.entries(appInfo.depots ?? {}).filter(
+                  ([id, depot]) =>
+                    /^\d+$/.test(id) &&
+                    isObject(depot) &&
+                    !['1004', '1005', '1006'].includes(id) &&
+                    depot.depotfromapp === undefined &&
+                    depot.sharedinstall !== '1'
+                );
+
+                const hasLinuxSignal =
+                  commonOsList.includes('linux') ||
+                  launches.some(
+                    (launch) =>
+                      osListOf(launch).includes('linux') ||
+                      (!osListOf(launch) && /\.(sh|x86_64)$/i.test(launch.executable ?? ''))
+                  ) ||
+                  serverDepots.some(([, depot]) => osListOf(depot).includes('linux'));
                 const hasWindowsOnlySignal =
-                  !hasLinuxSignal && windowsOnlySignals.some((re) => re.test(normalized));
+                  !hasLinuxSignal &&
+                  (commonOsList === 'windows' ||
+                    (launches.length > 0 &&
+                      launches.every(
+                        (launch) =>
+                          osListOf(launch) === 'windows' ||
+                          /\.(exe|bat|cmd)$/i.test(launch.executable ?? '')
+                      )));
 
                 if (hasLinuxSignal) {
                   return {
@@ -1010,8 +1063,36 @@ jobs:
               const CONFIRMED_LINUX_LABEL = 'status: linux support confirmed';
               const LINUX_MARKER = '<!-- linux-support-check -->';
               const steamDbLink = steamAppId ? `https://steamdb.info/app/${steamAppId}/` : null;
-              const shouldApplyNoLinuxLabel = confirmedNoLinux || suggestsNoLinux;
-              const shouldApplyConfirmedLinuxLabel = confirmedLinuxSupport && !confirmedNoLinux && !suggestsNoLinux;
+
+              let linuxLabelOverrideBy = null;
+              try {
+                const issueEvents = await github.paginate(github.rest.issues.listEvents, {
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  per_page: 100,
+                });
+                const lastLinuxLabelEvent = issueEvents
+                  .filter(
+                    (e) =>
+                      ['labeled', 'unlabeled'].includes(e.event) &&
+                      [NO_LINUX_LABEL, CONFIRMED_LINUX_LABEL].includes(e.label?.name)
+                  )
+                  .at(-1);
+                if (lastLinuxLabelEvent && lastLinuxLabelEvent.actor?.type !== 'Bot') {
+                  linuxLabelOverrideBy = lastLinuxLabelEvent.actor?.login ?? 'a maintainer';
+                  console.log(`Linux support label last set by ${linuxLabelOverrideBy}; keeping it.`);
+                }
+              } catch (err) {
+                console.log(`Could not read issue events: ${err.message}`);
+              }
+
+              const shouldApplyNoLinuxLabel = linuxLabelOverrideBy
+                ? existingLabels.has(NO_LINUX_LABEL)
+                : confirmedNoLinux || suggestsNoLinux;
+              const shouldApplyConfirmedLinuxLabel = linuxLabelOverrideBy
+                ? existingLabels.has(CONFIRMED_LINUX_LABEL) && !existingLabels.has(NO_LINUX_LABEL)
+                : confirmedLinuxSupport && !confirmedNoLinux && !suggestsNoLinux;
 
               if (shouldApplyNoLinuxLabel) {
                 // Auto-create the label if it does not exist yet.
@@ -1107,7 +1188,11 @@ jobs:
               if (likelySupportedByCheckbox) reasons.push('requester confirmed Linux support via the form checkbox; no contradicting evidence found');
 
               let verdictLine = 'Linux support could not be confirmed automatically from the submitted details.';
-              if (confirmedNoLinux) {
+              if (linuxLabelOverrideBy && shouldApplyNoLinuxLabel) {
+                verdictLine = 'A maintainer has confirmed this server has no native Linux support.';
+              } else if (linuxLabelOverrideBy && shouldApplyConfirmedLinuxLabel) {
+                verdictLine = 'A maintainer has confirmed native Linux support.';
+              } else if (confirmedNoLinux) {
                 verdictLine = 'This server request does **not** appear to have native Linux support, which is required for LinuxGSM.';
               } else if (suggestsNoLinux) {
                 verdictLine = 'This server request **may not** have native Linux support based on submitted evidence.';
@@ -1162,9 +1247,14 @@ jobs:
                 ? `**Label applied:** ${CONFIRMED_LINUX_LABEL}\n\n`
                 : '';
 
+              const overrideBlock = linuxLabelOverrideBy
+                ? `**Maintainer override:** the Linux support label was set manually by @${linuxLabelOverrideBy} and is no longer changed automatically.\n\n`
+                : '';
+
               const linuxCommentBody =
                 `${LINUX_MARKER}\n` +
                 `${linuxCommentHeader}\n\n` +
+                `${overrideBlock}` +
                 `${verdictLine}\n\n` +
                 `${confirmedLinuxLabelBlock}` +
                 `${steamBlock}` +

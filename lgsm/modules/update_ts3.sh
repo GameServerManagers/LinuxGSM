@@ -97,31 +97,15 @@ fn_update_compare() {
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			# If server stopped.
-			if [ "${status}" == "0" ]; then
-				fn_update_dl
-				if [ "${localbuild}" == "0" ]; then
-					exitbypass=1
-					command_start.sh
-					fn_firstcommand_reset
-					exitbypass=1
-					fn_sleep_time_5
-					command_stop.sh
-					fn_firstcommand_reset
-				fi
-			# If server started.
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_update_dl
+			fn_update_apply fn_update_dl
+			if [ "${updatestatus}" == "0" ] && [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				fn_sleep_time_5
+				command_stop.sh
 				fn_firstcommand_reset
 			fi
 			unset exitbypass

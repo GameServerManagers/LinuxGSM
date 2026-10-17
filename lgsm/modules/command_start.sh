@@ -8,7 +8,8 @@
 commandname="START"
 commandaction="Starting"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
+logtimestampformat_tmux="${logtimestampformat//%/%%}"
+addtimestamp="gawk '{ print strftime(\"[$logtimestampformat_tmux]\"), \$0; fflush() }'"
 fn_firstcommand_set
 
 # This will allow the Jedi Knight 2 version to be printed in console on start.
@@ -157,7 +158,7 @@ fn_start_tmux() {
 	if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 		# timestamp will break mcb update check.
 		if [ "${logtimestamp}" == "on" ] && [ "${shortname}" != "mcb" ]; then
-			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec ${addtimestamp} >> '${consolelog}'"
 		else
 			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
@@ -271,10 +272,14 @@ core_logs.sh
 
 # Will check for updates if updateonstart is yes.
 if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
-	exitbypass=1
 	unset updateonstart
-	command_update.sh
-	fn_firstcommand_reset
+	if ! (
+		unset exitbypass
+		command_update.sh
+	); then
+		fn_print_warn_nl "Update failed, starting ${servername} anyway"
+		fn_script_log_warn "Update failed, starting ${servername} anyway"
+	fi
 fi
 
 fn_print_dots "${servername}"

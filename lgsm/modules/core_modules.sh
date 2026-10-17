@@ -403,6 +403,21 @@ fix_cmw.sh() {
 	fn_fetch_module
 }
 
+fix_cod.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_cod2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_coduo.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_csgo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -439,6 +454,11 @@ fix_kf2.sh() {
 }
 
 fix_mcb.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_mohaa.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

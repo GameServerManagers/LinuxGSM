@@ -10,6 +10,42 @@ commandaction="Updating"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_update_apply() {
+	check_status.sh
+	updatestatus="${status}"
+	if [ "${updatestatus}" != "0" ]; then
+		fn_print_restart_warning
+		exitbypass=1
+		command_stop.sh
+		fn_firstcommand_reset
+	fi
+	(
+		unset exitbypass
+		"$@"
+		exit 0
+	)
+	updateexitcode=$?
+	if [ "${updateexitcode}" -eq 0 ]; then
+		date +%s > "${lockdir:?}/last-updated.lock"
+	fi
+	if [ "${updatestatus}" != "0" ]; then
+		# shellcheck disable=SC2034 # Used by command_start.sh.
+		exitbypass=1
+		command_start.sh
+		fn_firstcommand_reset
+	fi
+	unset exitbypass
+	if [ "${updateexitcode}" -ne 0 ]; then
+		rm -f "${lockdir:?}/update.lock"
+		# shellcheck disable=SC2034 # Used by alert.sh.
+		alert="update-failed"
+		alert.sh
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
+		exitcode="${updateexitcode}"
+		core_exit.sh
+	fi
+}
+
 fn_print_dots ""
 check.sh
 core_logs.sh

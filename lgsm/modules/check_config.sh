@@ -15,6 +15,14 @@ if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 	install_config.sh
 fi
 
+if [ "${shortname}" == "ti" ] && [[ "${startparameters}" != *"DedicatedServerClientId"* ]] && [ ! -f "${servercfgdir}/Engine.ini" ]; then
+	fn_print_warn_nl "Configuration file missing!"
+	echo -e "${servercfgdir}/Engine.ini"
+	fn_script_log_warn "Configuration file missing!"
+	fn_script_log_warn "${servercfgdir}/Engine.ini"
+	install_config.sh
+fi
+
 if [ "${shortname}" == "rust" ] && [ -v rconpassword ] && [ -z "${rconpassword}" ]; then
 	fn_print_fail_nl "RCON password is not set"
 	fn_script_log_warn "RCON password is not set"

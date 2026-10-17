@@ -111,6 +111,7 @@ fn_info_messages_distro() {
 	# Uptime:    16d, 5h, 18m
 	# tmux:      tmux 3.0a
 	# glibc:     2.31
+	# Missing dependencies: lib32gcc-s1 steamcmd
 
 	echo -e ""
 	echo -e "${bold}${lightyellow}Distro Details${default}"
@@ -127,6 +128,11 @@ fn_info_messages_distro() {
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 		if [ -n "${javaram}" ]; then
 			echo -e "${lightblue}Java:\t${default}${javaversion}"
+		fi
+		if [ "${#array_deps_missing[@]}" != "0" ]; then
+			echo -e "${lightblue}Missing dependencies:\t${red}${array_deps_missing[*]}${default}"
+		elif [ "${depcheckunavailable}" == "1" ]; then
+			echo -e "${lightblue}Missing dependencies:\t${default}dependency checking unavailable for ${distroname}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -162,8 +168,9 @@ fn_info_messages_server_resource() {
 	{
 		echo -e "${bold}${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
-		echo -e "${lightblue}Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
+		echo -e "${lightblue}Cores:\t${default}${cpuphysicalcoresdisplay}"
+		echo -e "${lightblue}Threads:\t${default}${cpulogicalcores}"
+		echo -e "${lightblue}Frequency:\t${default}${cpufrequencydisplay} per logical CPU"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""

@@ -1005,11 +1005,20 @@ fn_info_game_bfv() {
 fn_info_game_bt() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "maxplayers" "/serversettings/@MaxPlayers"
+		if [ -z "${maxplayers}" ]; then
+			fn_info_game_xml "maxplayers" "/serversettings/@maxplayers"
+		fi
 		fn_info_game_xml "port" "/serversettings/@port"
 		fn_info_game_xml "queryport" "/serversettings/@queryport"
-		fn_info_game_xml "servername" "/serversettings/@name"
+		fn_info_game_xml "servername" "/serversettings/@ServerName"
+		if [ -z "${servername}" ]; then
+			fn_info_game_xml "servername" "/serversettings/@name"
+		fi
 		fn_info_game_xml "serverpassword" "/serversettings/@password"
 		fn_info_game_xml "tickrate" "/serversettings/@TickRate"
+		if [ -z "${tickrate}" ]; then
+			fn_info_game_xml "tickrate" "/serversettings/@tickrate"
+		fi
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
