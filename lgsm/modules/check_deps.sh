@@ -423,6 +423,17 @@ if [ "${depcheckonly}" != "1" ]; then
 			fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
 		fi
 	fi
+
+	# Hytale needs Java 25, which Ubuntu before 22.04 and Debian before 13 do not package.
+	if [ "${shortname}" == "hyt" ]; then
+		if { [ "${distroid}" == "ubuntu" ] && [ "${distroversion}" != "22.04" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "13"; }; then
+			if ! echo "${javaversion}" | grep -Eq 'version "(2[5-9]|[3-9][0-9])'; then
+				fn_print_warning_nl "${gamename} requires Java 25, which ${distroname} does not provide."
+				echo -e "Install Java 25 manually or upgrade to Ubuntu 22.04+ or Debian 13+."
+				fn_script_log_warn "${gamename} requires Java 25, which ${distroname} does not provide."
+			fi
+		fi
+	fi
 fi
 
 if [ ! -f "${tmpdir}/dependency-no-check.tmp" ] && [ ! -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
