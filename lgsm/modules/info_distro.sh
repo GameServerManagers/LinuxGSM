@@ -192,7 +192,7 @@ read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" 
 	')
 cpufreqency="${cpufreqency:-0}"
 export cpuphysicalcoresdisplay cpufrequencydisplay
-cpufrequencyaveragedisplay="${cpufreqency}"
+export cpufrequencyaveragedisplay="${cpufreqency}"
 if [ "${cpufrequencydisplay}" = "unavailable" ]; then
 	cpufrequencyaveragedisplay="unavailable"
 fi
