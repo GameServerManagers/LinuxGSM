@@ -179,7 +179,7 @@ if [ "${cpuphysicalcores:-0}" -eq 0 ]; then
 fi
 cpucores="${cpuphysicalcores}"
 cpuphysicalcoresdisplay="${cpucores}"
-if [ "${cpucores}" -eq 0 ]; then
+if [ "${cpucores:-0}" -eq 0 ]; then
 	cpuphysicalcoresdisplay="unavailable"
 fi
 cpufrequencydata="$(awk -F: '/^[[:space:]]*cpu MHz[[:space:]]*:/ { value=$2; gsub(/[[:space:]]/, "", value); if (value ~ /^[0-9]+([.][0-9]+)?$/) print value }' /proc/cpuinfo)"
@@ -188,7 +188,7 @@ if [ -z "${cpufrequencydata}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
 fi
 read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" | awk '
 	NF && $1 ~ /^[0-9]+([.][0-9]+)?$/ { value=$1; if (!count || value < min) min=value; if (!count || value > max) max=value; sum+=value; count++ }
-	END { if (count) { printf "%.2f %.2f-%.2fMHz", sum/count, min, max } else printf "0.00 unavailable" }
+	END { if (!count) printf "0.00 unavailable"; else if (min == max) printf "%.2f %.2fMHz", sum/count, min; else printf "%.2f %.2f-%.2fMHz", sum/count, min, max }
 	')
 cpufreqency="${cpufreqency:-0}"
 export cpuphysicalcoresdisplay cpufrequencydisplay
