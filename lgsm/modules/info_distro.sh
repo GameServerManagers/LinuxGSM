@@ -139,17 +139,16 @@ load="$(uptime | awk -F 'load average: ' '{ print $2 }')" # e.g 0.01, 0.05, 0.11
 
 ## CPU information
 cpumodel="$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//')" # e.g Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
-# Count online logical CPUs and distinct physical cores using kernel topology IDs.
-cpulogicalcores="$(find /sys/devices/system/cpu -maxdepth 1 -type d -name 'cpu[0-9]*' 2>/dev/null | while IFS= read -r cpu; do
+cpulogicalcores="$(find /sys/devices/system/cpu -maxdepth 1 -type d -name 'cpu[0-9]*' 2> /dev/null | while IFS= read -r cpu; do
 	if [ ! -f "${cpu}/online" ] || [ "$(< "${cpu}/online")" = "1" ]; then
 		echo "${cpu##*cpu}"
 	fi
 done | wc -l | tr -d ' ')"
 if [ -z "${cpumodel}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
-	cpumodel="$(lscpu 2>/dev/null | sed -n 's/^Model name:[[:space:]]*//p')"
+	cpumodel="$(lscpu 2> /dev/null | sed -n 's/^Model name:[[:space:]]*//p')"
 fi
 if [ "${cpulogicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
-	cpulogicalcores="$(lscpu --parse=CPU 2>/dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+$/ { count++ } END { print count+0 }')"
+	cpulogicalcores="$(lscpu --parse=CPU 2> /dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+$/ { count++ } END { print count+0 }')"
 fi
 if [ "${cpulogicalcores:-0}" -eq 0 ]; then
 	cpulogicalcores="$(awk -F: '/^[[:space:]]*processor[[:space:]]*:/ { count++ } END { print count+0 }' /proc/cpuinfo)"
@@ -162,7 +161,7 @@ cpuphysicalcores="$(for cpu in /sys/devices/system/cpu/cpu[0-9]*; do
 	fi
 done | sort -u | wc -l | tr -d ' ')"
 if [ "${cpuphysicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
-	cpuphysicalcores="$(lscpu --parse=CORE,SOCKET 2>/dev/null | awk -F, '!/^#/ && NF >= 2 && $1 != "" && $2 != "" { cores[$1 ":" $2]=1 } END { for (core in cores) count++; print count+0 }')"
+	cpuphysicalcores="$(lscpu --parse=CORE,SOCKET 2> /dev/null | awk -F, '!/^#/ && NF >= 2 && $1 != "" && $2 != "" { cores[$1 ":" $2]=1 } END { for (core in cores) count++; print count+0 }')"
 fi
 if [ "${cpuphysicalcores:-0}" -eq 0 ]; then
 	cpuphysicalcores="$(awk -F: '
@@ -184,7 +183,7 @@ if [ "${cpucores:-0}" -eq 0 ]; then
 fi
 cpufrequencydata="$(awk -F: '/^[[:space:]]*cpu MHz[[:space:]]*:/ { value=$2; gsub(/[[:space:]]/, "", value); if (value ~ /^[0-9]+([.][0-9]+)?$/) print value }' /proc/cpuinfo)"
 if [ -z "${cpufrequencydata}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
-	cpufrequencydata="$(lscpu --parse=MHZ 2>/dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+([.][0-9]+)?$/ { print $1 }')"
+	cpufrequencydata="$(lscpu --parse=MHZ 2> /dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+([.][0-9]+)?$/ { print $1 }')"
 fi
 read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" | awk '
 	NF && $1 ~ /^[0-9]+([.][0-9]+)?$/ { value=$1; if (!count || value < min) min=value; if (!count || value > max) max=value; sum+=value; count++ }
