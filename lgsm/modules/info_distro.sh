@@ -72,8 +72,14 @@ for distro_info in "${distro_info_array[@]}"; do
 done
 
 # Get virtual environment type.
+virtualenvironment="unavailable"
 if [ "$(command -v systemd-detect-virt 2> /dev/null)" ]; then
-	virtualenvironment="$(systemd-detect-virt)" # e.g. kvm
+	virtualenvironment="$(systemd-detect-virt 2> /dev/null)"
+	virtualenvironmentstatus=$?
+	# systemd-detect-virt returns "none" with a nonzero status on bare metal.
+	if [ "${virtualenvironment}" != "none" ] && { [ "${virtualenvironmentstatus}" != "0" ] || [[ ! "${virtualenvironment}" =~ ^[a-zA-Z0-9_-]+$ ]]; }; then
+		virtualenvironment="unavailable"
+	fi
 fi
 
 # distroversioncsv is used for selecting the correct distro csv in data directory
