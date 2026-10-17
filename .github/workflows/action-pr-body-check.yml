@@ -1,0 +1,44 @@
+name: PR Body Check
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  pr-body-check:
+    if: github.repository_owner == 'GameServerManagers' && github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pull request body follows the template
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const body = (context.payload.pull_request.body || '').replace(/<!--[\s\S]*?-->/g, '');
+            const requiredHeadings = ['# Description', '## Type of change', '## Testing', '## Checklist'];
+            const missing = requiredHeadings.filter((h) => !body.split(/\r?\n/).some((line) => line.trim() === h));
+            const errors = [];
+
+            if (missing.length > 0) {
+              errors.push(`Missing template sections: ${missing.join(', ')}. Use .github/pull_request_template.md as the pull request body.`);
+            }
+            if (body.includes('#[issue]')) {
+              errors.push('Replace the "Fixes #[issue]" placeholder with the issue number, for example "Fixes #123".');
+            }
+
+            const closingKeyword = /\b(close[sd]?|fix(e[sd])?|resolve[sd]?):?\s+([\w.-]+\/[\w.-]+)?#\d+/i;
+            const relatedIssue = /\brelated to:?\s+([\w.-]+\/[\w.-]+)?#\d+/i;
+            if (!closingKeyword.test(body) && !relatedIssue.test(body)) {
+              core.warning('No closing keyword found. Add "Fixes #123" to link the issue, or "Related to #123" if this pull request does not fully resolve it.');
+            }
+
+            if (errors.length > 0) {
+              core.setFailed(errors.join('\n'));
+            }

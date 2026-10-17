@@ -1,8 +1,10 @@
 # Description
 
-Please include a summary of the change and which issues are fixed.
+<!-- Summarise the change and why it is needed. -->
 
 Fixes #[issue]
+
+<!-- Replace #[issue] with the issue number. Use one closing keyword (Fixes, Closes or Resolves) per issue: "Fixes #123, fixes #456". If this PR does not fully resolve the issue, use "Related to #123" instead. -->
 
 ## Type of change
 
@@ -14,7 +16,7 @@ Fixes #[issue]
 
 ## Testing
 
-Please list the exact validation you performed and the outcome.
+<!-- List the exact validation you performed and the outcome. -->
 
 - Commands/tests run:
 - Result:
