@@ -29,7 +29,7 @@ jobs:
             if (missing.length > 0) {
               errors.push(`Missing template sections: ${missing.join(', ')}. Use .github/pull_request_template.md as the pull request body.`);
             }
-            if (body.includes('#[issue]')) {
+            if (/^\s*fixes #\[issue\]\s*$/im.test(body)) {
               errors.push('Replace the "Fixes #[issue]" placeholder with the issue number, for example "Fixes #123".');
             }
 
