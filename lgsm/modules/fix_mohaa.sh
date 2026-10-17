@@ -14,7 +14,7 @@ if ldd "${executabledir}/mohaa_lnxded" 2>&1 | grep -q "libstdc++\.so\.5 => not f
 	# shellcheck disable=SC2034 # Used by fn_fix_msg_start_nl and fn_fix_msg_end.
 	fixname="libstdc++5 i386"
 	fn_fix_msg_start_nl
-	fn_fetch_file "http://linuxgsm.download/libraries/libstdc++5-i386-3.3.6-34.tar.xz" "" "" "" "${tmpdir}" "libstdc++5-i386-3.3.6-34.tar.xz" "nochmodx" "norun" "noforce" "288a4cc9d6b7647f28c702028437e0f3"
+	fn_fetch_file "https://linuxgsm.download/libraries/libstdc++5-i386-3.3.6-34.tar.xz" "" "" "" "${tmpdir}" "libstdc++5-i386-3.3.6-34.tar.xz" "nochmodx" "norun" "noforce" "288a4cc9d6b7647f28c702028437e0f3"
 	fn_dl_extract "${tmpdir}" "libstdc++5-i386-3.3.6-34.tar.xz" "${serverfiles}"
 	fn_clear_tmp
 	fn_fix_msg_end
