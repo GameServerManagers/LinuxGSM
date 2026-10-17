@@ -21,10 +21,10 @@ btl
 cc
 ck,xorg-x11-server-Xvfb
 cmw
-cod,compat-libstdc++-33.i686
-cod2,compat-libstdc++-33.i686
+cod
+cod2
 cod4
-coduo,compat-libstdc++-33.i686
+coduo
 codwaw
 col
 cs
@@ -72,7 +72,7 @@ mc,java-21-openjdk
 mcb,libnsl
 mcv
 mh
-mohaa,compat-libstdc++-33.i686
+mohaa
 mta,ncurses-compat-libs,libxml2
 nd
 nec
