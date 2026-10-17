@@ -87,7 +87,7 @@ pc
 pc2
 pmc,java-25-openjdk
 pvkii
-pvr,libcxx
+pvr,libatomic
 pw
 pz,java-21-openjdk rng-tools
 q2
