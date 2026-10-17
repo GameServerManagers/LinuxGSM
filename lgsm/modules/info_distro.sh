@@ -191,6 +191,7 @@ read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" 
 	END { if (count) { printf "%.2f %.2f-%.2fMHz", sum/count, min, max } else printf "0.00 unavailable" }
 	')
 cpufreqency="${cpufreqency:-0}"
+export cpuphysicalcoresdisplay cpufrequencydisplay
 # CPU usage of the game server pid
 if [ -n "${gameserverpid}" ]; then
 	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')" # integer
