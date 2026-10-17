@@ -4,10 +4,15 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "*"
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+      - master
 
 concurrency:
-  group: super-linter-${{ github.ref }}
+  group: super-linter-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions: {}
@@ -41,6 +46,7 @@ jobs:
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MULTI_STATUS: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
