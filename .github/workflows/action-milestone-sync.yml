@@ -23,13 +23,14 @@ jobs:
     if: github.repository_owner == 'GameServerManagers'
     runs-on: ubuntu-latest
     steps:
-      - name: Set PR milestone and copy it to linked issues
+      - name: Set PR milestone and update linked issues
         uses: actions/github-script@v9
         with:
           script: |
             const { owner, repo } = context.repo;
             const pr = context.payload.pull_request;
             const action = context.payload.action;
+            const fixedLabel = 'status: fixed in develop';
 
             if (action === 'closed' && !pr.merged) {
               return;
@@ -46,28 +47,26 @@ jobs:
               });
               if (open.length === 0) {
                 core.warning('No open milestone to assign.');
-                return;
+              } else {
+                milestone = open[0];
+                await github.rest.issues.update({ owner, repo, issue_number: pr.number, milestone: milestone.number });
+                core.info(`Set PR #${pr.number} milestone to ${milestone.title}.`);
               }
-              milestone = open[0];
-              await github.rest.issues.update({ owner, repo, issue_number: pr.number, milestone: milestone.number });
-              core.info(`Set PR #${pr.number} milestone to ${milestone.title}.`);
-            }
-            if (!milestone) {
-              core.info('PR has no milestone; nothing to copy to issues.');
-              return;
             }
 
             const body = (pr.body || '').replace(/<!--[\s\S]*?-->/g, '');
-            const issueRef = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?|related to):?\s+(?:([\w.-]+)\/([\w.-]+))?#(\d+)/gi;
-            const issues = new Set();
+            const issueRef = /\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?|related to):?\s+(?:([\w.-]+)\/([\w.-]+))?#(\d+)/gi;
+            const issues = new Map();
             for (const m of body.matchAll(issueRef)) {
-              if (m[1] && (m[1].toLowerCase() !== owner.toLowerCase() || m[2].toLowerCase() !== repo.toLowerCase())) {
+              if (m[2] && (m[2].toLowerCase() !== owner.toLowerCase() || m[3].toLowerCase() !== repo.toLowerCase())) {
                 continue;
               }
-              issues.add(Number(m[3]));
+              const number = Number(m[4]);
+              const closing = !/^related to$/i.test(m[1]);
+              issues.set(number, issues.get(number) || closing);
             }
 
-            for (const number of issues) {
+            for (const [number, closing] of issues) {
               let issue;
               try {
                 ({ data: issue } = await github.rest.issues.get({ owner, repo, issue_number: number }));
@@ -75,13 +74,21 @@ jobs:
                 core.warning(`Could not read #${number}: ${error.message}`);
                 continue;
               }
-              if (issue.pull_request || issue.milestone?.number === milestone.number) {
+              if (issue.pull_request) {
                 continue;
               }
-              if (issue.milestone && !pr.merged) {
-                core.info(`#${number} is in ${issue.milestone.title}; it will move to ${milestone.title} when this PR merges.`);
-                continue;
+
+              if (milestone && issue.milestone?.number !== milestone.number) {
+                if (issue.milestone && !pr.merged) {
+                  core.info(`#${number} is in ${issue.milestone.title}; it will move to ${milestone.title} when this PR merges.`);
+                } else {
+                  await github.rest.issues.update({ owner, repo, issue_number: number, milestone: milestone.number });
+                  core.info(`Set #${number} milestone to ${milestone.title}.`);
+                }
               }
-              await github.rest.issues.update({ owner, repo, issue_number: number, milestone: milestone.number });
-              core.info(`Set #${number} milestone to ${milestone.title}.`);
+
+              if (pr.merged && closing && issue.state === 'open' && !issue.labels.some((l) => (l.name || l) === fixedLabel)) {
+                await github.rest.issues.addLabels({ owner, repo, issue_number: number, labels: [fixedLabel] });
+                core.info(`Labelled #${number} "${fixedLabel}".`);
+              }
             }
