@@ -470,6 +470,14 @@ fn_stop_graceful_rwr() {
 	fn_stop_graceful_ctrlc
 }
 
+fn_stop_graceful_ce() {
+	fn_print_dots "Graceful: CTRL+c"
+	fn_script_log_info "Graceful: CTRL+c"
+	TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" C-c > /dev/null 2>&1
+	fn_sleep_time_5
+	fn_stop_graceful_ctrlc
+}
+
 # Attempts graceful shutdown of Rising World using 'shutdown'.
 # Its console can miss input, so the command is sent again every 10 seconds until the server stops.
 fn_stop_graceful_rw() {
@@ -535,6 +543,8 @@ fn_stop_graceful_select() {
 		fn_stop_graceful_rwr
 	elif [ "${stopmode}" == "15" ]; then
 		fn_stop_graceful_rw
+	elif [ "${stopmode}" == "16" ]; then
+		fn_stop_graceful_ce
 	fi
 }
 
