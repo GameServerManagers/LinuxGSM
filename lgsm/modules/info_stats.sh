@@ -76,7 +76,10 @@ payload="{
 			\"memusedmbroundup\": \"${memusedmbroundup}\",
 			\"ramused\": \"${memusedmbroundup}\",
 			\"servercpu\": \"${cpumodel} ${cpucores} cores\",
-			\"servercpufreq\": \"${cpufreqency} x${cpucores}\",
+			\"servercpufreq\": \"${cpufreqency} x${cpulogicalcores}\",
+			\"servercpuphysicalcores\": \"${cpuphysicalcoresdisplay}\",
+			\"servercpulogicalcpus\": \"${cpulogicalcores}\",
+			\"servercpufreqrange\": \"${cpufrequencydisplay}\",
 			\"serverdisk\": \"${totalspace}\",
 			\"serverfilesdu\": \"${serverfilesdu}\",
 			\"serverram\": \"${physmemtotal}\",
@@ -165,7 +168,7 @@ fn_script_log_info "* Game Server CPU Used: ${cpuusedmhzroundup}MHz"
 fn_script_log_info "* Game Server RAM Used: ${memusedmbroundup}MB"
 fn_script_log_info "* Game Server Disk Used: ${serverfilesdu}"
 fn_script_log_info "* Server CPU Model: ${cpumodel}"
-fn_script_log_info "* Server CPU Frequency: ${cpufreqency}"
+fn_script_log_info "* Server CPU Average Frequency: ${cpufreqency}"
 fn_script_log_info "* Server RAM: ${physmemtotal}"
 fn_script_log_info "* Server Disk: ${totalspace}"
 fn_script_log_info "* Virtual Environment: ${virtualenvironment}"
