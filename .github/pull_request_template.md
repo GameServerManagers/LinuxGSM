@@ -45,7 +45,7 @@ Affected servers: <!-- shortnames, e.g. ck, rust, or "all" -->
 
 PR will not be merged until all steps are complete.
 
-- [ ] This pull request links to an issue (Fixes #123, or Related to #123 for a partial fix).
+- [ ] This pull request links to an issue ("Fixes", or "Related to" for a partial fix).
 - [ ] This pull request uses the develop branch as its base.
 - [ ] This pull request subject follows the Conventional Commits standard.
 - [ ] This code follows the style guidelines of this project.
