@@ -148,10 +148,10 @@ done | wc -l | tr -d ' ')"
 if [ -z "${cpumodel}" ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
 	cpumodel="$(lscpu 2>/dev/null | sed -n 's/^Model name:[[:space:]]*//p')"
 fi
-if [ "${cpulogicalcores}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+if [ "${cpulogicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
 	cpulogicalcores="$(lscpu --parse=CPU 2>/dev/null | awk -F, '!/^#/ && $1 ~ /^[0-9]+$/ { count++ } END { print count+0 }')"
 fi
-if [ "${cpulogicalcores}" -eq 0 ]; then
+if [ "${cpulogicalcores:-0}" -eq 0 ]; then
 	cpulogicalcores="$(awk -F: '/^[[:space:]]*processor[[:space:]]*:/ { count++ } END { print count+0 }' /proc/cpuinfo)"
 fi
 cpuphysicalcores="$(for cpu in /sys/devices/system/cpu/cpu[0-9]*; do
@@ -161,10 +161,10 @@ cpuphysicalcores="$(for cpu in /sys/devices/system/cpu/cpu[0-9]*; do
 		printf '%s:%s\n' "$(< "${cpu}/topology/physical_package_id")" "$(< "${cpu}/topology/core_id")"
 	fi
 done | sort -u | wc -l | tr -d ' ')"
-if [ "${cpuphysicalcores}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
+if [ "${cpuphysicalcores:-0}" -eq 0 ] && [ "$(command -v lscpu 2> /dev/null)" ]; then
 	cpuphysicalcores="$(lscpu --parse=CORE,SOCKET 2>/dev/null | awk -F, '!/^#/ && NF >= 2 && $1 != "" && $2 != "" { cores[$1 ":" $2]=1 } END { for (core in cores) count++; print count+0 }')"
 fi
-if [ "${cpuphysicalcores}" -eq 0 ]; then
+if [ "${cpuphysicalcores:-0}" -eq 0 ]; then
 	cpuphysicalcores="$(awk -F: '
 	BEGIN { package="0" }
 	/^[[:space:]]*physical id[[:space:]]*:/ { package=$2; gsub(/[[:space:]]/, "", package) }
@@ -191,7 +191,10 @@ read -r cpufreqency cpufrequencydisplay < <(printf '%s\n' "${cpufrequencydata}" 
 	END { if (count) { printf "%.2f %.2f-%.2fMHz", sum/count, min, max } else printf "0.00 unavailable" }
 	')
 cpufreqency="${cpufreqency:-0}"
-export cpuphysicalcoresdisplay cpufrequencydisplay
+cpufrequencyaveragedisplay="${cpufreqency}"
+if [ "${cpufrequencydisplay}" = "unavailable" ]; then
+	cpufrequencyaveragedisplay="unavailable"
+fi
 # CPU usage of the game server pid
 if [ -n "${gameserverpid}" ]; then
 	cpuused="$(ps --forest -o pcpu -g "${gameserverpid}" | awk '{s+=$1} END {print s}')" # integer
