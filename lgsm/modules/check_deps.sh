@@ -429,7 +429,7 @@ if [ "${depcheckonly}" != "1" ]; then
 		if { [ "${distroid}" == "ubuntu" ] && [ "${distroversion}" != "22.04" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "13"; }; then
 			if ! echo "${javaversion}" | grep -Eq 'version "(2[5-9]|[3-9][0-9])'; then
 				fn_print_warning_nl "${gamename} requires Java 25, which ${distroname} does not provide."
-				echo -e "Install Java 25 manually (for example Eclipse Temurin) or upgrade to Ubuntu 22.04+ or Debian 13+."
+				echo -e "Install Java 25 manually or upgrade to Ubuntu 22.04+ or Debian 13+."
 				fn_script_log_warn "${gamename} requires Java 25, which ${distroname} does not provide."
 			fi
 		fi
