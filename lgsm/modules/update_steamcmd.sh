@@ -18,8 +18,13 @@ fn_print_dots "${remotelocation}"
 
 if [ "${forceupdate}" == "1" ]; then
 	# forceupdate bypasses update checks.
-	date '+%s' > "${lockdir:?}/update.lock"
-	fn_update_apply fn_dl_steamcmd
+	if [ "${firstcommandname}" == "INSTALL" ]; then
+		fn_dl_steamcmd
+		date +%s > "${lockdir:?}/last-updated.lock"
+	else
+		date '+%s' > "${lockdir:?}/update.lock"
+		fn_update_apply fn_dl_steamcmd
+	fi
 else
 	fn_update_steamcmd_localbuild
 	fn_update_steamcmd_remotebuild
