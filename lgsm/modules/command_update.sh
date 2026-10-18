@@ -49,6 +49,7 @@ fn_update_apply() {
 fn_print_dots ""
 check.sh
 core_logs.sh
+check_update_lock.sh
 
 # A postponed update is requested again if players are still online.
 rm -f "${lockdir:?}/${selfname}-update-request.lock"
