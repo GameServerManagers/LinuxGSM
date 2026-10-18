@@ -8,7 +8,8 @@
 commandname="START"
 commandaction="Starting"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
-addtimestamp="gawk '{ print strftime(\\\"[$logtimestampformat]\\\"), \\\$0 }'"
+logtimestampformat_tmux="${logtimestampformat//%/%%}"
+addtimestamp="gawk '{ print strftime(\"[$logtimestampformat_tmux]\"), \$0; fflush() }'"
 fn_firstcommand_set
 
 # This will allow the Jedi Knight 2 version to be printed in console on start.
@@ -28,6 +29,25 @@ fn_start_hyt_console() {
 	else
 		cat "${consolelog}" 2> /dev/null
 	fi
+}
+
+# Running With Rifles: the server starts in a lobby and runs a game mode once its start script is sent to the console.
+fn_start_rwr_script() {
+	for _ in {1..120}; do
+		if fn_start_hyt_console | grep -a -q "Game loaded"; then
+			TERM=screen tmux -L "${socketname}" send-keys -t "${sessionname}" "start_script ${startscript} ${startpackage}" ENTER
+			fn_script_log_info "Sent start_script ${startscript} ${startpackage}"
+			sleep 5
+			if fn_start_hyt_console | grep -a -q "script build failed"; then
+				fn_print_warn_nl "Running With Rifles could not start ${startpackage}/scripts/${startscript}. Check startpackage and startscript in ${configdirserver}"
+				fn_script_log_warn "Running With Rifles could not start ${startscript}"
+			fi
+			return
+		fi
+		sleep 1
+	done
+	fn_print_warn_nl "Running With Rifles did not finish loading, the game mode was not started"
+	fn_script_log_warn "Running With Rifles did not finish loading, start_script ${startscript} was not sent"
 }
 
 fn_start_hyt_login() {
@@ -138,7 +158,7 @@ fn_start_tmux() {
 	if [ "${consolelogging}" == "on" ] || [ -z "${consolelogging}" ]; then
 		# timestamp will break mcb update check.
 		if [ "${logtimestamp}" == "on" ] && [ "${shortname}" != "mcb" ]; then
-			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec bash -c \"cat | $addtimestamp\" >> '${consolelog}'"
+			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec ${addtimestamp} >> '${consolelog}'"
 		else
 			TERM=screen tmux -L "${socketname}" pipe-pane -o -t "${sessionname}" "exec cat >> '${consolelog}'"
 		fi
@@ -218,6 +238,8 @@ fn_start_tmux() {
 		fi
 		if [ "${shortname}" == "hyt" ]; then
 			fn_start_hyt_login
+		elif [ "${shortname}" == "rwr" ]; then
+			fn_start_rwr_script
 		fi
 	fi
 	rm -f "${lgsmlogdir:?}/.${selfname}-tmux-error.tmp" 2> /dev/null
@@ -250,10 +272,14 @@ core_logs.sh
 
 # Will check for updates if updateonstart is yes.
 if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${updateonstart}" == "on" ]; then
-	exitbypass=1
 	unset updateonstart
-	command_update.sh
-	fn_firstcommand_reset
+	if ! (
+		unset exitbypass
+		command_update.sh
+	); then
+		fn_print_warn_nl "Update failed, starting ${servername} anyway"
+		fn_script_log_warn "Update failed, starting ${servername} anyway"
+	fi
 fi
 
 fn_print_dots "${servername}"

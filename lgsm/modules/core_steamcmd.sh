@@ -14,7 +14,7 @@ fn_install_steamcmd() {
 	if [ ! -d "${steamcmddir}" ]; then
 		mkdir -p "${steamcmddir}"
 	fi
-	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "nochmodx" "norun" "noforce" "nohash"
+	fn_fetch_file "https://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "nochmodx" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
@@ -239,25 +239,8 @@ fn_update_steamcmd_compare() {
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			# If server stopped.
-			if [ "${status}" == "0" ]; then
-				fn_dl_steamcmd
-			# If server started.
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_dl_steamcmd
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-			fi
-			unset exitbypass
+			fn_update_apply fn_dl_steamcmd
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"

@@ -111,6 +111,7 @@ fn_info_messages_distro() {
 	# Uptime:    16d, 5h, 18m
 	# tmux:      tmux 3.0a
 	# glibc:     2.31
+	# Missing dependencies: lib32gcc-s1 steamcmd
 
 	echo -e ""
 	echo -e "${bold}${lightyellow}Distro Details${default}"
@@ -127,6 +128,11 @@ fn_info_messages_distro() {
 		echo -e "${lightblue}glibc:\t${default}${glibcversion}"
 		if [ -n "${javaram}" ]; then
 			echo -e "${lightblue}Java:\t${default}${javaversion}"
+		fi
+		if [ "${#array_deps_missing[@]}" != "0" ]; then
+			echo -e "${lightblue}Missing dependencies:\t${red}${array_deps_missing[*]}${default}"
+		elif [ "${depcheckunavailable}" == "1" ]; then
+			echo -e "${lightblue}Missing dependencies:\t${default}dependency checking unavailable for ${distroname}"
 		fi
 	} | column -s $'\t' -t
 }
@@ -162,8 +168,9 @@ fn_info_messages_server_resource() {
 	{
 		echo -e "${bold}${lightyellow}CPU\t${default}"
 		echo -e "${lightblue}Model:\t${default}${cpumodel}"
-		echo -e "${lightblue}Cores:\t${default}${cpucores}"
-		echo -e "${lightblue}Frequency:\t${default}${cpufreqency}MHz"
+		echo -e "${lightblue}Cores:\t${default}${cpuphysicalcoresdisplay}"
+		echo -e "${lightblue}Threads:\t${default}${cpulogicalcores}"
+		echo -e "${lightblue}Frequency:\t${default}${cpufrequencydisplay} per logical CPU"
 		echo -e "${lightblue}Avg Load:\t${default}${load}"
 	} | column -s $'\t' -t
 	echo -e ""
@@ -719,7 +726,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -730,7 +737,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "scpslsm" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -750,10 +757,14 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "bfv" ]; then
 		portcommand="ss -tuplwn | grep bfv_linded"
+	elif [ "${shortname}" == "ce" ]; then
+		portcommand="ss -tuplwn | grep ConanSandbox"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
+	elif [ "${shortname}" == "rwr" ]; then
+		portcommand="ss -tuplwn | grep rwr_server"
 	elif [ "${shortname}" == "hyt" ] || [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
@@ -946,6 +957,15 @@ fn_info_messages_cd() {
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
 		fn_port "RCON" rconport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_ce() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Raw UDP" rawport udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1177,6 +1197,13 @@ fn_info_messages_jc3() {
 }
 
 fn_info_messages_jk2() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_jk3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
@@ -1433,6 +1460,21 @@ fn_info_messages_rsdw() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_rwr() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Game Settings${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Start package:\t${default}${startpackage}"
+		echo -e "${lightblue}Start script:\t${default}${startscript}"
+		echo -e "${lightblue}Game mode:\t${default}${gamemode}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_rtcw() {
 	{
 		fn_port "header"
@@ -1579,7 +1621,7 @@ fn_info_messages_source() {
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unavailable
-		if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
+		if [ -n "${steamport}" ] && [ "${steamport}" != "0" ]; then
 			fn_port "Steam" steamport udp
 		fi
 		fn_port "Client" clientport udp
@@ -1840,6 +1882,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_bt
 	elif [ "${shortname}" == "btl" ]; then
 		fn_info_messages_btl
+	elif [ "${shortname}" == "ce" ]; then
+		fn_info_messages_ce
 	elif [ "${shortname}" == "ck" ]; then
 		fn_info_messages_ck
 	elif [ "${shortname}" == "cs2" ]; then
@@ -1892,6 +1936,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_jc3
 	elif [ "${shortname}" == "jk2" ]; then
 		fn_info_messages_jk2
+	elif [ "${shortname}" == "jk3" ]; then
+		fn_info_messages_jk3
 	elif [ "${shortname}" == "kf" ]; then
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then
@@ -1938,6 +1984,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_ro
 	elif [ "${shortname}" == "rsdw" ]; then
 		fn_info_messages_rsdw
+	elif [ "${shortname}" == "rwr" ]; then
+		fn_info_messages_rwr
 	elif [ "${shortname}" == "rtcw" ]; then
 		fn_info_messages_rtcw
 	elif [ "${shortname}" == "samp" ]; then
@@ -1946,7 +1994,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_sb
 	elif [ "${shortname}" == "sbots" ]; then
 		fn_info_messages_sbots
-	elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+	elif [ "${shortname}" == "scpsl" ]; then
 		fn_info_messages_scpsl
 	elif [ "${shortname}" == "sdtd" ]; then
 		fn_info_messages_sdtd

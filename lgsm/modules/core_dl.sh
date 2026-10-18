@@ -19,6 +19,20 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Removes consecutive duplicate lines from SteamCMD output without buffering.
+fn_dl_steamcmd_output() {
+	local line=""
+	local previousline=""
+	local firstline="1"
+	while IFS= read -r line || [ -n "${line}" ]; do
+		if [ -n "${firstline}" ] || [ "${line}" != "${previousline}" ]; then
+			printf '%s\n' "${line}"
+		fi
+		previousline="${line}"
+		firstline=""
+	done
+}
+
 fn_dl_steamcmd() {
 	remotelocation="SteamCMD"
 	fn_print_start_nl "${remotelocation}"
@@ -74,11 +88,14 @@ fn_dl_steamcmd() {
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${steamcmdforcewindows}" == "yes" ]; then
@@ -89,18 +106,21 @@ fn_dl_steamcmd() {
 					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
 					core_exit.sh
 				fi
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				exitcode="${PIPESTATUS[0]}"
 				if [ "${exitcode}" -ne 0 ]; then
 					continue
 				fi
 			fi
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			fi
 		# All other servers.
 		else
@@ -111,24 +131,26 @@ fn_dl_steamcmd() {
 					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
 					core_exit.sh
 				fi
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				exitcode="${PIPESTATUS[0]}"
 				if [ "${exitcode}" -ne 0 ]; then
 					continue
 				fi
 			fi
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			fi
 		fi
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
 		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
-		exitcode=$?
 		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ] && [ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ]; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
@@ -145,7 +167,7 @@ fn_dl_steamcmd() {
 				invalidplatformworkaround="1"
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				validateparam=("validate")
 				rm -f "${steamcmdlog:?}"
 				counter=0
@@ -458,6 +480,9 @@ fn_fetch_file() {
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
 			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
+			if [[ "${fileurl}" == https://* ]]; then
+				curlcmd+=(--proto-redir "=https")
+			fi
 
 			# if is large file show progress, else be silent
 			local exitcode=""

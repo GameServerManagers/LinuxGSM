@@ -102,31 +102,15 @@ fn_update_compare() {
 		if [ "${commandname}" == "UPDATE" ]; then
 			# Keep track of the build before updating for alert purposes.
 			previousbuild="${localbuild}"
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			# If server stopped.
-			if [ "${status}" == "0" ]; then
-				fn_update_dl
-				if [ "${localbuild}" == "0" ]; then
-					exitbypass=1
-					command_start.sh
-					fn_firstcommand_reset
-					exitbypass=1
-					fn_sleep_time_5
-					command_stop.sh
-					fn_firstcommand_reset
-				fi
-			# If server started.
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_update_dl
+			fn_update_apply fn_update_dl
+			if [ "${updatestatus}" == "0" ] && [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				fn_sleep_time_5
+				command_stop.sh
 				fn_firstcommand_reset
 			fi
 			# Refresh local build value after update (silent) so alerts show new version.

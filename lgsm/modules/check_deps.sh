@@ -18,17 +18,19 @@ fn_install_dotnet_repo() {
 		fi
 	done
 
-	if [ "${distroid}" == "ubuntu" ]; then
-		# If the required .NET package is unavailable in Ubuntu repos, add the Microsoft repo.
+	if [ "${distroid}" == "ubuntu" ] || [ "${distroid}" == "debian" ]; then
+		# If the required .NET package is unavailable in Ubuntu/Debian repos, add the Microsoft repo.
 		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/ubuntu/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
-		fi
-	elif [ "${distroid}" == "debian" ]; then
-		# If the required .NET package is unavailable in Debian repos, add the Microsoft repo.
-		if ! apt-cache show "${dotnetpackage}" > /dev/null 2>&1; then
-			fn_fetch_file "https://packages.microsoft.com/config/debian/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
-			sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			if [ "${autodepinstall}" == "0" ]; then
+				fn_fetch_file "https://packages.microsoft.com/config/${distroid}/${distroversion}/packages-microsoft-prod.deb" "" "" "" "/tmp" "packages-microsoft-prod.deb" "" "" "" ""
+				sudo dpkg -i /tmp/packages-microsoft-prod.deb
+			else
+				fn_print_information_nl "Installing Microsoft repository."
+				fn_print_warning_nl "${nosudomessage}"
+				echo -e "Follow instructions on Microsoft website to install."
+				echo -e "https://learn.microsoft.com/en-us/dotnet/core/install/linux"
+				fn_script_log_warn "Unable to install Microsoft repository. ${nosudomessage}"
+			fi
 		fi
 	fi
 }
@@ -111,10 +113,10 @@ fn_install_mono_repo() {
 
 	else
 		fn_print_information_nl "Installing Mono repository."
-		fn_print_warning_nl "$(whoami) does not have sudo access."
+		fn_print_warning_nl "${nosudomessage}"
 		echo -e "Follow instructions on Mono website to install."
 		echo -e "https://www.mono-project.com/download/stable/#download-lin"
-		fn_script_log_warn "Unable to install Mono repository. $(whoami) does not have sudo access."
+		fn_script_log_warn "Unable to install Mono repository. ${nosudomessage}"
 	fi
 }
 
@@ -163,9 +165,11 @@ fn_install_missing_deps() {
 			autodepinstall="0"
 		elif [ "${autoinstall}" == "1" ]; then
 			autodepinstall="1"
+			nosudomessage="sudo cannot run without a password during auto-install."
 		else
 			sudo -v > /dev/null 2>&1
 			autodepinstall="$?"
+			nosudomessage="$(whoami) does not have sudo access."
 		fi
 
 		if [ "${monoinstalled}" == "false" ]; then
@@ -181,8 +185,8 @@ fn_install_missing_deps() {
 				fn_print_information_nl "$(whoami) has sudo access."
 				fn_script_log_info "$(whoami) has sudo access."
 			else
-				fn_print_warning_nl "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
-				fn_script_log_warn "$(whoami) does not have sudo access. Manually install dependencies or run ./${selfname} install as root."
+				fn_print_warning_nl "${nosudomessage} Manually install dependencies or run ./${selfname} install as root."
+				fn_script_log_warn "${nosudomessage} Manually install dependencies or run ./${selfname} install as root."
 			fi
 		fi
 
@@ -260,10 +264,16 @@ fn_check_loop() {
 	done
 
 	# user will be informed of any missing dependencies.
-	fn_install_missing_deps
+	if [ "${depcheckonly}" != "1" ]; then
+		fn_install_missing_deps
+	fi
 }
 
 # Checks if dependency is installed or not.
+fn_deps_version_ge() {
+	[ "$(printf '%s\n' "$1" "$2" | sort -V | head -1)" == "$2" ]
+}
+
 fn_deps_detector() {
 	## Check.
 	# SteamCMD: Will be removed from required array if no appid is present or non-free repo is not available.
@@ -286,6 +296,28 @@ fn_deps_detector() {
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
+			javarequiredmajor="$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+				if [ "${mcversion}" == "latest" ]; then
+					javarequiredmajor="25"
+				elif [[ "${mcversion}" =~ ^[0-9]+\.[0-9]+([.][0-9]+)?$ ]]; then
+					if fn_deps_version_ge "${mcversion}" "26.1"; then
+						javarequiredmajor="25"
+					elif [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; then
+						javarequiredmajor="21"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; then
+						javarequiredmajor="21"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.17" && fn_deps_version_ge "1.19" "${mcversion}"; then
+						javarequiredmajor="17"
+					elif [ "${shortname}" == "pmc" ] && [ "${mcversion}" == "1.16.5" ]; then
+						javarequiredmajor="16"
+					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.12" && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+						javarequiredmajor="11"
+					elif [ "${shortname}" == "pmc" ] && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+						javarequiredmajor="8"
+					fi
+				fi
+			fi
 			if [ "${shortname}" == "hyt" ] && { [ -z "${javamajorversion}" ] || [ "${javamajorversion}" -lt "25" ]; }; then
 				# Java 25 installed but not the active java: installing it again would not change that.
 				if compgen -G "/usr/lib/jvm/*25*/bin/java" > /dev/null; then
@@ -296,13 +328,42 @@ fn_deps_detector() {
 				else
 					depstatus=1
 				fi
+			elif [ -n "${javamajorversion}" ] && [ "${javamajorversion}" -lt "${javarequiredmajor}" ]; then
+				if [ "${depcheckonly}" == "1" ]; then
+					depstatus=1
+				elif [ "${javarequiredmajor}" -gt "$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)" ]; then
+					fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide that version as a package."
+					echo -e "Install Java ${javarequiredmajor} manually or upgrade to Debian 13 or Ubuntu 24.04+."
+					fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide it as a package."
+					core_exit.sh
+				else
+					fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; active Java is ${javamajorversion}."
+					echo -e "Select a compatible Java runtime with: sudo update-alternatives --config java"
+					fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; active Java is ${javamajorversion}."
+					core_exit.sh
+				fi
 			else
 				# Added for users using Oracle JRE to bypass check.
 				depstatus=0
 				deptocheck="${javaversion}"
 			fi
 		else
-			depstatus=1
+			javarequiredmajor="$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)"
+			if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+				if [ "${mcversion}" == "latest" ] || fn_deps_version_ge "${mcversion}" "26.1"; then
+					javarequiredmajor="25"
+				elif { [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; } || { [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; }; then
+					javarequiredmajor="21"
+				fi
+			fi
+			if [ "${javarequiredmajor}" -gt "$(echo "${deptocheck}" | grep -Eo '[0-9]+' | head -1)" ] && [ "${depcheckonly}" != "1" ]; then
+				fn_print_failure_nl "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide that version as a package."
+				echo -e "Install Java ${javarequiredmajor} manually or upgrade to Debian 13 or Ubuntu 24.04+."
+				fn_script_log_fail "${gamename} ${mcversion} requires Java ${javarequiredmajor}; ${distroname} does not provide it as a package."
+				core_exit.sh
+			else
+				depstatus=1
+			fi
 		fi
 	# Mono: A Mono repo needs to be installed.
 	elif [ "${deptocheck}" == "mono-complete" ]; then
@@ -371,6 +432,10 @@ fn_deps_detector() {
 	fi
 }
 
+if [ "${commandname}" == "DETAILS" ] || [ "${commandname}" == "POST-DETAILS" ]; then
+	depcheckonly="1"
+fi
+
 if [ "${commandname}" == "INSTALL" ]; then
 	if [ "$(whoami)" == "root" ]; then
 		echo -e ""
@@ -387,38 +452,42 @@ fi
 
 info_distro.sh
 
-# Will warn user if their distro is no longer supported by the vendor.
-if [ -n "${distrosupport}" ]; then
-	if [ "${distrosupport}" == "unsupported" ]; then
-		fn_print_warning_nl "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
-		fn_script_log_warn "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+if [ "${depcheckonly}" != "1" ]; then
+	# Will warn user if their distro is no longer supported by the vendor.
+	if [ -n "${distrosupport}" ]; then
+		if [ "${distrosupport}" == "unsupported" ]; then
+			fn_print_warning_nl "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+			fn_script_log_warn "${distroname} is no longer supported by the vendor or LinuxGSM. Upgrading is recommended."
+		fi
 	fi
-fi
 
-# These titles are only supported up to Ubuntu 22.04 (Jammy) and Debian 12 (Bookworm).
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "22.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "12"; }; then
-	if [ "${shortname}" == "bf1942" ] || [ "${shortname}" == "bfv" ]; then
-		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 22.04 or Debian <= 12)."
-		fn_script_log_fail "${gamename} is not supported on ${distroname}."
-		core_exit.sh
+	# These titles are only supported up to Ubuntu 20.04 and Debian 11.
+	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
+		if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
+			fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
+			fn_script_log_fail "${gamename} is not supported on ${distroname}."
+			core_exit.sh
+		fi
 	fi
-fi
 
-# These titles are only supported up to Ubuntu 20.04 and Debian 11.
-if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
-	if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
-		fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
-		fn_script_log_fail "${gamename} is not supported on ${distroname}."
-		core_exit.sh
+	# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
+	if [ "${shortname}" == "vints" ]; then
+		if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
+			fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
+			echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
+			fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
+		fi
 	fi
-fi
 
-# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
-if [ "${shortname}" == "vints" ]; then
-	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then
-		fn_print_warning_nl "${gamename} may require newer .NET runtimes than ${distroname} provides."
-		echo -e "If startup fails due to missing .NET runtime, upgrading to Ubuntu 24.04+ or Debian 12+ is recommended."
-		fn_script_log_warn "${gamename} may require newer .NET runtimes than ${distroname} provides."
+	# Hytale needs Java 25, which Ubuntu before 22.04, Debian before 13 and RHEL before 9 do not package.
+	if [ "${shortname}" == "hyt" ]; then
+		if { [ "${distroid}" == "ubuntu" ] && [ "${distroversion}" != "22.04" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "13"; } || { [ -n "${distroversionrh}" ] && [ "${distroversionrh}" -lt "9" ]; }; then
+			if ! echo "${javaversion}" | grep -Eq 'version "(2[5-9]|[3-9][0-9])'; then
+				fn_print_warning_nl "${gamename} requires Java 25, which ${distroname} does not provide."
+				echo -e "Install Java 25 manually or upgrade to Ubuntu 22.04+, Debian 13+ or a RHEL 9 based distro."
+				fn_script_log_warn "${gamename} requires Java 25, which ${distroname} does not provide."
+			fi
+		fi
 	fi
 fi
 
@@ -442,10 +511,16 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	array_deps_required=("${depall} ${depsteamcmd} ${depshortname}")
 	array_deps_required_steamcmd=("${depsteamcmd}")
 	fn_deps_email
+	if [ "${logtimestamp}" == "on" ]; then
+		array_deps_required+=(gawk)
+	fi
 	# Unique sort dependency array.
 	IFS=" " read -r -a array_deps_required <<< "$(echo "${array_deps_required[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 
 	fn_check_loop
+elif [ "${depcheckonly}" == "1" ]; then
+	# shellcheck disable=SC2034 # Used by info_messages.sh.
+	depcheckunavailable="1"
 # Warn the user that dependency checking is unavailable for their distro.
 elif [ "${commandname}" == "INSTALL" ] || [ -n "${checkflag}" ] && [ "${checkflag}" != "0" ]; then
 	fn_print_warning_nl "LinuxGSM dependency checking currently unavailable for ${distroname}."

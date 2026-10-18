@@ -252,23 +252,8 @@ fn_update_compare() {
 		fn_script_log_info "Patchline: ${hytalepatchline}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			if [ "${status}" == "0" ]; then
-				fn_update_dl
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_update_dl
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-			fi
-			unset exitbypass
+			fn_update_apply fn_update_dl
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"

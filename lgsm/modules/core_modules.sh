@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.3.0"
+modulesversion="v26.4.0"
 
 # Core
 
@@ -181,6 +181,11 @@ command_wipe.sh() {
 	fn_fetch_module
 }
 
+command_workshop_update.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -292,6 +297,13 @@ mods_list.sh() {
 	fn_fetch_module
 }
 
+# Workshop
+
+workshop_core.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 # Dev
 
 command_dev_clear_modules.sh() {
@@ -366,6 +378,16 @@ fix_av.sh() {
 	fn_fetch_module
 }
 
+fix_bf1942.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_bfv.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_bo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -377,6 +399,21 @@ fix_bt.sh() {
 }
 
 fix_cmw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_cod.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_cod2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_coduo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -401,6 +438,11 @@ fix_ins.sh() {
 	fn_fetch_module
 }
 
+fix_ios.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_kf.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -416,7 +458,17 @@ fix_mcb.sh() {
 	fn_fetch_module
 }
 
+fix_mohaa.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_mta.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_nd.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -686,6 +738,11 @@ update_hyt.sh() {
 }
 
 update_jk2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_jk3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

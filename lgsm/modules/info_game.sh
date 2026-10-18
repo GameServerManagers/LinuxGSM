@@ -31,7 +31,7 @@ fn_info_game_ini() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="ini"
 }
 
@@ -56,7 +56,7 @@ fn_info_game_keyvalue_pairs_equals() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -81,7 +81,7 @@ fn_info_game_keyvalue_pairs_space() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -106,7 +106,7 @@ fn_info_game_quakec() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -118,7 +118,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(jq -r "${2}" "${servercfgparse}")"
 	configtype="json"
 }
 
@@ -144,7 +144,7 @@ fn_info_game_sqf() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="sqf"
 }
 
@@ -156,7 +156,7 @@ fn_info_game_xml() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(xmllint --xpath "string(${2})" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(xmllint --xpath "string(${2})" "${servercfgparse}")"
 	configtype="xml"
 }
 
@@ -182,7 +182,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="valve_keyvalues"
 }
 
@@ -207,7 +207,7 @@ fn_info_game_java_properties() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="java"
 }
 
@@ -230,7 +230,7 @@ fn_info_game_lua() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="lua"
 }
 
@@ -255,7 +255,7 @@ fn_info_game_pc_config() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="pc_config"
 }
 
@@ -834,9 +834,9 @@ fn_info_game_ut3() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/UTWeb.ini"
 		fn_info_game_ini "httppassword" "AdminPassword"
-		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/UTWeb.ini"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1005,11 +1005,20 @@ fn_info_game_bfv() {
 fn_info_game_bt() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "maxplayers" "/serversettings/@MaxPlayers"
+		if [ -z "${maxplayers}" ]; then
+			fn_info_game_xml "maxplayers" "/serversettings/@maxplayers"
+		fi
 		fn_info_game_xml "port" "/serversettings/@port"
 		fn_info_game_xml "queryport" "/serversettings/@queryport"
-		fn_info_game_xml "servername" "/serversettings/@name"
+		fn_info_game_xml "servername" "/serversettings/@ServerName"
+		if [ -z "${servername}" ]; then
+			fn_info_game_xml "servername" "/serversettings/@name"
+		fi
 		fn_info_game_xml "serverpassword" "/serversettings/@password"
 		fn_info_game_xml "tickrate" "/serversettings/@TickRate"
+		if [ -z "${tickrate}" ]; then
+			fn_info_game_xml "tickrate" "/serversettings/@tickrate"
+		fi
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -1041,6 +1050,25 @@ fn_info_game_cd() {
 	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	steamport="${steamport:-"0"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerPassword=PASSWORD
+# Filetype: ini
+fn_info_game_ce() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "serverpassword" "ServerPassword"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rawport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: json
@@ -1467,6 +1495,27 @@ fn_info_game_jk2() {
 	serverversion="${serverversion:-"NOT SET"}"
 }
 
+# Config Type: QuakeC
+# Parameters: true
+# Comment: // or /* */
+# Example: set sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_jk3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "rconpassword"
+		fn_info_game_quakec "servername" "sv_hostname"
+		fn_info_game_quakec "serverpassword" "g_password"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: Java properties
 # Comment: # or !
 # Example: motd=SERVERNAME
@@ -1846,6 +1895,27 @@ fn_info_game_rsdw() {
 	worldname="${worldname:-"NOT SET"}"
 }
 
+# Config Type: AngelScript (start_server command)
+# Comment: //
+# Example: server_name='SERVERNAME'
+# Filetype: as
+fn_info_game_rwr() {
+	local startscriptfile="${serverfiles}/${startpackage:-media/packages/vanilla}/scripts/${startscript}"
+	if [ ! -f "${startscriptfile}" ]; then
+		startscriptfile="${servercfgfullpath}"
+	fi
+	if [ -f "${startscriptfile}" ]; then
+		servername="$(sed -n "s/.*server_name='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		port="$(sed -n "s/.*server_port='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		maxplayers="$(sed -n "s/.*max_players='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		gamemode="$(sed -n "s/.*mode='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+	fi
+	servername="${servername:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	maxplayers="${maxplayers:-"0"}"
+	gamemode="${gamemode:-"NOT SET"}"
+}
 # Config Type: QuakeC
 # Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"
@@ -2107,10 +2177,10 @@ fn_info_game_source() {
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
-	# Steamport can be between 26901-26910 and is normally automatically set.
-	# Some servers might support -steamport parameter to set
-	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
-		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	# Detect the optional Steam port from this server's UDP sockets in the 269xx range.
+	# Keep an explicitly configured port, including ports outside the default range.
+	if { [ -z "${steamport}" ] || [ "${steamport}" == "0" ]; } && [ -n "${srcdslinuxpid}" ]; then
+		steamport="$(echo "${ssinfo}" | awk -v pid="${srcdslinuxpid}" '$1 == "udp" && $0 ~ ("pid=" pid ",") { port = $5; sub(/^.*:/, "", port); if (port ~ /^269[0-9][0-9]$/) { print port; exit } }')"
 	fi
 	clientport="${clientport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -2385,6 +2455,8 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "btl" ]; then
 	fn_info_game_btl
+elif [ "${shortname}" == "ce" ]; then
+	fn_info_game_ce
 elif [ "${shortname}" == "ck" ]; then
 	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
@@ -2431,6 +2503,8 @@ elif [ "${shortname}" == "jc3" ]; then
 	fn_info_game_jc3
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_game_jk2
+elif [ "${shortname}" == "jk3" ]; then
+	fn_info_game_jk3
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
@@ -2479,6 +2553,8 @@ elif [ "${shortname}" == "rsdw" ]; then
 	fn_info_game_rsdw
 elif [ "${shortname}" == "rtcw" ]; then
 	fn_info_game_rtcw
+elif [ "${shortname}" == "rwr" ]; then
+	fn_info_game_rwr
 elif [ "${shortname}" == "rust" ]; then
 	fn_info_game_rust
 elif [ "${shortname}" == "rw" ]; then
@@ -2489,7 +2565,7 @@ elif [ "${shortname}" == "sb" ]; then
 	fn_info_game_sb
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_game_sbots
-elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+elif [ "${shortname}" == "scpsl" ]; then
 	fn_info_game_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd

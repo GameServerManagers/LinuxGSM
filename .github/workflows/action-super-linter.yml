@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "*"
+      - main
+      - master
+      - develop
+  pull_request:
 
 concurrency:
-  group: super-linter-${{ github.ref }}
+  group: super-linter-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions: {}
@@ -37,10 +40,12 @@ jobs:
           npm install --no-save prettier prettier-plugin-sh prettier-plugin-jinja-template || true
 
       - name: Super-linter
-        uses: super-linter/super-linter@v9
+        uses: super-linter/super-linter/slim@v9
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MULTI_STATUS: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name != 'pull_request' }}
           VALIDATE_BIOME_FORMAT: false
           VALIDATE_BIOME_LINT: false
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: false

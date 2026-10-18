@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	# Download and extract files to tmpdir.
-	fn_fetch_file "http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
+	fn_fetch_file "https://linux.multitheftauto.com/dl/multitheftauto_linux_x64.tar.gz" "" "" "" "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "nochmodx" "norun" "force" "nohash"
 	fn_dl_extract "${tmpdir}" "multitheftauto_linux_x64.tar.gz" "${serverfiles}" "multitheftauto_linux_x64"
 	fn_clear_tmp
 }
@@ -38,7 +38,7 @@ fn_update_remotebuild() {
 	apiurl="https://linux.multitheftauto.com/revision/latest.txt"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	remotebuildfilename="multitheftauto_linux_x64.tar.gz"
-	remotebuildurl="http://linux.mtasa.com/dl/multitheftauto_linux_x64.tar.gz"
+	remotebuildurl="https://linux.multitheftauto.com/dl/multitheftauto_linux_x64.tar.gz"
 	remotebuild="${remotebuildresponse}"
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
@@ -98,31 +98,15 @@ fn_update_compare() {
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			# If server stopped.
-			if [ "${status}" == "0" ]; then
-				fn_update_dl
-				if [ "${localbuild}" == "0" ]; then
-					exitbypass=1
-					command_start.sh
-					fn_firstcommand_reset
-					exitbypass=1
-					fn_sleep_time_5
-					command_stop.sh
-					fn_firstcommand_reset
-				fi
-			# If server started.
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_update_dl
+			fn_update_apply fn_update_dl
+			if [ "${updatestatus}" == "0" ] && [ "${localbuild}" == "0" ]; then
 				exitbypass=1
 				command_start.sh
+				fn_firstcommand_reset
+				exitbypass=1
+				fn_sleep_time_5
+				command_stop.sh
 				fn_firstcommand_reset
 			fi
 			unset exitbypass
@@ -158,7 +142,7 @@ fn_update_compare() {
 }
 
 # The location where the builds are checked and downloaded.
-remotelocation="linux.mtasa.com"
+remotelocation="linux.multitheftauto.com"
 
 if [ "${firstcommandname}" == "INSTALL" ]; then
 	fn_update_remotebuild

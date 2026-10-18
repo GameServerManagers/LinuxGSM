@@ -661,6 +661,11 @@ elif [ "${shortname}" == "jk2" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars
+elif [ "${shortname}" == "jk3" ]; then
+	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "qw" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
@@ -685,7 +690,7 @@ elif [ "${shortname}" == "rust" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_list_config_locations
-elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+elif [ "${shortname}" == "scpsl" ]; then
 	array_configs+=(config_gameplay.txt config_localadmin.txt)
 	fn_default_config_remote
 	fn_set_config_vars
@@ -714,6 +719,9 @@ elif [ "${shortname}" == "squad" ]; then
 	array_configs+=(Admins.cfg Bans.cfg License.cfg Server.cfg Rcon.cfg)
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "rwr" ]; then
+	fn_default_config_local
 	fn_list_config_locations
 elif [ "${shortname}" == "sb" ]; then
 	array_configs+=(starbound_server.config)
@@ -786,6 +794,11 @@ elif [ "${shortname}" == "ut" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ut2k4" ]; then
 	array_configs+=(UT2004.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "ut3" ]; then
+	array_configs+=(UTGame.ini UTWeb.ini UTEngine.ini)
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
