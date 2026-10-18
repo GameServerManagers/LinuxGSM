@@ -34,15 +34,25 @@ fn_update_localbuild() {
 fn_update_remotebuild() {
 	# Gets remote build info.
 	apiurl="https://api.github.com/repos/OldUnreal/UnrealTournamentPatches/releases/latest"
-	remotebuildresponse=$(curl -s "${apiurl}")
-	remotebuildfilename=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .name')
-	remotebuildurl=$(echo "${remotebuildresponse}" | jq -r '.assets[]|select(.browser_download_url | contains("Linux-amd64")) | .browser_download_url')
-	remotebuild=$(echo "${remotebuildresponse}" | jq -r '.tag_name')
+	local attempt
+	for attempt in 1 2 3; do
+		remotebuildresponse=$(curl --connect-timeout 10 --max-time 30 --fail --silent --show-error --location "${apiurl}") || remotebuildresponse=""
+		remotebuild=$(echo "${remotebuildresponse}" | jq -er 'select((.tag_name | type) == "string" and (.tag_name | length) > 0) | .tag_name' 2> /dev/null) || remotebuild=""
+		remotebuildasset=$(echo "${remotebuildresponse}" | jq -cer '[.assets[]? | select((.browser_download_url | type) == "string" and (.browser_download_url | contains("Linux-amd64")))] | select(length == 1) | .[0]' 2> /dev/null) || remotebuildasset=""
+		remotebuildfilename=$(echo "${remotebuildasset}" | jq -er 'select((.name | type) == "string" and (.name | length) > 0) | .name' 2> /dev/null) || remotebuildfilename=""
+		remotebuildurl=$(echo "${remotebuildasset}" | jq -er 'select((.browser_download_url | type) == "string" and (.browser_download_url | length) > 0) | .browser_download_url' 2> /dev/null) || remotebuildurl=""
+		if [ -n "${remotebuild}" ] && [ -n "${remotebuildfilename}" ] && [ -n "${remotebuildurl}" ]; then
+			break
+		fi
+		if [ "${attempt}" -lt 3 ]; then
+			sleep 2
+		fi
+	done
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ -z "${remotebuildfilename}" ] || [ -z "${remotebuildurl}" ]; then
 			fn_print_fail "Checking remote build: ${remotelocation}"
 			fn_script_log_fail "Checking remote build"
 			core_exit.sh
@@ -52,7 +62,7 @@ fn_update_remotebuild() {
 		fi
 	else
 		# Checks if remotebuild variable has been set.
-		if [ -z "${remotebuild}" ] || [ "${remotebuild}" == "null" ]; then
+		if [ -z "${remotebuild}" ] || [ -z "${remotebuildfilename}" ] || [ -z "${remotebuildurl}" ]; then
 			fn_print_failure "Unable to get remote build"
 			fn_script_log_fail "Unable to get remote build"
 			core_exit.sh
