@@ -72,3 +72,42 @@ fn_script_log_error() { :; }
 fn_update_localbuild
 test "${localbuild}" = 0
 echo 'PASS: incomplete installations cannot be reported as up to date'
+
+cat > "${tmpdir}/${remotebuildfilename}" << 'APPIMAGE'
+#!/bin/sh
+mkdir -p squashfs-root/usr/lib/openra
+printf '#!/bin/sh\n' > squashfs-root/usr/lib/openra/OpenRA.Server
+chmod +x squashfs-root/usr/lib/openra/OpenRA.Server
+APPIMAGE
+if (fn_update_dl); then
+	echo 'FAIL: an extracted package without its launcher was accepted'
+	exit 1
+fi
+test "$(cat "${serverfiles}/openra/build.txt")" = old-release
+echo 'PASS: a missing package launcher leaves the old install intact'
+cat >> "${tmpdir}/${remotebuildfilename}" << 'APPIMAGE'
+printf '#!/bin/sh\n' > squashfs-root/AppRun
+chmod +x squashfs-root/AppRun
+APPIMAGE
+mv() {
+	if [[ "${1}" == */squashfs-root ]]; then
+		return 1
+	fi
+	command mv "$@"
+}
+if (fn_update_dl); then
+	echo 'FAIL: failed package replacement was accepted'
+	exit 1
+fi
+unset -f mv
+test "$(cat "${serverfiles}/openra/build.txt")" = old-release
+test "$(cat "${serverfiles}/openra/keep.txt")" = existing-engine
+test "$(cat "${serverfiles}/data/keep.txt")" = instance-data
+echo 'PASS: failed package replacement restores the previous engine and metadata'
+fn_update_dl
+test "$(cat "${serverfiles}/openra/build.txt")" = release-20250330
+test -x "${serverfiles}/openra/AppRun"
+test "$(cat "${serverfiles}/data/keep.txt")" = instance-data
+fn_update_localbuild
+test "${localbuild}" = release-20250330
+echo 'PASS: successful package replacement records the build and preserves instance data'
