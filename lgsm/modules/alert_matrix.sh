@@ -49,7 +49,38 @@ More info
 ${alerturl}"
 fi
 
-json="$(jq -cn --arg body "${message}" '{msgtype: "m.notice", body: $body}')"
+message_html="<strong>${alerttitle}</strong><br><br>
+
+<strong>Server Name</strong><br>
+${servername}<br><br>
+
+<strong>Information</strong><br>
+${alertmessage}<br><br>
+
+<strong>Game</strong><br>
+${gamename}<br><br>
+
+<strong>Server IP</strong><br>
+${alertip}:${port}<br><br>
+
+<strong>Server Time</strong><br>
+$(date)"
+
+if [ -n "${querytype}" ]; then
+	message_html+="
+<br><br>
+<strong>Is my Game Server Online?</strong><br>
+<a href='https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}'>Check here</a>"
+fi
+
+if [ -n "${alerturl}" ]; then
+	message_html+="
+<br><br>
+More info
+<a href='${alerturl}'>${alerturl}</a>"
+fi
+
+json="$(jq -cn --arg body "${message}" --arg body_html "${message_html}" '{msgtype: "m.notice", body: $body, format: "org.matrix.custom.html", formatted_body: $body_html}')"
 
 fn_print_dots "Sending Matrix alert"
 
