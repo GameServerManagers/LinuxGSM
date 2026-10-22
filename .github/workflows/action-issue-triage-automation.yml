@@ -69,7 +69,7 @@ env:
 
 jobs:
   issue-regex-labeler:
-    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && (github.event.action == 'opened' || github.event.action == 'edited')
+    if: github.repository_owner == 'GameServerManagers' && github.event_name == 'issues' && github.event.issue.state == 'open' && (github.event.action == 'opened' || github.event.action == 'edited')
     runs-on: ubuntu-latest
     steps:
       - name: Issue Labeler
@@ -82,7 +82,7 @@ jobs:
           sync-labels: 0
 
   issue-ai-maintenance:
-    if: github.repository_owner == 'GameServerManagers' && (github.event_name == 'issues' || github.event_name == 'issue_comment')
+    if: github.repository_owner == 'GameServerManagers' && (github.event_name == 'issues' || github.event_name == 'issue_comment') && github.event.issue.state == 'open'
     runs-on: ubuntu-latest
     steps:
       - name: Reconcile issue labels and AI triage
@@ -819,8 +819,37 @@ jobs:
             }
 
             // Avoid pointless API calls.
-            const finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
-            const finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+            let finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
+            let finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+
+            const isGameOrEngineLabel = (label) => label.startsWith('game: ') || label.startsWith('engine: ');
+            if ([...finalAdds, ...finalRemoves].some(isGameOrEngineLabel)) {
+              try {
+                const issueEvents = await github.paginate(github.rest.issues.listEvents, {
+                  owner,
+                  repo,
+                  issue_number: issueNumber,
+                  per_page: 100,
+                });
+                const lastManualLabelEvent = new Map();
+                for (const e of issueEvents) {
+                  if (!['labeled', 'unlabeled'].includes(e.event) || !e.label?.name) continue;
+                  lastManualLabelEvent.set(e.label.name, e.actor?.type === 'Bot' ? null : e.event);
+                }
+                finalAdds = finalAdds.filter((label) => {
+                  if (!isGameOrEngineLabel(label) || lastManualLabelEvent.get(label) !== 'unlabeled') return true;
+                  console.log(`Label "${label}" was removed manually; not adding it back.`);
+                  return false;
+                });
+                finalRemoves = finalRemoves.filter((label) => {
+                  if (!isGameOrEngineLabel(label) || lastManualLabelEvent.get(label) !== 'labeled') return true;
+                  console.log(`Label "${label}" was added manually; keeping it.`);
+                  return false;
+                });
+              } catch (err) {
+                console.log(`Could not read issue events: ${err.message}`);
+              }
+            }
 
             for (const label of finalRemoves) {
               try {
@@ -2199,8 +2228,38 @@ jobs:
                 }
 
                 // Apply changes
-                const finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
-                const finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+                let finalAdds = [...labelsToAdd].filter((label) => !existingLabels.has(label));
+                let finalRemoves = [...labelsToRemove].filter((label) => existingLabels.has(label));
+
+                const isGameOrEngineLabel = (label) => label.startsWith('game: ') || label.startsWith('engine: ');
+                if ([...finalAdds, ...finalRemoves].some(isGameOrEngineLabel)) {
+                  try {
+                    const issueEvents = await github.paginate(github.rest.issues.listEvents, {
+                      owner,
+                      repo,
+                      issue_number: rawIssue.number,
+                      per_page: 100,
+                    });
+                    const lastManualLabelEvent = new Map();
+                    for (const e of issueEvents) {
+                      if (!['labeled', 'unlabeled'].includes(e.event) || !e.label?.name) continue;
+                      lastManualLabelEvent.set(e.label.name, e.actor?.type === 'Bot' ? null : e.event);
+                    }
+                    finalAdds = finalAdds.filter((label) => {
+                      if (!isGameOrEngineLabel(label) || lastManualLabelEvent.get(label) !== 'unlabeled') return true;
+                      console.log(`#${rawIssue.number}: "${label}" was removed manually; not adding it back`);
+                      return false;
+                    });
+                    finalRemoves = finalRemoves.filter((label) => {
+                      if (!isGameOrEngineLabel(label) || lastManualLabelEvent.get(label) !== 'labeled') return true;
+                      console.log(`#${rawIssue.number}: "${label}" was added manually; keeping it`);
+                      return false;
+                    });
+                  } catch (err) {
+                    if (isApiRateLimitError(err)) throw err;
+                    console.log(`#${rawIssue.number}: could not read issue events: ${err.message}`);
+                  }
+                }
 
                 let labelAdded = 0;
                 let labelRemoved = 0;
