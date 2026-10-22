@@ -787,6 +787,11 @@ update_bb.sh() {
 	fn_fetch_module
 }
 
+update_luanti.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_vints.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
