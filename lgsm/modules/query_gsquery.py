@@ -35,6 +35,7 @@ class GSQuery:
     default_buffer_length = 1024
     sourcequery = (
         "protocol-valve",
+        "protocol-valve-won",
         "avalanche3.0",
         "barotrauma",
         "madness",
@@ -65,10 +66,12 @@ class GSQuery:
         """Create a query instance from parsed CLI args."""
 
         self.argument = arguments
-        if self.argument.engine == "protocol-valve-won":
-            self.query_prompt_string = b"\xff\xff\xff\xffdetails\0"
-        elif self.argument.engine in self.sourcequery:
-            self.query_prompt_string = b"\xff\xff\xff\xffTSource Engine Query\0"
+        if self.argument.engine in self.sourcequery:
+            self.query_prompt_string = (
+                b"\xff\xff\xff\xffdetails\0"
+                if self.argument.engine == "protocol-valve-won"
+                else b"\xff\xff\xff\xffTSource Engine Query\0"
+            )
         elif self.argument.engine in self.idtech2query:
             self.query_prompt_string = b"\xff\xff\xff\xffstatus\x00"
         elif self.argument.engine in self.idtech3query:

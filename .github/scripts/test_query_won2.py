@@ -2,11 +2,11 @@
 """Exercise the WON query CLI against local UDP responders."""
 
 import concurrent.futures
-from pathlib import Path
 import socket
 import subprocess
 import sys
 import unittest
+from pathlib import Path
 
 QUERY = Path(__file__).resolve().parents[2] / "lgsm/modules/query_gsquery.py"
 INFO = (
