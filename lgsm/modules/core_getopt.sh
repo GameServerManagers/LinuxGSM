@@ -44,7 +44,7 @@ cmd_change_password=("pw;change-password" "command_ts3_server_pass.sh" "Change T
 cmd_install_default_resources=("ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
 cmd_fullwipe=("fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data.")
 cmd_mapwipe=("mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data.")
-cmd_map_compressor_unreal=("mc;map-compressor" "compress_unreal_maps.sh" "Compresses all ${gamename} server maps.")
+cmd_map_compressor_unreal=("mc;map-compressor" "compress_unreal_maps.sh" "Compresses custom ${gamename} content for HTTP redirect.")
 cmd_install_cdkey=("cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key.")
 cmd_install_dst_token=("ct;cluster-token" "install_dst_token.sh" "Configure cluster token.")
 cmd_install_squad_license=("li;license" "install_squad_license.sh" "Add your Squad server license.")
