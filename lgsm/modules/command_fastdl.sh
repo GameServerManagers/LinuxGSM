@@ -30,7 +30,6 @@ fastdlclientlist="${tmpdir}/fastdl_files_client.txt"
 fastdlupdatelist="${tmpdir}/fastdl_files_to_update.txt"
 fastdlremovelist="${tmpdir}/fastdl_files_to_remove.txt"
 fastdlcompresslist="${tmpdir}/fastdl_files_to_compress.txt"
-# Source clients will not download a compressed file larger than 150 MB.
 fastdlmaxcompresssize="157286400"
 
 # Header
@@ -64,7 +63,7 @@ if [ "${shortname}" == "gmod" ]; then
 		fn_script_log_info "Force clients to download files: YES"
 	else
 		luaresource="off"
-		fn_script_log_info "Force clients to download filesr: NO"
+		fn_script_log_info "Force clients to download files: NO"
 	fi
 fi
 
@@ -215,7 +214,7 @@ fn_fastdl_gather() {
 	done
 }
 
-# Adds Garry's Mod files to the file list, mapping addons and lua content to the path clients request.
+# Adds Garry's Mod files to the file list.
 fn_fastdl_gather_gmod() {
 	cd "${systemdir}" || exit
 	allowed_extentions_array=("*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav")
@@ -253,7 +252,6 @@ fn_fastdl_gather_gmod() {
 
 # Works out which files need to be copied, compressed or removed.
 fn_fastdl_plan() {
-	# When the same path is found more than once, the entry with the lowest priority value is kept.
 	LC_ALL=C sort -t $'\t' -k2,2 -k1,1 "${fastdlfilelist}" | awk -F '\t' -v dupes="${fastdlduplicatelist}" 'seen[$2]++ { print $5 " > " $2 > dupes; next } { print }' > "${fastdlfilelist}.sorted"
 	mv -f "${fastdlfilelist}.sorted" "${fastdlfilelist}"
 	if [ -f "${fastdlduplicatelist}" ]; then
@@ -263,12 +261,11 @@ fn_fastdl_plan() {
 		done < "${fastdlduplicatelist}"
 	fi
 
-	# The record lists each file this instance wrote to the fastdl directory and the source it came from.
 	declare -A fastdlrecordsource=()
 	declare -A fastdlexpected=()
 	if [ "${fastdlrebuild}" != "on" ] && [ -f "${fastdlrecord}" ] && [ "$(head -n 1 "${fastdlrecord}")" == "${fastdldir}" ]; then
 		while IFS=$'\t' read -r fastdltarget recordsource; do
-			fastdlrecordsource["${fastdltarget}"]="${recordsource}"
+			[ -n "${fastdltarget}" ] && fastdlrecordsource["${fastdltarget}"]="${recordsource}"
 		done < <(tail -n +2 "${fastdlrecord}")
 	fi
 	echo "${fastdldir}" > "${fastdlnewrecord}"
@@ -310,7 +307,6 @@ fn_fastdl_plan() {
 		fi
 	done < "${fastdlfilelist}"
 
-	# Only files this instance wrote are removed, anything else in the fastdl directory is left alone.
 	for fastdltarget in "${!fastdlrecordsource[@]}"; do
 		if [ -z "${fastdlexpected["${fastdltarget}"]}" ] && [ -f "${fastdldir}/${fastdltarget}" ]; then
 			echo "${fastdltarget}" >> "${fastdlremovelist}"
@@ -353,7 +349,6 @@ fn_fastdl_preview() {
 		else
 			fastdl_directories_array=("maps" "materials" "models" "particles" "sound" "resource")
 		fi
-		# Source loads content from custom/<name>/ folders as if it were in the game folder.
 		fastdl_custom_array=()
 		if [ "${engine}" == "source" ] && [ -d "${systemdir}/custom" ]; then
 			while IFS= read -r -d '' customdir; do
@@ -511,7 +506,7 @@ fn_fastdl_gmod_dl_enforcer() {
 	fi
 }
 
-# Compresses Fastdl files using bzip2, one process per CPU core.
+# Compresses Fastdl files using bzip2.
 fn_fastdl_bzip2() {
 	if [ -s "${fastdlcompresslist}" ]; then
 		fastdlthreads="$(nproc)"
@@ -540,7 +535,7 @@ fn_fastdl_bzip2() {
 	fi
 }
 
-# Saves the list of files this instance wrote, used to find changed and removed files on the next run.
+# Saves the list of files written to the fastdl directory.
 fn_fastdl_record() {
 	fn_print "saving Fastdl file record ${fastdlrecord}"
 	mkdir -p "${datadir}" && mv -f "${fastdlnewrecord}" "${fastdlrecord}"
