@@ -24,7 +24,8 @@ luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 # File lists.
 fastdlfilelist="${tmpdir}/fastdl_files.txt"
 fastdlduplicatelist="${tmpdir}/fastdl_files_duplicate.txt"
-fastdlexpectedlist="${tmpdir}/fastdl_files_expected.txt"
+fastdlnewrecord="${tmpdir}/fastdl_record.txt"
+fastdlrecord="${datadir}/${selfname}-fastdl.txt"
 fastdlclientlist="${tmpdir}/fastdl_files_client.txt"
 fastdlupdatelist="${tmpdir}/fastdl_files_to_update.txt"
 fastdlremovelist="${tmpdir}/fastdl_files_to_remove.txt"
@@ -47,7 +48,7 @@ if [ -d "${fastdldir}" ]; then
 	fn_print_info_nl "Fastdl directory already exists, only changed files will be updated."
 	fn_print_nl "${fastdldir}"
 	fn_print_nl ""
-	if fn_prompt_yn "Rebuild Fastdl directory from scratch?" N; then
+	if fn_prompt_yn "Rebuild Fastdl directory from scratch? This deletes everything in it." N; then
 		fastdlrebuild="on"
 		fn_script_log_info "Rebuild Fastdl directory from scratch: YES"
 	else
@@ -262,13 +263,15 @@ fn_fastdl_plan() {
 		done < "${fastdlduplicatelist}"
 	fi
 
-	# Fastdl files keep the modification time of their source, so any difference means the source has changed.
-	declare -A fastdltargetmtime=()
-	if [ -d "${fastdldir}" ] && [ "${fastdlrebuild}" != "on" ]; then
-		while IFS=$'\t' read -r filemtime fastdltarget; do
-			fastdltargetmtime["${fastdltarget}"]="${filemtime}"
-		done < <(find "${fastdldir}" -type f -printf '%T@\t%P\n')
+	# The record lists each file this instance wrote to the fastdl directory and the source it came from.
+	declare -A fastdlrecordsource=()
+	declare -A fastdlexpected=()
+	if [ "${fastdlrebuild}" != "on" ] && [ -f "${fastdlrecord}" ] && [ "$(head -n 1 "${fastdlrecord}")" == "${fastdldir}" ]; then
+		while IFS=$'\t' read -r fastdltarget recordsource; do
+			fastdlrecordsource["${fastdltarget}"]="${recordsource}"
+		done < <(tail -n +2 "${fastdlrecord}")
 	fi
+	echo "${fastdldir}" > "${fastdlnewrecord}"
 
 	read -ra fastdlexcludearray <<< "${fastdlexclude}"
 	while IFS=$'\t' read -r priority fastdlrelpath filesize filemtime fastdlfile; do
@@ -291,9 +294,11 @@ fn_fastdl_plan() {
 			fastdlmode="compress"
 			fastdltarget="${fastdlrelpath}.bz2"
 		fi
-		echo "${fastdltarget}" >> "${fastdlexpectedlist}"
+		fastdlsource="${fastdlfile}"$'\t'"${filesize}"$'\t'"${filemtime}"
+		fastdlexpected["${fastdltarget}"]="on"
+		printf '%s\t%s\n' "${fastdltarget}" "${fastdlsource}" >> "${fastdlnewrecord}"
 		echo "${fastdlrelpath}" >> "${fastdlclientlist}"
-		if [ "${fastdltargetmtime["${fastdltarget}"]}" != "${filemtime}" ]; then
+		if [ ! -f "${fastdldir}/${fastdltarget}" ] || [ "${fastdlrecordsource["${fastdltarget}"]}" != "${fastdlsource}" ]; then
 			printf '%s\t%s\t%s\n' "${fastdlmode}" "${fastdlrelpath}" "${fastdlfile}" >> "${fastdlupdatelist}"
 			((updatefiles++))
 			filesizetotal=$((filesizetotal + filesize))
@@ -305,18 +310,29 @@ fn_fastdl_plan() {
 		fi
 	done < "${fastdlfilelist}"
 
+	# Only files this instance wrote are removed, anything else in the fastdl directory is left alone.
+	for fastdltarget in "${!fastdlrecordsource[@]}"; do
+		if [ -z "${fastdlexpected["${fastdltarget}"]}" ] && [ -f "${fastdldir}/${fastdltarget}" ]; then
+			echo "${fastdltarget}" >> "${fastdlremovelist}"
+			((removefiles++))
+		fi
+	done
 	if [ -d "${fastdldir}" ] && [ "${fastdlrebuild}" != "on" ]; then
-		LC_ALL=C comm -23 <(find "${fastdldir}" -type f -printf '%P\n' | LC_ALL=C sort) <(LC_ALL=C sort "${fastdlexpectedlist}") > "${fastdlremovelist}"
-		removefiles=$(wc -l < "${fastdlremovelist}")
+		while read -r fastdltarget; do
+			if [ -z "${fastdlexpected["${fastdltarget}"]}" ] && [ -z "${fastdlrecordsource["${fastdltarget}"]}" ]; then
+				((untrackedfiles++))
+			fi
+		done < <(find "${fastdldir}" -type f -printf '%P\n')
 	fi
 }
 
 # Provides info about the fastdl directory content and prompts for confirmation.
 fn_fastdl_preview() {
 	# Remove any file list.
-	rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlexpectedlist:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
-	touch "${fastdlexpectedlist}" "${fastdlclientlist}"
+	rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlnewrecord:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
+	touch "${fastdlclientlist}"
 	totalfiles=0
+	untrackedfiles=0
 	duplicatefiles=0
 	excludedfiles=0
 	largefiles=0
@@ -384,6 +400,9 @@ fn_fastdl_preview() {
 	fi
 	if [ "${removefiles}" -gt 0 ]; then
 		echo -e "about to remove ${removefiles} files no longer on the server"
+	fi
+	if [ "${untrackedfiles}" -gt 0 ]; then
+		echo -e "${untrackedfiles} files in the Fastdl directory were not added by ${selfname} and will be left alone"
 	fi
 	if [ "${updatefiles}" -eq 0 ] && [ "${removefiles}" -eq 0 ]; then
 		echo -e "Fastdl directory is up to date"
@@ -503,7 +522,6 @@ fn_fastdl_bzip2() {
 			if [ "${fastdlmode}" == "compress" ]; then
 				filetocompress="${fastdldir}/${fastdlrelpath}"
 				if [ -f "${filetocompress}.bz2" ] && [ ! -f "${filetocompress}" ]; then
-					touch -r "${fastdlfile}" "${filetocompress}.bz2"
 					fn_script_log_pass "Compressing ${filetocompress}"
 				else
 					fn_script_log_fail "Compressing ${filetocompress}"
@@ -522,6 +540,21 @@ fn_fastdl_bzip2() {
 	fi
 }
 
+# Saves the list of files this instance wrote, used to find changed and removed files on the next run.
+fn_fastdl_record() {
+	fn_print "saving Fastdl file record ${fastdlrecord}"
+	mkdir -p "${datadir}" && mv -f "${fastdlnewrecord}" "${fastdlrecord}"
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Saving Fastdl file record ${fastdlrecord}"
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Saving Fastdl file record ${fastdlrecord}"
+	fi
+}
+
 check.sh
 # Run functions.
 fn_fastdl_preview
@@ -533,7 +566,8 @@ fn_fastdl_build
 if [ "${engine}" == "source" ]; then
 	fn_fastdl_bzip2
 fi
-rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlexpectedlist:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
+fn_fastdl_record
+rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlnewrecord:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
 # Finished message.
 fn_print_nl "Fastdl files are located in:"
 fn_print_nl "${fastdldir}"
