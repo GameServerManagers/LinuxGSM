@@ -53,6 +53,7 @@ hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-26.04
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-26.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-26.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-26.04
+hlwon,hlwonserver,Half-Life: WON2,ubuntu-26.04
 hw,hwserver,Hurtworld,ubuntu-26.04
 hyt,hytserver,Hytale,ubuntu-26.04
 hz,hzserver,Humanitz,ubuntu-26.04
