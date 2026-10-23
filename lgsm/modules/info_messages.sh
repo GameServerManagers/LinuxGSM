@@ -771,7 +771,7 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep Main"
 	elif [ "${shortname}" == "sm" ]; then
 		portcommand="ss -tuplwn | grep WSServer-Linux"
-	elif [ "${shortname}" == "hlwon" ]; then
+	elif [ "${querytype}" == "protocol-valve-won" ]; then
 		portcommand="ss -tuplwn | grep hlds_i686"
 	elif [ "${engine}" == "source" ]; then
 		portcommand="ss -tuplwn | grep srcds_linux"
@@ -1123,7 +1123,7 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		if [ "${shortname}" == "hlwon" ]; then
+		if [ "${querytype}" == "protocol-valve-won" ]; then
 			fn_port "Query" queryport udp
 		else
 			fn_port "Query" queryport tcp

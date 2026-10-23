@@ -73,6 +73,14 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="2c6be1bb66ea631b9b2e7ae6216c6680"
+	elif [ "${shortname}" == "cswon" ]; then
+		remote_fileurl="https://linuxgsm.download/CounterStrikeWON2/hlds_l-3111e-cs15-won2-linuxgsm.tar.xz"
+		local_filedir="${tmpdir}"
+		local_filename="hlds_l-3111e-cs15-won2-linuxgsm.tar.xz"
+		chmodx="nochmodx"
+		run="norun"
+		force="noforce"
+		md5="8109a66e2e906ff2c309e3a6b412132a"
 	elif [ "${shortname}" == "hlwon" ]; then
 		remote_fileurl="https://linuxgsm.download/HalfLifeWON2/hlds_l-3111e-won2-linuxgsm.tar.xz"
 		local_filedir="${tmpdir}"
