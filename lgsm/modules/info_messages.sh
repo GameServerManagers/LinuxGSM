@@ -64,6 +64,10 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
+
+		if [ "${licensekey}" ]; then
+			licensekey="********"
+		fi
 	fi
 }
 
@@ -726,7 +730,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "fivem" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -763,6 +767,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
+	elif [ "${shortname}" == "fivem" ]; then
+		portcommand="ss -tuplwn | grep ld-musl"
 	elif [ "${shortname}" == "rwr" ]; then
 		portcommand="ss -tuplwn | grep rwr_server"
 	elif [ "${shortname}" == "hyt" ] || [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
@@ -1106,6 +1112,14 @@ fn_info_messages_etl() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_fivem() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
@@ -1918,6 +1932,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_etl
 	elif [ "${shortname}" == "fctr" ]; then
 		fn_info_messages_fctr
+	elif [ "${shortname}" == "fivem" ]; then
+		fn_info_messages_fivem
 	elif [ "${shortname}" == "hcu" ]; then
 		fn_info_messages_hcu
 	elif [ "${shortname}" == "hw" ]; then
