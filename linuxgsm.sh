@@ -80,6 +80,27 @@ fn_bootstrap_exit() {
 	fi
 }
 
+# Validate the configured reference once, without requiring a particular file to exist.
+# The contents API also accepts tags and commits, as do the existing raw download URLs.
+fn_check_github_branch() {
+	local branch_check_key="${githubuser}/${githubrepo}/${githubbranch}"
+	if [ "${github_branch_checked:-}" == "${branch_check_key}" ]; then
+		return
+	fi
+	github_branch_checked="${branch_check_key}"
+	local branch_http_code
+	branch_http_code=$(curl --connect-timeout 3 --max-time 10 --silent --location --head --get --data-urlencode "ref=${githubbranch}" --output /dev/null --write-out "%{http_code}" "https://api.github.com/repos/${githubuser}/${githubrepo}/contents/")
+	# Rate limits, network errors and server failures must leave download fallback intact.
+	if [ "${branch_http_code}" == "404" ]; then
+		printf '[ FAIL ] Branch "%s" not found on %s/%s\n' "${githubbranch}" "${githubuser}" "${githubrepo}"
+		if type fn_script_log_fail > /dev/null 2>&1; then
+			fn_script_log_fail "Branch \"${githubbranch}\" not found on ${githubuser}/${githubrepo}"
+		fi
+		# An exit module could itself require a download from the missing reference.
+		exit 1
+	fi
+}
+
 # Fetches the core modules required before passed off to core_dl.sh.
 fn_bootstrap_fetch_trap() {
 	echo -e ""
@@ -136,6 +157,7 @@ fn_bootstrap_fetch_file() {
 
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
+		fn_check_github_branch
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
