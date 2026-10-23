@@ -9,6 +9,7 @@ armar,libcurl4
 ats,libatomic1
 av
 bb
+luanti,libcurl4,libncursesw6,libsqlite3-0,libstdc++6,libzstd1,zlib1g
 pw
 bb2,libcurl4-gnutls-dev:i386
 bd
