@@ -186,6 +186,11 @@ command_workshop_update.sh() {
 	fn_fetch_module
 }
 
+install_fivem_license.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -728,6 +733,11 @@ update_etl.sh() {
 }
 
 update_fctr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_fivem.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

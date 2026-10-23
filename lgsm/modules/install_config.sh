@@ -482,6 +482,11 @@ elif [ "${shortname}" == "fctr" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "fivem" ]; then
+	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "fof" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
