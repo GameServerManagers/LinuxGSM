@@ -1121,7 +1121,11 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		if [ "${shortname}" == "hlwon" ]; then
+			fn_port "Query" queryport udp
+		else
+			fn_port "Query" queryport tcp
+		fi
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }

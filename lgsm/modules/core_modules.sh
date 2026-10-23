@@ -865,6 +865,11 @@ install_retry.sh() {
 	fn_fetch_module
 }
 
+install_hlwon.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_server_dir.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

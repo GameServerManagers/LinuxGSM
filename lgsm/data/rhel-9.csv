@@ -54,6 +54,7 @@ hcu
 hl2dm
 hldm
 hldms
+hlwon,ncurses-libs.i686
 hw,zlib-devel
 hyt,java-25-openjdk
 hz

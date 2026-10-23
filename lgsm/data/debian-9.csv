@@ -54,6 +54,7 @@ hcu
 hl2dm
 hldm
 hldms
+hlwon,libc6:i386
 hw,lib32z1
 hyt
 hz

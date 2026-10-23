@@ -267,6 +267,8 @@ elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
 elif [ "${shortname}" == "bb" ]; then
 	update_bb.sh
+elif [ "${shortname}" == "hlwon" ]; then
+	install_hlwon.sh
 elif [ "${shortname}" == "ut99" ]; then
 	fn_install_server_files
 	update_ut99.sh
