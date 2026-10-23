@@ -82,6 +82,7 @@ ns2,ns2server,Natural Selection 2,ubuntu-26.04
 ns2c,ns2cserver,NS2: Combat,ubuntu-26.04
 ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-26.04
 onset,onsetserver,Onset,ubuntu-20.04
+orar,orarserver,OpenRA: Red Alert,ubuntu-24.04
 opfor,opforserver,Opposing Force,ubuntu-26.04
 pc,pcserver,Project Cars,ubuntu-26.04
 pc2,pc2server,Project Cars 2,ubuntu-26.04
