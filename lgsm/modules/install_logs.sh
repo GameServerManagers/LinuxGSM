@@ -17,6 +17,7 @@ echo -en "creating log directory [ ${italic}${logdir}${default} ]"
 if [ ! -d "${logdir}" ]; then
 	if ! mkdir -p "${logdir}"; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Creating log directory ${logdir}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -29,6 +30,7 @@ echo -en "creating script log directory [ ${italic}${lgsmlogdir}${default} ]"
 if [ ! -d "${lgsmlogdir}" ]; then
 	if ! mkdir -p "${lgsmlogdir}"; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Creating script log directory ${lgsmlogdir}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -41,6 +43,7 @@ echo -en "creating script log [ ${italic}${lgsmlog}${default} ]"
 if [ ! -f "${lgsmlog}" ]; then
 	if ! touch "${lgsmlog}"; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Creating script log ${lgsmlog}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -53,6 +56,7 @@ echo -en "creating console log directory [ ${italic}${consolelogdir}${default} ]
 if [ ! -d "${consolelogdir}" ]; then
 	if ! mkdir -p "${consolelogdir}"; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Creating console log directory ${consolelogdir}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -65,6 +69,7 @@ echo -en "creating console log [ ${italic}${consolelog}${default} ]"
 if [ ! -f "${consolelog}" ]; then
 	if ! touch "${consolelog}"; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Creating console log ${consolelog}"
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
@@ -78,6 +83,7 @@ if [ -n "${gamelogdir}" ]; then
 	if [ ! -d "${gamelogdir}" ]; then
 		if ! mkdir -p "${gamelogdir}"; then
 			fn_print_fail_eol_nl
+			fn_script_log_fail "Creating game log directory ${gamelogdir}"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -97,6 +103,7 @@ if [ -n "${gamelogdir}" ] && [ "${gamelogdir:0:${#logdir}}" != "${logdir}" ]; th
 	if [ ! -h "${logdir}/server" ] || [ "$(readlink -f "${logdir}/server")" != "${gamelogdir}" ]; then
 		if ! ln -nfs "${gamelogdir}" "${logdir}/server"; then
 			fn_print_fail_eol_nl
+			fn_script_log_fail "Creating symlink to game log directory ${logdir}/server"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
@@ -112,6 +119,7 @@ if [ -d "${HOME}/.steam/steam/logs" ]; then
 	if [ ! -L "${logdir}/steam" ]; then
 		if ! ln -nfs "${HOME}/.steam/steam/logs" "${logdir}/steam"; then
 			fn_print_fail_eol_nl
+			fn_script_log_fail "Creating symlink to steam log directory ${logdir}/steam"
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl

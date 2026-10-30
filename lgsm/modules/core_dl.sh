@@ -314,6 +314,7 @@ fn_dl_extract() {
 		fn_script_log_fail "Extracting ${local_filename}"
 		fn_script_log_fail "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
+		return 1
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
@@ -359,6 +360,7 @@ fn_dl_extract() {
 		fi
 		echo -e "${extractcmd}"
 		core_exit.sh
+		return 1
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting ${local_filename}"
