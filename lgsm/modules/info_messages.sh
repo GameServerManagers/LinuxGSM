@@ -756,7 +756,7 @@ fn_info_messages_ports() {
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
 	elif [ "${shortname}" == "bfe" ]; then
-		portcommand="ss -tuplwn | grep node"
+		portcommand="ss -tuplwn | grep MainThread"
 	elif [ "${shortname}" == "bfv" ]; then
 		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "ce" ]; then
