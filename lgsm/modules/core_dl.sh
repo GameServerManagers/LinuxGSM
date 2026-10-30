@@ -293,7 +293,7 @@ fn_dl_hash() {
 	fi
 }
 
-# Extracts bzip2, gzip or zip files.
+# Extracts gzip, bzip2, xz or zip files. Any other file type fails.
 # Extracts can be defined in code like so:
 # fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdest}" "${extractsrc}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
@@ -319,33 +319,39 @@ fn_dl_extract() {
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
 			temp_extractdir="${tmpdir}/${extractsrc}"
-			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}")
-			cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/"
-			rm -rf "${temp_extractdir}"
+			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}" 2>&1 && cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/" 2>&1)
 		else
-			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
+			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}" 2>&1)
 		fi
+	else
+		extractcmd="Unsupported archive type: ${mime}"
+		false
 	fi
 	exitcode=$?
+	# Clean up after capturing the exit code so cleanup cannot mask a failed extraction or copy.
+	if [ -n "${temp_extractdir}" ]; then
+		rm -rf "${temp_extractdir}"
+		unset temp_extractdir
+	fi
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
