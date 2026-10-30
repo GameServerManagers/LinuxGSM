@@ -553,6 +553,9 @@ else
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
 		fi
+		if [ -n "${extraparams}" ]; then
+			startparameters="${startparameters} ${extraparams}"
+		fi
 
 		# reload preexecutable.
 		if grep -qE "^[[:blank:]]*preexecutable=" "${configdirserver}/secrets-${selfname}.cfg"; then
