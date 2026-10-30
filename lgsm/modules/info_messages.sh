@@ -726,7 +726,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bfe" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -755,6 +755,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "bfe" ]; then
+		portcommand="ss -tuplwn | grep node"
 	elif [ "${shortname}" == "bfv" ]; then
 		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "ce" ]; then
@@ -917,6 +919,15 @@ fn_info_messages_bf1942() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_bfe() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "LAN Discovery" discoveryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1880,6 +1891,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_av
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_messages_bf1942
+	elif [ "${shortname}" == "bfe" ]; then
+		fn_info_messages_bfe
 	elif [ "${shortname}" == "bfv" ]; then
 		fn_info_messages_bfv
 	elif [ "${shortname}" == "bo" ]; then

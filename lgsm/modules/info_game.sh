@@ -975,6 +975,27 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: none
+# Example: "name": "SERVERNAME",
+# Filetype: json
+fn_info_game_bfe() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".bind // empty"
+		fn_info_game_json "discoveryport" ".discoveryPort // empty"
+		fn_info_game_json "maxplayers" ".maxPlayers // empty"
+		fn_info_game_json "port" ".gamePort // empty"
+		fn_info_game_json "servername" ".name // empty"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	discoveryport="${discoveryport:-"18452"}"
+	maxplayers="${maxplayers:-"64"}"
+	port="${port:-"18451"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: con
 # Parameters: true
 # Comment: # or //
@@ -2447,6 +2468,8 @@ elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_game_bf1942
+elif [ "${shortname}" == "bfe" ]; then
+	fn_info_game_bfe
 elif [ "${shortname}" == "bfv" ]; then
 	fn_info_game_bfv
 elif [ "${shortname}" == "bo" ]; then
