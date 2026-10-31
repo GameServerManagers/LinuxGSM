@@ -194,17 +194,23 @@ fn_fastdl_gather() {
 	fi
 	for allowed_extention in "${allowed_extentions_array[@]}"; do
 		fileswc=0
-		tput sc
+		if [ -z "${plainoutput}" ]; then
+			tput sc
+		fi
 		while IFS=$'\t' read -r filesize filemtime fastdlfile; do
 			((fileswc++))
-			tput rc
-			tput el
-			fn_print "gathering ${label} ${allowed_extention} : ${fileswc}"
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "gathering ${label} ${allowed_extention} : ${fileswc}"
+			fi
 			fastdlrelpath="${fastdlfile#"${basedir}/"}"
 			printf '%s\t%s\t%s\t%s\t%s\n' "${priority}" "${fastdlrelpath#./}" "${filesize}" "${filemtime}" "${fastdlfile}" >> "${fastdlfilelist}"
 		done < <(find "${basedir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}" -printf '%s\t%T@\t%p\n')
-		tput rc
-		tput el
+		if [ -z "${plainoutput}" ]; then
+			tput rc
+			tput el
+		fi
 		fn_print "gathering ${label} ${allowed_extention} : ${fileswc}"
 		if [ ${fileswc} != 0 ]; then
 			fn_print_ok_eol_nl
@@ -220,12 +226,16 @@ fn_fastdl_gather_gmod() {
 	allowed_extentions_array=("*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav")
 	for allowed_extention in "${allowed_extentions_array[@]}"; do
 		fileswc=0
-		tput sc
+		if [ -z "${plainoutput}" ]; then
+			tput sc
+		fi
 		while IFS=$'\t' read -r filesize filemtime fastdlfile; do
 			((fileswc++))
-			tput rc
-			tput el
-			fn_print "gathering ${allowed_extention} : ${fileswc}"
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "gathering ${allowed_extention} : ${fileswc}"
+			fi
 			fastdlrelpath="${fastdlfile#./}"
 			priority="2"
 			if [[ "${fastdlrelpath}" == addons/* ]]; then
@@ -242,6 +252,11 @@ fn_fastdl_gather_gmod() {
 				printf '%s\t%s\t%s\t%s\t%s\n' "0" "${fastdlrelpath#lua/}" "${filesize}" "${filemtime}" "${systemdir}/${fastdlfile#./}" >> "${fastdlfilelist}"
 			fi
 		done < <(find . -type f -iname "${allowed_extention}" -printf '%s\t%T@\t%p\n')
+		if [ -z "${plainoutput}" ]; then
+			tput rc
+			tput el
+		fi
+		fn_print "gathering ${allowed_extention} : ${fileswc}"
 		if [ ${fileswc} != 0 ]; then
 			fn_print_ok_eol_nl
 		else
@@ -434,12 +449,16 @@ fn_fastdl_remove() {
 fn_fastdl_copy() {
 	if [ -s "${fastdlupdatelist}" ]; then
 		fileswc=0
-		tput sc
+		if [ -z "${plainoutput}" ]; then
+			tput sc
+		fi
 		while IFS=$'\t' read -r fastdlmode fastdlrelpath fastdlfile; do
 			((fileswc++))
-			tput rc
-			tput el
-			fn_print "copying files : ${fileswc}/${updatefiles}"
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "copying files : ${fileswc}/${updatefiles}"
+			fi
 			fastdltarget="${fastdldir}/${fastdlrelpath}"
 			mkdir -p "${fastdltarget%/*}" && cp -p "${fastdlfile}" "${fastdltarget}"
 			exitcode=$?
@@ -454,6 +473,9 @@ fn_fastdl_copy() {
 				printf '%s\0' "${fastdltarget}" >> "${fastdlcompresslist}"
 			fi
 		done < "${fastdlupdatelist}"
+		if [ -n "${plainoutput}" ]; then
+			fn_print "copying files : ${fileswc}/${updatefiles}"
+		fi
 		fn_print_ok_eol_nl
 	fi
 }
