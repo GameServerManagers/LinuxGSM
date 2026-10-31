@@ -359,6 +359,37 @@ fn_query_tcp() {
 	querystatus="$?"
 }
 
+# Explain a failed query without changing the monitor's retry/restart decision.
+fn_monitor_query_port_hint() {
+	local sockets protocol state recvq sendq address peer details
+	local listener="" process="" hint=""
+
+	command -v ss > /dev/null 2>&1 || return 0
+	sockets="$(ss -H -lntup 2> /dev/null)" || return 0
+
+	while read -r protocol state recvq sendq address peer details; do
+		if [ "${address##*:}" == "${queryport}" ]; then
+			listener=1
+			process="$(sed -nE 's/.*users:\(\("([^"]+)".*/\1/p' <<< "${details}")"
+			break
+		fi
+	done <<< "${sockets}"
+
+	if [ -z "${listener}" ]; then
+		hint="No local TCP/UDP listener on port ${queryport}; check startup and port settings"
+	else
+		hint="Local TCP/UDP port ${queryport} is in use"
+		if [ -n "${process}" ]; then
+			hint+=" by ${process}"
+		fi
+		hint+="; check the query port and protocol"
+	fi
+
+	fn_print_warn "Query port: ${hint}"
+	fn_print_warn_eol_nl
+	fn_script_log_warn "Query port: ${hint}"
+}
+
 fn_monitor_query() {
 	# Will loop and query up to 5 times every 15 seconds.
 	# Query will wait up to 60 seconds to confirm server is down as server can become non-responsive during map changes.
@@ -432,6 +463,7 @@ fn_monitor_query() {
 					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 					fn_print_fail_eol_nl
 					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
+					fn_monitor_query_port_hint
 					fn_monitor_check_backup_update
 					# Send alert if enabled.
 					alert="monitor-query"

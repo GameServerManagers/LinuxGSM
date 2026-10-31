@@ -24,7 +24,7 @@ if [ -f ".dev-debug" ]; then
 	set -x
 fi
 
-version="v26.2.0"
+version="v26.4.0"
 shortname="core"
 gameservername="core"
 commandname="CORE"
@@ -552,6 +552,9 @@ else
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/common.cfg")"
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		fi
+		if [ -n "${extraparams}" ]; then
+			startparameters="${startparameters} ${extraparams}"
 		fi
 
 		# reload preexecutable.
