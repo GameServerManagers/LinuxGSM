@@ -50,10 +50,10 @@ elif [ "${shortname}" == "vh" ] && [ "${#serverpassword}" -le "4" ]; then
 	fn_script_log_fail "serverpassword is to short (min 5 chars)"
 fi
 
-if [ "${shortname}" == "fivem" ] && [ -z "${licensekey}" ] && ! grep -qE "^[[:space:]]*(set[[:space:]]+)?sv_licenseKey[[:space:]]+\"?[^\" ]" "${servercfgfullpath}" 2> /dev/null; then
+if [ "${shortname}" == "fivem" ] && ! grep -qE "^[[:space:]]*(set[[:space:]]+)?sv_licenseKey[[:space:]]+\"?[^\" ]" "${servercfgfullpath}" 2> /dev/null; then
 	fn_print_fail_nl "FiveM license key is not set"
 	echo -e "* Get a free key from ${italic}https://portal.cfx.re/servers/registration-keys${default}"
-	echo -e "* Set licensekey=\"\" in ${configdirserver}/${selfname}.cfg"
+	echo -e "* Set sv_licenseKey in ${servercfgfullpath}"
 	fn_script_log_fail "FiveM license key is not set"
 	if [ "${commandname}" == "START" ] || [ "${commandname}" == "DEBUG" ]; then
 		core_exit.sh

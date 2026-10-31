@@ -64,10 +64,6 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
-
-		if [ "${licensekey}" ]; then
-			licensekey="********"
-		fi
 	fi
 }
 

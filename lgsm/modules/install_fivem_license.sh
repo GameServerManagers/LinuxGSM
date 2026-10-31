@@ -19,6 +19,6 @@ fn_script_log_info "Get a free license key here:"
 fn_script_log_info "https://portal.cfx.re/servers/registration-keys"
 echo -e ""
 fn_sleep_time_1
-echo -e "Set the license key by adding licensekey=\"\" to ${configdirserver}/${selfname}.cfg."
-fn_script_log_info "Set the license key by adding licensekey=\"\" to ${configdirserver}/${selfname}.cfg."
+echo -e "Set the license key with sv_licenseKey in ${servercfgfullpath}."
+fn_script_log_info "Set the license key with sv_licenseKey in ${servercfgfullpath}."
 echo -e ""
