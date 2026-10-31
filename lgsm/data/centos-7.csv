@@ -72,6 +72,7 @@ kf
 kf2
 l4d
 l4d2
+luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 mc,java-21-openjdk
 mcb,libnsl
 mcv
@@ -86,6 +87,7 @@ ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
 ohd
 onset,mariadb-connector-c
+orar
 opfor
 pc
 pc2

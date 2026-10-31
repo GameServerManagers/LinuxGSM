@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shortname: [css, fctr, jk2, mc, mcb, mta, pmc, ts3, ut99, vints, xnt]
+        shortname: [css, fctr, jk2, mc, mcb, mta, orar, pmc, ts3, ut99, vints, xnt]
 
     steps:
       - name: Download linuxgsm.sh

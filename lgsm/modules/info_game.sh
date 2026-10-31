@@ -2313,6 +2313,29 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: Key Value Pairs (Equals Delimited)
+# Comment: #
+fn_info_game_luanti() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_equals "servername" "server_name"
+		fn_info_game_keyvalue_pairs_equals "serverpassword" "default_password"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "max_users"
+		fn_info_game_keyvalue_pairs_equals "configip" "bind_address"
+	fi
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"20"}"
+	configip="${configip:-"0.0.0.0"}"
+	queryport="${port}"
+}
+
+# Parameters: true
+fn_info_game_openra() {
+	port="${port:-"1234"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: json
 # Parameters: false
 # Comment: // or /* */
@@ -2632,6 +2655,10 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${shortname}" == "luanti" ]; then
+	fn_info_game_luanti
+elif [ "${shortname}" == "orar" ]; then
+	fn_info_game_openra
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_game_vints
 elif [ "${shortname}" == "vpmc" ]; then

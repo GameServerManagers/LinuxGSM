@@ -9,6 +9,7 @@ armar,libcurl,openssl11-libs
 ats,libatomic
 av
 bb
+luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 pw
 bb2,libcurl.i686
 bd
@@ -87,6 +88,7 @@ ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
 ohd
 onset,mariadb-connector-c
+orar
 opfor
 pc
 pc2
