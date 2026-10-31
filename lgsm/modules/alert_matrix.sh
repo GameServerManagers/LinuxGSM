@@ -65,6 +65,7 @@ json="$(jq -cn \
 	'(@html "<strong>\($title)</strong><br><br><strong>Server Name</strong><br>\($servername)<br><br><strong>Information</strong><br>\($information)<br><br><strong>Game</strong><br>\($game)<br><br><strong>Server IP</strong><br>\($serverip)<br><br><strong>Server Time</strong><br>\($servertime)")
 	+ (if $imgsourl != "" then @html "<br><br><strong>Is my Game Server Online?</strong><br><a href=\"\($imgsourl)\">Check here</a>" else "" end)
 	+ (if $alerturl != "" then @html "<br><br><strong>More info</strong><br><a href=\"\($alerturl)\">\($alerturl)</a>" else "" end)
+	| gsub("&apos;"; "&#39;")
 	| {msgtype: "m.notice", body: $body, format: "org.matrix.custom.html", formatted_body: .}')"
 
 fn_print_dots "Sending Matrix alert"
