@@ -2308,6 +2308,13 @@ fn_info_game_luanti() {
 	queryport="${port}"
 }
 
+# Parameters: true
+fn_info_game_openra() {
+	port="${port:-"1234"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: json
 # Parameters: false
 # Comment: // or /* */
@@ -2627,6 +2634,8 @@ elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
 elif [ "${shortname}" == "luanti" ]; then
 	fn_info_game_luanti
+elif [ "${shortname}" == "orar" ]; then
+	fn_info_game_openra
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_game_vints
 elif [ "${shortname}" == "vpmc" ]; then

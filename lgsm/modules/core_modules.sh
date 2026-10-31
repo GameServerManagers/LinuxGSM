@@ -762,6 +762,11 @@ update_mta.sh() {
 	fn_fetch_module
 }
 
+update_openra.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_pmc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

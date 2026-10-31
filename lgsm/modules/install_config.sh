@@ -269,6 +269,9 @@ if [ "${shortname}" == "luanti" ]; then
 		} >> "${servercfgfullpath}"
 	fi
 	fn_list_config_locations
+elif [ "${shortname}" == "orar" ]; then
+	fn_check_cfgdir
+	fn_list_config_locations
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_default_config_local
 	fn_list_config_locations

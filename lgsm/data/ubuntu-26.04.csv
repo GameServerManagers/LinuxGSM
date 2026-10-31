@@ -86,6 +86,7 @@ ns2,speex
 ns2c,speex:i386
 ohd
 onset,libmariadb-dev
+orar,libicu78,libssl3t64,zlib1g
 opfor
 pc
 pc2
