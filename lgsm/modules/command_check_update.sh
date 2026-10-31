@@ -38,6 +38,8 @@ elif [ "${shortname}" == "orar" ]; then
 	update_openra.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bfe" ]; then
+	update_bfe.sh
 elif [ "${shortname}" == "bb" ]; then
 	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
