@@ -359,30 +359,44 @@ fn_query_tcp() {
 	querystatus="$?"
 }
 
-# Explain a failed query without changing the monitor's retry/restart decision.
 fn_monitor_query_port_hint() {
 	local sockets protocol state recvq sendq address peer details
-	local listener="" process="" hint=""
+	local serverpid="" protocols="" process="" pid="" ancestor="" serverprocess="" otherprocess="" hint=""
 
 	command -v ss > /dev/null 2>&1 || return 0
 	sockets="$(ss -H -lntup 2> /dev/null)" || return 0
+	serverpid="$(TERM=screen tmux -L "${socketname}" list-sessions -F "#{session_name} #{pane_pid}" 2> /dev/null | awk -v session="${sessionname}" '$1 == session {print $2}')"
 
 	while read -r protocol state recvq sendq address peer details; do
-		if [ "${address##*:}" == "${queryport}" ]; then
-			listener=1
-			process="$(sed -nE 's/.*users:\(\("([^"]+)".*/\1/p' <<< "${details}")"
-			break
+		if [ "${address##*:}" != "${queryport}" ]; then
+			continue
+		fi
+		if [[ " ${protocols//\// } " != *" ${protocol} "* ]]; then
+			protocols+="${protocols:+/}${protocol}"
+		fi
+		process="$(sed -nE 's/.*users:\(\("([^"]+)".*/\1/p' <<< "${details}")"
+		pid="$(sed -nE 's/.*users:\(\("[^"]+",pid=([0-9]+).*/\1/p' <<< "${details}")"
+		ancestor="${pid}"
+		while [ -n "${serverpid}" ] && [ -n "${ancestor}" ] && [ "${ancestor}" -gt 1 ]; do
+			if [ "${ancestor}" == "${serverpid}" ]; then
+				serverprocess="${process}"
+				break
+			fi
+			ancestor="$(ps -o ppid= -p "${ancestor}" 2> /dev/null | tr -d ' ')"
+		done
+		if [ -z "${serverprocess}" ] && [ -z "${otherprocess}" ]; then
+			otherprocess="${process}"
 		fi
 	done <<< "${sockets}"
 
-	if [ -z "${listener}" ]; then
-		hint="No local TCP/UDP listener on port ${queryport}; check startup and port settings"
+	if [ -z "${protocols}" ]; then
+		hint="Nothing is listening on port ${queryport}; check the server started and the port settings"
+	elif [ -n "${serverprocess}" ]; then
+		hint="Port ${queryport}/${protocols} is open by the game server (${serverprocess}) but it did not answer; the server may be hung, or the query port or type may not match"
+	elif [ -n "${otherprocess}" ]; then
+		hint="Port ${queryport}/${protocols} is in use by another process (${otherprocess}); check for a port conflict"
 	else
-		hint="Local TCP/UDP port ${queryport} is in use"
-		if [ -n "${process}" ]; then
-			hint+=" by ${process}"
-		fi
-		hint+="; check the query port and protocol"
+		hint="Port ${queryport}/${protocols} is in use by a process owned by another user; check for a port conflict"
 	fi
 
 	fn_print_warn "Query port: ${hint}"
