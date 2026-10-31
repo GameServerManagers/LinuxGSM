@@ -293,7 +293,7 @@ fn_dl_hash() {
 	fi
 }
 
-# Extracts bzip2, gzip or zip files.
+# Extracts gzip, bzip2, xz or zip files. Any other file type fails.
 # Extracts can be defined in code like so:
 # fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdest}" "${extractsrc}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
@@ -314,37 +314,44 @@ fn_dl_extract() {
 		fn_script_log_fail "Extracting ${local_filename}"
 		fn_script_log_fail "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
+		return 1
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
 			temp_extractdir="${tmpdir}/${extractsrc}"
-			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}")
-			cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/"
-			rm -rf "${temp_extractdir}"
+			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}" 2>&1 && cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/" 2>&1)
 		else
-			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
+			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}" 2>&1)
 		fi
+	else
+		extractcmd="Unsupported archive type: ${mime}"
+		false
 	fi
 	exitcode=$?
+	# Clean up after capturing the exit code so cleanup cannot mask a failed extraction or copy.
+	if [ -n "${temp_extractdir}" ]; then
+		rm -rf "${temp_extractdir}"
+		unset temp_extractdir
+	fi
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
@@ -353,6 +360,7 @@ fn_dl_extract() {
 		fi
 		echo -e "${extractcmd}"
 		core_exit.sh
+		return 1
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting ${local_filename}"
@@ -420,8 +428,12 @@ fn_check_file() {
 				fi
 			fi
 		else
-			fn_print_ok_eol
-			echo -en "\033[2K\\r"
+			if [ -n "${plainoutput}" ]; then
+				fn_print_ok_eol_nl
+			else
+				fn_print_ok_eol
+				echo -en "\033[2K\\r"
+			fi
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Checking ${remote_filename}"
 				checkflag=0
@@ -488,10 +500,15 @@ fn_fetch_file() {
 			local exitcode=""
 			large_files=("bz2" "gz" "zip" "jar" "xz")
 			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
-				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
-				fn_sleep_time
-				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode=$?
+				if [ -n "${plainoutput}" ]; then
+					"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+					exitcode=$?
+				else
+					echo -e "downloading file [ ${italic}${local_filename}${default} ]"
+					fn_sleep_time
+					"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+					exitcode=$?
+				fi
 				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
