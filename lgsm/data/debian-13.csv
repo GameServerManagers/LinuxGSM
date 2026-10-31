@@ -16,7 +16,7 @@ bfv,libc6:i386
 bmdm
 bo
 bs
-bt,dos2unix,libxml2
+bt,dos2unix,libxml2-utils
 btl
 cc
 ce
@@ -76,7 +76,7 @@ mcb
 mcv
 mh
 mohaa,libc6:i386
-mta,libncursesw6,libxml2
+mta,libncursesw6,libxml2-utils
 nd
 nec
 nmrih
@@ -110,14 +110,14 @@ samp
 sb
 sbots
 scpsl,mono-complete,libicu76
-sdtd,libxml2
+sdtd,libxml2-utils
 sf
 sfc
 sm
 sof2
 sol
 squad
-st,libxml2
+st,libxml2-utils
 stn
 sven,zlib1g:i386
 terraria
