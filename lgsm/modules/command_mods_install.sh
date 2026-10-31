@@ -120,6 +120,11 @@ if [ "${modcommand}" == "counterstrikesharp" ]; then
 	fn_mod_exist "metamodsource2"
 fi
 
+# MatchZy requires CounterStrikeSharp.
+if [ "${modcommand}" == "matchzy" ]; then
+	fn_mod_exist "counterstrikesharp"
+fi
+
 # If amxmodx check if metamod exists first
 if [ "${modcommand}" == "amxmodx" ]; then
 	fn_mod_exist "metamod"

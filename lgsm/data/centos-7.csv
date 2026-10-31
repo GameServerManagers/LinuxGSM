@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,python3,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,procps-ng,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -17,7 +17,7 @@ bfv,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu,dos2unix,libxml2
+bt,dos2unix,libxml2
 btl
 cc
 ce
@@ -30,7 +30,7 @@ coduo,compat-libstdc++-33.i686
 codwaw
 col
 cs
-cs2
+cs2,libicu
 cscz
 csgo
 css,ncurses-libs.i686

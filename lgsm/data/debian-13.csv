@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,procps,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 steamcmd,lib32gcc-s1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -17,7 +17,7 @@ bfv,libc6:i386
 bmdm
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2
+bt,dos2unix,libxml2-utils
 btl
 cc
 ce
@@ -30,7 +30,7 @@ coduo,libc6:i386
 codwaw
 col
 cs
-cs2
+cs2,libicu76
 cscz
 csgo
 css
@@ -77,7 +77,7 @@ mcb
 mcv
 mh
 mohaa,libc6:i386
-mta,libncursesw6,libxml2
+mta,libncursesw6,libxml2-utils
 nd
 nec
 nmrih
@@ -111,14 +111,14 @@ samp
 sb
 sbots
 scpsl,mono-complete,libicu76
-sdtd,libxml2
+sdtd,libxml2-utils
 sf
 sfc
 sm
 sof2
 sol
 squad
-st,libxml2
+st,libxml2-utils
 stn
 sven,zlib1g:i386
 terraria
