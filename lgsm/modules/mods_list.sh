@@ -18,42 +18,44 @@ metamodversion="1.21.1-am"
 metamodlatestfile="metamod-${metamodversion}.zip"
 metamoddownloadurl="https://www.amxmodx.org/release/${metamodlatestfile}"
 metamodurl="${metamoddownloadurl}"
-# AMX Mod X: Base
-amxxbaseversion="1.9.0-git5303"
-amxxbasemod="base"
-amxxbaselatestfile="amxmodx-${amxxbaseversion}-${amxxbasemod}-linux.tar.gz"
-amxxbasedownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxbaselatestfile}"
-amxxbaseurl="${amxxbasedownloadurl}"
-# AMX Mod X: Counter-Strike
-amxxcsversion="1.9.0-git5303"
-amxxcsmod="cstrike"
-amxxcslatestfile="amxmodx-${amxxbaseversion}-${amxxcsmod}-linux.tar.gz"
-amxxcsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxcslatestfile}"
-amxxcsurl="${amxxcsdownloadurl}"
-# AMX Mod X: Day of Defeat
-amxxdodversion="1.9.0-git5303"
-amxxdodmod="dod"
-amxxdodlatestfile="amxmodx-${amxxdodversion}-${amxxdodmod}-linux.tar.gz"
-amxxdoddownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxdodlatestfile}"
-amxxdodurl="${amxxdoddownloadurl}"
-# AMX Mod X: Team Fortress Classic
-amxxtfcversion="1.9.0-git5303"
-amxxtfcmod="tfc"
-amxxtfclatestfile="amxmodx-${amxxtfcversion}-${amxxtfcmod}-linux.tar.gz"
-amxxtfcdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtfclatestfile}"
-amxxtfcurl="${amxxtfcdownloadurl}"
-# AMX Mod X: Natural Selection
-amxxnsversion="1.9.0-git5303"
-amxxnsmod="ns"
-amxxnslatestfile="amxmodx-${amxxnsversion}-${amxxnsmod}-linux.tar.gz"
-amxxnsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxnslatestfile}"
-amxxnsurl="${amxxnsdownloadurl}"
-# AMX Mod X: The Specialists
-amxxtsversion="1.9.0-git5303"
-amxxtsmod="ts"
-amxxtslatestfile="amxmodx-${amxxtsversion}-${amxxtsmod}-linux.tar.gz"
-amxxtsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtslatestfile}"
-amxxtsurl="${amxxtsdownloadurl}"
+# AMX Mod X: Resolve one build for the base and all game addons on install/update only.
+amxxbranch="1.10"
+amxxdownloadbase="https://www.amxmodx.org/amxxdrop/${amxxbranch}"
+amxxscrapeurl="${amxxdownloadbase}/amxmodx-latest-base-linux"
+if { [ "${commandname}" == "MODS-INSTALL" ] || [ "${commandname}" == "MODS-UPDATE" ]; } \
+	&& { [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ]; }; then
+	if ! amxxlatestfile=$(curl --connect-timeout 3 --max-time 30 --fail --silent --show-error --location "${amxxscrapeurl}"); then
+		fn_print_fail_nl "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
+		fn_script_log_fail "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
+		exitcode=1
+		core_exit.sh
+	fi
+	if [[ ! "${amxxlatestfile}" =~ ^amxmodx-("${amxxbranch}"\.[0-9]+-git[0-9]+)-base-linux\.tar\.gz$ ]]; then
+		fn_print_fail_nl "Invalid AMX Mod X ${amxxbranch} Linux build filename: ${amxxscrapeurl}"
+		fn_script_log_fail "Invalid AMX Mod X ${amxxbranch} Linux build filename: ${amxxscrapeurl}"
+		exitcode=1
+		core_exit.sh
+	fi
+	amxxversion="${BASH_REMATCH[1]}"
+	# AMX Mod X: Base
+	amxxbaselatestfile="amxmodx-${amxxversion}-base-linux.tar.gz"
+	amxxbaseurl="${amxxdownloadbase}/${amxxbaselatestfile}"
+	# AMX Mod X: Counter-Strike
+	amxxcslatestfile="amxmodx-${amxxversion}-cstrike-linux.tar.gz"
+	amxxcsurl="${amxxdownloadbase}/${amxxcslatestfile}"
+	# AMX Mod X: Day of Defeat
+	amxxdodlatestfile="amxmodx-${amxxversion}-dod-linux.tar.gz"
+	amxxdodurl="${amxxdownloadbase}/${amxxdodlatestfile}"
+	# AMX Mod X: Team Fortress Classic
+	amxxtfclatestfile="amxmodx-${amxxversion}-tfc-linux.tar.gz"
+	amxxtfcurl="${amxxdownloadbase}/${amxxtfclatestfile}"
+	# AMX Mod X: Natural Selection
+	amxxnslatestfile="amxmodx-${amxxversion}-ns-linux.tar.gz"
+	amxxnsurl="${amxxdownloadbase}/${amxxnslatestfile}"
+	# AMX Mod X: The Specialists
+	amxxtslatestfile="amxmodx-${amxxversion}-ts-linux.tar.gz"
+	amxxtsurl="${amxxdownloadbase}/${amxxtslatestfile}"
+fi
 # Metamod:Source
 metamodsourceversion="1.12"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"
@@ -102,6 +104,11 @@ if [ "${shortname}" == "cs2" ]; then
 	counterstrikesharplastbuild=$(printf '%s\n' "${counterstrikesharprelease}" | jq '.assets[]? | select(.name | startswith("counterstrikesharp-with-runtime-linux-") and endswith(".zip"))' 2> /dev/null)
 	counterstrikesharplatestfile=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.name')
 	counterstrikesharplatestlink=$(printf '%s\n' "${counterstrikesharplastbuild}" | jq -r '.browser_download_url')
+	# MatchZy: use the plugin-only archive, CounterStrikeSharp is installed as its own mod.
+	matchzyrelease=$(curl --connect-timeout 3 -sL https://api.github.com/repos/shobhit-pathak/MatchZy/releases/latest)
+	matchzylastbuild=$(printf '%s\n' "${matchzyrelease}" | jq '.assets[]? | select(.name | startswith("MatchZy-") and endswith(".zip") and (contains("with-cssharp") | not))' 2> /dev/null)
+	matchzylatestfile=$(printf '%s\n' "${matchzylastbuild}" | jq -r '.name')
+	matchzylatestlink=$(printf '%s\n' "${matchzylastbuild}" | jq -r '.browser_download_url')
 fi
 
 # CS:GO Mods
@@ -198,6 +205,7 @@ mod_info_stripper=(MOD "stripper" "Stripper Source" "${stripperurl}" "${stripper
 # CS2 Mods
 mod_info_metamodsource2=(MOD "metamodsource2" "Metamod:Source 2.0" "${metamodsource2url}" "${metamodsource2latestfile}" "0" "LowercaseOff" "${systemdir}" "addons/metamod/metaplugins.ini;" "ENGINES" "Counter-Strike 2;" "NOTGAMES" "https://www.metamodsource.net" "Plugins Framework (Dev Build)")
 mod_info_counterstrikesharp=(MOD "counterstrikesharp" "CounterStrikeSharp" "${counterstrikesharplatestlink}" "${counterstrikesharplatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike 2;" "NOTGAMES" "https://docs.cssharp.dev/" "Write server plugins in C# (requires Metamod:Source 2.0)")
+mod_info_matchzy=(MOD "matchzy" "MatchZy" "${matchzylatestlink}" "${matchzylatestfile}" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Counter-Strike 2;" "NOTGAMES" "https://github.com/shobhit-pathak/MatchZy" "Plugin for practice, pugs, scrims and matches (requires CounterStrikeSharp)")
 
 # CS:GO Mods
 # NoLobbyReservation is pinned to a reviewed commit: it has no releases and is compiled from source on install.
@@ -256,4 +264,4 @@ mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "BepInExPack_Valheim" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_metamodsource2[@]}" "${mod_info_counterstrikesharp[@]}" "${mod_info_sourcemod[@]}" "${mod_info_nolobbyreservation[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")
+mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_metamodsource2[@]}" "${mod_info_counterstrikesharp[@]}" "${mod_info_matchzy[@]}" "${mod_info_sourcemod[@]}" "${mod_info_nolobbyreservation[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}")

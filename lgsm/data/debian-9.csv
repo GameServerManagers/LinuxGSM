@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,pigz,python3,tar,tmux,unzip,util-linux,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc1,lib32stdc++6,netcat,pigz,procps,python3,tar,tmux,unzip,util-linux,wget,xz-utils
 steamcmd,lib32gcc1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -16,7 +16,7 @@ bfv,libc6:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2-utils
+bt,dos2unix,libxml2-utils
 btl
 cc
 ce
@@ -29,10 +29,11 @@ coduo,libstdc++5:i386
 codwaw
 col
 cs
-cs2
+cs2,libicu57
 cscz
 csgo
 css,libtinfo5:i386
+cswon,libc6:i386
 ct
 dab
 dayz
@@ -54,6 +55,7 @@ hcu
 hl2dm
 hldm
 hldms
+hlwon,libc6:i386
 hw,lib32z1
 hyt
 hz

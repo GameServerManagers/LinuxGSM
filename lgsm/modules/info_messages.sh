@@ -557,6 +557,8 @@ fn_info_messages_script() {
 	# Email alert:            off
 	# Gotify alert:           off
 	# IFTTT alert:            off
+	# Matrix alert:           off
+	# ntfy alert:             off
 	# Pushbullet alert:       off
 	# Pushover alert:         off
 	# Rocketchat alert:       off
@@ -607,6 +609,14 @@ fn_info_messages_script() {
 		# IFTTT alert
 		if [ "${iftttalert}" == "on" ]; then
 			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
+		# Matrix alert
+		if [ "${matrixalert}" == "on" ]; then
+			echo -e "${lightblue}Matrix alert:\t${default}${matrixalert}"
+		fi
+		# ntfy alert
+		if [ "${ntfyalert}" == "on" ]; then
+			echo -e "${lightblue}ntfy alert:\t${default}${ntfyalert}"
 		fi
 		# Pushbullet alert
 		if [ "${pushbulletalert}" == "on" ]; then
@@ -771,6 +781,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep Main"
 	elif [ "${shortname}" == "sm" ]; then
 		portcommand="ss -tuplwn | grep WSServer-Linux"
+	elif [ "${querytype}" == "protocol-valve-won" ]; then
+		portcommand="ss -tuplwn | grep hlds_i686"
 	elif [ "${engine}" == "source" ]; then
 		portcommand="ss -tuplwn | grep srcds_linux"
 	elif [ "${engine}" == "goldsrc" ]; then
@@ -1121,7 +1133,11 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		if [ "${querytype}" == "protocol-valve-won" ]; then
+			fn_port "Query" queryport udp
+		else
+			fn_port "Query" queryport tcp
+		fi
 		fn_port "Client" clientport udp
 	} | column -s $'\t' -t
 }
