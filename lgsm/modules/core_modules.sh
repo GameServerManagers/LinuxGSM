@@ -782,6 +782,11 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_bfe.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_bb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

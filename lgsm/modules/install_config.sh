@@ -330,6 +330,11 @@ elif [ "${shortname}" == "bs" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "bfe" ]; then
+	array_configs+=(config.json)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bb" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
