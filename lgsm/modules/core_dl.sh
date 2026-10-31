@@ -428,8 +428,12 @@ fn_check_file() {
 				fi
 			fi
 		else
-			fn_print_ok_eol
-			echo -en "\033[2K\\r"
+			if [ -n "${plainoutput}" ]; then
+				fn_print_ok_eol_nl
+			else
+				fn_print_ok_eol
+				echo -en "\033[2K\\r"
+			fi
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Checking ${remote_filename}"
 				checkflag=0
@@ -496,10 +500,15 @@ fn_fetch_file() {
 			local exitcode=""
 			large_files=("bz2" "gz" "zip" "jar" "xz")
 			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
-				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
-				fn_sleep_time
-				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode=$?
+				if [ -n "${plainoutput}" ]; then
+					"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+					exitcode=$?
+				else
+					echo -e "downloading file [ ${italic}${local_filename}${default} ]"
+					fn_sleep_time
+					"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+					exitcode=$?
+				fi
 				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
