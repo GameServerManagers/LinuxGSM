@@ -17,7 +17,7 @@ bfv,libc6:i386
 bmdm,libncurses5:i386
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2-utils
+bt,libicu55,dos2unix,libxml2-utils
 btl
 cc
 ce
