@@ -19,3 +19,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Third-party assets
+
+The following files are not covered by the MIT License above and remain under their own licenses.
+
+- `lgsm/data/gameicons/luanti-icon.png`: Luanti icon by erle, licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Copied without modification from [Luanti 5.17.0](https://github.com/luanti-org/luanti/blob/5.17.0/misc/luanti-icon-24x24.png); see the [upstream license and attribution](https://github.com/luanti-org/luanti/blob/5.17.0/LICENSE.txt).
