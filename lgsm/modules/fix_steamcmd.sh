@@ -64,7 +64,7 @@ if [ -f "${steamclientsdk64}" ]; then
 fi
 
 # place new hardlink for the file to the disk
-if [ ! -f "${steamclientsdk64}" ]; then
+if [ ! -f "${steamclientsdk64}" ] && [ "${shortname}" != "bfe" ]; then
 	fixname="steamclient.so sdk64 hardlink"
 	fn_fix_msg_start
 	if [ ! -d "${steamsdk64}" ]; then
@@ -95,7 +95,7 @@ if [ -f "${steamclientsdk32}" ]; then
 fi
 
 # place new hardlink for the file to the disk
-if [ ! -f "${steamclientsdk32}" ]; then
+if [ ! -f "${steamclientsdk32}" ] && [ "${shortname}" != "bfe" ]; then
 	fixname="steamclient.so sdk32 link"
 	fn_fix_msg_start
 	if [ ! -d "${steamsdk32}" ]; then
