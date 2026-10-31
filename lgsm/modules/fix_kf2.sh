@@ -17,3 +17,14 @@ fn_sleep_time_10
 exitbypass=1
 command_stop.sh
 fn_firstcommand_reset
+
+# The KF2 Linux dedicated server does not create KFGame/Cache, the directory it
+# uses when loading maps (including Workshop maps). The KF2 wiki lists this as a
+# known Linux issue and the remedy as `mkdir -p KFGame/Cache`. Creating it after
+# install, only once KFGame exists, keeps it present after every install.
+if [ -d "${serverfiles}/KFGame" ] && [ ! -d "${serverfiles}/KFGame/Cache" ]; then
+	fixname="KFGame/Cache directory"
+	fn_fix_msg_start
+	mkdir -p "${serverfiles}/KFGame/Cache"
+	fn_fix_msg_end
+fi
