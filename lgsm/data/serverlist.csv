@@ -32,6 +32,7 @@ cs2,cs2server,Counter-Strike 2,ubuntu-26.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-26.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-26.04
 css,cssserver,Counter-Strike: Source,ubuntu-26.04
+cswon,cswonserver,Counter-Strike: WON2,ubuntu-26.04
 ct,ctserver,Craftopia,ubuntu-26.04
 dab,dabserver,Double Action: Boogaloo,ubuntu-26.04
 dayz,dayzserver,DayZ,ubuntu-26.04
@@ -53,6 +54,7 @@ hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-26.04
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-26.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-26.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-26.04
+hlwon,hlwonserver,Half-Life: WON2,ubuntu-26.04
 hw,hwserver,Hurtworld,ubuntu-26.04
 hyt,hytserver,Hytale,ubuntu-26.04
 hz,hzserver,Humanitz,ubuntu-26.04
