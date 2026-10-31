@@ -18,6 +18,8 @@ matrixroomencoded="$(jq -rn --arg room "${matrixroom}" '$room|@uri')"
 matrixtxnid="$(date +%s%N)"
 matrixurl="${matrixbase}/_matrix/client/v3/rooms/${matrixroomencoded}/send/m.room.message/${matrixtxnid}"
 
+alerttime="$(date)"
+
 message="${alerttitle}
 
 Server Name
@@ -33,13 +35,14 @@ Server IP
 ${alertip}:${port}
 
 Server Time
-$(date)"
+${alerttime}"
 
 if [ -n "${querytype}" ]; then
+	imgsourl="https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
 	message+="
 
 Is my Game Server Online?
-https://ismygameserver.online/${imgsoquerytype}/${alertip}:${queryport}"
+${imgsourl}"
 fi
 
 if [ -n "${alerturl}" ]; then
@@ -49,7 +52,21 @@ More info
 ${alerturl}"
 fi
 
-json="$(jq -cn --arg body "${message}" '{msgtype: "m.notice", body: $body}')"
+json="$(jq -cn \
+	--arg body "${message}" \
+	--arg title "${alerttitle}" \
+	--arg servername "${servername}" \
+	--arg information "${alertmessage}" \
+	--arg game "${gamename}" \
+	--arg serverip "${alertip}:${port}" \
+	--arg servertime "${alerttime}" \
+	--arg imgsourl "${imgsourl}" \
+	--arg alerturl "${alerturl}" \
+	'(@html "<strong>\($title)</strong><br><br><strong>Server Name</strong><br>\($servername)<br><br><strong>Information</strong><br>\($information)<br><br><strong>Game</strong><br>\($game)<br><br><strong>Server IP</strong><br>\($serverip)<br><br><strong>Server Time</strong><br>\($servertime)")
+	+ (if $imgsourl != "" then @html "<br><br><strong>Is my Game Server Online?</strong><br><a href=\"\($imgsourl)\">Check here</a>" else "" end)
+	+ (if $alerturl != "" then @html "<br><br><strong>More info</strong><br><a href=\"\($alerturl)\">\($alerturl)</a>" else "" end)
+	| gsub("&apos;"; "&#39;")
+	| {msgtype: "m.notice", body: $body, format: "org.matrix.custom.html", formatted_body: .}')"
 
 fn_print_dots "Sending Matrix alert"
 
