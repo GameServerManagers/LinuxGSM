@@ -466,6 +466,10 @@ fn_fetch_file() {
 
 	# Download file if missing or download forced.
 	if [ ! -f "${local_filedir}/${local_filename}" ] || [ "${forcedl}" == "forcedl" ]; then
+		# Older launchers gain this helper after update-lgsm replaces the script.
+		if type fn_check_github_branch > /dev/null 2>&1 && [[ "${remote_fileurl}" == "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/"* ]]; then
+			fn_check_github_branch
+		fi
 		# If backup fileurl exists include it.
 		if [ -n "${remote_fileurl_backup}" ]; then
 			# counter set to 0 to allow second try
