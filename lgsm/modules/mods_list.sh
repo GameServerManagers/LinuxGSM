@@ -18,42 +18,44 @@ metamodversion="1.21.1-am"
 metamodlatestfile="metamod-${metamodversion}.zip"
 metamoddownloadurl="https://www.amxmodx.org/release/${metamodlatestfile}"
 metamodurl="${metamoddownloadurl}"
-# AMX Mod X: Base
-amxxbaseversion="1.9.0-git5303"
-amxxbasemod="base"
-amxxbaselatestfile="amxmodx-${amxxbaseversion}-${amxxbasemod}-linux.tar.gz"
-amxxbasedownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxbaselatestfile}"
-amxxbaseurl="${amxxbasedownloadurl}"
-# AMX Mod X: Counter-Strike
-amxxcsversion="1.9.0-git5303"
-amxxcsmod="cstrike"
-amxxcslatestfile="amxmodx-${amxxbaseversion}-${amxxcsmod}-linux.tar.gz"
-amxxcsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxcslatestfile}"
-amxxcsurl="${amxxcsdownloadurl}"
-# AMX Mod X: Day of Defeat
-amxxdodversion="1.9.0-git5303"
-amxxdodmod="dod"
-amxxdodlatestfile="amxmodx-${amxxdodversion}-${amxxdodmod}-linux.tar.gz"
-amxxdoddownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxdodlatestfile}"
-amxxdodurl="${amxxdoddownloadurl}"
-# AMX Mod X: Team Fortress Classic
-amxxtfcversion="1.9.0-git5303"
-amxxtfcmod="tfc"
-amxxtfclatestfile="amxmodx-${amxxtfcversion}-${amxxtfcmod}-linux.tar.gz"
-amxxtfcdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtfclatestfile}"
-amxxtfcurl="${amxxtfcdownloadurl}"
-# AMX Mod X: Natural Selection
-amxxnsversion="1.9.0-git5303"
-amxxnsmod="ns"
-amxxnslatestfile="amxmodx-${amxxnsversion}-${amxxnsmod}-linux.tar.gz"
-amxxnsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxnslatestfile}"
-amxxnsurl="${amxxnsdownloadurl}"
-# AMX Mod X: The Specialists
-amxxtsversion="1.9.0-git5303"
-amxxtsmod="ts"
-amxxtslatestfile="amxmodx-${amxxtsversion}-${amxxtsmod}-linux.tar.gz"
-amxxtsdownloadurl="https://github.com/alliedmodders/amxmodx/releases/download/1.9.0.5303/${amxxtslatestfile}"
-amxxtsurl="${amxxtsdownloadurl}"
+# AMX Mod X: Resolve one build for the base and all game addons on install/update only.
+amxxbranch="1.10"
+amxxdownloadbase="https://www.amxmodx.org/amxxdrop/${amxxbranch}"
+amxxscrapeurl="${amxxdownloadbase}/amxmodx-latest-base-linux"
+if { [ "${commandname}" == "MODS-INSTALL" ] || [ "${commandname}" == "MODS-UPDATE" ]; } \
+	&& { [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ]; }; then
+	if ! amxxlatestfile=$(curl --connect-timeout 3 --max-time 30 --fail --silent --show-error --location "${amxxscrapeurl}"); then
+		fn_print_fail_nl "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
+		fn_script_log_fail "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
+		exitcode=1
+		core_exit.sh
+	fi
+	if [[ ! "${amxxlatestfile}" =~ ^amxmodx-("${amxxbranch}"\.[0-9]+-git[0-9]+)-base-linux\.tar\.gz$ ]]; then
+		fn_print_fail_nl "Invalid AMX Mod X ${amxxbranch} Linux build filename: ${amxxscrapeurl}"
+		fn_script_log_fail "Invalid AMX Mod X ${amxxbranch} Linux build filename: ${amxxscrapeurl}"
+		exitcode=1
+		core_exit.sh
+	fi
+	amxxversion="${BASH_REMATCH[1]}"
+	# AMX Mod X: Base
+	amxxbaselatestfile="amxmodx-${amxxversion}-base-linux.tar.gz"
+	amxxbaseurl="${amxxdownloadbase}/${amxxbaselatestfile}"
+	# AMX Mod X: Counter-Strike
+	amxxcslatestfile="amxmodx-${amxxversion}-cstrike-linux.tar.gz"
+	amxxcsurl="${amxxdownloadbase}/${amxxcslatestfile}"
+	# AMX Mod X: Day of Defeat
+	amxxdodlatestfile="amxmodx-${amxxversion}-dod-linux.tar.gz"
+	amxxdodurl="${amxxdownloadbase}/${amxxdodlatestfile}"
+	# AMX Mod X: Team Fortress Classic
+	amxxtfclatestfile="amxmodx-${amxxversion}-tfc-linux.tar.gz"
+	amxxtfcurl="${amxxdownloadbase}/${amxxtfclatestfile}"
+	# AMX Mod X: Natural Selection
+	amxxnslatestfile="amxmodx-${amxxversion}-ns-linux.tar.gz"
+	amxxnsurl="${amxxdownloadbase}/${amxxnslatestfile}"
+	# AMX Mod X: The Specialists
+	amxxtslatestfile="amxmodx-${amxxversion}-ts-linux.tar.gz"
+	amxxtsurl="${amxxdownloadbase}/${amxxtslatestfile}"
+fi
 # Metamod:Source
 metamodsourceversion="1.12"
 metamodsourcescrapeurl="https://mms.alliedmods.net/mmsdrop/${metamodsourceversion}/mmsource-latest-linux"

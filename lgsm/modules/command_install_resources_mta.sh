@@ -30,3 +30,8 @@ else
 	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
 	fn_print_information_nl "To install default resources use ./${selfname} install"
 fi
+
+if [ "${firstcommandname}" == "DEFAULT-RESOURCES" ]; then
+	exitcode=0
+	core_exit.sh
+fi
