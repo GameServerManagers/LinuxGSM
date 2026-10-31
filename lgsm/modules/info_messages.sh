@@ -557,6 +557,8 @@ fn_info_messages_script() {
 	# Email alert:            off
 	# Gotify alert:           off
 	# IFTTT alert:            off
+	# Matrix alert:           off
+	# ntfy alert:             off
 	# Pushbullet alert:       off
 	# Pushover alert:         off
 	# Rocketchat alert:       off
@@ -607,6 +609,14 @@ fn_info_messages_script() {
 		# IFTTT alert
 		if [ "${iftttalert}" == "on" ]; then
 			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
+		# Matrix alert
+		if [ "${matrixalert}" == "on" ]; then
+			echo -e "${lightblue}Matrix alert:\t${default}${matrixalert}"
+		fi
+		# ntfy alert
+		if [ "${ntfyalert}" == "on" ]; then
+			echo -e "${lightblue}ntfy alert:\t${default}${ntfyalert}"
 		fi
 		# Pushbullet alert
 		if [ "${pushbulletalert}" == "on" ]; then
