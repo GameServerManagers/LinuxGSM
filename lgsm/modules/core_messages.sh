@@ -10,9 +10,16 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 # nl: new line: message is following by a new line.
 # eol: end of line: message is placed at the end of the current line.
 fn_ansi_loader() {
+	# plain: stdout is not a terminal, output complete lines with no terminal control sequences.
+	unset plainoutput plainpending
+	if [ ! -t 1 ]; then
+		plainoutput="1"
+	fi
 	# carriage return.
 	creeol="\r"
-	if [ "${ansi}" != "off" ]; then
+	if [ -n "${plainoutput}" ]; then
+		creeol=""
+	elif [ "${ansi}" != "off" ]; then
 		# echo colors
 		default="\e[0m"
 		black="\e[30m"
@@ -33,15 +40,21 @@ fn_ansi_loader() {
 		white="\e[97m"
 		# erase to end of line.
 		creeol+="\033[K"
+		# text styles
+		bold="\e[1m"
+		dim="\e[2m"
+		italic="\e[3m"
+		underline="\e[4m"
+		reverse="\e[7m"
 	fi
-	# carriage return & erase to end of line.
-	creeol="\r\033[K"
+}
 
-	bold="\e[1m"
-	dim="\e[2m"
-	italic="\e[3m"
-	underline="\e[4m"
-	reverse="\e[7m"
+# plain: print any held in-place message as its own line.
+fn_print_plain_flush() {
+	if [ -n "${plainpending}" ]; then
+		echo -e "${plainpending}"
+		unset plainpending
+	fi
 }
 
 fn_sleep_time() {
@@ -110,22 +123,31 @@ fn_script_log_info() {
 ##################################
 
 fn_print() {
+	fn_print_plain_flush
 	echo -en "$*${default}"
 }
 
 fn_print_nl() {
+	fn_print_plain_flush
 	echo -e "$*${default}"
 }
 
 # Helper function to print messages with a specific format and color
+# plain: in-place messages are held until replaced, completed by an eol message or flushed.
 fn_print_message() {
 	local type="$1"
 	local color="$2"
 	local message="$3"
+	local line
 	if [ "${commandaction}" ]; then
-		echo -en "${bold}${creeol}[${color} ${type} ${default}]${default} ${commandaction} ${selfname}: ${message}${default}"
+		line="[${color} ${type} ${default}]${default} ${commandaction} ${selfname}: ${message}${default}"
 	else
-		echo -en "${bold}${cree}[${color} ${type} ${default}]${default} ${message}${default}"
+		line="[${color} ${type} ${default}]${default} ${message}${default}"
+	fi
+	if [ -n "${plainoutput}" ]; then
+		plainpending="${line}"
+	else
+		echo -en "${bold}${creeol}${line}"
 	fi
 	fn_sleep_time
 }
@@ -134,12 +156,35 @@ fn_print_message_nl() {
 	local type="$1"
 	local color="$2"
 	local message="$3"
+	unset plainpending
 	if [ "${commandaction}" ]; then
 		echo -e "${bold}${creeol}[${color} ${type} ${default}]${default} ${commandaction} ${selfname}: ${message}${default}"
 	else
 		echo -e "${bold}${creeol}[${color} ${type} ${default}]${default} ${message}${default}"
 	fi
 	fn_sleep_time
+}
+
+# Helper function to print eol messages with a specific color
+fn_print_eol() {
+	local type="$1"
+	local color="$2"
+	if [ -n "${plainpending}" ]; then
+		plainpending+=" ... ${type}"
+	else
+		echo -en " ... ${color}${type}${default}"
+	fi
+}
+
+fn_print_eol_nl() {
+	local type="$1"
+	local color="$2"
+	if [ -n "${plainpending}" ]; then
+		echo -e "${plainpending} ... ${type}"
+		unset plainpending
+	else
+		echo -e " ... ${color}${type}${default}"
+	fi
 }
 
 # [ .... ]
@@ -234,6 +279,7 @@ fn_messages_separator() {
 # No More Room in Hell Debug
 # =================================
 fn_print_header() {
+	fn_print_plain_flush
 	echo -e ""
 	echo -e "${bold}${lightyellow}${gamename} ${commandaction}${default}"
 	fn_messages_separator
@@ -307,6 +353,7 @@ fn_print_skip2_nl() {
 
 # Y/N Prompt
 fn_prompt_yn() {
+	fn_print_plain_flush
 	echo -e ""
 	local prompt="$1"
 	local initial="$2"
@@ -356,166 +403,166 @@ fn_prompt_message() {
 
 # YES
 fn_print_yes_eol() {
-	echo -en " ... ${cyan}YES${default}"
+	fn_print_eol "YES" "${cyan}"
 	fn_sleep_time
 }
 
 fn_print_yes_eol_nl() {
-	echo -e " ... ${cyan}YES${default}"
+	fn_print_eol_nl "YES" "${cyan}"
 	fn_sleep_time
 }
 
 # NO
 fn_print_no_eol() {
-	echo -en " ... ${red}NO${default}"
+	fn_print_eol "NO" "${red}"
 	fn_sleep_time
 }
 
 fn_print_no_eol_nl() {
-	echo -e " ... ${red}NO${default}"
+	fn_print_eol_nl "NO" "${red}"
 	fn_sleep_time
 }
 
 # OK
 fn_print_ok_eol() {
-	echo -en " ... ${green}OK${default}"
+	fn_print_eol "OK" "${green}"
 	fn_sleep_time
 }
 
 fn_print_ok_eol_nl() {
-	echo -e " ... ${green}OK${default}"
+	fn_print_eol_nl "OK" "${green}"
 	fn_sleep_time
 }
 
 # FAIL
 fn_print_fail_eol() {
-	echo -en " ... ${red}FAIL${default}"
+	fn_print_eol "FAIL" "${red}"
 	fn_sleep_time
 }
 
 fn_print_fail_eol_nl() {
-	echo -e " ... ${red}FAIL${default}"
+	fn_print_eol_nl "FAIL" "${red}"
 	fn_sleep_time
 }
 
 # ERROR
 fn_print_error_eol() {
-	echo -en " ... ${red}ERROR${default}"
+	fn_print_eol "ERROR" "${red}"
 	fn_sleep_time
 }
 
 fn_print_error_eol_nl() {
-	echo -e " ... ${red}ERROR${default}"
+	fn_print_eol_nl "ERROR" "${red}"
 	fn_sleep_time
 }
 
 # WAIT
 fn_print_wait_eol() {
-	echo -en " ... ${cyan}WAIT${default}"
+	fn_print_eol "WAIT" "${cyan}"
 	fn_sleep_time
 }
 
 fn_print_wait_eol_nl() {
-	echo -e " ... ${cyan}WAIT${default}"
+	fn_print_eol_nl "WAIT" "${cyan}"
 	fn_sleep_time
 }
 
 # WARN
 fn_print_warn_eol() {
-	echo -en " ... ${lightyellow}WARN${default}"
+	fn_print_eol "WARN" "${lightyellow}"
 	fn_sleep_time
 }
 
 fn_print_warn_eol_nl() {
-	echo -e " ... ${lightyellow}WARN${default}"
+	fn_print_eol_nl "WARN" "${lightyellow}"
 	fn_sleep_time
 }
 
 # INFO
 fn_print_info_eol() {
-	echo -en " ... ${cyan}INFO${default}"
+	fn_print_eol "INFO" "${cyan}"
 	fn_sleep_time
 }
 
 fn_print_info_eol_nl() {
-	echo -e " ... ${cyan}INFO${default}"
+	fn_print_eol_nl "INFO" "${cyan}"
 	fn_sleep_time
 }
 
 # QUERYING
 fn_print_querying_eol() {
-	echo -en " ... ${cyan}QUERYING${default}"
+	fn_print_eol "QUERYING" "${cyan}"
 	fn_sleep_time_1
 }
 
 fn_print_querying_eol_nl() {
-	echo -e " ... ${cyan}QUERYING${default}"
+	fn_print_eol_nl "QUERYING" "${cyan}"
 	fn_sleep_time_1
 }
 
 # CHECKING
 fn_print_checking_eol() {
-	echo -en " ... ${cyan}CHECKING${default}"
+	fn_print_eol "CHECKING" "${cyan}"
 	fn_sleep_time_1
 }
 
 fn_print_checking_eol_nl() {
-	echo -e " ... ${cyan}CHECKING${default}"
+	fn_print_eol_nl "CHECKING" "${cyan}"
 	fn_sleep_time_1
 }
 
 # DELAY
 fn_print_delay_eol() {
-	echo -en " ... ${green}DELAY${default}"
+	fn_print_eol "DELAY" "${green}"
 	fn_sleep_time_1
 }
 
 fn_print_delay_eol_nl() {
-	echo -e " ... ${green}DELAY${default}"
+	fn_print_eol_nl "DELAY" "${green}"
 	fn_sleep_time_1
 }
 
 # CANCELED
 fn_print_canceled_eol() {
-	echo -en " ... ${lightyellow}CANCELED${default}"
+	fn_print_eol "CANCELED" "${lightyellow}"
 	fn_sleep_time_1
 }
 
 fn_print_canceled_eol_nl() {
-	echo -e " ... ${lightyellow}CANCELED${default}"
+	fn_print_eol_nl "CANCELED" "${lightyellow}"
 	fn_sleep_time_1
 }
 
 # REMOVED
 fn_print_removed_eol() {
-	echo -en " ... ${red}REMOVED${default}"
+	fn_print_eol "REMOVED" "${red}"
 	fn_sleep_time_1
 }
 
 fn_print_removed_eol_nl() {
-	echo -e " ... ${red}REMOVED${default}"
+	fn_print_eol_nl "REMOVED" "${red}"
 	fn_sleep_time_1
 }
 
 # UPDATE
 fn_print_update_eol() {
-	echo -en " ... ${lightblue}UPDATE${default}"
+	fn_print_eol "UPDATE" "${lightblue}"
 	fn_sleep_time
 }
 
 fn_print_update_eol_nl() {
-	echo -e " ... ${lightblue}UPDATE${default}"
+	fn_print_eol_nl "UPDATE" "${lightblue}"
 	fn_sleep_time
 }
 
 # SKIP
 fn_print_skip_eol() {
-	echo -en " ... ${cyan}SKIP${default}"
+	fn_print_eol "SKIP" "${cyan}"
 	fn_sleep_time
 }
 
 fn_print_skip_eol_nl() {
-	echo -e " ... ${cyan}SKIP${default}"
+	fn_print_eol_nl "SKIP" "${cyan}"
 	fn_sleep_time
 }
 

@@ -73,6 +73,22 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="2c6be1bb66ea631b9b2e7ae6216c6680"
+	elif [ "${shortname}" == "cswon" ]; then
+		remote_fileurl="https://linuxgsm.download/CounterStrikeWON2/hlds_l-3111e-cs15-won2-linuxgsm.tar.xz"
+		local_filedir="${tmpdir}"
+		local_filename="hlds_l-3111e-cs15-won2-linuxgsm.tar.xz"
+		chmodx="nochmodx"
+		run="norun"
+		force="noforce"
+		md5="8109a66e2e906ff2c309e3a6b412132a"
+	elif [ "${shortname}" == "hlwon" ]; then
+		remote_fileurl="https://linuxgsm.download/HalfLifeWON2/hlds_l-3111e-won2-linuxgsm.tar.xz"
+		local_filedir="${tmpdir}"
+		local_filename="hlds_l-3111e-won2-linuxgsm.tar.xz"
+		chmodx="nochmodx"
+		run="norun"
+		force="noforce"
+		md5="83164405c744a5e424814e67eacf27fb"
 	elif [ "${shortname}" == "mohaa" ]; then
 		remote_fileurl="https://linuxgsm.download/MedalofHonorAlliedAssault/moh_revival_v1.12_RC3.5.1.tar.xz"
 		local_filedir="${tmpdir}"
@@ -265,8 +281,14 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "jk3" ]; then
 	update_jk3.sh
+elif [ "${shortname}" == "luanti" ]; then
+	update_luanti.sh
+elif [ "${shortname}" == "orar" ]; then
+	update_openra.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bfe" ]; then
+	update_bfe.sh
 elif [ "${shortname}" == "bb" ]; then
 	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then

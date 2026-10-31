@@ -11,6 +11,7 @@ bb,bbserver,BrainBread,ubuntu-26.04
 bb2,bb2server,BrainBread 2,ubuntu-26.04
 bd,bdserver,Base Defense,ubuntu-26.04
 bf1942,bf1942server,Battlefield 1942,ubuntu-26.04
+bfe,bfeserver,Battlefront Eternal,ubuntu-26.04
 bfv,bfvserver,Battlefield: Vietnam,ubuntu-26.04
 bmdm,bmdmserver,Black Mesa: Deathmatch,ubuntu-26.04
 bo,boserver,Ballistic Overkill,ubuntu-26.04
@@ -32,6 +33,7 @@ cs2,cs2server,Counter-Strike 2,ubuntu-26.04
 cscz,csczserver,Counter-Strike: Condition Zero,ubuntu-26.04
 csgo,csgoserver,Counter-Strike: Global Offensive,ubuntu-26.04
 css,cssserver,Counter-Strike: Source,ubuntu-26.04
+cswon,cswonserver,Counter-Strike: WON2,ubuntu-26.04
 ct,ctserver,Craftopia,ubuntu-26.04
 dab,dabserver,Double Action: Boogaloo,ubuntu-26.04
 dayz,dayzserver,DayZ,ubuntu-26.04
@@ -54,6 +56,7 @@ hcu,hcuserver,HYPERCHARGE: Unboxed,ubuntu-26.04
 hl2dm,hl2dmserver,Half-Life 2: Deathmatch,ubuntu-26.04
 hldm,hldmserver,Half-Life: Deathmatch,ubuntu-26.04
 hldms,hldmsserver,Half-Life Deathmatch: Source,ubuntu-26.04
+hlwon,hlwonserver,Half-Life: WON2,ubuntu-26.04
 hw,hwserver,Hurtworld,ubuntu-26.04
 hyt,hytserver,Hytale,ubuntu-26.04
 hz,hzserver,Humanitz,ubuntu-26.04
@@ -69,6 +72,7 @@ kf,kfserver,Killing Floor,ubuntu-26.04
 kf2,kf2server,Killing Floor 2,ubuntu-26.04
 l4d,l4dserver,Left 4 Dead,ubuntu-26.04
 l4d2,l4d2server,Left 4 Dead 2,ubuntu-26.04
+luanti,luantiserver,Luanti,ubuntu-26.04
 mc,mcserver,Minecraft,ubuntu-26.04
 mcb,mcbserver,Minecraft Bedrock,ubuntu-26.04
 mcv,mcvserver,Military Conflict: Vietnam,ubuntu-26.04
@@ -83,6 +87,7 @@ ns2,ns2server,Natural Selection 2,ubuntu-26.04
 ns2c,ns2cserver,NS2: Combat,ubuntu-26.04
 ohd,ohdserver,Operation: Harsh Doorstop,ubuntu-26.04
 onset,onsetserver,Onset,ubuntu-20.04
+orar,orarserver,OpenRA: Red Alert,ubuntu-24.04
 opfor,opforserver,Opposing Force,ubuntu-26.04
 pc,pcserver,Project Cars,ubuntu-26.04
 pc2,pc2server,Project Cars 2,ubuntu-26.04
