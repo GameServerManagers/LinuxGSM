@@ -69,20 +69,8 @@ fn_update_dl() {
 	# Download and extract files to tmpdir.
 	fn_update_node
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "forcedl" "${remotebuildhash}"
-	echo -en "extracting ${remotebuildfilename}..."
 	rm -rf "${serverfiles:?}/bfe"
-	mkdir -p "${serverfiles}/bfe"
-	extractcmd=$(ar p "${tmpdir}/${remotebuildfilename}" data.tar.xz | tar -xJ -C "${serverfiles}/bfe" --strip-components=4 "./opt/Battlefront Eternal/resources/host-runtime" "./opt/Battlefront Eternal/resources/tools" "./opt/Battlefront Eternal/resources/toolchain" "./opt/Battlefront Eternal/resources/bfe-tree.json" 2>&1)
-	exitcode=$?
-	if [ "${exitcode}" -ne 0 ]; then
-		fn_print_fail_eol_nl
-		fn_script_log_fail "Extracting ${remotebuildfilename}"
-		echo -e "${extractcmd}"
-		core_exit.sh
-	else
-		fn_print_ok_eol_nl
-		fn_script_log_pass "Extracting ${remotebuildfilename}"
-	fi
+	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}/bfe"
 	fn_update_prepare
 	echo "${remotebuild}" > "${localbuildfile}"
 	fn_clear_tmp
@@ -109,7 +97,7 @@ fn_update_remotebuild() {
 	# Gets remote build info.
 	apiurl="https://get.battlefronteternal.com/downloads/latest"
 	remotebuildresponse=$(curl -s "${apiurl}/SHA256SUMS")
-	remotebuildfilename=$(echo "${remotebuildresponse}" | grep -o "battlefront-eternal_[^ ]*_${debarch}\.deb" | head -1)
+	remotebuildfilename=$(echo "${remotebuildresponse}" | grep -o "battlefront-eternal-server_[^ ]*_linux-${archivearch}\.tar\.xz" | head -1)
 	remotebuildhash=$(echo "${remotebuildresponse}" | grep " ${remotebuildfilename}$" | awk '{print $1}')
 	remotebuild=$(echo "${remotebuildfilename}" | cut -d '_' -f 2)
 	remotebuildurl="${apiurl}/${remotebuildfilename}"
@@ -187,10 +175,10 @@ fn_update_compare() {
 }
 
 if [ "$(uname -m)" == "aarch64" ]; then
-	debarch="arm64"
+	archivearch="arm64"
 	nodearch="arm64"
 else
-	debarch="amd64"
+	archivearch="amd64"
 	nodearch="x64"
 fi
 
