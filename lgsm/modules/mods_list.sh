@@ -18,11 +18,12 @@ metamodversion="1.21.1-am"
 metamodlatestfile="metamod-${metamodversion}.zip"
 metamoddownloadurl="https://www.amxmodx.org/release/${metamodlatestfile}"
 metamodurl="${metamoddownloadurl}"
-# AMX Mod X: Resolve one build for the base and all game addons.
+# AMX Mod X: Resolve one build for the base and all game addons on install/update only.
 amxxbranch="1.10"
 amxxdownloadbase="https://www.amxmodx.org/amxxdrop/${amxxbranch}"
 amxxscrapeurl="${amxxdownloadbase}/amxmodx-latest-base-linux"
-if [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ]; then
+if { [ "${commandname}" == "MODS-INSTALL" ] || [ "${commandname}" == "MODS-UPDATE" ]; } \
+	&& { [ "${shortname}" == "cs" ] || [ "${shortname}" == "dod" ] || [ "${shortname}" == "tfc" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "hldm" ]; }; then
 	if ! amxxlatestfile=$(curl --connect-timeout 3 --max-time 30 --fail --silent --show-error --location "${amxxscrapeurl}"); then
 		fn_print_fail_nl "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
 		fn_script_log_fail "Unable to get the latest AMX Mod X ${amxxbranch} Linux build: ${amxxscrapeurl}"
