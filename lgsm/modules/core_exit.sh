@@ -27,6 +27,10 @@ if [ "$(whoami)" == "root" ]; then
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 fi
 
+if [ -z "${exitbypass}" ] && [ "${updatelocklevel}" == "${BASH_SUBSHELL}" ] && [ "$(cat "${lockdir}/updating.lock" 2> /dev/null)" == "$$" ]; then
+	rm -f "${lockdir:?}/updating.lock"
+fi
+
 if [ "${exitbypass}" ]; then
 	unset exitbypass
 elif [ "${exitcode}" -ne 0 ]; then
