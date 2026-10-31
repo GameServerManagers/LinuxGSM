@@ -7,6 +7,10 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+if [ "${shortname}" == "orar" ] && [ ! -d "${servercfgdir}" ]; then
+	install_config.sh
+fi
+
 if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 	fn_print_warn_nl "Configuration file missing!"
 	echo -e "${servercfgfullpath}"

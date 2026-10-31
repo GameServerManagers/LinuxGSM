@@ -256,7 +256,10 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "sdtd" ]; then
+if [ "${shortname}" == "orar" ]; then
+	fn_check_cfgdir
+	fn_list_config_locations
+elif [ "${shortname}" == "sdtd" ]; then
 	fn_default_config_local
 	fn_list_config_locations
 elif [ "${shortname}" == "ac" ]; then
