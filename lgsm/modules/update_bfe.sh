@@ -7,24 +7,78 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-fn_update_node() {
-	# Installs the Node.js runtime the server runs on.
+fn_update_node_remote() {
+	# Gets the latest Node.js 24 build and the installed version.
 	nodeurl="https://nodejs.org/dist/latest-v24.x"
 	nodeshasums=$(curl -s "${nodeurl}/SHASUMS256.txt")
 	nodefilename=$(echo "${nodeshasums}" | grep -o "node-v[0-9.]*-linux-${nodearch}.tar.xz" | head -1)
 	nodeversion=$(echo "${nodefilename}" | cut -d '-' -f 2)
-	if [ -z "${nodefilename}" ]; then
+	nodehash=$(echo "${nodeshasums}" | grep " ${nodefilename}$" | awk '{print $1}')
+	if [ -z "${nodefilename}" ] || [ -z "${nodehash}" ]; then
 		fn_print_failure_nl "Unable to get Node.js build"
 		fn_script_log_fail "Unable to get Node.js build"
 		core_exit.sh
 	fi
-	if [ -x "${serverfiles}/node/bin/node" ] && [ "$("${serverfiles}/node/bin/node" --version)" == "${nodeversion}" ]; then
-		return
+	nodelocalversion=""
+	if [ -x "${serverfiles}/node/bin/node" ]; then
+		nodelocalversion=$("${serverfiles}/node/bin/node" --version 2> /dev/null)
 	fi
-	nodehash=$(echo "${nodeshasums}" | grep " ${nodefilename}$" | awk '{print $1}')
+}
+
+fn_update_node_dl() {
+	# Installs the Node.js runtime the server runs on.
 	fn_fetch_file "${nodeurl}/${nodefilename}" "" "" "" "${tmpdir}" "${nodefilename}" "nochmodx" "norun" "forcedl" "${nodehash}"
+	rm -rf "${serverfiles:?}/node.new"
+	fn_dl_extract "${tmpdir}" "${nodefilename}" "${serverfiles}/node.new" "${nodefilename%.tar.xz}"
 	rm -rf "${serverfiles:?}/node"
-	fn_dl_extract "${tmpdir}" "${nodefilename}" "${serverfiles}/node" "${nodefilename%.tar.xz}"
+	mv "${serverfiles}/node.new" "${serverfiles}/node"
+	fn_clear_tmp
+}
+
+fn_update_node() {
+	fn_update_node_remote
+	if [ "${nodelocalversion}" != "${nodeversion}" ]; then
+		fn_update_node_dl
+	fi
+}
+
+fn_update_node_compare() {
+	fn_print_dots "Checking for update: nodejs.org"
+	fn_update_node_remote
+	if [ "${nodelocalversion}" != "${nodeversion}" ]; then
+		date '+%s' > "${lockdir:?}/update.lock"
+		fn_print_ok_nl "Checking for update: nodejs.org"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}Node.js update${default} available"
+		fn_print_nl "* Local version: ${red}${nodelocalversion:-none}${default}"
+		fn_print_nl "* Remote version: ${green}${nodeversion}${default}"
+		fn_print "\n"
+		fn_script_log_info "Node.js update available"
+		fn_script_log_info "Local version: ${nodelocalversion:-none}"
+		fn_script_log_info "Remote version: ${nodeversion}"
+		previousbuild="Node.js ${nodelocalversion:-none}"
+		localbuild="Node.js ${nodelocalversion:-none}"
+		remotebuild="Node.js ${nodeversion}"
+		if [ "${commandname}" == "UPDATE" ]; then
+			unset updateonstart
+			fn_update_apply fn_update_node_dl
+			localbuild="${remotebuild}"
+			alert="update"
+		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
+			alert="check-update"
+		fi
+		alert.sh
+	else
+		fn_print_ok_nl "Checking for update: nodejs.org"
+		fn_print "\n"
+		fn_print_nl "${bold}${underline}No Node.js update${default} available"
+		fn_print_nl "* Local version: ${green}${nodelocalversion}${default}"
+		fn_print_nl "* Remote version: ${green}${nodeversion}${default}"
+		fn_print "\n"
+		fn_script_log_info "No Node.js update available"
+		fn_script_log_info "Local version: ${nodelocalversion}"
+		fn_script_log_info "Remote version: ${nodeversion}"
+	fi
 }
 
 fn_update_prepare() {
@@ -196,4 +250,7 @@ else
 	fn_update_localbuild
 	fn_update_remotebuild
 	fn_update_compare
+	if [ "${localbuild}" == "${remotebuild}" ] && [ "${forceupdate}" != "1" ]; then
+		fn_update_node_compare
+	fi
 fi
