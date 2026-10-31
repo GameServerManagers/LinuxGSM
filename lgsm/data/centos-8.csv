@@ -71,6 +71,7 @@ kf
 kf2
 l4d
 l4d2
+luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 mc,java-21-openjdk
 mcb,libnsl
 mcv

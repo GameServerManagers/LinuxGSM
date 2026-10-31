@@ -747,7 +747,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -1828,6 +1828,13 @@ fn_info_messages_vh() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_luanti() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_openra() {
 	{
 		fn_port "header"
@@ -2051,6 +2058,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_unt
 	elif [ "${shortname}" == "vh" ]; then
 		fn_info_messages_vh
+	elif [ "${shortname}" == "luanti" ]; then
+		fn_info_messages_luanti
 	elif [ "${shortname}" == "orar" ]; then
 		fn_info_messages_openra
 	elif [ "${shortname}" == "vints" ]; then

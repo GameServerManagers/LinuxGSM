@@ -256,7 +256,20 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "orar" ]; then
+if [ "${shortname}" == "luanti" ]; then
+	fn_check_cfgdir
+	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
+		cp "${serverfiles}/${servercfgdefault}" "${servercfgfullpath}"
+		{
+			echo "server_name = LinuxGSM"
+			echo "name = admin"
+			echo "server_announce = false"
+			echo "bind_address = ${ip}"
+			echo "max_users = 20"
+		} >> "${servercfgfullpath}"
+	fi
+	fn_list_config_locations
+elif [ "${shortname}" == "orar" ]; then
 	fn_check_cfgdir
 	fn_list_config_locations
 elif [ "${shortname}" == "sdtd" ]; then

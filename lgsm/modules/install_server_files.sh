@@ -279,6 +279,8 @@ elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
 elif [ "${shortname}" == "jk3" ]; then
 	update_jk3.sh
+elif [ "${shortname}" == "luanti" ]; then
+	update_luanti.sh
 elif [ "${shortname}" == "orar" ]; then
 	update_openra.sh
 elif [ "${shortname}" == "vints" ]; then

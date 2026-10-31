@@ -8,6 +8,7 @@ arma3
 armar,libcurl4
 ats,libatomic1
 av
+luanti,libcurl4,libncursesw6,libsqlite3-0,libstdc++6,libzstd1,zlib1g
 pw
 bb
 bb2,libcurl4-gnutls-dev:i386

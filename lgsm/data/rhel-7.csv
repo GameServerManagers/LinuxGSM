@@ -9,6 +9,7 @@ armar,libcurl,openssl11-libs
 ats,libatomic
 av
 bb
+luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 pw
 bb2,libcurl.i686
 bd
