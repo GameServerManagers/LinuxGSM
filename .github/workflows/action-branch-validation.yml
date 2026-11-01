@@ -1,0 +1,33 @@
+name: Branch validation tests
+
+on:
+  push:
+    branches:
+      - "**"
+    paths:
+      - linuxgsm.sh
+      - lgsm/modules/core_dl.sh
+      - lgsm/modules/command_update_linuxgsm.sh
+      - tests/test_branch_validation.py
+      - .github/workflows/action-branch-validation.yml
+  pull_request:
+    paths:
+      - linuxgsm.sh
+      - lgsm/modules/core_dl.sh
+      - lgsm/modules/command_update_linuxgsm.sh
+      - tests/test_branch_validation.py
+      - .github/workflows/action-branch-validation.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Test branch validation and download fallback
+        run: python3 tests/test_branch_validation.py
