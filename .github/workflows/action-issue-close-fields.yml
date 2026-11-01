@@ -1,0 +1,199 @@
+name: Issue Close Fields
+on:
+  issues:
+    types:
+      - closed
+  workflow_run:
+    workflows:
+      - Release Issues
+    types:
+      - completed
+  # checkov:skip=CKV_GHA_7:Inputs only select which closed issues a backfill run touches; nothing is built.
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: List the changes without writing them
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      closed_since:
+        description: Only issues closed on or after this date (YYYY-MM-DD, blank = all)
+        required: false
+        default: ""
+        type: string
+      limit:
+        description: Max issues to change (0 = no limit)
+        required: true
+        default: "200"
+        type: string
+
+permissions:
+  issues: write
+  pull-requests: read
+  contents: read
+
+concurrency:
+  group: issue-close-fields-${{ github.event.issue.number || github.run_id }}
+
+jobs:
+  issue-close-fields:
+    if: github.repository_owner == 'GameServerManagers' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fill assignee, outcome, type and milestone on closed issues
+        uses: actions/github-script@v9
+        env:
+          DEFAULT_ASSIGNEE: dgibbs64
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          CLOSED_SINCE: ${{ inputs.closed_since }}
+          LIMIT: ${{ inputs.limit || '0' }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const dryRun = process.env.DRY_RUN === 'true';
+            const limit = Number.parseInt(process.env.LIMIT || '0', 10) || 0;
+            const outcomeByReason = {
+              completed: 'outcome: issue resolved',
+              duplicate: 'outcome: duplicate',
+            };
+            const issueTypeByLabel = {
+              'type: bug': 'Bug',
+              'type: feature': 'Feature',
+              'type: game server request': 'Server Request',
+              'type: docs': 'Task',
+            };
+
+            let milestoneByTitle = null;
+            let releases = null;
+            async function loadReleaseData() {
+              if (releases) return;
+              const milestones = await github.paginate(github.rest.issues.listMilestones, { owner, repo, state: 'all', per_page: 100 });
+              milestoneByTitle = new Map(milestones.map((m) => [m.title, m]));
+              releases = (await github.paginate(github.rest.repos.listReleases, { owner, repo, per_page: 100 }))
+                .filter((r) => !r.draft && !r.prerelease && r.published_at)
+                .sort((a, b) => new Date(a.published_at) - new Date(b.published_at));
+            }
+
+            async function releaseMilestoneFor(sha, mergedAt) {
+              await loadReleaseData();
+              for (const release of releases) {
+                if (new Date(release.published_at) < new Date(mergedAt)) continue;
+                const { data } = await github.rest.repos.compareCommits({ owner, repo, base: release.tag_name, head: sha, per_page: 1 });
+                if (data.status !== 'behind' && data.status !== 'identical') continue;
+                const minor = release.tag_name.match(/^v(\d+)\.(\d+)\./);
+                return milestoneByTitle.get(release.tag_name) || (minor && milestoneByTitle.get(`v${minor[1]}.${minor[2]}.0`)) || null;
+              }
+              return null;
+            }
+
+            async function milestoneFor(issueNumber) {
+              const data = await github.graphql(
+                `query($owner:String!,$repo:String!,$number:Int!){
+                  repository(owner:$owner,name:$repo){
+                    issue(number:$number){
+                      closedByPullRequestsReferences(first:10,includeClosedPrs:true){
+                        nodes { number merged mergedAt mergeCommit { oid } milestone { number title } }
+                      }
+                    }
+                  }
+                }`,
+                { owner, repo, number: issueNumber }
+              );
+              const prs = (data.repository?.issue?.closedByPullRequestsReferences?.nodes || [])
+                .filter((pr) => pr.merged && pr.mergeCommit?.oid)
+                .sort((a, b) => new Date(a.mergedAt) - new Date(b.mergedAt));
+              if (prs.length === 0) return null;
+              const chosen = prs.find((pr) => pr.milestone);
+              if (chosen) return { number: chosen.milestone.number, title: chosen.milestone.title, source: `#${chosen.number}` };
+              const released = await releaseMilestoneFor(prs[0].mergeCommit.oid, prs[0].mergedAt);
+              return released ? { number: released.number, title: released.title, source: `#${prs[0].number} release` } : null;
+            }
+
+            async function planChanges(issue) {
+              const labels = (issue.labels || []).map((l) => (typeof l === 'string' ? l : l.name));
+              const changes = {};
+              if ((issue.assignees || []).length === 0) changes.assignee = process.env.DEFAULT_ASSIGNEE;
+              const outcome = outcomeByReason[issue.state_reason];
+              if (outcome && !labels.some((l) => l.startsWith('outcome: '))) changes.label = outcome;
+              const typeLabel = labels.find((l) => issueTypeByLabel[l]);
+              if (!issue.type && typeLabel) changes.type = issueTypeByLabel[typeLabel];
+              if (issue.state_reason === 'completed' && !issue.milestone) {
+                const milestone = await milestoneFor(issue.number);
+                if (milestone) changes.milestone = milestone;
+              }
+              return changes;
+            }
+
+            async function applyChanges(issueNumber, changes) {
+              if (changes.assignee) {
+                await github.rest.issues.addAssignees({ owner, repo, issue_number: issueNumber, assignees: [changes.assignee] });
+              }
+              if (changes.label) {
+                await github.rest.issues.addLabels({ owner, repo, issue_number: issueNumber, labels: [changes.label] });
+              }
+              const update = {};
+              if (changes.type) update.type = changes.type;
+              if (changes.milestone) update.milestone = changes.milestone.number;
+              if (Object.keys(update).length > 0) {
+                await github.rest.issues.update({ owner, repo, issue_number: issueNumber, ...update });
+              }
+            }
+
+            function describe(changes) {
+              const parts = [];
+              if (changes.assignee) parts.push(`assignee ${changes.assignee}`);
+              if (changes.label) parts.push(`label "${changes.label}"`);
+              if (changes.type) parts.push(`type ${changes.type}`);
+              if (changes.milestone) parts.push(`milestone ${changes.milestone.title} (from ${changes.milestone.source})`);
+              return parts.join(', ');
+            }
+
+            let issues;
+            if (context.eventName === 'issues') {
+              issues = [context.payload.issue];
+            } else {
+              const sinceInput = context.eventName === 'workflow_run'
+                ? new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+                : (process.env.CLOSED_SINCE ? new Date(`${process.env.CLOSED_SINCE}T00:00:00Z`) : null);
+              const listParams = { owner, repo, state: 'closed', sort: 'updated', direction: 'desc', per_page: 100 };
+              if (sinceInput) listParams.since = sinceInput.toISOString();
+              issues = (await github.paginate(github.rest.issues.listForRepo, listParams))
+                .filter((issue) => !issue.pull_request)
+                .filter((issue) => !sinceInput || new Date(issue.closed_at) >= sinceInput)
+                .sort((a, b) => new Date(b.closed_at) - new Date(a.closed_at));
+            }
+
+            const rows = [];
+            const failures = [];
+            let changed = 0;
+            for (const issue of issues) {
+              if (limit > 0 && changed >= limit) break;
+              try {
+                const changes = await planChanges(issue);
+                if (Object.keys(changes).length === 0) continue;
+                if (!dryRun) await applyChanges(issue.number, changes);
+                changed += 1;
+                rows.push([`#${issue.number}`, issue.state_reason || '', describe(changes)]);
+                core.info(`${dryRun ? 'Would set' : 'Set'} #${issue.number}: ${describe(changes)}`);
+              } catch (err) {
+                failures.push(`#${issue.number}: ${err.message}`);
+                core.warning(`#${issue.number}: ${err.message}`);
+                if (err.status === 403 || err.status === 429) {
+                  core.warning('Rate limited, stopping. Re-run to continue: done issues are skipped.');
+                  break;
+                }
+              }
+            }
+
+            await core.summary
+              .addHeading(`Issue close fields (${dryRun ? 'dry run' : 'applied'})`)
+              .addRaw(`Checked ${issues.length} closed issue(s), ${changed} needed changes.\n\n`)
+              .addTable([
+                [{ data: 'Issue', header: true }, { data: 'Close reason', header: true }, { data: 'Changes', header: true }],
+                ...rows,
+              ])
+              .addRaw(failures.length > 0 ? `\nFailures:\n\n${failures.map((f) => `- ${f}`).join('\n')}\n` : '')
+              .write();
