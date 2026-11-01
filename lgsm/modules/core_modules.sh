@@ -278,6 +278,11 @@ check_tmuxception.sh() {
 	fn_fetch_module
 }
 
+check_update_lock.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 check_version.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
