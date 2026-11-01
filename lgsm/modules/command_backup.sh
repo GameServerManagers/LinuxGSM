@@ -137,12 +137,23 @@ fn_select_compression() {
 
 # Game data kept outside rootdir, such as worlds saved under the home directory.
 fn_backup_extradirs() {
-	local candidates=("${savedir}" "${servercfgdir}")
+	local candidates=()
 	local covered=() dir dirreal link coveredpath
 	backupextradirs=()
-	if [ "${shortname}" == "pz" ]; then
-		candidates=("${HOME}/Zomboid" "${candidates[@]}")
+	if [ "${shortname}" == "bt" ]; then
+		candidates+=("${XDG_DATA_HOME:-${HOME}/.local/share}/Daedalic Entertainment GmbH/Barotrauma")
+	elif [ "${shortname}" == "ct" ]; then
+		candidates+=("${serverfiles}DedicatedServerSave")
+	elif [ "${shortname}" == "dst" ]; then
+		candidates+=("${persistentstorageroot}")
+	elif [ "${shortname}" == "pz" ]; then
+		candidates+=("${HOME}/Zomboid")
+	elif [ "${shortname}" == "scpsl" ]; then
+		candidates+=("${HOME}/.config/SCP Secret Laboratory/config")
+	elif [ "${shortname}" == "sdtd" ]; then
+		candidates+=("${HOME}/.local/share/7DaysToDie/Saves")
 	fi
+	candidates+=("${savedir}" "${servercfgdir}")
 	covered+=("$(readlink -f "${rootdir}")")
 	while IFS= read -r link; do
 		covered+=("$(readlink -f "${link}")")
