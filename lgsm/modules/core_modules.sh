@@ -593,6 +593,11 @@ fix_ut3.sh() {
 	fn_fetch_module
 }
 
+fix_ut99.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_vh.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
