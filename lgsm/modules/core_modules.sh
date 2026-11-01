@@ -428,6 +428,11 @@ fix_coduo.sh() {
 	fn_fetch_module
 }
 
+fix_codwaw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_csgo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
