@@ -433,6 +433,11 @@ fix_csgo.sh() {
 	fn_fetch_module
 }
 
+fix_ct.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_dst.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
