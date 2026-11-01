@@ -186,6 +186,11 @@ command_workshop_update.sh() {
 	fn_fetch_module
 }
 
+install_fivem_license.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -737,6 +742,11 @@ update_fctr.sh() {
 	fn_fetch_module
 }
 
+update_fivem.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_hyt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -767,6 +777,11 @@ update_mta.sh() {
 	fn_fetch_module
 }
 
+update_openra.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_pmc.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -787,7 +802,17 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_bfe.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_bb.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_luanti.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

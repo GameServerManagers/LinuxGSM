@@ -1,4 +1,4 @@
-all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,python3,tar,tmux,unzip,util-linux,wget,xz
+all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,procps-ng,python3,tar,tmux,unzip,util-linux,wget,xz
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl
@@ -12,11 +12,12 @@ bb
 bb2,libcurl.i686
 bd
 bf1942,ncurses-libs.i686
+bfe
 bfv,glibc.i686
 bmdm,ncurses-libs.i686
 bo
 bs
-bt,libicu,dos2unix,libxml2
+bt,dos2unix,libxml2
 btl
 cc
 ce
@@ -29,10 +30,11 @@ coduo
 codwaw
 col
 cs
-cs2
+cs2,libicu
 cscz
 csgo
 css,ncurses-libs.i686
+cswon
 ct
 dab
 dayz
@@ -48,12 +50,14 @@ em
 etl
 ets2,libatomic
 fctr
+fivem
 fof
 gmod,ncurses-libs.i686
 hcu
 hl2dm
 hldm
 hldms
+hlwon
 hw,zlib-devel
 hyt,java-25-openjdk
 hz
@@ -69,6 +73,7 @@ kf
 kf2
 l4d
 l4d2
+luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 mc,java-25-openjdk
 mcb,libnsl
 mcv
@@ -83,6 +88,7 @@ ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
 ohd
 onset,mariadb-connector-c
+orar
 opfor
 pc
 pc2

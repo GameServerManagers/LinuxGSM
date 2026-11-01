@@ -975,6 +975,27 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: none
+# Example: "name": "SERVERNAME",
+# Filetype: json
+fn_info_game_bfe() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".bind // empty"
+		fn_info_game_json "discoveryport" ".discoveryPort // empty"
+		fn_info_game_json "maxplayers" ".maxPlayers // empty"
+		fn_info_game_json "port" ".gamePort // empty"
+		fn_info_game_json "servername" ".name // empty"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	discoveryport="${discoveryport:-"18452"}"
+	maxplayers="${maxplayers:-"64"}"
+	port="${port:-"18451"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: con
 # Parameters: true
 # Comment: # or //
@@ -1317,6 +1338,24 @@ fn_info_game_etl() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
+# Config Type: Custom (key value pairs)
+# Comment: #
+# Example: sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_fivem() {
+	if [ -f "${servercfgfullpath}" ]; then
+		servername="$(sed -n 's/^sv_hostname[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		maxplayers="$(sed -n 's/^sv_maxclients[[:space:]]\+\([0-9]*\).*/\1/p' "${servercfgfullpath}" | head -1)"
+		rconpassword="$(sed -n 's/^rcon_password[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		port="$(sed -n 's/^endpoint_add_udp[[:space:]]\+"\?[^:"]*:\([0-9]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1)"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: json
@@ -2292,6 +2331,29 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: Key Value Pairs (Equals Delimited)
+# Comment: #
+fn_info_game_luanti() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_equals "servername" "server_name"
+		fn_info_game_keyvalue_pairs_equals "serverpassword" "default_password"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "max_users"
+		fn_info_game_keyvalue_pairs_equals "configip" "bind_address"
+	fi
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"20"}"
+	configip="${configip:-"0.0.0.0"}"
+	queryport="${port}"
+}
+
+# Parameters: true
+fn_info_game_openra() {
+	port="${port:-"1234"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: json
 # Parameters: false
 # Comment: // or /* */
@@ -2447,6 +2509,8 @@ elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_game_bf1942
+elif [ "${shortname}" == "bfe" ]; then
+	fn_info_game_bfe
 elif [ "${shortname}" == "bfv" ]; then
 	fn_info_game_bfv
 elif [ "${shortname}" == "bo" ]; then
@@ -2489,6 +2553,8 @@ elif [ "${shortname}" == "etl" ]; then
 	fn_info_game_etl
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
+elif [ "${shortname}" == "fivem" ]; then
+	fn_info_game_fivem
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
@@ -2609,6 +2675,10 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${shortname}" == "luanti" ]; then
+	fn_info_game_luanti
+elif [ "${shortname}" == "orar" ]; then
+	fn_info_game_openra
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_game_vints
 elif [ "${shortname}" == "vpmc" ]; then
