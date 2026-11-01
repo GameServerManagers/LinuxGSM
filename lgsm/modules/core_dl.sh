@@ -372,6 +372,9 @@ fn_fetch_trap() {
 	echo -en "downloading ${local_filename}"
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
+	if [ "${local_filename}" == "core_exit.sh" ]; then
+		exit 130
+	fi
 	core_exit.sh
 }
 
@@ -486,7 +489,7 @@ fn_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
-			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
+			curlcmd=(curl --connect-timeout 10 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 			if [[ "${fileurl}" == https://* ]]; then
 				curlcmd+=(--proto-redir "=https")
 			fi
@@ -526,6 +529,9 @@ fn_fetch_file() {
 					if [ -f "${lgsmlog}" ]; then
 						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
+					fi
+					if [ "${local_filename}" == "core_exit.sh" ]; then
+						exit 1
 					fi
 					core_exit.sh
 				else
