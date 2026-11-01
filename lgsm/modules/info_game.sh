@@ -1340,6 +1340,24 @@ fn_info_game_etl() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: Custom (key value pairs)
+# Comment: #
+# Example: sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_fivem() {
+	if [ -f "${servercfgfullpath}" ]; then
+		servername="$(sed -n 's/^sv_hostname[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		maxplayers="$(sed -n 's/^sv_maxclients[[:space:]]\+\([0-9]*\).*/\1/p' "${servercfgfullpath}" | head -1)"
+		rconpassword="$(sed -n 's/^rcon_password[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		port="$(sed -n 's/^endpoint_add_udp[[:space:]]\+"\?[^:"]*:\([0-9]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1)"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: json
 # Parameters: true
 # Comment: // or /* */
@@ -2535,6 +2553,8 @@ elif [ "${shortname}" == "etl" ]; then
 	fn_info_game_etl
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
+elif [ "${shortname}" == "fivem" ]; then
+	fn_info_game_fivem
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then

@@ -65,6 +65,8 @@ elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortna
 	update_pmc.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
+elif [ "${shortname}" == "fivem" ]; then
+	update_fivem.sh
 elif [ "${shortname}" == "hyt" ]; then
 	update_hyt.sh
 elif [ "${shortname}" == "mta" ]; then

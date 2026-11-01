@@ -39,6 +39,8 @@ else
 		install_gslt.sh
 	elif [ "${shortname}" == "dst" ]; then
 		install_dst_token.sh
+	elif [ "${shortname}" == "fivem" ]; then
+		install_fivem_license.sh
 	elif [ "${shortname}" == "squad" ]; then
 		install_squad_license.sh
 	elif [ "${shortname}" == "ts3" ]; then
