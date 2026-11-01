@@ -8,6 +8,7 @@ on:
       - Release Issues
     types:
       - completed
+  # checkov:skip=CKV_GHA_7:Inputs only select which closed issues a backfill run touches; nothing is built.
   workflow_dispatch:
     inputs:
       dry_run:
