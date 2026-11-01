@@ -409,17 +409,17 @@ fn_check_file() {
 		if [ "${exitcode}" -ne 0 ]; then
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
+				checkflag=1
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_fail "Checking ${remote_filename}"
 					fn_script_log_fail "${fileurl}"
-					checkflag=1
 				fi
 			else
 				fn_print_error_eol_nl
+				checkflag=2
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_error "Checking ${remote_filename}"
 					fn_script_log_error "${fileurl}"
-					checkflag=2
 				fi
 			fi
 		else
@@ -429,9 +429,9 @@ fn_check_file() {
 				fn_print_ok_eol
 				echo -en "\033[2K\\r"
 			fi
+			checkflag=0
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Checking ${remote_filename}"
-				checkflag=0
 			fi
 			break
 		fi
