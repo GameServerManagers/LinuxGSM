@@ -58,6 +58,11 @@ if [ "$(find "${lgsmlogdir}"/ -type f -mtime +"${logdays}" | wc -l)" -ne "0" ]; 
 		find "${gamelogdir}"/ -type f -mtime +"${logdays}" | tee >> "${lgsmlog}"
 		gamecount=$(find "${gamelogdir}"/ -type f -mtime +"${logdays}" | wc -l)
 		find "${gamelogdir}"/ -mtime +"${logdays}" -type f -exec rm -f {} \;
+	# Rotated game logfiles.
+	elif [ -n "${gamelogdate}" ] && [ -d "${gamelogdir}" ]; then
+		find "${gamelogdir}"/ -maxdepth 1 -type f -name "${selfname}-game-*.log" -mtime +"${logdays}" | tee >> "${lgsmlog}"
+		gamecount=$(find "${gamelogdir}"/ -maxdepth 1 -type f -name "${selfname}-game-*.log" -mtime +"${logdays}" | wc -l)
+		find "${gamelogdir}"/ -maxdepth 1 -type f -name "${selfname}-game-*.log" -mtime +"${logdays}" -exec rm -f {} \;
 	fi
 	# Console logfiles.
 	if [ "${consolelog}" ]; then
