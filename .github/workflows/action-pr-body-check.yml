@@ -11,6 +11,8 @@ on:
 
 permissions:
   contents: read
+  issues: read
+  pull-requests: read
 
 jobs:
   pr-body-check:
@@ -37,6 +39,43 @@ jobs:
             const relatedIssue = /\brelated to:?\s+([\w.-]+\/[\w.-]+)?#\d+/i;
             if (!closingKeyword.test(body) && !relatedIssue.test(body)) {
               core.warning('No closing keyword found. Add "Fixes #123" to link the issue, or "Related to #123" if this pull request does not fully resolve it.');
+            }
+
+            const repoName = `${context.repo.owner}/${context.repo.repo}`.toLowerCase();
+            const closingRefs = [...body.matchAll(/\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?):?\s+([\w.-]+\/[\w.-]+)?#(\d+)/gi)]
+              .filter((m) => !m[1] || m[1].toLowerCase() === repoName)
+              .map((m) => Number(m[2]));
+            const wanted = [...new Set(closingRefs)];
+            if (wanted.length > 0) {
+              const vars = { owner: context.repo.owner, repo: context.repo.repo };
+              const { repository } = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) { closingIssuesReferences(first: 50) { nodes { number } } }
+                  }
+                }`,
+                { ...vars, number: context.payload.pull_request.number }
+              );
+              const linked = new Set(repository.pullRequest.closingIssuesReferences.nodes.map((n) => n.number));
+              const unlinked = [];
+              for (const number of wanted.filter((n) => !linked.has(n))) {
+                try {
+                  const { repository: ref } = await github.graphql(
+                    `query($owner: String!, $repo: String!, $number: Int!) {
+                      repository(owner: $owner, name: $repo) { issueOrPullRequest(number: $number) { __typename } }
+                    }`,
+                    { ...vars, number }
+                  );
+                  if (ref.issueOrPullRequest?.__typename === 'Issue') {
+                    unlinked.push(`#${number}`);
+                  }
+                } catch (error) {
+                  core.warning(`Could not look up #${number}: ${error.message}`);
+                }
+              }
+              if (unlinked.length > 0) {
+                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. Select each issue in the Development section of this pull request's sidebar, then re-run this check.`);
+              }
             }
 
             if (errors.length > 0) {
