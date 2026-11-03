@@ -129,14 +129,6 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="7aaa88fb0ba0c533fe23b7b993fd6530"
-	elif [ "${shortname}" == "qw" ]; then
-		remote_fileurl="https://linuxgsm.download/QuakeWorld/nquake.server.linux.190506.full.tar.xz"
-		local_filedir="${tmpdir}"
-		local_filename="nquake.server.linux.190506.full.tar.xz"
-		chmodx="nochmodx"
-		run="norun"
-		force="noforce"
-		md5="82055b7d973206c13a606db8ba288d03"
 	elif [ "${shortname}" == "rtcw" ]; then
 		remote_fileurl="https://linuxgsm.download/ReturnToCastleWolfenstein/rtcw-iortcw-1.51c-linux-amd64-linuxgsm-20261102.tar.xz"
 		local_filedir="${tmpdir}"
@@ -296,6 +288,8 @@ elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
+elif [ "${shortname}" == "qw" ]; then
+	update_qw.sh
 elif [ "${shortname}" == "etl" ]; then
 	update_etl.sh
 elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "q4" ] || [ "${shortname}" == "ns" ] || [ "${shortname}" == "sfc" ] || [ "${shortname}" == "ts" ] || [ "${shortname}" == "vs" ] || [ "${shortname}" == "zmr" ]; then

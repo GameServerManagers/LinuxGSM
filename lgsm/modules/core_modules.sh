@@ -812,6 +812,11 @@ update_pmc.sh() {
 	fn_fetch_module
 }
 
+update_qw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_steamcmd.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
