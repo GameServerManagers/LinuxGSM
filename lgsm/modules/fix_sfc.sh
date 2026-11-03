@@ -7,6 +7,8 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+export GLIBC_TUNABLES="${GLIBC_TUNABLES:+${GLIBC_TUNABLES}:}glibc.rtld.execstack=2"
+
 if [ ! -f "${serverfiles}/bin/datacache.so" ]; then
 	ln -s "${serverfiles}/bin/datacache_srv.so" "${serverfiles}/bin/datacache.so"
 fi
