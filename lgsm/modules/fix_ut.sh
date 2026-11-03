@@ -7,7 +7,10 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-#Set Binary Executable
-echo -e "chmod +x ${executabledir}/${executable}"
-chmod +x "${executabledir}/${executable}"
-fn_sleep_time
+export GLIBC_TUNABLES="${GLIBC_TUNABLES:+${GLIBC_TUNABLES}:}glibc.rtld.execstack=2"
+
+if [ ! -x "${executabledir}/${executable}" ]; then
+	echo -e "chmod +x ${executabledir}/${executable}"
+	chmod +x "${executabledir}/${executable}"
+	fn_sleep_time
+fi

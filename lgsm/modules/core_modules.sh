@@ -573,6 +573,11 @@ fix_tf2.sh() {
 	fn_fetch_module
 }
 
+fix_ts.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ts3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -599,6 +604,11 @@ fix_ut3.sh() {
 }
 
 fix_vh.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_vs.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
