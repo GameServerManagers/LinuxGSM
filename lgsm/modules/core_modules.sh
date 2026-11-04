@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.4.0"
+modulesversion="v26.5.0"
 
 # Core
 
@@ -186,6 +186,11 @@ command_workshop_update.sh() {
 	fn_fetch_module
 }
 
+install_fivem_license.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -269,6 +274,11 @@ check_system_requirements.sh() {
 }
 
 check_tmuxception.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+check_update_lock.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -358,6 +368,11 @@ fix.sh() {
 	fn_fetch_module
 }
 
+fix_ahl.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ark.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -418,12 +433,32 @@ fix_coduo.sh() {
 	fn_fetch_module
 }
 
+fix_codwaw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_csgo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
+fix_cswon.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_ct.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_dst.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_hlwon.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -553,6 +588,11 @@ fix_tf2.sh() {
 	fn_fetch_module
 }
 
+fix_ts.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ts3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -578,7 +618,17 @@ fix_ut3.sh() {
 	fn_fetch_module
 }
 
+fix_ut99.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_vh.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_vs.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -732,6 +782,11 @@ update_fctr.sh() {
 	fn_fetch_module
 }
 
+update_fivem.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_hyt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -762,7 +817,17 @@ update_mta.sh() {
 	fn_fetch_module
 }
 
+update_openra.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_pmc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_qw.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -782,7 +847,17 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_bfe.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_bb.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_luanti.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

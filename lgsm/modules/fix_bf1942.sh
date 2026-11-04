@@ -14,8 +14,8 @@ if ldd "${executabledir}/bf1942_lnxded.static" 2>&1 | grep -qE "lib(ncurses|tinf
 	# shellcheck disable=SC2034 # Used by fn_fix_msg_start_nl and fn_fix_msg_end.
 	fixname="libncurses5 i386"
 	fn_fix_msg_start_nl
-	fn_fetch_file "https://linuxgsm.download/libraries/libncurses5-i386-6.3-2ubuntu0.3.tar.xz" "" "" "" "${tmpdir}" "libncurses5-i386-6.3-2ubuntu0.3.tar.xz" "nochmodx" "norun" "noforce" "ee141cb3a843e4201786b6f188347666"
-	fn_dl_extract "${tmpdir}" "libncurses5-i386-6.3-2ubuntu0.3.tar.xz" "${serverfiles}"
+	fn_fetch_file "https://linuxgsm.download/libraries/libncurses5-i386-6.3-2ubuntu0.3-linuxgsm-20261102.tar.xz" "" "" "" "${tmpdir}" "libncurses5-i386-6.3-2ubuntu0.3-linuxgsm-20261102.tar.xz" "nochmodx" "norun" "noforce" "dd1cc98dd60420ea14345deb6a6beb8a"
+	fn_dl_extract "${tmpdir}" "libncurses5-i386-6.3-2ubuntu0.3-linuxgsm-20261102.tar.xz" "${serverfiles}"
 	fn_clear_tmp
 	fn_fix_msg_end
 fi

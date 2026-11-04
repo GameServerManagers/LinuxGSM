@@ -132,6 +132,16 @@ if [ "${iftttalert}" == "on" ]; then
 	fn_alert_payload
 	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
 fi
+if [ "${matrixalert}" == "on" ]; then
+	alerttype="matrix"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
+if [ "${ntfyalert}" == "on" ]; then
+	alerttype="ntfy"
+	fn_alert_payload
+	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
+fi
 if [ "${pushbulletalert}" == "on" ]; then
 	alerttype="pushbullet"
 	fn_alert_payload

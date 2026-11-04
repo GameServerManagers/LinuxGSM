@@ -90,7 +90,8 @@ if [ "${script_diff}" != "" ]; then
 	if [ ! -d "${backupdir}/script" ]; then
 		mkdir -p "${backupdir}/script"
 	fi
-	cp "${rootdir}/${selfname}" "${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+	scriptbackup="${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+	cp "${rootdir}/${selfname}" "${scriptbackup}"
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
@@ -98,25 +99,45 @@ if [ "${script_diff}" != "" ]; then
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl
-		fn_script_log_pass "Backup script${selfname}"
-		echo -e "backup location [ ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak ]"
-		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
+		fn_script_log_pass "Backup script ${selfname}"
+		echo -e "backup location [ ${scriptbackup} ]"
+		fn_script_log_pass "Backup location ${scriptbackup}"
 	fi
 
 	echo -en "copying ${selfname}"
 	fn_script_log_info "Copying ${selfname}"
-	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
-	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+gamename=\"core\"+gamename=\"${gamename}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
-
+	cp "${tmpdir}/linuxgsm.sh" "${tmpdir}/${selfname}.update" \
+		&& sed -i \
+			-e "s+shortname=\"core\"+shortname=\"${shortname}\"+g" \
+			-e "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" \
+			-e "s+gamename=\"core\"+gamename=\"${gamename}\"+g" \
+			-e "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" \
+			-e "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" \
+			-e "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" \
+			"${tmpdir}/${selfname}.update"
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
+		fn_script_log_fail "Preparing ${selfname} in ${tmpdir}"
+		rm -f "${tmpdir:?}/${selfname}.update"
+		core_exit.sh
+	fi
+
+	cp "${tmpdir}/${selfname}.update" "${rootdir}/${selfname}"
+	exitcode=$?
+	rm -f "${tmpdir:?}/${selfname}.update"
+	if [ "${exitcode}" -ne 0 ]; then
+		fn_print_fail_eol_nl
 		fn_script_log_fail "copying ${selfname}"
+		echo -en "restoring ${selfname} from backup\c"
+		fn_script_log_info "Restoring ${selfname} from ${scriptbackup}"
+		if cp "${scriptbackup}" "${rootdir}/${selfname}"; then
+			fn_print_ok_eol_nl
+			fn_script_log_pass "Restoring ${selfname} from backup"
+		else
+			fn_print_fail_eol_nl
+			fn_script_log_fail "Restoring ${selfname} from backup ${scriptbackup}"
+		fi
 		core_exit.sh
 	else
 		fn_print_ok_eol_nl

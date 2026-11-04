@@ -7,6 +7,10 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+if [ "${shortname}" == "orar" ] && [ ! -d "${servercfgdir}" ]; then
+	install_config.sh
+fi
+
 if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 	fn_print_warn_nl "Configuration file missing!"
 	echo -e "${servercfgfullpath}"
@@ -44,4 +48,14 @@ if [ "${shortname}" == "vh" ] && [ -z "${serverpassword}" ]; then
 elif [ "${shortname}" == "vh" ] && [ "${#serverpassword}" -le "4" ]; then
 	fn_print_fail_nl "serverpassword is to short (min 5 chars)"
 	fn_script_log_fail "serverpassword is to short (min 5 chars)"
+fi
+
+if [ "${shortname}" == "fivem" ] && ! grep -qE "^[[:space:]]*(set[[:space:]]+)?sv_licenseKey[[:space:]]+\"?[^\" ]" "${servercfgfullpath}" 2> /dev/null; then
+	fn_print_fail_nl "FiveM license key is not set"
+	echo -e "* Get a free key from ${italic}https://portal.cfx.re/servers/registration-keys${default}"
+	echo -e "* Set sv_licenseKey in ${servercfgfullpath}"
+	fn_script_log_fail "FiveM license key is not set"
+	if [ "${commandname}" == "START" ] || [ "${commandname}" == "DEBUG" ]; then
+		core_exit.sh
+	fi
 fi

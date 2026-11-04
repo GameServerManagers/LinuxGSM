@@ -39,13 +39,15 @@ fn_install_mono_repo() {
 	if [ "${autodepinstall}" == "0" ]; then
 		fn_print_information_nl "Automatically adding Mono repository."
 		fn_script_log_info "Automatically adding Mono repository."
-		echo -en ".\r"
-		fn_sleep_time_1
-		echo -en "..\r"
-		fn_sleep_time_1
-		echo -en "...\r"
-		fn_sleep_time_1
-		echo -en "   \r"
+		if [ -z "${plainoutput}" ]; then
+			echo -en ".\r"
+			fn_sleep_time_1
+			echo -en "..\r"
+			fn_sleep_time_1
+			echo -en "...\r"
+			fn_sleep_time_1
+			echo -en "   \r"
+		fi
 		if [ "${distroid}" == "ubuntu" ]; then
 			if [ "${distroversion}" == "22.04" ]; then
 				cmd="sudo apt-get install gnupg ca-certificates;sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF;echo 'deb https://download.mono-project.com/repo/ubuntu stable-jammy main' | sudo tee /etc/apt/sources.list.d/mono-official-stable.list;sudo apt update"
@@ -201,13 +203,15 @@ fn_install_missing_deps() {
 		if [ "${autodepinstall}" == "0" ]; then
 			fn_print_information_nl "Automatically installing missing dependencies."
 			fn_script_log_info "Automatically installing missing dependencies."
-			echo -en ".\r"
-			fn_sleep_time_1
-			echo -en "..\r"
-			fn_sleep_time_1
-			echo -en "...\r"
-			fn_sleep_time_1
-			echo -en "   \r"
+			if [ -z "${plainoutput}" ]; then
+				echo -en ".\r"
+				fn_sleep_time_1
+				echo -en "..\r"
+				fn_sleep_time_1
+				echo -en "...\r"
+				fn_sleep_time_1
+				echo -en "   \r"
+			fi
 			if [ "$(command -v apt 2> /dev/null)" ]; then
 				cmd="echo steamcmd steam/question select \"I AGREE\" | sudo debconf-set-selections; echo steamcmd steam/license note '' | sudo debconf-set-selections; ${i386installcommand}sudo apt-get update; sudo apt-get -y install ${array_deps_missing[*]}"
 				eval "${cmd}"

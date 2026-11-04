@@ -21,6 +21,17 @@ luasvautorundir="${systemdir}/lua/autorun/server"
 luafastdlfile="lgsm_cl_force_fastdl.lua"
 luafastdlfullpath="${luasvautorundir}/${luafastdlfile}"
 
+# File lists.
+fastdlfilelist="${tmpdir}/fastdl_files.txt"
+fastdlduplicatelist="${tmpdir}/fastdl_files_duplicate.txt"
+fastdlnewrecord="${tmpdir}/fastdl_record.txt"
+fastdlrecord="${datadir}/${selfname}-fastdl.txt"
+fastdlclientlist="${tmpdir}/fastdl_files_client.txt"
+fastdlupdatelist="${tmpdir}/fastdl_files_to_update.txt"
+fastdlremovelist="${tmpdir}/fastdl_files_to_remove.txt"
+fastdlcompresslist="${tmpdir}/fastdl_files_to_compress.txt"
+fastdlmaxcompresssize="157286400"
+
 # Header
 fn_print_header
 fn_print_nl "More info: ${italic}https://docs.linuxgsm.com/commands/fastdl"
@@ -30,15 +41,17 @@ fn_print_nl ""
 fn_print_nl "${bold}${lightyellow}${commandaction} Setup"
 fn_messages_separator
 
-# Prompt for clearing old files if directory was already here.
+# Prompt for a full rebuild if directory was already here.
+fastdlrebuild="off"
 if [ -d "${fastdldir}" ]; then
-	fn_print_warning_nl "Fastdl directory already exists."
+	fn_print_info_nl "Fastdl directory already exists, only changed files will be updated."
 	fn_print_nl "${fastdldir}"
 	fn_print_nl ""
-	if fn_prompt_yn "Overwrite existing directory?" Y; then
-		fn_script_log_info "Overwrite existing directory: YES"
+	if fn_prompt_yn "Rebuild Fastdl directory from scratch? This deletes everything in it." N; then
+		fastdlrebuild="on"
+		fn_script_log_info "Rebuild Fastdl directory from scratch: YES"
 	else
-		core_exit.sh
+		fn_script_log_info "Rebuild Fastdl directory from scratch: NO"
 	fi
 fi
 
@@ -50,7 +63,7 @@ if [ "${shortname}" == "gmod" ]; then
 		fn_script_log_info "Force clients to download files: YES"
 	else
 		luaresource="off"
-		fn_script_log_info "Force clients to download filesr: NO"
+		fn_script_log_info "Force clients to download files: NO"
 	fi
 fi
 
@@ -153,34 +166,197 @@ fn_fastdl_goldsrc_extensions() {
 	fi
 }
 
+# Sets the Source file types to include for the current directory.
+fn_fastdl_source_extensions() {
+	fastdl_find_maxdepth=()
+	if [ "${directory}" == "maps" ]; then
+		allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
+	elif [ "${directory}" == "materials" ]; then
+		allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
+	elif [ "${directory}" == "models" ]; then
+		allowed_extentions_array=("*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf")
+	elif [ "${directory}" == "particles" ]; then
+		allowed_extentions_array=("*.pcf")
+	elif [ "${directory}" == "sound" ]; then
+		allowed_extentions_array=("*.wav" "*.mp3" "*.ogg")
+	elif [ "${directory}" == "resource" ]; then
+		allowed_extentions_array=("*")
+	fi
+}
+
+# Adds the allowed files in a content directory to the file list.
+fn_fastdl_gather() {
+	local basedir="${1}"
+	local priority="${2}"
+	local label="${directory}"
+	if [ "${basedir}" != "${systemdir}" ]; then
+		label="${basedir#"${systemdir}/"}/${directory}"
+	fi
+	for allowed_extention in "${allowed_extentions_array[@]}"; do
+		fileswc=0
+		if [ -z "${plainoutput}" ]; then
+			tput sc
+		fi
+		while IFS=$'\t' read -r filesize filemtime fastdlfile; do
+			((fileswc++))
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "gathering ${label} ${allowed_extention} : ${fileswc}"
+			fi
+			fastdlrelpath="${fastdlfile#"${basedir}/"}"
+			printf '%s\t%s\t%s\t%s\t%s\n' "${priority}" "${fastdlrelpath#./}" "${filesize}" "${filemtime}" "${fastdlfile}" >> "${fastdlfilelist}"
+		done < <(find "${basedir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}" -printf '%s\t%T@\t%p\n')
+		if [ -z "${plainoutput}" ]; then
+			tput rc
+			tput el
+		fi
+		fn_print "gathering ${label} ${allowed_extention} : ${fileswc}"
+		if [ ${fileswc} != 0 ]; then
+			fn_print_ok_eol_nl
+		else
+			fn_print_info_eol_nl
+		fi
+	done
+}
+
+# Adds Garry's Mod files to the file list.
+fn_fastdl_gather_gmod() {
+	cd "${systemdir}" || exit
+	allowed_extentions_array=("*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav")
+	for allowed_extention in "${allowed_extentions_array[@]}"; do
+		fileswc=0
+		if [ -z "${plainoutput}" ]; then
+			tput sc
+		fi
+		while IFS=$'\t' read -r filesize filemtime fastdlfile; do
+			((fileswc++))
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "gathering ${allowed_extention} : ${fileswc}"
+			fi
+			fastdlrelpath="${fastdlfile#./}"
+			priority="2"
+			if [[ "${fastdlrelpath}" == addons/* ]]; then
+				addonname="${fastdlrelpath#addons/}"
+				addonname="${addonname%%/*}"
+				if [ "addons/${addonname}" == "${fastdlrelpath}" ]; then
+					continue
+				fi
+				priority="1:${addonname}"
+				fastdlrelpath="${fastdlrelpath#addons/"${addonname}"/}"
+			fi
+			printf '%s\t%s\t%s\t%s\t%s\n' "${priority}" "${fastdlrelpath}" "${filesize}" "${filemtime}" "${systemdir}/${fastdlfile#./}" >> "${fastdlfilelist}"
+			if [[ "${fastdlrelpath}" == lua/* ]]; then
+				printf '%s\t%s\t%s\t%s\t%s\n' "0" "${fastdlrelpath#lua/}" "${filesize}" "${filemtime}" "${systemdir}/${fastdlfile#./}" >> "${fastdlfilelist}"
+			fi
+		done < <(find . -type f -iname "${allowed_extention}" -printf '%s\t%T@\t%p\n')
+		if [ -z "${plainoutput}" ]; then
+			tput rc
+			tput el
+		fi
+		fn_print "gathering ${allowed_extention} : ${fileswc}"
+		if [ ${fileswc} != 0 ]; then
+			fn_print_ok_eol_nl
+		else
+			fn_print_skip_eol_nl
+		fi
+	done
+}
+
+# Works out which files need to be copied, compressed or removed.
+fn_fastdl_plan() {
+	LC_ALL=C sort -t $'\t' -k2,2 -k1,1 "${fastdlfilelist}" | awk -F '\t' -v dupes="${fastdlduplicatelist}" 'seen[$2]++ { print $5 " > " $2 > dupes; next } { print }' > "${fastdlfilelist}.sorted"
+	mv -f "${fastdlfilelist}.sorted" "${fastdlfilelist}"
+	if [ -f "${fastdlduplicatelist}" ]; then
+		duplicatefiles=$(wc -l < "${fastdlduplicatelist}")
+		while read -r duplicatefile; do
+			fn_script_log_info "Skipping ${duplicatefile}, already provided by a higher priority path"
+		done < "${fastdlduplicatelist}"
+	fi
+
+	declare -A fastdlrecordsource=()
+	declare -A fastdlexpected=()
+	if [ "${fastdlrebuild}" != "on" ] && [ -f "${fastdlrecord}" ] && [ "$(head -n 1 "${fastdlrecord}")" == "${fastdldir}" ]; then
+		while IFS=$'\t' read -r fastdltarget recordsource; do
+			[ -n "${fastdltarget}" ] && fastdlrecordsource["${fastdltarget}"]="${recordsource}"
+		done < <(tail -n +2 "${fastdlrecord}")
+	fi
+	echo "${fastdldir}" > "${fastdlnewrecord}"
+
+	read -ra fastdlexcludearray <<< "${fastdlexclude}"
+	while IFS=$'\t' read -r priority fastdlrelpath filesize filemtime fastdlfile; do
+		for excludepath in "${fastdlexcludearray[@]}"; do
+			# shellcheck disable=SC2254
+			case "${fastdlrelpath}" in
+				${excludepath#/}*)
+					((excludedfiles++))
+					continue 2
+					;;
+			esac
+		done
+		if [ "${engine}" == "goldsrc" ] || [ "${filesize}" -gt "${fastdlmaxcompresssize}" ]; then
+			fastdlmode="copy"
+			fastdltarget="${fastdlrelpath}"
+			if [ "${engine}" != "goldsrc" ]; then
+				((largefiles++))
+			fi
+		else
+			fastdlmode="compress"
+			fastdltarget="${fastdlrelpath}.bz2"
+		fi
+		fastdlsource="${fastdlfile}"$'\t'"${filesize}"$'\t'"${filemtime}"
+		fastdlexpected["${fastdltarget}"]="on"
+		printf '%s\t%s\n' "${fastdltarget}" "${fastdlsource}" >> "${fastdlnewrecord}"
+		echo "${fastdlrelpath}" >> "${fastdlclientlist}"
+		if [ ! -f "${fastdldir}/${fastdltarget}" ] || [ "${fastdlrecordsource["${fastdltarget}"]}" != "${fastdlsource}" ]; then
+			printf '%s\t%s\t%s\n' "${fastdlmode}" "${fastdlrelpath}" "${fastdlfile}" >> "${fastdlupdatelist}"
+			((updatefiles++))
+			filesizetotal=$((filesizetotal + filesize))
+			if [ "${fastdlmode}" == "compress" ]; then
+				((compressfiles++))
+			fi
+		else
+			((unchangedfiles++))
+		fi
+	done < "${fastdlfilelist}"
+
+	for fastdltarget in "${!fastdlrecordsource[@]}"; do
+		if [ -z "${fastdlexpected["${fastdltarget}"]}" ] && [ -f "${fastdldir}/${fastdltarget}" ]; then
+			echo "${fastdltarget}" >> "${fastdlremovelist}"
+			((removefiles++))
+		fi
+	done
+	if [ -d "${fastdldir}" ] && [ "${fastdlrebuild}" != "on" ]; then
+		while read -r fastdltarget; do
+			if [ -z "${fastdlexpected["${fastdltarget}"]}" ] && [ -z "${fastdlrecordsource["${fastdltarget}"]}" ]; then
+				((untrackedfiles++))
+			fi
+		done < <(find "${fastdldir}" -type f -printf '%P\n')
+	fi
+}
+
 # Provides info about the fastdl directory content and prompts for confirmation.
 fn_fastdl_preview() {
 	# Remove any file list.
-	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
-	fi
+	rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlnewrecord:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
+	touch "${fastdlclientlist}"
+	totalfiles=0
+	untrackedfiles=0
+	duplicatefiles=0
+	excludedfiles=0
+	largefiles=0
+	updatefiles=0
+	compressfiles=0
+	unchangedfiles=0
+	removefiles=0
+	filesizetotal=0
 	fn_print_nl "analysing required files"
 	fn_script_log_info "Analysing required files"
 	# Garry's Mod
 	if [ "${shortname}" == "gmod" ]; then
-		cd "${systemdir}" || exit
-		allowed_extentions_array=("*.ain" "*.bsp" "*.mdl" "*.mp3" "*.ogg" "*.otf" "*.pcf" "*.phy" "*.png" "*.svg" "*.vtf" "*.vmt" "*.vtx" "*.vvd" "*.ttf" "*.wav")
-		for allowed_extention in "${allowed_extentions_array[@]}"; do
-			fileswc=0
-			tput sc
-			while read -r ext; do
-				((fileswc++))
-				tput rc
-				tput el
-				fn_print "gathering ${allowed_extention} : ${fileswc}"
-				echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-			done < <(find . -type f -iname "${allowed_extention}")
-			if [ ${fileswc} != 0 ]; then
-				fn_print_ok_eol_nl
-			else
-				fn_print_skip_eol_nl
-			fi
-		done
+		fn_fastdl_gather_gmod
 	# Source and GoldSrc engines
 	else
 		if [ "${engine}" == "goldsrc" ]; then
@@ -188,219 +364,131 @@ fn_fastdl_preview() {
 		else
 			fastdl_directories_array=("maps" "materials" "models" "particles" "sound" "resource")
 		fi
+		fastdl_custom_array=()
+		if [ "${engine}" == "source" ] && [ -d "${systemdir}/custom" ]; then
+			while IFS= read -r -d '' customdir; do
+				fastdl_custom_array+=("${customdir}")
+			done < <(find "${systemdir}/custom" -mindepth 1 -maxdepth 1 -type d -print0 | LC_ALL=C sort -z)
+		fi
 		for directory in "${fastdl_directories_array[@]}"; do
-			if [ -d "${systemdir}/${directory}" ]; then
-				if [ "${engine}" == "goldsrc" ]; then
-					fn_fastdl_goldsrc_extensions
-				elif [ "${directory}" == "maps" ]; then
-					local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
-				elif [ "${directory}" == "materials" ]; then
-					local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
-				elif [ "${directory}" == "models" ]; then
-					local allowed_extentions_array=("*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png" "*.vmt" "*.vtf")
-				elif [ "${directory}" == "particles" ]; then
-					local allowed_extentions_array=("*.pcf")
-				elif [ "${directory}" == "sound" ]; then
-					local allowed_extentions_array=("*.wav" "*.mp3" "*.ogg")
-				elif [ "${directory}" == "resource" ]; then
-					local allowed_extentions_array=("*")
+			if [ "${engine}" == "goldsrc" ]; then
+				fn_fastdl_goldsrc_extensions
+			else
+				fn_fastdl_source_extensions
+			fi
+			for customdir in "${fastdl_custom_array[@]}"; do
+				if [ -d "${customdir}/${directory}" ]; then
+					fn_fastdl_gather "${customdir}" "0:${customdir##*/}"
 				fi
-				for allowed_extention in "${allowed_extentions_array[@]}"; do
-					fileswc=0
-					tput sc
-					while read -r ext; do
-						((fileswc++))
-						tput rc
-						tput el
-						fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
-						echo -e "${ext}" >> "${tmpdir}/fastdl_files_to_compress.txt"
-					done < <(find "${systemdir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}")
-					tput rc
-					tput el
-					fn_print "gathering ${directory} ${allowed_extention} : ${fileswc}"
-					if [ ${fileswc} != 0 ]; then
-						fn_print_ok_eol_nl
-					else
-						fn_print_info_eol_nl
-					fi
-				done
+			done
+			if [ -d "${systemdir}/${directory}" ]; then
+				fn_fastdl_gather "${systemdir}" "1"
 			fi
 		done
 	fi
-	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		fn_print_nl "calculating total file size"
+	if [ -f "${fastdlfilelist}" ]; then
+		fn_print_nl "calculating changes"
 		fn_sleep_time_1
-		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
-		# Calculates total file size.
-		while read -r dufile; do
-			filesize=$(stat -c %s "${dufile}")
-			filesizetotal=$((filesizetotal + filesize))
-			exitcode=$?
-			if [ "${exitcode}" -ne 0 ]; then
-				fn_print_fail_eol_nl
-				fn_script_log_fail "Calculating total file size"
-				core_exit.sh
-			fi
-		done < "${tmpdir}/fastdl_files_to_compress.txt"
+		totalfiles=$(wc -l < "${fastdlfilelist}")
+		fn_fastdl_plan
 	else
 		fn_print_fail_eol_nl "generating file list"
 		fn_script_log_fail "Generating file list."
 		core_exit.sh
 	fi
 
-	if [ "${engine}" == "source" ]; then
-		echo -e "about to compress ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
-	elif [ "${engine}" == "goldsrc" ]; then
-		echo -e "about to copy ${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+	echo -e "found ${totalfiles} files: ${unchangedfiles} unchanged, ${excludedfiles} excluded, ${duplicatefiles} duplicate"
+	if [ "${updatefiles}" -gt 0 ]; then
+		if [ "${engine}" == "source" ]; then
+			echo -e "about to update ${updatefiles} files, ${compressfiles} to compress, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+		elif [ "${engine}" == "goldsrc" ]; then
+			echo -e "about to copy ${updatefiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
+		fi
+	fi
+	if [ "${largefiles}" -gt 0 ]; then
+		echo -e "${largefiles} files over 150 MB will be copied without compression"
+	fi
+	if [ "${removefiles}" -gt 0 ]; then
+		echo -e "about to remove ${removefiles} files no longer on the server"
+	fi
+	if [ "${untrackedfiles}" -gt 0 ]; then
+		echo -e "${untrackedfiles} files in the Fastdl directory were not added by ${selfname} and will be left alone"
+	fi
+	if [ "${updatefiles}" -eq 0 ] && [ "${removefiles}" -eq 0 ]; then
+		echo -e "Fastdl directory is up to date"
 	fi
 
-	fn_script_log_info "${totalfiles} files, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
-	rm -f "${tmpdir:?}/fastdl_files_to_compress.txt"
+	fn_script_log_info "${totalfiles} files, ${updatefiles} to update, ${unchangedfiles} unchanged, ${excludedfiles} excluded, ${removefiles} to remove, total size $(fn_human_readable_file_size "${filesizetotal}" 0)"
 	if ! fn_prompt_yn "Continue?" Y; then
 		exitcode=0
 		core_exit.sh
 	fi
 }
 
-# Builds Garry's Mod fastdl directory content.
-fn_fastdl_gmod() {
-	cd "${systemdir}" || exit
-	for allowed_extention in "${allowed_extentions_array[@]}"; do
-		fileswc=0
-		tput sc
-		while read -r fastdlfile; do
-			((fileswc++))
-			tput rc
-			tput el
-			fn_print "copying ${allowed_extention} : ${fileswc}"
-			cp --parents "${fastdlfile}" "${fastdldir}"
+# Removes files from the fastdl directory that are no longer on the server.
+fn_fastdl_remove() {
+	if [ -s "${fastdlremovelist}" ]; then
+		fn_print "removing ${removefiles} files no longer on the server"
+		while read -r fastdlstalefile; do
+			rm -f "${fastdldir:?}/${fastdlstalefile}"
 			exitcode=$?
 			if [ "${exitcode}" -ne 0 ]; then
 				fn_print_fail_eol_nl
-				fn_script_log_fail "Copying ${fastdlfile} > ${fastdldir}"
+				fn_script_log_fail "Removing ${fastdldir}/${fastdlstalefile}"
 				core_exit.sh
 			else
-				fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}"
+				fn_script_log_pass "Removing ${fastdldir}/${fastdlstalefile}"
 			fi
-		done < <(find . -type f -iname "${allowed_extention}")
-		if [ ${fileswc} != 0 ]; then
-			fn_print_ok_eol_nl
-		fi
-	done
-	# Correct addons directory structure for Fastdl.
-	if [ -d "${fastdldir}/addons" ]; then
-		fn_print "updating addons file structure..."
-		cp -Rf "${fastdldir}"/addons/*/* "${fastdldir}"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fail "Updating addons file structure"
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Updating addons file structure"
-		fi
-		# Clear addons directory in fastdl.
-		fn_print "clearing addons dir from fastdl dir..."
-		fn_sleep_time_1
-		rm -rf "${fastdldir:?}/addons"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fail "Clearing addons dir from fastdl dir"
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Clearing addons dir from fastdl dir"
-		fi
-	fi
-	# Correct content that may be into a lua directory by mistake like some darkrpmodification addons.
-	if [ -d "${fastdldir}/lua" ]; then
-		fn_print "correcting DarkRP files..."
-		fn_sleep_time_1
-		cp -Rf "${fastdldir}/lua/"* "${fastdldir}"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
-			fn_print_fail_eol_nl
-			fn_script_log_fail "Correcting DarkRP files"
-			core_exit.sh
-		else
-			fn_print_ok_eol_nl
-			fn_script_log_pass "Correcting DarkRP files"
-		fi
-	fi
-	if [ -f "${tmpdir}/fastdl_files_to_compress.txt" ]; then
-		totalfiles=$(wc -l < "${tmpdir}/fastdl_files_to_compress.txt")
-		# Calculates total file size.
-		while read -r dufile; do
-			filesize=$(du -b "${dufile}" | awk '{ print $1 }')
-			filesizetotal=$((filesizetotal + filesize))
-		done < "${tmpdir}/fastdl_files_to_compress.txt"
+		done < "${fastdlremovelist}"
+		find "${fastdldir:?}" -mindepth 1 -type d -empty -delete
+		fn_print_ok_eol_nl
 	fi
 }
 
-fn_fastdl_source() {
-	for directory in "${fastdl_directories_array[@]}"; do
-		if [ -d "${systemdir}/${directory}" ]; then
-			if [ "${engine}" == "goldsrc" ]; then
-				fn_fastdl_goldsrc_extensions
-			elif [ "${directory}" == "maps" ]; then
-				local allowed_extentions_array=("*.bsp" "*.ain" "*.nav" "*.jpg" "*.txt")
-			elif [ "${directory}" == "materials" ]; then
-				local allowed_extentions_array=("*.vtf" "*.vmt" "*.vbf" "*.png" "*.svg")
-			elif [ "${directory}" == "models" ]; then
-				local allowed_extentions_array=("*.vtx" "*.vvd" "*.mdl" "*.phy" "*.jpg" "*.png")
-			elif [ "${directory}" == "particles" ]; then
-				local allowed_extentions_array=("*.pcf")
-			elif [ "${directory}" == "sound" ]; then
-				local allowed_extentions_array=("*.wav" "*.mp3" "*.ogg")
-			elif [ "${directory}" == "resource" ]; then
-				local allowed_extentions_array=("*")
-			fi
-			for allowed_extention in "${allowed_extentions_array[@]}"; do
-				fileswc=0
-				tput sc
-				while read -r fastdlfile; do
-					((fileswc++))
-					tput rc
-					tput el
-					fn_print "copying ${directory} ${allowed_extention} : ${fileswc}"
-					fn_sleep_time
-					# get relative path of file in the dir
-					tmprelfilepath="${fastdlfile#"${systemdir}/"}"
-					copytodir="${tmprelfilepath%/*}"
-					# create relative path for fastdl
-					if [ ! -d "${fastdldir}/${copytodir}" ]; then
-						mkdir -p "${fastdldir}/${copytodir}"
-					fi
-					cp "${fastdlfile}" "${fastdldir}/${copytodir}"
-					exitcode=$?
-					if [ "${exitcode}" -ne 0 ]; then
-						fn_print_fail_eol_nl
-						fn_script_log_fail "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
-						core_exit.sh
-					else
-						fn_script_log_pass "Copying ${fastdlfile} > ${fastdldir}/${copytodir}"
-					fi
-				done < <(find "${systemdir}/${directory}" "${fastdl_find_maxdepth[@]}" -type f -iname "${allowed_extention}")
-				if [ ${fileswc} != 0 ]; then
-					fn_print_ok_eol_nl
-				fi
-			done
+# Copies new and changed files to the fastdl directory.
+fn_fastdl_copy() {
+	if [ -s "${fastdlupdatelist}" ]; then
+		fileswc=0
+		if [ -z "${plainoutput}" ]; then
+			tput sc
 		fi
-	done
+		while IFS=$'\t' read -r fastdlmode fastdlrelpath fastdlfile; do
+			((fileswc++))
+			if [ -z "${plainoutput}" ]; then
+				tput rc
+				tput el
+				fn_print "copying files : ${fileswc}/${updatefiles}"
+			fi
+			fastdltarget="${fastdldir}/${fastdlrelpath}"
+			mkdir -p "${fastdltarget%/*}" && cp -p "${fastdlfile}" "${fastdltarget}"
+			exitcode=$?
+			if [ "${exitcode}" -ne 0 ]; then
+				fn_print_fail_eol_nl
+				fn_script_log_fail "Copying ${fastdlfile} > ${fastdltarget}"
+				core_exit.sh
+			else
+				fn_script_log_pass "Copying ${fastdlfile} > ${fastdltarget}"
+			fi
+			if [ "${fastdlmode}" == "compress" ]; then
+				printf '%s\0' "${fastdltarget}" >> "${fastdlcompresslist}"
+			fi
+		done < "${fastdlupdatelist}"
+		if [ -n "${plainoutput}" ]; then
+			fn_print "copying files : ${fileswc}/${updatefiles}"
+		fi
+		fn_print_ok_eol_nl
+	fi
 }
 
 # Builds the fastdl directory content.
 fn_fastdl_build() {
 	# Copy all needed files for Fastdl.
-	fn_print_nl "copying files to ${fastdldir}"
-	fn_script_log_info "Copying files to ${fastdldir}"
+	fn_print_nl "updating files in ${fastdldir}"
+	fn_script_log_info "Updating files in ${fastdldir}"
+	fn_fastdl_remove
+	fn_fastdl_copy
 	if [ "${shortname}" == "gmod" ]; then
-		fn_fastdl_gmod
 		fn_fastdl_gmod_dl_enforcer
-	else
-		fn_fastdl_source
 	fi
 }
 
@@ -427,7 +515,7 @@ fn_fastdl_gmod_dl_enforcer() {
 		# Read all filenames and put them into a lua file at the right path.
 		while read -r line; do
 			echo -e "resource.AddFile( \"${line}\" )" >> "${luafastdlfullpath}"
-		done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \) -printf '%P\n')
+		done < "${fastdlclientlist}"
 		exitcode=$?
 		if [ "${exitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
@@ -442,30 +530,61 @@ fn_fastdl_gmod_dl_enforcer() {
 
 # Compresses Fastdl files using bzip2.
 fn_fastdl_bzip2() {
-	while read -r filetocompress; do
-		fn_print "compressing ${filetocompress}"
-		bzip2 -f "${filetocompress}"
-		exitcode=$?
-		if [ "${exitcode}" -ne 0 ]; then
+	if [ -s "${fastdlcompresslist}" ]; then
+		fastdlthreads="$(nproc)"
+		fn_print "compressing ${compressfiles} files using ${fastdlthreads} threads"
+		xargs -0 -r -n 1 -P "${fastdlthreads}" bzip2 -f < "${fastdlcompresslist}"
+		compressexitcode=$?
+		while IFS=$'\t' read -r fastdlmode fastdlrelpath fastdlfile; do
+			if [ "${fastdlmode}" == "compress" ]; then
+				filetocompress="${fastdldir}/${fastdlrelpath}"
+				if [ -f "${filetocompress}.bz2" ] && [ ! -f "${filetocompress}" ]; then
+					fn_script_log_pass "Compressing ${filetocompress}"
+				else
+					fn_script_log_fail "Compressing ${filetocompress}"
+				fi
+			fi
+		done < "${fastdlupdatelist}"
+		if [ "${compressexitcode}" -ne 0 ]; then
 			fn_print_fail_eol_nl
-			fn_script_log_fail "Compressing ${filetocompress}"
+			fn_script_log_fail "Compressing files"
+			exitcode=1
 			core_exit.sh
 		else
 			fn_print_ok_eol_nl
-			fn_script_log_pass "Compressing ${filetocompress}"
+			fn_script_log_pass "Compressing files"
 		fi
-	done < <(find "${fastdldir:?}" \( -type f ! -name "*.bz2" \))
+	fi
+}
+
+# Saves the list of files written to the fastdl directory.
+fn_fastdl_record() {
+	fn_print "saving Fastdl file record ${fastdlrecord}"
+	mkdir -p "${datadir}" && mv -f "${fastdlnewrecord}" "${fastdlrecord}"
+	exitcode=$?
+	if [ "${exitcode}" -ne 0 ]; then
+		fn_print_fail_eol_nl
+		fn_script_log_fail "Saving Fastdl file record ${fastdlrecord}"
+		core_exit.sh
+	else
+		fn_print_ok_eol_nl
+		fn_script_log_pass "Saving Fastdl file record ${fastdlrecord}"
+	fi
 }
 
 check.sh
 # Run functions.
 fn_fastdl_preview
-fn_clear_old_fastdl
+if [ "${fastdlrebuild}" == "on" ]; then
+	fn_clear_old_fastdl
+fi
 fn_fastdl_dirs
 fn_fastdl_build
 if [ "${engine}" == "source" ]; then
 	fn_fastdl_bzip2
 fi
+fn_fastdl_record
+rm -f "${fastdlfilelist:?}" "${fastdlduplicatelist:?}" "${fastdlnewrecord:?}" "${fastdlclientlist:?}" "${fastdlupdatelist:?}" "${fastdlremovelist:?}" "${fastdlcompresslist:?}"
 # Finished message.
 fn_print_nl "Fastdl files are located in:"
 fn_print_nl "${fastdldir}"
