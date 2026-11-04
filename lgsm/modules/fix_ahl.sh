@@ -21,7 +21,8 @@ elif [ "$(md5sum "${serverfiles}/engine_i486.so" 2> /dev/null | awk '{print $1}'
 	fixname="ReHLDS ${rehldsversion}"
 	fn_fix_msg_start_nl
 	fn_fetch_file "https://github.com/rehlds/ReHLDS/releases/download/${rehldsversion}/${rehldsfile}" "" "" "" "${tmpdir}" "${rehldsfile}" "nochmodx" "norun" "noforce" "87b8dd8bce18ccc2295069f7382bb4d3"
-	fn_dl_extract "${tmpdir}" "${rehldsfile}" "${serverfiles}" "bin/linux32"
+	fn_dl_extract "${tmpdir}" "${rehldsfile}" "${tmpdir}/rehlds"
+	cp -a "${tmpdir}/rehlds/bin/linux32/." "${serverfiles}/"
 	chmod +x "${serverfiles}/hlds_linux" "${serverfiles}/hltv"
 	fn_clear_tmp
 	fn_fix_msg_end
