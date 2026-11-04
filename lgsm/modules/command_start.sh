@@ -280,6 +280,9 @@ if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${upda
 		fn_print_warn_nl "Update failed, starting ${servername} anyway"
 		fn_script_log_warn "Update failed, starting ${servername} anyway"
 	fi
+	if [ "${shortname}" == "ahl" ]; then
+		fix_ahl.sh
+	fi
 fi
 
 fn_print_dots "${servername}"

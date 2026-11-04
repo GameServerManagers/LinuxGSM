@@ -368,6 +368,11 @@ fix.sh() {
 	fn_fetch_module
 }
 
+fix_ahl.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ark.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
