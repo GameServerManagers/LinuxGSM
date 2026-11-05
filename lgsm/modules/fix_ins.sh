@@ -18,3 +18,11 @@ if [ "${commandname}" == "DEBUG" ]; then
 else
 	defaultmap="\\\"${defaultmap}\\\""
 fi
+
+# Fixes: srcds_run is shipped with CRLF line endings and a /bin/sh shebang but needs bash (pushd/popd).
+
+if [ -f "${serverfiles}/srcds_run" ]; then
+	if grep -q $'\r' "${serverfiles}/srcds_run" || head -n 1 "${serverfiles}/srcds_run" | grep -q '^#!/bin/sh'; then
+		sed -i 's/\r$//;1s|^#!/bin/sh$|#!/bin/bash|' "${serverfiles}/srcds_run"
+	fi
+fi
