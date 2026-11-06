@@ -1596,8 +1596,10 @@ fn_info_game_mcb() {
 		fn_info_game_java_properties "gamemode" "gamemode"
 		fn_info_game_java_properties "maxplayers" "max-players"
 		fn_info_game_java_properties "port" "server-port"
-		fn_info_game_java_properties "portv6" "server-portv6"
+		fn_info_game_java_properties "portipv6" "server-portv6"
 		fn_info_game_java_properties "servername" "server-name"
+		fn_info_game_java_properties "transport" "transport"
+		fn_info_game_java_properties "udpport" "server-udp-ports"
 		fn_info_game_java_properties "worldname" "level-name"
 	fi
 	gamemode="${gamemode:-"NOT SET"}"
@@ -1605,6 +1607,8 @@ fn_info_game_mcb() {
 	portipv6="${portipv6:-"NOT SET"}"
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
+	transport="${transport:-"nethernet"}"
+	udpport="${udpport:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
 }
 
