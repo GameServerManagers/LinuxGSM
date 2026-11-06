@@ -45,7 +45,7 @@ dods
 doi
 dst,libcurl4-gnutls-dev:i386
 dys
-eco,libgdiplus
+eco,libgdiplus,libicu76
 em
 etl
 ets2,libatomic1
