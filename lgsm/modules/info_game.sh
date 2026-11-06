@@ -367,12 +367,13 @@ fn_info_game_bo() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "ServerPort"
+		fn_info_game_ini "queryport" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "Password"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
+	queryport="${queryport:-"$((port + 1))"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }

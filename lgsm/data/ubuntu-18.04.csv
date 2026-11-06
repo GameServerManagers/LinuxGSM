@@ -46,8 +46,8 @@ dodr
 dods
 doi
 dst,libcurl4-gnutls-dev:i386
-dys
-eco,libgdiplus
+dys,libcurl4-gnutls-dev:i386
+eco,libgdiplus,libicu60
 em
 etl
 ets2,libatomic1
@@ -109,11 +109,11 @@ rsdw
 rtcw
 rust,lib32z1
 rw,openjdk-11-jre
-rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386
+rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386,libidn2-0:i386
 samp
 sb
 sbots
-scpsl,mono-complete
+scpsl,mono-complete,libicu60
 sdtd,libxml2-utils
 sf
 sfc,libtinfo5:i386
@@ -149,4 +149,4 @@ wmc,openjdk-11-jre
 wurm,xvfb
 xnt
 zmr,libtinfo5:i386
-zps,libtinfo5:i386
+zps,libtinfo5:i386,libcurl4:i386

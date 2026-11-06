@@ -478,6 +478,11 @@ fix_ios.sh() {
 	fn_fetch_module
 }
 
+fix_jc2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_kf.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -644,6 +649,11 @@ fix_xnt.sh() {
 }
 
 fix_zmr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_zps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
