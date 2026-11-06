@@ -46,8 +46,8 @@ dodr
 dods
 doi
 dst,libcurl.i686
-dys
-eco,libgdiplus
+dys,libcurl.i686
+eco,libgdiplus,libicu
 em
 etl
 ets2,libatomic
@@ -112,7 +112,7 @@ rwr,libgpg-error.i686,libX11.i686,libXext.i686,zlib.i686
 samp
 sb
 sbots
-scpsl
+scpsl,libicu
 sdtd,libxml2
 sf
 sfc,ncurses-libs.i686
