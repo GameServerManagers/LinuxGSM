@@ -11,6 +11,12 @@ if [ "${shortname}" == "orar" ] && [ ! -d "${servercfgdir}" ]; then
 	install_config.sh
 fi
 
+if [ "${shortname}" == "jk2" ] && [ ! -f "${servercfgfullpath}" ] && [ -f "${systemdir}/${servercfg}" ]; then
+	fn_print_info_nl "Moving ${servercfg} to ${servercfgdir}"
+	fn_script_log_info "Moving ${systemdir}/${servercfg} to ${servercfgfullpath}"
+	mv "${systemdir}/${servercfg}" "${servercfgfullpath}"
+fi
+
 if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 	fn_print_warn_nl "Configuration file missing!"
 	echo -e "${servercfgfullpath}"
