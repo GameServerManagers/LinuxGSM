@@ -12,9 +12,7 @@ execname=$(basename "${executable}")
 if [ ! -f "${executabledir}/${execname}" ]; then
 	fn_print_fail_nl "executable was not found"
 	echo -e "* ${executabledir}/${execname}"
-	if [ -d "${lgsmlogdir}" ]; then
-		fn_script_log_fail "Executable was not found: ${executabledir}/${execname}"
-	fi
+	fn_script_log_fail "Executable was not found: ${executabledir}/${execname}"
 	unset exitbypass
 	core_exit.sh
 fi

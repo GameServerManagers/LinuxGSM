@@ -42,8 +42,8 @@ fn_dl_steamcmd() {
 		fn_script_log_info "Branch: ${branch}"
 	fi
 	if [ -n "${betapassword}" ]; then
-		echo -e "Branch password: ${betapassword}"
-		fn_script_log_info "Branch password: ${betapassword}"
+		echo -e "Branch password: ********"
+		fn_script_log_info "Branch password: ********"
 	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
