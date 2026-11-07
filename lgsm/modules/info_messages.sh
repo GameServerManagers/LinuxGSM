@@ -1300,8 +1300,13 @@ fn_info_messages_mc() {
 fn_info_messages_mcb() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Game" portipv6 udp6
+		if [ "${transport}" == "raknet" ]; then
+			fn_port "Game" port udp
+			fn_port "Game" portipv6 udp6
+		else
+			fn_port "Signalling" port tcp
+			fn_port "Game" udpport udp
+		fi
 	} | column -s $'\t' -t
 }
 
@@ -1318,6 +1323,7 @@ fn_info_messages_mohaa() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
