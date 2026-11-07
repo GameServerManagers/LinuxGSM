@@ -339,6 +339,7 @@ fn_info_game_av() {
 		fn_info_game_ini "rconport" "rconPort"
 		fn_info_game_ini "servername" "name"
 		fn_info_game_ini "serverpassword" "password"
+		fn_info_game_ini "public" "isListed"
 		fn_info_game_ini "rconpassword" "rconPassword"
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
@@ -350,12 +351,13 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesn't respond to any queries, using session only.
-	queryport=""$((port + 3))""
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
+	queryport="${queryport:-"27020"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="$((port + 21))"
-	steamworksport="$((port + 20))"
+	steamport="${steamport:-"27021"}"
 }
 
 # Config Type: ini unknown (Source?)
@@ -1041,9 +1043,16 @@ fn_info_game_bt() {
 		if [ -z "${tickrate}" ]; then
 			fn_info_game_xml "tickrate" "/serversettings/@tickrate"
 		fi
+		fn_info_game_xml "public" "/serversettings/@IsPublic"
+		if [ -z "${public}" ]; then
+			fn_info_game_xml "public" "/serversettings/@public"
+		fi
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -1415,7 +1424,7 @@ fn_info_game_hz() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "servername" "ServerName"
 	fi
-	adminpass="${adminpassword:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="$((port + 2))"
