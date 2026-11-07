@@ -525,11 +525,6 @@ fix_nmrih.sh() {
 	fn_fetch_module
 }
 
-fix_onset.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 fix_pvr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

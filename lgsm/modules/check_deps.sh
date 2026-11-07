@@ -465,15 +465,6 @@ if [ "${depcheckonly}" != "1" ]; then
 		fi
 	fi
 
-	# These titles are only supported up to Ubuntu 20.04 and Debian 11.
-	if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "gt" "20.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "gt" "11"; }; then
-		if [ "${shortname}" == "onset" ] || [ "${shortname}" == "btl" ]; then
-			fn_print_failure_nl "${gamename} is not supported on ${distroname} (requires Ubuntu <= 20.04 or Debian <= 11)."
-			fn_script_log_fail "${gamename} is not supported on ${distroname}."
-			core_exit.sh
-		fi
-	fi
-
 	# Vintage Story tracks newer .NET runtimes; older distro releases may not ship required packages.
 	if [ "${shortname}" == "vints" ]; then
 		if { [ "${distroid}" == "ubuntu" ] && dpkg --compare-versions "${distroversion}" "lt" "24.04"; } || { [ "${distroid}" == "debian" ] && dpkg --compare-versions "${distroversion}" "lt" "12"; } || [ "${distroid}" == "centos" ] || [ "${distroid}" == "rhel" ] || [ "${distroid}" == "rocky" ] || [ "${distroid}" == "almalinux" ]; then

@@ -385,23 +385,6 @@ fn_info_game_bo() {
 # Comment: ; or #
 # Example: ServerName=SERVERNAME
 # Filetype: ini
-fn_info_game_btl() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "adminpassword" "AdminPassword"
-		fn_info_game_ini "servername" "ServerName"
-	fi
-	adminpassword="${adminpassword:-"NOT SET"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	rconport="$((port + 2))"
-	servername="${servername:-"NOT SET"}"
-}
-
-# Config Type: ini
-# Parameters: true
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
 fn_info_game_cmw() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "MaxPlayers"
@@ -1699,23 +1682,6 @@ fn_info_game_ohd() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 }
 
-# Config Type: json
-# Parameters: false
-# Comment: // or /* */
-fn_info_game_onset() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_json "maxplayers" ".maxplayers"
-		fn_info_game_json "port" ".port"
-		fn_info_game_json "servername" ".servername_short"
-		fn_info_game_json "serverpassword" ".password"
-	fi
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	httpport="$((port - 2))"
-	queryport="$((port - 1))"
-	servername="${servername:-"NOT SET"}"
-}
-
 # Config Type: custom
 # Parameters: false
 # Comment: //
@@ -2531,8 +2497,6 @@ elif [ "${shortname}" == "bo" ]; then
 	fn_info_game_bo
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
-elif [ "${shortname}" == "btl" ]; then
-	fn_info_game_btl
 elif [ "${shortname}" == "ce" ]; then
 	fn_info_game_ce
 elif [ "${shortname}" == "ck" ]; then
@@ -2603,8 +2567,6 @@ elif [ "${shortname}" == "nec" ]; then
 	fn_info_game_nec
 elif [ "${shortname}" == "ohd" ]; then
 	fn_info_game_ohd
-elif [ "${shortname}" == "onset" ]; then
-	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then

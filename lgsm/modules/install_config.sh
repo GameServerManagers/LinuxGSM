@@ -325,12 +325,6 @@ elif [ "${shortname}" == "bt" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "btl" ]; then
-	fn_check_cfgdir
-	array_configs+=(Game.ini)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "bf1942" ]; then
 	array_configs+=(serversettings.con)
 	fn_default_config_remote

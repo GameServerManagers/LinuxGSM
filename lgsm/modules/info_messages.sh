@@ -991,15 +991,6 @@ fn_info_messages_bt() {
 	} | column -s $'\t' -t
 }
 
-fn_info_messages_btl() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
 fn_info_messages_cd() {
 	{
 		fn_port "header"
@@ -1375,15 +1366,6 @@ fn_info_messages_ohd() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_onset() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1963,8 +1945,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_messages_bt
-	elif [ "${shortname}" == "btl" ]; then
-		fn_info_messages_btl
 	elif [ "${shortname}" == "ce" ]; then
 		fn_info_messages_ce
 	elif [ "${shortname}" == "ck" ]; then
@@ -2041,8 +2021,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_nec
 	elif [ "${shortname}" == "ohd" ]; then
 		fn_info_messages_ohd
-	elif [ "${shortname}" == "onset" ]; then
-		fn_info_messages_onset
 	elif [ "${shortname}" == "pc" ]; then
 		fn_info_messages_pc
 	elif [ "${shortname}" == "pc2" ]; then
