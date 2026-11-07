@@ -23,3 +23,11 @@ if [ ! -f "${servercfgfullpath}" ]; then
 	cp "${systemdir}/UDKGame/Config/"*.ini "${servercfgdir}"
 	fn_fix_msg_end
 fi
+
+cmwuserconfig="${HOME}/.local/share/TornBanner/Chivalry/UDKGame/Config/${selfname}/${servercfg}"
+if [ -f "${servercfgfullpath}" ] && [ -f "${cmwuserconfig}" ] && [ "${servercfgfullpath}" -nt "${cmwuserconfig}" ]; then
+	fixname="sync config"
+	fn_fix_msg_start
+	cp -f "${servercfgfullpath}" "${cmwuserconfig}"
+	fn_fix_msg_end
+fi
