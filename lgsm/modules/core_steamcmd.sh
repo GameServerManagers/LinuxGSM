@@ -24,9 +24,7 @@ fn_check_steamcmd_user() {
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
 		fn_print_nl "	* Change steamuser=\"username\" to a valid steam login."
-		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
-		fi
+		fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
 		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing.

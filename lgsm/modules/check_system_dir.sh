@@ -9,16 +9,12 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ ! -d "${serverfiles}" ]; then
 	fn_print_fail_nl "Cannot access ${serverfiles}: No such directory"
-	if [ -d "${lgsmlogdir}" ]; then
-		fn_script_log_fail "Cannot access ${serverfiles}: No such directory."
-	fi
+	fn_script_log_fail "Cannot access ${serverfiles}: No such directory."
 	core_exit.sh
 fi
 
 if [ ! -d "${systemdir}" ] && [ -z "${CI}" ]; then
 	fn_print_fail_nl "Cannot access ${systemdir}: No such directory"
-	if [ -d "${lgsmlogdir}" ]; then
-		fn_script_log_fail "Cannot access ${systemdir}: No such directory."
-	fi
+	fn_script_log_fail "Cannot access ${systemdir}: No such directory."
 	core_exit.sh
 fi
