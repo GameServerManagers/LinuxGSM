@@ -1043,9 +1043,16 @@ fn_info_game_bt() {
 		if [ -z "${tickrate}" ]; then
 			fn_info_game_xml "tickrate" "/serversettings/@tickrate"
 		fi
+		fn_info_game_xml "public" "/serversettings/@IsPublic"
+		if [ -z "${public}" ]; then
+			fn_info_game_xml "public" "/serversettings/@public"
+		fi
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
