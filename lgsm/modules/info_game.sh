@@ -339,6 +339,7 @@ fn_info_game_av() {
 		fn_info_game_ini "rconport" "rconPort"
 		fn_info_game_ini "servername" "name"
 		fn_info_game_ini "serverpassword" "password"
+		fn_info_game_ini "public" "isListed"
 		fn_info_game_ini "rconpassword" "rconPassword"
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
@@ -350,12 +351,13 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesn't respond to any queries, using session only.
-	queryport=""$((port + 3))""
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
+	queryport="${queryport:-"27020"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="$((port + 21))"
-	steamworksport="$((port + 20))"
+	steamport="${steamport:-"27021"}"
 }
 
 # Config Type: ini unknown (Source?)
