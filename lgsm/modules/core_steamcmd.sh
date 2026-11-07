@@ -223,7 +223,7 @@ fn_update_steamcmd_compare() {
 			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_print_nl "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ********"
 		fi
 		fn_print_nl "${italic}https://steamdb.info/app/${appid}/history"
 		fn_print "\n"
@@ -234,7 +234,7 @@ fn_update_steamcmd_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_script_log_info "Branch password: ${betapassword}"
+			fn_script_log_info "Branch password: ********"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
@@ -256,7 +256,7 @@ fn_update_steamcmd_compare() {
 			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_print_nl "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ********"
 		fi
 		fn_print_nl "https://steamdb.info/app/${appid}/history"
 		fn_print "\n"
@@ -267,7 +267,7 @@ fn_update_steamcmd_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_script_log_info "Branch password: ${betapassword}"
+			fn_script_log_info "Branch password: ********"
 		fi
 	fi
 }
