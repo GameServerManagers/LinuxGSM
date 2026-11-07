@@ -17,7 +17,6 @@ bmdm,libncurses5:i386
 bo
 bs
 bt,dos2unix,libxml2-utils
-btl
 cc
 ce
 ck,xvfb,libxi6
@@ -86,7 +85,6 @@ ns
 ns2,speex,libtbb2
 ns2c,speex:i386,libtbb2
 ohd
-onset,libmariadb-dev
 orar
 opfor
 pc

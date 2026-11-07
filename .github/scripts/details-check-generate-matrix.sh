@@ -5,7 +5,7 @@
 
 ref="${LGSM_REF:-${GITHUB_REF#refs/heads/}}"
 maxshards="${DETAILS_CHECK_SHARDS:-12}"
-legacyservers="bfv bf1942 btl onset"
+legacyservers="bfv bf1942"
 
 if [ -f lgsm/data/serverlist.csv ]; then
 	serverlist="lgsm/data/serverlist.csv"

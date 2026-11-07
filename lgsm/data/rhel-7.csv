@@ -20,7 +20,6 @@ bmdm,ncurses-libs.i686
 bo
 bs
 bt,dos2unix,libxml2
-btl
 cc
 ce
 ck,xorg-x11-server-Xvfb
@@ -88,7 +87,6 @@ ns
 ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
 ohd
-onset,mariadb-connector-c
 orar
 opfor
 pc

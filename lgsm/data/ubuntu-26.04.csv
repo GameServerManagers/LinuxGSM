@@ -18,7 +18,6 @@ bmdm
 bo
 bs
 bt,dos2unix,libxml2-utils
-btl
 cc
 ce
 ck,xvfb,libxi6
@@ -87,7 +86,6 @@ ns
 ns2,speex
 ns2c,speex:i386
 ohd
-onset,libmariadb-dev
 orar,libicu78,libssl3t64,zlib1g
 opfor
 pc
