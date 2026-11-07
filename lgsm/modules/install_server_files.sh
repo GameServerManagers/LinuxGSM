@@ -230,7 +230,7 @@ fn_install_server_files() {
 		fn_script_log_fail "Installing ${gamename} Server failed, missing default configuration"
 		core_exit.sh
 	fi
-	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${md5}"
+	fn_fetch_file "${remote_fileurl}" "" "" "" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${force}" "${md5}"
 	fn_dl_extract "${local_filedir}" "${local_filename}" "${serverfiles}"
 	fn_clear_tmp
 }
