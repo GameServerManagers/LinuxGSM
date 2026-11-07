@@ -64,6 +64,30 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
+
+		if [ "${betapassword}" ]; then
+			betapassword="********"
+		fi
+
+		if [ "${authtoken}" ]; then
+			authtoken="********"
+		fi
+
+		if [ "${usertoken}" ]; then
+			usertoken="********"
+		fi
+
+		if [ "${apikey}" ]; then
+			apikey="********"
+		fi
+
+		if [ "${gspassword}" ]; then
+			gspassword="********"
+		fi
+
+		if [ "${eosclientsecret}" ]; then
+			eosclientsecret="********"
+		fi
 	fi
 }
 
