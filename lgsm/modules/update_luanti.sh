@@ -8,10 +8,10 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "${remotebuildhash}"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "forcedl" "${remotebuildhash}"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}" "luanti"
 	if [ "${firstcommandname}" == "INSTALL" ] && [ ! -d "${serverfiles}/games/minetest" ]; then
-		fn_fetch_file "https://github.com/luanti-org/minetest_game/archive/refs/tags/5.8.0.tar.gz" "" "" "" "${tmpdir}" "minetest_game-5.8.0.tar.gz" "nochmodx" "norun" "force" "33a3bb43b08497a0bdb2f49f140a2829e582d5c16c0ad52be1595c803f706912"
+		fn_fetch_file "https://github.com/luanti-org/minetest_game/archive/refs/tags/5.8.0.tar.gz" "" "" "" "${tmpdir}" "minetest_game-5.8.0.tar.gz" "nochmodx" "norun" "forcedl" "33a3bb43b08497a0bdb2f49f140a2829e582d5c16c0ad52be1595c803f706912"
 		mkdir -p "${serverfiles}/games/minetest"
 		fn_dl_extract "${tmpdir}" "minetest_game-5.8.0.tar.gz" "${serverfiles}/games/minetest" "minetest_game-5.8.0"
 	fi

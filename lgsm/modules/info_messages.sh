@@ -64,6 +64,30 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
+
+		if [ "${betapassword}" ]; then
+			betapassword="********"
+		fi
+
+		if [ "${authtoken}" ]; then
+			authtoken="********"
+		fi
+
+		if [ "${usertoken}" ]; then
+			usertoken="********"
+		fi
+
+		if [ "${apikey}" ]; then
+			apikey="********"
+		fi
+
+		if [ "${gspassword}" ]; then
+			gspassword="********"
+		fi
+
+		if [ "${eosclientsecret}" ]; then
+			eosclientsecret="********"
+		fi
 	fi
 }
 
@@ -377,7 +401,7 @@ fn_info_messages_gameserver() {
 		fi
 
 		# Reserved Slots
-		if [ -n "${statspassword}" ]; then
+		if [ -n "${reservedslots}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
 
