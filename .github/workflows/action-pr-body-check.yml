@@ -74,7 +74,7 @@ jobs:
                 }
               }
               if (unlinked.length > 0) {
-                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. Select each issue in the Development section of this pull request's sidebar, then re-run this check.`);
+                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. A maintainer with write access must link these issues in the Development section, then re-run this check. No PR content change is needed to resolve the missing links.`);
               }
             }
 

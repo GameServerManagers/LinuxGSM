@@ -23,6 +23,13 @@ core_dl.sh() {
 
 core_exit.sh() {
 	modulefile="${FUNCNAME[0]}"
+	# Download core_exit.sh without running it first. fn_fetch_file declares a local exitcode
+	# while downloading, so running it from there would exit with that instead of the real one.
+	if [ ! -f "${modulesdir}/${modulefile}" ]; then
+		local exitcodesaved="${exitcode}"
+		fn_update_module
+		exitcode="${exitcodesaved}"
+	fi
 	fn_fetch_module
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then

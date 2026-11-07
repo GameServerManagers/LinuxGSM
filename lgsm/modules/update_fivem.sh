@@ -9,13 +9,13 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_resources() {
 	# Download and extract the cfx-server-data base resources.
-	fn_fetch_file "https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.tar.gz" "" "" "" "${tmpdir}" "cfx-server-data.tar.gz" "nochmodx" "norun" "force" "nohash"
+	fn_fetch_file "https://github.com/citizenfx/cfx-server-data/archive/refs/heads/master.tar.gz" "" "" "" "${tmpdir}" "cfx-server-data.tar.gz" "nochmodx" "norun" "forcedl" "nohash"
 	fn_dl_extract "${tmpdir}" "cfx-server-data.tar.gz" "${serverfiles}" "cfx-server-data-master/resources"
 }
 
 fn_update_dl() {
 	# Download and extract files to tmpdir.
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "force" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "nochmodx" "norun" "forcedl" "nohash"
 	rm -rf "${serverfiles:?}/alpine"
 	fn_dl_extract "${tmpdir}" "${remotebuildfilename}" "${serverfiles}"
 	if [ ! -d "${serverfiles}/resources" ]; then

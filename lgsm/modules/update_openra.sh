@@ -8,7 +8,7 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
-	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "force" "nohash"
+	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "forcedl" "nohash"
 	local extractdir
 	extractdir=$(mktemp -d "${tmpdir}/openra.XXXXXX") || exit 1
 	if ! (cd "${extractdir}" && "${tmpdir}/${remotebuildfilename}" --appimage-extract > /dev/null) || [ ! -x "${extractdir}/squashfs-root/usr/lib/openra/OpenRA.Server" ] || [ ! -x "${extractdir}/squashfs-root/AppRun" ]; then
