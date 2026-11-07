@@ -74,7 +74,12 @@ jobs:
                 }
               }
               if (unlinked.length > 0) {
-                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. Select each issue in the Development section of this pull request's sidebar, then re-run this check.`);
+                // Linking in the Development section needs write access, so contributors from forks cannot do it themselves.
+                const canLink = ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(context.payload.pull_request.author_association);
+                const nextStep = canLink
+                  ? "Select each issue in the Development section of this pull request's sidebar, then re-run this check."
+                  : 'Linking an issue there needs write access to this repository, so a maintainer links it and re-runs this check before merging. Nothing needs to change in this pull request.';
+                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. ${nextStep}`);
               }
             }
 
