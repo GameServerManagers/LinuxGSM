@@ -401,7 +401,7 @@ fn_info_messages_gameserver() {
 		fi
 
 		# Reserved Slots
-		if [ -n "${statspassword}" ]; then
+		if [ -n "${reservedslots}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
 

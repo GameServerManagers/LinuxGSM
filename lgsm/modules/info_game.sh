@@ -1424,7 +1424,7 @@ fn_info_game_hz() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "servername" "ServerName"
 	fi
-	adminpass="${adminpassword:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="$((port + 2))"
