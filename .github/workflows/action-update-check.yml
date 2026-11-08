@@ -50,9 +50,6 @@ jobs:
       - name: Install server
         run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server auto-install
 
-      - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server developer
-
       - name: Check Update server
         run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server check-update
 
