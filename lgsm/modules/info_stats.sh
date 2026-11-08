@@ -68,6 +68,14 @@ if [ "$(cat "${statsstamp}" 2> /dev/null)" != "${statsdate}" ] && [ "$(command -
 	statsdiskgb="$(LC_ALL=C df -BG -P "${rootdir}" 2> /dev/null | awk 'NR==2{gsub("G","",$2); print $2}')"
 	statsfilesgb="$(awk -v v="${serverfilesdu}" 'BEGIN{n=v+0; u=substr(v,length(v)); if(u=="K")n/=1048576; else if(u=="M")n/=1024; else if(u=="T")n*=1024; printf "%.2f", n}')"
 
+	statsalerts=""
+	for statsalerttype in discord email gotify ifttt matrix ntfy pushbullet pushover rocketchat slack telegram; do
+		statsalertvar="${statsalerttype}alert"
+		if [ "${!statsalertvar}" == "on" ]; then
+			statsalerts+="${statsalerttype} "
+		fi
+	done
+
 	statspayload="$(jq -cn \
 		--arg uuid "${uuidreport}" \
 		--arg game "${gamename}" \
@@ -80,10 +88,12 @@ if [ "$(cat "${statsstamp}" 2> /dev/null)" != "${statsdate}" ] && [ "$(command -
 		--arg ramused "${memusedmbroundup}" \
 		--arg cpuused "${cpuusedmhzroundup}" \
 		--arg filesgb "${statsfilesgb}" \
+		--arg alerts "${statsalerts}" \
 		'{uuid: $uuid, game: $game, distro: $distro, version: $version, virt: $virt, cpu_cores: ($cores | tonumber? // 0), ram_gb: ($ram | tonumber? // 0), disk_gb: ($disk | tonumber? // 0)}
 		+ (if ($ramused | tonumber? // 0) > 0 then {ram_used_mb: ($ramused | tonumber)} else {} end)
 		+ (if ($cpuused | tonumber? // 0) > 0 then {cpu_used_mhz: ($cpuused | tonumber)} else {} end)
-		+ (if ($filesgb | tonumber? // 0) > 0 then {disk_used_gb: ($filesgb | tonumber)} else {} end)' 2> /dev/null)"
+		+ (if ($filesgb | tonumber? // 0) > 0 then {disk_used_gb: ($filesgb | tonumber)} else {} end)
+		+ (if ($alerts | length) > 0 then {alerts: ($alerts | split(" ") | map(select(length > 0)))} else {} end)' 2> /dev/null)"
 
 	if [ -n "${statspayload}" ]; then
 		curl -sS -f --max-time 5 -X POST "https://usage.linuxgsm.com/v1/report" -H "Content-Type: application/json" -d "${statspayload}" > /dev/null 2>&1
@@ -101,79 +111,5 @@ if [ "$(cat "${statsstamp}" 2> /dev/null)" != "${statsdate}" ] && [ "$(command -
 	fn_script_log_info "* Server CPU Cores: ${statscores}"
 	fn_script_log_info "* Server RAM: ${statsramgb}GB"
 	fn_script_log_info "* Server Disk: ${statsdiskgb}GB"
+	fn_script_log_info "* Alerts: ${statsalerts:-none}"
 fi
-
-apisecret="A-OzP02TSMWt4_vHi6ZpUw"
-measurementid="G-0CR8V7EMT5"
-
-fn_alert_payload() {
-	alertpayload="{
-	\"client_id\": \"${uuidinstance}\",
-	\"events\": [
-		{
-		\"name\": \"LinuxGSM\",
-		\"params\": {
-			\"alert\": \"${alerttype}\"
-			}
-		}
-	]
-}"
-}
-
-if [ "${discordalert}" == "on" ]; then
-	alerttype="discord"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${emailalert}" == "on" ]; then
-	alerttype="email"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${gotifyalert}" == "on" ]; then
-	alerttype="gotify"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${iftttalert}" == "on" ]; then
-	alerttype="ifttt"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${matrixalert}" == "on" ]; then
-	alerttype="matrix"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${ntfyalert}" == "on" ]; then
-	alerttype="ntfy"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${pushbulletalert}" == "on" ]; then
-	alerttype="pushbullet"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${pushoveralert}" == "on" ]; then
-	alerttype="pushover"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${rocketchatalert}" == "on" ]; then
-	alerttype="rocketchat"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${slackalert}" == "on" ]; then
-	alerttype="slack"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-if [ "${telegramalert}" == "on" ]; then
-	alerttype="telegram"
-	fn_alert_payload
-	curl -X POST "https://www.google-analytics.com/mp/collect?api_secret=${apisecret}&measurement_id=${measurementid}" -H "Content-Type: application/json" -d "${alertpayload}"
-fi
-
-fn_script_log_info "Enabled Alerts"
