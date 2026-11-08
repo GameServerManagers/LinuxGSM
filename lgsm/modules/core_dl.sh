@@ -42,8 +42,8 @@ fn_dl_steamcmd() {
 		fn_script_log_info "Branch: ${branch}"
 	fi
 	if [ -n "${betapassword}" ]; then
-		echo -e "Branch password: ${betapassword}"
-		fn_script_log_info "Branch password: ${betapassword}"
+		echo -e "Branch password: ********"
+		fn_script_log_info "Branch password: ********"
 	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
@@ -76,6 +76,7 @@ fn_dl_steamcmd() {
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
 	local invalidplatformworkaround=""
+	local goldsrcshareddepotretry=""
 	counter=0
 	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
@@ -215,6 +216,12 @@ fn_dl_steamcmd() {
 		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
+		elif [ "${appid}" == "90" ] && [ ! -f "${serverfiles}/steamapps/appmanifest_70.acf" ] && [ -z "${goldsrcshareddepotretry}" ]; then
+			goldsrcshareddepotretry="1"
+			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Half-Life shared content (AppID 70) is missing - validating"
+			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Half-Life shared content (AppID 70) is missing - validating"
+			validateparam=("validate")
+			counter=0
 		else
 			fn_print_success_nl "${commandaction} ${selfname}: ${remotelocation}"
 			fn_script_log_pass "${commandaction} ${selfname}: ${remotelocation}"

@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.5.0"
+modulesversion="v26.6.0"
 
 # Core
 
@@ -23,6 +23,13 @@ core_dl.sh() {
 
 core_exit.sh() {
 	modulefile="${FUNCNAME[0]}"
+	# Download core_exit.sh without running it first. fn_fetch_file declares a local exitcode
+	# while downloading, so running it from there would exit with that instead of the real one.
+	if [ ! -f "${modulesdir}/${modulefile}" ]; then
+		local exitcodesaved="${exitcode}"
+		fn_update_module
+		exitcode="${exitcodesaved}"
+	fi
 	fn_fetch_module
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
@@ -478,6 +485,11 @@ fix_ios.sh() {
 	fn_fetch_module
 }
 
+fix_jc2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_kf.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -509,11 +521,6 @@ fix_nd.sh() {
 }
 
 fix_nmrih.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-fix_onset.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -644,6 +651,11 @@ fix_xnt.sh() {
 }
 
 fix_zmr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_zps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

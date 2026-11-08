@@ -260,10 +260,12 @@ fn_monitor_check_update_source() {
 			fn_print_ok "Checking update"
 			fn_print_ok_eol_nl
 			fn_script_log_info "Checking update: ${selfname} has requested a restart for an update to be applied"
-			alert="update-restart-request"
-			alert.sh
-			command_restart.sh
-			core_exit.sh
+			if [ ! -f "${lockdir}/${selfname}-update-request.lock" ]; then
+				alert="update-restart-request"
+				alert.sh
+				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
+				echo "force" >> "${lockdir:?}/${selfname}-update-request.lock"
+			fi
 		fi
 	fi
 }

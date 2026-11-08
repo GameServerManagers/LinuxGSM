@@ -19,10 +19,10 @@ if ldd "${executabledir}/PavlovServer-Linux-Shipping" 2>&1 | grep -qE "libc\+\+(
 	fn_fix_msg_end
 fi
 
-if [ ! -f "${serverfiles}/linux64/libc++.so" ]; then
-	if [ -f "/usr/lib/x86_64-linux-gnu/libc++.so.1" ]; then
+if [ -f "/usr/lib/x86_64-linux-gnu/libc++.so.1" ]; then
+	if ! cmp -s "/usr/lib/x86_64-linux-gnu/libc++.so.1" "${serverfiles}/linux64/libc++.so"; then
 		cp "/usr/lib/x86_64-linux-gnu/libc++.so.1" "${serverfiles}/linux64/libc++.so"
-	elif [ -f "${serverfiles}/linux64/libc++.so.1" ]; then
-		cp -L "${serverfiles}/linux64/libc++.so.1" "${serverfiles}/linux64/libc++.so"
 	fi
+elif [ ! -f "${serverfiles}/linux64/libc++.so" ] && [ -f "${serverfiles}/linux64/libc++.so.1" ]; then
+	cp -L "${serverfiles}/linux64/libc++.so.1" "${serverfiles}/linux64/libc++.so"
 fi

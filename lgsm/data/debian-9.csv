@@ -18,7 +18,6 @@ bmdm,libncurses5:i386
 bo
 bs
 bt,dos2unix,libxml2-utils
-btl
 cc
 ce
 ck,xvfb,libxi6
@@ -44,8 +43,8 @@ dodr
 dods
 doi
 dst,libcurl4-gnutls-dev:i386
-dys
-eco,libgdiplus
+dys,libcurl4-gnutls-dev:i386
+eco,libgdiplus,libicu57
 em
 etl
 ets2,libatomic1
@@ -87,7 +86,6 @@ ns
 ns2,speex,libtbb2
 ns2c,speex:i386,libtbb2
 ohd
-onset,libmariadb-dev
 orar
 opfor
 pc
@@ -109,11 +107,11 @@ rsdw
 rtcw
 rust,lib32z1
 rw,openjdk-8-jre
-rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386
+rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386,libidn2-0:i386
 samp
 sb
 sbots
-scpsl,mono-complete
+scpsl,mono-complete,libicu57
 sdtd,libxml2-utils
 sf
 sfc,libtinfo5:i386
@@ -149,4 +147,4 @@ wmc,openjdk-8-jre
 wurm,xvfb
 xnt
 zmr,libtinfo5:i386
-zps,libtinfo5:i386
+zps,libtinfo5:i386,libcurl4:i386

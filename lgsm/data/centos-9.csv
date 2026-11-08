@@ -18,7 +18,6 @@ bmdm,ncurses-libs.i686
 bo
 bs
 bt,dos2unix,libxml2
-btl
 cc
 ce
 ck,xorg-x11-server-Xvfb
@@ -44,8 +43,8 @@ dodr
 dods
 doi
 dst,libcurl.i686
-dys
-eco,libgdiplus
+dys,libcurl.i686
+eco,libgdiplus,libicu
 em
 etl
 ets2,libatomic
@@ -87,7 +86,6 @@ ns
 ns2,speex,tbb
 ns2c,speex.i686,tbb.i686
 ohd
-onset,mariadb-connector-c
 orar
 opfor
 pc
@@ -108,11 +106,11 @@ rsdw
 rtcw
 rust,zlib-devel
 rw,java-21-openjdk
-rwr,libgpg-error.i686,libX11.i686,libXext.i686,zlib.i686
+rwr,libgpg-error.i686,libX11.i686,libXext.i686,zlib.i686,libidn2.i686
 samp
 sb
 sbots
-scpsl
+scpsl,libicu
 sdtd,libxml2
 sf
 sfc,ncurses-libs.i686
@@ -149,4 +147,4 @@ wmc,java-17-openjdk
 wurm,xorg-x11-server-Xvfb
 xnt
 zmr,ncurses-libs.i686
-zps,ncurses-libs.i686
+zps,ncurses-libs.i686,libcurl.i686

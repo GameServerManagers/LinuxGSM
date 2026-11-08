@@ -64,6 +64,30 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
+
+		if [ "${betapassword}" ]; then
+			betapassword="********"
+		fi
+
+		if [ "${authtoken}" ]; then
+			authtoken="********"
+		fi
+
+		if [ "${usertoken}" ]; then
+			usertoken="********"
+		fi
+
+		if [ "${apikey}" ]; then
+			apikey="********"
+		fi
+
+		if [ "${gspassword}" ]; then
+			gspassword="********"
+		fi
+
+		if [ "${eosclientsecret}" ]; then
+			eosclientsecret="********"
+		fi
 	fi
 }
 
@@ -377,7 +401,7 @@ fn_info_messages_gameserver() {
 		fi
 
 		# Reserved Slots
-		if [ -n "${statspassword}" ]; then
+		if [ -n "${reservedslots}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
 
@@ -919,9 +943,9 @@ fn_info_messages_av() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -964,15 +988,6 @@ fn_info_messages_bt() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_btl() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1300,8 +1315,13 @@ fn_info_messages_mc() {
 fn_info_messages_mcb() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Game" portipv6 udp6
+		if [ "${transport}" == "raknet" ]; then
+			fn_port "Game" port udp
+			fn_port "Game" portipv6 udp6
+		else
+			fn_port "Signalling" port tcp
+			fn_port "Game" udpport udp
+		fi
 	} | column -s $'\t' -t
 }
 
@@ -1318,6 +1338,7 @@ fn_info_messages_mohaa() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1345,15 +1366,6 @@ fn_info_messages_ohd() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_onset() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1933,8 +1945,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_messages_bt
-	elif [ "${shortname}" == "btl" ]; then
-		fn_info_messages_btl
 	elif [ "${shortname}" == "ce" ]; then
 		fn_info_messages_ce
 	elif [ "${shortname}" == "ck" ]; then
@@ -2011,8 +2021,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_nec
 	elif [ "${shortname}" == "ohd" ]; then
 		fn_info_messages_ohd
-	elif [ "${shortname}" == "onset" ]; then
-		fn_info_messages_onset
 	elif [ "${shortname}" == "pc" ]; then
 		fn_info_messages_pc
 	elif [ "${shortname}" == "pc2" ]; then
