@@ -161,7 +161,7 @@ fn_bootstrap_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_bootstrap_fetch_trap INT
-			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
+			curlcmd=(curl --connect-timeout 10 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
 
 			# if is large file show progress, else be silent
 			local exitcode=""
@@ -383,9 +383,10 @@ fn_install_file() {
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo -e "Installed ${gamename} server as ${local_filename}"
+	echo -e "Installed ${gamename} server script as ${local_filename}"
 	echo -e ""
 	if [ ! -d "${serverfiles}" ]; then
+		echo -e "To install the server type:"
 		echo -e "./${local_filename} install"
 	else
 		echo -e "Remember to check server ports"
@@ -552,6 +553,9 @@ else
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/common.cfg")"
 		elif grep -qE "^[[:blank:]]*startparameters=" "${configdirserver}/_default.cfg"; then
 			eval startparameters="$(sed -nr 's/^ *startparameters=(.*)$/\1/p' "${configdirserver}/_default.cfg")"
+		fi
+		if [ -n "${extraparams}" ]; then
+			startparameters="${startparameters} ${extraparams}"
 		fi
 
 		# reload preexecutable.

@@ -13,11 +13,11 @@ if [ "$(command -v node)" ] && [ "$(command -v npm)" ] && [ "$(node -v | cut -d 
 	fn_script_log_info "Installing Gamedig"
 	cd "${lgsmdir}" || exit
 	curl -L -o package.json "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/package.json"
-	npm install
+	npm install --no-audit
 elif [ "$(command -v node)" ] && [ "$(command -v npm)" ] && [ "$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)" -ge 16 ]; then
 	cd "${lgsmdir}" || exit
 	curl -s -L -o package.json "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/package.json"
-	npm update > /dev/null 2>&1
+	npm update --no-audit --fetch-timeout=10000 --fetch-retries=0 > /dev/null 2>&1
 else
 	fn_script_log_info "Install Node.js and NPM to enable Gamedig"
 fi

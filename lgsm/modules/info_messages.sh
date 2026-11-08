@@ -64,6 +64,30 @@ fn_info_messages_password_strip() {
 		if [ "${gslt}" ]; then
 			gslt="********"
 		fi
+
+		if [ "${betapassword}" ]; then
+			betapassword="********"
+		fi
+
+		if [ "${authtoken}" ]; then
+			authtoken="********"
+		fi
+
+		if [ "${usertoken}" ]; then
+			usertoken="********"
+		fi
+
+		if [ "${apikey}" ]; then
+			apikey="********"
+		fi
+
+		if [ "${gspassword}" ]; then
+			gspassword="********"
+		fi
+
+		if [ "${eosclientsecret}" ]; then
+			eosclientsecret="********"
+		fi
 	fi
 }
 
@@ -377,7 +401,7 @@ fn_info_messages_gameserver() {
 		fi
 
 		# Reserved Slots
-		if [ -n "${statspassword}" ]; then
+		if [ -n "${reservedslots}" ]; then
 			echo -e "${lightblue}Reserved Slots:\t${default}${reservedslots}"
 		fi
 
@@ -557,6 +581,8 @@ fn_info_messages_script() {
 	# Email alert:            off
 	# Gotify alert:           off
 	# IFTTT alert:            off
+	# Matrix alert:           off
+	# ntfy alert:             off
 	# Pushbullet alert:       off
 	# Pushover alert:         off
 	# Rocketchat alert:       off
@@ -607,6 +633,14 @@ fn_info_messages_script() {
 		# IFTTT alert
 		if [ "${iftttalert}" == "on" ]; then
 			echo -e "${lightblue}IFTTT alert:\t${default}${iftttalert}"
+		fi
+		# Matrix alert
+		if [ "${matrixalert}" == "on" ]; then
+			echo -e "${lightblue}Matrix alert:\t${default}${matrixalert}"
+		fi
+		# ntfy alert
+		if [ "${ntfyalert}" == "on" ]; then
+			echo -e "${lightblue}ntfy alert:\t${default}${ntfyalert}"
 		fi
 		# Pushbullet alert
 		if [ "${pushbulletalert}" == "on" ]; then
@@ -726,7 +760,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bo" "bt" "ct" "dst" "eco" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bfe" "bo" "bt" "ct" "dst" "eco" "fivem" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -737,7 +771,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "iw3.0" "ioquake3" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -755,6 +789,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep AvorionServer"
 	elif [ "${shortname}" == "bf1942" ]; then
 		portcommand="ss -tuplwn | grep bf1942_lnxded"
+	elif [ "${shortname}" == "bfe" ]; then
+		portcommand="ss -tuplwn | grep MainThread"
 	elif [ "${shortname}" == "bfv" ]; then
 		portcommand="ss -tuplwn | grep bfv_linded"
 	elif [ "${shortname}" == "ce" ]; then
@@ -763,6 +799,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep enfMain"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
+	elif [ "${shortname}" == "fivem" ]; then
+		portcommand="ss -tuplwn | grep ld-musl"
 	elif [ "${shortname}" == "rwr" ]; then
 		portcommand="ss -tuplwn | grep rwr_server"
 	elif [ "${shortname}" == "hyt" ] || [ "${shortname}" == "mc" ] || [ "${shortname}" == "nec" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
@@ -905,9 +943,9 @@ fn_info_messages_av() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steamworks P2P" steamworksport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -917,6 +955,15 @@ fn_info_messages_bf1942() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_bfe() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "LAN Discovery" discoveryport udp
 	} | column -s $'\t' -t
 }
 
@@ -941,15 +988,6 @@ fn_info_messages_bt() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_btl() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1111,6 +1149,14 @@ fn_info_messages_etl() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_fivem() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_fctr() {
 	{
 		fn_port "header"
@@ -1269,8 +1315,13 @@ fn_info_messages_mc() {
 fn_info_messages_mcb() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Game" portipv6 udp6
+		if [ "${transport}" == "raknet" ]; then
+			fn_port "Game" port udp
+			fn_port "Game" portipv6 udp6
+		else
+			fn_port "Signalling" port tcp
+			fn_port "Game" udpport udp
+		fi
 	} | column -s $'\t' -t
 }
 
@@ -1287,6 +1338,7 @@ fn_info_messages_mohaa() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1314,15 +1366,6 @@ fn_info_messages_ohd() {
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
-	} | column -s $'\t' -t
-}
-
-fn_info_messages_onset() {
-	{
-		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport udp
-		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1818,6 +1861,20 @@ fn_info_messages_vh() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_luanti() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_openra() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_vints() {
 	{
 		fn_port "header"
@@ -1880,14 +1937,14 @@ fn_info_messages_select_engine() {
 		fn_info_messages_av
 	elif [ "${shortname}" == "bf1942" ]; then
 		fn_info_messages_bf1942
+	elif [ "${shortname}" == "bfe" ]; then
+		fn_info_messages_bfe
 	elif [ "${shortname}" == "bfv" ]; then
 		fn_info_messages_bfv
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_messages_bo
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_messages_bt
-	elif [ "${shortname}" == "btl" ]; then
-		fn_info_messages_btl
 	elif [ "${shortname}" == "ce" ]; then
 		fn_info_messages_ce
 	elif [ "${shortname}" == "ck" ]; then
@@ -1924,6 +1981,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_etl
 	elif [ "${shortname}" == "fctr" ]; then
 		fn_info_messages_fctr
+	elif [ "${shortname}" == "fivem" ]; then
+		fn_info_messages_fivem
 	elif [ "${shortname}" == "hcu" ]; then
 		fn_info_messages_hcu
 	elif [ "${shortname}" == "hw" ]; then
@@ -1962,8 +2021,6 @@ fn_info_messages_select_engine() {
 		fn_info_messages_nec
 	elif [ "${shortname}" == "ohd" ]; then
 		fn_info_messages_ohd
-	elif [ "${shortname}" == "onset" ]; then
-		fn_info_messages_onset
 	elif [ "${shortname}" == "pc" ]; then
 		fn_info_messages_pc
 	elif [ "${shortname}" == "pc2" ]; then
@@ -2034,6 +2091,10 @@ fn_info_messages_select_engine() {
 		fn_info_messages_unt
 	elif [ "${shortname}" == "vh" ]; then
 		fn_info_messages_vh
+	elif [ "${shortname}" == "luanti" ]; then
+		fn_info_messages_luanti
+	elif [ "${shortname}" == "orar" ]; then
+		fn_info_messages_openra
 	elif [ "${shortname}" == "vints" ]; then
 		fn_info_messages_vints
 	elif [ "${shortname}" == "rust" ]; then

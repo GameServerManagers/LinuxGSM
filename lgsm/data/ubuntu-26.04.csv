@@ -1,4 +1,4 @@
-all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat-openbsd,pigz,procps,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
 steamcmd,lib32gcc-s1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -12,12 +12,12 @@ bb
 bb2,libcurl4-gnutls-dev:i386
 bd
 bf1942,libc6:i386
+bfe
 bfv,libc6:i386
 bmdm
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2-utils
-btl
+bt,dos2unix,libxml2-utils
 cc
 ce
 ck,xvfb,libxi6
@@ -29,7 +29,7 @@ coduo,libc6:i386
 codwaw
 col
 cs
-cs2
+cs2,libicu78
 cscz
 csgo
 css
@@ -43,12 +43,13 @@ dodr
 dods
 doi
 dst,libcurl4-gnutls-dev:i386
-dys
-eco,libgdiplus
+dys,libcurl4-gnutls-dev:i386
+eco,libgdiplus,libicu78
 em
 etl
 ets2,libatomic1
 fctr
+fivem
 fof
 gmod
 hcu
@@ -71,6 +72,7 @@ kf
 kf2
 l4d
 l4d2
+luanti,libcurl4t64,libncursesw6,libsqlite3-0,libstdc++6,libzstd1,zlib1g
 mc,openjdk-25-jre
 mcb
 mcv
@@ -84,7 +86,7 @@ ns
 ns2,speex
 ns2c,speex:i386
 ohd
-onset,libmariadb-dev
+orar,libicu78,libssl3t64,zlib1g
 opfor
 pc
 pc2
@@ -104,11 +106,11 @@ rsdw
 rtcw
 rust,lib32z1
 rw,openjdk-25-jre
-rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386
+rwr,libgpg-error0:i386,libx11-6:i386,libxext6:i386,zlib1g:i386,libidn2-0:i386
 samp
 sb
 sbots
-scpsl,mono-complete
+scpsl,mono-complete,libicu78
 sdtd,libxml2-utils
 sf
 sfc
@@ -145,4 +147,4 @@ wmc,openjdk-25-jre
 wurm,xvfb
 xnt
 zmr
-zps
+zps,libcurl4t64:i386

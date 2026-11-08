@@ -200,6 +200,13 @@ fn_mod_tidy_files_list() {
 		sed -i "/^addons\/metamod$/d" "${modsdir}/${modcommand}-files.txt"
 	fi
 
+	# Remove common CounterStrikeSharp paths from deletion list (Add your CounterStrikeSharp plugin here)
+	if [ "${modcommand}" == "matchzy" ]; then
+		sed -i "/^addons\/counterstrikesharp$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/counterstrikesharp\/gamedata$/d" "${modsdir}/${modcommand}-files.txt"
+		sed -i "/^addons\/counterstrikesharp\/plugins$/d" "${modsdir}/${modcommand}-files.txt"
+	fi
+
 	# Remove common paths from deletion list (Add your sourcemod mod here)
 	if [ "${modcommand}" == "gokz" ] || [ "${modcommand}" == "ttt" ] || [ "${modcommand}" == "steamworks" ] || [ "${modcommand}" == "get5" ] || [ "${modcommand}" == "nolobbyreservation" ]; then
 		sed -i "/^addons\/sourcemod$/d" "${modsdir}/${modcommand}-files.txt"

@@ -13,6 +13,7 @@ fn_firstcommand_set
 fn_print_dots ""
 check.sh
 core_logs.sh
+check_update_lock.sh
 
 if [ -z "${workshopmods}" ] && [ ! -f "${datadir}/${selfname}-workshop.txt" ]; then
 	fn_print_info_nl "No Workshop mods set. Add Workshop IDs to workshopmods in ${configdirserver}"

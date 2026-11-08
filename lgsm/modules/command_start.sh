@@ -102,7 +102,7 @@ fn_start_tmux() {
 
 	# Log rotation.
 	fn_script_log_info "Rotating log files"
-	if [ "${engine}" == "unreal2" ] && [ -f "${gamelog}" ]; then
+	if [ -n "${gamelogdate}" ] && [ -f "${gamelog}" ]; then
 		mv "${gamelog}" "${gamelogdate}"
 	fi
 	if [ -f "${lgsmlog}" ]; then
@@ -279,6 +279,9 @@ if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${upda
 	); then
 		fn_print_warn_nl "Update failed, starting ${servername} anyway"
 		fn_script_log_warn "Update failed, starting ${servername} anyway"
+	fi
+	if [ "${shortname}" == "ahl" ]; then
+		fix_ahl.sh
 	fi
 fi
 

@@ -19,10 +19,16 @@ fn_exit_dev_debug() {
 	fi
 }
 
+fn_print_plain_flush
+
 # If running dependency check as root will remove any files that belong to root user.
 if [ "$(whoami)" == "root" ]; then
 	find "${lgsmdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
 	find "${logdir}"/ -group root -prune -exec rm -rf {} + > /dev/null 2>&1
+fi
+
+if [ -z "${exitbypass}" ] && [ "${updatelocklevel}" == "${BASH_SUBSHELL}" ] && [ "$(cat "${lockdir}/updating.lock" 2> /dev/null)" == "$$" ]; then
+	rm -f "${lockdir:?}/updating.lock"
 fi
 
 if [ "${exitbypass}" ]; then
