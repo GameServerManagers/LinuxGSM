@@ -383,9 +383,10 @@ fn_install_file() {
 	cp -R "${selfname}" "${local_filename}"
 	sed -i -e "s/shortname=\"core\"/shortname=\"${shortname}\"/g" "${local_filename}"
 	sed -i -e "s/gameservername=\"core\"/gameservername=\"${gameservername}\"/g" "${local_filename}"
-	echo -e "Installed ${gamename} server as ${local_filename}"
+	echo -e "Installed ${gamename} server script as ${local_filename}"
 	echo -e ""
 	if [ ! -d "${serverfiles}" ]; then
+		echo -e "To install the server type:"
 		echo -e "./${local_filename} install"
 	else
 		echo -e "Remember to check server ports"
