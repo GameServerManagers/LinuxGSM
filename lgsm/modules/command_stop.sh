@@ -286,7 +286,8 @@ fn_stop_graceful_goldsrc() {
 	fn_print_ok "Graceful: sending \"quit\": ${seconds}"
 	fn_print_ok_eol_nl
 	fn_script_log_pass "Graceful: sending \"quit\": OK: ${seconds} seconds"
-	if [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
+	check_status.sh
+	if [ "${status}" == "0" ] && [ "${statusalert}" == "on" ] && [ "${firstcommandname}" == "STOP" ]; then
 		alert="stopped"
 		alert.sh
 	fi
