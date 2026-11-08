@@ -8,7 +8,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-modulesversion="v26.2.0"
+modulesversion="v26.4.0"
 
 # Core
 
@@ -23,6 +23,13 @@ core_dl.sh() {
 
 core_exit.sh() {
 	modulefile="${FUNCNAME[0]}"
+	# Download core_exit.sh without running it first. fn_fetch_file declares a local exitcode
+	# while downloading, so running it from there would exit with that instead of the real one.
+	if [ ! -f "${modulesdir}/${modulefile}" ]; then
+		local exitcodesaved="${exitcode}"
+		fn_update_module
+		exitcode="${exitcodesaved}"
+	fi
 	fn_fetch_module
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
@@ -186,6 +193,11 @@ command_workshop_update.sh() {
 	fn_fetch_module
 }
 
+install_fivem_license.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_squad_license.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -269,6 +281,11 @@ check_system_requirements.sh() {
 }
 
 check_tmuxception.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+check_update_lock.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -358,6 +375,11 @@ fix.sh() {
 	fn_fetch_module
 }
 
+fix_ahl.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ark.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -378,6 +400,16 @@ fix_av.sh() {
 	fn_fetch_module
 }
 
+fix_bf1942.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_bfv.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_bo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -393,12 +425,47 @@ fix_cmw.sh() {
 	fn_fetch_module
 }
 
+fix_cod.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_cod2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_coduo.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_codwaw.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_csgo.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
+fix_cswon.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_ct.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_dst.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_hlwon.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -418,6 +485,11 @@ fix_ios.sh() {
 	fn_fetch_module
 }
 
+fix_jc2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_kf.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -433,17 +505,22 @@ fix_mcb.sh() {
 	fn_fetch_module
 }
 
+fix_mohaa.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_mta.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-fix_nmrih.sh() {
+fix_nd.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
-fix_onset.sh() {
+fix_nmrih.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -518,6 +595,11 @@ fix_tf2.sh() {
 	fn_fetch_module
 }
 
+fix_ts.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_ts3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -543,7 +625,17 @@ fix_ut3.sh() {
 	fn_fetch_module
 }
 
+fix_ut99.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_vh.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_vs.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -559,6 +651,11 @@ fix_xnt.sh() {
 }
 
 fix_zmr.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+fix_zps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -697,12 +794,22 @@ update_fctr.sh() {
 	fn_fetch_module
 }
 
+update_fivem.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_hyt.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
 update_jk2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_jk3.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -722,7 +829,17 @@ update_mta.sh() {
 	fn_fetch_module
 }
 
+update_openra.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_pmc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_qw.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
@@ -742,7 +859,17 @@ update_ut99.sh() {
 	fn_fetch_module
 }
 
+update_bfe.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_bb.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_luanti.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

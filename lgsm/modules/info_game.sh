@@ -31,7 +31,7 @@ fn_info_game_ini() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="ini"
 }
 
@@ -56,7 +56,7 @@ fn_info_game_keyvalue_pairs_equals() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -81,7 +81,7 @@ fn_info_game_keyvalue_pairs_space() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
@@ -106,7 +106,7 @@ fn_info_game_quakec() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -118,7 +118,7 @@ fn_info_game_json() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(jq -r "${2}" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(jq -r "${2}" "${servercfgparse}")"
 	configtype="json"
 }
 
@@ -144,7 +144,7 @@ fn_info_game_sqf() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s/;$//p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="sqf"
 }
 
@@ -156,7 +156,7 @@ fn_info_game_xml() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(xmllint --xpath "string(${2})" "${servercfgparse}")\""
+	printf -v "${1}" '%s' "$(xmllint --xpath "string(${2})" "${servercfgparse}")"
 	configtype="xml"
 }
 
@@ -182,7 +182,7 @@ fn_info_game_valve_keyvalues() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *"\([^"]*\)".*/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="valve_keyvalues"
 }
 
@@ -207,7 +207,7 @@ fn_info_game_java_properties() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*= *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="java"
 }
 
@@ -230,7 +230,7 @@ fn_info_game_lua() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^[[:space:]]*\<'"${2}"'\>/ { s/.*= *"\?\([^"]*\)"\?/\1/;s#,.*##;p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="lua"
 }
 
@@ -255,7 +255,7 @@ fn_info_game_pc_config() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	eval "${1}=\"$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')\""
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*: *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="pc_config"
 }
 
@@ -339,6 +339,7 @@ fn_info_game_av() {
 		fn_info_game_ini "rconport" "rconPort"
 		fn_info_game_ini "servername" "name"
 		fn_info_game_ini "serverpassword" "password"
+		fn_info_game_ini "public" "isListed"
 		fn_info_game_ini "rconpassword" "rconPassword"
 		if [ -n "${rconpassword}" ]; then
 			rconenabled="true"
@@ -350,12 +351,13 @@ fn_info_game_av() {
 	rconenabled="${rconenabled:-"false"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
-	# queryport doesn't respond to any queries, using session only.
-	queryport=""$((port + 3))""
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
+	queryport="${queryport:-"27020"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="$((port + 21))"
-	steamworksport="$((port + 20))"
+	steamport="${steamport:-"27021"}"
 }
 
 # Config Type: ini unknown (Source?)
@@ -367,31 +369,15 @@ fn_info_game_bo() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "ServerPort"
+		fn_info_game_ini "queryport" "QueryPort"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "Password"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
+	queryport="${queryport:-"$((port + 1))"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-}
-
-# Config Type: ini
-# Parameters: true
-# Comment: ; or #
-# Example: ServerName=SERVERNAME
-# Filetype: ini
-fn_info_game_btl() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_ini "adminpassword" "AdminPassword"
-		fn_info_game_ini "servername" "ServerName"
-	fi
-	adminpassword="${adminpassword:-"NOT SET"}"
-	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
-	rconport="$((port + 2))"
-	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: ini
@@ -834,9 +820,9 @@ fn_info_game_ut3() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "GamePassword"
-		fn_info_game_ini "httpenabled" "bEnabled"
+		fn_info_game_ini "httpenabled" "bEnabled" "${servercfgdir}/UTWeb.ini"
 		fn_info_game_ini "httppassword" "AdminPassword"
-		fn_info_game_ini "httpport" "ListenPort"
+		fn_info_game_ini "httpport" "ListenPort" "${servercfgdir}/UTWeb.ini"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -975,6 +961,27 @@ fn_info_game_bf1942() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: none
+# Example: "name": "SERVERNAME",
+# Filetype: json
+fn_info_game_bfe() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "configip" ".bind // empty"
+		fn_info_game_json "discoveryport" ".discoveryPort // empty"
+		fn_info_game_json "maxplayers" ".maxPlayers // empty"
+		fn_info_game_json "port" ".gamePort // empty"
+		fn_info_game_json "servername" ".name // empty"
+	fi
+	configip="${configip:-"0.0.0.0"}"
+	discoveryport="${discoveryport:-"18452"}"
+	maxplayers="${maxplayers:-"64"}"
+	port="${port:-"18451"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: con
 # Parameters: true
 # Comment: # or //
@@ -1005,14 +1012,30 @@ fn_info_game_bfv() {
 fn_info_game_bt() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "maxplayers" "/serversettings/@MaxPlayers"
+		if [ -z "${maxplayers}" ]; then
+			fn_info_game_xml "maxplayers" "/serversettings/@maxplayers"
+		fi
 		fn_info_game_xml "port" "/serversettings/@port"
 		fn_info_game_xml "queryport" "/serversettings/@queryport"
-		fn_info_game_xml "servername" "/serversettings/@name"
+		fn_info_game_xml "servername" "/serversettings/@ServerName"
+		if [ -z "${servername}" ]; then
+			fn_info_game_xml "servername" "/serversettings/@name"
+		fi
 		fn_info_game_xml "serverpassword" "/serversettings/@password"
 		fn_info_game_xml "tickrate" "/serversettings/@TickRate"
+		if [ -z "${tickrate}" ]; then
+			fn_info_game_xml "tickrate" "/serversettings/@tickrate"
+		fi
+		fn_info_game_xml "public" "/serversettings/@IsPublic"
+		if [ -z "${public}" ]; then
+			fn_info_game_xml "public" "/serversettings/@public"
+		fi
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
+	if [ "${public,,}" != "true" ]; then
+		querymode="1"
+	fi
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -1041,6 +1064,25 @@ fn_info_game_cd() {
 	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	steamport="${steamport:-"0"}"
+}
+
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerPassword=PASSWORD
+# Filetype: ini
+fn_info_game_ce() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "serverpassword" "ServerPassword"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rawport="$((port + 1))"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
 # Config Type: json
@@ -1291,6 +1333,24 @@ fn_info_game_etl() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: Custom (key value pairs)
+# Comment: #
+# Example: sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_fivem() {
+	if [ -f "${servercfgfullpath}" ]; then
+		servername="$(sed -n 's/^sv_hostname[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		maxplayers="$(sed -n 's/^sv_maxclients[[:space:]]\+\([0-9]*\).*/\1/p' "${servercfgfullpath}" | head -1)"
+		rconpassword="$(sed -n 's/^rcon_password[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
+		port="$(sed -n 's/^endpoint_add_udp[[:space:]]\+"\?[^:"]*:\([0-9]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1)"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: json
 # Parameters: true
 # Comment: // or /* */
@@ -1347,7 +1407,7 @@ fn_info_game_hz() {
 		fn_info_game_ini "adminpassword" "AdminPassword"
 		fn_info_game_ini "servername" "ServerName"
 	fi
-	adminpass="${adminpassword:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="$((port + 2))"
@@ -1467,6 +1527,27 @@ fn_info_game_jk2() {
 	serverversion="${serverversion:-"NOT SET"}"
 }
 
+# Config Type: QuakeC
+# Parameters: true
+# Comment: // or /* */
+# Example: set sv_hostname "SERVERNAME"
+# Filetype: cfg
+fn_info_game_jk3() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "maxplayers" "sv_maxclients"
+		fn_info_game_quakec "rconpassword" "rconpassword"
+		fn_info_game_quakec "servername" "sv_hostname"
+		fn_info_game_quakec "serverpassword" "g_password"
+	fi
+	defaultmap="${defaultmap:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	rconpassword="${rconpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: Java properties
 # Comment: # or !
 # Example: motd=SERVERNAME
@@ -1507,8 +1588,10 @@ fn_info_game_mcb() {
 		fn_info_game_java_properties "gamemode" "gamemode"
 		fn_info_game_java_properties "maxplayers" "max-players"
 		fn_info_game_java_properties "port" "server-port"
-		fn_info_game_java_properties "portv6" "server-portv6"
+		fn_info_game_java_properties "portipv6" "server-portv6"
 		fn_info_game_java_properties "servername" "server-name"
+		fn_info_game_java_properties "transport" "transport"
+		fn_info_game_java_properties "udpport" "server-udp-ports"
 		fn_info_game_java_properties "worldname" "level-name"
 	fi
 	gamemode="${gamemode:-"NOT SET"}"
@@ -1516,6 +1599,8 @@ fn_info_game_mcb() {
 	portipv6="${portipv6:-"NOT SET"}"
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
+	transport="${transport:-"nethernet"}"
+	udpport="${udpport:-"NOT SET"}"
 	worldname="${worldname:-"NOT SET"}"
 }
 
@@ -1533,7 +1618,7 @@ fn_info_game_mohaa() {
 	defaultmap="${defaultmap:-"NOT SET"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
-	queryport="${port:-"0"}"
+	queryport="${queryport:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -1595,23 +1680,6 @@ fn_info_game_ohd() {
 	rconenabled="${rconenabled:-"false"}"
 	rconport="${rconport:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
-}
-
-# Config Type: json
-# Parameters: false
-# Comment: // or /* */
-fn_info_game_onset() {
-	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_json "maxplayers" ".maxplayers"
-		fn_info_game_json "port" ".port"
-		fn_info_game_json "servername" ".servername_short"
-		fn_info_game_json "serverpassword" ".password"
-	fi
-	maxplayers="${maxplayers:-"0"}"
-	port="${port:-"0"}"
-	httpport="$((port - 2))"
-	queryport="$((port - 1))"
-	servername="${servername:-"NOT SET"}"
 }
 
 # Config Type: custom
@@ -2128,10 +2196,10 @@ fn_info_game_source() {
 		fn_info_game_valve_keyvalues "servername" "hostname"
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
-	# Steamport can be between 26901-26910 and is normally automatically set.
-	# Some servers might support -steamport parameter to set
-	if [ "${steamport}" == "0" ] || [ -v "${steamport}" ]; then
-		steamport="$(echo "${ssinfo}" | grep "${srcdslinuxpid}" | awk '{print $5}' | grep ":269" | cut -d ":" -f2)"
+	# Detect the optional Steam port from this server's UDP sockets in the 269xx range.
+	# Keep an explicitly configured port, including ports outside the default range.
+	if { [ -z "${steamport}" ] || [ "${steamport}" == "0" ]; } && [ -n "${srcdslinuxpid}" ]; then
+		steamport="$(echo "${ssinfo}" | awk -v pid="${srcdslinuxpid}" '$1 == "udp" && $0 ~ ("pid=" pid ",") { port = $5; sub(/^.*:/, "", port); if (port ~ /^269[0-9][0-9]$/) { print port; exit } }')"
 	fi
 	clientport="${clientport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -2240,6 +2308,29 @@ fn_info_game_vh() {
 	fi
 	worldname="${worldname:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
+	servername="${servername:-"NOT SET"}"
+}
+
+# Config Type: Key Value Pairs (Equals Delimited)
+# Comment: #
+fn_info_game_luanti() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_equals "servername" "server_name"
+		fn_info_game_keyvalue_pairs_equals "serverpassword" "default_password"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "max_users"
+		fn_info_game_keyvalue_pairs_equals "configip" "bind_address"
+	fi
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"20"}"
+	configip="${configip:-"0.0.0.0"}"
+	queryport="${port}"
+}
+
+# Parameters: true
+fn_info_game_openra() {
+	port="${port:-"1234"}"
+	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
 }
 
@@ -2398,14 +2489,16 @@ elif [ "${shortname}" == "av" ]; then
 	fn_info_game_av
 elif [ "${shortname}" == "bf1942" ]; then
 	fn_info_game_bf1942
+elif [ "${shortname}" == "bfe" ]; then
+	fn_info_game_bfe
 elif [ "${shortname}" == "bfv" ]; then
 	fn_info_game_bfv
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_game_bo
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
-elif [ "${shortname}" == "btl" ]; then
-	fn_info_game_btl
+elif [ "${shortname}" == "ce" ]; then
+	fn_info_game_ce
 elif [ "${shortname}" == "ck" ]; then
 	fn_info_game_ck
 elif [ "${shortname}" == "cmw" ]; then
@@ -2438,6 +2531,8 @@ elif [ "${shortname}" == "etl" ]; then
 	fn_info_game_etl
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
+elif [ "${shortname}" == "fivem" ]; then
+	fn_info_game_fivem
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
@@ -2452,6 +2547,8 @@ elif [ "${shortname}" == "jc3" ]; then
 	fn_info_game_jc3
 elif [ "${shortname}" == "jk2" ]; then
 	fn_info_game_jk2
+elif [ "${shortname}" == "jk3" ]; then
+	fn_info_game_jk3
 elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
@@ -2470,8 +2567,6 @@ elif [ "${shortname}" == "nec" ]; then
 	fn_info_game_nec
 elif [ "${shortname}" == "ohd" ]; then
 	fn_info_game_ohd
-elif [ "${shortname}" == "onset" ]; then
-	fn_info_game_onset
 elif [ "${shortname}" == "pc" ]; then
 	fn_info_game_pc
 elif [ "${shortname}" == "pc2" ]; then
@@ -2512,7 +2607,7 @@ elif [ "${shortname}" == "sb" ]; then
 	fn_info_game_sb
 elif [ "${shortname}" == "sbots" ]; then
 	fn_info_game_sbots
-elif [ "${shortname}" == "scpsl" ] || [ "${shortname}" == "scpslsm" ]; then
+elif [ "${shortname}" == "scpsl" ]; then
 	fn_info_game_scpsl
 elif [ "${shortname}" == "sdtd" ]; then
 	fn_info_game_sdtd
@@ -2556,6 +2651,10 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${shortname}" == "luanti" ]; then
+	fn_info_game_luanti
+elif [ "${shortname}" == "orar" ]; then
+	fn_info_game_openra
 elif [ "${shortname}" == "vints" ]; then
 	fn_info_game_vints
 elif [ "${shortname}" == "vpmc" ]; then

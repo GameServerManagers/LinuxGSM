@@ -10,9 +10,46 @@ commandaction="Updating"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+fn_update_apply() {
+	check_status.sh
+	updatestatus="${status}"
+	if [ "${updatestatus}" != "0" ]; then
+		fn_print_restart_warning
+		exitbypass=1
+		command_stop.sh
+		fn_firstcommand_reset
+	fi
+	(
+		unset exitbypass
+		"$@"
+		exit 0
+	)
+	updateexitcode=$?
+	if [ "${updateexitcode}" -eq 0 ]; then
+		date +%s > "${lockdir:?}/last-updated.lock"
+	fi
+	if [ "${updatestatus}" != "0" ]; then
+		# shellcheck disable=SC2034 # Used by command_start.sh.
+		exitbypass=1
+		command_start.sh
+		fn_firstcommand_reset
+	fi
+	unset exitbypass
+	if [ "${updateexitcode}" -ne 0 ]; then
+		rm -f "${lockdir:?}/update.lock"
+		# shellcheck disable=SC2034 # Used by alert.sh.
+		alert="update-failed"
+		alert.sh
+		# shellcheck disable=SC2034 # Used by core_exit.sh.
+		exitcode="${updateexitcode}"
+		core_exit.sh
+	fi
+}
+
 fn_print_dots ""
 check.sh
 core_logs.sh
+check_update_lock.sh
 
 # A postponed update is requested again if players are still online.
 rm -f "${lockdir:?}/${selfname}-update-request.lock"
@@ -29,20 +66,32 @@ elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortna
 	update_pmc.sh
 elif [ "${shortname}" == "fctr" ]; then
 	update_fctr.sh
+elif [ "${shortname}" == "fivem" ]; then
+	update_fivem.sh
 elif [ "${shortname}" == "hyt" ]; then
 	update_hyt.sh
 elif [ "${shortname}" == "mta" ]; then
 	update_mta.sh
 elif [ "${shortname}" == "jk2" ]; then
 	update_jk2.sh
+elif [ "${shortname}" == "jk3" ]; then
+	update_jk3.sh
+elif [ "${shortname}" == "luanti" ]; then
+	update_luanti.sh
+elif [ "${shortname}" == "orar" ]; then
+	update_openra.sh
 elif [ "${shortname}" == "vints" ]; then
 	update_vints.sh
+elif [ "${shortname}" == "bfe" ]; then
+	update_bfe.sh
 elif [ "${shortname}" == "bb" ]; then
 	update_bb.sh
 elif [ "${shortname}" == "ut99" ]; then
 	update_ut99.sh
 elif [ "${shortname}" == "xnt" ]; then
 	update_xnt.sh
+elif [ "${shortname}" == "qw" ]; then
+	update_qw.sh
 elif [ "${shortname}" == "etl" ]; then
 	update_etl.sh
 else

@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shortname: [css, fctr, jk2, mc, mcb, mta, pmc, ts3, ut99, vints, xnt]
+        shortname: [css, fctr, jk2, mc, mcb, mta, orar, pmc, ts3, ut99, vints, xnt]
 
     steps:
       - name: Download linuxgsm.sh
@@ -30,6 +30,13 @@ jobs:
 
       - name: Install dependencies
         run: sudo dpkg --add-architecture i386; sudo apt-get update;
+
+      - name: Install Java 25
+        if: matrix.shortname == 'mc' || matrix.shortname == 'pmc'
+        run: |
+          sudo apt-get install -y openjdk-25-jre
+          sudo update-alternatives --set java /usr/lib/jvm/java-25-openjdk-amd64/bin/java
+          java -version
 
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./linuxgsm.sh ${{ matrix.shortname }}server

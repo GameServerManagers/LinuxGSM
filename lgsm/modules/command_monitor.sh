@@ -245,6 +245,11 @@ fn_monitor_check_update() {
 	fi
 }
 
+fn_monitor_check_backup_update() {
+	fn_monitor_check_backup
+	fn_monitor_check_update
+}
+
 # Source engine games may display a messages to indicate the server needs restarting.
 fn_monitor_check_update_source() {
 	if [ -f "${consolelogdir}/${selfname}-console.log" ] && [ "${engine}" == "source" ]; then
@@ -255,10 +260,12 @@ fn_monitor_check_update_source() {
 			fn_print_ok "Checking update"
 			fn_print_ok_eol_nl
 			fn_script_log_info "Checking update: ${selfname} has requested a restart for an update to be applied"
-			alert="update-restart-request"
-			alert.sh
-			command_restart.sh
-			core_exit.sh
+			if [ ! -f "${lockdir}/${selfname}-update-request.lock" ]; then
+				alert="update-restart-request"
+				alert.sh
+				date '+%s' > "${lockdir:?}/${selfname}-update-request.lock"
+				echo "force" >> "${lockdir:?}/${selfname}-update-request.lock"
+			fi
 		fi
 	fi
 }
@@ -278,6 +285,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: There are PIDS with identical tmux sessions running"
 		fn_script_log_error "Checking session: Killing all tmux sessions with the socketname name ${socketname} and session name ${sessionname}"
 		pkill -f "tmux -L ${socketname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}"
+		fn_monitor_check_backup_update
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids with the same tmux session and socket names. This will reduce issues with migration to release v23.5.0. #4296
@@ -288,6 +296,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: PIDS with the same tmux session and socket names are running"
 		fn_script_log_error "Checking session: Killing session with the socketname name ${sessionname} and session name ${sessionname}"
 		pkill -f "^tmux -L ${sessionname} new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
+		fn_monitor_check_backup_update
 		command_restart.sh
 		core_exit.sh
 	# Check for tmux pids that are using the old type of tmux session. This will reduce issues with migration to release v23.5.0. #4296
@@ -298,6 +307,7 @@ fn_monitor_check_session() {
 		fn_script_log_error "Checking session: PIDS with old type tmux session are running"
 		fn_script_log_error "Checking session: Killing session with the session name ${sessionname}"
 		pkill -f "^tmux new-session -d -x ${sessionwidth} -y ${sessionheight} -s ${sessionname}( |$)"
+		fn_monitor_check_backup_update
 		command_restart.sh
 		core_exit.sh
 	elif [ "${status}" != "0" ]; then
@@ -312,6 +322,7 @@ fn_monitor_check_session() {
 		fn_print_error "Checking session"
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Checking session: FAIL"
+		fn_monitor_check_backup_update
 		alert="monitor-session"
 		alert.sh
 		fn_script_log_info "Checking session: Monitor is restarting ${selfname}"
@@ -348,6 +359,51 @@ fn_query_gsquery() {
 fn_query_tcp() {
 	bash -c "exec 3<> /dev/tcp/'${queryip}'/'${queryport}'" > /dev/null 2>&1
 	querystatus="$?"
+}
+
+fn_monitor_query_port_hint() {
+	local sockets protocol state recvq sendq address peer details
+	local serverpid="" protocols="" process="" pid="" ancestor="" serverprocess="" otherprocess="" hint=""
+
+	command -v ss > /dev/null 2>&1 || return 0
+	sockets="$(ss -H -lntup 2> /dev/null)" || return 0
+	serverpid="$(TERM=screen tmux -L "${socketname}" list-sessions -F "#{session_name} #{pane_pid}" 2> /dev/null | awk -v session="${sessionname}" '$1 == session {print $2}')"
+
+	while read -r protocol state recvq sendq address peer details; do
+		if [ "${address##*:}" != "${queryport}" ]; then
+			continue
+		fi
+		if [[ " ${protocols//\// } " != *" ${protocol} "* ]]; then
+			protocols+="${protocols:+/}${protocol}"
+		fi
+		process="$(sed -nE 's/.*users:\(\("([^"]+)".*/\1/p' <<< "${details}")"
+		pid="$(sed -nE 's/.*users:\(\("[^"]+",pid=([0-9]+).*/\1/p' <<< "${details}")"
+		ancestor="${pid}"
+		while [ -n "${serverpid}" ] && [ -n "${ancestor}" ] && [ "${ancestor}" -gt 1 ]; do
+			if [ "${ancestor}" == "${serverpid}" ]; then
+				serverprocess="${process}"
+				break
+			fi
+			ancestor="$(ps -o ppid= -p "${ancestor}" 2> /dev/null | tr -d ' ')"
+		done
+		if [ -z "${serverprocess}" ] && [ -z "${otherprocess}" ]; then
+			otherprocess="${process}"
+		fi
+	done <<< "${sockets}"
+
+	if [ -z "${protocols}" ]; then
+		hint="Nothing is listening on port ${queryport}; check the server started and the port settings"
+	elif [ -n "${serverprocess}" ]; then
+		hint="Port ${queryport}/${protocols} is open by the game server (${serverprocess}) but it did not answer; the server may be hung, or the query port or type may not match"
+	elif [ -n "${otherprocess}" ]; then
+		hint="Port ${queryport}/${protocols} is in use by another process (${otherprocess}); check for a port conflict"
+	else
+		hint="Port ${queryport}/${protocols} is in use by a process owned by another user; check for a port conflict"
+	fi
+
+	fn_print_warn "Query port: ${hint}"
+	fn_print_warn_eol_nl
+	fn_script_log_warn "Query port: ${hint}"
 }
 
 fn_monitor_query() {
@@ -423,6 +479,8 @@ fn_monitor_query() {
 					fn_print_fail "Querying port: ${querymethod}: ${queryip}:${queryport} : ${totalseconds}/${queryattempt}"
 					fn_print_fail_eol_nl
 					fn_script_log_warn "Querying port: ${querymethod}: ${queryip}:${queryport} : ${queryattempt} : FAIL"
+					fn_monitor_query_port_hint
+					fn_monitor_check_backup_update
 					# Send alert if enabled.
 					alert="monitor-query"
 					alert.sh

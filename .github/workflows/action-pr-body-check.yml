@@ -1,0 +1,83 @@
+name: PR Body Check
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  pr-body-check:
+    if: github.repository_owner == 'GameServerManagers' && github.event.pull_request.user.type != 'Bot' && !startsWith(github.event.pull_request.head.ref, 'repo-sync/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pull request body follows the template
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const body = (context.payload.pull_request.body || '').replace(/<!--[\s\S]*?-->/g, '');
+            const requiredHeadings = ['# Description', '## Type of change', '## Testing', '## Checklist'];
+            const missing = requiredHeadings.filter((h) => !body.split(/\r?\n/).some((line) => line.trim() === h));
+            const errors = [];
+
+            if (missing.length > 0) {
+              errors.push(`Missing template sections: ${missing.join(', ')}. Use .github/pull_request_template.md as the pull request body.`);
+            }
+            if (/^\s*fixes #\[issue\]\s*$/im.test(body)) {
+              errors.push('Replace the "Fixes #[issue]" placeholder with the issue number, for example "Fixes #123".');
+            }
+
+            const closingKeyword = /\b(close[sd]?|fix(e[sd])?|resolve[sd]?):?\s+([\w.-]+\/[\w.-]+)?#\d+/i;
+            const relatedIssue = /\brelated to:?\s+([\w.-]+\/[\w.-]+)?#\d+/i;
+            if (!closingKeyword.test(body) && !relatedIssue.test(body)) {
+              core.warning('No closing keyword found. Add "Fixes #123" to link the issue, or "Related to #123" if this pull request does not fully resolve it.');
+            }
+
+            const repoName = `${context.repo.owner}/${context.repo.repo}`.toLowerCase();
+            const closingRefs = [...body.matchAll(/\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?):?\s+([\w.-]+\/[\w.-]+)?#(\d+)/gi)]
+              .filter((m) => !m[1] || m[1].toLowerCase() === repoName)
+              .map((m) => Number(m[2]));
+            const wanted = [...new Set(closingRefs)];
+            if (wanted.length > 0) {
+              const vars = { owner: context.repo.owner, repo: context.repo.repo };
+              const { repository } = await github.graphql(
+                `query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) { closingIssuesReferences(first: 50) { nodes { number } } }
+                  }
+                }`,
+                { ...vars, number: context.payload.pull_request.number }
+              );
+              const linked = new Set(repository.pullRequest.closingIssuesReferences.nodes.map((n) => n.number));
+              const unlinked = [];
+              for (const number of wanted.filter((n) => !linked.has(n))) {
+                try {
+                  const { repository: ref } = await github.graphql(
+                    `query($owner: String!, $repo: String!, $number: Int!) {
+                      repository(owner: $owner, name: $repo) { issueOrPullRequest(number: $number) { __typename } }
+                    }`,
+                    { ...vars, number }
+                  );
+                  if (ref.issueOrPullRequest?.__typename === 'Issue') {
+                    unlinked.push(`#${number}`);
+                  }
+                } catch (error) {
+                  core.warning(`Could not look up #${number}: ${error.message}`);
+                }
+              }
+              if (unlinked.length > 0) {
+                errors.push(`Not linked in Development: ${unlinked.join(', ')}. Closing keywords in pull requests to develop do not link issues. A maintainer with write access must link these issues in the Development section, then re-run this check. No PR content change is needed to resolve the missing links.`);
+              }
+            }
+
+            if (errors.length > 0) {
+              core.setFailed(errors.join('\n'));
+            }

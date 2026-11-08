@@ -58,11 +58,12 @@ else
 fi
 
 fn_print_dots "termbin.com"
-link=$(cat "${postdetailslog}" | {
-	nc -w 10 termbin.com 9999
-	echo $? > /tmp/nc_exit_status
-} | tr -d '\n\0')
-nc_exit_status=$(cat /tmp/nc_exit_status)
+# Keep the upload status without sharing a temporary file between invocations.
+link=$(
+	set -o pipefail
+	nc -w 10 termbin.com 9999 < "${postdetailslog}" | tr -d '\n\0'
+)
+nc_exit_status=$?
 if [ "${nc_exit_status}" -ne 0 ]; then
 	fn_print_error_nl "Failed to post to termbin.com"
 	fn_script_log_error "Failed to post to termbin.com"

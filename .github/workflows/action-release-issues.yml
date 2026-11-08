@@ -1,0 +1,65 @@
+name: Release Issues
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+      - closed
+    branches:
+      - master
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: release-issues-${{ github.event.pull_request.number }}
+
+jobs:
+  release-issues:
+    if: github.repository_owner == 'GameServerManagers' && startsWith(github.event.pull_request.head.ref, 'release/') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: List fixed issues in the release PR and close them on merge
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const fixedLabel = 'status: fixed in develop';
+            const start = '<!-- release-issues:start -->';
+            const end = '<!-- release-issues:end -->';
+
+            const labelled = (await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', labels: fixedLabel, per_page: 100 }))
+              .filter((issue) => !issue.pull_request)
+              .sort((a, b) => a.number - b.number);
+
+            if (context.payload.action === 'closed') {
+              if (!pr.merged) {
+                return;
+              }
+              const version = pr.head.ref.replace(/^release\//, '');
+              for (const issue of labelled) {
+                if (issue.state === 'open') {
+                  await github.rest.issues.createComment({ owner, repo, issue_number: issue.number, body: `Released in ${version} (#${pr.number}).` });
+                  await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
+                  core.info(`Closed #${issue.number}.`);
+                }
+                await github.rest.issues.removeLabel({ owner, repo, issue_number: issue.number, name: fixedLabel }).catch(() => {});
+              }
+              return;
+            }
+
+            const open = labelled.filter((issue) => issue.state === 'open');
+            const lines = open.length > 0 ? open.map((issue) => `Fixes #${issue.number}`) : [`No open issues are labelled "${fixedLabel}".`];
+            const block = [start, '## Issues fixed in this release', '', ...lines, end].join('\n');
+
+            const current = pr.body || '';
+            const pattern = new RegExp(`${start}[\\s\\S]*?${end}`);
+            const updated = pattern.test(current) ? current.replace(pattern, block) : `${current.trim() ? `${current.trimEnd()}\n\n` : ''}${block}\n`;
+            if (updated !== current) {
+              await github.rest.pulls.update({ owner, repo, pull_number: pr.number, body: updated });
+              core.info(`Listed ${open.length} issue(s) in #${pr.number}.`);
+            }

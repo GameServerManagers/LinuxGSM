@@ -7,11 +7,29 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+if [ "${shortname}" == "orar" ] && [ ! -d "${servercfgdir}" ]; then
+	install_config.sh
+fi
+
+if [ "${shortname}" == "jk2" ] && [ ! -f "${servercfgfullpath}" ] && [ -f "${systemdir}/${servercfg}" ]; then
+	fn_print_info_nl "Moving ${servercfg} to ${servercfgdir}"
+	fn_script_log_info "Moving ${systemdir}/${servercfg} to ${servercfgfullpath}"
+	mv "${systemdir}/${servercfg}" "${servercfgfullpath}"
+fi
+
 if [ -n "${servercfgfullpath}" ] && [ ! -f "${servercfgfullpath}" ]; then
 	fn_print_warn_nl "Configuration file missing!"
 	echo -e "${servercfgfullpath}"
 	fn_script_log_warn "Configuration file missing!"
 	fn_script_log_warn "${servercfgfullpath}"
+	install_config.sh
+fi
+
+if [ "${shortname}" == "ti" ] && [[ "${startparameters}" != *"DedicatedServerClientId"* ]] && [ ! -f "${servercfgdir}/Engine.ini" ]; then
+	fn_print_warn_nl "Configuration file missing!"
+	echo -e "${servercfgdir}/Engine.ini"
+	fn_script_log_warn "Configuration file missing!"
+	fn_script_log_warn "${servercfgdir}/Engine.ini"
 	install_config.sh
 fi
 
@@ -36,4 +54,14 @@ if [ "${shortname}" == "vh" ] && [ -z "${serverpassword}" ]; then
 elif [ "${shortname}" == "vh" ] && [ "${#serverpassword}" -le "4" ]; then
 	fn_print_fail_nl "serverpassword is to short (min 5 chars)"
 	fn_script_log_fail "serverpassword is to short (min 5 chars)"
+fi
+
+if [ "${shortname}" == "fivem" ] && ! grep -qE "^[[:space:]]*(set[[:space:]]+)?sv_licenseKey[[:space:]]+\"?[^\" ]" "${servercfgfullpath}" 2> /dev/null; then
+	fn_print_fail_nl "FiveM license key is not set"
+	echo -e "* Get a free key from ${italic}https://portal.cfx.re/servers/registration-keys${default}"
+	echo -e "* Set sv_licenseKey in ${servercfgfullpath}"
+	fn_script_log_fail "FiveM license key is not set"
+	if [ "${commandname}" == "START" ] || [ "${commandname}" == "DEBUG" ]; then
+		core_exit.sh
+	fi
 fi

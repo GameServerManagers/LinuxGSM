@@ -35,7 +35,13 @@ echo -e ""
 
 while :; do
 	echo -en "Enter an ${cyan}addon/mod${default} to ${red}remove${default} (or exit to abort): "
-	read -r usermodselect
+	if ! read -r usermodselect && [ -z "${usermodselect}" ]; then
+		echo -e ""
+		fn_print_error_nl "Unable to read an addon/mod: no input available"
+		fn_script_log_error "Unable to read an addon/mod: no input available"
+		exitcode=2
+		core_exit.sh
+	fi
 	# Exit if user says exit or abort.
 	if [ "${usermodselect}" == "exit" ] || [ "${usermodselect}" == "abort" ]; then
 		core_exit.sh
@@ -76,7 +82,9 @@ echo -e "* location: ${modinstalldir}"
 fn_sleep_time_1
 # Go through every file and remove it.
 modfileline="1"
-tput sc
+if [ -z "${plainoutput}" ]; then
+	tput sc
+fi
 while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 	# Current line defines current file to remove.
 	currentfileremove=$(sed "${modfileline}q;d" "${modsdir}/${modcommand}-files.txt")
@@ -92,8 +100,10 @@ while [ "${modfileline}" -le "${modsfilelistsize}" ]; do
 			fn_script_log_pass "Removing ${modinstalldir}/${currentfileremove}"
 		fi
 	fi
-	tput rc
-	tput el
+	if [ -z "${plainoutput}" ]; then
+		tput rc
+		tput el
+	fi
 	echo -e "removing ${modprettyname} ${modfileline} / ${modsfilelistsize} : ${currentfileremove}..."
 	((modfileline++))
 done

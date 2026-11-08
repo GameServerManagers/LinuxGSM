@@ -129,7 +129,7 @@ fn_alert_update_restart_request() {
 	alertaction="Restart Requested"
 	alertemoji="🎉"
 	alertsound="1"
-	alertmessage="${selfname} has requested a restart for an update to be applied. Restarting now."
+	alertmessage="${selfname} has requested a restart for an update to be applied. Updating once the server is empty."
 	# Blue
 	alertcolourhex="#1e90ff"
 	alertcolourdec="2003199"

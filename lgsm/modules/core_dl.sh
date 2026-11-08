@@ -19,6 +19,20 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
+# Removes consecutive duplicate lines from SteamCMD output without buffering.
+fn_dl_steamcmd_output() {
+	local line=""
+	local previousline=""
+	local firstline="1"
+	while IFS= read -r line || [ -n "${line}" ]; do
+		if [ -n "${firstline}" ] || [ "${line}" != "${previousline}" ]; then
+			printf '%s\n' "${line}"
+		fi
+		previousline="${line}"
+		firstline=""
+	done
+}
+
 fn_dl_steamcmd() {
 	remotelocation="SteamCMD"
 	fn_print_start_nl "${remotelocation}"
@@ -28,8 +42,8 @@ fn_dl_steamcmd() {
 		fn_script_log_info "Branch: ${branch}"
 	fi
 	if [ -n "${betapassword}" ]; then
-		echo -e "Branch password: ${betapassword}"
-		fn_script_log_info "Branch password: ${betapassword}"
+		echo -e "Branch password: ********"
+		fn_script_log_info "Branch password: ********"
 	fi
 	if [ -d "${steamcmddir}" ]; then
 		cd "${steamcmddir}" || exit
@@ -61,24 +75,26 @@ fn_dl_steamcmd() {
 	# To do error checking for SteamCMD the output of steamcmd will be saved to a log.
 	steamcmdlog="${lgsmlogdir}/${selfname}-steamcmd.log"
 
-	# clear previous steamcmd log
-	if [ -f "${steamcmdlog}" ]; then
-		rm -f "${steamcmdlog:?}"
-	fi
 	local invalidplatformworkaround=""
+	local goldsrcshareddepotretry=""
 	counter=0
 	while [ "${counter}" -eq 0 ] || [ "${exitcode}" -ne 0 ]; do
 		counter=$((counter + 1))
+		# clear previous steamcmd log
+		rm -f "${steamcmdlog:?}"
 		# Select SteamCMD parameters
 		# If GoldSrc (appid 90) servers. GoldSrc (appid 90) require extra commands.
 		if [ "${appid}" == "90" ]; then
 			# If using a specific branch.
 			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_set_config 90 mod "${appidmod}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+				exitcode="${PIPESTATUS[0]}"
 			fi
 		# Force Windows Platform type.
 		elif [ "${steamcmdforcewindows}" == "yes" ]; then
@@ -89,18 +105,20 @@ fn_dl_steamcmd() {
 					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
 					core_exit.sh
 				fi
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				exitcode="${PIPESTATUS[0]}"
-				if [ "${exitcode}" -ne 0 ]; then
-					continue
-				fi
 			fi
-			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+			if [ -z "${baseappid}" ] || [ "${exitcode}" -eq 0 ]; then
+				if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				elif [ -n "${branch}" ]; then
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				else
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				fi
 			fi
 		# All other servers.
 		else
@@ -111,25 +129,25 @@ fn_dl_steamcmd() {
 					fn_script_log_fail "${commandaction} ${selfname}: baseappid is set but supportdir is not defined"
 					core_exit.sh
 				fi
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${supportdir}" +login "${steamuser}" "${steampass}" +app_update "${baseappid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				exitcode="${PIPESTATUS[0]}"
-				if [ "${exitcode}" -ne 0 ]; then
-					continue
-				fi
 			fi
-			if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			elif [ -n "${branch}" ]; then
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
-			else
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+			if [ -z "${baseappid}" ] || [ "${exitcode}" -eq 0 ]; then
+				if [ -n "${branch}" ] && [ -n "${betapassword}" ]; then
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" -betapassword "${betapassword}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				elif [ -n "${branch}" ]; then
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" -beta "${branch}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				else
+					"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" "${validateparam[@]}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
+					exitcode="${PIPESTATUS[0]}"
+				fi
 			fi
 		fi
 
 		# Error checking for SteamCMD. Some errors will loop to try again and some will just exit.
-		# Check also if we have more errors than retries to be sure that we do not loop to many times and error out.
-		exitcode=$?
-		if [ -n "$(grep -i "Error!" "${steamcmdlog}" | tail -1)" ] && [ "$(grep -ic "Error!" "${steamcmdlog}")" -ge "${counter}" ]; then
+		if grep -qi "Error!" "${steamcmdlog}"; then
 			# Not enough space.
 			if [ -n "$(grep "0x202" "${steamcmdlog}" | tail -1)" ]; then
 				fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Not enough disk space to download server files"
@@ -145,7 +163,7 @@ fn_dl_steamcmd() {
 				invalidplatformworkaround="1"
 				fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
 				fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Invalid platform - applying SteamCMD Windows platform workaround"
-				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+				"${unbuffercommand[@]}" "${steamcmdcommandarray[@]}" +@sSteamCmdForcePlatformType windows +force_install_dir "${serverfiles}" +login "${steamuser}" "${steampass}" +app_update "${appid}" +quit | fn_dl_steamcmd_output | tee -a "${lgsmlog}" "${steamcmdlog}"
 				validateparam=("validate")
 				rm -f "${steamcmdlog:?}"
 				counter=0
@@ -198,6 +216,12 @@ fn_dl_steamcmd() {
 		elif [ "${exitcode}" -ne 0 ]; then
 			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
 			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Exit code: ${exitcode}"
+		elif [ "${appid}" == "90" ] && [ ! -f "${serverfiles}/steamapps/appmanifest_70.acf" ] && [ -z "${goldsrcshareddepotretry}" ]; then
+			goldsrcshareddepotretry="1"
+			fn_print_error2_nl "${commandaction} ${selfname}: ${remotelocation}: Half-Life shared content (AppID 70) is missing - validating"
+			fn_script_log_error "${commandaction} ${selfname}: ${remotelocation}: Half-Life shared content (AppID 70) is missing - validating"
+			validateparam=("validate")
+			counter=0
 		else
 			fn_print_success_nl "${commandaction} ${selfname}: ${remotelocation}"
 			fn_script_log_pass "${commandaction} ${selfname}: ${remotelocation}"
@@ -271,7 +295,7 @@ fn_dl_hash() {
 	fi
 }
 
-# Extracts bzip2, gzip or zip files.
+# Extracts gzip, bzip2, xz or zip files. Any other file type fails.
 # Extracts can be defined in code like so:
 # fn_dl_extract "${local_filedir}" "${local_filename}" "${extractdest}" "${extractsrc}"
 # fn_dl_extract "/home/gameserver/lgsm/tmp" "file.tar.bz2" "/home/gamserver/serverfiles"
@@ -292,37 +316,44 @@ fn_dl_extract() {
 		fn_script_log_fail "Extracting ${local_filename}"
 		fn_script_log_fail "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
+		return 1
 	fi
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/x-xz" ]; then
 		if [ -n "${extractsrc}" ]; then
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}" 2>&1)
 		else
-			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+			extractcmd=$(tar -Jxf "${local_filedir}/${local_filename}" -C "${extractdest}" 2>&1)
 		fi
 	elif [ "${mime}" == "application/zip" ]; then
 		if [ -n "${extractsrc}" ]; then
 			temp_extractdir="${tmpdir}/${extractsrc}"
-			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}")
-			cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/"
-			rm -rf "${temp_extractdir}"
+			extractcmd=$(unzip -qo "${local_filedir}/${local_filename}" "${extractsrc}/*" -d "${temp_extractdir}" 2>&1 && cp -a "${temp_extractdir}/${extractsrc}/." "${extractdest}/" 2>&1)
 		else
-			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}")
+			extractcmd=$(unzip -qo -d "${extractdest}" "${local_filedir}/${local_filename}" 2>&1)
 		fi
+	else
+		extractcmd="Unsupported archive type: ${mime}"
+		false
 	fi
 	exitcode=$?
+	# Clean up after capturing the exit code so cleanup cannot mask a failed extraction or copy.
+	if [ -n "${temp_extractdir}" ]; then
+		rm -rf "${temp_extractdir}"
+		unset temp_extractdir
+	fi
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
 		fn_script_log_fail "Extracting ${local_filename}"
@@ -331,6 +362,7 @@ fn_dl_extract() {
 		fi
 		echo -e "${extractcmd}"
 		core_exit.sh
+		return 1
 	else
 		fn_print_ok_eol_nl
 		fn_script_log_pass "Extracting ${local_filename}"
@@ -347,6 +379,9 @@ fn_fetch_trap() {
 	echo -en "downloading ${local_filename}"
 	fn_print_removed_eol_nl
 	fn_script_log_info "Downloading ${local_filename}...REMOVED"
+	if [ "${local_filename}" == "core_exit.sh" ]; then
+		exit 130
+	fi
 	core_exit.sh
 }
 
@@ -384,25 +419,29 @@ fn_check_file() {
 		if [ "${exitcode}" -ne 0 ]; then
 			if [ ${counter} -ge 2 ]; then
 				fn_print_fail_eol_nl
+				checkflag=1
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_fail "Checking ${remote_filename}"
 					fn_script_log_fail "${fileurl}"
-					checkflag=1
 				fi
 			else
 				fn_print_error_eol_nl
+				checkflag=2
 				if [ -f "${lgsmlog}" ]; then
 					fn_script_log_error "Checking ${remote_filename}"
 					fn_script_log_error "${fileurl}"
-					checkflag=2
 				fi
 			fi
 		else
-			fn_print_ok_eol
-			echo -en "\033[2K\\r"
+			if [ -n "${plainoutput}" ]; then
+				fn_print_ok_eol_nl
+			else
+				fn_print_ok_eol
+				echo -en "\033[2K\\r"
+			fi
+			checkflag=0
 			if [ -f "${lgsmlog}" ]; then
 				fn_script_log_pass "Checking ${remote_filename}"
-				checkflag=0
 			fi
 			break
 		fi
@@ -457,16 +496,24 @@ fn_fetch_file() {
 			fi
 			# Trap will remove part downloaded files if canceled.
 			trap fn_fetch_trap INT
-			curlcmd=(curl --connect-timeout 3 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
+			curlcmd=(curl --connect-timeout 10 --fail -L -o "${local_filedir}/${local_filename}" --retry 2 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.${randomint}.212 Safari/537.36")
+			if [[ "${fileurl}" == https://* ]]; then
+				curlcmd+=(--proto-redir "=https")
+			fi
 
 			# if is large file show progress, else be silent
 			local exitcode=""
 			large_files=("bz2" "gz" "zip" "jar" "xz")
 			if grep -qE "(^|\s)${local_filename##*.}(\s|$)" <<< "${large_files[@]}"; then
-				echo -e "downloading file [ ${italic}${local_filename}${default} ]"
-				fn_sleep_time
-				"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
-				exitcode=$?
+				if [ -n "${plainoutput}" ]; then
+					"${curlcmd[@]}" --silent --show-error "${fileurl}" 2>&1
+					exitcode=$?
+				else
+					echo -e "downloading file [ ${italic}${local_filename}${default} ]"
+					fn_sleep_time
+					"${curlcmd[@]}" --progress-bar "${fileurl}" 2>&1
+					exitcode=$?
+				fi
 				echo -en "downloading file [ ${italic}${local_filename}${default} ]"
 			else
 				echo -en "fetching ${fileurl_name} [ ${italic}${local_filename}${default} ]\c"
@@ -489,6 +536,9 @@ fn_fetch_file() {
 					if [ -f "${lgsmlog}" ]; then
 						fn_script_log_fail "Downloading ${local_filename}..."
 						fn_script_log_fail "${fileurl}"
+					fi
+					if [ "${local_filename}" == "core_exit.sh" ]; then
+						exit 1
 					fi
 					core_exit.sh
 				else

@@ -14,7 +14,7 @@ fn_install_resources() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Installing Default Resources${default}"
 	fn_messages_separator
-	fn_fetch_file "http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nohash"
+	fn_fetch_file "https://mirror.multitheftauto.com/mtasa/resources/mtasa-resources-latest.zip" "" "" "" "${tmpdir}" "mtasa-resources-latest.zip" "nochmodx" "norun" "noforce" "nohash"
 	fn_dl_extract "${tmpdir}" "mtasa-resources-latest.zip" "${resourcesdir}"
 	echo -e "Default Resources Installed."
 }
@@ -29,4 +29,9 @@ if [ -z "${autoinstall}" ]; then
 else
 	fn_print_warning_nl "Default resources are not installed when using ./${selfname} auto-install."
 	fn_print_information_nl "To install default resources use ./${selfname} install"
+fi
+
+if [ "${firstcommandname}" == "DEFAULT-RESOURCES" ]; then
+	exitcode=0
+	core_exit.sh
 fi

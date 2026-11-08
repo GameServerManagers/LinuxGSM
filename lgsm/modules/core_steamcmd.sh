@@ -14,8 +14,8 @@ fn_install_steamcmd() {
 	if [ ! -d "${steamcmddir}" ]; then
 		mkdir -p "${steamcmddir}"
 	fi
-	fn_fetch_file "http://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "nochmodx" "norun" "noforce" "nohash"
-	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}"
+	fn_fetch_file "https://media.steampowered.com/client/steamcmd_linux.tar.gz" "" "" "" "${tmpdir}" "steamcmd_linux.tar.gz" "nochmodx" "norun" "noforce" "nohash"
+	fn_dl_extract "${tmpdir}" "steamcmd_linux.tar.gz" "${steamcmddir}" || return 1
 	chmod +x "${steamcmddir}/steamcmd.sh"
 }
 
@@ -24,9 +24,7 @@ fn_check_steamcmd_user() {
 	if [ "${steamuser}" == "username" ]; then
 		fn_print_fail_nl "Steam login not set. Update steamuser in ${configdirserver}"
 		fn_print_nl "	* Change steamuser=\"username\" to a valid steam login."
-		if [ -d "${lgsmlogdir}" ]; then
-			fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
-		fi
+		fn_script_log_fail "Steam login not set. Update steamuser in ${configdirserver}"
 		core_exit.sh
 	fi
 	# Anonymous user is set if steamuser is missing.
@@ -223,7 +221,7 @@ fn_update_steamcmd_compare() {
 			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_print_nl "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ********"
 		fi
 		fn_print_nl "${italic}https://steamdb.info/app/${appid}/history"
 		fn_print "\n"
@@ -234,30 +232,13 @@ fn_update_steamcmd_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_script_log_info "Branch password: ${betapassword}"
+			fn_script_log_info "Branch password: ********"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
 
 		if [ "${commandname}" == "UPDATE" ]; then
-			date +%s > "${lockdir:?}/last-updated.lock"
 			unset updateonstart
-			check_status.sh
-			# If server stopped.
-			if [ "${status}" == "0" ]; then
-				fn_dl_steamcmd
-			# If server started.
-			else
-				fn_print_restart_warning
-				exitbypass=1
-				command_stop.sh
-				fn_firstcommand_reset
-				exitbypass=1
-				fn_dl_steamcmd
-				exitbypass=1
-				command_start.sh
-				fn_firstcommand_reset
-			fi
-			unset exitbypass
+			fn_update_apply fn_dl_steamcmd
 			alert="update"
 		elif [ "${commandname}" == "CHECK-UPDATE" ]; then
 			alert="check-update"
@@ -273,7 +254,7 @@ fn_update_steamcmd_compare() {
 			fn_print_nl "* Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_print_nl "* Branch password: ${betapassword}"
+			fn_print_nl "* Branch password: ********"
 		fi
 		fn_print_nl "https://steamdb.info/app/${appid}/history"
 		fn_print "\n"
@@ -284,7 +265,7 @@ fn_update_steamcmd_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		if [ -n "${betapassword}" ]; then
-			fn_script_log_info "Branch password: ${betapassword}"
+			fn_script_log_info "Branch password: ********"
 		fi
 	fi
 }

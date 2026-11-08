@@ -30,6 +30,7 @@ fn_validate() {
 fn_print_dots ""
 check.sh
 core_logs.sh
+check_update_lock.sh
 
 fn_print_dots "SteamCMD"
 
