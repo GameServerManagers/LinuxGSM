@@ -41,12 +41,11 @@ jobs:
       - name: Grab server
         run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./linuxgsm.sh ${{ matrix.shortname }}server
 
-      - name: Enable developer mode
-        run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server developer
-
       - name: Insert steamuser
         if: matrix.shortname == 'jk2'
-        run: echo -e "steamuser=\"${{ secrets.STEAMCMD_USER }}\"\nsteampass='${{ secrets.STEAMCMD_PASS }}'" > lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
+        run: |
+          mkdir -p lgsm/config-lgsm/${{ matrix.shortname }}server
+          echo -e "steamuser=\"${{ secrets.STEAMCMD_USER }}\"\nsteampass='${{ secrets.STEAMCMD_PASS }}'" > lgsm/config-lgsm/${{ matrix.shortname }}server/common.cfg
 
       - name: Install server
         run: LGSM_GITHUBBRANCH="${LGSM_REF}" ./${{ matrix.shortname }}server auto-install
