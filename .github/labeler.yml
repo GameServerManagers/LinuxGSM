@@ -57,7 +57,7 @@
 
 # Info
 "info: alerts":
-  - "/(alert_(discord|email|gotify|ifttt|ntfy|pushbullet|pushover|rocketchat|slack|telegram)|command:\\s*test-alert)/i"
+  - "/(alert_(discord|email|gotify|ifttt|mqtt|ntfy|pushbullet|pushover|rocketchat|slack|telegram)|command:\\s*test-alert)/i"
 "info: dependency":
   - "/\\b(dependency|dependencies|deps)\\b/i"
 "info: docker":

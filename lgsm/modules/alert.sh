@@ -434,3 +434,22 @@ elif [ -z "${ntfytopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	echo -e "* https://docs.linuxgsm.com/alerts/ntfy"
 	fn_script_error "ntfy topic not set"
 fi
+
+if [ "${mqttalert}" == "on" ] && [ -n "${mqtthost}" ] && [ -n "${mqttport}" ] && [ -n "${mqtttopic}" ]; then
+	alert_mqtt.sh
+elif [ "${mqttalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_warn_nl "MQTT alerts not enabled"
+	fn_script_log_warn "MQTT alerts not enabled"
+elif [ -z "${mqtthost}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "MQTT host not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/mqtt"
+	fn_script_error "MQTT host not set"
+elif [ -z "${mqttport}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "MQTT port not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/mqtt"
+	fn_script_error "MQTT port not set"
+elif [ -z "${mqtttopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
+	fn_print_error_nl "MQTT topic not set"
+	echo -e "* https://docs.linuxgsm.com/alerts/mqtt"
+	fn_script_error "MQTT topic not set"
+fi
