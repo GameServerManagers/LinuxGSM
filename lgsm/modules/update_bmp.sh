@@ -41,8 +41,17 @@ fn_update_remotebuild() {
 	remotebuild=$(echo "${remotebuildresponse}" | jq -r '.tag_name // empty')
 	bmpdistroid="${distroid,,}"
 	bmpdistroversion=""
+	bmpmatchversion="${distroversion}"
+	case "${bmpdistroid}" in
+		rhel | rocky | almalinux | centos)
+			if [ "${distroversion%%.*}" -ge 10 ] 2> /dev/null; then
+				bmpdistroid="ubuntu"
+				bmpmatchversion="24.04"
+			fi
+			;;
+	esac
 	while read -r bmpcandidate; do
-		if [ "$(printf '%s\n%s\n' "${bmpcandidate}" "${distroversion}" | sort -V | tail -n 1)" == "${distroversion}" ]; then
+		if [ "$(printf '%s\n%s\n' "${bmpcandidate}" "${bmpmatchversion}" | sort -V | tail -n 1)" == "${bmpmatchversion}" ]; then
 			bmpdistroversion="${bmpcandidate}"
 		fi
 	done < <(echo "${remotebuildresponse}" | jq -r --arg id "${bmpdistroid}" --arg arch "${bmparch}" '.assets[]?.name | capture("^BeamMP-Server\\." + $id + "\\.(?<v>[0-9.]+)\\." + $arch + "$")? | .v' | sort -V)
