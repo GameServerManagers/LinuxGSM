@@ -26,6 +26,7 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
+	info_distro.sh
 	case "$(uname -m)" in
 		x86_64) bmparch="x86_64" ;;
 		aarch64) bmparch="arm64" ;;
