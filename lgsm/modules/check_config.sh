@@ -65,3 +65,13 @@ if [ "${shortname}" == "fivem" ] && ! grep -qE "^[[:space:]]*(set[[:space:]]+)?s
 		core_exit.sh
 	fi
 fi
+
+if [ "${shortname}" == "bmp" ] && ! grep -qE '^[[:space:]]*AuthKey[[:space:]]*=[[:space:]]*"[^"]+"' "${servercfgfullpath}" 2> /dev/null; then
+	fn_print_fail_nl "BeamMP AuthKey is not set"
+	echo -e "* Get a key from ${italic}https://keymaster.beammp.com${default}"
+	echo -e "* Set AuthKey in ${servercfgfullpath}"
+	fn_script_log_fail "BeamMP AuthKey is not set"
+	if [ "${commandname}" == "START" ] || [ "${commandname}" == "DEBUG" ]; then
+		core_exit.sh
+	fi
+fi

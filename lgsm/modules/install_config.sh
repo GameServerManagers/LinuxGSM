@@ -256,7 +256,36 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "luanti" ]; then
+if [ "${shortname}" == "bmp" ]; then
+	fn_check_cfgdir
+	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
+		cat > "${servercfgfullpath}" << CFG
+[Misc]
+UpdateReminderTime = "30s"
+ImScaredOfUpdates = true
+
+[General]
+Description = "BeamMP Default Description"
+MaxCars = 1
+LogChat = true
+ResourceFolder = "Resources"
+IP = "${ip}"
+Name = "LinuxGSM"
+Private = true
+InformationPacket = true
+AllowGuests = true
+Port = ${port}
+Debug = false
+Tags = "Freeroam"
+AuthKey = ""
+MaxPlayers = 8
+Map = "/levels/gridmap_v2/info.json"
+CFG
+	fi
+	echo -e "BeamMP requires an AuthKey from ${italic}https://keymaster.beammp.com${default}"
+	echo -e "Set AuthKey in ${servercfgfullpath}"
+	fn_list_config_locations
+elif [ "${shortname}" == "luanti" ]; then
 	fn_check_cfgdir
 	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
 		cp "${serverfiles}/${servercfgdefault}" "${servercfgfullpath}"

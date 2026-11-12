@@ -14,6 +14,7 @@ bf1942,libc6:i386
 bfe
 bfv,libc6:i386
 bmdm,libncurses5:i386
+bmp,liblua5.3-0
 bo
 bs
 bt,dos2unix,libxml2-utils
