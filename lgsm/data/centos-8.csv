@@ -1,4 +1,5 @@
 all,bc,binutils,bzip2,cpio,curl,epel-release,file,glibc.i686,gzip,hostname,jq,libstdc++,libstdc++.i686,nmap-ncat,pigz,procps-ng,python36,tar,tmux,unzip,util-linux,wget,xz
+bmp
 steamcmd,glibc.i686,libstdc++.i686
 ac
 ahl

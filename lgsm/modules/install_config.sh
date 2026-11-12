@@ -256,7 +256,14 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "luanti" ]; then
+if [ "${shortname}" == "bmp" ]; then
+	array_configs+=(ServerConfig.toml)
+	fn_default_config_remote
+	fn_set_config_vars
+	echo -e "BeamMP requires an AuthKey from ${italic}https://keymaster.beammp.com${default}"
+	echo -e "Set AuthKey in ${servercfgfullpath}"
+	fn_list_config_locations
+elif [ "${shortname}" == "luanti" ]; then
 	luanticfgexisted="0"
 	if [ -e "${servercfgfullpath}" ] || [ -L "${servercfgfullpath}" ]; then
 		luanticfgexisted="1"

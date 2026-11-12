@@ -25,3 +25,4 @@ SOFTWARE.
 The following files are not covered by the MIT License above and remain under their own licenses.
 
 - `lgsm/data/gameicons/luanti-icon.png`: Luanti icon by erle, licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Copied without modification from [Luanti 5.17.0](https://github.com/luanti-org/luanti/blob/5.17.0/misc/luanti-icon-24x24.png); see the [upstream license and attribution](https://github.com/luanti-org/luanti/blob/5.17.0/LICENSE.txt).
+- `lgsm/data/gameicons/bmp-icon.png`: BeamMP logo, copyright BeamMP Ltd. and its contributors, not covered by the MIT License. Resized from the favicon at [beammp.com](https://beammp.com).

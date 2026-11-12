@@ -2311,6 +2311,20 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: TOML (key value pairs)
+# Comment: #
+fn_info_game_bmp() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_keyvalue_pairs_equals "servername" "Name"
+		fn_info_game_keyvalue_pairs_equals "maxplayers" "MaxPlayers"
+		fn_info_game_keyvalue_pairs_equals "configip" "IP"
+	fi
+	servername="${servername:-"NOT SET"}"
+	maxplayers="${maxplayers:-"8"}"
+	configip="${configip:-"::"}"
+	queryport="${port}"
+}
+
 # Config Type: Key Value Pairs (Equals Delimited)
 # Comment: #
 fn_info_game_luanti() {
@@ -2651,6 +2665,8 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${shortname}" == "bmp" ]; then
+	fn_info_game_bmp
 elif [ "${shortname}" == "luanti" ]; then
 	fn_info_game_luanti
 elif [ "${shortname}" == "orar" ]; then
