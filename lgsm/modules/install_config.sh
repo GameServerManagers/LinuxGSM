@@ -257,9 +257,13 @@ fn_list_config_locations() {
 }
 
 if [ "${shortname}" == "luanti" ]; then
-	fn_check_cfgdir
-	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
-		cp "${serverfiles}/${servercfgdefault}" "${servercfgfullpath}"
+	luanticfgexisted="0"
+	if [ -e "${servercfgfullpath}" ] || [ -L "${servercfgfullpath}" ]; then
+		luanticfgexisted="1"
+	fi
+	array_configs+=(minetest.conf.example)
+	fn_default_config_remote
+	if [ "${luanticfgexisted}" == "0" ] && [ -f "${servercfgfullpath}" ]; then
 		{
 			echo "server_name = LinuxGSM"
 			echo "name = admin"
