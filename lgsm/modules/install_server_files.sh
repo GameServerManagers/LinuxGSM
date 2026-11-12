@@ -89,7 +89,7 @@ fn_install_server_files() {
 		run="norun"
 		force="noforce"
 		md5="d4a57dc07648853138a700cacc84aef2"
-	elif [ "${shortname}" == "mohaa" ]; then
+	elif [ "${shortname}" == "mohaa" ] || [ "${shortname}" == "mohaas" ]; then
 		remote_fileurl="https://linuxgsm.download/MedalofHonorAlliedAssault/mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261102.tar.xz"
 		local_filedir="${tmpdir}"
 		local_filename="mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261102.tar.xz"

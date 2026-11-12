@@ -2013,7 +2013,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_mcb
 	elif [ "${shortname}" == "mh" ]; then
 		fn_info_messages_mh
-	elif [ "${shortname}" == "mohaa" ]; then
+	elif [ "${shortname}" == "mohaa" ] || [ "${shortname}" == "mohaas" ]; then
 		fn_info_messages_mohaa
 	elif [ "${shortname}" == "mta" ]; then
 		fn_info_messages_mta

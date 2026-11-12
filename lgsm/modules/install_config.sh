@@ -596,7 +596,7 @@ elif [ "${shortname}" == "mcv" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "mohaa" ]; then
+elif [ "${shortname}" == "mohaa" ] || [ "${shortname}" == "mohaas" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars

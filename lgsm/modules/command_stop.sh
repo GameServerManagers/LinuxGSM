@@ -84,7 +84,7 @@ fn_stop_warn_players_command() {
 	elif [ "${engine}" == "source" ] || [ "${engine}" == "source2" ] || [ "${engine}" == "goldsrc" ]; then
 		warncommand="say %s"
 	else
-		local saygames=(bt cod cod2 cod4 coduo codwaw ct etl hyt jk2 mc mcb mohaa mta nec pmc q2 q3 q4 ql qw rtcw rw sof2 terraria unt wet wf xnt)
+		local saygames=(bt cod cod2 cod4 coduo codwaw ct etl hyt jk2 mc mcb mohaa mohaas mta nec pmc q2 q3 q4 ql qw rtcw rw sof2 terraria unt wet wf xnt)
 		local game
 		for game in "${saygames[@]}"; do
 			if [ "${shortname}" == "${game}" ]; then

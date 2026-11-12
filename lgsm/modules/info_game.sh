@@ -2559,7 +2559,7 @@ elif [ "${shortname}" == "mcb" ]; then
 	fn_info_game_mcb
 elif [ "${shortname}" == "mh" ]; then
 	fn_info_game_mh
-elif [ "${shortname}" == "mohaa" ]; then
+elif [ "${shortname}" == "mohaa" ] || [ "${shortname}" == "mohaas" ]; then
 	fn_info_game_mohaa
 elif [ "${shortname}" == "mta" ]; then
 	fn_info_game_mta
