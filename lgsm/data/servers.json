@@ -48,7 +48,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -227,7 +228,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -347,7 +349,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -407,7 +410,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -457,7 +461,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -674,7 +679,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -724,7 +730,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -784,7 +791,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -894,7 +902,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -928,7 +937,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -984,7 +994,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1046,7 +1057,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1138,7 +1150,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1173,7 +1186,7 @@
           "variable": "clientport",
           "default": 27005,
           "protocols": ["udp"],
-          "note": "Outbound only on this server. It never listens, so it needs no port forward."
+          "note": "Unused. Garry's Mod picks a random client port and ignores this setting."
         }
       ]
     },
@@ -1217,7 +1230,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1267,7 +1281,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1366,7 +1381,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1422,7 +1438,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1456,7 +1473,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1619,7 +1637,7 @@
           "variable": "clientport",
           "default": 27005,
           "protocols": ["udp"],
-          "note": "Outbound only on this server. It never listens, so it needs no port forward."
+          "note": "Unused. This game opens no client port."
         }
       ]
     },
@@ -1654,7 +1672,7 @@
           "variable": "clientport",
           "default": 27005,
           "protocols": ["udp"],
-          "note": "Outbound only on this server. It never listens, so it needs no port forward."
+          "note": "Unused. This game opens no client port."
         }
       ]
     },
@@ -1744,7 +1762,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -1849,7 +1868,7 @@
           "variable": "clientport",
           "default": 27005,
           "protocols": ["udp"],
-          "note": "Outbound only on this server. It never listens, so it needs no port forward."
+          "note": "Unused. This game opens no client port."
         }
       ]
     },
@@ -1893,7 +1912,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -2120,7 +2140,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -2551,7 +2572,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -2782,7 +2804,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -2816,7 +2839,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -3310,7 +3334,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     },
@@ -3344,7 +3369,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Unused by the server and needs no port forward. Give each server on the same host its own value, as -strictportbind stops a second server that finds it taken."
         }
       ]
     }
