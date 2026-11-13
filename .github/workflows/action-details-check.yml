@@ -104,12 +104,6 @@ jobs:
         with:
           ref: ${{ env.LGSM_REF }}
 
-      - name: Cache apt packages
-        uses: actions/cache@v6
-        with:
-          path: /var/cache/apt/archives
-          key: apt-${{ runner.os }}-libxml2-utils-jq
-
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libxml2-utils jq
 
@@ -144,5 +138,5 @@ jobs:
           echo "linuxgsm ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/linuxgsm
           chown -R linuxgsm:linuxgsm "${GITHUB_WORKSPACE}"
           chmod a+w "${GITHUB_STEP_SUMMARY}"
-          sudo -u linuxgsm -H env LGSM_REF="${LGSM_REF}" GITHUB_WORKSPACE="${GITHUB_WORKSPACE}" GITHUB_STEP_SUMMARY="${GITHUB_STEP_SUMMARY}" \
+          sudo -u linuxgsm -H env CI="${CI}" LGSM_REF="${LGSM_REF}" GITHUB_WORKSPACE="${GITHUB_WORKSPACE}" GITHUB_STEP_SUMMARY="${GITHUB_STEP_SUMMARY}" \
             "${GITHUB_WORKSPACE}/.github/scripts/details-check-run.sh" ${{ needs.create-matrix.outputs.legacy }}
