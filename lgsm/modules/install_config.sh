@@ -331,6 +331,11 @@ elif [ "${shortname}" == "bd" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "br" ]; then
+	array_configs+=(GameUserSettings.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "bt" ]; then
 	array_configs+=(serversettings.xml)
 	fn_default_config_remote

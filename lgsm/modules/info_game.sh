@@ -1004,6 +1004,20 @@ fn_info_game_bfv() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: Parameters (with an ini)
+fn_info_game_br() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "servername" "ServerName"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "serverpassword" "ServerPassword"
+	fi
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: XML
 # Parameters: false
 # Comment: <!-- -->
@@ -2516,6 +2530,8 @@ elif [ "${shortname}" == "bfv" ]; then
 	fn_info_game_bfv
 elif [ "${shortname}" == "bo" ]; then
 	fn_info_game_bo
+elif [ "${shortname}" == "br" ]; then
+	fn_info_game_br
 elif [ "${shortname}" == "bt" ]; then
 	fn_info_game_bt
 elif [ "${shortname}" == "ce" ]; then
