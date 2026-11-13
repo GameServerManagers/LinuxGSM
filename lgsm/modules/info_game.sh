@@ -2319,6 +2319,13 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: None (settings.bin is binary)
+fn_info_game_mdt() {
+	port="${port:-"6567"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: TOML (key value pairs)
 # Comment: #
 fn_info_game_bmp() {
@@ -2677,6 +2684,8 @@ elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
 elif [ "${shortname}" == "bmp" ]; then
 	fn_info_game_bmp
+elif [ "${shortname}" == "mdt" ]; then
+	fn_info_game_mdt
 elif [ "${shortname}" == "luanti" ]; then
 	fn_info_game_luanti
 elif [ "${shortname}" == "orar" ]; then

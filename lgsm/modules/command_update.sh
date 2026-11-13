@@ -78,6 +78,8 @@ elif [ "${shortname}" == "jk3" ]; then
 	update_jk3.sh
 elif [ "${shortname}" == "bmp" ]; then
 	update_bmp.sh
+elif [ "${shortname}" == "mdt" ]; then
+	update_mdt.sh
 elif [ "${shortname}" == "luanti" ]; then
 	update_luanti.sh
 elif [ "${shortname}" == "orar" ]; then
