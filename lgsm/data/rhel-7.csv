@@ -79,6 +79,7 @@ l4d2
 mc,java-11-openjdk
 mcb,libnsl
 mcv
+mdt,java-11-openjdk
 mh
 mohaa,compat-libstdc++-33.i686
 mta,ncurses-libs,libxml2

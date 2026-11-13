@@ -78,6 +78,7 @@ luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 mc,java-21-openjdk
 mcb,libnsl
 mcv
+mdt,java-17-openjdk
 mh
 mohaa
 mta,ncurses-compat-libs,libxml2
