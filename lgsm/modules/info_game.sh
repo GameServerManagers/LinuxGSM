@@ -1674,11 +1674,11 @@ fn_info_game_nec() {
 fn_info_game_ohd() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini rconenabled "bEnabled"
-		fn_info_game_ini rconport "ListenPort"
+		fn_info_game_ini rconlistenport "ListenPort"
 		fn_info_game_ini rconpassword "Password"
 	fi
 	rconenabled="${rconenabled:-"false"}"
-	rconport="${rconport:-"0"}"
+	rconport="${rconlistenport:-"${rconport:-"0"}"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 }
 
