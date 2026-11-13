@@ -257,8 +257,9 @@ fn_list_config_locations() {
 }
 
 if [ "${shortname}" == "tm2020" ]; then
-	fn_default_config_local
-	sed -i 's|<name></name>|<name>LinuxGSM</name>|' "${servercfgfullpath}"
+	array_configs+=(dedicated_cfg.default.txt)
+	fn_default_config_remote
+	fn_set_config_vars
 	echo -e "Trackmania 2020 requires a dedicated server account from ${italic}https://www.trackmania.com/${default}"
 	echo -e "Set login and password in the masterserver_account section of ${servercfgfullpath}"
 	fn_list_config_locations
