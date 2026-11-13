@@ -2088,9 +2088,15 @@ fn_info_game_scpsl() {
 fn_info_game_sdtd() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "gamemode" "/ServerSettings/property[@name='GameMode']/@value"
-		fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='ControlPanelEnabled']/@value"
+		fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='WebDashboardEnabled']/@value"
+		if [ -z "${httpenabled}" ]; then
+			fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='ControlPanelEnabled']/@value"
+		fi
 		fn_info_game_xml "httppassword" "/ServerSettings/property[@name='ControlPanelPassword']/@value"
-		fn_info_game_xml "httpport" "/ServerSettings/property[@name='ControlPanelPort']/@value"
+		fn_info_game_xml "httpport" "/ServerSettings/property[@name='WebDashboardPort']/@value"
+		if [ -z "${httpport}" ]; then
+			fn_info_game_xml "httpport" "/ServerSettings/property[@name='ControlPanelPort']/@value"
+		fi
 		fn_info_game_xml "maxplayers" "/ServerSettings/property[@name='ServerMaxPlayerCount']/@value"
 		fn_info_game_xml "servername" "/ServerSettings/property[@name='ServerName']/@value"
 		fn_info_game_xml "serverpassword" "/ServerSettings/property[@name='ServerPassword']/@value"
