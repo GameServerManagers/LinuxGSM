@@ -282,6 +282,13 @@ elif [ "${shortname}" == "luanti" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "vein" ]; then
 	fn_check_cfgdir
+	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
+		{
+			echo "[/Script/Vein.VeinGameSession]"
+			echo "SuperAdminSteamIDs="
+			echo "AdminSteamIDs="
+		} > "${servercfgfullpath}"
+	fi
 	fn_list_config_locations
 elif [ "${shortname}" == "orar" ]; then
 	fn_check_cfgdir
