@@ -2311,6 +2311,25 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: XML
+# Comment: <!-- -->
+fn_info_game_maniaplanet() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "servername" "/dedicated/server_options/name"
+		fn_info_game_xml "maxplayers" "/dedicated/server_options/max_players"
+		fn_info_game_xml "serverpassword" "/dedicated/server_options/password"
+		fn_info_game_xml "configip" "/dedicated/system_config/bind_ip_address"
+		fn_info_game_xml "port" "/dedicated/system_config/server_port"
+		fn_info_game_xml "queryport" "/dedicated/system_config/xmlrpc_port"
+	fi
+	servername="${servername:-"NOT SET"}"
+	maxplayers="${maxplayers:-"32"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	configip="${configip:-"0.0.0.0"}"
+	port="${port:-"2350"}"
+	queryport="${queryport:-"5000"}"
+}
+
 # Config Type: TOML (key value pairs)
 # Comment: #
 fn_info_game_bmp() {
@@ -2665,6 +2684,8 @@ elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${engine}" == "maniaplanet" ]; then
+	fn_info_game_maniaplanet
 elif [ "${shortname}" == "bmp" ]; then
 	fn_info_game_bmp
 elif [ "${shortname}" == "luanti" ]; then

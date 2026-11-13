@@ -869,6 +869,11 @@ update_bb.sh() {
 	fn_fetch_module
 }
 
+update_tm2020.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_bmp.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module

@@ -256,7 +256,13 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "bmp" ]; then
+if [ "${shortname}" == "tm2020" ]; then
+	fn_default_config_local
+	sed -i 's|<name></name>|<name>LinuxGSM</name>|' "${servercfgfullpath}"
+	echo -e "Trackmania 2020 requires a dedicated server account from ${italic}https://www.trackmania.com/${default}"
+	echo -e "Set login and password in the masterserver_account section of ${servercfgfullpath}"
+	fn_list_config_locations
+elif [ "${shortname}" == "bmp" ]; then
 	array_configs+=(ServerConfig.toml)
 	fn_default_config_remote
 	fn_set_config_vars

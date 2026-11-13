@@ -128,6 +128,7 @@ tf2,tf2server,Team Fortress 2,ubuntu-26.04
 tf2c,tf2cserver,Team Fortress 2 Classified,ubuntu-26.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-26.04
 ti,tiserver,The Isle,ubuntu-26.04
+tm2020,tm2020server,Trackmania 2020,ubuntu-26.04
 ts,tsserver,The Specialists,ubuntu-26.04
 ts3,ts3server,Teamspeak 3,ubuntu-26.04
 tu,tuserver,Tower Unite,ubuntu-26.04
