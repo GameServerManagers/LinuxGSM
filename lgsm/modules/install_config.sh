@@ -280,6 +280,10 @@ elif [ "${shortname}" == "luanti" ]; then
 		} >> "${servercfgfullpath}"
 	fi
 	fn_list_config_locations
+elif [ "${shortname}" == "vein" ]; then
+	array_configs+=(Game.ini)
+	fn_default_config_remote
+	fn_list_config_locations
 elif [ "${shortname}" == "orar" ]; then
 	fn_check_cfgdir
 	fn_list_config_locations

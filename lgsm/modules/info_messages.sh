@@ -771,7 +771,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "bmp" "mdt" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "bmp" "mdt" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vein" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -807,6 +807,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
+	elif [ "${shortname}" == "vein" ]; then
+		portcommand="ss -tuplwn | grep VeinServer-Linu"
 	elif [ "${shortname}" == "sm" ]; then
 		portcommand="ss -tuplwn | grep WSServer-Linux"
 	elif [ "${querytype}" == "protocol-valve-won" ]; then
@@ -1853,6 +1855,15 @@ fn_info_messages_ut3() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_vein() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Steam" steamport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_vh() {
 	{
 		fn_port "header"
@@ -2105,6 +2116,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_tw
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_messages_unt
+	elif [ "${shortname}" == "vein" ]; then
+		fn_info_messages_vein
 	elif [ "${shortname}" == "vh" ]; then
 		fn_info_messages_vh
 	elif [ "${shortname}" == "bmp" ]; then
