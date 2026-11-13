@@ -2311,6 +2311,13 @@ fn_info_game_vh() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: None (settings.bin is binary)
+fn_info_game_mdt() {
+	port="${port:-"6567"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
 # Config Type: XML
 # Comment: <!-- -->
 fn_info_game_maniaplanet() {
@@ -2688,6 +2695,8 @@ elif [ "${engine}" == "maniaplanet" ]; then
 	fn_info_game_maniaplanet
 elif [ "${shortname}" == "bmp" ]; then
 	fn_info_game_bmp
+elif [ "${shortname}" == "mdt" ]; then
+	fn_info_game_mdt
 elif [ "${shortname}" == "luanti" ]; then
 	fn_info_game_luanti
 elif [ "${shortname}" == "orar" ]; then
