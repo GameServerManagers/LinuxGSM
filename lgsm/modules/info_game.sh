@@ -2299,8 +2299,10 @@ fn_info_game_unt() {
 
 # Config Type: Parameters
 fn_info_game_vein() {
+	httpport="${httpport:-"0"}"
 	port="${port:-"0"}"
-	queryport="${queryport:-"0"}"
+	steamport="${queryport:-"0"}"
+	queryport="${httpport}"
 }
 
 # Config Type: Parameters

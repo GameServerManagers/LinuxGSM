@@ -1859,7 +1859,8 @@ fn_info_messages_vein() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Steam" queryport udp
+		fn_port "Query" queryport tcp
+		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
