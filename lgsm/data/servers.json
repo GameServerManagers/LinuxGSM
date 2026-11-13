@@ -2473,8 +2473,7 @@
           "label": "RCON",
           "variable": "rconport",
           "default": 21026,
-          "protocols": ["tcp"],
-          "note": "Off by default. Set runRconServer to true and an rconServerPassword in starbound_server.config to open it."
+          "protocols": ["tcp"]
         }
       ]
     },
