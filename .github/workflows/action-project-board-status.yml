@@ -28,8 +28,7 @@ jobs:
             const { owner, repo } = context.repo;
             const pr = context.payload.pull_request;
             const org = 'GameServerManagers';
-            const boards = { backlog: 8, serverRequests: 11 };
-            const serverRequestLabel = 'type: game server request';
+            const boardNumber = 8;
 
             if (context.payload.action === 'closed' && !pr.merged) {
               return;
@@ -96,7 +95,6 @@ jobs:
                         __typename
                         ... on Issue {
                           id state
-                          labels(first:50){ nodes { name } }
                           projectItems(first:20){
                             nodes {
                               id
@@ -115,11 +113,8 @@ jobs:
                   continue;
                 }
 
-                let items = issue.projectItems.nodes.filter(
-                  (i) => i.project.owner?.login === org && Object.values(boards).includes(i.project.number)
-                );
+                let items = issue.projectItems.nodes.filter((i) => i.project.owner?.login === org && i.project.number === boardNumber);
                 if (items.length === 0) {
-                  const boardNumber = issue.labels.nodes.some((l) => l.name === serverRequestLabel) ? boards.serverRequests : boards.backlog;
                   const proj = await project(boardNumber);
                   const added = await github.graphql(
                     `mutation($project:ID!,$content:ID!){ addProjectV2ItemById(input:{projectId:$project,contentId:$content}){ item { id } } }`,
