@@ -21,6 +21,8 @@ elif [ "${shortname}" == "arma3" ]; then
 	ramrequirementgb="2"
 elif [ "${shortname}" == "armar" ]; then
 	ramrequirementgb="3"
+elif [ "${shortname}" == "br" ]; then
+	ramrequirementgb="2"
 elif [ "${shortname}" == "bt" ]; then
 	ramrequirementgb="1"
 elif [ "${shortname}" == "cc" ]; then

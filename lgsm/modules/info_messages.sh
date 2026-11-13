@@ -771,7 +771,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "bmp" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "br" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "bmp" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -793,6 +793,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep MainThread"
 	elif [ "${shortname}" == "bfv" ]; then
 		portcommand="ss -tuplwn | grep bfv_linded"
+	elif [ "${shortname}" == "br" ]; then
+		portcommand="ss -tuplwn | grep BrickadiaServer"
 	elif [ "${shortname}" == "ce" ]; then
 		portcommand="ss -tuplwn | grep ConanSandbox"
 	elif [ "${shortname}" == "dayz" ]; then
@@ -980,6 +982,13 @@ fn_info_messages_bo() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_br() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
@@ -1951,6 +1960,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_bfv
 	elif [ "${shortname}" == "bo" ]; then
 		fn_info_messages_bo
+	elif [ "${shortname}" == "br" ]; then
+		fn_info_messages_br
 	elif [ "${shortname}" == "bt" ]; then
 		fn_info_messages_bt
 	elif [ "${shortname}" == "ce" ]; then
