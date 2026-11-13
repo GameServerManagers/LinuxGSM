@@ -1843,6 +1843,16 @@
         }
       ]
     },
+    "mdtserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 6567,
+          "protocols": ["tcp", "udp"]
+        }
+      ]
+    },
     "mhserver": {
       "ports": [
         {
@@ -1994,13 +2004,6 @@
           "variable": "queryport",
           "default": 27016,
           "protocols": ["udp"]
-        },
-        {
-          "label": "Mod Server",
-          "variable": "modserverport",
-          "default": null,
-          "protocols": ["tcp"],
-          "note": "Not used: NS2: Combat does not start a mod server."
         },
         {
           "label": "Web Interface",
@@ -2983,6 +2986,22 @@
         }
       ]
     },
+    "tm2020server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2350,
+          "protocols": ["tcp", "udp"]
+        },
+        {
+          "label": "XML-RPC",
+          "variable": "queryport",
+          "default": 5000,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
     "ts3server": {
       "ports": [
         {
@@ -3212,6 +3231,28 @@
         }
       ]
     },
+    "veinserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
     "vhserver": {
       "ports": [
         {
@@ -3315,13 +3356,6 @@
           "variable": "queryport",
           "default": 25577,
           "protocols": ["udp"]
-        },
-        {
-          "label": "RCON",
-          "variable": "rconport",
-          "default": null,
-          "protocols": ["tcp"],
-          "note": "Not used: Waterfall has no RCON."
         }
       ]
     },
