@@ -1362,6 +1362,24 @@ fn_info_messages_nec() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_ns2c() {
+	fn_info_messages_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Web Interface" httpport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ohd() {
 	{
 		fn_port "header"
@@ -1941,6 +1959,14 @@ fn_info_messages_wf() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_wmc() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_wurm() {
 	{
 		fn_port "header"
@@ -2043,7 +2069,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_messages_kf2
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 		fn_info_messages_mc
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_messages_mcb
@@ -2055,6 +2081,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_mta
 	elif [ "${shortname}" == "nec" ]; then
 		fn_info_messages_nec
+	elif [ "${shortname}" == "ns2c" ]; then
+		fn_info_messages_ns2c
 	elif [ "${shortname}" == "ohd" ]; then
 		fn_info_messages_ohd
 	elif [ "${shortname}" == "pc" ]; then
@@ -2157,6 +2185,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_wet
 	elif [ "${shortname}" == "wf" ]; then
 		fn_info_messages_wf
+	elif [ "${shortname}" == "wmc" ]; then
+		fn_info_messages_wmc
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_messages_wurm
 	elif [ "${shortname}" == "xnt" ]; then
