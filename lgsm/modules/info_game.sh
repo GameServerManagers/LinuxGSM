@@ -602,9 +602,15 @@ fn_info_game_pvr() {
 # Example: ServerName=SERVERNAME
 # Filetype: cfg
 fn_info_game_pw() {
+	if [ -f "${servercfgfullpath}" ]; then
+		rconport="$(sed -n 's/.*[(,]RCONPort=\([0-9]*\).*/\1/p' "${servercfgfullpath}" | tr -d '\r')"
+		restapiport="$(sed -n 's/.*[(,]RESTAPIPort=\([0-9]*\).*/\1/p' "${servercfgfullpath}" | tr -d '\r')"
+	fi
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
+	rconport="${rconport:-"25575"}"
+	restapiport="${restapiport:-"8212"}"
 	steamport="${steamport:-"0"}"
 }
 

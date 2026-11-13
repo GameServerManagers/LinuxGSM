@@ -2155,6 +2155,20 @@
           "variable": "steamport",
           "default": 27015,
           "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 25575,
+          "protocols": ["tcp"],
+          "note": "Off by default. Set RCONEnabled=True in PalWorldSettings.ini to open it."
+        },
+        {
+          "label": "REST API",
+          "variable": "restapiport",
+          "default": 8212,
+          "protocols": ["tcp"],
+          "note": "Off by default. Set RESTAPIEnabled=True in PalWorldSettings.ini to open it."
         }
       ]
     },
