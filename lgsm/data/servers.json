@@ -1172,7 +1172,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Outbound only on this server. It never listens, so it needs no port forward."
         }
       ]
     },
@@ -1617,7 +1618,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Outbound only on this server. It never listens, so it needs no port forward."
         }
       ]
     },
@@ -1651,7 +1653,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Outbound only on this server. It never listens, so it needs no port forward."
         }
       ]
     },
@@ -1845,7 +1848,8 @@
           "label": "Client",
           "variable": "clientport",
           "default": 27005,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Outbound only on this server. It never listens, so it needs no port forward."
         }
       ]
     },
@@ -2580,13 +2584,19 @@
           "label": "Game",
           "variable": "port",
           "default": 8777,
-          "protocols": ["udp", "tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
           "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 19000,
+          "protocols": ["tcp"]
         },
         {
           "label": "Telnet",
@@ -2663,6 +2673,12 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27165,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Beacon",
+          "variable": "beaconport",
+          "default": 15000,
           "protocols": ["udp"]
         },
         {

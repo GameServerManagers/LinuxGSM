@@ -2147,6 +2147,7 @@ fn_info_game_sm() {
 	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
+	rconport="${rconport:-"0"}"
 	maxplayers="${maxplayers:-"0"}"
 	# telnet config
 	telnetenabled=true
@@ -2253,6 +2254,7 @@ fn_info_game_squad() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
+	beaconport="${beaconport:-"0"}"
 	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	if [ -z "${rconpassword}" ] || [ ${#rconpassword} == 1 ]; then
