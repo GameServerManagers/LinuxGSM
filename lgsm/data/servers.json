@@ -1,0 +1,3475 @@
+{
+  "$schema": "./servers.schema.json",
+  "schemaVersion": 1,
+  "servers": {
+    "acserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 9600,
+          "protocols": ["udp", "tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 8081,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "HTTP",
+          "variable": "httpport",
+          "default": 8081,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "ahl2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ahlserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "arkserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RAW UDP Socket",
+          "variable": "rawport",
+          "default": 7778,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27020,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "arma3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2302,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Voice",
+          "variable": "voiceport",
+          "default": 2302,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 2303,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 2304,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Voice (unused)",
+          "variable": "voiceunusedport",
+          "default": 2305,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "BattleEye",
+          "variable": "battleeyeport",
+          "default": 2306,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "armarserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2001,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 17777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "BattleEye",
+          "variable": "battleeyeport",
+          "default": 2005,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "atsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "avserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27000,
+          "protocols": ["udp", "tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27021,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "bb2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bbserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bdserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bf1942server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 14567,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 23000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bfeserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 18451,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 18451,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "LAN Discovery",
+          "variable": "discoveryport",
+          "default": 18452,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bfvserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 15567,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 23000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bmdmserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bmpserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 30814,
+          "protocols": ["tcp", "udp"]
+        }
+      ]
+    },
+    "boserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "bsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "btserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ccserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ceserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Raw UDP",
+          "variable": "rawport",
+          "default": 7778,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ckserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 1234,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 1235,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "cmwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7779,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": null,
+          "protocols": ["tcp"],
+          "note": "Not set in the stock config. Set RConPort to enable RCON."
+        }
+      ]
+    },
+    "cod2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "cod4server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "codserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "coduoserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "codwawserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "colserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27004,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27004,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27005,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "cs2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "csczserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "csgoserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "csserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "cssserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "cswonserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ctserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 6587,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dabserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dayzserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2302,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query Steam",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 2304,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "BattleEye",
+          "variable": "battleeyeport",
+          "default": 2306,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dmcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dodrserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dodserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dodsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "doiserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dstserver": {
+      "ports": [
+        {
+          "label": "Game: Server",
+          "variable": "port",
+          "default": 10999,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Game: Master",
+          "variable": "masterport",
+          "default": 10888,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam: Auth",
+          "variable": "steamauthport",
+          "default": 8766,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "dysserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ecoserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 3000,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 3000,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 3001,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 3002,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "emserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "etlserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ets2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "fctrserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 34197,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 34198,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "fivemserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 30120,
+          "protocols": ["tcp", "udp"]
+        }
+      ]
+    },
+    "fofserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "gmodserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hcuserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "hl2dmserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hldmserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hldmsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hlwonserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 12871,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 12881,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hytserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 5520,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "hzserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 7779,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "insserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "inssserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27102,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27131,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "iosserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "jbep3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "jc2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7777,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "jc3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 4200,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 4201,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 4202,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "HTTP",
+          "variable": "httpport",
+          "default": 4203,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "jk2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "jk3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 29070,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "kf2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "kfserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7707,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Steam",
+          "variable": "queryport",
+          "default": 28852,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Unreal 2",
+          "variable": "unreal2queryport",
+          "default": 7708,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Gamespy",
+          "variable": "gamespyqueryport",
+          "default": 7717,
+          "protocols": ["udp"],
+          "note": "Game port + 10."
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8075,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "LAN",
+          "variable": "lanport",
+          "default": 10707,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 20610,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "l4d2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "l4dserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "luantiserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 30000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "mcbserver": {
+      "ports": [
+        {
+          "label": "Signalling",
+          "variable": "port",
+          "default": 19132,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Game",
+          "variable": "udpport",
+          "default": null,
+          "protocols": ["udp"],
+          "note": "Empty by default. Set server-udp-ports to fix the UDP ports used with the NetherNet transport."
+        }
+      ]
+    },
+    "mcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 25565,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 25565,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 25575,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "mcvserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 26901,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "mdtserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 6567,
+          "protocols": ["tcp", "udp"]
+        }
+      ]
+    },
+    "mhserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Beacon",
+          "variable": "beaconport",
+          "default": 15000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "mohaaserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 12203,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 12300,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "mtaserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 22003,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 22126,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "HTTP",
+          "variable": "httpport",
+          "default": 22005,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "ndserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "necserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 14159,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "nmrihserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ns2cserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "ns2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Mod Server",
+          "variable": "modserverport",
+          "default": 27031,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "nsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ohdserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27005,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 7778,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "opforserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "orarserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 1234,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "pc2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 8766,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "pcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 8766,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "HTTP",
+          "variable": "httpport",
+          "default": 9000,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "API",
+          "variable": "apiport",
+          "default": 9000,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "pmcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 25565,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 25565,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 25575,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "pvkiiserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "pvrserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp", "tcp"]
+        },
+        {
+          "label": "Game+400",
+          "variable": "port401",
+          "default": 8177,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7777,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "pwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 8211,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Unknown",
+          "variable": "unknownport",
+          "default": 1985,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "pzserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 16261,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 16261,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "q2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27910,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27910,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "q3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "q4server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28004,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28004,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "qlserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 28960,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Stats",
+          "variable": "statsport",
+          "default": null,
+          "protocols": ["udp"],
+          "note": "Not set in the stock server.cfg. Set zmq_stats_port to enable the stats feed."
+        }
+      ]
+    },
+    "qwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27500,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ricochetserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "roserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7757,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Steam",
+          "variable": "queryport",
+          "default": 28902,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Unreal 2",
+          "variable": "unreal2queryport",
+          "default": 7758,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8075,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "LAN",
+          "variable": "lanport",
+          "default": 10757,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 20610,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "rsdwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "rtcwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "rustserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 28015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 28017,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 28016,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "App",
+          "variable": "appport",
+          "default": 28082,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "rwrserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 1240,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "rwserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 4255,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 4254,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 4253,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "sampserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 7777,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "sbotsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "sbserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 21025,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 21025,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 21026,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "scpslserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "sdtdserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 26900,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Game+2",
+          "variable": "port3",
+          "default": 26902,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 26900,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Telnet",
+          "variable": "telnetport",
+          "default": 8081,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "sfcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "sfserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Server API",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "ReliableMessaging",
+          "variable": "reliableport",
+          "default": 8888,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "smserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 8777,
+          "protocols": ["udp", "tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Telnet",
+          "variable": "telnetport",
+          "default": 18888,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "sof2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 20100,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 20100,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "solserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 23073,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 23083,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Files",
+          "variable": "filesport",
+          "default": 23083,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "squad44server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 10027,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 10037,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 21114,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "squadserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7787,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27165,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 21114,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "stnserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7950,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7951,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "stserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "svenserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "terrariaserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7777,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "tf2cserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "tf2server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "tfcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "tfserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 5001,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Beacon",
+          "variable": "beaconport",
+          "default": 5002,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Shutdown",
+          "variable": "shutdownport",
+          "default": 5003,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "tiserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Queue",
+          "variable": "queueport",
+          "default": 9998,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 9999,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "tm2020server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2350,
+          "protocols": ["tcp", "udp"]
+        },
+        {
+          "label": "XML-RPC",
+          "variable": "queryport",
+          "default": 5000,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "ts3server": {
+      "ports": [
+        {
+          "label": "Voice",
+          "variable": "port",
+          "default": 9987,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 10011,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query (SSH)",
+          "variable": "sshqueryport",
+          "default": 10022,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query (http)",
+          "variable": "httpqueryport",
+          "default": 10080,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query (https)",
+          "variable": "httpsqueryport",
+          "default": 10443,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "File Transfer",
+          "variable": "fileport",
+          "default": 30033,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Telnet",
+          "variable": "telnetport",
+          "default": 10011,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "tsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "tuserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 7778,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "twserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 8303,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 8303,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "untserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27016,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ut2k4server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Unreal 2",
+          "variable": "queryport",
+          "default": 7778,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query - Gamespy",
+          "variable": "gamespyqueryport",
+          "default": 7787,
+          "protocols": ["udp"],
+          "note": "Game port + 10."
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8075,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "LAN",
+          "variable": "lanport",
+          "default": 10777,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "ut3server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 6500,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 7779,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "ut99server": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7778,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "LAN Beacon",
+          "variable": "beaconport",
+          "default": 8777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Web Interface",
+          "variable": "httpport",
+          "default": 8076,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "utserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 7778,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "veinserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 7777,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 8080,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Steam",
+          "variable": "steamport",
+          "default": 27015,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "vhserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 2456,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 2457,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "vintsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 42420,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "vpmcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 25577,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "vsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "wetserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27960,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27960,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "wfserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 44400,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "HTTP",
+          "variable": "httpport",
+          "default": 44444,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "wmcserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 25577,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 25577,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "wurmserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 3724,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27016,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "RMI",
+          "variable": "rmiport",
+          "default": 7221,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RMI Registry",
+          "variable": "rmiregport",
+          "default": 7220,
+          "protocols": ["tcp"]
+        }
+      ]
+    },
+    "xntserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 26000,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 26000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "zmrserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    },
+    "zpsserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 27015,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
+        },
+        {
+          "label": "SourceTV",
+          "variable": "sourcetvport",
+          "default": 27020,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Client",
+          "variable": "clientport",
+          "default": 27005,
+          "protocols": ["udp"]
+        }
+      ]
+    }
+  }
+}

@@ -22,3 +22,9 @@ jobs:
 
       - name: Validate Game Icons
         run: .github/scripts/serverlist-validate-game-icons.sh
+
+      - name: Validate servers.json schema
+        run: pipx run check-jsonschema --schemafile lgsm/data/servers.schema.json lgsm/data/servers.json
+
+      - name: Validate servers.json ports
+        run: .github/scripts/servers-json-validate.sh
