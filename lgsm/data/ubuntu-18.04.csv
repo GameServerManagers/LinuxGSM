@@ -78,6 +78,7 @@ l4d2
 mc,openjdk-11-jre
 mcb
 mcv
+mdt,openjdk-11-jre
 mh
 mohaa,libstdc++5:i386
 mta,libncursesw5,libxml2-utils
@@ -129,6 +130,7 @@ tf2,libcurl4-gnutls-dev:i386
 tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
+tm2020,libxml2-utils
 ts
 ts3
 tu
@@ -138,6 +140,7 @@ ut
 ut2k4
 ut3
 ut99
+vein
 vh,libc6-dev,libatomic1,libpulse-dev
 vints,dotnet-runtime-8.0
 vpmc,openjdk-11-jre

@@ -71,6 +71,8 @@ elif [ "${shortname}" == "stn" ]; then
 	ramrequirementgb="3"
 elif [ "${shortname}" == "tu" ]; then
 	ramrequirementgb="2"
+elif [ "${shortname}" == "vein" ]; then
+	ramrequirementgb="4"
 elif [ "${shortname}" == "vh" ]; then
 	ramrequirementgb="2"
 else

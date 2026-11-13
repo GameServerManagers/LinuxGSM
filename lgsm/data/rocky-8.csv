@@ -77,6 +77,7 @@ luanti,libcurl,libstdc++,libzstd,ncurses-libs,sqlite-libs,zlib
 mc,java-21-openjdk
 mcb,libnsl
 mcv
+mdt,java-17-openjdk
 mh
 mohaa
 mta,ncurses-compat-libs,libxml2
@@ -129,6 +130,7 @@ tf2,libcurl.i686
 tf2c,libcurl.i686
 tfc
 ti
+tm2020,libxml2
 ts
 ts3
 tu
@@ -138,6 +140,7 @@ ut
 ut2k4
 ut3
 ut99
+vein
 vh,glibc-devel,libatomic,pulseaudio-libs-devel
 vints,dotnet-runtime-8.0
 vpmc,java-21-openjdk

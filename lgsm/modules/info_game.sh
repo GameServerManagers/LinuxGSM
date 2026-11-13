@@ -1674,11 +1674,11 @@ fn_info_game_nec() {
 fn_info_game_ohd() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini rconenabled "bEnabled"
-		fn_info_game_ini rconport "ListenPort"
+		fn_info_game_ini rconlistenport "ListenPort"
 		fn_info_game_ini rconpassword "Password"
 	fi
 	rconenabled="${rconenabled:-"false"}"
-	rconport="${rconport:-"0"}"
+	rconport="${rconlistenport:-"${rconport:-"0"}"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 }
 
@@ -2088,9 +2088,15 @@ fn_info_game_scpsl() {
 fn_info_game_sdtd() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_xml "gamemode" "/ServerSettings/property[@name='GameMode']/@value"
-		fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='ControlPanelEnabled']/@value"
+		fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='WebDashboardEnabled']/@value"
+		if [ -z "${httpenabled}" ]; then
+			fn_info_game_xml "httpenabled" "/ServerSettings/property[@name='ControlPanelEnabled']/@value"
+		fi
 		fn_info_game_xml "httppassword" "/ServerSettings/property[@name='ControlPanelPassword']/@value"
-		fn_info_game_xml "httpport" "/ServerSettings/property[@name='ControlPanelPort']/@value"
+		fn_info_game_xml "httpport" "/ServerSettings/property[@name='WebDashboardPort']/@value"
+		if [ -z "${httpport}" ]; then
+			fn_info_game_xml "httpport" "/ServerSettings/property[@name='ControlPanelPort']/@value"
+		fi
 		fn_info_game_xml "maxplayers" "/ServerSettings/property[@name='ServerMaxPlayerCount']/@value"
 		fn_info_game_xml "servername" "/ServerSettings/property[@name='ServerName']/@value"
 		fn_info_game_xml "serverpassword" "/ServerSettings/property[@name='ServerPassword']/@value"
@@ -2298,6 +2304,14 @@ fn_info_game_unt() {
 }
 
 # Config Type: Parameters
+fn_info_game_vein() {
+	queryips=("127.0.0.1" "${queryips[@]}")
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	steamport="${steamport:-"0"}"
+}
+
+# Config Type: Parameters
 fn_info_game_vh() {
 	port="${port:-"0"}"
 	# Query port only enabled if public server
@@ -2309,6 +2323,32 @@ fn_info_game_vh() {
 	worldname="${worldname:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
+}
+
+# Config Type: None (settings.bin is binary)
+fn_info_game_mdt() {
+	port="${port:-"6567"}"
+	queryport="${port}"
+	servername="${servername:-"NOT SET"}"
+}
+
+# Config Type: XML
+# Comment: <!-- -->
+fn_info_game_maniaplanet() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_xml "servername" "/dedicated/server_options/name"
+		fn_info_game_xml "maxplayers" "/dedicated/server_options/max_players"
+		fn_info_game_xml "serverpassword" "/dedicated/server_options/password"
+		fn_info_game_xml "configip" "/dedicated/system_config/bind_ip_address"
+		fn_info_game_xml "port" "/dedicated/system_config/server_port"
+		fn_info_game_xml "queryport" "/dedicated/system_config/xmlrpc_port"
+	fi
+	servername="${servername:-"NOT SET"}"
+	maxplayers="${maxplayers:-"32"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	configip="${configip:-"0.0.0.0"}"
+	port="${port:-"2350"}"
+	queryport="${queryport:-"5000"}"
 }
 
 # Config Type: TOML (key value pairs)
@@ -2663,10 +2703,16 @@ elif [ "${shortname}" == "ut3" ]; then
 	fn_info_game_ut3
 elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
+elif [ "${shortname}" == "vein" ]; then
+	fn_info_game_vein
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
+elif [ "${engine}" == "maniaplanet" ]; then
+	fn_info_game_maniaplanet
 elif [ "${shortname}" == "bmp" ]; then
 	fn_info_game_bmp
+elif [ "${shortname}" == "mdt" ]; then
+	fn_info_game_mdt
 elif [ "${shortname}" == "luanti" ]; then
 	fn_info_game_luanti
 elif [ "${shortname}" == "orar" ]; then
