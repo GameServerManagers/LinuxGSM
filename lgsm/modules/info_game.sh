@@ -2298,6 +2298,12 @@ fn_info_game_unt() {
 }
 
 # Config Type: Parameters
+fn_info_game_vein() {
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+}
+
+# Config Type: Parameters
 fn_info_game_vh() {
 	port="${port:-"0"}"
 	# Query port only enabled if public server
@@ -2663,6 +2669,8 @@ elif [ "${shortname}" == "ut3" ]; then
 	fn_info_game_ut3
 elif [ "${shortname}" == "ut99" ]; then
 	fn_info_game_ut99
+elif [ "${shortname}" == "vein" ]; then
+	fn_info_game_vein
 elif [ "${shortname}" == "vh" ]; then
 	fn_info_game_vh
 elif [ "${shortname}" == "bmp" ]; then
