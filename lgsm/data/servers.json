@@ -642,7 +642,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         }
       ]
     },

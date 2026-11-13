@@ -1081,7 +1081,7 @@ fn_info_messages_cs2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1089,7 +1089,7 @@ fn_info_messages_csgo() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
@@ -1210,7 +1210,7 @@ fn_info_messages_ins() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
