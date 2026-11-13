@@ -89,7 +89,7 @@ fn_info_game_keyvalue_pairs_space() {
 # Comment: // or /* */
 fn_info_game_quakec() {
 	# -n: Suppresses automatic printing of pattern space.
-	# /^[[:space:]]*\<'"${2}"'\>/: Matches lines starting with optional leading whitespace and the word provided as the second argument ($2), considering it as a whole word.
+	# /^[[:space:]]*\(set[asu]\?[[:space:]]\+\)\?\<'"${2}"'\>/: Matches lines starting with optional leading whitespace, an optional set, seta, sets or setu, and the word provided as the second argument ($2), considering it as a whole word.
 	# { s/.*  *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
 	#   - s/.*  *"\?\([^"]*\)"\?/\1/: Matches and captures the value after any number of spaces, possibly surrounded by optional double quotes.
 	#     - .*: Matches any characters before the spaces.
@@ -106,7 +106,7 @@ fn_info_game_quakec() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	printf -v "${1}" '%s' "$(sed -n '/[[:space:]]\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
+	printf -v "${1}" '%s' "$(sed -n '/^[[:space:]]*\(set[asu]\?[[:space:]]\+\)\?\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="quakec"
 }
 
@@ -324,7 +324,6 @@ fn_info_game_arma3() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	steamport="$((port + 2))"
 	voiceport="${port:-"0"}"
-	voiceunusedport="$((port + 3))"
 }
 
 # Config Type: ini
@@ -424,7 +423,6 @@ fn_info_game_dodr() {
 fn_info_game_dst() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "port" "server_port"
-		fn_info_game_ini "steamauthport" "authentication_port"
 		fn_info_game_ini "steamport" "master_server_port"
 	fi
 	if [ -f "${clustercfgfullpath}" ]; then
@@ -449,7 +447,6 @@ fn_info_game_dst() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	shard="${shard:-"NOT SET"}"
 	sharding="${sharding:-"NOT SET"}"
-	steamauthport="${steamauthport:-"0"}"
 	steamport="${steamport:-"0"}"
 	tickrate="${tickrate:-"0"}"
 }
@@ -499,7 +496,6 @@ fn_info_game_kf() {
 	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="20610"
 	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 
@@ -606,11 +602,16 @@ fn_info_game_pvr() {
 # Example: ServerName=SERVERNAME
 # Filetype: cfg
 fn_info_game_pw() {
+	if [ -f "${servercfgfullpath}" ]; then
+		rconport="$(sed -n 's/.*[(,]RCONPort=\([0-9]*\).*/\1/p' "${servercfgfullpath}" | tr -d '\r')"
+		restapiport="$(sed -n 's/.*[(,]RESTAPIPort=\([0-9]*\).*/\1/p' "${servercfgfullpath}" | tr -d '\r')"
+	fi
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
+	rconport="${rconport:-"25575"}"
+	restapiport="${restapiport:-"8212"}"
 	steamport="${steamport:-"0"}"
-	unknownport="1985"
 }
 
 # Config Type: ini
@@ -623,8 +624,10 @@ fn_info_game_pz() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "DefaultPort"
 		fn_info_game_ini "rconpassword" "RCONPassword"
+		fn_info_game_ini "rconport" "RCONPort"
 		fn_info_game_ini "servername" "PublicName"
 		fn_info_game_ini "serverpassword" "Password"
+		fn_info_game_ini "udpport" "UDPPort"
 		fn_info_game_ini "worldname" "Map"
 
 	fi
@@ -632,9 +635,11 @@ fn_info_game_pz() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
+	rconport="${rconport:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
+	udpport="${udpport:-"0"}"
 	worldname="${worldname:-"NOT SET"}"
 }
 
@@ -774,7 +779,6 @@ fn_info_game_tu() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
-	steamport="$((port + 1))"
 }
 
 # Config Type: ini
@@ -878,7 +882,7 @@ fn_info_game_ut() {
 	defaultmap="${defaultmap:-"NOT SET"}"
 	gametype="${gametype:-"NOT SET"}"
 	port="${port:-"0"}"
-	queryport="$((port + 1))"
+	queryport="7787"
 }
 
 # Config Type: ini
@@ -930,11 +934,11 @@ fn_info_game_armar() {
 		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	battleeyeport="$((port + 4))"
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
@@ -1405,12 +1409,13 @@ fn_info_game_hw() {
 fn_info_game_hz() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "adminpassword" "AdminPassword"
+		fn_info_game_ini "rconport" "RConPort"
 		fn_info_game_ini "servername" "ServerName"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
-	rconport="$((port + 2))"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 }
 
@@ -1489,7 +1494,6 @@ fn_info_game_jc3() {
 		fn_info_game_json "serverdescription" ".description"
 		fn_info_game_json "servername" ".name"
 		fn_info_game_json "serverpassword" ".password"
-		fn_info_game_json "steamport" ".steamPort"
 		fn_info_game_json "tickrate" ".maxTickRate"
 	fi
 	configip="${configip:-"0.0.0.0"}"
@@ -1500,7 +1504,6 @@ fn_info_game_jc3() {
 	serverdescription="${serverdescription:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="${steamport:-"0"}"
 	tickrate="${tickrate:-"0"}"
 }
 
@@ -1511,6 +1514,7 @@ fn_info_game_jc3() {
 # Filetype: cfg
 fn_info_game_jk2() {
 	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_quakec "httpport" "mv_httpserverport"
 		fn_info_game_quakec "maxplayers" "sv_maxclients"
 		fn_info_game_quakec "rconpassword" "rconpassword"
 		fn_info_game_quakec "servername" "sv_hostname"
@@ -1518,6 +1522,7 @@ fn_info_game_jk2() {
 		fn_info_game_quakec "serverversion" "mv_serverversion"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
+	httpport="${httpport:-"18200"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
@@ -1888,7 +1893,6 @@ fn_info_game_ro() {
 	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	steamport="20610"
 	unreal2queryport="$((port + 1))" # Unreal2 Query Port
 }
 

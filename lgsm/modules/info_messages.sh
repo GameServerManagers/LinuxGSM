@@ -894,9 +894,19 @@ fn_port() {
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 	else
 		portname="${1}"
-		porttype="${2}"
+		portvalue="${!2}"
 		portprotocol="${3}"
-		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}" | grep "${portprotocol}" | grep -c "${!porttype}")"
+		portlisten="-"
+		if [[ "${portvalue}" =~ ^[0-9]+$ ]] && [ "${portvalue}" -gt 0 ]; then
+			portlisten="0"
+			while read -r netid _ _ _ localaddr _; do
+				if [ "${netid}" == "${portprotocol}" ] && [ "${localaddr##*:}" == "${portvalue}" ]; then
+					portlisten="1"
+					break
+				fi
+			done <<< "${ssinfo}"
+		fi
+		echo -e "${portname}\t${portvalue}\t${portprotocol}\t${portlisten}"
 	fi
 }
 
@@ -905,7 +915,6 @@ fn_info_messages_ac() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Game" port tcp
-		fn_port "Query" queryport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
@@ -927,7 +936,6 @@ fn_info_messages_arma3() {
 		fn_port "Voice" voiceport udp
 		fn_port "Query" queryport udp
 		fn_port "Steam" steamport udp
-		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
@@ -937,7 +945,7 @@ fn_info_messages_armar() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "BattleEye" battleeyeport tcp
+		fn_port "RCON" rconport udp
 	} | column -s $'\t' -t
 }
 
@@ -1072,9 +1080,7 @@ fn_info_messages_codwaw() {
 fn_info_messages_col() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
-		fn_port "Steam" steamport tcp
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
@@ -1082,7 +1088,7 @@ fn_info_messages_cs2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1090,7 +1096,7 @@ fn_info_messages_csgo() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
@@ -1129,7 +1135,6 @@ fn_info_messages_dst() {
 		fn_port "Game: Server" port udp
 		fn_port "Game: Master" masterport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steam: Auth" steamauthport udp
 	} | column -s $'\t' -t
 }
 
@@ -1171,12 +1176,7 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		if [ "${querytype}" == "protocol-valve-won" ]; then
-			fn_port "Query" queryport udp
-		else
-			fn_port "Query" queryport tcp
-		fi
-		fn_port "Client" clientport udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1184,7 +1184,6 @@ fn_info_messages_hcu() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1216,7 +1215,7 @@ fn_info_messages_ins() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
@@ -1245,7 +1244,6 @@ fn_info_messages_jc3() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam" steamport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
@@ -1254,6 +1252,7 @@ fn_info_messages_jk2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "HTTP Downloads" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1273,7 +1272,6 @@ fn_info_messages_kf() {
 		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
@@ -1440,7 +1438,8 @@ fn_info_messages_pw() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
-		fn_port "Unknown" unknownport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "REST API" restapiport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1448,7 +1447,9 @@ fn_info_messages_pz() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Direct Connection" udpport udp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1501,7 +1502,6 @@ fn_info_messages_ro() {
 		fn_port "Query - Unreal 2" unreal2queryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steam" steamport udp
 
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1565,6 +1565,7 @@ fn_info_messages_rw() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
@@ -1581,7 +1582,7 @@ fn_info_messages_samp() {
 fn_info_messages_sb() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
@@ -1669,7 +1670,7 @@ fn_info_messages_sol() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Game" port tcp
 		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
@@ -1686,7 +1687,7 @@ fn_info_messages_source() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unavailable
@@ -1784,7 +1785,6 @@ fn_info_messages_tu() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
@@ -1859,7 +1859,6 @@ fn_info_messages_ut3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""

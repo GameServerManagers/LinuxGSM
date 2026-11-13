@@ -156,12 +156,6 @@ fn_messages_separator
 		echo -e "Steamworks P2P:"
 	fi
 
-	if [ -n "${steamauthport}" ]; then
-		echo -e "Steam: Auth: \t${steamauthport} \t$(ss -tupl | grep -c "${steamauthport}") \t$(ss -tupl | grep "${steamauthport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${steamauthport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Steam: Auth:"
-	fi
-
 	if [ -n "${telnetport}" ]; then
 		echo -e "Telnet: \t${telnetport} \t$(ss -tupl | grep -c "${telnetport}") \t$(ss -tupl | grep "${telnetport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${telnetport}" | grep udp | awk '{ print $2 }')"
 	else
@@ -190,12 +184,6 @@ fn_messages_separator
 		echo -e "Voice: \t${voiceport} \t$(ss -tupl | grep -c "${voiceport}") \t$(ss -tupl | grep "${voiceport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${voiceport}" | grep udp | awk '{ print $2 }')"
 	else
 		echo -e "Voice:"
-	fi
-
-	if [ -n "${voiceunusedport}" ]; then
-		echo -e "Voice (Unused): \t${voiceunusedport} \t$(ss -tupl | grep -c "${voiceunusedport}") \t$(ss -tupl | grep "${voiceunusedport}" | grep tcp | awk '{ print $2 }') \t$(ss -tupl | grep "${voiceunusedport}" | grep udp | awk '{ print $2 }')"
-	else
-		echo -e "Voice (Unused):"
 	fi
 
 } \
