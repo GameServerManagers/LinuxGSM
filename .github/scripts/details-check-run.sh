@@ -28,7 +28,7 @@ for shortname in "$@"; do
 	gameserver="${shortname}server"
 	echo "::group::${gameserver}"
 	./linuxgsm.sh "${gameserver}"
-	./"${gameserver}" developer
+	[ -f .dev-debug ] || ./"${gameserver}" developer
 
 	servercfg=$(sed -n "/^\<servercfgdefault\>/ { s/.*= *\"\?\([^\"']*\)\"\?/\1/p;q }" "lgsm/config-lgsm/${gameserver}/_default.cfg")
 	if [ -n "${servercfg}" ]; then
