@@ -2299,6 +2299,7 @@ fn_info_game_unt() {
 
 # Config Type: Parameters
 fn_info_game_vein() {
+	configqueryip="127.0.0.1"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	steamport="${steamport:-"0"}"
