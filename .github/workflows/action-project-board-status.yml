@@ -1,0 +1,145 @@
+name: Project Board Status
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - edited
+      - closed
+    branches:
+      - develop
+
+permissions: {}
+
+concurrency:
+  group: project-board-status-${{ github.event.pull_request.number }}
+
+jobs:
+  project-board-status:
+    if: github.repository_owner == 'GameServerManagers'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move linked issues on the project boards
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const org = 'GameServerManagers';
+            const boards = { backlog: 8, serverRequests: 11 };
+            const serverRequestLabel = 'type: game server request';
+
+            if (context.payload.action === 'closed' && !pr.merged) {
+              return;
+            }
+            const targets = pr.merged ? ['Awaiting Release', 'In Review'] : ['In Progress'];
+            const movableFrom = pr.merged
+              ? ['New Issues', 'Sentenced Issues', 'The Fridge', 'On Hold', 'In Progress']
+              : ['New Issues', 'Sentenced Issues', 'The Fridge'];
+            const columnOf = (name) => (name || '').replace(/^[^A-Za-z]+/, '').trim();
+
+            const body = (pr.body || '').replace(/<!--[\s\S]*?-->/g, '');
+            const closingRef = /\b(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?):?\s+(?:([\w.-]+)\/([\w.-]+))?#(\d+)/gi;
+            const numbers = new Set();
+            for (const m of body.matchAll(closingRef)) {
+              if (m[1] && (m[1].toLowerCase() !== owner.toLowerCase() || m[2].toLowerCase() !== repo.toLowerCase())) {
+                continue;
+              }
+              numbers.add(Number(m[3]));
+            }
+            if (numbers.size === 0) {
+              core.info('No closing issue references in the PR body.');
+              return;
+            }
+
+            const projectCache = new Map();
+            async function project(number) {
+              if (!projectCache.has(number)) {
+                const data = await github.graphql(
+                  `query($org:String!,$number:Int!){
+                    organization(login:$org){
+                      projectV2(number:$number){
+                        id title
+                        field(name:"Status"){ ... on ProjectV2SingleSelectField { id options { id name } } }
+                      }
+                    }
+                  }`,
+                  { org, number }
+                );
+                projectCache.set(number, data.organization.projectV2);
+              }
+              return projectCache.get(number);
+            }
+
+            async function setStatus(proj, itemId) {
+              const option = targets.map((t) => proj.field.options.find((o) => columnOf(o.name) === t)).find(Boolean);
+              if (!option) {
+                throw new Error(`${proj.title} has no "${targets.join('" or "')}" column`);
+              }
+              await github.graphql(
+                `mutation($project:ID!,$item:ID!,$field:ID!,$option:String!){
+                  updateProjectV2ItemFieldValue(input:{projectId:$project,itemId:$item,fieldId:$field,value:{singleSelectOptionId:$option}}){ projectV2Item { id } }
+                }`,
+                { project: proj.id, item: itemId, field: proj.field.id, option: option.id }
+              );
+              return columnOf(option.name);
+            }
+
+            for (const number of numbers) {
+              try {
+                const data = await github.graphql(
+                  `query($owner:String!,$repo:String!,$number:Int!){
+                    repository(owner:$owner,name:$repo){
+                      issueOrPullRequest(number:$number){
+                        __typename
+                        ... on Issue {
+                          id state
+                          labels(first:50){ nodes { name } }
+                          projectItems(first:20){
+                            nodes {
+                              id
+                              project { number owner { ... on Organization { login } } }
+                              fieldValueByName(name:"Status"){ ... on ProjectV2ItemFieldSingleSelectValue { name } }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }`,
+                  { owner, repo, number }
+                );
+                const issue = data.repository.issueOrPullRequest;
+                if (!issue || issue.__typename !== 'Issue' || issue.state !== 'OPEN') {
+                  continue;
+                }
+
+                let items = issue.projectItems.nodes.filter(
+                  (i) => i.project.owner?.login === org && Object.values(boards).includes(i.project.number)
+                );
+                if (items.length === 0) {
+                  const boardNumber = issue.labels.nodes.some((l) => l.name === serverRequestLabel) ? boards.serverRequests : boards.backlog;
+                  const proj = await project(boardNumber);
+                  const added = await github.graphql(
+                    `mutation($project:ID!,$content:ID!){ addProjectV2ItemById(input:{projectId:$project,contentId:$content}){ item { id } } }`,
+                    { project: proj.id, content: issue.id }
+                  );
+                  items = [{ id: added.addProjectV2ItemById.item.id, project: { number: boardNumber }, fieldValueByName: null }];
+                  core.info(`Added #${number} to ${proj.title}.`);
+                }
+
+                for (const item of items) {
+                  const proj = await project(item.project.number);
+                  const current = columnOf(item.fieldValueByName?.name);
+                  if (current && !movableFrom.includes(current)) {
+                    core.info(`#${number} stays in ${current} on ${proj.title}.`);
+                    continue;
+                  }
+                  const moved = await setStatus(proj, item.id);
+                  core.info(`Moved #${number} from ${current || 'no status'} to ${moved} on ${proj.title}.`);
+                }
+              } catch (error) {
+                core.warning(`#${number}: ${error.message}`);
+              }
+            }
