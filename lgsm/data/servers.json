@@ -11,12 +11,6 @@
           "protocols": ["udp", "tcp"]
         },
         {
-          "label": "Query",
-          "variable": "queryport",
-          "default": 8081,
-          "protocols": ["udp"]
-        },
-        {
           "label": "HTTP",
           "variable": "httpport",
           "default": 8081,
@@ -36,7 +30,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -70,12 +64,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -104,7 +92,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": 27020,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off by default. Add RCONEnabled=True to the start parameters to open it."
         }
       ]
     },
@@ -163,10 +152,10 @@
           "protocols": ["udp"]
         },
         {
-          "label": "BattleEye",
-          "variable": "battleeyeport",
-          "default": 2005,
-          "protocols": ["tcp"]
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 19999,
+          "protocols": ["udp"]
         }
       ]
     },
@@ -226,7 +215,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -260,12 +249,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -282,12 +265,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -358,7 +335,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -418,7 +395,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -468,7 +445,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -681,12 +658,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -703,7 +674,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -737,12 +708,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -759,7 +724,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -794,12 +759,6 @@
           "variable": "queryport",
           "default": 27015,
           "protocols": ["udp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
-          "protocols": ["udp"]
         }
       ]
     },
@@ -825,7 +784,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -887,12 +846,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -925,12 +878,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -947,7 +894,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -981,7 +928,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1043,7 +990,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1105,7 +1052,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1197,7 +1144,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1231,7 +1178,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1281,7 +1228,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1315,12 +1262,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -1337,7 +1278,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1371,12 +1312,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["udp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -1441,7 +1376,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1497,7 +1432,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1531,7 +1466,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1635,7 +1570,8 @@
           "label": "Web Interface",
           "variable": "httpport",
           "default": 8080,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off by default. Set bEnabled=true in KFWeb.ini to open it."
         }
       ]
     },
@@ -1698,7 +1634,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1732,7 +1668,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1799,7 +1735,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": 25575,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off by default. Set enable-rcon=true in server.properties to open it."
         }
       ]
     },
@@ -1815,7 +1752,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1925,7 +1862,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -1969,7 +1906,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -2053,12 +1990,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -2097,12 +2028,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -2191,7 +2116,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": 25575,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off by default. Set enable-rcon=true in server.properties to open it."
         }
       ]
     },
@@ -2207,7 +2133,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -2264,12 +2190,6 @@
           "variable": "steamport",
           "default": 27015,
           "protocols": ["udp"]
-        },
-        {
-          "label": "Unknown",
-          "variable": "unknownport",
-          "default": 1985,
-          "protocols": ["tcp"]
         }
       ]
     },
@@ -2282,10 +2202,22 @@
           "protocols": ["udp"]
         },
         {
+          "label": "Direct Connection",
+          "variable": "udpport",
+          "default": 16262,
+          "protocols": ["udp"]
+        },
+        {
           "label": "Query",
           "variable": "queryport",
           "default": 16261,
           "protocols": ["udp"]
+        },
+        {
+          "label": "RCON",
+          "variable": "rconport",
+          "default": 27015,
+          "protocols": ["tcp"]
         }
       ]
     },
@@ -2388,12 +2320,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -2628,7 +2554,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -2716,13 +2642,7 @@
           "label": "Game",
           "variable": "port",
           "default": 23073,
-          "protocols": ["udp"]
-        },
-        {
-          "label": "Query",
-          "variable": "queryport",
-          "default": 23083,
-          "protocols": ["udp"]
+          "protocols": ["udp", "tcp"]
         },
         {
           "label": "Files",
@@ -2750,7 +2670,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": 21114,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off until a password is set in Rcon.cfg."
         }
       ]
     },
@@ -2820,12 +2741,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -2858,7 +2773,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -2892,7 +2807,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -2926,12 +2841,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -3032,7 +2941,8 @@
           "label": "Query (https)",
           "variable": "httpsqueryport",
           "default": 10443,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Off by default. Add https to query_protocols in ts3server.ini to open it."
         },
         {
           "label": "File Transfer",
@@ -3060,12 +2970,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -3301,12 +3205,6 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
-        },
-        {
-          "label": "Client",
-          "variable": "clientport",
-          "default": 27005,
           "protocols": ["udp"]
         }
       ]
@@ -3415,7 +3313,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",
@@ -3449,7 +3347,7 @@
           "label": "Query",
           "variable": "queryport",
           "default": 27015,
-          "protocols": ["tcp"]
+          "protocols": ["udp"]
         },
         {
           "label": "RCON",

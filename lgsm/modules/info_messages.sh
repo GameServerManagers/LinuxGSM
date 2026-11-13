@@ -905,7 +905,6 @@ fn_info_messages_ac() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Game" port tcp
-		fn_port "Query" queryport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
@@ -937,7 +936,7 @@ fn_info_messages_armar() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "BattleEye" battleeyeport tcp
+		fn_port "RCON" rconport udp
 	} | column -s $'\t' -t
 }
 
@@ -1171,12 +1170,7 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		if [ "${querytype}" == "protocol-valve-won" ]; then
-			fn_port "Query" queryport udp
-		else
-			fn_port "Query" queryport tcp
-		fi
-		fn_port "Client" clientport udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1440,7 +1434,6 @@ fn_info_messages_pw() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
-		fn_port "Unknown" unknownport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1448,7 +1441,9 @@ fn_info_messages_pz() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Direct Connection" udpport udp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1669,7 +1664,7 @@ fn_info_messages_sol() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Game" port tcp
 		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
@@ -1686,7 +1681,7 @@ fn_info_messages_source() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unavailable

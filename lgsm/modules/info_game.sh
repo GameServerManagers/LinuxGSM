@@ -610,7 +610,6 @@ fn_info_game_pw() {
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	steamport="${steamport:-"0"}"
-	unknownport="1985"
 }
 
 # Config Type: ini
@@ -623,8 +622,10 @@ fn_info_game_pz() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "port" "DefaultPort"
 		fn_info_game_ini "rconpassword" "RCONPassword"
+		fn_info_game_ini "rconport" "RCONPort"
 		fn_info_game_ini "servername" "PublicName"
 		fn_info_game_ini "serverpassword" "Password"
+		fn_info_game_ini "udpport" "UDPPort"
 		fn_info_game_ini "worldname" "Map"
 
 	fi
@@ -632,9 +633,11 @@ fn_info_game_pz() {
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
+	rconport="${rconport:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
+	udpport="${udpport:-"0"}"
 	worldname="${worldname:-"NOT SET"}"
 }
 
@@ -930,11 +933,11 @@ fn_info_game_armar() {
 		fn_info_game_json "rconport" ".rcon.port"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	battleeyeport="$((port + 4))"
 	configip="${configip:-"0.0.0.0"}"
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
+	rconport="${rconport:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 }

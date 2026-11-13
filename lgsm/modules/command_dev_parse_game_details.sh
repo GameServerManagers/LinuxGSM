@@ -125,7 +125,6 @@ declare -A server_details=(
 	['Telnet Password']="${telnetpassword}"
 	['Telnet Port']="${telnetport}"
 	['Tickrate']="${tickrate}"
-	['Unknown Port']="${unknownport}"
 	['Version Count']="${versioncount}"
 	['Voice Port']="${voiceport}"
 	['Voice Unused Port']="${voiceunusedport}"
