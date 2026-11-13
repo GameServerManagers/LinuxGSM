@@ -74,7 +74,7 @@ while IFS=',' read -r shortname gameservername _; do
 	done < <(jq -r --arg g "${gameservername}" '.servers[$g].ports | unique_by(.variable)[] | [.variable, (.default // "" | tostring)] | @tsv' "${serversjson}")
 done < <(tail -n +2 "${serverlist}")
 
-echo "Ports with no confirmed default:"
-jq -r '.servers | to_entries[] | .key as $g | .value.ports[] | select(.default == null) | "  \($g) \(.variable)"' "${serversjson}" | sort -u
+echo "Ports with no default and no note:"
+jq -r '.servers | to_entries[] | .key as $g | .value.ports[] | select(.default == null and .note == null) | "  \($g) \(.variable)"' "${serversjson}" | sort -u
 
 exit "${exitcode}"

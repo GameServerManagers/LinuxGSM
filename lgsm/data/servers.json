@@ -546,7 +546,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": null,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Not set in the stock config. Set RConPort to enable RCON."
         }
       ]
     },
@@ -1013,7 +1014,7 @@
         {
           "label": "Game: Master",
           "variable": "masterport",
-          "default": null,
+          "default": 10888,
           "protocols": ["udp"]
         },
         {
@@ -1087,7 +1088,7 @@
         {
           "label": "RCON",
           "variable": "rconport",
-          "default": null,
+          "default": 3002,
           "protocols": ["tcp"]
         }
       ]
@@ -1621,7 +1622,7 @@
         {
           "label": "Game",
           "variable": "port",
-          "default": null,
+          "default": 7777,
           "protocols": ["udp"]
         },
         {
@@ -1633,7 +1634,7 @@
         {
           "label": "Web Interface",
           "variable": "httpport",
-          "default": null,
+          "default": 8080,
           "protocols": ["tcp"]
         }
       ]
@@ -1661,8 +1662,9 @@
         {
           "label": "Query - Gamespy",
           "variable": "gamespyqueryport",
-          "default": null,
-          "protocols": ["udp"]
+          "default": 7717,
+          "protocols": ["udp"],
+          "note": "Game port + 10."
         },
         {
           "label": "Web Interface",
@@ -1707,7 +1709,7 @@
         {
           "label": "SourceTV",
           "variable": "sourcetvport",
-          "default": null,
+          "default": 27020,
           "protocols": ["udp"]
         },
         {
@@ -1741,7 +1743,7 @@
         {
           "label": "SourceTV",
           "variable": "sourcetvport",
-          "default": null,
+          "default": 27020,
           "protocols": ["udp"]
         },
         {
@@ -1767,14 +1769,15 @@
         {
           "label": "Signalling",
           "variable": "port",
-          "default": 25565,
+          "default": 19132,
           "protocols": ["tcp"]
         },
         {
           "label": "Game",
           "variable": "udpport",
           "default": null,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Empty by default. Set server-udp-ports to fix the UDP ports used with the NetherNet transport."
         }
       ]
     },
@@ -1996,7 +1999,8 @@
           "label": "Mod Server",
           "variable": "modserverport",
           "default": null,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Not used: NS2: Combat does not start a mod server."
         },
         {
           "label": "Web Interface",
@@ -2354,7 +2358,8 @@
           "label": "Stats",
           "variable": "statsport",
           "default": null,
-          "protocols": ["udp"]
+          "protocols": ["udp"],
+          "note": "Not set in the stock server.cfg. Set zmq_stats_port to enable the stats feed."
         }
       ]
     },
@@ -2493,19 +2498,19 @@
         {
           "label": "Game",
           "variable": "port",
-          "default": null,
+          "default": 4255,
           "protocols": ["udp"]
         },
         {
           "label": "Query",
           "variable": "queryport",
-          "default": null,
+          "default": 4254,
           "protocols": ["tcp"]
         },
         {
           "label": "RCON",
           "variable": "rconport",
-          "default": null,
+          "default": 4253,
           "protocols": ["tcp"]
         }
       ]
@@ -2597,7 +2602,7 @@
         {
           "label": "Web Interface",
           "variable": "httpport",
-          "default": null,
+          "default": 8080,
           "protocols": ["tcp"]
         },
         {
@@ -2741,7 +2746,7 @@
         {
           "label": "RCON",
           "variable": "rconport",
-          "default": null,
+          "default": 21114,
           "protocols": ["tcp"]
         }
       ]
@@ -2763,7 +2768,7 @@
         {
           "label": "RCON",
           "variable": "rconport",
-          "default": null,
+          "default": 21114,
           "protocols": ["tcp"]
         }
       ]
@@ -3123,8 +3128,9 @@
         {
           "label": "Query - Gamespy",
           "variable": "gamespyqueryport",
-          "default": null,
-          "protocols": ["udp"]
+          "default": 7787,
+          "protocols": ["udp"],
+          "note": "Game port + 10."
         },
         {
           "label": "Web Interface",
@@ -3157,7 +3163,7 @@
         {
           "label": "Web Interface",
           "variable": "httpport",
-          "default": null,
+          "default": 7779,
           "protocols": ["tcp"]
         }
       ]
@@ -3227,7 +3233,7 @@
         {
           "label": "Game",
           "variable": "port",
-          "default": null,
+          "default": 42420,
           "protocols": ["tcp"]
         }
       ]
@@ -3314,7 +3320,8 @@
           "label": "RCON",
           "variable": "rconport",
           "default": null,
-          "protocols": ["tcp"]
+          "protocols": ["tcp"],
+          "note": "Not used: Waterfall has no RCON."
         }
       ]
     },
