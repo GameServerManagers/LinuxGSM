@@ -45,7 +45,7 @@ else
 	fn_print_ok_nl "Selecting repo: ${remotereponame}"
 fi
 
-# Check linuxsm.sh
+# Check linuxgsm.sh
 echo -en "checking ${remotereponame} script [ ${italic}linuxgsm.sh${default} ]\c"
 if [ "${remotereponame}" == "GitHub" ]; then
 	curl "${nocache[@]}" --connect-timeout 3 -IsfL "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/linuxgsm.sh" 1> /dev/null
