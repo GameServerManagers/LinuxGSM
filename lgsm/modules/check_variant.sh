@@ -14,8 +14,8 @@ fn_variant_list() {
 	variantnames=()
 	variantinstalldefault=""
 	if [ "${shortname}" == "mc" ]; then
-		variants=("vanilla" "fabric" "paper" "purpur" "folia" "leaf")
-		variantnames=("Vanilla" "Fabric" "PaperMC" "Purpur" "Folia" "Leaf")
+		variants=("vanilla" "fabric" "forge" "neoforge" "paper" "purpur" "folia" "leaf")
+		variantnames=("Vanilla" "Fabric" "Forge" "NeoForge" "PaperMC" "Purpur" "Folia" "Leaf")
 	elif [ "${shortname}" == "mohaa" ]; then
 		variants=("alliedassault-reborn" "alliedassault-vanilla" "alliedassault-openmohaa" "spearhead-vanilla" "spearhead-openmohaa" "breakthrough-openmohaa")
 		variantnames=("Allied Assault (Reborn)" "Allied Assault (Vanilla)" "Allied Assault (OpenMoHAA)" "Spearhead (Vanilla)" "Spearhead (OpenMoHAA)" "Breakthrough (OpenMoHAA)")
@@ -30,6 +30,11 @@ fn_variant_settings() {
 			variantexecutable="./minecraft_server.jar"
 		elif [ "${variant}" == "fabric" ]; then
 			variantexecutable="./fabric-server-launch.jar"
+		elif [ "${variant}" == "forge" ] || [ "${variant}" == "neoforge" ]; then
+			variantexecutable="@unix_args.txt"
+			if [[ "${preexecutable}" == *" -jar" ]]; then
+				preexecutable="${preexecutable% -jar} @user_jvm_args.txt"
+			fi
 		elif [ "${variant}" == "paper" ]; then
 			variantexecutable="./paper.jar"
 		elif [ "${variant}" == "purpur" ]; then
@@ -282,11 +287,14 @@ fn_variant_record() {
 # Warns about data that does not carry across a variant change.
 fn_variant_change_warning() {
 	if [ "${shortname}" == "mc" ]; then
-		if [[ "${installedvariant}" =~ ^(paper|purpur|folia|leaf)$ ]] && [[ "${variant}" =~ ^(vanilla|fabric)$ ]]; then
+		if [[ "${installedvariant}" =~ ^(paper|purpur|folia|leaf)$ ]] && [[ "${variant}" =~ ^(vanilla|fabric|forge|neoforge)$ ]]; then
 			fn_print_warning_nl "${installedvariantname} keeps the Nether and End in world_nether and world_the_end. ${variantname} does not load them from there."
 			fn_script_log_warn "${installedvariantname} keeps the Nether and End in world_nether and world_the_end. ${variantname} does not load them from there."
 		fi
-		if [ "${installedvariant}" == "fabric" ] || [ "${variant}" == "fabric" ]; then
+		if [[ "${installedvariant}" =~ ^(fabric|forge|neoforge)$ ]] && [[ "${variant}" =~ ^(fabric|forge|neoforge)$ ]]; then
+			fn_print_warning_nl "${installedvariantname} mods in the mods directory do not load on ${variantname}. Replace them with ${variantname} builds."
+			fn_script_log_warn "${installedvariantname} mods in the mods directory do not load on ${variantname}."
+		elif [[ "${installedvariant}" =~ ^(fabric|forge|neoforge)$ ]] || [[ "${variant}" =~ ^(fabric|forge|neoforge)$ ]]; then
 			fn_print_warning_nl "Mods and plugins are not shared between ${installedvariantname} and ${variantname}."
 			fn_script_log_warn "Mods and plugins are not shared between ${installedvariantname} and ${variantname}."
 		fi
