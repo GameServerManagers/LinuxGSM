@@ -1200,6 +1200,22 @@
         }
       ]
     },
+    "hfserver": {
+      "ports": [
+        {
+          "label": "Game",
+          "variable": "port",
+          "default": 20100,
+          "protocols": ["udp"]
+        },
+        {
+          "label": "Query",
+          "variable": "queryport",
+          "default": 27000,
+          "protocols": ["udp"]
+        }
+      ]
+    },
     "hl2dmserver": {
       "ports": [
         {

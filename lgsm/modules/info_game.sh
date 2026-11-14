@@ -1386,6 +1386,31 @@ fn_info_game_fctr() {
 	fi
 }
 
+# Config Type: custom
+# Parameters: false
+# Comment: #
+# Example: server_name SERVERNAME
+# Filetype: txt
+fn_info_game_hf() {
+	if [ -f "${servercfgfullpath}" ]; then
+		servername="$(sed -n 's/^[[:blank:]]*server_name[[:blank:]]\+\(.*[^[:blank:]#]\)[[:blank:]#]*$/\1/p' "${servercfgfullpath}" | head -n 1)"
+		adminpassword="$(sed -n 's/^[[:blank:]]*server_admin_password[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		serverpassword="$(sed -n 's/^[[:blank:]]*server_password[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		port="$(sed -n 's/^[[:blank:]]*server_port[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		queryport="$(sed -n 's/^[[:blank:]]*steam_query_port[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		maxplayers="$(sed -n 's/^[[:blank:]]*maximum_players[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		defaultmap="$(sed -n 's/^[[:blank:]]*map_name[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		gamemode="$(sed -n 's/^[[:blank:]]*game_mode[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+	fi
+	servername="${servername:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
+	defaultmap="${defaultmap:-"NOT SET"}"
+	gamemode="${gamemode:-"NOT SET"}"
+}
+
 # Config Type: parameters (json possibly supported)
 # Parameters: true
 # Comment:
@@ -2593,6 +2618,8 @@ elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
 elif [ "${shortname}" == "fivem" ]; then
 	fn_info_game_fivem
+elif [ "${shortname}" == "hf" ]; then
+	fn_info_game_hf
 elif [ "${shortname}" == "hw" ]; then
 	fn_info_game_hw
 elif [ "${shortname}" == "hz" ]; then
