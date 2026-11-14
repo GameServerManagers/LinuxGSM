@@ -7,16 +7,19 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# Variants available for this game server. The first is the default.
+# Variants available for this game server. The first is used when no variant is set.
+# variantinstalldefault is offered and saved on new installs, when it differs from the first.
 fn_variant_list() {
 	variants=()
 	variantnames=()
+	variantinstalldefault=""
 	if [ "${shortname}" == "mc" ]; then
 		variants=("vanilla" "fabric" "paper" "purpur" "folia" "leaf")
 		variantnames=("Vanilla" "Fabric" "PaperMC" "Purpur" "Folia" "Leaf")
 	elif [ "${shortname}" == "mohaa" ]; then
-		variants=("alliedassault" "spearhead")
-		variantnames=("Allied Assault" "Spearhead")
+		variants=("alliedassault-reborn" "alliedassault-vanilla" "alliedassault-openmohaa" "spearhead-vanilla" "spearhead-openmohaa" "breakthrough-openmohaa")
+		variantnames=("Allied Assault (Reborn)" "Allied Assault (Vanilla)" "Allied Assault (OpenMoHAA)" "Spearhead (Vanilla)" "Spearhead (OpenMoHAA)" "Breakthrough (OpenMoHAA)")
+		variantinstalldefault="alliedassault-openmohaa"
 	fi
 }
 
@@ -37,15 +40,63 @@ fn_variant_settings() {
 			variantexecutable="./leaf.jar"
 		fi
 	elif [ "${shortname}" == "mohaa" ]; then
-		if [ "${variant}" == "alliedassault" ]; then
+		if [ "${variant}" == "alliedassault-reborn" ]; then
 			variantexecutable="./mohaa_lnxded"
-		elif [ "${variant}" == "spearhead" ]; then
+		elif [ "${variant}" == "alliedassault-vanilla" ]; then
+			variantexecutable="./mohaa_lnxded"
+			variantexecutabledir="${serverfiles}/vanilla"
+			variantbasepath="${serverfiles}/vanilla"
+		elif [ "${variant}" == "spearhead-vanilla" ]; then
 			variantexecutable="./spearhead_lnxded"
+		elif [[ "${variant}" == *-openmohaa ]]; then
+			variantexecutable="./omohaaded"
+			variantexecutabledir="${serverfiles}/openmohaa"
+			if [ "${variant}" == "alliedassault-openmohaa" ]; then
+				variantstartparameters="+set com_target_game 0"
+			elif [ "${variant}" == "spearhead-openmohaa" ]; then
+				variantstartparameters="+set com_target_game 1"
+			elif [ "${variant}" == "breakthrough-openmohaa" ]; then
+				variantstartparameters="+set com_target_game 2"
+			fi
 		fi
 	fi
 	if [ "${variant}" != "${variants[0]}" ] && [ -n "${variantexecutable}" ]; then
 		executable="${variantexecutable}"
 	fi
+	if [ -n "${variantexecutabledir}" ]; then
+		executabledir="${variantexecutabledir}"
+	fi
+}
+
+# Installs files a variant needs that an existing install does not have.
+fn_variant_files() {
+	if [ "${shortname}" == "mohaa" ] && [ -d "${serverfiles}/main" ]; then
+		if [[ "${variant}" == *-openmohaa ]] && [ ! -f "${serverfiles}/openmohaa/omohaaded" ]; then
+			install_openmohaa.sh
+		elif [ "${variant}" == "alliedassault-vanilla" ] && { [ ! -f "${serverfiles}/vanilla/mohaa_lnxded" ] || [ ! -L "${serverfiles}/vanilla/main" ]; }; then
+			fn_print_dots "Setting up ${variantname}"
+			if mkdir -p "${serverfiles}/vanilla" && cp -f "${serverfiles}/dedicated_server_binaries_anticrash/mohaa/linux/mohaa_lnxded" "${serverfiles}/vanilla/mohaa_lnxded" && cp -f "${serverfiles}/fgamededmohaa.so" "${serverfiles}/vanilla/fgameded.so" && ln -sfn ../main "${serverfiles}/vanilla/main"; then
+				chmod +x "${serverfiles}/vanilla/mohaa_lnxded"
+				fn_print_ok_nl "Setting up ${variantname}"
+				fn_script_log_pass "Setting up ${variantname}"
+			else
+				fn_print_fail_nl "Setting up ${variantname}"
+				fn_script_log_fail "Setting up ${variantname}"
+				core_exit.sh
+			fi
+		fi
+	fi
+}
+
+# Checks whether any config file sets the variant.
+fn_variant_configured() {
+	local checkcfg
+	for checkcfg in "${configdirserver}/secrets-${selfname}.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/common.cfg"; do
+		if [ -f "${checkcfg}" ] && grep -qE "^[[:blank:]]*variant=" "${checkcfg}"; then
+			return 0
+		fi
+	done
+	return 1
 }
 
 # The config setting that --version changes.
@@ -129,24 +180,24 @@ fn_variant_parse_args() {
 
 fn_variant_prompt() {
 	local answer
-	local checkcfg
+	local defaultanswer=1
 	local variantindex
 	if [ "${getopt}" != "i" ] && [ "${getopt}" != "install" ]; then
 		return
 	fi
-	if [ "${#variants[@]}" -lt 2 ] || [ -n "${argvariant+x}" ]; then
+	if [ "${#variants[@]}" -lt 2 ] || [ -n "${argvariant+x}" ] || fn_variant_configured; then
 		return
 	fi
-	for checkcfg in "${configdirserver}/secrets-${selfname}.cfg" "${configdirserver}/${selfname}.cfg" "${configdirserver}/secrets-common.cfg" "${configdirserver}/common.cfg"; do
-		if [ -f "${checkcfg}" ] && grep -qE "^[[:blank:]]*variant=" "${checkcfg}"; then
-			return
+	for variantindex in "${!variants[@]}"; do
+		if [ "${variants[variantindex]}" == "${variantinstalldefault}" ]; then
+			defaultanswer="$((variantindex + 1))"
 		fi
 	done
 	echo -e ""
 	echo -e "${bold}${lightyellow}Select ${gamename} Server Variant${default}"
 	fn_messages_separator
 	for variantindex in "${!variants[@]}"; do
-		if [ "${variantindex}" -eq 0 ]; then
+		if [ "$((variantindex + 1))" -eq "${defaultanswer}" ]; then
 			echo -e "$((variantindex + 1))) ${variantnames[variantindex]} (default)"
 		else
 			echo -e "$((variantindex + 1))) ${variantnames[variantindex]}"
@@ -154,10 +205,10 @@ fn_variant_prompt() {
 	done
 	while true; do
 		answer=""
-		if ! read -e -p "Variant [1]: " -r answer && [ -z "${answer}" ]; then
+		if ! read -e -p "Variant [${defaultanswer}]: " -r answer && [ -z "${answer}" ]; then
 			echo -e ""
 		fi
-		answer="${answer:-1}"
+		answer="${answer:-${defaultanswer}}"
 		if [[ "${answer}" =~ ^[0-9]+$ ]] && [ "${answer}" -ge 1 ] && [ "${answer}" -le "${#variants[@]}" ]; then
 			argvariant="${variants[answer - 1]}"
 			break
@@ -186,6 +237,11 @@ fn_variant_prompt() {
 }
 
 fn_variant_apply_args() {
+	if [ "${getopt}" == "ai" ] || [ "${getopt}" == "auto-install" ]; then
+		if [ -n "${variantinstalldefault}" ] && [ -z "${argvariant+x}" ] && ! fn_variant_configured; then
+			argvariant="${variantinstalldefault}"
+		fi
+	fi
 	if [ -n "${argvariant+x}" ]; then
 		if [ "${#variants[@]}" -eq 0 ]; then
 			fn_print_fail_nl "${gamename} has no variants"
@@ -268,6 +324,7 @@ if [ "${#variants[@]}" -gt 0 ]; then
 		core_exit.sh
 	fi
 	fn_variant_settings
+	fn_variant_files
 else
 	unset variant
 fi

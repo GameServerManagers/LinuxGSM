@@ -314,6 +314,11 @@ elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "q4
 		install_eula.sh
 	fi
 	fn_install_server_files
+	if [ "${shortname}" == "mohaa" ]; then
+		cp -f "${serverfiles}/dedicated_server_binaries_anticrash/mohaa/linux/mohaa_lnxded" "${serverfiles}/dedicated_server_binaries_anticrash/mohaa/linux/fgameded.so" "${serverfiles}/"
+		chmod +x "${serverfiles}/mohaa_lnxded"
+		fn_variant_files
+	fi
 fi
 
 if [ -z "${autoinstall}" ]; then
