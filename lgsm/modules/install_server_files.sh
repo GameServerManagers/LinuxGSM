@@ -90,13 +90,13 @@ fn_install_server_files() {
 		force="noforce"
 		md5="d4a57dc07648853138a700cacc84aef2"
 	elif [ "${shortname}" == "mohaa" ]; then
-		remote_fileurl="https://linuxgsm.download/MedalofHonorAlliedAssault/mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261102.tar.xz"
+		remote_fileurl="https://linuxgsm.download/MedalofHonorAlliedAssault/mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261114.tar.xz"
 		local_filedir="${tmpdir}"
-		local_filename="mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261102.tar.xz"
+		local_filename="mohaa-1.12-rc3.5.1-linux-i386-linuxgsm-20261114.tar.xz"
 		chmodx="nochmodx"
 		run="norun"
 		force="noforce"
-		md5="bf66cbe1f4aefb221e17924e7bf9bdb4"
+		md5="7a80a7521ab7f10d6bcbacc1b8d5371a"
 	elif [ "${shortname}" == "ns" ]; then
 		remote_fileurl="https://linuxgsm.download/NaturalSelection/ns-3.2-linux-i386-linuxgsm-20261102.tar.xz"
 		local_filedir="${tmpdir}"
@@ -314,6 +314,11 @@ elif [ -z "${appid}" ] || [ "${shortname}" == "ahl" ] || [ "${shortname}" == "q4
 		install_eula.sh
 	fi
 	fn_install_server_files
+	if [ "${shortname}" == "mohaa" ]; then
+		cp -f "${serverfiles}/dedicated_server_binaries_anticrash/mohaa/linux/mohaa_lnxded" "${serverfiles}/dedicated_server_binaries_anticrash/mohaa/linux/fgameded.so" "${serverfiles}/"
+		chmod +x "${serverfiles}/mohaa_lnxded"
+		fn_variant_files
+	fi
 fi
 
 if [ -z "${autoinstall}" ]; then
