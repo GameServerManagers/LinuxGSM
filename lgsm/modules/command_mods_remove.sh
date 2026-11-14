@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM command_mods_uninstall.sh module
+# LinuxGSM command_mods_remove.sh module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com

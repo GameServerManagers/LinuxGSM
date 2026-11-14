@@ -7,7 +7,7 @@
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-# First run requires start with no parms.
+# First run requires start with no params.
 # After first run new dirs are created.
 if [ ! -d "${serverfiles}/Creative" ]; then
 	fixname="Copy Creative directory"
