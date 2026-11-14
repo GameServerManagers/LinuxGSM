@@ -728,7 +728,7 @@ fn_dl_latest_release_github() {
 
 	# Check how many releases we got from the api and exit if we have more then one.
 	if [ "$(echo -e "${githubreleaseassets}" | jq '. | length')" -gt 1 ]; then
-		fn_print_fatal_nl "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
+		fn_print_fail_nl "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
 		fn_script_log_fail "Found more than one release to download - Please report this to the LinuxGSM issue tracker"
 	else
 		# Set variables for download via fn_fetch_file.
