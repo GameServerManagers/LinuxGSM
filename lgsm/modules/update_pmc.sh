@@ -155,6 +155,9 @@ fn_update_compare() {
 		fn_print_nl "${bold}${underline}No update${default} available"
 		fn_print_nl "* Local build: ${green}${localbuild}${default}"
 		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${variant}" ]; then
+			fn_print_nl "* Variant: ${variantname}"
+		fi
 		if [ -n "${branch}" ]; then
 			fn_print_nl "* Branch: ${branch}"
 		fi
@@ -162,6 +165,9 @@ fn_update_compare() {
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
+		if [ -n "${variant}" ]; then
+			fn_script_log_info "Variant: ${variant}"
+		fi
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -180,6 +186,8 @@ remotelocation="papermc.io"
 
 if [ "${shortname}" == "pmc" ]; then
 	paperproject="paper"
+elif [ "${shortname}" == "mc" ] && [ "${variant}" == "folia" ]; then
+	paperproject="folia"
 elif [ "${shortname}" == "mc" ]; then
 	paperproject="paper"
 elif [ "${shortname}" == "vpmc" ]; then

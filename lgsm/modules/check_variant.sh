@@ -12,8 +12,8 @@ fn_variant_list() {
 	variants=()
 	variantnames=()
 	if [ "${shortname}" == "mc" ]; then
-		variants=("vanilla" "fabric" "paper" "purpur")
-		variantnames=("Vanilla" "Fabric" "PaperMC" "Purpur")
+		variants=("vanilla" "fabric" "paper" "purpur" "folia" "leaf")
+		variantnames=("Vanilla" "Fabric" "PaperMC" "Purpur" "Folia" "Leaf")
 	fi
 }
 
@@ -28,6 +28,10 @@ fn_variant_settings() {
 			variantexecutable="./paper.jar"
 		elif [ "${variant}" == "purpur" ]; then
 			variantexecutable="./purpur.jar"
+		elif [ "${variant}" == "folia" ]; then
+			variantexecutable="./folia.jar"
+		elif [ "${variant}" == "leaf" ]; then
+			variantexecutable="./leaf.jar"
 		fi
 	fi
 	if [ "${variant}" != "${variants[0]}" ] && [ -n "${variantexecutable}" ]; then
@@ -213,13 +217,17 @@ fn_variant_record() {
 # Warns about data that does not carry across a variant change.
 fn_variant_change_warning() {
 	if [ "${shortname}" == "mc" ]; then
-		if { [ "${installedvariant}" == "paper" ] || [ "${installedvariant}" == "purpur" ]; } && { [ "${variant}" == "vanilla" ] || [ "${variant}" == "fabric" ]; }; then
+		if [[ "${installedvariant}" =~ ^(paper|purpur|folia|leaf)$ ]] && [[ "${variant}" =~ ^(vanilla|fabric)$ ]]; then
 			fn_print_warning_nl "${installedvariantname} keeps the Nether and End in world_nether and world_the_end. ${variantname} does not load them from there."
 			fn_script_log_warn "${installedvariantname} keeps the Nether and End in world_nether and world_the_end. ${variantname} does not load them from there."
 		fi
 		if [ "${installedvariant}" == "fabric" ] || [ "${variant}" == "fabric" ]; then
 			fn_print_warning_nl "Mods and plugins are not shared between ${installedvariantname} and ${variantname}."
 			fn_script_log_warn "Mods and plugins are not shared between ${installedvariantname} and ${variantname}."
+		fi
+		if [ "${variant}" == "folia" ]; then
+			fn_print_warning_nl "Folia only loads plugins that declare Folia support."
+			fn_script_log_warn "Folia only loads plugins that declare Folia support."
 		fi
 	fi
 	fn_print_info_nl "Take a backup before changing variant: ./${selfname} backup"

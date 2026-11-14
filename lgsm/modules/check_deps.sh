@@ -298,7 +298,7 @@ fn_deps_detector() {
 	# Java: Added for users using Oracle JRE to bypass check.
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
 		mcpaper=0
-		if [ "${shortname}" == "pmc" ] || [ "${variant}" == "paper" ] || [ "${variant}" == "purpur" ]; then
+		if [ "${shortname}" == "pmc" ] || [[ "${variant}" =~ ^(paper|purpur|folia|leaf)$ ]]; then
 			mcpaper=1
 		fi
 		# Is java already installed?

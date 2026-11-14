@@ -14,6 +14,10 @@ fn_update_dl() {
 	if [ "${variant}" != "vanilla" ]; then
 		echo "${remotebuild}" > "${serverfiles}/build.txt"
 	fi
+	if [ "${variant}" == "leaf" ] && [ ! -f "${serverfiles}/config/leaf-loader.yml" ]; then
+		mkdir -p "${serverfiles}/config"
+		printf '%s\n' "auto-update:" "  enabled: false" > "${serverfiles}/config/leaf-loader.yml"
+	fi
 	fn_variant_record
 	fn_clear_tmp
 }
@@ -106,6 +110,25 @@ fn_update_remotebuild_purpur() {
 	fi
 }
 
+fn_update_remotebuild_leaf() {
+	apiurl="https://api.github.com/repos/Winds-Studio/Leaf/releases"
+	remotebuildresponse=$(curl -s "${apiurl}?per_page=100")
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuildmcversion=$(echo "${remotebuildresponse}" | jq -r '.[] | select((.prerelease | not) and (.tag_name | startswith("ver-"))) | .tag_name | sub("^ver-"; "")' | sort -V | tail -n 1)
+	else
+		remotebuildmcversion="${mcversion}"
+	fi
+	remotebuildrelease=$(echo "${remotebuildresponse}" | jq -c --arg tag "ver-${remotebuildmcversion}" 'first(.[] | select(.tag_name==$tag)) | first(.assets[] | select(.name | test("^leaf-.*\\.jar$")))')
+	if [ -n "${remotebuildrelease}" ] && [ "${remotebuildrelease}" != "null" ]; then
+		remotebuildfilename=$(echo "${remotebuildrelease}" | jq -r '.name')
+		remotebuildurl=$(echo "${remotebuildrelease}" | jq -r '.browser_download_url')
+		remotebuildhash=$(echo "${remotebuildrelease}" | jq -r '.digest // "nohash" | sub("^sha256:"; "")')
+		# Combines Minecraft: Java Edition version and Leaf build. e.g 26.2-131
+		remotebuild="${remotebuildfilename#leaf-}"
+		remotebuild="${remotebuild%.jar}"
+	fi
+}
+
 fn_update_remotebuild() {
 	# Gets remote build info.
 	unset remotebuild remotebuildurl remotebuildhash
@@ -113,6 +136,8 @@ fn_update_remotebuild() {
 		fn_update_remotebuild_fabric
 	elif [ "${variant}" == "purpur" ]; then
 		fn_update_remotebuild_purpur
+	elif [ "${variant}" == "leaf" ]; then
+		fn_update_remotebuild_leaf
 	else
 		fn_update_remotebuild_vanilla
 	fi
@@ -223,7 +248,7 @@ fn_update_compare() {
 	fi
 }
 
-if [ "${variant}" == "paper" ]; then
+if [ "${variant}" == "paper" ] || [ "${variant}" == "folia" ]; then
 	update_pmc.sh
 	return
 fi
@@ -233,6 +258,8 @@ if [ "${variant}" == "fabric" ]; then
 	remotelocation="fabricmc.net"
 elif [ "${variant}" == "purpur" ]; then
 	remotelocation="purpurmc.org"
+elif [ "${variant}" == "leaf" ]; then
+	remotelocation="github.com"
 else
 	remotelocation="mojang.com"
 fi
