@@ -32,9 +32,7 @@ fn_variant_settings() {
 			variantexecutable="./fabric-server-launch.jar"
 		elif [ "${variant}" == "forge" ] || [ "${variant}" == "neoforge" ]; then
 			variantexecutable="@unix_args.txt"
-			if [[ "${preexecutable}" == *" -jar" ]]; then
-				preexecutable="${preexecutable% -jar} @user_jvm_args.txt"
-			fi
+			variantjvmargs="@user_jvm_args.txt"
 		elif [ "${variant}" == "paper" ]; then
 			variantexecutable="./paper.jar"
 		elif [ "${variant}" == "purpur" ]; then
@@ -70,6 +68,19 @@ fn_variant_settings() {
 	fi
 	if [ -n "${variantexecutabledir}" ]; then
 		executabledir="${variantexecutabledir}"
+	fi
+}
+
+# Applies variant start settings again after fn_reload_startparameters.
+fn_variant_startparameters() {
+	if [ -n "${variantstartparameters}" ]; then
+		startparameters="${variantstartparameters} ${startparameters}"
+	fi
+	if [ -n "${variantbasepath}" ]; then
+		startparameters="${startparameters} +set fs_basepath ${variantbasepath}"
+	fi
+	if [ -n "${variantjvmargs}" ] && [[ "${preexecutable}" == *" -jar" ]]; then
+		preexecutable="${preexecutable% -jar} ${variantjvmargs}"
 	fi
 }
 
