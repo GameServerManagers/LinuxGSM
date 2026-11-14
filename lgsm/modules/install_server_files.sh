@@ -240,8 +240,19 @@ if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}"
 fi
 
 echo -e ""
-echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
+if [ -n "${variantname}" ]; then
+	echo -e "${bold}${lightyellow}Installing ${gamename} Server (${variantname})${default}"
+else
+	echo -e "${bold}${lightyellow}Installing ${gamename} Server${default}"
+fi
 fn_messages_separator
+if [ -n "${variantname}" ] && [ "${#variants[@]}" -gt 1 ] && [ -z "${argvariant+x}" ]; then
+	if [ "${autoinstall}" == "1" ]; then
+		echo -e "Variants available: ${variants[*]}. Choose one with: ./${selfname} auto-install --variant <variant>"
+	else
+		echo -e "Variants available: ${variants[*]}. Choose one with: ./${selfname} install --variant <variant>"
+	fi
+fi
 
 if [ "${appid}" ]; then
 	remotelocation="SteamCMD"
