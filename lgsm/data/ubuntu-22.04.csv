@@ -1,4 +1,5 @@
 all,bc,binutils,bsdmainutils,bzip2,ca-certificates,cpio,curl,distro-info,file,gzip,hostname,jq,lib32gcc-s1,lib32stdc++6,netcat,pigz,procps,python3,tar,tmux,unzip,util-linux,uuid-runtime,wget,xz-utils
+bmp,liblua5.3-0
 steamcmd,lib32gcc-s1,lib32stdc++6,libsdl2-2.0-0:i386,steamcmd
 ac
 ahl
@@ -53,6 +54,7 @@ fivem
 fof
 gmod,libtinfo5:i386
 hcu
+hf
 hl2dm
 hldm
 hldms
@@ -76,6 +78,7 @@ luanti,libcurl4,libncursesw6,libsqlite3-0,libstdc++6,libzstd1,zlib1g
 mc,openjdk-25-jre
 mcb
 mcv
+mdt,openjdk-21-jre
 mh
 mohaa,libstdc++5:i386
 mta,libncursesw5,libxml2-utils
@@ -128,6 +131,7 @@ tf2,libcurl4-gnutls-dev:i386
 tf2c,libcurl4-gnutls-dev:i386
 tfc
 ti
+tm2020,libxml2-utils
 ts
 ts3
 tu
@@ -137,6 +141,7 @@ ut
 ut2k4
 ut3
 ut99
+vein
 vh,libc6-dev,libatomic1,libpulse-dev
 vints,dotnet-runtime-8.0
 vpmc,openjdk-21-jre

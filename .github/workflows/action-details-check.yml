@@ -93,7 +93,6 @@ jobs:
     # Skip (rather than fail the run) when create-matrix found nothing to check.
     if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.matrix != '{"include":[]}'
     needs: create-matrix
-    continue-on-error: true
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -103,12 +102,6 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ env.LGSM_REF }}
-
-      - name: Cache apt packages
-        uses: actions/cache@v6
-        with:
-          path: /var/cache/apt/archives
-          key: apt-${{ runner.os }}-libxml2-utils-jq
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libxml2-utils jq
@@ -120,7 +113,6 @@ jobs:
     name: details-check (legacy)
     if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.legacy != ''
     needs: create-matrix
-    continue-on-error: true
     runs-on: ubuntu-latest
     container: public.ecr.aws/ubuntu/ubuntu:20.04
     steps:
@@ -144,5 +136,5 @@ jobs:
           echo "linuxgsm ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/linuxgsm
           chown -R linuxgsm:linuxgsm "${GITHUB_WORKSPACE}"
           chmod a+w "${GITHUB_STEP_SUMMARY}"
-          sudo -u linuxgsm -H env LGSM_REF="${LGSM_REF}" GITHUB_WORKSPACE="${GITHUB_WORKSPACE}" GITHUB_STEP_SUMMARY="${GITHUB_STEP_SUMMARY}" \
+          sudo -u linuxgsm -H env CI="${CI}" LGSM_REF="${LGSM_REF}" GITHUB_WORKSPACE="${GITHUB_WORKSPACE}" GITHUB_STEP_SUMMARY="${GITHUB_STEP_SUMMARY}" \
             "${GITHUB_WORKSPACE}/.github/scripts/details-check-run.sh" ${{ needs.create-matrix.outputs.legacy }}

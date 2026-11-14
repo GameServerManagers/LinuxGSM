@@ -765,7 +765,7 @@ fn_info_messages_ports_edit() {
 
 	startparameterslocation="${red}UNKNOWN${default}"
 	# engines/games that require editing in the config file.
-	local ports_edit_array=("ac" "arma3" "armar" "bfe" "bo" "bt" "ct" "dst" "eco" "fivem" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
+	local ports_edit_array=("ac" "arma3" "armar" "bfe" "bo" "bt" "ct" "dst" "eco" "fivem" "hf" "idtech2" "idtech3" "idtech3_ql" "jc2" "jc3" "lwjgl2" "maniaplanet" "mcb" "nec" "pc" "pc2" "prism3d" "pz" "qw" "refractor" "renderware" "rw" "rwr" "sb" "sdtd" "st" "stn" "ts3" "tw" "terraria" "unreal" "unreal2" "unreal3" "vints" "xnt" "wurm")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${shortname}" == "ut3" ]; then
 			startparameterslocation="${servercfgdir}/UTWeb.ini"
@@ -776,7 +776,7 @@ fn_info_messages_ports_edit() {
 		fi
 	done
 	# engines/games that require editing the start parameters.
-	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vh")
+	local ports_edit_array=("av" "ce" "ck" "col" "cs2" "fctr" "goldsrc" "hcu" "hw" "bmp" "mdt" "hyt" "luanti" "iw3.0" "ioquake3" "openra" "pw" "qfusion" "rsdw" "rust" "scpsl" "sf" "sol" "spark" "source" "unreal4" "arma3" "dayz" "unt" "vein" "vh")
 	for port_edit in "${ports_edit_array[@]}"; do
 		if [ "${engine}" == "${port_edit}" ] || [ "${gamename}" == "${port_edit}" ] || [ "${shortname}" == "${port_edit}" ]; then
 			startparameterslocation="${configdirserver}"
@@ -802,6 +802,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep ConanSandbox"
 	elif [ "${shortname}" == "dayz" ]; then
 		portcommand="ss -tuplwn | grep enfMain"
+	elif [ "${shortname}" == "hf" ]; then
+		portcommand="ss -tuplwn | grep Holdfast"
 	elif [ "${shortname}" == "q4" ]; then
 		portcommand="ss -tuplwn | grep q4ded.x86"
 	elif [ "${shortname}" == "fivem" ]; then
@@ -812,6 +814,8 @@ fn_info_messages_ports() {
 		portcommand="ss -tuplwn | grep java"
 	elif [ "${shortname}" == "terraria" ]; then
 		portcommand="ss -tuplwn | grep Main"
+	elif [ "${shortname}" == "vein" ]; then
+		portcommand="ss -tuplwn | grep VeinServer-Linu"
 	elif [ "${shortname}" == "sm" ]; then
 		portcommand="ss -tuplwn | grep WSServer-Linux"
 	elif [ "${querytype}" == "protocol-valve-won" ]; then
@@ -821,7 +825,7 @@ fn_info_messages_ports() {
 	elif [ "${engine}" == "goldsrc" ]; then
 		portcommand="ss -tuplwn | grep hlds_linux"
 	else
-		executableshort="$(basename "${executable}" | cut -c -15)"
+		executableshort="$(basename "${executable//\"/}" | cut -c -15)"
 		portcommand="ss -tuplwn | grep ${executableshort}"
 	fi
 	echo -e "${portcommand}"
@@ -897,9 +901,19 @@ fn_port() {
 		echo -e "${lightblue}DESCRIPTION\tPORT\tPROTOCOL\tLISTEN${default}"
 	else
 		portname="${1}"
-		porttype="${2}"
+		portvalue="${!2}"
 		portprotocol="${3}"
-		echo -e "${portname}\t${!porttype}\t${portprotocol}\t$(echo "${ssinfo}" | grep "${portprotocol}" | grep -c "${!porttype}")"
+		portlisten="-"
+		if [[ "${portvalue}" =~ ^[0-9]+$ ]] && [ "${portvalue}" -gt 0 ]; then
+			portlisten="0"
+			while read -r netid _ _ _ localaddr _; do
+				if [ "${netid}" == "${portprotocol}" ] && [ "${localaddr##*:}" == "${portvalue}" ]; then
+					portlisten="1"
+					break
+				fi
+			done <<< "${ssinfo}"
+		fi
+		echo -e "${portname}\t${portvalue}\t${portprotocol}\t${portlisten}"
 	fi
 }
 
@@ -908,7 +922,6 @@ fn_info_messages_ac() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Game" port tcp
-		fn_port "Query" queryport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
@@ -930,7 +943,6 @@ fn_info_messages_arma3() {
 		fn_port "Voice" voiceport udp
 		fn_port "Query" queryport udp
 		fn_port "Steam" steamport udp
-		fn_port "Voice (unused)" voiceunusedport udp
 		fn_port "BattleEye" battleeyeport udp
 	} | column -s $'\t' -t
 }
@@ -940,7 +952,7 @@ fn_info_messages_armar() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "BattleEye" battleeyeport tcp
+		fn_port "RCON" rconport udp
 	} | column -s $'\t' -t
 }
 
@@ -1075,9 +1087,7 @@ fn_info_messages_codwaw() {
 fn_info_messages_col() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
-		fn_port "Steam" steamport tcp
+		fn_port "Game" port tcp
 	} | column -s $'\t' -t
 }
 
@@ -1085,7 +1095,7 @@ fn_info_messages_cs2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1093,7 +1103,7 @@ fn_info_messages_csgo() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
@@ -1132,7 +1142,6 @@ fn_info_messages_dst() {
 		fn_port "Game: Server" port udp
 		fn_port "Game: Master" masterport udp
 		fn_port "Steam" steamport udp
-		fn_port "Steam: Auth" steamauthport udp
 	} | column -s $'\t' -t
 }
 
@@ -1174,12 +1183,7 @@ fn_info_messages_goldsrc() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		if [ "${querytype}" == "protocol-valve-won" ]; then
-			fn_port "Query" queryport udp
-		else
-			fn_port "Query" queryport tcp
-		fi
-		fn_port "Client" clientport udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1187,7 +1191,14 @@ fn_info_messages_hcu() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_hf() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1219,7 +1230,7 @@ fn_info_messages_ins() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		fn_port "Client" clientport udp
@@ -1248,7 +1259,6 @@ fn_info_messages_jc3() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam" steamport udp
 		fn_port "HTTP" httpport tcp
 	} | column -s $'\t' -t
 }
@@ -1257,6 +1267,7 @@ fn_info_messages_jk2() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "HTTP Downloads" httpport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1276,7 +1287,6 @@ fn_info_messages_kf() {
 		fn_port "Query - Gamespy" gamespyqueryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 	echo -e ""
 	echo -e "${bold}${lightgreen}${servername} Web Interface${default}"
@@ -1365,6 +1375,24 @@ fn_info_messages_nec() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_ns2c() {
+	fn_info_messages_password_strip
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport udp
+		fn_port "Web Interface" httpport tcp
+	} | column -s $'\t' -t
+	echo -e ""
+	echo -e "${bold}${lightgreen}${gamename} Web Interface${default}"
+	fn_messages_separator
+	{
+		echo -e "${lightblue}Web Interface url:\t${default}http://${httpip}:${httpport}/index.html"
+		echo -e "${lightblue}Web Interface username:\t${default}${httpuser}"
+		echo -e "${lightblue}Web Interface password:\t${default}${httppassword}"
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_ohd() {
 	{
 		fn_port "header"
@@ -1425,7 +1453,8 @@ fn_info_messages_pw() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Steam" steamport udp
-		fn_port "Unknown" unknownport tcp
+		fn_port "RCON" rconport tcp
+		fn_port "REST API" restapiport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1433,7 +1462,9 @@ fn_info_messages_pz() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Direct Connection" udpport udp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
 
@@ -1486,7 +1517,6 @@ fn_info_messages_ro() {
 		fn_port "Query - Unreal 2" unreal2queryport udp
 		fn_port "Web Interface" httpport tcp
 		fn_port "LAN" lanport udp
-		fn_port "Steam" steamport udp
 
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1550,6 +1580,7 @@ fn_info_messages_rw() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
+		fn_port "Query" queryport udp
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
@@ -1566,7 +1597,7 @@ fn_info_messages_samp() {
 fn_info_messages_sb() {
 	{
 		fn_port "header"
-		fn_port "Game" port udp
+		fn_port "Game" port tcp
 		fn_port "Query" queryport tcp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
@@ -1629,8 +1660,8 @@ fn_info_messages_sm() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1654,7 +1685,7 @@ fn_info_messages_sol() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
+		fn_port "Game" port tcp
 		fn_port "Files" filesport tcp
 	} | column -s $'\t' -t
 }
@@ -1671,7 +1702,7 @@ fn_info_messages_source() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport tcp
+		fn_port "Query" queryport udp
 		fn_port "RCON" rconport tcp
 		fn_port "SourceTV" sourcetvport udp
 		# Will not show if unavailable
@@ -1706,6 +1737,7 @@ fn_info_messages_squad() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
@@ -1769,7 +1801,6 @@ fn_info_messages_tu() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
-		fn_port "Steam" steamport udp
 	} | column -s $'\t' -t
 }
 
@@ -1844,7 +1875,6 @@ fn_info_messages_ut3() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Query" queryport udp
 		fn_port "Web Interface" httpport tcp
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1858,11 +1888,45 @@ fn_info_messages_ut3() {
 	} | column -s $'\t' -t
 }
 
+fn_info_messages_vein() {
+	{
+		fn_port "header"
+		fn_port "Game" port udp
+		fn_port "Query" queryport tcp
+		fn_port "Steam" steamport udp
+	} | column -s $'\t' -t
+}
+
 fn_info_messages_vh() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_mdt() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Game" port udp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_maniaplanet() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Game" port udp
+		fn_port "XML-RPC" queryport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_bmp() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Game" port udp
 	} | column -s $'\t' -t
 }
 
@@ -1907,6 +1971,14 @@ fn_info_messages_wf() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "HTTP" httpport tcp
+	} | column -s $'\t' -t
+}
+
+fn_info_messages_wmc() {
+	{
+		fn_port "header"
+		fn_port "Game" port tcp
+		fn_port "Query" queryport udp
 	} | column -s $'\t' -t
 }
 
@@ -1990,6 +2062,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_fivem
 	elif [ "${shortname}" == "hcu" ]; then
 		fn_info_messages_hcu
+	elif [ "${shortname}" == "hf" ]; then
+		fn_info_messages_hf
 	elif [ "${shortname}" == "hw" ]; then
 		fn_info_messages_hw
 	elif [ "${shortname}" == "hz" ]; then
@@ -2012,7 +2086,7 @@ fn_info_messages_select_engine() {
 		fn_info_messages_kf
 	elif [ "${shortname}" == "kf2" ]; then
 		fn_info_messages_kf2
-	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "wmc" ]; then
+	elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 		fn_info_messages_mc
 	elif [ "${shortname}" == "mcb" ]; then
 		fn_info_messages_mcb
@@ -2024,6 +2098,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_mta
 	elif [ "${shortname}" == "nec" ]; then
 		fn_info_messages_nec
+	elif [ "${shortname}" == "ns2c" ]; then
+		fn_info_messages_ns2c
 	elif [ "${shortname}" == "ohd" ]; then
 		fn_info_messages_ohd
 	elif [ "${shortname}" == "pc" ]; then
@@ -2094,8 +2170,16 @@ fn_info_messages_select_engine() {
 		fn_info_messages_tw
 	elif [ "${shortname}" == "unt" ]; then
 		fn_info_messages_unt
+	elif [ "${shortname}" == "vein" ]; then
+		fn_info_messages_vein
 	elif [ "${shortname}" == "vh" ]; then
 		fn_info_messages_vh
+	elif [ "${engine}" == "maniaplanet" ]; then
+		fn_info_messages_maniaplanet
+	elif [ "${shortname}" == "bmp" ]; then
+		fn_info_messages_bmp
+	elif [ "${shortname}" == "mdt" ]; then
+		fn_info_messages_mdt
 	elif [ "${shortname}" == "luanti" ]; then
 		fn_info_messages_luanti
 	elif [ "${shortname}" == "orar" ]; then
@@ -2118,6 +2202,8 @@ fn_info_messages_select_engine() {
 		fn_info_messages_wet
 	elif [ "${shortname}" == "wf" ]; then
 		fn_info_messages_wf
+	elif [ "${shortname}" == "wmc" ]; then
+		fn_info_messages_wmc
 	elif [ "${shortname}" == "wurm" ]; then
 		fn_info_messages_wurm
 	elif [ "${shortname}" == "xnt" ]; then

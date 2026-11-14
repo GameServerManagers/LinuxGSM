@@ -256,10 +256,28 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
-if [ "${shortname}" == "luanti" ]; then
-	fn_check_cfgdir
-	if [ ! -e "${servercfgfullpath}" ] && [ ! -L "${servercfgfullpath}" ]; then
-		cp "${serverfiles}/${servercfgdefault}" "${servercfgfullpath}"
+if [ "${shortname}" == "tm2020" ]; then
+	array_configs+=(dedicated_cfg.default.txt)
+	fn_default_config_remote
+	fn_set_config_vars
+	echo -e "Trackmania 2020 requires a dedicated server account from ${italic}https://www.trackmania.com/${default}"
+	echo -e "Set login and password in the masterserver_account section of ${servercfgfullpath}"
+	fn_list_config_locations
+elif [ "${shortname}" == "bmp" ]; then
+	array_configs+=(ServerConfig.toml)
+	fn_default_config_remote
+	fn_set_config_vars
+	echo -e "BeamMP requires an AuthKey from ${italic}https://keymaster.beammp.com${default}"
+	echo -e "Set AuthKey in ${servercfgfullpath}"
+	fn_list_config_locations
+elif [ "${shortname}" == "luanti" ]; then
+	luanticfgexisted="0"
+	if [ -e "${servercfgfullpath}" ] || [ -L "${servercfgfullpath}" ]; then
+		luanticfgexisted="1"
+	fi
+	array_configs+=(minetest.conf.example)
+	fn_default_config_remote
+	if [ "${luanticfgexisted}" == "0" ] && [ -f "${servercfgfullpath}" ]; then
 		{
 			echo "server_name = LinuxGSM"
 			echo "name = admin"
@@ -268,6 +286,10 @@ if [ "${shortname}" == "luanti" ]; then
 			echo "max_users = 20"
 		} >> "${servercfgfullpath}"
 	fi
+	fn_list_config_locations
+elif [ "${shortname}" == "vein" ]; then
+	array_configs+=(Game.ini)
+	fn_default_config_remote
 	fn_list_config_locations
 elif [ "${shortname}" == "orar" ]; then
 	fn_check_cfgdir
@@ -536,6 +558,14 @@ elif [ "${shortname}" == "hl2dm" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "hf" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
+		fn_default_config_local
+		echo -e ""
+		sed -i -e "s/^server_name .*/server_name SERVERNAME/" -e "s/^server_admin_password .*/server_admin_password ADMINPASSWORD/" "${servercfgfullpath}"
+		fn_set_config_vars
+	fi
 	fn_list_config_locations
 elif [ "${shortname}" == "hz" ]; then
 	# Config is generated on first run

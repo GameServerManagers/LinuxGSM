@@ -236,6 +236,19 @@ fn_alert_info() {
 	alertcolourdec="2003199"
 }
 
+if [ "${alert}" == "monitor-session" ] || [ "${alert}" == "monitor-query" ]; then
+	if [[ "${alertcooldown}" =~ ^[0-9]+$ ]] && [ "${alertcooldown}" -gt 0 ]; then
+		alertcooldownfile="${lockdir}/${selfname}-alert-monitor.lock"
+		alertnow="$(date '+%s')"
+		alertlast="$(head -n 1 "${alertcooldownfile}" 2> /dev/null)"
+		if [[ "${alertlast}" =~ ^[0-9]+$ ]] && [ "$((alertnow - alertlast))" -lt "$((alertcooldown * 60))" ]; then
+			fn_script_log_info "Alert skipped: last monitor alert was sent less than ${alertcooldown} minutes ago"
+			return
+		fi
+		echo "${alertnow}" > "${alertcooldownfile}"
+	fi
+fi
+
 info_distro.sh
 info_game.sh
 info_messages.sh
