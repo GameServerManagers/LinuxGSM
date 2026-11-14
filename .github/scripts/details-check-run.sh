@@ -15,6 +15,7 @@ declare -A roundtripallow=(
 	["cmwserver:adminpassword"]="AdminPassword in the config is not parsed"
 	["codwawserver:adminpassword"]="parser reads rcon_password, stock config sets rconpassword"
 	["ecoserver:ports"]="jq prints null when RconServerPort is missing from the stock config"
+	["hfserver:config"]="serverconfig_default.txt ships with the game, not Game-Server-Configs"
 	["ohdserver:servername"]="ServerName in Game.ini is not parsed"
 	["wetserver:adminpassword"]="parser reads zmq_rcon_password, stock config sets rconpassword"
 )
@@ -98,8 +99,17 @@ for shortname in "$@"; do
 		[[ "${cfgpath}" == \$\{*\}/* ]] && cfgpath="${cfgpath#*\}/}"
 		curl -fsS -o config-stock "https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main/${shortname}/${cfgpath}"
 		config=$?
-		[ "${config}" -eq 0 ] && cat config-stock && cp config-stock config
-		configresult=$(result "${config}")
+		if [ "${config}" -eq 0 ]; then
+			cat config-stock
+			cp config-stock config
+			configresult=$(result "${config}")
+		elif fn_allowed config; then
+			rm -f config-stock
+			config=0
+			configresult="➖ none (allowed)"
+		else
+			configresult=$(result "${config}")
+		fi
 	else
 		echo "This game server has no config file."
 		config=0
