@@ -947,6 +947,11 @@ install_eula.sh() {
 	fn_fetch_module
 }
 
+install_openmohaa.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 install_factorio_save.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
