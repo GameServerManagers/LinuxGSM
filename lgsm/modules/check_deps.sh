@@ -148,6 +148,17 @@ fn_deps_email() {
 	fi
 }
 
+fn_deps_mqtt() {
+	# Adds mosquitto client to required dependencies if MQTT alert is enabled.
+	if [ "${mqttalert}" == "on" ]; then
+		if [ "$(command -v yum 2> /dev/null)" ] || [ "$(command -v dnf 2> /dev/null)" ]; then
+			array_deps_required+=(mosquitto)
+		elif [ "$(command -v apt 2> /dev/null)" ]; then
+			array_deps_required+=(mosquitto-clients)
+		fi
+	fi
+}
+
 fn_install_missing_deps() {
 	# If any dependencies are not installed.
 	if [ "${#array_deps_missing[*]}" != "0" ]; then
@@ -510,6 +521,7 @@ if [ -f "${datadir}/${distroid}-${distroversioncsv}.csv" ]; then
 	array_deps_required=("${depall} ${depsteamcmd} ${depshortname}")
 	array_deps_required_steamcmd=("${depsteamcmd}")
 	fn_deps_email
+	fn_deps_mqtt
 	if [ "${logtimestamp}" == "on" ]; then
 		array_deps_required+=(gawk)
 	fi

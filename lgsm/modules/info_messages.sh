@@ -587,6 +587,7 @@ fn_info_messages_script() {
 	# Gotify alert:           off
 	# IFTTT alert:            off
 	# Matrix alert:           off
+	# MQTT alert:             off
 	# ntfy alert:             off
 	# Pushbullet alert:       off
 	# Pushover alert:         off
@@ -642,6 +643,10 @@ fn_info_messages_script() {
 		# Matrix alert
 		if [ "${matrixalert}" == "on" ]; then
 			echo -e "${lightblue}Matrix alert:\t${default}${matrixalert}"
+		fi
+		# MQTT alert
+		if [ "${mqttalert}" == "on" ]; then
+			echo -e "${lightblue}MQTT alert:\t${default}${mqttalert}"
 		fi
 		# ntfy alert
 		if [ "${ntfyalert}" == "on" ]; then
