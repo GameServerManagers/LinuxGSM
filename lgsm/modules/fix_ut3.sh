@@ -1,5 +1,5 @@
 #!/bin/bash
-# LinuxGSM fix_ut2.sh module
+# LinuxGSM fix_ut3.sh module
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
