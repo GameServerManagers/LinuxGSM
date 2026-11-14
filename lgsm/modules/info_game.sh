@@ -66,13 +66,11 @@ fn_info_game_keyvalue_pairs_space() {
 	# sed is used to process the file.
 	# -n: Suppresses automatic printing of pattern space.
 	# /^\<'"${2}"'\>/: Matches lines starting with the word provided as the second argument ($2), considering it as a whole word.
-	# { s/.*  *"\?\([^"]*\)"\?/\1/p;q }: Command block executed for lines that match the pattern.
-	#   - s/.*  *"\?\([^"]*\)"\?/\1/: Matches and captures the value after an space ( ), possibly surrounded by optional double quotes.
-	#     - .*: Matches any characters before the space.
-	#     - = *"\?: Matches the space and any optional spaces before an optional double quote.
-	#     - \([^"]*\): Captures any characters that are not double quotes.
-	#     - "\?: Matches an optional double quote.
-	#     - /1: Replaces the entire matched pattern with the captured value.
+	# { ...;p;q }: Command block executed for the first line that matches the pattern.
+	#   - s/^[^[:space:]]*[[:space:]]*//: Removes the key and the whitespace after it, leaving the whole value.
+	#   - /^"/! s/[[:space:]]\+#.*$//: Removes a trailing # comment when the value is not quoted.
+	#   - s/[[:space:]]*$//: Removes trailing whitespace.
+	#   - s/^"\([^"]*\)".*$/\1/: Keeps only the text inside the quotes when the value is quoted.
 	#   - p: Prints the modified line.
 	#   - q: Quits processing after modifying and printing the line.
 
@@ -81,7 +79,7 @@ fn_info_game_keyvalue_pairs_space() {
 	else
 		servercfgparse="${servercfgfullpath}"
 	fi
-	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/.*  *\"\?\([^"]*\)\"\?/\1/p;q }' "${servercfgparse}" | tr -d '\r')"
+	printf -v "${1}" '%s' "$(sed -n '/^\<'"${2}"'\>/ { s/^[^[:space:]]*[[:space:]]*//; /^"/! s/[[:space:]]\+#.*$//; s/[[:space:]]*$//; s/^"\([^"]*\)".*$/\1/; p; q }' "${servercfgparse}" | tr -d '\r')"
 	configtype="keyvalue_pairs"
 }
 
