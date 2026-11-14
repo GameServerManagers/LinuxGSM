@@ -1322,10 +1322,12 @@ fn_info_game_etl() {
 # Filetype: cfg
 fn_info_game_fivem() {
 	if [ -f "${servercfgfullpath}" ]; then
-		servername="$(sed -n 's/^sv_hostname[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
-		maxplayers="$(sed -n 's/^sv_maxclients[[:space:]]\+\([0-9]*\).*/\1/p' "${servercfgfullpath}" | head -1)"
-		rconpassword="$(sed -n 's/^rcon_password[[:space:]]\+"\?\([^"]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1 | tr -d '\r')"
-		port="$(sed -n 's/^endpoint_add_udp[[:space:]]\+"\?[^:"]*:\([0-9]*\)"\?.*/\1/p' "${servercfgfullpath}" | head -1)"
+		local cfgvalue='s/^[[:space:]]*\(set[rs]\?[[:space:]]\+\)\?[^[:space:]]*[[:space:]]*//; /^"/! s/[[:space:]]\+\(#\|\/\/\).*$//; s/[[:space:]]*$//; s/^"\([^"]*\)".*$/\1/; p'
+		servername="$(sed -n "/^[[:space:]]*\(set[rs]\?[[:space:]]\+\)\?sv_hostname[[:space:]]/ { ${cfgvalue} }" "${servercfgfullpath}" | tail -n 1)"
+		maxplayers="$(sed -n "/^[[:space:]]*\(set[rs]\?[[:space:]]\+\)\?sv_maxclients[[:space:]]/ { ${cfgvalue} }" "${servercfgfullpath}" | tail -n 1)"
+		rconpassword="$(sed -n "/^[[:space:]]*\(set[rs]\?[[:space:]]\+\)\?rcon_password[[:space:]]/ { ${cfgvalue} }" "${servercfgfullpath}" | tail -n 1)"
+		port="$(sed -n "/^[[:space:]]*endpoint_add_udp[[:space:]]/ { ${cfgvalue} }" "${servercfgfullpath}" | head -n 1)"
+		port="${port##*:}"
 	fi
 	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
@@ -1907,10 +1909,10 @@ fn_info_game_rwr() {
 		startscriptfile="${servercfgfullpath}"
 	fi
 	if [ -f "${startscriptfile}" ]; then
-		servername="$(sed -n "s/.*server_name='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
-		port="$(sed -n "s/.*server_port='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
-		maxplayers="$(sed -n "s/.*max_players='\([0-9]*\)'.*/\1/p" "${startscriptfile}" | head -1)"
-		gamemode="$(sed -n "s/.*mode='\([^']*\)'.*/\1/p" "${startscriptfile}" | head -1)"
+		servername="$(sed -nE "/^[[:space:]]*\/\//! s/^(.*[[:space:]<])?server_name=('([^']*)'|\"([^\"]*)\").*/\3\4/p" "${startscriptfile}" | head -n 1)"
+		port="$(sed -nE "/^[[:space:]]*\/\//! s/^(.*[[:space:]<])?server_port=('([^']*)'|\"([^\"]*)\").*/\3\4/p" "${startscriptfile}" | head -n 1)"
+		maxplayers="$(sed -nE "/^[[:space:]]*\/\//! s/^(.*[[:space:]<])?max_players=('([^']*)'|\"([^\"]*)\").*/\3\4/p" "${startscriptfile}" | head -n 1)"
+		gamemode="$(sed -nE "/^[[:space:]]*\/\//! s/^(.*[[:space:]<])?mode=('([^']*)'|\"([^\"]*)\").*/\3\4/p" "${startscriptfile}" | head -n 1)"
 	fi
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
