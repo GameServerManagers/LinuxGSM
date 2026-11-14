@@ -69,7 +69,7 @@ if [ "$(cat "${statsstamp}" 2> /dev/null)" != "${statsdate}" ] && [ "$(command -
 	statsfilesgb="$(awk -v v="${serverfilesdu}" 'BEGIN{n=v+0; u=substr(v,length(v)); if(u=="K")n/=1048576; else if(u=="M")n/=1024; else if(u=="T")n*=1024; printf "%.2f", n}')"
 
 	statsalerts=""
-	for statsalerttype in discord email gotify ifttt matrix ntfy pushbullet pushover rocketchat slack telegram; do
+	for statsalerttype in discord email gotify ifttt matrix mqtt ntfy pushbullet pushover rocketchat slack telegram; do
 		statsalertvar="${statsalerttype}alert"
 		if [ "${!statsalertvar}" == "on" ]; then
 			statsalerts+="${statsalerttype} "

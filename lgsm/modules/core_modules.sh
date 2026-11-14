@@ -714,6 +714,11 @@ alert_matrix.sh() {
 	fn_fetch_module
 }
 
+alert_mqtt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 alert_ntfy.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
