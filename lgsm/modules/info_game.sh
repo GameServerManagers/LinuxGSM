@@ -991,7 +991,7 @@ fn_info_game_bfe() {
 # Filetype: con
 fn_info_game_bfv() {
 	if [ -f "${servercfgfullpath}" ]; then
-		fn_info_game_keyvalue_pairs_space "configip" "game.serverIp"
+		fn_info_game_keyvalue_pairs_space "configip" "game.serverIP"
 		fn_info_game_keyvalue_pairs_space "maxplayers" "game.serverMaxPlayers"
 		fn_info_game_keyvalue_pairs_space "port" "game.serverPort"
 		fn_info_game_keyvalue_pairs_space "servername" "game.serverName"
