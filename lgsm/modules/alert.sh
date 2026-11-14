@@ -320,7 +320,7 @@ elif [ "${discordalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${discordtoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Discord token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/discord"
-	fn_script_error "Discord token not set"
+	fn_script_log_error "Discord token not set"
 fi
 
 if [ "${emailalert}" == "on" ] && [ -n "${email}" ]; then
@@ -341,11 +341,11 @@ elif [ "${gotifyalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${gotifytoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Gotify token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
-	fn_script_error "Gotify token not set"
+	fn_script_log_error "Gotify token not set"
 elif [ -z "${gotifywebhook}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Gotify webhook not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/gotify"
-	fn_script_error "Gotify webhook not set"
+	fn_script_log_error "Gotify webhook not set"
 fi
 
 if [ "${iftttalert}" == "on" ] && [ -n "${iftttalert}" ]; then
@@ -356,7 +356,7 @@ elif [ "${iftttalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${ifttttoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "IFTTT token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/ifttt"
-	fn_script_error "IFTTT token not set"
+	fn_script_log_error "IFTTT token not set"
 fi
 
 if [ "${pushbulletalert}" == "on" ] && [ -n "${pushbullettoken}" ]; then
@@ -367,7 +367,7 @@ elif [ "${pushbulletalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; t
 elif [ -z "${pushbullettoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Pushbullet token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/pushbullet"
-	fn_script_error "Pushbullet token not set"
+	fn_script_log_error "Pushbullet token not set"
 fi
 
 if [ "${pushoveralert}" == "on" ] && [ -n "${pushoveralert}" ]; then
@@ -378,7 +378,7 @@ elif [ "${pushoveralert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; the
 elif [ -z "${pushovertoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Pushover token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/pushover"
-	fn_script_error "Pushover token not set"
+	fn_script_log_error "Pushover token not set"
 fi
 
 if [ "${telegramalert}" == "on" ] && [ -n "${telegramtoken}" ]; then
@@ -389,11 +389,11 @@ elif [ "${telegramalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; the
 elif [ -z "${telegramtoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Telegram token not set."
 	echo -e "* https://docs.linuxgsm.com/alerts/telegram"
-	fn_script_error "Telegram token not set."
+	fn_script_log_error "Telegram token not set."
 elif [ -z "${telegramchatid}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Telegram chat id not set."
 	echo -e "* https://docs.linuxgsm.com/alerts/telegram"
-	fn_script_error "Telegram chat id not set."
+	fn_script_log_error "Telegram chat id not set."
 fi
 
 if [ "${rocketchatalert}" == "on" ] && [ -n "${rocketchatalert}" ]; then
@@ -404,7 +404,7 @@ elif [ "${rocketchatalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; t
 elif [ -z "${rocketchatwebhook}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Rocketchat token not set"
 	#echo -e "* https://docs.linuxgsm.com/alerts/slack"
-	fn_script_error "Rocketchat token not set"
+	fn_script_log_error "Rocketchat token not set"
 fi
 
 if [ "${slackalert}" == "on" ] && [ -n "${slackalert}" ]; then
@@ -415,7 +415,7 @@ elif [ "${slackalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${slacktoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Slack token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/slack"
-	fn_script_error "Slack token not set"
+	fn_script_log_error "Slack token not set"
 fi
 
 if [ "${matrixalert}" == "on" ] && [ -n "${matrixhomeserver}" ] && [ -n "${matrixtoken}" ] && [ -n "${matrixroom}" ]; then
@@ -426,15 +426,15 @@ elif [ "${matrixalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${matrixhomeserver}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Matrix homeserver not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
-	fn_script_error "Matrix homeserver not set"
+	fn_script_log_error "Matrix homeserver not set"
 elif [ -z "${matrixtoken}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Matrix token not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
-	fn_script_error "Matrix token not set"
+	fn_script_log_error "Matrix token not set"
 elif [ -z "${matrixroom}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "Matrix room not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/matrix"
-	fn_script_error "Matrix room not set"
+	fn_script_log_error "Matrix room not set"
 fi
 
 if [ "${ntfyalert}" == "on" ] && [ -n "${ntfytopic}" ]; then
@@ -445,7 +445,7 @@ elif [ "${ntfyalert}" != "on" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 elif [ -z "${ntfytopic}" ] && [ "${commandname}" == "TEST-ALERT" ]; then
 	fn_print_error_nl "ntfy topic not set"
 	echo -e "* https://docs.linuxgsm.com/alerts/ntfy"
-	fn_script_error "ntfy topic not set"
+	fn_script_log_error "ntfy topic not set"
 fi
 
 if [ "${mqttalert}" == "on" ] && [ -n "${mqtthost}" ] && [ -n "${mqttport}" ] && [ -n "${mqtttopic}" ]; then
