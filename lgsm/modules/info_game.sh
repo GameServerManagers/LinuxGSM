@@ -1374,14 +1374,14 @@ fn_info_game_fctr() {
 # Filetype: txt
 fn_info_game_hf() {
 	if [ -f "${servercfgfullpath}" ]; then
-		servername="$(sed -n 's/^[[:blank:]]*server_name[[:blank:]]\+\(.*[^[:blank:]#]\)[[:blank:]#]*$/\1/p' "${servercfgfullpath}" | head -n 1)"
-		adminpassword="$(sed -n 's/^[[:blank:]]*server_admin_password[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		serverpassword="$(sed -n 's/^[[:blank:]]*server_password[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		port="$(sed -n 's/^[[:blank:]]*server_port[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		queryport="$(sed -n 's/^[[:blank:]]*steam_query_port[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		maxplayers="$(sed -n 's/^[[:blank:]]*maximum_players[[:blank:]]\+\([0-9]\+\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		defaultmap="$(sed -n 's/^[[:blank:]]*map_name[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
-		gamemode="$(sed -n 's/^[[:blank:]]*game_mode[[:blank:]]\+\([^[:blank:]#]*\).*/\1/p' "${servercfgfullpath}" | head -n 1)"
+		fn_info_game_keyvalue_pairs_space "adminpassword" "server_admin_password"
+		fn_info_game_keyvalue_pairs_space "defaultmap" "map_name"
+		fn_info_game_keyvalue_pairs_space "gamemode" "game_mode"
+		fn_info_game_keyvalue_pairs_space "maxplayers" "maximum_players"
+		fn_info_game_keyvalue_pairs_space "port" "server_port"
+		fn_info_game_keyvalue_pairs_space "queryport" "steam_query_port"
+		fn_info_game_keyvalue_pairs_space "servername" "server_name"
+		fn_info_game_keyvalue_pairs_space "serverpassword" "server_password"
 	fi
 	servername="${servername:-"NOT SET"}"
 	adminpassword="${adminpassword:-"NOT SET"}"
