@@ -559,6 +559,14 @@ elif [ "${shortname}" == "hl2dm" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "hf" ]; then
+	if [ ! -f "${servercfgfullpath}" ]; then
+		fn_default_config_local
+		echo -e ""
+		sed -i -e "s/^server_name .*/server_name SERVERNAME/" -e "s/^server_admin_password .*/server_admin_password ADMINPASSWORD/" "${servercfgfullpath}"
+		fn_set_config_vars
+	fi
+	fn_list_config_locations
 elif [ "${shortname}" == "hz" ]; then
 	# Config is generated on first run
 	:

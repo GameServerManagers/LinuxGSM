@@ -106,7 +106,7 @@ fn_check_permissions() {
 
 	# Check if executable is executable and attempt to fix it.
 	# First get executable name.
-	execname=$(basename "${executable}")
+	execname=$(basename "${executable//\"/}")
 	if [ -f "${executabledir}/${execname}" ] && [ ! -x "${executabledir}/${execname}" ]; then
 		# Get permission numbers on file under the form 775.
 		execperm=$(stat -c %a "${executabledir}/${execname}")
