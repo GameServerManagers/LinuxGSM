@@ -14,6 +14,9 @@ fn_variant_list() {
 	if [ "${shortname}" == "mc" ]; then
 		variants=("vanilla" "fabric" "paper" "purpur" "folia" "leaf")
 		variantnames=("Vanilla" "Fabric" "PaperMC" "Purpur" "Folia" "Leaf")
+	elif [ "${shortname}" == "mohaa" ]; then
+		variants=("alliedassault" "spearhead")
+		variantnames=("Allied Assault" "Spearhead")
 	fi
 }
 
@@ -32,6 +35,12 @@ fn_variant_settings() {
 			variantexecutable="./folia.jar"
 		elif [ "${variant}" == "leaf" ]; then
 			variantexecutable="./leaf.jar"
+		fi
+	elif [ "${shortname}" == "mohaa" ]; then
+		if [ "${variant}" == "alliedassault" ]; then
+			variantexecutable="./mohaa_lnxded"
+		elif [ "${variant}" == "spearhead" ]; then
+			variantexecutable="./spearhead_lnxded"
 		fi
 	fi
 	if [ "${variant}" != "${variants[0]}" ] && [ -n "${variantexecutable}" ]; then
