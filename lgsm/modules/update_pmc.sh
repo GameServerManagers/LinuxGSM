@@ -12,6 +12,9 @@ fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "forcedl" "${remotebuildhash}"
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${executable#./}"
 	echo "${remotebuild}" > "${serverfiles}/build.txt"
+	if [ -n "${variant}" ]; then
+		fn_variant_record
+	fi
 	fn_clear_tmp
 }
 
@@ -19,7 +22,11 @@ fn_update_localbuild() {
 	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 	# Uses build file to get local build.
-	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	if [ -n "${variant}" ] && [ "${installedvariant}" != "${variant}" ]; then
+		localbuild="${installedvariant}"
+	else
+		localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	fi
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
@@ -88,7 +95,7 @@ fn_update_remotebuild() {
 fn_update_compare() {
 	fn_print_dots "Checking for update: ${remotelocation}"
 	# Update has been found or force update.
-	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ]; then
+	if [ "${localbuild}" != "${remotebuild}" ] || [ "${forceupdate}" == "1" ] || [ "${installedvariant}" != "${variant}" ]; then
 		# Create update lockfile.
 		date '+%s' > "${lockdir:?}/update.lock"
 		fn_print_ok_nl "Checking for update: ${remotelocation}"
@@ -96,6 +103,11 @@ fn_update_compare() {
 		fn_print_nl "${bold}${underline}Update${default} available"
 		fn_print_nl "* Local build: ${red}${localbuild}${default}"
 		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${variant}" ] && [ "${installedvariant}" != "${variant}" ]; then
+			fn_print_nl "* Variant: ${red}${installedvariantname}${default} > ${green}${variantname}${default}"
+		elif [ -n "${variant}" ]; then
+			fn_print_nl "* Variant: ${variantname}"
+		fi
 		if [ -n "${branch}" ]; then
 			fn_print_nl "* Branch: ${branch}"
 		fi
@@ -114,6 +126,10 @@ fn_update_compare() {
 			fn_script_log_info "Branch: ${branch}"
 		fi
 		fn_script_log_info "${localbuild} > ${remotebuild}"
+		if [ -n "${variant}" ] && [ "${installedvariant}" != "${variant}" ]; then
+			fn_script_log_info "Variant: ${installedvariant} > ${variant}"
+			fn_variant_change_warning
+		fi
 
 		if [ "${commandname}" == "UPDATE" ]; then
 			unset updateonstart
@@ -139,6 +155,9 @@ fn_update_compare() {
 		fn_print_nl "${bold}${underline}No update${default} available"
 		fn_print_nl "* Local build: ${green}${localbuild}${default}"
 		fn_print_nl "* Remote build: ${green}${remotebuild}${default}"
+		if [ -n "${variant}" ]; then
+			fn_print_nl "* Variant: ${variantname}"
+		fi
 		if [ -n "${branch}" ]; then
 			fn_print_nl "* Branch: ${branch}"
 		fi
@@ -146,6 +165,9 @@ fn_update_compare() {
 		fn_script_log_info "No update available"
 		fn_script_log_info "Local build: ${localbuild}"
 		fn_script_log_info "Remote build: ${remotebuild}"
+		if [ -n "${variant}" ]; then
+			fn_script_log_info "Variant: ${variant}"
+		fi
 		if [ -n "${branch}" ]; then
 			fn_script_log_info "Branch: ${branch}"
 		fi
@@ -163,6 +185,10 @@ fn_update_compare() {
 remotelocation="papermc.io"
 
 if [ "${shortname}" == "pmc" ]; then
+	paperproject="paper"
+elif [ "${shortname}" == "mc" ] && [ "${variant}" == "folia" ]; then
+	paperproject="folia"
+elif [ "${shortname}" == "mc" ]; then
 	paperproject="paper"
 elif [ "${shortname}" == "vpmc" ]; then
 	paperproject="velocity"

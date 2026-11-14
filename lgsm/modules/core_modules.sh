@@ -295,6 +295,11 @@ check_version.sh() {
 	fn_fetch_module
 }
 
+check_variant.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 # Compress
 
 compress_unreal2_maps.sh() {

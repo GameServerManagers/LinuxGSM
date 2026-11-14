@@ -311,6 +311,11 @@ fn_info_messages_gameserver() {
 			echo -e "${lightblue}App ID:\t${default}${appid}"
 		fi
 
+		# Variant
+		if [ -n "${variantname}" ]; then
+			echo -e "${lightblue}Variant:\t${default}${variantname}"
+		fi
+
 		# Branch
 		if [ -n "${branch}" ]; then
 			echo -e "${lightblue}Branch:\t${default}${branch}"

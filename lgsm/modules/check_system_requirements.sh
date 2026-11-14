@@ -35,10 +35,10 @@ elif [ "${shortname}" == "hw" ]; then
 	ramrequirementgb="3"
 elif [ "${shortname}" == "hyt" ]; then
 	ramrequirementgb="4"
+elif [ "${shortname}" == "pmc" ] || { [ "${shortname}" == "mc" ] && [[ "${variant}" =~ ^(paper|purpur|folia|leaf)$ ]]; }; then
+	ramrequirementgb="2"
 elif [ "${shortname}" == "mc" ]; then
 	ramrequirementgb="1"
-elif [ "${shortname}" == "pmc" ]; then
-	ramrequirementgb="2"
 elif [ "${shortname}" == "mh" ]; then
 	ramrequirementgb="4"
 elif [ "${shortname}" == "ns2" ] || [ "${shortname}" == "ns2c" ]; then

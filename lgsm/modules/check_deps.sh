@@ -308,6 +308,10 @@ fn_deps_detector() {
 		return
 	# Java: Added for users using Oracle JRE to bypass check.
 	elif [[ ${deptocheck} == "openjdk"* ]] || [[ ${deptocheck} == "java"* ]]; then
+		mcpaper=0
+		if [ "${shortname}" == "pmc" ] || [[ "${variant}" =~ ^(paper|purpur|folia|leaf)$ ]]; then
+			mcpaper=1
+		fi
 		# Is java already installed?
 		if [ -n "${javaversion}" ]; then
 			javamajorversion="$(echo "${javaversion}" | grep -Eo 'version "[0-9]+' | grep -Eo '[0-9]+' | head -1)"
@@ -318,17 +322,17 @@ fn_deps_detector() {
 				elif [[ "${mcversion}" =~ ^[0-9]+\.[0-9]+([.][0-9]+)?$ ]]; then
 					if fn_deps_version_ge "${mcversion}" "26.1"; then
 						javarequiredmajor="25"
-					elif [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; then
+					elif [ "${mcpaper}" != "1" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; then
 						javarequiredmajor="21"
-					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; then
+					elif [ "${mcpaper}" == "1" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; then
 						javarequiredmajor="21"
-					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.17" && fn_deps_version_ge "1.19" "${mcversion}"; then
+					elif [ "${mcpaper}" == "1" ] && fn_deps_version_ge "${mcversion}" "1.17" && fn_deps_version_ge "1.19" "${mcversion}"; then
 						javarequiredmajor="17"
-					elif [ "${shortname}" == "pmc" ] && [ "${mcversion}" == "1.16.5" ]; then
+					elif [ "${mcpaper}" == "1" ] && [ "${mcversion}" == "1.16.5" ]; then
 						javarequiredmajor="16"
-					elif [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.12" && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+					elif [ "${mcpaper}" == "1" ] && fn_deps_version_ge "${mcversion}" "1.12" && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
 						javarequiredmajor="11"
-					elif [ "${shortname}" == "pmc" ] && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
+					elif [ "${mcpaper}" == "1" ] && ! fn_deps_version_ge "${mcversion}" "1.16.5"; then
 						javarequiredmajor="8"
 					fi
 				fi
@@ -367,7 +371,7 @@ fn_deps_detector() {
 			if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
 				if [ "${mcversion}" == "latest" ] || fn_deps_version_ge "${mcversion}" "26.1"; then
 					javarequiredmajor="25"
-				elif { [ "${shortname}" == "mc" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; } || { [ "${shortname}" == "pmc" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; }; then
+				elif { [ "${mcpaper}" != "1" ] && fn_deps_version_ge "${mcversion}" "1.20.5"; } || { [ "${mcpaper}" == "1" ] && fn_deps_version_ge "${mcversion}" "1.20" && fn_deps_version_ge "1.21.11" "${mcversion}"; }; then
 					javarequiredmajor="21"
 				fi
 			fi
