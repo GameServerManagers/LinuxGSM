@@ -1645,8 +1645,8 @@ fn_info_messages_sm() {
 	{
 		fn_port "header"
 		fn_port "Game" port udp
-		fn_port "Game" port tcp
 		fn_port "Query" queryport udp
+		fn_port "RCON" rconport tcp
 		fn_port "Telnet" telnetport tcp
 	} | column -s $'\t' -t
 	echo -e ""
@@ -1722,6 +1722,7 @@ fn_info_messages_squad() {
 		fn_port "header"
 		fn_port "Game" port udp
 		fn_port "Query" queryport udp
+		fn_port "Beacon" beaconport udp
 		fn_port "RCON" rconport tcp
 	} | column -s $'\t' -t
 }
