@@ -820,7 +820,7 @@ fn_info_messages_ports() {
 	elif [ "${engine}" == "goldsrc" ]; then
 		portcommand="ss -tuplwn | grep hlds_linux"
 	else
-		executableshort="$(basename "${executable}" | cut -c -15)"
+		executableshort="$(basename "${executable//\"/}" | cut -c -15)"
 		portcommand="ss -tuplwn | grep ${executableshort}"
 	fi
 	echo -e "${portcommand}"
