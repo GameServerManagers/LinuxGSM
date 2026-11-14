@@ -93,7 +93,6 @@ jobs:
     # Skip (rather than fail the run) when create-matrix found nothing to check.
     if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.matrix != '{"include":[]}'
     needs: create-matrix
-    continue-on-error: true
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -114,7 +113,6 @@ jobs:
     name: details-check (legacy)
     if: github.repository_owner == 'GameServerManagers' && needs.create-matrix.outputs.legacy != ''
     needs: create-matrix
-    continue-on-error: true
     runs-on: ubuntu-latest
     container: public.ecr.aws/ubuntu/ubuntu:20.04
     steps:
