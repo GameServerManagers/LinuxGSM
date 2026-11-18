@@ -19,7 +19,10 @@ fn_exit_dev_debug() {
 	fi
 }
 
-fn_print_plain_flush
+# update-lgsm replaces the modules while an older core_messages.sh is still loaded, which may not define this.
+if [ "$(type fn_print_plain_flush 2> /dev/null)" ]; then
+	fn_print_plain_flush
+fi
 
 # If running dependency check as root will remove any files that belong to root user.
 if [ "$(whoami)" == "root" ]; then
