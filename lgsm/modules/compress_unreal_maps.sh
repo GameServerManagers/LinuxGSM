@@ -3,7 +3,7 @@
 # Author: Daniel Gibbs
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
-# Description: Compresses unreal and unreal2 resources.
+# Description: Compresses unreal and unreal2 custom content for HTTP redirect.
 
 commandname="MAP-COMPRESSOR"
 commandaction="Compressing Maps"
@@ -11,12 +11,25 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
 check.sh
+
+if [ "${engine}" == "unreal" ]; then
+	compressext="uz"
+	compressargs=()
+else
+	compressext="uz2"
+	compressargs=(--nohomedir)
+fi
+
+# Package types clients can download from a redirect server.
+exts=(u ut2 kfm rom unr utx uax usx ukx umx)
+stockcontentfile="${shortname}-stock-content.md5"
+
 fn_print_header
-echo -e "Will compress all maps in:"
+echo -e "Will compress custom content in:"
 echo -e ""
-pwd
+echo -e "${serverfiles}"
 echo -e ""
-echo -e "Compressed maps saved to:"
+echo -e "Compressed files saved to:"
 echo -e ""
 echo -e "${compressedmapsdir}"
 echo -e ""
@@ -30,51 +43,96 @@ for seconds in {3..1}; do
 	fi
 done
 fn_print_nl
-mkdir -pv "${compressedmapsdir}" > /dev/null 2>&1
 
-# List of extensions to compress
-exts=(ut2 kfm rom u ucl upl int utx uax ukx usx unr umx umod uzx)
+fn_fetch_file_github "lgsm/data" "${stockcontentfile}" "${datadir}" "nochmodx" "norun" "forcedl" "nohash"
+declare -A stockcontent
+while read -r md5 filename; do
+	stockcontent["${filename}"]+=" ${md5} "
+done < "${datadir}/${stockcontentfile}"
 
-# Remove old compressed files using find
+if ! mkdir -p "${compressedmapsdir}"; then
+	fn_print_fail_nl "Unable to create ${compressedmapsdir}"
+	fn_script_log_fail "Unable to create ${compressedmapsdir}"
+	core_exit.sh
+fi
+
+findargs=()
 for ext in "${exts[@]}"; do
-	mapfile -t oldfiles < <(find "${serverfiles}" -name "*.${ext}.uz2" -type f)
-	if [ ${#oldfiles[@]} -gt 0 ]; then
-		echo -e "found ${#oldfiles[@]} old compressed file(s) to remove for extension: ${ext}"
+	findargs+=(-o -iname "*.${ext}")
+done
+mapfile -t files < <(find "${serverfiles}" -type f \( "${findargs[@]:1}" \) | sort)
+
+cd "${executabledir}" || core_exit.sh
+
+declare -A keepfiles
+compressedcount=0
+uptodatecount=0
+stockcount=0
+removedcount=0
+failedfiles=()
+for file in "${files[@]}"; do
+	filename="$(basename "${file}")"
+	if [ -n "${stockcontent["${filename}"]}" ]; then
+		md5="$(md5sum "${file}" | awk '{print $1}')"
+		if [[ "${stockcontent["${filename}"]}" == *" ${md5} "* ]]; then
+			stockcount=$((stockcount + 1))
+			continue
+		fi
 	fi
-	for file in "${oldfiles[@]}"; do
-		if rm -f "$file"; then
-			echo -en "removing file [ ${italic}$(basename "$file")${default} ]\c"
-			fn_print_ok_eol_nl
-		else
-			echo -en "removing file [ ${italic}$(basename "$file")${default} ]\c"
-			fn_print_fail_eol_nl
-		fi
-	done
+	compressedfile="${compressedmapsdir}/${filename}.${compressext}"
+	keepfiles["${filename}.${compressext}"]=1
+	if [ -f "${compressedfile}" ] && [ "${compressedfile}" -nt "${file}" ]; then
+		uptodatecount=$((uptodatecount + 1))
+		continue
+	fi
+	echo -en "compressing file [ ${italic}${filename} -> ${filename}.${compressext}${default} ]\c"
+	uccoutput="$("${executable}" compress "${file}" "${compressargs[@]}" 2>&1)"
+	if grep -qF "Compressed ${file} -> ${file}.${compressext}" <<< "${uccoutput}" && [ -f "${file}.${compressext}" ] && mv -f "${file}.${compressext}" "${compressedfile}"; then
+		fn_print_ok_eol_nl
+		compressedcount=$((compressedcount + 1))
+	else
+		fn_print_fail_eol_nl
+		fn_script_log_error "Compressing ${file}"
+		rm -f "${file:?}.${compressext}"
+		failedfiles+=("${filename}")
+	fi
 done
 
-cd "${systemdir}" || exit
-
-# Find and compress files, then move .uz2 to compressedmapsdir
-for ext in "${exts[@]}"; do
-	# Collect all files with the current extension into an array
-	mapfile -t files < <(find "${serverfiles}" -name "*.${ext}" -type f)
-	for file in "${files[@]}"; do
-		echo -en "compressing file [ ${italic}$(basename "$file") -> $(basename "$file").uz2${default} ]\c"
-		if ! ./ucc-bin compress "${file}" --nohomedir > /dev/null 2>&1; then
-			fn_print_fail_eol_nl
-			core_exit.sh
-		else
+mapfile -t oldfiles < <(find "${compressedmapsdir}" -maxdepth 1 -type f -name "*.${compressext}")
+for file in "${oldfiles[@]}"; do
+	filename="$(basename "${file}")"
+	if [ -z "${keepfiles["${filename}"]}" ]; then
+		echo -en "removing old compressed file [ ${italic}${filename}${default} ]\c"
+		if rm -f "${file}"; then
 			fn_print_ok_eol_nl
-		fi
-
-		if ! mv -f "${file}.uz2" "${compressedmapsdir}" > /dev/null 2>&1; then
-			echo -en "moving compressed file [ ${italic}$(basename "$file").uz2 -> ${compressedmapsdir}/$(basename "$file").uz2${default} ]\c"
+			removedcount=$((removedcount + 1))
+		else
 			fn_print_fail_eol_nl
-			core_exit.sh
 		fi
-	done
+	fi
 done
 
-fn_print_ok_nl "Compression complete: All compressed files moved to: ${compressedmapsdir}"
+echo -e ""
+echo -e "Compressed: ${compressedcount}"
+echo -e "Already up to date: ${uptodatecount}"
+echo -e "Stock content skipped: ${stockcount}"
+echo -e "Old files removed: ${removedcount}"
+fn_script_log_info "Compressed: ${compressedcount}, up to date: ${uptodatecount}, stock skipped: ${stockcount}, removed: ${removedcount}, failed: ${#failedfiles[@]}"
+echo -e ""
+if [ "${#failedfiles[@]}" -gt 0 ]; then
+	fn_print_warn_nl "Failed to compress ${#failedfiles[@]} file(s): ${failedfiles[*]}"
+	fn_script_log_warn "Failed to compress: ${failedfiles[*]}"
+	# shellcheck disable=SC2034 # Used by core_exit.sh.
+	exitcode=3
+else
+	fn_print_ok_nl "Compression complete: compressed files saved to: ${compressedmapsdir}"
+	fn_script_log_pass "Compression complete"
+fi
+echo -e ""
+echo -e "Upload ${compressedmapsdir} to a web server, then set in ${servercfgfullpath}:"
+echo -e ""
+echo -e "[IpDrv.HTTPDownload]"
+echo -e "RedirectToURL=http://example.com/path/"
+echo -e "UseCompression=True"
 
 core_exit.sh

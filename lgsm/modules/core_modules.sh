@@ -302,7 +302,7 @@ check_variant.sh() {
 
 # Compress
 
-compress_unreal2_maps.sh() {
+compress_unreal_maps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
