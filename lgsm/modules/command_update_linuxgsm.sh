@@ -23,6 +23,11 @@ fi
 
 fn_script_log_info "Updating LinuxGSM"
 
+# Keep this module compatible with launchers predating the bootstrap branch check.
+if type fn_check_github_branch > /dev/null 2>&1; then
+	fn_check_github_branch
+fi
+
 fn_print_dots "Selecting repo"
 fn_script_log_info "Selecting repo"
 # Select remotereponame
