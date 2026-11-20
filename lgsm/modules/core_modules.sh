@@ -530,6 +530,11 @@ fix_nmrih.sh() {
 	fn_fetch_module
 }
 
+fix_ns2.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_pvr.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
