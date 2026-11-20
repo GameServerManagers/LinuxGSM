@@ -79,6 +79,8 @@ fn_stop_warn_players_command() {
 		warncommand="alert %s"
 	elif [ "${shortname}" == "av" ]; then
 		warncommand="/say %s"
+	elif [ "${shortname}" == "ns2" ]; then
+		warncommand="sv_say %s"
 	elif [ "${shortname}" == "fctr" ]; then
 		warncommand="%s"
 	elif [ "${engine}" == "source" ] || [ "${engine}" == "source2" ] || [ "${engine}" == "goldsrc" ]; then
