@@ -10,7 +10,11 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_update_dl() {
 	# Download and extract files to serverfiles.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "${remotebuildhash:-nohash}"
-	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${variantexecutable#./}"
+	if [ "${variant}" == "forge" ] || [ "${variant}" == "neoforge" ]; then
+		fn_update_dl_installer
+	else
+		cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/${variantexecutable#./}"
+	fi
 	if [ "${variant}" != "vanilla" ]; then
 		echo "${remotebuild}" > "${serverfiles}/build.txt"
 	fi
@@ -20,6 +24,26 @@ fn_update_dl() {
 	fi
 	fn_variant_record
 	fn_clear_tmp
+}
+
+fn_update_dl_installer() {
+	# Forge and NeoForge install the server with their installer, which writes the launch arguments to unix_args.txt.
+	if [ "${variant}" == "forge" ]; then
+		argsfile="${serverfiles}/libraries/net/minecraftforge/forge/${remotebuild}/unix_args.txt"
+	else
+		argsfile="${serverfiles}/libraries/net/neoforged/neoforge/${remotebuild}/unix_args.txt"
+	fi
+	fn_print_dots "Running ${variantname} installer"
+	if (cd "${tmpdir}" && ${javabin} -jar "${remotebuildfilename}" --installServer "${serverfiles}" > "${tmpdir}/installer.log" 2>&1) && [ -f "${argsfile}" ] && cp -f "${argsfile}" "${serverfiles}/unix_args.txt"; then
+		fn_print_ok_nl "Running ${variantname} installer"
+		fn_script_log_pass "Running ${variantname} installer"
+	else
+		fn_print_fail_nl "Running ${variantname} installer"
+		tail -n 20 "${tmpdir}/installer.log" 2> /dev/null
+		fn_script_log_fail "Running ${variantname} installer"
+		fn_clear_tmp
+		core_exit.sh
+	fi
 }
 
 fn_update_localbuild() {
@@ -92,6 +116,64 @@ fn_update_remotebuild_fabric() {
 	remotebuildhash="nohash"
 }
 
+fn_update_remotebuild_forge() {
+	apiurl="https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json"
+	remotebuildresponse=$(curl -s "${apiurl}")
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuildmcversion=$(echo "${remotebuildresponse}" | jq -r '.promos | keys[] | sub("-(latest|recommended)$"; "")' | sort -Vu | tail -n 1)
+	else
+		remotebuildmcversion="${mcversion}"
+	fi
+	if [ -n "${remotebuildmcversion}" ] && [ "$(printf '%s\n' "1.17" "${remotebuildmcversion}" | sort -V | head -n 1)" != "1.17" ]; then
+		fn_print_fail_nl "Forge for Minecraft ${remotebuildmcversion} is not supported. Use Minecraft 1.17 or newer."
+		fn_script_log_fail "Forge for Minecraft ${remotebuildmcversion} is not supported"
+		core_exit.sh
+	fi
+	# Uses the recommended build, or the latest build when there is no recommended build.
+	remotebuildforge=$(echo "${remotebuildresponse}" | jq -r --arg mcversion "${remotebuildmcversion}" '.promos[$mcversion + "-recommended"] // .promos[$mcversion + "-latest"] // empty')
+	if [ -n "${remotebuildforge}" ]; then
+		# Combines Minecraft: Java Edition version and Forge version. e.g 26.3-66.1.8
+		remotebuild="${remotebuildmcversion}-${remotebuildforge}"
+		remotebuildfilename="forge-${remotebuild}-installer.jar"
+		remotebuildurl="https://maven.minecraftforge.net/net/minecraftforge/forge/${remotebuild}/${remotebuildfilename}"
+		remotebuildhash=$(curl -s "${remotebuildurl}.sha1")
+	fi
+	if [[ ! "${remotebuildhash}" =~ ^[0-9a-f]{40}$ ]]; then
+		remotebuildhash="nohash"
+	fi
+}
+
+fn_update_remotebuild_neoforge() {
+	apiurl="https://maven.neoforged.net/api/maven/versions/releases/net/neoforged/neoforge"
+	remotebuildresponse=$(curl -s "${apiurl}" | jq -r '.versions[]')
+	# Beta builds are only used on the snapshot branch.
+	if [ "${branch}" != "snapshot" ]; then
+		remotebuildresponse=$(echo "${remotebuildresponse}" | grep -v -- "-")
+	fi
+	if [ "${mcversion}" == "latest" ]; then
+		remotebuild=$(echo "${remotebuildresponse}" | sort -V | tail -n 1)
+	else
+		# NeoForge versions follow the Minecraft version. e.g 1.21.10 is 21.10.x and 26.3 is 26.3.0.x
+		remotebuildprefix="${mcversion#1.}"
+		if [ "${remotebuildprefix}" != "${mcversion}" ]; then
+			if [[ "${remotebuildprefix}" != *.* ]]; then
+				remotebuildprefix="${remotebuildprefix}.0"
+			fi
+		elif [[ "${remotebuildprefix}" != *.*.* ]]; then
+			remotebuildprefix="${remotebuildprefix}.0"
+		fi
+		remotebuild=$(echo "${remotebuildresponse}" | awk -v prefix="${remotebuildprefix}." 'index($0, prefix) == 1' | sort -V | tail -n 1)
+	fi
+	if [ -n "${remotebuild}" ]; then
+		remotebuildfilename="neoforge-${remotebuild}-installer.jar"
+		remotebuildurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/${remotebuild}/${remotebuildfilename}"
+		remotebuildhash=$(curl -s "${remotebuildurl}.sha1")
+	fi
+	if [[ ! "${remotebuildhash}" =~ ^[0-9a-f]{40}$ ]]; then
+		remotebuildhash="nohash"
+	fi
+}
+
 fn_update_remotebuild_purpur() {
 	apiurl="https://api.purpurmc.org/v2/purpur"
 	remotebuildresponse=$(curl -s "${apiurl}")
@@ -134,6 +216,10 @@ fn_update_remotebuild() {
 	unset remotebuild remotebuildurl remotebuildhash
 	if [ "${variant}" == "fabric" ]; then
 		fn_update_remotebuild_fabric
+	elif [ "${variant}" == "forge" ]; then
+		fn_update_remotebuild_forge
+	elif [ "${variant}" == "neoforge" ]; then
+		fn_update_remotebuild_neoforge
 	elif [ "${variant}" == "purpur" ]; then
 		fn_update_remotebuild_purpur
 	elif [ "${variant}" == "leaf" ]; then
@@ -256,6 +342,10 @@ fi
 # The location where the builds are checked and downloaded.
 if [ "${variant}" == "fabric" ]; then
 	remotelocation="fabricmc.net"
+elif [ "${variant}" == "forge" ]; then
+	remotelocation="minecraftforge.net"
+elif [ "${variant}" == "neoforge" ]; then
+	remotelocation="neoforged.net"
 elif [ "${variant}" == "purpur" ]; then
 	remotelocation="purpurmc.org"
 elif [ "${variant}" == "leaf" ]; then

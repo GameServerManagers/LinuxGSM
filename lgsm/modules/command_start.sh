@@ -116,12 +116,7 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
-	if [ -n "${variantstartparameters}" ]; then
-		startparameters="${variantstartparameters} ${startparameters}"
-	fi
-	if [ -n "${variantbasepath}" ]; then
-		startparameters="${startparameters} +set fs_basepath ${variantbasepath}"
-	fi
+	fn_variant_startparameters
 
 	# Hytale: with no saved server login file, have the server start its login (OAuth device code) on boot.
 	# A saved login that can't be used is handled after boot by fn_start_hyt_login.

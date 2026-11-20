@@ -754,12 +754,7 @@ fn_info_messages_commandlineparms() {
 		unset serverpassword
 	fi
 	fn_reload_startparameters
-	if [ -n "${variantstartparameters}" ]; then
-		startparameters="${variantstartparameters} ${startparameters}"
-	fi
-	if [ -n "${variantbasepath}" ]; then
-		startparameters="${startparameters} +set fs_basepath ${variantbasepath}"
-	fi
+	fn_variant_startparameters
 	echo -e "${preexecutable} ${executable} ${startparameters}"
 }
 
