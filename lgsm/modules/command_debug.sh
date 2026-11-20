@@ -72,12 +72,7 @@ if [ "${serverpassword}" ]; then
 fi
 
 fn_reload_startparameters
-if [ -n "${variantstartparameters}" ]; then
-	startparameters="${variantstartparameters} ${startparameters}"
-fi
-if [ -n "${variantbasepath}" ]; then
-	startparameters="${startparameters} +set fs_basepath ${variantbasepath}"
-fi
+fn_variant_startparameters
 echo -e "${lightblue}Start parameters:${default}"
 if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
